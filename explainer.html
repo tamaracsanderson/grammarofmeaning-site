@@ -1,0 +1,577 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Luminous Archive — the instrument, in one view</title>
+<style>
+ :root{--ink:#1a1a2e;--accent:#5b5bd6;--accent-soft:#ececf6;--ground:#f6f7f9;--card:#fff;--line:#e0e0e8;
+       --mute:#777;--good:#1a7a3a;--warm:#9a4a1a;--gray:#aaa}
+ *{box-sizing:border-box}
+ body{font:15px/1.6 -apple-system,Segoe UI,sans-serif;margin:0;background:var(--ground);color:var(--ink)}
+ header{background:var(--ink);color:#fff;padding:26px 30px}
+ header h1{margin:0 0 6px;font-size:24px}
+ header .sub{opacity:.88;font-size:14px;max-width:860px}
+ header .metaxy{margin-top:10px;font-size:13px;opacity:.75;font-style:italic;max-width:860px}
+ .statbar{display:flex;gap:26px;padding:13px 30px;background:#fff;border-bottom:1px solid #ddd;flex-wrap:wrap}
+ .stat{font-size:12.5px;color:#555}.stat b{font-size:19px;color:var(--accent);display:block;line-height:1.2}
+ nav.toc{display:flex;gap:6px;flex-wrap:wrap;padding:10px 30px;background:#fbfbfd;border-bottom:1px solid var(--line);font-size:12.5px;position:sticky;top:0;z-index:30}
+ nav.toc a{color:var(--ink);text-decoration:none;background:var(--accent-soft);border-radius:14px;padding:3px 11px}
+ nav.toc a:hover{background:var(--accent);color:#fff}
+ main{padding:10px 30px 60px;max-width:1100px;margin:0 auto}
+ section{margin:34px 0}
+ h2{font-size:19px;margin:0 0 4px;border-bottom:2px solid var(--accent-soft);padding-bottom:5px}
+ h2 .tag{font-size:11px;background:var(--accent);color:#fff;border-radius:4px;padding:1px 7px;vertical-align:middle;margin-left:8px;font-weight:600;white-space:nowrap;display:inline-block}
+ .lede{font-size:14px;color:#555;max-width:880px;margin:6px 0 16px}
+ .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:10px 0}
+ details{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:8px 0;padding:0}
+ details summary{cursor:pointer;padding:10px 14px;font-weight:600;font-size:13.5px;color:var(--ink)}
+ details summary:hover{color:var(--accent)}
+ details[open] summary{border-bottom:1px solid var(--accent-soft)}
+ details .body{padding:12px 16px;font-size:13.5px;color:#444}
+ .callout{background:#fff8f0;border:1px solid #f0e0d0;border-left:4px solid var(--warm);border-radius:0 8px 8px 0;padding:10px 14px;margin:12px 0;font-size:13.5px}
+ .callout.indigo{background:#f6f6fd;border-color:#d8d8f0;border-left-color:var(--accent)}
+ .smallnote{font-size:12px;color:#999;margin-top:8px}
+ .chip{display:inline-block;background:var(--accent-soft);color:#3a3a6a;border-radius:3px;padding:0 6px;margin:1px;font-size:11px}
+
+ /* ── #1 the morph ladder ── */
+ .ladder{display:flex;flex-direction:column;gap:0;margin:14px 0}
+ .rung{display:grid;grid-template-columns:64px 230px 1fr;gap:14px;align-items:start;padding:9px 12px;
+       border-left:5px solid;background:var(--card);border-top:1px solid var(--line);border-right:1px solid var(--line);cursor:pointer}
+ .rung:first-child{border-radius:10px 10px 0 0}.rung:last-child{border-radius:0 0 10px 10px;border-bottom:1px solid var(--line)}
+ .rung:hover{background:#fbfbff}
+ .rung .t{font-weight:800;font-size:15px}
+ .rung .name{font-weight:600;font-size:13.5px}
+ .rung .ex{font-size:13px;color:#555;display:none}
+ .rung.open .ex{display:block}
+ .rung .hint{font-size:11.5px;color:#bbb}
+ .rung.open .hint{display:none}
+ .casualty{font-size:12px;border-radius:4px;padding:0 6px;margin-left:8px;font-weight:600}
+ .casualty.alive{background:#e8f5ec;color:var(--good)}
+ .casualty.gone{background:#fdecec;color:#b03030;text-decoration:line-through}
+ .casualty.back{background:#e9e9fb;color:var(--accent)}
+
+ /* ── #2 the grammar stack ── */
+ .stack{display:flex;flex-direction:column-reverse;gap:8px;max-width:680px;margin:14px 0}
+ .layer{border:1px solid var(--line);border-radius:10px;padding:12px 16px;background:var(--card);position:relative;transition:.15s}
+ .layer .lname{font-weight:700;font-size:14px}
+ .layer .ldesc{font-size:12.5px;color:#666}
+ .layer .token{display:none;float:right;background:var(--accent);color:#fff;border-radius:14px;padding:2px 12px;font-size:12.5px;font-weight:600}
+ .layer.holds{border-color:var(--accent);box-shadow:0 2px 12px rgba(91,91,214,.18)}
+ .layer.holds .token{display:inline-block}
+ .layer .reading{display:none;clear:both;margin-top:8px;font-size:13px;background:#f6f6fd;border-radius:6px;padding:8px 10px;color:#3a3a6a}
+ .layer.holds .reading{display:block}
+ .placer{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0 2px;font-size:13px}
+ .placer button{font:inherit;font-size:12.5px;border:1px solid var(--line);background:#fff;border-radius:16px;padding:4px 13px;cursor:pointer}
+ .placer button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+ /* ── #3 the rhyme card ── */
+ .analogy{font-size:21px;font-weight:700;text-align:center;margin:10px 0;color:var(--ink)}
+ .analogy .as{color:var(--accent);margin:0 14px}
+ .rgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+ .rcell{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 15px}
+ .rcell h4{margin:0 0 6px;font-size:13px;color:var(--accent)}
+ .rrow{display:grid;grid-template-columns:92px 1fr;gap:8px;font-size:13px;padding:3px 0;border-bottom:1px dashed #eee}
+ .rrow:last-child{border-bottom:0}
+ .rrow .k{color:#888;font-size:12px;padding-top:1px}
+ .rrow .same{color:var(--good);font-weight:600}
+ .rrow .diffv{color:var(--warm)}
+ .contact-low{background:#fff0f0;color:#b03030;border:1px solid #f0d0d0;border-radius:4px;padding:0 6px;font-size:10.5px;margin-left:6px}
+
+ /* ── pipeline ── */
+ .phases{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+ .phase{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:8px;padding:10px 13px}
+ .phase h4{margin:0 0 3px;font-size:13.5px}
+ .phase .ph{font-size:11px;color:var(--accent);font-weight:700;letter-spacing:.04em}
+ .phase .pd{font-size:12px;color:#666}
+ .phase .pn{font-size:11px;color:#999;margin-top:6px}
+ .stations{margin:6px 0}
+ .st{display:grid;grid-template-columns:34px 200px 1fr;gap:10px;font-size:12.5px;padding:6px 10px;border-bottom:1px dashed #eee;align-items:start}
+ .st:last-child{border-bottom:0}
+ .st .n{font-weight:700;color:var(--accent)}
+ .st .sn{font-weight:600}
+ .st .se{color:#666}
+ .exlab{font-size:10.5px;border-radius:3px;padding:0 5px;font-weight:700;margin-right:5px}
+ .exlab.tengri{background:#e8f0fe;color:#1a4a9a}
+ .exlab.romans{background:#fdf0e8;color:#9a4a1a}
+
+ /* ── data structure ── */
+ .dm{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin:12px 0}
+ .ent{background:var(--card);border:1.5px solid var(--ink);border-radius:8px;padding:9px 13px;min-width:150px}
+ .ent b{display:block;font-size:13.5px}
+ .ent .f{font-size:11.5px;color:#666}
+ .ent .cnt{font-size:12px;color:var(--accent);font-weight:700}
+ .dmarrow{align-self:center;color:var(--accent);font-weight:700;font-size:15px}
+
+ /* ── coding card ── */
+ .ccard{max-width:760px;background:linear-gradient(180deg,#fff,#fdfdff);border:1.5px solid var(--accent);border-radius:12px;padding:0;overflow:hidden;margin:14px 0}
+ .ccard .chead{background:var(--accent-soft);padding:10px 16px;font-size:13px}
+ .ccard .chead b{font-size:14.5px}
+ .crow{display:grid;grid-template-columns:170px 1fr;gap:12px;padding:9px 16px;border-bottom:1px dashed #eee;font-size:13px}
+ .crow:last-child{border-bottom:0}
+ .crow .ck{font-weight:700}
+ .crow .ck .axis{display:block;font-size:10.5px;color:#999;font-weight:400}
+ .panel3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0;max-width:760px}
+ .rev{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 13px;font-size:12.5px}
+ .rev b{display:block;font-size:13px;color:var(--accent)}
+
+ /* ── interface ── */
+ .three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
+ .iface{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+ .iface h4{margin:0 0 4px;font-size:13.5px}
+ .iface .id{font-size:12px;color:#666}
+ .iface svg{width:100%;height:110px;margin-top:6px}
+ .zoomstrip{display:flex;gap:6px;align-items:center;font-size:13px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:7px 16px;margin:12px 0;flex-wrap:wrap}
+ .zoomstrip b{color:var(--accent)}
+ .legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:12px 0}
+ .leg{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:12.5px}
+ .leg .sym{font-size:18px;margin-right:6px}
+ .leg b{font-size:13px}
+
+ .outputs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+ footer{padding:24px 30px;font-size:12px;color:#888;border-top:1px solid var(--line);background:#fbfbfd}
+ @media(max-width:860px){.phases,.three,.panel3,.rgrid,.outputs{grid-template-columns:1fr}.rung{grid-template-columns:50px 1fr}.rung .ex{grid-column:1/-1}}
+</style></head><body>
+
+<header>
+  <h1>🌸 The Luminous Archive — the instrument, in one view</h1>
+  <div class="sub">A systems-thinking map of <b>how meaning gets made</b> across ~400 traditions of religion,
+   philosophy, and psychology — not the doctrines they claim, but the actual <i>operations</i>, mined bottom-up
+   from a corpus built for the purpose. This page is the project's orientation doc made <b>parallel + zoomable</b>:
+   every section below expands; nothing here adds content beyond the doc.</div>
+  <div class="metaxy">The organizing idea is the <b>metaxy</b> — Plato's and Voegelin's "in-between." Meaning isn't made
+   in raw experience, nor in finished doctrine; it's made in the between. Spirituality is the quality of attention
+   that makes the in-between visible. The project maps what becomes visible there, at scale.</div>
+</header>
+
+<div class="statbar">
+  <div class="stat"><b>~390k</b> primary sources</div>
+  <div class="stat"><b>~9.5M</b> passages (the atoms)</div>
+  <div class="stat"><b>16</b> flowers coded</div>
+  <div class="stat"><b>13</b> confirmed cross-tradition rhymes</div>
+  <div class="stat"><b>10</b> tradition families in bloom</div>
+  <div class="stat"><b>~100</b> flower target (the breadth goal)</div>
+</div>
+
+<nav class="toc">
+  <a href="#m1">#1 The morph (T1–T10)</a>
+  <a href="#m2">#2 The grammar stack</a>
+  <a href="#m3">#3 The rhyme</a>
+  <a href="#pipeline">The pipeline</a>
+  <a href="#coding">The coding-card</a>
+  <a href="#interface">The interface + garden</a>
+  <a href="#outputs">Two outputs</a>
+  <a href="#frontiers">Three frontiers</a>
+</nav>
+
+<main>
+
+<!-- ════════ MAPPING #1 ════════ -->
+<section id="m1">
+  <h2>Mapping #1 — how a single observation morphs through institutional time <span class="tag">T1–T10</span></h2>
+  <div class="lede">An observation begins as lived experience — usually paradoxical, even paralyzing. To survive and
+   scale it must be encoded, systematized, institutionalized. Each step preserves something and loses something.
+   The praxis becomes teachable; the paradox often dissolves. The arc is tracked across <b>ten stations</b> by planting
+   a <b>seed source</b> in each sub-tradition (Plato's Cave for philosophy, Romans 8:28–30 for Christianity, the Four
+   Noble Truths for Buddhism…) and tracing how the seed morphs. <b>Click any rung</b> for the Cave worked example.</div>
+
+  <div class="ladder" id="ladder">
+    <div class="rung" style="border-left-color:#7a3fd1">
+      <div class="t">T1</div>
+      <div><div class="name">Originating insight <span class="casualty alive">the return — alive</span></div><div class="hint">click for the Cave ⌄</div></div>
+      <div class="ex">A shattering realization: what you thought was real is illusion. The waking-up is violent and
+        disorienting. And once you see, you're <b>obligated to go back</b> and free the others still trapped.</div>
+    </div>
+    <div class="rung" style="border-left-color:#5b5bd6">
+      <div class="t">T2</div>
+      <div><div class="name">Direct-witness teaching / first encoding</div><div class="hint">click ⌄</div></div>
+      <div class="ex">The insight becomes communicable — taught in speech, first put into words (T1 itself is asymptotic; only inferred). Socratic teaching as the Cave's first encoding.</div>
+    </div>
+    <div class="rung" style="border-left-color:#4f6fd6">
+      <div class="t">T3</div>
+      <div><div class="name">Textual codification</div><div class="hint">click ⌄</div></div>
+      <div class="ex">The teaching becomes fixed text — <i>Republic</i> Book VII. Canon-formation begins.</div>
+    </div>
+    <div class="rung" style="border-left-color:#5d83c9">
+      <div class="t">T4</div>
+      <div><div class="name">Institutional canonization</div><div class="hint">click ⌄</div></div>
+      <div class="ex">An institution collects + canonizes the text (a collection-event): the Academy's curriculum; the philosophical canon.</div>
+    </div>
+    <div class="rung" style="border-left-color:#7f96bb">
+      <div class="t">T5</div>
+      <div><div class="name">Scholarly commentary</div><div class="hint">click ⌄</div></div>
+      <div class="ex">Scholars argue + elaborate the doctrine, from inside (emic) or outside (etic) — the commentary tradition on the <i>Republic</i> (Proclus and after).</div>
+    </div>
+    <div class="rung" style="border-left-color:#a8aab2">
+      <div class="t">T6</div>
+      <div><div class="name">Confessional / sub-tradition codification</div><div class="hint">click ⌄</div></div>
+      <div class="ex">Doctrine LOCKS as institutionally-binding subscription; sub-traditions diverge — Platonic body/soul dualism worn as a school badge.</div>
+    </div>
+    <div class="rung" style="border-left-color:#c2c2c6">
+      <div class="t">T7</div>
+      <div><div class="name">Degraded popular form — within the lineage <span class="casualty gone">the return</span></div><div class="hint">click ⌄</div></div>
+      <div class="ex">The codified form degrades into a devalued popular form INSIDE the lineage: "we're all just trapped in our own caves," the dorm-poster Cave — the violent waking-up and <b>the obligation to return are gone</b>.</div>
+    </div>
+    <div class="rung" style="border-left-color:#5a7a4a">
+      <div class="t">T8</div>
+      <div><div class="name">Revival / recovery movement <span class="casualty back">the return — re-ignited</span></div><div class="hint">click ⌄</div></div>
+      <div class="ex">A recovery movement diagnoses the calcification and re-ignites the originating T1 — re-reading the ascent (and the return) as lived practice, against the slogan.</div>
+    </div>
+    <div class="rung" style="border-left-color:#4f6fd6">
+      <div class="t">T9</div>
+      <div><div class="name">Living lineage</div><div class="hint">click ⌄</div></div>
+      <div class="ex">Recovery normalizes into living, present-day continuation (~2 generations) — the Cave taught, argued, and practiced as live philosophy now.</div>
+    </div>
+    <div class="rung" style="border-left-color:#7a3fd1">
+      <div class="t">T10</div>
+      <div><div class="name">Artistic reimagination — outside the lineage · <i>ORTHOGONAL, not a rung after T9</i> <span class="casualty back">the return — re-staged</span></div><div class="hint">click ⌄</div></div>
+      <div class="ex"><i>The Matrix</i> (1999) — art re-encountering the mechanism in a wholly different epistemic mode.
+        We mistake the simulation for the real, the awakening is violent, and Neo must <b>choose to return</b> and free others.
+        Not degradation: a genuine re-staging in a new medium.</div>
+    </div>
+  </div>
+
+  <div class="callout"><b>The casualty is specific.</b> Degradation isn't generic fading — the "return to the cave"
+   (going back to free the others) is exactly what the degraded popular form (T7) evacuates; revival (T8) re-ignites it inside the lineage, and T10 — orthogonal, art's own axis — re-stages it outside: <i>The Matrix</i> is a near-perfect re-encounter, the violent waking-up <i>and the return</i>. The ladder's color tells the same story: saturation drains toward T7 and returns at T8–T9.
+   <span class="smallnote" style="display:block;margin-top:5px">Stage names per the canonical T-stage lock (S99 + IRR97, all 10 locked) — <a href="t_stage_canonical_2026-06-12.html" style="color:#5b5bd6">full instrument page: scholars · history · the actual prompt</a>. The Cave-specific placements at T2/T4–T8 are re-glossed candidates per §2.1 — researcher to confirm.</span></div>
+
+  <details><summary>Zoom in: how the validated seeds generalize this</summary>
+    <div class="body">Once the pattern holds across the canonical seeds (Cave, Romans 8:28–30, Four Noble Truths, …),
+    the plan expands to secondary seeds and traces <b>multiple branching paths</b> — the full space of variations, not one
+    canonical arc. In the data this becomes the <b>threads-tree</b>: every passage anchored to a seed, assembled by its
+    T-stage into the branching tree of the observation's institutional life (one branch into commentary T5, one into confessional lock T6, one into the degraded popular form T7, one into revival T8 and the living lineage T9 — with T10, artistic reimagination, as a parallel axis, not a rung). See <a href="#interface">the interface</a>.</div>
+  </details>
+</section>
+
+<!-- ════════ MAPPING #2 ════════ -->
+<section id="m2">
+  <h2>Mapping #2 — how experience becomes meaning <span class="tag">Substrate → Operations → Outcomes → Paradigm</span></h2>
+  <div class="lede">Most comparative work codes the static <i>content</i> of traditions (attributes, doctrines) or hunts a
+   shared mystical essence. This project codes the actual <b>moves</b> by which experience becomes meaningful: raw
+   experience gets structured by a <b>grammar</b> — the patterned moves that organize it into coherence — which reshapes
+   a <b>paradigm</b> (its worldview). The grammar has three layers; the paradigm sits above them.</div>
+
+  <div class="placer">Place <b>no-self</b> in the stack:
+    <button data-layer="op" class="on">as an operation</button>
+    <button data-layer="out">as an outcome</button>
+    <button data-layer="par">as a paradigm</button>
+  </div>
+
+  <div class="stack" id="stack">
+    <div class="layer" data-l="sub">
+      <span class="lname">Substrate</span> <span class="token">no-self</span>
+      <div class="ldesc">what a tradition <b>attends to</b> — restlessness of mind; the fact of loss; here: <i>a felt, fixed self</i></div>
+      <div class="reading">The substrate no-self acts <i>on</i>: the felt, fixed self.</div>
+    </div>
+    <div class="layer" data-l="op">
+      <span class="lname">Operations</span> <span class="token">no-self</span>
+      <div class="ldesc">how it <b>acts</b> — practices (silence, ritual) and construals (re-seeing the self as empty, time as cyclical)</div>
+      <div class="reading">As an <b>operation</b>, no-self is a <i>move</i> — loosening the self-construct (what a Zen sūtra teaches you to <i>do</i>).</div>
+    </div>
+    <div class="layer" data-l="out">
+      <span class="lname">Outcomes</span> <span class="token">no-self</span>
+      <div class="ldesc">what <b>emerges</b> — states (equanimity), ethics (care that widens), symbolic orders, restructured identities</div>
+      <div class="reading">As an <b>outcome</b>, no-self is a <i>product</i> — a less rigid, restructured identity.</div>
+    </div>
+    <div class="layer" data-l="par">
+      <span class="lname">Paradigm</span> <span class="token">no-self</span>
+      <div class="ldesc">the worldview the grammar reshapes — <b>claims</b>, held little-t or Big-T</div>
+      <div class="reading">As a <b>paradigm</b>, no-self is a <i>claim</i> — held little-t ("the self is fluid, plural") or Big-T ("there is, finally, no self").</div>
+    </div>
+  </div>
+
+  <div class="callout indigo"><b>Where a thing sits decides what it does — that's the grammar</b> (like a word's role in a
+   sentence). The same content can be a move, a product, or a claim. And the moves recur across traditions:
+   they <b>rhyme, they don't match</b> — which is mapping #3.</div>
+</section>
+
+<!-- ════════ MAPPING #3 ════════ -->
+<section id="m3">
+  <h2>Mapping #3 — how meanings rhyme across traditions <span class="tag">A : B :: C : D</span></h2>
+  <div class="lede">Comparative religion usually splits: traditions share a universal essence (perennialism), or they're
+   utterly particular (no comparison possible). <b>Relational rhyme escapes the binary.</b> Instead of hand-picking
+   comparisons, a cross-tradition analogy graph mines the database for relational structures that recur — scored and
+   searchable — so you see both the convergence <i>and</i> the difference.</div>
+
+  <div class="card">
+    <div class="analogy">fasting : appetite <span class="as">::</span> silence : speech</div>
+    <div style="text-align:center;font-size:13px;color:#555">Both are <b>disciplined restraint of a faculty</b> — yet fasting and
+     silence look nothing alike. The relation rhymes; the terms don't match. That's how structure surfaces even across
+     traditions with opposed worldviews.</div>
+  </div>
+
+  <div class="rgrid">
+    <div class="rcell">
+      <h4>A live rhyme — the widening circle of care (S0→S8)</h4>
+      <div class="rrow"><div class="k">Stoic</div><div>concentric circles: self → household → city → humankind</div></div>
+      <div class="rrow"><div class="k">Buddhist</div><div><i>mettā</i>: self → all beings</div></div>
+      <div class="rrow"><div class="k">Confucian</div><div><i>Daxue</i>: self → family → state → all-under-heaven</div></div>
+      <div class="rrow"><div class="k">the rhyme</div><div class="same">the same outward-widening move across scales</div></div>
+      <div class="rrow"><div class="k">the flare</div><div class="diffv">three irreconcilable worldviews underneath</div></div>
+    </div>
+    <div class="rcell">
+      <h4>First independently-validated rhyme (5/5 panel) <span class="contact-low">no-known-direct contact</span></h4>
+      <div class="rrow"><div class="k">A-tradition</div><div>Romans 8:28 — "all things work together for good" (Pauline)</div></div>
+      <div class="rrow"><div class="k">B-tradition</div><div>Brahma-Sūtra (Vedānta)</div></div>
+      <div class="rrow"><div class="k">operation</div><div class="same">same construal-move: re-seeing events as ordered by an underlying ground</div></div>
+      <div class="rrow"><div class="k">substrate / outcome</div><div class="diffv">different on both — providence vs Brahman; trust vs realization</div></div>
+      <div class="rrow"><div class="k"></div><div class="smallnote">operation/outcome wording illustrative — display the coded verbs from the DB</div></div>
+    </div>
+  </div>
+
+  <div class="callout"><b>What this isn't.</b> No claim the traditions knew they rhymed; no metaphysical proof. A rhyme is
+   a <i>structural observation</i> — and convergence across traditions with <b>no historical contact</b> is precisely what makes
+   it interesting (each rhyme-pair carries a contact-spectrum flag). The graph is built to surface these at scale;
+   it hasn't yet — 13 confirmed so far, mined from the first 16 flowers.</div>
+
+  <details><summary>Zoom in: a rhyme is an <i>edge</i></summary>
+    <div class="body">In the data structure, mapping #2's coding gives every passage its layer-coordinates
+    (substrate / operation / outcome / paradigm). A <b>rhyme is a horizontal edge</b> between operations in <i>different</i>
+    traditions whose relational structure matches (A:B::C:D) — zero lexical overlap required. The similarity is computed
+    on the <i>operation</i> (the verb-test), not on words. That's the originality claim: not a bag-of-words frequency study.</div>
+  </details>
+</section>
+
+<!-- ════════ THE PIPELINE ════════ -->
+<section id="pipeline">
+  <h2>How it's built — the pipeline <span class="tag">Acquire → Chunk → Code → Find</span></h2>
+  <div class="lede">Everything above runs on one factory line — raw archives in, cross-tradition patterns out — at three
+   stages of completion: <b>the corpus is built</b>, <b>the coding is live</b>, <b>the pattern-finding is designed and downstream</b>.
+   Below: the four phases, then the full 14-station value-stream with two worked examples —
+   <span class="exlab tengri">TENGRI</span> ("we read <i>Wolf Totem</i>; we need Mongolian sky-worship" — acquisition-heavy,
+   shows the front of the line) and <span class="exlab romans">ROMANS</span> (the matured flower — analysis-heavy, shows the back).</div>
+
+  <div class="phases">
+    <div class="phase"><div class="ph">PHASE 1 · DONE AT SCALE</div><h4>Acquire</h4>
+      <div class="pd">A self-feeding source-harvesting engine (CRADLE): finds source-gaps, matches each to the right archive,
+      retrieves the text. Every retrieved text feeds the corpus <i>and</i> its bibliography surfaces the next gaps — the flywheel.</div>
+      <div class="pn">→ ~390k primary sources</div></div>
+    <div class="phase"><div class="ph">PHASE 1 · DONE AT SCALE</div><h4>Chunk</h4>
+      <div class="pd">Each source segmented into quotable passages — the analytical atoms.</div>
+      <div class="pn">→ ~9.5M passages</div></div>
+    <div class="phase"><div class="ph">PHASE 2 · THE CURRENT FRONTIER</div><h4>Code</h4>
+      <div class="pd">Each passage coded first in its tradition's <b>own vocabulary</b> (bottom-up), then mapped onto the axes —
+      by a three-reviewer panel. See <a href="#coding">the coding-card</a>.</div>
+      <div class="pn">→ 16 flowers · ~10–20K curated nodes target</div></div>
+    <div class="phase"><div class="ph">PHASE 3 · DESIGNED, DOWNSTREAM</div><h4>Find</h4>
+      <div class="pd">Per-passage tags assemble into two structures: <b>threads</b> (the T1–T10 branching tree per seed) and
+      <b>rhyme</b> (the cross-tradition analogy graph).</div>
+      <div class="pn">→ 13 confirmed rhymes so far</div></div>
+  </div>
+
+  <details><summary>Zoom in: the full 14-station value-stream (the factory line)</summary>
+    <div class="body">
+      <div class="stations">
+        <div class="st"><div class="n">0</div><div class="sn">Gap surfaced</div><div class="se"><span class="exlab tengri">TENGRI</span>"Read <i>Wolf Totem</i> → we need Mongolian Tengri sky-worship" captured as a want (shopping list).</div></div>
+        <div class="st"><div class="n">1</div><div class="sn">Classify the input <span class="chip">CRADLE-A</span></div><div class="se"><span class="exlab tengri">TENGRI</span>→ {oral+book+academic · classical→modern · mn/zh/en · non-Western · tradition-hint: Mongolian}.</div></div>
+        <div class="st"><div class="n">2</div><div class="sn">Route to clusters <span class="chip">CRADLE-B</span></div><div class="se"><span class="exlab tengri">TENGRI</span>fan-out: ORAL (shaman invocations, the Mongol epic) + BOOK (<i>Wolf Totem</i>; ethnographies) + ACADEMIC (Central-Asian studies — with non-Western archives queried at <i>equal priority</i>, the Parity Principle).</div></div>
+        <div class="st"><div class="n">3</div><div class="sn">Resolve <span class="chip">CRADLE-C</span></div><div class="se">Try resolvers per cluster in priority order; <b>every source tried is logged</b> — including failures. The corpus's skew becomes visible drift-data, not a hidden pre-filter.</div></div>
+        <div class="st"><div class="n">4</div><div class="sn">Dedup <span class="chip">CRADLE-D</span></div><div class="se">Do we already hold this text?</div></div>
+        <div class="st"><div class="n">5</div><div class="sn">Ingest — the single write door <span class="chip">CRADLE-E</span></div><div class="se">One gateway, no bypass: provenance + tradition-binding + CARE tag (Indigenous material is <b>included + tagged</b> for review — never deferred or excluded).</div></div>
+        <div class="st"><div class="n">6–7</div><div class="sn">Populate · Manifest</div><div class="se">Row lives in <code>sources</code>; fidelity tier set; structural type detected; provenance enriched.</div></div>
+        <div class="st"><div class="n">8</div><div class="sn">Chunk</div><div class="se">Source → anchor passages, the analytical atoms (a shaman-invocation line; an ethnographic paragraph on <i>ovoo</i> cairn ritual).</div></div>
+        <div class="st"><div class="n">9</div><div class="sn">classify <span class="chip">coding-order 1</span></div><div class="se">Per-atom: significance tier · artifact type · confirm tradition.</div></div>
+        <div class="st"><div class="n">10</div><div class="sn">glossary <span class="chip">coding-order 2</span></div><div class="se">Seed the tradition's <b>own</b> vocabulary: <i>tengri</i> (sky), <i>böö</i> (shaman), <i>ovoo</i> (sacred cairn).</div></div>
+        <div class="st"><div class="n">11</div><div class="sn">code <span class="chip">coding-order 3</span></div><div class="se"><span class="exlab romans">ROMANS</span>First-cycle, tradition-internal codes (never preset categories) + grammar→paradigm + T-stage + S0–S8 + Depth — <a href="#coding">the coding-card</a>.</div></div>
+        <div class="st"><div class="n">12</div><div class="sn">thread <span class="chip">coding-order 4</span></div><div class="se"><span class="exlab romans">ROMANS</span>Passages assemble by T-stage into the seed's branching tree — 336 Romans passages across 7 stages in the live garden.</div></div>
+        <div class="st"><div class="n">13</div><div class="sn">rhyme <span class="chip">coding-order 5</span></div><div class="se"><span class="exlab romans">ROMANS</span>Cross-tradition analogy mining — Romans ↔ Brahma-Sūtra was the first validated edge.</div></div>
+      </div>
+      <div class="smallnote">The full doc: <code>pm/30_methodology/method_factory_line_idea_to_thread_2026-06-01.md</code> — 14 stations,
+      4 phases, the Tengri worked example end-to-end.</div>
+    </div>
+  </details>
+
+  <details><summary>Zoom in: the data structure — nodes, edges, and why 390k sources become 9.5M passages</summary>
+    <div class="body">
+      <div class="dm">
+        <div class="ent"><b>sources</b><span class="cnt">~390k</span><div class="f">the <b>container</b> artifact — a book, article, sermon, recording. Carries provenance: origin, translation, artifact type, harvest method.</div></div>
+        <div class="dmarrow">1 → many</div>
+        <div class="ent"><b>passages</b><span class="cnt">~9.5M</span><div class="f">the <b>analytical atom</b> — a quotable segment. One source chunks into many passages. <i>This is the node.</i></div></div>
+        <div class="dmarrow">tagged by</div>
+        <div class="ent"><b>codes / passage_codes</b><div class="f">the per-passage coordinates (the coding-card axes) + ensemble-agreement scores. <i>Node attributes.</i></div></div>
+        <div class="dmarrow">linked by</div>
+        <div class="ent"><b>relations</b><div class="f">thread membership (vertical, within-tradition) and rhyme analogies (horizontal, cross-tradition). <i>The edges.</i></div></div>
+      </div>
+      <div class="callout indigo" style="margin-top:10px"><b>The "it's an engine" receipt.</b> The AI here is two layers, not one:
+      (1) a <b>5-LLM review panel</b> (web UI) — the human-rater substitute for methodology + coding validation; and
+      (2) <b>Claude Code / the SDK</b> — the programmatic engineering surface that built the 390k→9.5M pipeline, the scrapers,
+      the audits, the migrations. The corpus is queried ground truth: no count on this page can be claimed unless the rows exist.</div>
+    </div>
+  </details>
+</section>
+
+<!-- ════════ THE CODING-CARD ════════ -->
+<section id="coding">
+  <h2>What each passage gets — the coding-card <span class="tag">the current frontier</span></h2>
+  <div class="lede">Every passage is coded first in its tradition's own vocabulary, then mapped onto the axes below.
+   Shown as one card, for the Romans seed:</div>
+
+  <div class="ccard">
+    <div class="chead"><b>Romans 8:28</b> — "And we know that all things work together for good to them that love God…"
+      <span class="chip">ABR-CHR · Pauline</span></div>
+    <div class="crow"><div class="ck">Docent<span class="axis">orientation</span></div><div>2–3 sentences: what is this practice or claim <i>for</i>? What problem does it solve? How would an outsider recognize it?</div></div>
+    <div class="crow"><div class="ck">Grammar → Paradigm<span class="axis">mapping #2</span></div><div>Is this a practice/move (<b>operation</b>) or a doctrinal claim (<b>interpretation</b>)? Code both if both appear.</div></div>
+    <div class="crow"><div class="ck">Lifecycle T1–T10<span class="axis">mapping #1</span></div><div>Where on the lineage chain: originating insight (T1) → first encoding (T2) → textual codification (T3) → canonization (T4) → scholarly commentary (T5) → confessional lock (T6) → degraded popular form (T7) → revival (T8) → living lineage (T9) — plus T10 (artistic reimagination), orthogonal.</div></div>
+    <div class="crow"><div class="ck">Scale S0–S8<span class="axis">coordinate</span></div><div>The widest circle of concern the passage values: S0 parts-of-self · S1 individual · S2 dyad · S3 face-to-face group · S4 institution · S5 society · S6 tradition-across-generations · S7 multispecies/ecological · S8 cosmos.</div></div>
+    <div class="crow"><div class="ck">Depth<span class="axis">coordinate</span></div><div>How deep and practiced is the attention to the in-between itself? Low = theory only · Medium = named practice with method · High = enacted experience, and the tradition knows its own failure modes. <i>Scale and Depth are independent: a wide circle can be shallow; a narrow circle can be deep.</i></div></div>
+    <div class="crow"><div class="ck">Provenance<span class="axis">audit</span></div><div>Source origin, translation, artifact type, harvest method — every coded value is verifiable back to its row.</div></div>
+  </div>
+
+  <div class="panel3">
+    <div class="rev"><b>Insider</b>fluent in the tradition's primary sources</div>
+    <div class="rev"><b>Outsider</b>fluent in comparative categories</div>
+    <div class="rev"><b>Practitioner</b>lives the tradition</div>
+  </div>
+  <div class="callout indigo"><b>Three independent reviewers; consensus never forced.</b> When all three agree — convergent
+   data. When they diverge — <b>the disagreement is data</b>: flag it (translation? scope? genuine difference?). Reliability is
+   quantified per cell (Krippendorff-α-style agreement), so the answer to "quant or qual?" is:
+   <b>qual-grounded, quant-validated</b> — interpretation under the grammar, measured by inter-rater agreement and
+   convergence counts. Not a word-frequency study.</div>
+
+  <details><summary>Zoom in: "isn't that too many codes?"</summary>
+    <div class="body">Six fields, and each is load-bearing for exactly one job: <b>Docent</b> feeds the interface (orientation
+    for a visitor); <b>Grammar→Paradigm</b> is mapping #2's layer assignment; <b>T-stage</b> is mapping #1's ladder position;
+    <b>Scale + Depth</b> are the two independent coordinates that make the SCALE×DEPTH plane navigable (and the
+    widening-circle rhymes detectable); <b>Provenance</b> is the audit trail. Remove any one and a mapping loses its data.
+    The discipline that keeps it honest: the <i>first</i> coding cycle uses only the tradition's own vocabulary — the axes are
+    applied on top, never instead.</div>
+  </details>
+</section>
+
+<!-- ════════ THE INTERFACE ════════ -->
+<section id="interface">
+  <h2>The interface — three structures, navigable in space <span class="tag">+ the garden</span></h2>
+  <div class="lede">Coding makes three structures real; the Archive makes them navigable. The interaction model is
+   <b>semantic zoom</b> (the dynamic-abstractions move): the same structure at different altitudes —</div>
+
+  <div class="zoomstrip">🔭 <b>garden</b> (all flowers) → 🌳 <b>grove</b> (a tradition) → 🌸 <b>flower</b> (a seed's thread) → 🍃 <b>passage</b> (one coded atom) — zoom out again and the rhyme-edges light up <i>between</i> groves.</div>
+
+  <div class="three">
+    <div class="iface"><h4>The threads-tree</h4><div class="id">per seed: every anchored passage assembled by T-stage into the
+      branching tree of institutional time — one branch into commentary, one into the degraded form, one into revival and the living lineage; T10 runs orthogonal.</div>
+      <svg viewBox="0 0 200 110"><g stroke="#5b5bd6" stroke-width="2" fill="none">
+        <path d="M100 105 V60"/><path d="M100 60 C100 40 60 45 50 22"/><path d="M100 60 C100 45 130 48 138 30"/>
+        <path d="M100 60 C100 50 165 55 172 38" stroke="#c2c2c6"/><path d="M50 22 C48 14 40 12 36 8" stroke="#7a3fd1"/></g>
+        <g fill="#5b5bd6"><circle cx="100" cy="105" r="4"/><circle cx="50" cy="22" r="3.5"/><circle cx="138" cy="30" r="3.5"/></g>
+        <circle cx="172" cy="38" r="3.5" fill="#c2c2c6"/><circle cx="36" cy="8" r="3.5" fill="#7a3fd1"/>
+        <text x="103" y="103" font-size="8" fill="#888">T2 seed</text><text x="20" y="20" font-size="8" fill="#888">T3–T4</text>
+        <text x="142" y="28" font-size="8" fill="#888">T6–T7</text><text x="158" y="50" font-size="8" fill="#888">T8–T9</text>
+        <text x="8" y="6" font-size="8" fill="#7a3fd1">T10</text></svg></div>
+    <div class="iface"><h4>The rhyme-graph</h4><div class="id">cross-tradition: A:B::C:D analogy edges between operations in
+      different groves — scored, searchable, contact-flagged.</div>
+      <svg viewBox="0 0 200 110"><g fill="none"><circle cx="45" cy="40" r="26" stroke="#e0e0e8"/><circle cx="150" cy="62" r="30" stroke="#e0e0e8"/>
+        <path d="M62 50 C95 70 115 70 128 66" stroke="#5b5bd6" stroke-width="2" stroke-dasharray="4 3"/></g>
+        <g fill="#5b5bd6"><circle cx="62" cy="50" r="4"/><circle cx="128" cy="66" r="4"/></g>
+        <g fill="#bbb"><circle cx="38" cy="30" r="3"/><circle cx="50" cy="55" r="3"/><circle cx="158" cy="48" r="3"/><circle cx="142" cy="80" r="3"/></g>
+        <text x="22" y="14" font-size="8" fill="#888">grove A</text><text x="138" y="24" font-size="8" fill="#888">grove B</text>
+        <text x="74" y="56" font-size="8" fill="#5b5bd6">A:B::C:D</text></svg></div>
+    <div class="iface"><h4>The SCALE × DEPTH plane</h4><div class="id">every passage placed by its two independent
+      coordinates — wide-but-shallow and narrow-but-deep become visibly different regions.</div>
+      <svg viewBox="0 0 200 110"><g stroke="#e0e0e8"><path d="M30 8 V92 H192" fill="none" stroke-width="1.5"/></g>
+        <text x="6" y="50" font-size="8" fill="#888" transform="rotate(-90 14 54)">DEPTH</text><text x="95" y="104" font-size="8" fill="#888">SCALE S0→S8</text>
+        <g fill="#5b5bd6" opacity=".75"><circle cx="55" cy="25" r="4"/><circle cx="70" cy="70" r="4"/><circle cx="120" cy="40" r="4"/><circle cx="165" cy="78" r="4"/><circle cx="150" cy="20" r="4"/><circle cx="95" cy="58" r="4"/></g></svg></div>
+  </div>
+
+  <h3 style="font-size:15px;margin:18px 0 4px">How to read the garden <span style="font-weight:400;font-size:12px;color:#888">(the live render: <code>data/chunk_quality/_garden/garden.html</code>)</span></h3>
+  <div class="legend">
+    <div class="leg"><span class="sym">🌱</span><b>seed</b> — the planted source (Romans 8:28–30; the Cave; the Four Noble Truths): one per sub-tradition.</div>
+    <div class="leg"><span class="sym">🌸</span><b>flower</b> — a seed in bloom: its coded passages, threaded through institutional time.</div>
+    <div class="leg"><span class="sym">🎋</span><b>stem / thread</b> — the vertical axis: T1→T10 <i>within</i> a tradition. The branching is the finding.</div>
+    <div class="leg"><span class="sym">🌳</span><b>grove</b> — a tradition; its own palette (the per-tradition <i>flare</i> — divergence kept visible).</div>
+    <div class="leg"><span class="sym">↔️</span><b>rhyme-edge</b> — the horizontal axis: the same move appearing <i>across</i> groves, contact-flagged.</div>
+    <div class="leg"><span class="sym">🎼</span><b>concordance</b> — the shared grammar all groves draw on. Concordance + flares together = the convergence question, made visual.</div>
+  </div>
+  <div class="callout">The two axes <i>are</i> the thesis question: the stem asks "how does one observation morph within a
+   tradition?" (Q1); the rhyme-edge asks "which moves converge across traditions that never met?" (Q2). The garden is the
+   experiential layer of the same instrument — and the eventual Luminous Archive is this garden as pilgrimage.</div>
+</section>
+
+<!-- ════════ TWO OUTPUTS ════════ -->
+<section id="outputs">
+  <h2>Two outputs</h2>
+  <div class="lede">The coding is the instrument; two things are built on top of it:</div>
+  <div class="outputs">
+    <div class="card"><b>✍️ Essays — Grammar of Meaning</b>
+      <div style="font-size:13px;color:#555;margin-top:5px">Field notes on how meaning gets made. Each begins from a seed
+      (a passage, a word, a pattern); a drafting pipeline renders five forms, runs a review panel, polishes against a voice
+      guide; the researcher hand-edits the v1. The same multi-voice-panel method as the coding, pointed at prose — AI drafts
+      the breadth; she stays the author. <i>grammarofmeaning.org</i>, Substack as teaser. <a href="../drafts/grammar_of_meaning/essay_engine_pipeline_2026-06-12.html" style="color:#5b5bd6">The essay engine's own pipeline page →</a></div></div>
+    <div class="card"><b>🏛 The Luminous Archive</b>
+      <div style="font-size:13px;color:#555;margin-top:5px">An interactive pilgrimage: a digital constellation of traditions'
+      observations where <b>the exploring itself is the formation</b>. The Docent voice orients at each seed, so someone can
+      meet a tradition they didn't grow up in.</div></div>
+  </div>
+  <div class="smallnote">Nothing in the machinery is religion-specific — it's a domain-agnostic instrument for mapping how a
+   field makes sense of its object. Religion is the proof-of-concept. The corpus is living: it grows and chunks itself as
+   its reach widens.</div>
+</section>
+
+<!-- ════════ THREE FRONTIERS ════════ -->
+<section id="frontiers">
+  <h2>The three technical frontiers <span class="tag">where input lands</span></h2>
+  <details open><summary>⭐ Semantic indexing &amp; retrieval-fairness — the frontier known least, needed most</summary>
+    <div class="body">The corpus is wide on purpose (the bias-guard: you can only find what's <i>in</i> it) — but only
+    <b>~0.15% is semantically indexed</b>, so retrieval is still keyword-based, and keyword search structurally starves the
+    overlooked voices (a womanist reading of Romans doesn't keyword-match "Romans 8:28"). Three open questions:
+    (1) which embedding <b>model</b> for a multilingual theological corpus (Greek, Sanskrit, Arabic, Hebrew, Japanese reception)
+    without burying the non-English voices; (2) <b>diversity-aware retrieval</b> — don't let nearest-neighbour return more of the
+    dominant voice (84% Luther on Genesis); (3) how to <b>evaluate</b> fairness with no ground-truth labels.</div></details>
+  <details><summary>Database &amp; coding infrastructure at scale</summary>
+    <div class="body">~390k sources / ~9.5M passages, coding live, mid-migration SQLite→Postgres/pgvector. Queryability at
+    scale; scaling constraints; validating multi-LLM coding reliability across the corpus (first answer in: the cheap model
+    matches the expensive 3-model consensus 100% on T-staging).</div></details>
+  <details><summary>The Archive interface + the rhyme embedding</summary>
+    <div class="body">The three structures above, navigable in one space. The open core: what embedding surfaces
+    <i>structural / operational</i> proximity (proximity = <b>rhyme</b> — the "same move"; distinct from the topical retrieval index)?
+    How to render time + branching together? One navigable space or separate views?</div></details>
+  <div class="callout indigo" style="margin-top:14px"><b>The breadth goal that frames all three:</b> ~100 flowers — multiple
+   seeds per tradition and across sub-traditions, <b>weighted toward the lenses the dominant voices drown out</b>
+   (womanist, liberation, disability, queer). Not volume-chasing: a rhyme that holds across Luther <i>and</i> a womanist reading
+   is far stronger than one that only holds in the comfortable mainstream — and rhymes scale pairwise, so more nodes means
+   combinatorially more genuine rhymes. The coding stays bounded: the curated set (~10–20K nodes), not the 9.5M corpus.</div>
+</section>
+
+</main>
+
+<footer>
+  Built from the project-orientation doc (canonical script, rev 2026-06-11) · the factory-line value-stream
+  (<code>method_factory_line_idea_to_thread_2026-06-01.md</code>) · the live garden render. Lineage: Brand → Diderot →
+  Alexander → Meadows → Smil — open methodology, corpus + tooling published so others can extend, audit, contest.
+  Figures as of 2026-06-12; the database is ground truth.
+</footer>
+
+<script>
+// #1 — ladder rungs toggle their worked example
+document.querySelectorAll('#ladder .rung').forEach(function(r){
+  r.addEventListener('click',function(){ r.classList.toggle('open'); });
+});
+// #2 — place "no-self" in a layer
+var stack=document.getElementById('stack');
+document.querySelectorAll('.placer button').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.placer button').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');
+    stack.querySelectorAll('.layer').forEach(function(l){l.classList.remove('holds')});
+    var t=stack.querySelector('.layer[data-l="'+b.dataset.layer+'"]'); if(t)t.classList.add('holds');
+  });
+});
+// initial state: operation
+stack.querySelector('.layer[data-l="op"]').classList.add('holds');
+</script>
+
+<!--
+METHODOLOGY FOOTER
+HOW PRODUCED. S116 design session (2026-06-12), design-SB in isolated worktree (branch claude/design-sb-explainer),
+per field_ed/saquib_legibility_artifacts_spec_2026-06-12.md: the orientation doc rendered parallel + zoomable as ONE
+interactive HTML explainer (the spec's format recommendation). Re-renders the three S114 chat-only tiles (Cave T1-T10
+ladder / A:B::C:D rhyme card / garden legend) into durable form + builds the remaining spine (#2 grammar stack,
+pipeline value-stream, coding-card, interface). Links-only (no embedded image bytes) per
+pm/30_methodology/design_output_conventions_2026-06-11.md.
+SCHOLARLY SOURCES. field_ed/PROJECT_ORIENTATION_2026-05-27.md (rev 2026-06-11 — the canonical script; all content
+mirrors it, none added); pm/30_methodology/method_factory_line_idea_to_thread_2026-06-01.md (the 14 stations + Tengri);
+data/chunk_quality/_garden/garden.html (visual language + live counts); CLAUDE.md section 5 (schema), 2.6 (IRR/R-grade),
+2.8 (bias-visibility), 2.10 (CRADLE/Parity), 2.11 (CARE INCLUDE+TAG); dynamicabstractions.github.io (semantic zoom).
+WHAT NEEDS VERIFICATION. (1) Romans<->Brahma-Sutra operation/outcome wording is ILLUSTRATIVE - swap in the actual coded
+verbs from the DB before showing; (2) flower count: 16 coded per the S115 prep brief vs 14 in the current garden render -
+refresh the statbar from the DB at show-time; (3) the S0-S8 one-word labels condensed from the orientation doc - researcher
+to confirm phrasing; (4) the Docent/Grammar example values on the coding-card are the AXIS DEFINITIONS, not a real coded
+row - swapping in a real passage_codes row for Romans 8:28 would strengthen the "engine" receipt.
+-->
+</body></html>

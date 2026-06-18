@@ -1,0 +1,280 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Luminous Archive — a digital pilgrimage (vision pitch v0)</title>
+<style>
+:root{
+ --ink:#221c14; --parch:#fbf6ec; --parch2:#f4ecd9; --moss:#5a7a52; --moss-d:#3f5a39;
+ --gold:#b8893a; --gold-l:#d8b25f; --soil:#6b5436; --sky:#3a5a6e; --plum:#6a4a72;
+ --line:#e3dac6; --mut:#8a7d63; --lum:#e8c766;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--parch);color:var(--ink);font:17px/1.65 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+.wrap{max-width:880px;margin:0 auto;padding:0 24px}
+section{padding:64px 0;border-bottom:1px solid var(--line)}
+section:last-child{border-bottom:none}
+.eyebrow{font:600 12px/1.4 -apple-system,Segoe UI,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:0 0 12px}
+h1{font-size:clamp(34px,6vw,56px);line-height:1.08;margin:0 0 16px;font-weight:700;letter-spacing:-.01em}
+h2{font-size:clamp(26px,4vw,36px);line-height:1.12;margin:0 0 18px;font-weight:700}
+h3{font:700 19px/1.3 -apple-system,Segoe UI,sans-serif;margin:0 0 6px}
+p{margin:0 0 16px;max-width:64ch}
+.lede{font-size:clamp(19px,2.4vw,23px);color:#43392a}
+.dim{color:var(--mut)}
+em{color:var(--moss-d);font-style:italic}
+strong{color:var(--soil)}
+/* hero */
+.hero{background:
+   radial-gradient(120% 90% at 50% -10%, rgba(232,199,102,.30), transparent 60%),
+   linear-gradient(180deg,var(--parch2),var(--parch));
+   text-align:center;padding:92px 0 70px;border-bottom:1px solid var(--line)}
+.hero h1{max-width:16ch;margin-left:auto;margin-right:auto}
+.tagline{font-style:italic;color:var(--moss-d);font-size:clamp(18px,2.4vw,22px);max-width:34ch;margin:0 auto 8px}
+.byline{font:600 13px/1.5 -apple-system,sans-serif;letter-spacing:.04em;color:var(--mut);margin-top:22px}
+/* the garden glyph (CSS/SVG, no images) */
+.glyph{margin:26px auto 6px;display:block}
+/* callouts */
+.lineage{display:flex;gap:0;flex-wrap:wrap;align-items:stretch;margin:24px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+.lin{flex:1;min-width:128px;padding:14px 16px;border-right:1px solid var(--line)}
+.lin:last-child{border-right:none;background:linear-gradient(180deg,rgba(232,199,102,.18),transparent)}
+.lin .who{font:800 14px/1.2 -apple-system,sans-serif;color:var(--soil)}
+.lin .what{font-size:13px;color:var(--mut);margin-top:3px;line-height:1.4}
+.lin.ours .who{color:var(--moss-d)}
+/* the walk */
+.walk{counter-reset:step;margin:22px 0 0}
+.step{display:flex;gap:16px;padding:14px 0;border-top:1px dashed var(--line)}
+.step:first-child{border-top:none}
+.step .n{counter-increment:step;flex:none;width:34px;height:34px;border-radius:50%;background:var(--moss);color:#fff;display:flex;align-items:center;justify-content:center;font:800 15px/1 -apple-system,sans-serif}
+.step .n::before{content:counter(step)}
+.step .t{font-size:16px}
+.step .t b{color:var(--moss-d)}
+/* pattern cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:22px 0 0}
+.card{border:1px solid var(--line);border-radius:12px;padding:15px 16px;background:#fff}
+.card .ic{font-size:22px}
+.card h3{margin:6px 0 4px}
+.card p{font-size:14px;color:var(--mut);margin:0}
+/* references */
+.refs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:18px 0 0}
+.refcol h3{color:var(--gold);font-size:14px;letter-spacing:.04em;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:5px;margin-bottom:8px}
+.refcol li{font-size:14px;margin:0 0 5px;line-height:1.45}
+.refcol ul{margin:0;padding-left:18px}
+/* not-this */
+.notthis{background:#fff;border:1px solid var(--line);border-left:4px solid var(--plum);border-radius:10px;padding:16px 20px;margin:18px 0}
+.notthis p{margin:0 0 8px;font-size:15px}
+.notthis p:last-child{margin:0}
+/* the three layers (triad) */
+.triad{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:22px 0 6px}
+@media(max-width:740px){.triad{grid-template-columns:1fr}}
+.layer{border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;background:#fff;position:relative;display:flex;flex-direction:column}
+.layer .tier{font:700 11px/1.3 -apple-system,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.layer .ic{font-size:26px;margin:4px 0 2px}
+.layer h3{margin:2px 0 6px;font-size:18px}
+.layer p{font-size:14px;color:#4a4133;margin:0 0 12px;max-width:none}
+.layer .status{margin-top:auto;font:700 12px/1.3 -apple-system,sans-serif;border-radius:20px;padding:3px 11px;display:inline-block;align-self:flex-start}
+.status.live{background:#e7f0e3;color:var(--moss-d)}
+.status.exists{background:#eef2e9;color:#5a7a52}
+.status.horizon{background:#f3eef5;color:var(--plum)}
+.layer a{display:inline-block;margin-top:9px;font:600 13px/1.3 -apple-system,sans-serif;color:var(--moss-d)}
+.triad-flow{text-align:center;font-style:italic;color:var(--mut);margin:14px 0 0;font-size:15px}
+/* imagery strip */
+.rhymestrip{margin:22px 0 8px}
+.rhymestrip .row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+@media(max-width:680px){.rhymestrip .row{grid-template-columns:repeat(2,1fr)}}
+.rhymestrip figure{margin:0}
+.rhymestrip img{width:100%;height:128px;object-fit:cover;border-radius:8px;border:1px solid var(--line);background:var(--parch2);display:block}
+.rhymestrip figcaption{font:600 10.5px/1.3 -apple-system,sans-serif;color:var(--mut);margin-top:5px;text-align:center}
+.rhymestrip .cap{font-size:14px;color:var(--mut);font-style:italic;margin:10px 0 0;text-align:center}
+.rhymestrip .cap a{color:var(--moss-d)}
+/* pull quote */
+.pull{font-size:clamp(20px,3vw,28px);line-height:1.3;color:var(--moss-d);font-style:italic;border-left:3px solid var(--gold);padding:6px 0 6px 22px;margin:26px 0;max-width:30ch}
+/* ask */
+.ask{background:linear-gradient(180deg,var(--parch2),#fff);border:1px solid var(--line);border-radius:16px;padding:28px 30px;margin:18px 0 0}
+.ask ul{padding-left:20px}.ask li{margin:0 0 7px}
+.foot{font:13px/1.6 -apple-system,sans-serif;color:var(--mut);padding:30px 0 60px;text-align:center}
+.foot a{color:var(--moss-d)}
+</style></head><body>
+
+<header class="hero"><div class="wrap">
+  <svg class="glyph" width="116" height="92" viewBox="0 0 116 92" aria-hidden="true">
+    <!-- soil -->
+    <rect x="6" y="74" width="104" height="6" rx="3" fill="#6b5436" opacity=".5"/>
+    <!-- concentric (mandala) halo -->
+    <circle cx="58" cy="40" r="34" fill="none" stroke="#d8b25f" stroke-width="1" opacity=".5"/>
+    <circle cx="58" cy="40" r="24" fill="none" stroke="#d8b25f" stroke-width="1" opacity=".7"/>
+    <!-- tree -->
+    <path d="M58 74 L58 44" stroke="#6b5436" stroke-width="3" fill="none"/>
+    <path d="M58 52 q-12 -6 -18 -16 M58 50 q12 -7 18 -17 M58 46 q-8 -8 -9 -18 M58 46 q8 -8 9 -18" stroke="#5a7a52" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    <circle cx="40" cy="36" r="4" fill="#5a7a52"/><circle cx="76" cy="33" r="4" fill="#5a7a52"/>
+    <circle cx="49" cy="28" r="4.4" fill="#3f5a39"/><circle cx="67" cy="28" r="4.4" fill="#3f5a39"/>
+    <circle cx="58" cy="22" r="5" fill="#b8893a"/>
+  </svg>
+  <p class="eyebrow">A vision — the Luminous Archive</p>
+  <h1>A digital pilgrimage through how humanity makes meaning.</h1>
+  <p class="tagline">Not a database you query. A garden you walk.</p>
+  <p class="byline">Tamara Sanderson · Grammar of Meaning · vision pitch v0 (2026-06-17)</p>
+</div></header>
+
+<section><div class="wrap">
+  <p class="eyebrow">The ache</p>
+  <h2>People are hungry for depth, and wary of dogma.</h2>
+  <p class="lede">We live in a relativist landscape. The old containers feel either like walled gardens you must convert to enter, or museum pieces behind glass. A growing number of people — the spiritually curious, the institutionally homeless — want the <em>robustness</em> of a tradition without being asked to swallow it whole.</p>
+  <p>So here is the question underneath the whole project: <strong>is anything portable across how humans have made meaning?</strong> Are there observations about suffering, attention, the self, and time that recur across traditions that never touched — things you could carry with you <em>without</em> converting? Most of what any tradition says is its own; that's the point. But where the same move surfaces independently, again and again, that convergence is worth seeing. We have never had a way to <em>see</em> it.</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="eyebrow">The vision</p>
+  <h2>A garden you walk — and the rhymes light up around you.</h2>
+  <p class="lede">The Luminous Archive is an interactive constellation of what 400+ traditions have independently observed about creaturely life. You don't read <em>about</em> religion. You wander among the traditions as <strong>flowers</strong>, rooted in the <strong>soil</strong> of their conditions (the where, when, and how-the-world-was), and as you move, the interface reveals where they <strong>rhyme</strong> — the same gesture appearing in a Buddhist sutra, a Christian epistle, and a Sufi poem that never met.</p>
+  <p class="pull">Spirituality is the attention that makes the in-between visible. The garden is a machine for that attention.</p>
+  <p>It holds two questions at once: <strong>Q1</strong> — what does each tradition, on its own terms, observe? And <strong>Q2</strong> — which of those observations <em>converge</em>, and what do the cross-tradition patterns tell us? Convergence across traditions that share no history is interesting precisely because most of what gets observed <em>won't</em> converge. The garden makes both the difference and the rhyme walkable.</p>
+
+  <div class="rhymestrip">
+    <div class="row">
+      <figure><img src="img/christian_medieval_jesse-tree_curved-vine.jpg" alt="Christian medieval Jesse tree"><figcaption>Christian · Jesse tree</figcaption></figure>
+      <figure><img src="img/jewish_illuminated-ketubah_arches-floral-border.jpg" alt="Jewish illuminated ketubah, flowering tree of life"><figcaption>Jewish · ketubah tree</figcaption></figure>
+      <figure><img src="img/islamic_persian_manuscript-trees_fruit.jpg" alt="Islamic Persian manuscript fruiting trees"><figcaption>Islamic · Persian tree</figcaption></figure>
+      <figure><img src="img/hindu_rajput_yoga-asana_tree-foliage.jpg" alt="Hindu Rajput painting with tree foliage"><figcaption>Hindu · Rajput tree</figcaption></figure>
+      <figure><img src="img/buddhist_tibetan_mandala_assembly.jpg" alt="Buddhist Tibetan mandala"><figcaption>Buddhist · mandala</figcaption></figure>
+    </div>
+    <p class="cap">The same form — the tree of life, the concentric cosmos — arising independently across traditions that never met. (more imagery in the full moodboards — kept private for now)</p>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="eyebrow">How it fits together</p>
+  <h2>Three layers — and two are already real.</h2>
+  <p class="lede">The project is one thing seen at three depths: the <strong>engine</strong> that finds the patterns, the <strong>voice</strong> that tells them, and the <strong>garden</strong> you'll one day walk. The same convergence flows through all three.</p>
+  <div class="triad">
+    <div class="layer">
+      <div class="tier">1 · the engine</div>
+      <div class="ic">🗄️</div>
+      <h3>The corpus &amp; the coding</h3>
+      <p>400+ traditions ingested, coded in each tradition's own vocabulary, with a multi-model convergence-engine detecting where they rhyme. The substrate — where the observations and the patterns actually come from.</p>
+      <span class="status exists">🟢 built &amp; running</span>
+    </div>
+    <div class="layer">
+      <div class="tier">2 · the voice</div>
+      <div class="ic">✍️</div>
+      <h3>Grammar of Meaning</h3>
+      <p>The public inquiry — <em>field notes on how meaning gets made.</em> An essay engine turns what the corpus surfaces into readable essays. This is the project thinking out loud, now.</p>
+      <span class="status live">✅ live</span>
+      <a href="https://grammarofmeaning.substack.com/">grammarofmeaning.substack.com →</a>
+      <a href="../drafts/grammar_of_meaning/essay_engine_pipeline_2026-06-12.html">the essay engine →</a>
+    </div>
+    <div class="layer">
+      <div class="tier">3 · the garden</div>
+      <div class="ic">🌿</div>
+      <h3>The Luminous Archive</h3>
+      <p>The destination — the interactive pilgrimage anyone can walk (this pitch). Where the corpus becomes a place and the rhymes become something you move through.</p>
+      <span class="status horizon">◌ the horizon we're building</span>
+    </div>
+  </div>
+  <p class="triad-flow">One convergence, three depths: <strong>found</strong> in the engine → <strong>told</strong> in the voice → <strong>walked</strong> in the garden. (Byline → inquiry → object: <em>Tamara Sanderson</em> is who; <em>Grammar of Meaning</em> is what she studies; <em>the Luminous Archive</em> is what she's building.)</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="eyebrow">Why now · why this</p>
+  <h2>A lineage — and the first to publish the method.</h2>
+  <p>This sits in a clear line of people who tried to make the world's knowledge accessible and patterned. What's new is the <strong>open methodology</strong> and that the patterns are derived <em>corpus-driven</em> — empirically, at scale — rather than from one mind's intuition.</p>
+  <div class="lineage">
+    <div class="lin"><div class="who">Brand</div><div class="what">Whole Earth Catalog — access to tools</div></div>
+    <div class="lin"><div class="who">Diderot</div><div class="what">the Encyclopédie — encyclopedic ambition</div></div>
+    <div class="lin"><div class="who">Alexander</div><div class="what">A Pattern Language — cross-context patterns</div></div>
+    <div class="lin"><div class="who">Meadows</div><div class="what">archetypes across domains</div></div>
+    <div class="lin"><div class="who">Smil</div><div class="what">vast empirical breadth</div></div>
+    <div class="lin ours"><div class="who">This</div><div class="what">open method + AI-augmented multi-LLM convergence-finding + decade-scale corpus</div></div>
+  </div>
+  <p>Alexander found his patterns by discernment; we derive them from the corpus. Meadows mapped archetypes across ecology and economics; this is <strong>the empirical Meadows for the inner life</strong>. Smil withholds his method; we <em>publish</em> the corpus, the methodology, and the tooling so others can extend, audit, and contest it. And the moment is now: AI makes it possible — for the first time — to read across hundreds of traditions at corpus scale and detect structural rhymes <em>empirically</em>, with multiple models cross-checking each other so no single reading fixes the finding.</p>
+</div></section>
+
+<section><div class="wrap">
+  <p class="eyebrow">The experience</p>
+  <h2>What it feels like to walk it.</h2>
+  <p class="dim">A pilgrimage, not a search bar. One path through:</p>
+  <div class="walk">
+    <div class="step"><div class="n"></div><div class="t"><b>You arrive in the garden.</b> Soil below (the conditions), flowers around you (the traditions), a constellation overhead (the convergences). You can wander, or follow a path.</div></div>
+    <div class="step"><div class="n"></div><div class="t"><b>You pick a seed</b> — a human situation: suffering, exile, the constructed self, the dread of the future. The garden gathers how each tradition answers <em>that</em>.</div></div>
+    <div class="step"><div class="n"></div><div class="t"><b>The rhymes light up.</b> You see the same move — "all things work together," the descent-and-return, the tree of life — surface independently across traditions, side by side.</div></div>
+    <div class="step"><div class="n"></div><div class="t"><b>You go deep or wide.</b> Deep: the slow-read, down into one passage and its soil. Wide: the constellation, the cross-tradition pattern. You choose the grain.</div></div>
+    <div class="step"><div class="n"></div><div class="t"><b>Chance offers you something.</b> A sortes — a passage you didn't seek finds you. The garden surprises, the way a real pilgrimage does.</div></div>
+    <div class="step"><div class="n"></div><div class="t"><b>It ends in a practice.</b> The portable observation becomes something you can <em>do</em> — the little-t insight turned into a formation practice you carry out the gate.</div></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="eyebrow">The design language we already have</p>
+  <h2>We've thought hard about the how.</h2>
+  <p>This isn't a sketch on a napkin — there's a worked visual vocabulary (the S107 design-pattern moodboard) and a working method-instrument behind the beauty.</p>
+  <div class="cards">
+    <div class="card"><div class="ic">🌳</div><h3>The Three Forms</h3><p>Tree (lineage) · Mandala / Labyrinth (the centre) · Scroll / River (the read). Each tradition picks its native form.</p></div>
+    <div class="card"><div class="ic">🧭</div><h3>Pilgrimage</h3><p>Wayfinding, stamps, a path that becomes yours — the journey is the interface.</p></div>
+    <div class="card"><div class="ic">🌱</div><h3>The Soil / slow-read</h3><p>Every observation is rooted in its Sitz — the conditions that made it legible. Read slow, read grounded.</p></div>
+    <div class="card"><div class="ic">🎲</div><h3>Chance / the Sortes</h3><p>The garden offers what you didn't ask for — designed serendipity, not a ranked list.</p></div>
+    <div class="card"><div class="ic">🎨</div><h3>Pigment-Sitz</h3><p>The material surface carries the context — the colour and grain of a tradition come from its own art.</p></div>
+    <div class="card"><div class="ic">🔭</div><h3>The grammar instrument</h3><p>Under the beauty, an interactive schema that makes the method auditable — the open "how."</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="eyebrow">References — what it's like</p>
+  <h2>Standing on shoulders.</h2>
+  <div class="refs">
+    <div class="refcol"><h3>Digital</h3><ul>
+      <li>Sefaria — the text-and-link graph</li>
+      <li>Bach et al., <em>Time Curves</em> — folding time to see pattern</li>
+      <li>Saquib's Hikmah Lab — Islamic citation networks</li>
+      <li>the slow-read movement</li></ul></div>
+    <div class="refcol"><h3>Physical / felt</h3><ul>
+      <li>the chahar-bagh — the Persian fourfold garden</li>
+      <li>the Chartres labyrinth — the path to the centre</li>
+      <li>the Talmudic page — text with commentary orbiting</li>
+      <li>pilgrimage itself — the Camino, the kora, the hajj</li></ul></div>
+    <div class="refcol"><h3>Intellectual</h3><ul>
+      <li>A Pattern Language (Alexander)</li>
+      <li>Whole Earth Catalog (Brand)</li>
+      <li>the Encyclopédie (Diderot)</li>
+      <li>Thinking in Systems (Meadows)</li></ul></div>
+    <div class="refcol"><h3>Visual</h3><ul>
+      <li>illuminated manuscripts &amp; mandalas</li>
+      <li>the tree-of-life iconography across traditions</li>
+      <li>our own cross-tradition rhymes moodboard</li>
+      <li>botanical / herbarium plates</li></ul></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="eyebrow">What it is not</p>
+  <h2>The guardrails are part of the vision.</h2>
+  <div class="notthis">
+    <p><strong>Not a business.</strong> The Archive itself never monetizes — money would commodify the pilgrim's interiority and corrupt the design. It's a <em>sanctuary</em>, funded through an academic / non-profit home.</p>
+    <p><strong>Not a syncretism-blender.</strong> It does not melt traditions into one mush. It honours difference first, and shows <em>rhyme</em> — structural convergence — never sameness. The 80% that doesn't converge is shown too.</p>
+    <p><strong>Not dogma, and not vibes.</strong> Every claim is sourced, every convergence is a <em>candidate</em> tested by multiple independent readers, and the method is published so you can contest it.</p>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="eyebrow">The invitation</p>
+  <h2>What we're building toward — and where you come in.</h2>
+  <div class="ask">
+    <p>The substrate exists: a 400+-tradition corpus, a working convergence-engine, a published methodology. The Phase-3 object — the garden itself — is the decade-scale horizon.</p>
+    <p>The frontier we'd most want a collaborator on:</p>
+    <ul>
+      <li><strong>Semantic retrieval that's fair to the overlooked voices</strong> — so a womanist reading or an oral tradition surfaces beside Luther, not buried under him.</li>
+      <li><strong>The bridge from retrieval to rhyme</strong> — detecting that two passages make the same <em>move</em> even when their words and politics differ.</li>
+      <li><strong>The pilgrimage interface</strong> — turning the constellation into a walk that a stranger can lose themselves in.</li>
+    </ul>
+    <p style="margin-bottom:0">If any of that quickens something in you — that's the conversation.</p>
+  </div>
+</div></section>
+
+<div class="foot wrap">
+  The Luminous Archive · <em>Grammar of Meaning</em> — field notes on how meaning gets made · vision pitch <strong>v0</strong>, 2026-06-17.<br>
+  A standpoint, not a finished claim — built to start a conversation, not to close one.
+</div>
+
+<!--
+METHODOLOGY FOOTER
+HOW PRODUCED. design-SB, 2026-06-17, at researcher request — a vision pitch for the Phase-3 pilgrimage / interactive-garden experience to get an aligned collaborator (MIT Media Lab / mission-aligned funder) excited. Seven-beat arc (ache → vision → why-now/us → the walk → design language → references → not-this + invitation), built as a scrollytelling page that uses the project's own design language (garden palette, the Three Forms glyph in CSS/SVG — no raster images per the design-output convention). Content grounded in the project's vision + lineage, not invented.
+SCHOLARLY SOURCES. CLAUDE.md §1 (the Brand→Diderot→Alexander→Meadows→Smil→this lineage; the metaxy frame; little-t/Big-T; Q1/Q2; non-commercial-sanctuary value); field_ed/PROJECT_ORIENTATION (spirituality = the attention that makes the in-between visible); field_ed/moodboard_design_patterns_S107 (the Three Forms · Pilgrimage · Soil/slow-read · Chance/Sortes · Pigment-Sitz); field_ed/moodboard_cross_tradition_rhymes (the convergence visual); the Saquib-prep brief (the retrieval-fairness + retrieval↔rhyme frontiers as the ask); project_archive_non_commercial_sanctuary memory; project_constructive_vision (formation/practice as the destination).
+WHAT NEEDS VERIFICATION. (1) audience default = aligned collaborator / MIT Media Lab — re-point the §invitation for a funder or a general public audience; (2) it's a v0 vision pitch (a standpoint, not a finished claim, §2.1) — numbers (400+ traditions) are the project's stated framing, not a coverage claim about current DB state; (3) the "ask" frontiers mirror the Saquib-prep brief — confirm against the live collaboration target; (4) for an actual deck, the moodboard imagery would be embedded — this v0 stays image-free per the design-output convention and points to the moodboard instead.
+-->
+</body></html>

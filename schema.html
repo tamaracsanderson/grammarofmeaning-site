@@ -1,0 +1,777 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grammar schema v2 — probe-aware (7 lenses, one structure)</title>
+<style>
+:root{--ink:#1a1a2e;--accent:#5b5bd6;--noun:#4b3fb0;--verb:#a85a3a;--adj:#b08526;--dir:#1a7a5a;--line:#e3e3ec;--soft:#f6f7f9;--mut:#777;
+--p1:#3a6ea5;--p2:#b0314e;--p3:#1a7a5a;--p4:#7a5b9a;--p5:#c2602a;--p6:#0f8a8a;--p7:#6a6a1f}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;font:14px/1.5 -apple-system,Segoe UI,sans-serif;color:var(--ink)}
+.wrap{max-width:1080px;margin:0 auto;padding:18px 20px 60px}
+h1{font-size:20px;font-weight:800;margin:0 0 3px}
+.sub{font-size:12px;color:var(--mut);margin:0 0 14px}
+.stat{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:11px 14px;margin:0 0 16px;font-size:13px}
+.stat b{color:var(--accent)}
+.orient{border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:13px 16px;margin:0 0 14px;background:#fcfcff}
+.o-grid{display:flex;gap:18px;flex-wrap:wrap}
+.o-cell{flex:1;min-width:260px;font-size:13px;line-height:1.5}
+.o-q{font-size:12px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.03em;margin:0 0 3px}
+.o-mut{color:var(--mut);font-style:italic}
+.o-probes{margin:5px 0 0;padding:0 0 0 20px;columns:2;column-gap:24px;font-size:12.5px;line-height:1.5}
+@media(max-width:680px){.o-probes{columns:1}}
+.o-probes li{margin:0 0 3px;break-inside:avoid}
+.o-probes b{color:var(--ink)}
+.o-words{margin:10px 0 0;font-size:12px;color:#444;background:#fff;border:1px dashed var(--line);border-radius:8px;padding:7px 10px}
+.o-words>span{margin:0 2px}
+.o-start{margin:9px 0 0;font-size:12.5px;display:flex;gap:14px;flex-wrap:wrap;align-items:baseline}
+.o-start>span{color:#444}
+.lexplain{margin:9px 0 0;font-size:12.5px;border-radius:8px;padding:8px 12px;background:var(--soft);border-left:3px solid var(--accent);line-height:1.5}
+.lexplain .lx-q{font-weight:700}
+.lexplain .lx-why{color:#555}
+/* clickable elements → lexicon card */
+.clk{cursor:pointer}
+.slot.clk:hover{box-shadow:0 1px 5px rgba(91,91,214,.25)}
+tr.clk:hover td{background:#f3f3fb}
+/* lexicon tab */
+.lexsec{margin:0 0 16px}
+.lexsec h3{font-size:13px;margin:0 0 3px}
+.lexsec .ls-sub{font-size:11.5px;color:var(--mut);margin:0 0 8px}
+.lexchips{display:flex;gap:7px;flex-wrap:wrap}
+.lchip{border:1.5px solid var(--line);border-radius:8px;padding:5px 11px;font-size:12.5px;cursor:pointer;transition:.12s}
+.lchip:hover{box-shadow:0 2px 7px rgba(0,0,0,.1)}
+.lchip.lex{border-left:4px solid var(--accent)}
+.lchip.gloss{border-left:4px solid #b08526;font-style:italic;background:#fffdf6}
+.lchip .tbd{font-size:9.5px;font-weight:800;color:#fff;background:#aaa;border-radius:4px;padding:0 4px;margin-left:5px;font-style:normal}
+.lchip .ttag{font-size:9.5px;color:#8a6a1a;margin-left:5px;font-style:normal}
+/* the card (modal) */
+#lexcard-back{display:none;position:fixed;inset:0;background:rgba(20,20,40,.34);z-index:50}
+#lexcard-back.on{display:block}
+#lexcard{position:fixed;top:0;right:0;height:100%;width:min(420px,92vw);background:#fff;box-shadow:-4px 0 24px rgba(0,0,0,.18);z-index:51;overflow:auto;padding:20px 22px;transform:translateX(100%);transition:transform .18s}
+#lexcard.on{transform:translateX(0)}
+#lexcard.lex{border-top:5px solid var(--accent)}
+#lexcard.gloss{border-top:5px solid #b08526}
+.lc-tag{display:inline-block;font-size:10px;font-weight:800;border-radius:5px;padding:2px 8px;letter-spacing:.03em}
+.lc-tag.lex{background:#ecebfa;color:var(--accent)}
+.lc-tag.gloss{background:#faf0dd;color:#8a6a1a}
+.lc-term{font-size:21px;font-weight:800;margin:8px 0 2px}
+.lc-term.gloss{font-style:italic}
+.lc-pos{font-size:11.5px;color:var(--mut);margin:0 0 12px}
+.lc-lab{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);margin:13px 0 3px}
+.lc-gloss .lc-lab{color:#8a6a1a}
+.lc-body{font-size:13px;line-height:1.5}
+.lc-tbd{background:#fff7f0;border:1px dashed #d8a26a;border-radius:8px;padding:10px 12px;font-size:12.5px;color:#8a5a1a}
+.lc-against{background:var(--soft);border-radius:7px;padding:7px 10px;font-size:12.5px}
+.lc-var{border-left:2px solid #d9c48a;padding:3px 0 3px 9px;margin:5px 0;font-size:12px}
+.lc-var b{color:#8a6a1a}
+.lc-foot{margin-top:16px;border-top:1px solid var(--line);padding-top:9px;font-size:11px;color:var(--mut);font-style:italic}
+.lc-x{position:absolute;top:12px;right:14px;border:none;background:none;font-size:20px;cursor:pointer;color:#999;line-height:1}
+.lc-real{font-size:11px;color:#7a5b9a;margin-top:3px}
+/* level / grain view */
+.grainbar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin:0 0 8px}
+.grain{border:1.5px solid var(--line);background:#fff;border-radius:20px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-weight:600;color:#444;transition:.12s}
+.grain:hover{border-color:#bbb}
+.grain.on{background:var(--dir);color:#fff;border-color:transparent}
+.grainnow{background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:0 0 16px;font-size:13px}
+.grainnow b{color:var(--dir)}
+.gstack{display:flex;flex-direction:column;gap:0;align-items:stretch;max-width:660px;margin:0 auto}
+.gtier{border:2px solid var(--line);border-radius:11px;padding:12px 15px}
+.gtier .gt-tag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin:0 0 4px;display:flex;justify-content:space-between;align-items:center}
+.gtier .gt-body{font-size:13px;line-height:1.5}
+.gtier.context{border-color:#9a9ab0;border-style:dashed}.gtier.context .gt-tag{color:#6a6a85}
+.gtier.move{border-color:var(--dir);background:#f5fbf8}.gtier.move .gt-tag{color:var(--dir)}
+.gtier.chunk{border-color:var(--noun)}.gtier.chunk .gt-tag{color:var(--noun)}
+.gt-arrow{text-align:center;color:#9a9ab0;font-size:13px;padding:5px 0;font-weight:600}
+.gt-pill{font-size:9.5px;font-weight:800;color:#fff;border-radius:4px;padding:1px 6px}
+.gt-pill.out{background:var(--dir)}.gt-pill.in{background:var(--noun)}.gt-pill.const{background:#8a6a1a}
+.gt-op{display:inline-block;font-weight:800;color:var(--dir);font-size:12px;border:1px solid var(--dir);border-radius:5px;padding:1px 7px;margin:0 0 5px}
+.gt-verse{font-size:12.5px;line-height:1.55;margin:3px 0}.gt-verse b{color:var(--noun)}
+.gt-pid{font-size:10px;color:#999;font-family:ui-monospace,Menlo,monospace}
+.gwarn{font-size:11.5px;color:#8a5a1a;background:#fff7f0;border:1px dashed #d8a26a;border-radius:7px;padding:7px 10px;margin:12px 0 0}
+.lensbar{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:9px 0 10px;margin:0 0 14px}
+.lensbar .lab{font-size:11px;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin:0 0 6px}
+.lenses{display:flex;gap:6px;flex-wrap:wrap}
+.lens{border:1.5px solid var(--line);background:#fff;border-radius:20px;padding:5px 12px;font-size:12px;cursor:pointer;font-weight:600;color:#444;transition:.12s}
+.lens:hover{border-color:#bbb}
+.lens.on{color:#fff;border-color:transparent}
+.lens small{font-weight:500;opacity:.85}
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);margin:0 0 16px}
+.tab{padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;border:none;background:none;color:var(--mut);border-bottom:2px solid transparent;margin-bottom:-2px}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+.view{display:none}.view.on{display:block}
+/* same-structure */
+.ss-core{display:flex;gap:18px;flex-wrap:wrap;margin:0 0 14px}
+.ss-box{flex:1;min-width:280px;border:2px solid var(--line);border-radius:12px;padding:13px 15px}
+.ss-box.node{border-color:var(--noun)}.ss-box.edge{border-color:var(--verb)}
+.ss-box h3{margin:0 0 4px;font-size:14px}.ss-box.node h3{color:var(--noun)}.ss-box.edge h3{color:var(--verb)}
+.ss-box .desc{font-size:11.5px;color:var(--mut);margin:0 0 9px}
+.slot{display:inline-block;border:1px solid var(--line);background:var(--soft);border-radius:7px;padding:3px 8px;margin:3px 4px 0 0;font-size:11.5px;cursor:pointer;transition:.12s}
+.slot.dim{opacity:.28}
+.slot.hot{border-width:2px;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.slot .nw{font-size:9px;font-weight:800;color:#fff;border-radius:4px;padding:0 4px;margin-left:4px}
+.dirrow{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 0}
+.dirchip{font-size:11.5px;border:1px dashed var(--dir);color:var(--dir);border-radius:7px;padding:4px 9px}
+.dirchip.hot{background:var(--dir);color:#fff}
+/* registry table */
+table{border-collapse:collapse;width:100%;font-size:12px}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--soft);font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:#555;position:sticky;top:64px}
+tr.dim td{opacity:.32}
+tr.hot td{background:#fbfbff}
+.badge{display:inline-block;font-size:10px;font-weight:800;color:#fff;border-radius:4px;padding:1px 5px;margin:1px 2px 1px 0}
+.who{font-size:10px;font-weight:700;border-radius:4px;padding:1px 6px}
+.who.llm{background:#e6effa;color:#2a5a8a}.who.det{background:#eee;color:#555}.who.res{background:#faf0dd;color:#8a6a1a}
+.req{font-weight:800;color:#b0314e}.opt{color:#999}
+.newf{font-size:9px;font-weight:800;color:#fff;background:#0f8a8a;border-radius:4px;padding:1px 5px;margin-left:4px}
+.univ{font-weight:800}
+/* probe panel */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:760px){.pgrid{grid-template-columns:1fr}}
+.pcard{border:1px solid var(--line);border-radius:11px;padding:13px 15px;cursor:pointer;border-left-width:4px;transition:.12s}
+.pcard:hover{box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.pcard.on{box-shadow:0 3px 14px rgba(0,0,0,.12)}
+.pcard .pn{font-size:11px;font-weight:800;opacity:.7}
+.pcard .pq{font-size:13.5px;font-weight:700;margin:2px 0 6px}
+.pcard .pmeta{font-size:11px;color:var(--mut);margin:0 0 4px}
+.pcard .pmeta b{color:#444}
+.pcard .ff{font-size:11px;margin:6px 0 0}
+.pcard .ff .badge{background:#888}
+.pnov{font-size:11px;background:var(--soft);border-radius:7px;padding:6px 9px;margin:7px 0 0}
+.pnov .t{font-weight:800;color:var(--p2)}
+/* cards */
+.cardrow{display:flex;gap:16px;flex-wrap:wrap}
+.ecard{flex:1;min-width:320px;border:2px solid var(--line);border-radius:13px;padding:15px 17px}
+.ecard.node{border-color:var(--noun)}.ecard.edge{border-color:var(--verb)}
+.ecard h3{margin:0 0 2px;font-size:15px}.ecard.node h3{color:var(--noun)}.ecard.edge h3{color:var(--verb)}
+.ecard .who-it{font-size:11.5px;color:var(--mut);margin:0 0 10px}
+.fl{border-top:1px solid var(--line);padding:7px 0 6px;font-size:12.5px}
+.fl.dim{opacity:.3}.fl.hot{background:#fbfbff;border-radius:6px;padding-left:6px;padding-right:6px}
+.fl .fn{font-weight:700}
+.fl .fv{color:#333}
+.fl .tags{margin-top:3px}
+.load{background:var(--soft);border:1px solid var(--line);border-radius:9px;padding:9px 12px;margin:12px 0 0;font-size:12px;line-height:1.6}
+.load b{color:var(--accent)}
+.foot{font-size:11px;color:var(--mut);border-top:1px solid var(--line);margin-top:26px;padding-top:12px;line-height:1.6}
+.disc{margin-top:10px;background:var(--accent);color:#fff;border:none;border-radius:7px;padding:7px 13px;font-size:12px;font-weight:700;cursor:pointer}
+</style></head><body><div class="wrap">
+
+<h1>Grammar schema v2 — probe-aware</h1>
+<p class="sub">v2 of <code>romans_grammar_schema_interactive</code> · design-SB 2026-06-15 · a study aid (a standpoint, not a totalized universal — Q64/Q66).</p>
+
+<div class="orient" id="orient">
+  <div class="o-grid">
+    <div class="o-cell"><div class="o-q">What is this?</div>
+      A study aid for reading how <b>one idea</b> — Paul's <i>Romans 8:28–30</i> — changed as it passed through thinkers across the centuries. It maps the <b>moves</b> by which meaning gets remade.</div>
+    <div class="o-cell"><div class="o-q">Why?</div>
+      To test a question: do different traditions <b>converge on the same moves</b> of meaning-making, <i>even when their beliefs disagree</i>? The structure converges; the beliefs diverge. <span class="o-mut">(A question we're testing — not yet a finding.)</span></div>
+  </div>
+  <div class="o-q" style="margin-top:10px">The 7 questions we ask of every thinker <span class="o-mut">— these are the "lenses" below</span></div>
+  <ol class="o-probes" id="o-probes"></ol>
+  <div class="o-words">
+    <b>Three words you'll see:</b>
+    <span><b>node</b> = a thinker, text, or idea (a dot)</span> ·
+    <span><b>edge</b> = a move from one idea to the next (a line)</span> ·
+    <span><b>field</b> = one thing we record about a node or edge</span>
+  </div>
+  <div class="o-start"><b>Start here →</b>
+    <span><b>1.</b> Pick a lens below (one of the 7 questions).</span>
+    <span><b>2.</b> Open <b>Field registry</b> to see what gets recorded.</span>
+    <span><b>3.</b> Open a <b>card</b> to see one worked example (Augustine).</span>
+  </div>
+</div>
+
+<div class="stat" id="reuse-stat"></div>
+
+<div class="lensbar">
+  <div class="lab">Pick a lens — it foregrounds that probe's fields in every view below</div>
+  <div class="lenses" id="lenses"></div>
+  <div class="lexplain" id="lexplain"></div>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="view on" id="v-ss">
+  <p class="sub">The shared core, drawn once. A <b style="color:var(--noun)">node</b> and an <b style="color:var(--verb)">edge</b> carry the fields; the <b style="color:var(--dir)">three directions</b> are the probe-views. Pick a lens above — its slots light up, the rest dim. "All" shows the whole shared core.</p>
+  <div class="ss-core">
+    <div class="ss-box node"><h3>NODE — a paradigm / thinker / juncture</h3><div class="desc">the unit every probe reads · fields describe &amp; place it</div><div id="ss-node"></div></div>
+    <div class="ss-box edge"><h3>EDGE — an operation between paradigms</h3><div class="desc">substrate → operation(s) → outcome · from→to</div><div id="ss-edge"></div></div>
+  </div>
+  <div class="ss-box" style="border-color:var(--dir)"><h3 style="color:var(--dir)">DIRECTIONS — the views (these ARE the probes' reading-axes)</h3>
+    <div class="dirrow" id="ss-dirs"></div>
+  </div>
+</div>
+
+<div class="view" id="v-reg">
+  <p class="sub">Every field × where it lives × value-type × <b>which probes use it</b> × the question it ladders up to × source. A field used by many probes = <b class="univ">universal</b> (the shared core); used by one = probe-specific. Pick a lens to isolate a probe's fields.</p>
+  <table><thead><tr><th>field</th><th>lives on</th><th>type</th><th>probes</th><th>laddders up to (purpose)</th><th>codes</th><th>req</th><th>source</th></tr></thead><tbody id="reg-body"></tbody></table>
+</div>
+
+<div class="view" id="v-probes">
+  <p class="sub">Per probe: the question it asks of each node, the direction it reads, the fields it foregrounds, and its new field (if any). Click a card to make it the active lens.</p>
+  <div class="pgrid" id="pgrid"></div>
+</div>
+
+<div class="view" id="v-cards">
+  <p class="sub">What you actually fill in to code <b>one node</b> and <b>one edge</b> — worked on Augustine (node) and Arminius's fork (edge). Required ● vs optional ○; who codes it (LLM / deterministic / researcher). The active lens highlights the fields that probe reads.</p>
+  <div class="cardrow">
+    <div class="ecard node"><h3>NODE CARD — Augustine</h3><div class="who-it">thinker/work · ~413–426 CE · <i>City of God</i> XX + the anti-Pelagian corpus · emits the paradigm <b>"double predestination / operative grace"</b></div><div id="card-aug"></div><div class="load" id="load-aug"></div></div>
+    <div class="ecard edge"><h3>EDGE CARD — Augustine condemns Pelagius</h3><div class="who-it">a move <i>made by the node above</i> (one lineage step) · destroy + suppression · Carthage 418 · shows the new <span class="newf">counterconcept</span> field + probe #5 (un-abolishing)</div><div id="card-arm"></div><div class="load" id="load-arm"></div></div>
+  </div>
+</div>
+
+<div class="view" id="v-lex">
+  <p class="sub">Click any term for its <b>lexicon card</b> — our operative definition, what it's defined <i>against</i>, scholarly backing, and a type-note. <b>Two vocabularies, kept separate:</b> <span style="border-left:4px solid var(--accent);padding-left:6px">our coined grammar-terms</span> vs <span style="border-left:4px solid #b08526;padding-left:6px;font-style:italic">the traditions' terms</span> (which signify differently per tradition). Ungrounded terms say <b>"definition TBD"</b> rather than bluff — the over-reliance guard.</p>
+  <div class="lexsec"><h3 style="color:var(--accent)">Our terms — the grammar's vocabulary (LEXICON)</h3><div class="ls-sub">our coined meta-language · definitions are operative + candidate (§2.1), not locked</div><div class="lexchips" id="lex-ours"></div></div>
+  <div class="lexsec"><h3 style="color:#8a6a1a">The traditions' terms (GLOSSARY)</h3><div class="ls-sub">each signifies <i>differently per tradition/thinker</i> — never one universal definition (Q29 / Saussure)</div><div class="lexchips" id="lex-theirs"></div></div>
+</div>
+
+<div class="view" id="v-grain">
+  <p class="sub">At what <b>level</b> are we analyzing? Every move is <b>anchored down</b> to a text-chunk (the evidence) and <b>situated up</b> in a context (the zoom-out). The <i>same chunk</i> anchors moves at different <b>grains</b> — Lovejoy's universe→planet→earth zoom (Q43/Q53). Pick a grain; the move re-centers, the chunk-anchor stays constant.</p>
+  <div class="grainbar" id="grainbar"></div>
+  <div class="grainnow" id="grainnow"></div>
+  <div class="gstack" id="gstack"></div>
+  <div class="gwarn">⚠ The <b>context tier is always shown</b>, never optional: a move with no zoom-out reads as a half-coded node — and the missing zoom-out <i>is</i> the decontextualized-verse misreading (§2.8 bias-control). Grain labels (verse/pericope/argument/letter) are Romans-specific; the grain vocabulary generalizes when the schema covers non-biblical sources. Candidate model (§2.1), not locked.</div>
+</div>
+
+<div class="foot" id="foot"></div>
+</div>
+
+<div id="lexcard-back"></div>
+<div id="lexcard"></div>
+
+<script>
+/* ---------- PROBES ---------- */
+var PROBES=[
+ {n:1,key:"p1",c:"--p1",q:"How did the idea TRANSFORM here, from the prior node?",dir:"↓ down (lineage)",base:true,
+  why:"the base drama — you can't find rhyme until you've named the local operations",
+  prior:"history of doctrine (Pelikan, McGrath); Begriffsgeschichte; Lovejoy; Wirkungsgeschichte",
+  nov:"the formalized operation-grammar (typed edges) + corpus scale"},
+ {n:2,key:"p2",c:"--p2",q:"What operation is this — and does it RHYME with one elsewhere?",dir:"↔ across (rhyme)",
+  why:"the thesis: the grammar converges while the paradigms diverge (anti-perennialism)",
+  prior:"perennialism (Huxley/Schuon); Eliade patterns; Clooney; Lévi-Strauss; CSR (Boyer/Sperber)",
+  nov:"★ the most novel move: compare at the level of the OPERATIONS of meaning-making, not shared truths"},
+ {n:3,key:"p3",c:"--p3",q:"What material / SITZ condition drove this re-meaning?",dir:"↕ into (strata)",
+  why:"the rigor: keeps convergence honest (real rhyme vs Sitz-artifact)",
+  prior:"Sozialgeschichte; social-world (Meeks/Theissen); form criticism (Gunkel/Bultmann); Weber",
+  nov:"the cross-tradition computational substrate (10-category) + systematically testing convergence against Sitz"},
+ {n:4,key:"p4",c:"--p4",q:"What does this reading FAIL to capture — what residue?",dir:"• per-node",newf:"residue",
+  why:"honors the limit; the chastened, non-totalizing method",
+  prior:"apophatic theology; the ineffable (James/Otto/Stace); Ricoeur's surplus; Cantwell Smith",
+  nov:"making the residue a SYSTEMATIC coded dimension (chance / Big-T / present / extralinguistic / standpoint) — a method, not a theme"},
+ {n:5,key:"p5",c:"--p5",q:"What Other does it ABOLISH / suppress — can we resurrect it?",dir:"↓ + node-class",
+  why:"the ethics: un-abolish the Other; preserve the dissent",
+  prior:"Bauer; Pagels; subaltern studies (Spivak); womanist/feminist recovery; the Talmud's machloket",
+  nov:"architectural enforcement (destroyed-branch as a required node-class; §2.8 audit) + cross-tradition scale"},
+ {n:6,key:"p6",c:"--p6",q:"What PRACTICE could this move become?",dir:"• per-node",newf:"practice-derivation",
+  why:"the destination: portable operations → formation (the Archive)",
+  prior:"practical theology; lived religion (Orsi/McGuire); the practices turn (Dykstra/Bass); ritual studies",
+  nov:"grounding formation in the empirically-derived operation-grammar + the digital-pilgrimage interface"},
+ {n:7,key:"p7",c:"--p7",q:"How does this node STRUCTURE TIME?",dir:"↕ into + per-node",
+  why:"the Koselleck core + the axis formation lives on (present-restoring)",
+  prior:"sacred time (Eliade: cyclical/linear/eternal-return); eschatology; Koselleck",
+  nov:"temporalization-as-the-engine-of-movement (the #1+#7 braid) + present-restoring-as-formation"}
+];
+/* plain-English version of each probe's question (for the orientation strip + the teach-on-click banner) */
+var PLAIN={
+ 1:"How did the idea change here — what move did this thinker make on it?",
+ 2:"Is that same move made in other traditions too? (the thesis question)",
+ 3:"What was happening in the world that pushed the change?",
+ 4:"What does this reading miss or leave out?",
+ 5:"Whose voice got silenced — and can we bring it back?",
+ 6:"Could this become something you actually do — a practice?",
+ 7:"How does it reshape time — past, present, and future?"
+};
+
+/* ---------- LEXICON (click-to-definition) ----------
+   kind:"lexicon" = OUR coined grammar-terms · kind:"glossary" = THE TRADITIONS' terms.
+   def:null + src:null  => renders "definition TBD — not yet grounded" (over-reliance guard).
+   fid = links to a FIELDS id so clicking that field/slot/row opens this card.
+   This array starts PARTLY-SEEDED; reading-SB populates the rest (the content task). */
+var LEXICON=[
+ // ── our terms (grounded) ──
+ {term:"substrate",pos:"noun · grammar layer (input)",fid:"substrate",kind:"lexicon",
+  def:"the INPUT layer of an edge — what an operation works FROM (the prior paradigm feeds forward to become the next edge's substrate).",
+  against:"outcome (the product) & paradigm (the claim) — substrate is the input, not either output",
+  src:"Q8 / Q46 · Koselleck (Erfahrungsraum)",typeNote:"a grammar LAYER (not an operation)",register:null},
+ {term:"outcome",pos:"noun · grammar layer (output)",fid:"outcome",kind:"lexicon",
+  def:"what meaning-making PRODUCES — a state or product (e.g. a restructured identity).",
+  against:"paradigm — the outcome is the product; the paradigm is the worldview-CLAIM. Load-bearing: 'grammar converges, paradigms diverge' needs these apart.",
+  src:"Q49 · Meadows",typeNote:"a grammar LAYER",register:null},
+ {term:"paradigm",pos:"noun · the node",fid:null,kind:"lexicon",
+  def:"the worldview-CLAIM that emerges (little-t/Big-T); the node. Appears at both ends of an edge (starting + new).",
+  against:"outcome — the claim, not the product it produced",
+  src:"Q8 / Q49 · Meadows / Koselleck",typeNote:"a NODE (and a grammar layer)",register:null},
+ {term:"operation",pos:"the edge's verb",fid:"operation",kind:"lexicon",
+  def:"the MOVE an edge performs — how one paradigm is worked into the next.",
+  against:"substrate / outcome — the operation acts BETWEEN the layers, it isn't a layer",
+  src:"Q1 · Koselleck",typeNote:"operations have TYPES (contain/invert…), VALENCES, and COUPLINGS",register:null},
+ {term:"contain",pos:"operation-type (clearing)",fid:null,kind:"lexicon",
+  def:"box but preserve — defer or manage an idea rather than kill it (Augustine's amillennialism contains chiliasm).",
+  against:"destroy — contain keeps it alive (moribund), destroy anathematizes it",
+  src:"Q1 · Koselleck",typeNote:"operation-TYPE (clearing family)",register:null},
+ {term:"channel",pos:"operation-type (clearing)",fid:null,kind:"lexicon",
+  def:"redirect the energy into a new form (apocalyptic hope → progress).",
+  against:"contain (rearrange/hold) & invert (flip) — channel RE-ROUTES, doesn't box or flip",
+  src:"Q1 · Koselleck",typeNote:"operation-TYPE (clearing family)",register:null},
+ {term:"invert",pos:"operation-type",fid:null,kind:"lexicon",
+  def:"flip an expected relation / hierarchy / valence to its opposite.",
+  against:"channel / contain (rearrange-not-flip)",
+  src:"Q27 + Lovejoy · CULTURAL_INVERSION_EXEGESIS.md",typeNote:"operation-TYPE (vs valence / coupling)",register:null},
+ {term:"reoccupation",pos:"edge-type (functional inheritance)",fid:null,kind:"lexicon",
+  def:"take over the functional SLOT of a prior idea, with new content (the womanist reading reoccupies the 'consolation' slot of the decree).",
+  against:"fork — a fork diverges from a shared parent; reoccupation inherits the position, not the lineage",
+  src:"Q29 · Blumenberg (Umbesetzung)",typeNote:"edge-type / coupling",register:null},
+ {term:"backward re-means",pos:"edge-type",fid:null,kind:"lexicon",
+  def:"a later node reshapes the RECEIVED meaning of an earlier one (Stendahl re-means Paul).",
+  against:"forward influence (earlier→later) — this runs the other way",
+  src:"Q15 · Bergson / Gadamer (Wirkungsgeschichte)",typeNote:"edge-type",register:null},
+ {term:"counterconcept",pos:"node attribute",fid:"counterconcept",kind:"lexicon",
+  def:"the asymmetric Other a paradigm defines itself against (orthodox/heretic, Hellene/barbarian).",
+  against:"it IS the against-term — the differential value made explicit",
+  src:"Q65 / Q68 · Koselleck",typeNote:"node attribute · a #2 rhyme candidate (every tradition builds one)",register:"Symbolic — the differential value that fixes meaning (Saussure/Lacan)"},
+ // ── more our-terms grounded by reading-SB (the deferred population; grammar_lexicon_2026-06-15.md) ──
+ {term:"undermine",pos:"operation-type (clearing)",fid:null,kind:"lexicon",
+  def:"erode a position from beneath — attack its premise, not its conclusion (Arminius undermines the decree's unconditionality by re-reading 'foreknew').",
+  against:"destroy — leaves the surface standing while sapping the base",
+  src:"Q1 / Q14 · Koselleck",typeNote:"operation-TYPE (clearing family)",register:null},
+ {term:"destroy",pos:"operation-type (clearing)",fid:null,kind:"lexicon",
+  def:"kill / anathematize a position — remove it from the live field (Dort destroys Arminianism, 1619).",
+  against:"contain — does not preserve; annihilates",
+  src:"Q1 / Q13 · Koselleck",typeNote:"operation-TYPE (clearing family) · produces a destroyed-branch node (#5)",register:null},
+ {term:"create / invent",pos:"operation-type (creating)",fid:null,kind:"lexicon",
+  def:"bring a novelty NOT derivable from the substrate — genuine emergence (Barth's christological election: the elect in Christ, not a bare decree).",
+  against:"differentiate (branches the given) & mature (elaborates it) — create adds something new",
+  src:"Q15 · Bergson",typeNote:"operation-TYPE (creating family) · the Bergsonian leap carries an esoteric pathos (Q13) — tag it",register:null},
+ {term:"differentiate / diverge",pos:"operation-type (creating)",fid:null,kind:"lexicon",
+  def:"fork a line into a positive new branch — multiply distinctions (Arminius differentiates a conditional-election line).",
+  against:"interpenetrate — separates rather than fuses",
+  src:"Q15 · Bergson",typeNote:"operation-TYPE (creating) · the operational shadow of unity↔plurality's DIVIDE pole",register:null},
+ {term:"interpenetrate / fuse",pos:"operation-type (creating)",fid:null,kind:"lexicon",
+  def:"qualitatively fuse substrates into a new whole — not an additive sum (Augustine fuses Pauline election + Neoplatonic immutability).",
+  against:"differentiate — unifies rather than separates",
+  src:"Q15 / Q75 · Bergson / Koselleck",typeNote:"operation-TYPE (creating) · the DEFAULT mode of experience (Q75) · the shadow of unity↔plurality's UNIFY pole",register:null},
+ {term:"mature / elaborate",pos:"operation-type (creating)",fid:null,kind:"lexicon",
+  def:"ripen a doctrine over lived time — unfold what was implicit (Reformed scholasticism elaborating Calvin).",
+  against:"create (no new novelty) & conversion (gradual, not rupture)",
+  src:"Q15 · Bergson",typeNote:"operation-TYPE (creating family)",register:null},
+ {term:"conversion",pos:"operation-type",fid:null,kind:"lexicon",
+  def:"veil-falls / born-again — an ego-death→rebirth granting sudden access to 'reality itself' (Paul's Damascus; the scales fall).",
+  against:"mature — rupture, not ripening",
+  src:"Q14 · James / Lovejoy",typeNote:"operation-TYPE = esoteric-leap (Q13) + death-rebirth (Q12) · root-imagery = veil/un-veiling = apokalypsis",register:"Real — the conversion touches what escapes the signifier (the un-veiling)"},
+ {term:"relativize-the-given",pos:"operation-type (meta)",fid:null,kind:"lexicon",
+  def:"declare the present / this-world penultimate — de-realize it (the real is other than this; Augustine's two cities make the elect resident aliens).",
+  against:"affirm-the-given (the this-worldly move)",
+  src:"Q23 · Lovejoy",typeNote:"operation-TYPE (meta) · two triggers: ratiocinative (Q22) + experiential 'the vanishings' (Q23)",register:null},
+ {term:"affirm-the-given",pos:"operation-type",fid:null,kind:"lexicon",
+  def:"take this world as real and sufficient — meaning is made by deepening HERE, not escaping elsewhere.",
+  against:"relativize-the-given (declares this-world penultimate)",
+  src:"Q21 / Q23 · Lovejoy",typeNote:"operation-TYPE (the this-worldly pole)",register:null},
+ {term:"rest",pos:"convergent OUTCOME-pathos (ours)",fid:null,kind:"lexicon",
+  def:"OUR operative term: the convergent equanimity-OUTCOME that divergent routes reach (anchor-to-the-changeless / dissolve-into-the-One / release-the-clinging). The tradition-terms (requies, nibbāna, ataraxia) are its INSTANCES.",
+  against:"striving / the suffering-of-flux that de-threaten-change resolves",
+  src:"Q18 · Lovejoy / Koselleck",typeNote:"a convergent OUTCOME (ours) — tradition-terms (requies/nibbāna) are instances · antipodal #2 (opposites converge on it)",register:null},
+ {term:"simplify ↔ complicate",pos:"operation-VALENCE",fid:null,kind:"lexicon",
+  def:"the VALENCE of a move: does it REDUCE (↓ simplify) or INCREASE (↑ complicate) the complexity of the field? (double-predestination simplifies to one decree; Arminius complicates with the sovereignty↔responsibility tension).",
+  against:"(a valence-axis — its two poles define each other)",
+  src:"Q7 · Lovejoy",typeNote:"a VALENCE (a direction on an operation), NOT a type · ~orthogonal to clearing/creating · coupled to the esprit-simpliste disposition",register:null},
+ {term:"constrain ↔ expand",pos:"operation-VALENCE",fid:null,kind:"lexicon",
+  def:"the VALENCE: does the move BIND/necessitate (constrain) or FREE/diffuse (expand)? = the freedom↔necessity direction (plenitude constrains God to create all; sovereign election expands divine freedom).",
+  against:"(a valence-axis)",
+  src:"Q27 · Lovejoy",typeNote:"a VALENCE (freedom↔necessity), NOT a type · coupled to the node's freedom-theology",register:null},
+ {term:"compensatory",pos:"operation-COUPLING",fid:null,kind:"lexicon",
+  def:"a LAW relating two axes: the lesser the experience, the greater the expectation (the void of experience is filled by inflated expectation; Rom 8:18 — present suffering discounted ⇒ greater glory).",
+  against:"(not paired — it RELATES the experience-magnitude & expectation-magnitude axes)",
+  src:"Q82 · Koselleck",typeNote:"a COUPLING/law, NOT a type · shadows: a node-ratio + a deflation edge",register:null},
+ {term:"deflation",pos:"edge-type",fid:null,kind:"lexicon",
+  def:"a program 'works itself out' as realization breeds experience — the inflated expectation falls (republicanism/liberalism deflating into administration).",
+  against:"the compensatory inflation it reverses (Q82)",
+  src:"Q82 · Koselleck",typeNote:"edge-type · the dynamic shadow of the compensatory coupling",register:null},
+ {term:"world-orientation",pos:"node attribute (a compass)",fid:null,kind:"lexicon",
+  def:"the DIRECTION of the ideal against which the given is judged — UP (otherworldly/changeless) · FORWARD (utopian/constructed) · HERE-DEEPENED (incarnational) · THROUGH (release). The seed's 'glorified': Augustine=UP, womanist=FORWARD, Buddhist-release=THROUGH.",
+  against:"the four directions define one another (the 'positive elsewhere' diverges; the 'dismiss-this-world' negative move is shared)",
+  src:"Q21 / Q22 / Q24 · Lovejoy / Koselleck / Löwith",typeNote:"node attribute (a 4-way compass, not a binary)",register:null},
+ {term:"future-mode",pos:"node attribute (triad)",fid:null,kind:"lexicon",
+  def:"how a node structures the future — prophecy (received/fixed) · prognosis (derived/probable/self-altering) · program (constructed/willed). Foreknowledge=prophecy; the Calvinist assurance-syllogism=prognosis (Weber); the beloved-community=program.",
+  against:"the three poles (prophecy=not-derived, program=not-received)",
+  src:"Q22 / Q77 / Q81 · Koselleck",typeNote:"node attribute (triad)",register:null},
+ {term:"unity ↔ plurality",pos:"node attribute",fid:null,kind:"lexicon",
+  def:"the ontological stance toward plurality — monist/unifying (reduce the many to the One) ↔ pluralist/dividing (affirm the many). Predestination divides (elect/reprobate) ⊕ unifies (one decree).",
+  against:"the two poles · operational shadow: interpenetrate (unify) / differentiate (divide)",
+  src:"Q31 · Lovejoy",typeNote:"node attribute · the grammar itself divides (decompose) ⊕ unifies (#2)",register:null},
+ {term:"metaphysical-pathos",pos:"node attribute (affective)",fid:null,kind:"lexicon",
+  def:"the MOOD a picture awakens — adopted for its emotional pull, not its truth (awe / rest-changelessness / esoteric / oceanic-unity / sublime-obscurity). Predestination's sovereign-awe + the hidden decree 'you can see no bottom to.'",
+  against:"the object-level attributes — pathos is how the philosophy FEELS / what it ascribes to itself (Q15)",
+  src:"Q12 · Lovejoy",typeNote:"node attribute (affective) · deeper substrate = the psychodynamic (death-drive/martyr/mystic, Q12)",register:"Real — the affect that escapes the concept (touches the residue)"},
+ {term:"cognitive-Sitz",pos:"substrate-type (Sitz layer)",fid:null,kind:"lexicon",
+  def:"the unconscious assumptions / mental habits of an individual OR a generation — the unexamined frame that drives conclusions without being argued (Augustine's unargued Neoplatonic immutability).",
+  against:"material-Sitz (mind, not matter) · linguistic-substrate (the frame, not the explicit prior text)",
+  src:"Q5 · Lovejoy / Koselleck",typeNote:"substrate-type · reconstructed (not text-surface) · read off the diffused/minor sources (Q19)",register:null},
+ {term:"extralinguistic-Sitz",pos:"substrate-type (Sitz layer)",fid:null,kind:"lexicon",
+  def:"the material/bodily/institutional conditions BEYOND the text — the prelinguistic structure of action language depends on but never assimilates (the Claudius-expulsion occasion of Romans).",
+  against:"linguistic-substrate (prior texts/concepts)",
+  src:"Q69 · Koselleck",typeNote:"substrate-type · reconstructed from material sources · the residue a text-tree under-captures (§2.8/CARE)",register:"Real — what escapes linguistic ascertainment (the residue)"},
+ // ── still TBD (the over-reliance-guard demo persists; reading-SB next pass) ──
+ {term:"abstraction-degree",pos:"node attribute (candidate)",fid:null,kind:"lexicon",def:null,against:null,src:null,typeNote:"how far up the abstraction-ladder the posited 'real' sits (determinate-God ↔ ipsum esse ↔ beyond-being); reading-SB to write (Q26)",register:null},
+ {term:"voluntarism ↔ intellectualism",pos:"node attribute (candidate)",fid:null,kind:"lexicon",def:null,against:null,src:null,typeNote:"Euthyphro: good-because-willed (empties the signified) ↔ willed-because-good (determinate); reading-SB to write (Q30)",register:null},
+ {term:"signification",pos:"coding-field (NOT a card — the in-context/token meaning)",fid:null,kind:"lexicon",def:null,against:null,src:null,typeNote:"the per-passage TOKEN meaning (speaker + Sitz + register), Q29 — a coding field, not a static definition; reading-SB to model",register:null},
+ // ── the traditions' terms (glossary; each signifies differently per tradition) ──
+ {term:"dukkha",pos:"tradition-term",kind:"glossary",tradition:"[DHR-BUD]",perThinker:true,
+  def:"unsatisfactoriness; suffering — the unease woven through conditioned existence.",
+  against:null,src:"tradition_glossary (DB) · Pali/Sanskrit",typeNote:null,register:null},
+ {term:"chesed",pos:"tradition-term",kind:"glossary",tradition:"[ABR-JUD]",perThinker:true,
+  def:"loving-kindness / steadfast love; covenantal generosity that exceeds legal obligation.",
+  against:null,src:"tradition_glossary (DB) · Hebrew",typeNote:null,register:null},
+ {term:"metanoia",pos:"tradition-term · ★ signifies differently per tradition",kind:"glossary",tradition:"[multi]",perThinker:true,
+  def:null,against:null,src:"tradition_glossary (DB) · Greek",typeNote:"the Q29 demonstrator — one signifier, several signifieds:",register:null,
+  variants:[{t:"[ABR-CHR-HES]",d:"repentance / change of mind; the radical reorientation that begins and deepens"},
+            {t:"[DHR-BUD]",d:"conversion, transformation"},
+            {t:"[DHR-HIN-ADV]",d:"transformation of the mind or heart"}]}
+];
+function lexByFid(fid){return LEXICON.filter(function(l){return l.fid===fid;})[0];}
+function lexByTerm(t){return LEXICON.filter(function(l){return l.term===t;})[0];}
+
+/* ---------- FIELDS (the registry) ---------- */
+/* lives: node|edge|either · v:type · p:[probe ns] · who:llm|det|res · req:bool · nf:newfield */
+var FIELDS=[
+ {id:"nodetype",label:"node-type (thinker / work / paradigm / juncture)",lives:"node",v:"id/enum",p:[1,2,3,4,5,6,7],who:"res",req:true,
+  purpose:"the UNIT every probe operates on — the thing each question is asked of",q:"Q8",s:"Koselleck"},
+ {id:"substrate",label:"substrate(s)",lives:"edge",v:"id",p:[1,2,6],who:"llm",req:true,
+  purpose:"what the operation works FROM (the edge's input) — #1 reads it, #2 abstracts it, #6 turns it to practice",q:"Q8/Q46",s:"Koselleck"},
+ {id:"operation",label:"operation / verb (clearing + creating; atomic or compound)",lives:"edge",v:"enum",p:[1,2,6],who:"llm",req:true,
+  purpose:"THE move — #1 names it locally · #2 abstracts it for rhyme · #6 derives a practice from it",q:"Q1/Q14/Q15",s:"Koselleck / Bergson"},
+ {id:"outcome",label:"outcome (the produced state — distinct from paradigm)",lives:"edge",v:"free",p:[1,2],who:"llm",req:true,
+  purpose:"what the meaning-making PRODUCES — load-bearing: 'grammar converges, paradigms diverge' needs outcome≠paradigm",q:"Q49",s:"Meadows"},
+ {id:"edgetype",label:"edge-type (forward / fork / multi-substrate / backward-re-means / reoccupation / revolution)",lives:"edge",v:"enum",p:[1,5,7],who:"llm",req:true,
+  purpose:"the structural form of the connection — #1 forward · #5 backward-re-means resurrects · #7 temporal re-meaning",q:"Q1/Q14/Q15",s:"Koselleck / Gadamer"},
+ {id:"fromto",label:"from → to",lives:"edge",v:"id-pair",p:[1],who:"det",req:true,
+  purpose:"the lineage link itself (the DAG spine)",q:"Q1",s:"Koselleck"},
+ {id:"sitz",label:"Sitz-node (the material condition / juncture)",lives:"node",v:"id",p:[3],who:"res",req:false,
+  purpose:"the where/when/how-the-world-was that drove the re-meaning",q:"Q13/Q26",s:"Koselleck"},
+ {id:"driver",label:"driver (concept ↔ situation)",lives:"either",v:"↔axis",p:[1,3],who:"llm",req:false,
+  purpose:"was the re-meaning internal logic, or a material change forcing it? — #3's test, #1's mechanism",q:"Q38",s:"Koselleck"},
+ {id:"extraling",label:"extralinguistic-Sitz (bodily / material beyond text)",lives:"either",v:"free",p:[3,6],who:"res",req:false,
+  purpose:"the residue beyond the text — Sitz for #3, formation-substrate for #6",q:"Q69",s:"Koselleck"},
+ {id:"tstage",label:"T-stage (T1–T10, the form-chain)",lives:"node",v:"axis",p:[1,5,7],who:"llm",req:false,
+  purpose:"where in the institutional-time arc (overlay, not the spine) — colors the morph #1/#5/#7 read",q:"§9C",s:"Weber / Wach"},
+ {id:"control",label:"control-locus (God / sovereign / human / solidarity)",lives:"node",v:"axis",p:[1,7],who:"llm",req:false,
+  purpose:"who controls the outcome — Rom 8:28 'all things work together' IS a control-claim each fork re-answers",q:"Q5/Q17",s:"Koselleck"},
+ {id:"present",label:"present-robbing ↔ restoring",lives:"node",v:"↔axis",p:[6,7],who:"llm",req:false,
+  purpose:"does it subordinate the lived present to a future, or give it back? — the formation axis (#6) + temporal (#7)",q:"Q30",s:"Koselleck / Bergson / Löwith"},
+ {id:"agency",label:"agency (undertaken ↔ suffered)",lives:"node",v:"↔axis",p:[1,5],who:"llm",req:false,
+  purpose:"actively done vs befallen — suffered = the suppressed (#5); the act = the move (#1)",q:"Q34",s:"Koselleck"},
+ {id:"future",label:"future-mode (prophecy ↔ prognosis)",lives:"node",v:"↔axis",p:[7],who:"llm",req:false,
+  purpose:"received/fixed/unfalsifiable vs derived/probable — how the node structures the future",q:"Q22/Q29",s:"Koselleck"},
+ {id:"vitality",label:"vitality (emergent/live/moribund/superseded/suppressed/destroyed)",lives:"node",v:"enum",p:[5],who:"res",req:false,
+  purpose:"the live↔dead state — suppressed/destroyed = the branch to resurrect (#5)",q:"Q40/Q37/Q12",s:"Koselleck / Pagels / Kuhn"},
+ {id:"counterconcept",label:"asymmetrical counterconcept (the Other it defines itself against)",lives:"node",v:"free",p:[2,5,7],who:"res",req:false,
+  purpose:"the Other a paradigm makes its asymmetric foil (Hellene/barbarian, orthodox/heretic) — #5's abolition-mechanism + a #2 rhyme candidate (every tradition builds one)",q:"Q65/Q68",s:"Koselleck"},
+ {id:"sync",label:"sync (too-early ↔ too-late)",lives:"node",v:"↔axis",p:[5,7],who:"llm",req:false,
+  purpose:"in/out of phase with its time — a reading 'too early' to be received; a revival of the 'too late'",q:"Q43",s:"Koselleck"},
+ {id:"narrpow",label:"narrative-power (who controls the authoritative reading)",lives:"node",v:"axis",p:[5],who:"res",req:false,
+  purpose:"the institutional power to enforce the reading — Dort executed Oldenbarnevelt (the suppression #5)",q:"Q18",s:"—"},
+ {id:"falsren",label:"falsifiable ↔ renewable",lives:"node",v:"↔axis",p:[4,7],who:"llm",req:false,
+  purpose:"refutable (dies when wrong) vs re-readable forever — why a renewable seed forks instead of dying",q:"Q6/Q19",s:"Popper"},
+ {id:"valuation",label:"valuation (progress ↔ decadence — whose?)",lives:"node",v:"↔axis",p:[4],who:"res",req:false,
+  purpose:"a value-judgment on the sequence — tag WHOSE (§2.1); part of the residue's standpoint axis",q:"Q43",s:"Koselleck"},
+ {id:"grain",label:"grain (epoch / thinker / juncture)",lives:"node",v:"enum",p:[1,2,3,4,5,6,7],who:"det",req:false,
+  purpose:"the zoom level the node is read at (every probe respects grain)",q:"Q10",s:"Koselleck"},
+ {id:"residue",label:"residue (chance / Big-T / present / extralinguistic / standpoint)",lives:"node",v:"typology",p:[4],who:"res",req:false,nf:true,
+  purpose:"★ NEW — what the reading FAILS to capture, coded as a typology (the chastened method)",q:"Q33/Q57",s:"Ricoeur / Cantwell Smith"},
+ {id:"practice",label:"practice-derivation (the portable practice this move could become)",lives:"either",v:"free",p:[6],who:"res",req:false,nf:true,
+  purpose:"★ NEW — formation: the operation → a practice for the Archive (present-restoring made doable)",q:"Q30/Q69",s:"Dykstra/Bass; lived religion"}
+];
+
+/* ---------- CARDS (worked field-values) ---------- */
+var AUG={ // node
+ nodetype:"thinker/work — Augustine; emits 'double predestination / operative grace'",
+ control:"God-total (the decree is wholly God's)",
+ present:"robbing — the eternal decree subordinates the lived present to a fixed future",
+ future:"prophecy — the elect are disclosed/fixed, not calculated",
+ agency:"undertaken (he authors it) — but Pelagius, whom he gets condemned, is suffered",
+ tstage:"T4 — institutional canonization (Carthage 418 makes his reading binding)",
+ vitality:"live — still the backbone of Reformed soteriology",
+ sync:"on-time → became the authoritative reading for ~1,500 yrs",
+ narrpow:"maximal — his reading is enforced by council against Pelagius",
+ falsren:"renewable — re-read for 16 centuries; forks, never refuted",
+ residue:"brackets the lived experience of assurance/anxiety; the hidden will of God = a Big-T claim that escapes external study",
+ counterconcept:"the 'Pelagian' / heretic — the asymmetric Other Augustinian orthodoxy defines itself against (a #2 rhyme candidate: every tradition builds one)",
+ practice:"the examination of conscience / discernment-of-election → a formation practice",
+ grain:"thinker"
+};
+var ARM={ // edge — Augustine → Pelagius (connected to the Augustine node above: one lineage step)
+ fromto:"Augustine  →  Pelagius (the position he gets anathematized)",
+ edgetype:"destroy + suppression — points at a required 'suppressed-branch' node-class (#5)",
+ operation:"destroy (anathema, Carthage 418) + contain (folds free will into prevenient grace)",
+ substrate:"Augustine's operative-grace reading of Rom 8:29–30 + Rom 9 ('not of works')",
+ outcome:"Pelagianism anathematized; 'grace alone' fixed as orthodoxy (Pelagius = vitality: suppressed → resurrect, #5)",
+ driver:"concept-driven (the grace logic) + situation (the 418 councils; imperial politics)",
+ grain:"thinker / juncture (Carthage 418)"
+};
+
+/* ---------- state + render ---------- */
+var active=null; // null = "All"
+function pc(key){var m={};PROBES.forEach(function(p){m[p.key]=p;});return getComputedStyle(document.documentElement).getPropertyValue(m[key].c).trim();}
+function probeColor(n){return getComputedStyle(document.documentElement).getPropertyValue("--p"+n).trim();}
+function fieldsForProbe(n){return FIELDS.filter(function(f){return f.p.indexOf(n)>=0;});}
+
+/* reuse stat — lead with code-once / net-new (the unembarrassable framing) */
+(function(){
+ var total=FIELDS.length, specific=FIELDS.filter(function(f){return f.p.length===1;}).length, newf=FIELDS.filter(function(f){return f.nf;}).length;
+ document.getElementById("reuse-stat").innerHTML=
+  "<b>The efficiency story:</b> you code each node/edge <b>once</b>, then the 7 probes are <b>queries over that one coding — not 7 datasets</b>. "+
+  "Across all 7 probes only <b>"+newf+" fields are net-new</b> (<span class='newf'>residue</span> for #4, <span class='newf'>practice-derivation</span> for #6); everything else is the existing schema re-read. "+
+  "The other single-probe fields ("+specific+" of "+total+") aren't waste — they're <b>probe-specific depth</b> (e.g. <i>vitality</i> for #5, <i>future-mode</i> for #7). And the three directions (↓ ↔ ↕) ARE the probe-views — they cost nothing extra. <span style='color:var(--mut)'>So: 7 questions ≈ 1× coding + 2 new fields.</span>";
+})();
+
+/* orientation strip — the 7 questions in plain English */
+(function(){
+ document.getElementById("o-probes").innerHTML=PROBES.map(function(p){
+   return "<li><b style='color:"+probeColor(p.n)+"'>#"+p.n+" "+shortName(p)+"</b> — "+esc(PLAIN[p.n])+"</li>";
+ }).join("");
+})();
+
+/* lens bar */
+(function(){
+ var L=document.getElementById("lenses");
+ var all=document.createElement("div");all.className="lens on";all.id="lens-all";all.innerHTML="All <small>(shared core)</small>";all.onclick=function(){setLens(null);};L.appendChild(all);
+ PROBES.forEach(function(p){
+   var el=document.createElement("div");el.className="lens";el.id="lens-"+p.n;
+   el.innerHTML="#"+p.n+" <small>"+shortName(p)+"</small>"+(p.newf?" <span class='newf'>+new</span>":"");
+   el.onclick=function(){setLens(p.n);};L.appendChild(el);
+ });
+})();
+function shortName(p){return {1:"movement",2:"rhyme",3:"Sitz",4:"residue",5:"un-abolish",6:"practice",7:"time"}[p.n];}
+
+/* tabs */
+var TABS=[["v-ss","Same structure"],["v-reg","Field registry"],["v-probes","Probe panel"],["v-cards","Node + edge cards"],["v-lex","Lexicon ✦"],["v-grain","Level / grain ⇅"]];
+(function(){var T=document.getElementById("tabs");TABS.forEach(function(t,i){var b=document.createElement("button");b.className="tab"+(i===0?" on":"");b.textContent=t[1];b.onclick=function(){TABS.forEach(function(x){document.getElementById(x[0]).classList.remove("on");});document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("on");});document.getElementById(t[0]).classList.add("on");b.classList.add("on");};T.appendChild(b);});})();
+
+/* same-structure slots */
+function renderSS(){
+ var nodeFields=FIELDS.filter(function(f){return f.lives==="node"||f.lives==="either";});
+ var edgeFields=FIELDS.filter(function(f){return f.lives==="edge"||f.lives==="either";});
+ document.getElementById("ss-node").innerHTML=nodeFields.map(slotHTML).join("");
+ document.getElementById("ss-edge").innerHTML=edgeFields.map(slotHTML).join("");
+ var dirs=[["↓ down — lineage","#1 movement · #5 un-abolish",[1,5]],["↔ across — rhyme","#2 operation-rhyme",[2]],["↕ into — strata","#3 Sitz · #7 time",[3,7]]];
+ document.getElementById("ss-dirs").innerHTML=dirs.map(function(d){
+   var hot=active&&d[2].indexOf(active)>=0;return "<div class='dirchip"+(hot?" hot":"")+"'>"+d[0]+" <span style='opacity:.7'>· "+d[1]+"</span></div>";
+ }).join("");
+}
+function slotHTML(f){
+ var on=!active||f.p.indexOf(active)>=0;
+ var cls="slot"+(active?(on?" hot":" dim"):"");
+ var style=on&&active?("style='border-color:"+probeColor(active)+"'"):"";
+ var nw=f.nf?" <span class='nw' style='background:#0f8a8a'>NEW</span>":"";
+ return "<span class='"+cls+" clk' data-fid='"+f.id+"' "+style+" title='"+esc(f.purpose)+" — click for the lexicon card'>"+esc(f.label.split(" (")[0])+nw+"</span>";
+}
+
+/* registry */
+function renderReg(){
+ document.getElementById("reg-body").innerHTML=FIELDS.map(function(f){
+  var on=!active||f.p.indexOf(active)>=0;
+  var cls=active?(on?"hot":"dim"):"";
+  var pb=f.p.map(function(n){return "<span class='badge' style='background:"+probeColor(n)+"'>#"+n+"</span>";}).join("");
+  var who="<span class='who "+f.who+"'>"+({llm:"LLM",det:"determ.",res:"researcher"}[f.who])+"</span>";
+  var req=f.req?"<span class='req'>● req</span>":"<span class='opt'>○ opt</span>";
+  var univ=f.p.length>=4?" <span class='univ' title='used by 4+ probes — universal'>★</span>":"";
+  var nf=f.nf?" <span class='newf'>NEW</span>":"";
+  return "<tr class='"+cls+" clk' data-fid='"+f.id+"'><td><b>"+esc(f.label.split(" (")[0])+"</b>"+nf+univ+"<div style='font-size:10px;color:#999'>"+esc(f.label.indexOf("(")>=0?f.label.slice(f.label.indexOf("(")):"")+"</div></td>"+
+   "<td>"+f.lives+"</td><td>"+f.v+"</td><td>"+pb+"</td><td>"+esc(f.purpose)+"</td><td>"+who+"</td><td>"+req+"</td><td><span style='font-size:10px;color:#999'>"+f.q+"</span><br>"+esc(f.s)+"</td></tr>";
+ }).join("");
+}
+
+/* probe panel */
+function renderProbes(){
+ document.getElementById("pgrid").innerHTML=PROBES.map(function(p){
+  var on=active===p.n;
+  var ff=fieldsForProbe(p.n);
+  var ffhtml=ff.map(function(f){return "<span class='badge' style='background:"+probeColor(p.n)+"'>"+esc(f.label.split(" (")[0])+"</span>";}).join(" ");
+  return "<div class='pcard"+(on?" on":"")+"' style='border-left-color:"+probeColor(p.n)+"' data-n='"+p.n+"'>"+
+   "<div class='pn' style='color:"+probeColor(p.n)+"'>PROBE #"+p.n+(p.base?" · the base":"")+(p.newf?" · +new field":"")+"</div>"+
+   "<div class='pq'>"+esc(p.q)+"</div>"+
+   "<div class='pmeta'>reads <b>"+esc(p.dir)+"</b> · <b>"+ff.length+"</b> fields foregrounded"+(p.newf?" · new field <span class='newf'>"+p.newf+"</span>":"")+"</div>"+
+   "<div class='pmeta'>"+esc(p.why)+"</div>"+
+   "<div class='ff'>"+ffhtml+"</div>"+
+   "<div class='pnov'><span class='t'>novelty:</span> "+esc(p.nov)+"<br><span style='color:#999'>prior art: "+esc(p.prior)+"</span></div>"+
+   "</div>";
+ }).join("");
+ document.querySelectorAll(".pcard").forEach(function(el){el.onclick=function(){setLens(+el.dataset.n);};});
+}
+
+/* cards */
+function renderCards(){
+ renderCard("card-aug","load-aug",AUG,FIELDS.filter(function(f){return (f.lives==="node"||f.lives==="either")&&AUG[f.id];}),"node");
+ renderCard("card-arm","load-arm",ARM,FIELDS.filter(function(f){return (f.lives==="edge"||f.lives==="either")&&ARM[f.id];}),"edge");
+}
+function renderCard(cid,lid,data,flds,kind){
+ document.getElementById(cid).innerHTML=flds.map(function(f){
+  var on=!active||f.p.indexOf(active)>=0;
+  var cls="fl"+(active?(on?" hot":" dim"):"");
+  var req=f.req?"<span class='req'>●</span>":"<span class='opt'>○</span>";
+  var who="<span class='who "+f.who+"'>"+({llm:"LLM",det:"det",res:"res"}[f.who])+"</span>";
+  var nf=f.nf?" <span class='newf'>NEW</span>":"";
+  var pb=f.p.map(function(n){return "<span class='badge' style='background:"+probeColor(n)+"'>#"+n+"</span>";}).join("");
+  return "<div class='"+cls+"'><span class='fn'>"+req+" "+esc(f.label.split(" (")[0])+nf+"</span> "+who+" "+pb+"<div class='fv'>"+esc(data[f.id])+"</div></div>";
+ }).join("");
+ var req=flds.filter(function(f){return f.req;}).length, opt=flds.length-req;
+ var llm=flds.filter(function(f){return f.who==="llm";}).length, det=flds.filter(function(f){return f.who==="det";}).length, res=flds.filter(function(f){return f.who==="res";}).length;
+ document.getElementById(lid).innerHTML=
+  "<b>Coding load for this "+kind+":</b> "+flds.length+" fields ("+req+" required ●, "+opt+" optional ○).<br>"+
+  "Who codes: <span class='who llm'>LLM "+llm+"</span> <span class='who det'>determ. "+det+"</span> <span class='who res'>researcher "+res+"</span>.<br>"+
+  "<b>Read by:</b> these "+flds.length+" fields serve all 7 probes — code once, the lenses are free.";
+}
+
+function setLens(n){
+ active=n;
+ var lx=document.getElementById("lexplain");
+ if(n===null){lx.innerHTML="<span style='color:var(--mut)'>Showing the <b>shared core</b> — all fields. Pick a lens above to ask one of the 7 questions; its meaning shows here and its fields light up below.</span>";}
+ else{var p=PROBES.filter(function(x){return x.n===n;})[0];
+   lx.style.borderLeftColor=probeColor(n);
+   lx.innerHTML="<span class='lx-q' style='color:"+probeColor(n)+"'>#"+n+" "+shortName(p)+" — "+esc(PLAIN[n])+"</span>"+
+     "<div class='lx-why'><b>Why it matters:</b> "+esc(p.why)+" <span style='color:#999'>· reads "+esc(p.dir)+(p.newf?" · new field: "+esc(p.newf):"")+"</span></div>";
+ }
+ document.getElementById("lens-all").classList.toggle("on",n===null);
+ PROBES.forEach(function(p){document.getElementById("lens-"+p.n).classList.toggle("on",n===p.n);});
+ document.querySelectorAll(".lens.on").forEach(function(el){
+   if(el.id==="lens-all"){el.style.background=getComputedStyle(document.documentElement).getPropertyValue("--accent").trim();}
+   else{var nn=+el.id.replace("lens-","");if(nn)el.style.background=probeColor(nn);}
+ });
+ document.querySelectorAll(".lens:not(.on)").forEach(function(el){el.style.background="#fff";});
+ renderSS();renderReg();renderProbes();renderCards();
+}
+
+function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+/* ---------- LEXICON CARD ---------- */
+function cardFromField(f){ // a field with no richer LEXICON entry → build a card from its own data
+ return {term:f.label.split(" (")[0],pos:(f.lives==="either"?"node/edge":f.lives)+" field",kind:"lexicon",
+   def:f.purpose,against:null,src:f.q+" · "+f.s,typeNote:null,register:null,working:true};
+}
+function openCardForFid(fid){
+ var l=lexByFid(fid); if(l){openCard(l);return;}
+ var f=FIELDS.filter(function(x){return x.id===fid;})[0]; if(f)openCard(cardFromField(f));
+}
+function openCard(c){
+ var gloss=(c.kind==="glossary");
+ var grounded=!!(c.def || (c.variants&&c.variants.length));
+ var h='<button class="lc-x" onclick="closeCard()">×</button>';
+ h+='<span class="lc-tag '+(gloss?"gloss":"lex")+'">'+(gloss?("TRADITION TERM "+esc(c.tradition||"")):"OUR TERM")+'</span>';
+ h+='<div class="lc-term '+(gloss?"gloss":"")+'">'+esc(c.term)+'</div>';
+ h+='<div class="lc-pos">'+esc(c.pos||"")+'</div>';
+ var lab=gloss?"lc-gloss":"";
+ h+='<div class="'+lab+'">';
+ if(!grounded && !c.src){
+   h+='<div class="lc-tbd">⚠ <b>definition TBD</b> — not yet grounded. This term is on the grammar\'s list but reading-SB hasn\'t pinned its operative definition + scholarly backing yet. (We render this rather than bluff a gloss — the over-reliance guard.)</div>';
+ } else {
+   h+='<div class="lc-lab">'+(gloss?"Definition (in this tradition)":"How we use it")+'</div>';
+   if(c.variants&&c.variants.length){
+     h+='<div class="lc-body">'+esc(c.typeNote||"")+'</div>';
+     c.variants.forEach(function(v){h+='<div class="lc-var"><b>'+esc(v.t)+'</b> — '+esc(v.d)+'</div>';});
+   } else {
+     h+='<div class="lc-body">'+(c.def?esc(c.def):'<span class="lc-tbd">definition TBD — not yet grounded</span>')+'</div>';
+   }
+   if(c.against){h+='<div class="lc-lab">Defined against (its counterconcept)</div><div class="lc-against">'+esc(c.against)+'</div>';}
+   if(c.typeNote && !c.variants){h+='<div class="lc-lab">Type-note</div><div class="lc-body">'+esc(c.typeNote)+'</div>';}
+   if(c.register){h+='<div class="lc-lab">Register (Lacan)</div><div class="lc-body">'+esc(c.register)+'</div>';
+     if(/Real/.test(c.register))h+='<div class="lc-real">▸ Real = the residue — what the term can\'t fully capture (probe #4).</div>';}
+   h+='<div class="lc-lab">Scholarly backing</div><div class="lc-body">'+esc(c.src||"—")+'</div>';
+ }
+ h+='</div>';
+ if(gloss && c.perThinker){h+='<div class="lc-foot">⚠ This is a tradition-term: it <b>signifies differently per thinker/tradition</b> — never read one definition as universal (Q29 / Saussure).</div>';}
+ else {h+='<div class="lc-foot">Working definition — operative + candidate, not locked (§2.1). Our meta-language, kept distinct from the traditions\' terms.</div>';}
+ var card=document.getElementById("lexcard");
+ card.className=(gloss?"gloss":"lex");card.innerHTML=h;
+ document.getElementById("lexcard-back").classList.add("on");
+ requestAnimationFrame(function(){card.classList.add("on");});
+}
+function closeCard(){document.getElementById("lexcard").classList.remove("on");document.getElementById("lexcard-back").classList.remove("on");}
+
+/* lexicon tab */
+function chipHTML(l){
+ var tbd=!(l.def||(l.variants&&l.variants.length))?" <span class='tbd'>TBD</span>":"";
+ var tt=l.kind==="glossary"?" <span class='ttag'>"+esc(l.tradition||"")+"</span>":"";
+ return "<div class='lchip "+(l.kind==="glossary"?"gloss":"lex")+"' data-term='"+esc(l.term)+"'>"+esc(l.term)+tt+tbd+"</div>";
+}
+function renderLex(){
+ document.getElementById("lex-ours").innerHTML=LEXICON.filter(function(l){return l.kind==="lexicon";}).map(chipHTML).join("");
+ document.getElementById("lex-theirs").innerHTML=LEXICON.filter(function(l){return l.kind==="glossary";}).map(chipHTML).join("");
+}
+
+/* ---------- click wiring (delegated; survives re-renders) ---------- */
+document.addEventListener("click",function(e){
+ var slotrow=e.target.closest&&e.target.closest("[data-fid]");
+ if(slotrow){openCardForFid(slotrow.getAttribute("data-fid"));return;}
+ var chip=e.target.closest&&e.target.closest("[data-term]");
+ if(chip){var l=lexByTerm(chip.getAttribute("data-term"));if(l)openCard(l);return;}
+ if(e.target.id==="lexcard-back")closeCard();
+});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeCard();});
+
+/* foot */
+document.getElementById("foot").innerHTML=
+ "<b>How to read this.</b> The <b>lens bar</b> is the whole idea — one structure, seven lenses: pick a probe and watch its fields foreground in every view (same-structure diagram, registry, cards). \"All\" = the shared core. "+
+ "<b>Provenance:</b> every field carries its Koselleck Qn + scholar (the source column / slot tooltips). "+
+ "<b>Click any term</b> (a slot, a registry row, or the <b>Lexicon ✦</b> tab) for its definition card — our operative gloss + what it's defined against + scholarly backing, with our coined terms kept visibly separate from the traditions' terms (which signify differently per tradition). Ungrounded terms say <i>definition TBD</i> rather than bluff. "+
+ "<b>Honest framing (Q64/Q66):</b> this is a standpoint instrument, not a totalized universal — the probes are candidate lenses we run to see which earns the spine, not a finished thesis. "+
+ "v3 of <code>romans_grammar_schema_interactive</code> · design-SB 2026-06-15.";
+
+/* init */
+/* ---------- LEVEL / GRAIN (Q53/Q43) ---------- */
+/* the chunk-anchor — held CONSTANT across grains (real L4 coding-units from the DB) */
+var CHUNK=[
+ {pid:"PASS-L4-NT-romans-8-28",t:"We know that all things work together for good for those who love God, to those who are called according to his purpose."},
+ {pid:"PASS-L4-NT-romans-8-29",t:"For whom he foreknew, he also predestined to be conformed to the image of his Son, that he might be the firstborn among many brothers."},
+ {pid:"PASS-L4-NT-romans-8-30",t:"Whom he predestined, those he also called. Whom he called, those he also justified. Whom he justified, those he also glorified."}
+];
+var GRAINS=[
+ {key:"verse",label:"verse",span:"Rom 8:28–30",dbnode:"L4 · the verse nodes (the coding-unit)",
+  op:"BIND / CHAIN",
+  move:"the golden chain — bind the scattered future into an unbreakable foreknew → predestined → called → justified → glorified sequence",
+  outcome:"an unbreakable sequence = assurance grounded in God's prior act",
+  context:"within Rom 8's Spirit-and-suffering argument (vv. 1–27); the chain is the ground for 'who shall separate us?' (vv. 31–39)"},
+ {key:"pericope",label:"pericope",span:"Rom 8",dbnode:"L2 · the chapter node",
+  op:"SEAL / GUARANTEE",
+  move:"the assurance-move — 'nothing can separate us from the love of God'",
+  outcome:"unshakeable belonging despite present suffering",
+  context:"the climax of life-in-the-Spirit vs flesh: no condemnation (8:1) → the chain (8:28–30) → no separation (8:39)"},
+ {key:"argument",label:"argument",span:"Rom 1–8",dbnode:"analytical grain — no single DB node (the coder imposes it: Q43)",
+  op:"GROUND / JUSTIFY",
+  move:"justification by faith — all have sinned; righteousness is God's gift received by faith, not earned",
+  outcome:"the gospel's theological core: grace, not works",
+  context:"Paul's case: human sin (1–3) → Abraham's faith (4) → life in the Spirit (5–8). 8:28–30 is its assurance-capstone"},
+ {key:"letter",label:"letter",span:"Romans (whole)",dbnode:"L1 · the book node (PASS-L1-NT-romans)",
+  op:"RECONCILE / INCLUDE",
+  move:"Jew-and-Gentile reconciliation in one body — the actual occasion of the letter",
+  outcome:"one people of God across the ethnic divide",
+  context:"the argument serves chs. 9–11 (Israel + the Gentiles) + 14–15 (the strong + the weak); Sitz = Claudius-expulsion aftermath, Jewish-Gentile tension in Rome's church"}
+];
+var grain="verse";
+function renderGrainBar(){
+ document.getElementById("grainbar").innerHTML="<span style='font-size:11px;color:var(--mut);font-weight:700;margin-right:4px'>ZOOM:</span>"+
+  GRAINS.map(function(g,i){return "<span class='grain "+(g.key===grain?"on":"")+"' data-grain='"+g.key+"'>"+esc(g.label)+"</span>"+(i<GRAINS.length-1?"<span style='color:#bbb'>›</span>":"");}).join("");
+}
+function renderGrain(){
+ var g=GRAINS.filter(function(x){return x.key===grain;})[0];
+ document.getElementById("grainnow").innerHTML="You are analyzing at: <b>"+esc(g.label)+" grain</b> ("+esc(g.span)+") · "+esc(g.dbnode)+" &nbsp;·&nbsp; <span style='color:var(--mut)'>chunk-anchor held constant: Rom 8:28–30 (L4)</span>";
+ var verses=CHUNK.map(function(c){return "<div class='gt-verse'><b>"+esc(c.pid.replace('PASS-L4-NT-romans-8-','v'))+"</b> "+esc(c.t)+" <span class='gt-pid'>"+esc(c.pid)+"</span></div>";}).join("");
+ document.getElementById("gstack").innerHTML=
+  "<div class='gtier context'><div class='gt-tag'><span>▲ context — the substrate the move stands on (zoom-out)</span><span class='gt-pill' style='background:#9a9ab0'>always shown · §2.8</span></div><div class='gt-body'>"+esc(g.context)+"</div></div>"+
+  "<div class='gt-arrow'>▲ situated up in</div>"+
+  "<div class='gtier move'><div class='gt-tag'><span>● the MOVE we diagram (at "+esc(g.label)+" grain)</span><span class='gt-pill out'>coding OUTPUT</span></div><div class='gt-op'>"+esc(g.op)+"</div><div class='gt-body'>"+esc(g.move)+"<div style='margin-top:5px;color:#555'><b>outcome:</b> "+esc(g.outcome)+"</div></div></div>"+
+  "<div class='gt-arrow'>▼ anchored down to</div>"+
+  "<div class='gtier chunk'><div class='gt-tag'><span>▼ chunk — the evidence-anchor (the L4 text)</span><span class='gt-pill const'>coding INPUT · held constant</span></div>"+verses+"</div>";
+ document.getElementById("grainbar").querySelectorAll(".grain").forEach(function(el){el.classList.toggle("on",el.dataset.grain===grain);});
+}
+function setGrain(k){grain=k;renderGrain();}
+document.addEventListener("click",function(e){var g=e.target.closest&&e.target.closest("[data-grain]");if(g){setGrain(g.getAttribute("data-grain"));}});
+
+/* init */
+renderSS();renderReg();renderProbes();renderCards();renderLex();renderGrainBar();renderGrain();setLens(null);
+</script>
+
+<!--
+METHODOLOGY FOOTER
+HOW PRODUCED (v3.1 — level/grain indicator, 2026-06-16). design-SB, building HANDOVER_designSB_lexicon_card_task… (the Q53 level/grain follow-on): added a "Level / grain ⇅" tab rendering the Q53 three-attachment-point model — CONTEXT (above, the zoom-out substrate; ALWAYS shown per §2.8) · MOVE (center, the operation we diagram; tagged coding-OUTPUT) · CHUNK (below, the real L4 evidence-text + passage_ids, tagged coding-INPUT, held CONSTANT). A 4-step grain selector (verse→pericope→argument→letter, Lovejoy Q43) re-centers the MOVE at each grain while the chunk-anchor stays fixed; a persistent "You are analyzing at: [grain]" label always shows the level. The chunk text is the real Rom 8:28–30 L4 nodes from the DB; grains tagged with their DB-level anchor (verse=L4, pericope=L2, letter=L1; argument = analytical grain, no single DB node = the Q43 point that grain is a coder's choice). Over-decontextualization guard (§2.8): the context tier is structural, not optional — a move with no zoom-out IS the decontextualized-verse misreading. Candidate model (§2.1); grain vocab is Romans-specific (generalize for non-biblical sources). Stretch item done: the coding INPUT/OUTPUT pipeline-seam tags. Verified in preview: 6 tabs, 4 grain pills, 3 tiers, move re-centers per grain + chunk held constant, 0 console errors.
+HOW PRODUCED (v3 — lexicon-card, 2026-06-15). design-SB, building HANDOVER_designSB_lexicon_card_task_2026-06-15.md (reading-SB): added a click-to-definition LEXICON-CARD — click any slot / registry-row / Lexicon-tab chip → a card with term · part-of-speech · our operative definition · the counterconcept it's defined against (Saussure differential value) · scholarly backing (Qn+scholar) · a type-note (TYPE vs VALENCE vs COUPLING) · optional Lacanian register (Real = the residue, #4). Two vocabularies kept visibly SEPARATE: our coined terms (kind:lexicon, accent border, "OUR TERM") vs the traditions' terms (kind:glossary, gold italic, "TRADITION TERM [tag]", flagged signifies-differently-per-tradition; metanoia seeded with 3 real per-tradition variants from the DB tradition_glossary = the Q29 demo). Over-reliance guard: ungrounded terms render "definition TBD — not yet grounded" rather than a confident gloss. The LEXICON array is PARTLY-SEEDED (10 grounded + 5 TBD lexicon terms + 3 glossary) — reading-SB populates the rest (the deferred content task). Open-Qs: card = a right-side drawer (vs hover/panel); lexicon-vs-glossary = border-color + tag + italic; seeded-partial not stubbed-empty (so both card styles + the TBD state are demoable). Verified in preview: 5 tabs, 15+3 chips, real-click delegation, grounded/TBD/glossary cards all render, 0 console errors.
+HOW PRODUCED (v2). design-SB, 2026-06-15, building HANDOVER_designSB_probe_schema_task_2026-06-15.md (reading-SB task): evolve the v1 interactive grammar schema into a probe-aware v2 with the four deliverables — (a) field registry, (b) probe panel, (c) node+edge cards (worked on Augustine + Arminius's fork), (d) same-structure view. The unifying control is a single lens-bar that foregrounds a probe's fields across all four views, making "one structure, seven lenses" literal (open-Q2 answered: both unified-highlight AND a probe panel). Coding-load shown per-entry with required/optional + who-codes (LLM/deterministic/researcher) (open-Q1, open-Q5: load = per-node, code-once-read-7×). Field→purpose ladder rendered as the registry table (open-Q3: table over sankey for a study aid). Reuse story shown as a headline stat + the lens dimming (open-Q4).
+SCHOLARLY SOURCES. field_ed/project_directions_and_probes_2026-06-15.md (the 7 probes + field→probe mapping + prior-art/novelty); field_ed/romans_grammar_schema_interactive_2026-06-14.html (v1 — the primitives, provenance pattern, CSS, sendPrompt); reading log Q43 (generativity — probes as generative combinations), Q47 (structural-content — candidate not confirmed), Q49 (outcome≠paradigm), Q42 (the three directions = the views), Q64/Q66 (anti-totalization framing); CLAUDE.md §2.1 (candidates not labels), §2.8 (residue/un-abolishing as method), §6 (design-SB owns the artifact), §2.12 (branch hand-back). The 2 NEW fields (residue #4, practice-derivation #6) are the only proposed schema additions per the task.
+WHAT NEEDS VERIFICATION. (1) the field→probe assignments are seeded from the probes-note table + design-SB inference — reading-SB should confirm the edge cases (e.g. driver on #1, sync on #5/#7); (2) who-codes (LLM/deterministic/researcher) per field is a design estimate, firms up once the first node is actually walked; (3) the required-set (6 fields = the #1 base coding) is a proposal; (4) coding-load counts are per-worked-example, not a universal per-node cost (varies by node richness).
+-->
+</body></html>
