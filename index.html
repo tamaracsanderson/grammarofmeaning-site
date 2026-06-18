@@ -53,6 +53,14 @@ h1{font-size:clamp(28px,5vw,44px);margin:0 0 8px;font-weight:700}
 .mine{font:700 9px/1.3 -apple-system,sans-serif;color:#b0762a;background:#faf0dd;border-radius:4px;padding:1px 6px}
 .ext{font:700 9px/1.3 -apple-system,sans-serif;color:#3a5a6e;background:#eaf0f4;border-radius:4px;padding:1px 6px}
 .horizon{font-size:12.5px;color:#b3a98e;font-style:italic;border:1px dashed #ddd2b8;border-radius:9px;padding:10px 11px;background:repeating-linear-gradient(45deg,#fcfbf6,#fcfbf6 7px,#f7f3e8 7px,#f7f3e8 14px)}
+.refshelf{margin:30px 0 0;padding-top:18px;border-top:1px dashed var(--line)}
+.ref-h{font:700 11px/1.3 -apple-system,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:0 0 10px}
+.ref-h span{font-weight:500;text-transform:none;letter-spacing:0;font-style:italic}
+.ref-row{display:flex;gap:10px;flex-wrap:wrap}
+.ref-card{flex:1;min-width:240px;display:block;border:1px solid var(--line);border-radius:9px;padding:11px 14px;background:#fcfbf6;text-decoration:none;color:inherit;transition:.12s}
+.ref-card:hover{box-shadow:0 2px 9px rgba(80,60,20,.09);border-color:#d9cfb6}
+.ref-card b{font:700 14.5px/1.2 -apple-system,Segoe UI,sans-serif;color:var(--moss-d)}
+.ref-card span{display:block;font-size:12px;color:var(--mut);margin-top:3px;line-height:1.4}
 .legend{font-size:12px;color:var(--mut);margin:18px 0 0;line-height:1.9}
 .legend b{color:#4a4133}
 .foot{font:13px/1.6 -apple-system,sans-serif;color:var(--mut);border-top:1px solid var(--line);margin-top:30px;padding-top:16px}
@@ -110,6 +118,15 @@ h1{font-size:clamp(28px,5vw,44px);margin:0 0 8px;font-weight:700}
     <span class="barnote" id="barnote"></span>
   </div>
   <div id="bands"></div>
+
+  <div class="refshelf">
+    <div class="ref-h">Reference <span>· lookup docs we use a lot</span></div>
+    <div class="ref-row">
+      <a class="ref-card" href="lexicon.html"><b>The Lexicon</b><span>our coined terms — methodology, architecture, coding vocabulary + the tradition-taxonomy codes</span></a>
+      <a class="ref-card" href="subtraditions.html"><b>Sub-traditions</b><span>the full tradition taxonomy — every sub-tradition the corpus tags, by family</span></a>
+    </div>
+  </div>
+
   <div class="legend">
     <b>The arc</b> (left→right in each channel): <b>made</b> = how it works · <b>built</b> = what we've made · <b>live</b> = what's out / the horizon.
     &nbsp;<b>Status</b>: <span class="st ready">ready</span> <span class="st draft">draft</span> <span class="st concept">concept</span> <span class="st live">live</span>.
@@ -131,9 +148,9 @@ var A=[
  ["engine","made","The grammar schema","schema.html","One structure, seven lenses + registry, lexicon cards, level/grain.","ready","site",1],
  ["engine","made","The bake-off","__local__","How the grammar gets built — the process diagram.","ready","local",0],
  ["engine","made","The factory line","__local__","One idea, acquire→…→find — the whole pipeline.","ready","local",0],
- ["engine","built","The Romans tree","romans-tree.html","The chronology-spine tree, the seed planted.","draft","site",0],
- ["engine","built","Review workbench","workbench.html","Code / flag passages by hand.","draft","site",0],
- ["engine","built","Influence-grammar","influence-grammar.html","The movement of an idea as a citation/influence graph.","concept","site",0],
+ ["engine","built","The Romans tree","romans-tree.html","The chronology-spine tree, the seed planted.","draft","local",0],
+ ["engine","built","Review workbench","workbench.html","Code / flag passages by hand.","draft","local",0],
+ ["engine","built","Influence-grammar","influence-grammar.html","The movement of an idea as a citation/influence graph.","concept","local",0],
  ["engine","built","T1–T10 lifecycle","t-stages.html","The form-chain: definitions, scholars, the coding prompt.","ready","site",0],
  ["engine","live","The coded corpus","__horizon__","400+ traditions, coded — feeds the garden ↓.","","",0],
  // VOICE
