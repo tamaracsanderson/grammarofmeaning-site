@@ -1,0 +1,670 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Factory Line — one idea, end to end (the Four Noble Truths)</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+ :root{--ink:#1a1a2e;--accent:#5b5bd6;--accent-soft:#ececf6;--ground:#f6f7f9;--card:#fff;--line:#e0e0e8;
+   --shop:#b08526;--cradle:#a85a3a;--plumb:#2a5a9e;--code:#7a5fa8}
+ *{box-sizing:border-box}
+ body{font:15px/1.6 -apple-system,Segoe UI,sans-serif;margin:0;background:var(--ground);color:var(--ink)}
+ header{background:var(--ink);color:#fff;padding:24px 30px}
+ header h1{margin:0 0 6px;font-size:23px}
+ header .sub{opacity:.88;font-size:13.5px;max-width:880px}
+ .alt{display:flex;gap:0;padding:0 30px;background:#fff;border-bottom:1px solid #ddd;position:sticky;top:0;z-index:30;overflow-x:auto}
+ .alt a{flex:1;text-align:center;text-decoration:none;color:var(--ink);font-size:12.5px;padding:9px 10px;border-bottom:3px solid transparent;white-space:nowrap}
+ .alt a b{display:block;font-size:13.5px}
+ .alt a .st{color:#999;font-size:11px}
+ .alt a:hover{background:#fbfbfd}
+ .alt a.a1{border-bottom-color:var(--shop)} .alt a.a2{border-bottom-color:var(--plumb)}
+ .alt a.a3{border-bottom-color:var(--code)} .alt a.a4{border-bottom-color:var(--accent)}
+ main{max-width:1100px;margin:0 auto;padding:18px 30px 70px}
+ .legendrow{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:#555;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 16px;margin:14px 0}
+ .legendrow b{color:var(--ink)}
+ .lkey{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:5px}
+
+ /* phase band */
+ .phase{margin:30px 0 6px;border-radius:10px;padding:10px 16px;color:#fff;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px}
+ .phase h2{margin:0;font-size:16px}
+ .phase .pmap{font-size:12px;opacity:.92}
+ .phase.p-shop{background:var(--shop)} .phase.p-cradle{background:var(--cradle)}
+ .phase.p-plumb{background:var(--plumb)} .phase.p-code{background:var(--code)}
+
+ /* station rows: rail | item | machine */
+ .station{display:grid;grid-template-columns:78px 1fr 1fr;gap:0 16px;align-items:stretch}
+ .rail{position:relative;display:flex;flex-direction:column;align-items:center}
+ .rail .pipe{width:6px;flex:1;background:var(--railc,#ccc)}
+ .rail .nodewrap{position:relative;padding:4px 0}
+ .rail .node{width:40px;height:40px;border-radius:50%;background:#fff;border:3px solid var(--railc,#ccc);
+   display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:var(--railc,#666)}
+ .station:first-of-type .rail .pipe.top{background:transparent}
+ .cards{padding:10px 0 22px}
+ .itemcard{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--railc,#ccc);border-radius:0 10px 10px 0;padding:11px 15px;height:100%}
+ .machcard{background:#fbfbfd;border:1px dashed #d4d4e0;border-radius:10px;padding:11px 15px;height:100%;font-size:13px;color:#444}
+ .sname{font-weight:700;font-size:14.5px;margin-bottom:2px}
+ .sname .sub2{font-weight:400;color:#999;font-size:11.5px;margin-left:6px}
+ .itemtext{font-size:13.5px;color:#333}
+ .statechip{display:inline-block;background:var(--accent-soft);color:#3a3a6a;border-radius:12px;padding:1px 10px;font-size:11.5px;margin-top:8px}
+ .statechip b{color:var(--accent)}
+ .machcard .mh{font-weight:700;font-size:11.5px;color:#999;margin-bottom:4px}
+ .takeaway{font-size:13.5px;font-weight:700;color:var(--ink);background:var(--accent-soft);border-radius:7px;padding:6px 11px;margin:0 0 9px}
+ .takeaway::before{content:'◆ ';color:var(--accent)}
+ .receipt{margin-top:8px;font-size:11.5px;color:#777;border-top:1px dashed #e4e4ee;padding-top:6px}
+ .receipt code{background:#f0f0f6;border-radius:3px;padding:0 4px;font-size:11px}
+ .pali{font-style:italic}
+ .chip{display:inline-block;background:var(--accent-soft);color:#3a3a6a;border-radius:3px;padding:0 6px;margin:1px;font-size:11px}
+ .gatenote{background:#fff8f0;border:1px solid #f0e0d0;border-radius:6px;padding:6px 9px;font-size:12px;color:#7a5a2a;margin-top:8px}
+
+ /* ── mini-schemas in the machine column ── */
+ .mini{margin-top:9px;background:#fff;border:1px solid #e8e8f0;border-radius:8px;padding:8px 11px;font-size:11.5px;color:#555}
+ .mini .mt{font-weight:700;color:#999;font-size:11px;margin-bottom:5px}
+ .flowrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:3px 0}
+ .mbox{border:1px solid var(--line);border-radius:5px;padding:1px 8px;background:#fbfbfd;white-space:nowrap}
+ .mbox.hit{border-color:#1a7a3a;color:#1a7a3a;font-weight:600}
+ .mbox.miss{border-color:#e0c0c0;color:#b06060;text-decoration:line-through}
+ .marr{color:var(--accent);font-weight:700}
+ .mnum{color:var(--accent);font-weight:800}
+ .mloop{color:#5a7a4a;font-weight:700}
+
+ /* ── workstream overlay (W1–W21; internal; toggled) ── */
+ .wbadge{display:none;border-radius:3px;padding:0 6px;font-size:10.5px;font-weight:700;margin:1px 2px;vertical-align:1px;color:#fff;white-space:nowrap}
+ body.show-w .wbadge{display:inline-block}
+ .wc1{background:#2a5a9e}.wc2{background:#a85a3a}.wc3{background:#7a5fa8}.wc4{background:#5b5bd6}.wc5{background:#b08526}
+ .wbadge.grad{background:#fff;color:#1a7a3a;border:1.5px solid #1a7a3a}
+ .wband,.wkey{display:none}
+ body.show-w .wband{display:block}
+ body.show-w .wkey{display:block}
+ .wband{border:1.5px dashed #b8b8d0;border-radius:10px;padding:11px 16px;margin:16px 0;background:#fbfbfd;font-size:13px}
+ .wband b.bt{font-size:13.5px}
+ .wtoggle{font:inherit;font-size:12.5px;border:1px solid var(--line);background:#fff;border-radius:16px;padding:4px 13px;cursor:pointer;color:var(--ink)}
+ .wtoggle.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+ .wkey{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:12px 0;font-size:12.5px}
+ .wkey .krow{display:grid;grid-template-columns:170px 1fr;gap:8px;padding:4px 0;border-bottom:1px dashed #eee}
+ .wkey .krow:last-child{border-bottom:0}
+
+ /* finished good */
+ .finished{background:linear-gradient(180deg,#fff,#f6f6fd);border:2px solid var(--accent);border-radius:14px;padding:18px 22px;margin:34px 0 10px}
+ .finished h2{margin:0 0 6px;font-size:18px}
+ .fstats{display:flex;gap:26px;flex-wrap:wrap;margin:10px 0}
+ .fstat{font-size:12.5px;color:#555}.fstat b{display:block;font-size:21px;color:var(--accent);line-height:1.2}
+ .callout{background:#f6f6fd;border:1px solid #d8d8f0;border-left:4px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 14px;margin:12px 0;font-size:13.5px}
+ footer{padding:22px 30px;font-size:12px;color:#888;border-top:1px solid var(--line);background:#fbfbfd;max-width:1100px;margin:0 auto}
+ .smallnote{font-size:12px;color:#999}
+ .shot{border:1px solid var(--line);border-radius:9px;overflow:hidden;margin:9px 0;background:#fff;max-width:560px}
+ .shot img{width:100%;display:block}
+ .shot figcaption{font-size:11px;color:#888;padding:5px 10px;border-top:1px solid #f0f0f4}
+ @media(max-width:880px){
+   .station{grid-template-columns:54px 1fr}
+   .station .cards:last-child{grid-column:2;padding-top:0}
+   .cards{padding-bottom:10px}
+   .alt a .st{display:none}
+ }
+ .lexbtn{position:fixed;right:18px;bottom:18px;z-index:60;font:inherit;font-size:13px;font-weight:600;background:var(--ink);color:#fff;border:none;border-radius:20px;padding:9px 18px;cursor:pointer;box-shadow:0 3px 14px rgba(26,26,46,.3)}
+ .lexbtn:hover{background:#34345a}
+ #lexicon{position:fixed;top:0;right:-460px;width:430px;max-width:92vw;height:100vh;background:#fff;border-left:1px solid var(--line);box-shadow:-6px 0 24px rgba(26,26,46,.12);z-index:70;transition:right .22s;overflow-y:auto;padding:20px 22px 40px}
+ #lexicon.open{right:0}
+ #lexicon h3{margin:0 0 2px;font-size:16px}
+ #lexicon .lsub{font-size:11.5px;color:#888;margin-bottom:12px}
+ #lexicon .closex{position:absolute;top:14px;right:16px;font:inherit;font-size:13px;border:1px solid var(--line);background:#fff;border-radius:14px;padding:2px 10px;cursor:pointer}
+ .lterm{padding:8px 0;border-bottom:1px dashed #eee;font-size:12.5px;color:#444}
+ .lterm b{display:block;font-size:13px;color:var(--ink)}
+ .lterm .anchor{display:block;font-size:11px;color:#999;margin-top:2px;font-style:italic}
+</style><style>/* site chrome: home link (matches grammarofmeaning.org) */.gom-home{position:fixed;top:14px;left:16px;z-index:9999;font:600 13px/1 -apple-system,Segoe UI,sans-serif;color:#3f5a39;text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px;box-shadow:0 1px 5px rgba(80,60,20,.10)}.gom-home:hover{background:#fff;border-color:#b8893a;color:#b8893a}@media print{.gom-home{display:none}}</style>
+</head><body>
+<a href="index.html" class="gom-home">← Grammar of Meaning</a>
+
+<button class="lexbtn" id="lexbtn">lexicon</button>
+<aside id="lexicon" aria-label="lexicon">
+  <button class="closex" id="lexclose">close ✕</button>
+  <h3>The lexicon</h3>
+  <div class="lsub">Every coined term on this page, with its scholarly anchor — coin freely, anchor every coinage. Full registry: <code>docs/methodology/MASTER_LEXICON.md</code>.</div>
+  <div class="lterm"><b>the Loom</b>The unified architecture: one loop from gap to finding. CRADLE is the shuttle carrying threads in; the stages are the heddles; the shopping overlay is the warp tension.<span class="anchor">anchor: the weaving metaphor matches the thesis's central image — convergence as warp + weft (Decision 53)</span></div>
+  <div class="lterm"><b>CRADLE</b>Classifier-Routed Acquisition with Dedup-Layer Enforcement — the 5-stage acquisition engine (classify → route → resolve → dedup → ingest).<span class="anchor">anchor: standard data-pipeline architecture, specialized for provenance + bias-audit (Decision 51)</span></div>
+  <div class="lterm"><b>PRISM</b>The endpoint classifier — tags every archive on 13 routing axes (cluster, geography, language, era, voice-tier, peer-review, …).<span class="anchor">anchor: faceted classification (library science); the axes make routing bias auditable</span></div>
+  <div class="lterm"><b>FOUNDRY</b>The harvester-builder — casts working scrapers from ~8 reusable protocol molds (~70% shared handler, 30% per-endpoint config).<span class="anchor">anchor: software product-line / template-method engineering (Decision 68)</span></div>
+  <div class="lterm"><b>the Parity Principle</b>Archives are routed by what they <i>contain</i>, never by whose scholarship they are — an African journal fires for any Pauline query, same as a Princeton one.<span class="anchor">anchor: the routing-layer enforcement of bias-visibility (the methodology's central commitment)</span></div>
+  <div class="lterm"><b>the cart / shopping list</b>The persistent gap-queue. Four input streams: bibliography flywheel · keyword surfaces · direct asks · fidelity-upgrades.<span class="anchor">anchor: pull-system intake (kanban); nothing depends on memory</span></div>
+  <div class="lterm"><b>seed · flower · thread · grove · garden</b>Seed = the planted source (SN 56.11). Flower = the seed in bloom (its coded passages). Thread = the passages assembled by T-stage. Grove = a tradition. Garden = all flowers, with rhyme-edges between groves.<span class="anchor">anchor: the project's horticultural register — growth, not extraction</span></div>
+  <div class="lterm"><b>T1–T10 (the morph; canonical lock S99 + IRR97)</b>The lineage chain T1–T9: originating insight → direct-witness teaching / first encoding → textual codification → institutional canonization → scholarly commentary → confessional codification → degraded popular form (within the lineage) → revival / recovery → living lineage. <b>T10 is orthogonal</b> — artistic reimagination outside the lineage, not a rung after T9.<span class="anchor">anchor (Lit Review §9C): Weber routinization-of-charisma · Turner communitas→structure · Wach circle→brotherhood→ecclesiastical-body · Stark sect-to-church · Kuhn paradigm-calcification · Ricoeur first-naïveté→criticism→second-naïveté. New: applied to contemplative observations, with a stage-model + corpus data. <span style="color:#999">Full instrument page → (framing under revision)</span></span></div>
+  <div class="lterm"><b>S0–S8 (Scale)</b>The widest circle of concern a passage values: parts-of-self → individual → dyad → group → institution → society → tradition-across-generations → multispecies → cosmos.<span class="anchor">anchor: the expanding-circle tradition (Stoic oikeiôsis; Singer) — made a per-passage coordinate</span></div>
+  <div class="lterm"><b>Depth</b>How practiced the attention to the in-between is: theory-only → named practice with method → enacted, with the tradition aware of its own failure modes. Independent of Scale.<span class="anchor">anchor: contemplative studies' distinction between doctrine and trained attention</span></div>
+  <div class="lterm"><b>Docent</b>The 2–3 sentence orientation note each passage carries: what is this <i>for</i>, what problem does it solve, how would an outsider recognize it?<span class="anchor">anchor: the museum-docent role — orientation for a visitor meeting a tradition not their own</span></div>
+  <div class="lterm"><b>the grammar (Substrate → Operations → Outcomes) → Paradigm</b>The three-layer model of how experience becomes meaning, and the worldview it reshapes. Where a thing sits decides what it does.<span class="anchor">anchor: generative grammar in Chomsky's productive-ruleset sense — minus deep structure, plus meaning-making-as-tradition</span></div>
+  <div class="lterm"><b>rhyme / CTAG</b>A cross-tradition analogy A:B::C:D — the same relational move in different substrates (fasting:appetite :: silence:speech). CTAG = the Cross-Tradition Analogy Graph that mines them at scale.<span class="anchor">anchor: structure-mapping theory of analogy (Gentner); similarity computed on the operation, not the words</span></div>
+  <div class="lterm"><b>Sitz / the soil</b>The contextual-conditions layer — the where, when, and how-the-world-was that conditioned a tradition's meaning-making (Axial Age, coinage, plague…).<span class="anchor">anchor: Sitz im Leben (form criticism), extended cross-tradition and made queryable</span></div>
+  <div class="lterm"><b>metaxy</b>The in-between — where meaning is made: not in raw experience, not in finished doctrine. The project maps what becomes visible there.<span class="anchor">anchor: Plato (Symposium 202a) via Voegelin</span></div>
+  <div class="lterm"><b>the 5-LLM panel / IRR</b>Five independent model-cohorts answering the same methodology question; agreement scored Krippendorff-α-style. The solo researcher's human-rater substitute.<span class="anchor">anchor: inter-rater reliability (content analysis); 130+ rounds run to date</span></div>
+  <div class="lterm"><b>source vs passage (the atom)</b>A source is the container (book, article, recording); a passage is the quotable analytical atom. 390k sources → 9.5M passages.<span class="anchor">anchor: unit-of-analysis discipline (content analysis); container-counts ≠ analytical depth</span></div>
+</aside>
+
+<header>
+  <h1>The Factory Line — one idea, end to end</h1>
+  <div class="sub">The entire apparatus, as a single vertical line — every station shown, nothing elided.
+    Riding it: <b>the Four Noble Truths</b> — the Buddha's first sermon (the <i>Dhammacakkappavattana Sutta</i>,
+    taught at the Deer Park near Sarnath, after his awakening under the Bodhi tree). Left of the pipe at each
+    station: <b>what the item is right now</b>. Right: <b>what the machine does to anything</b>. The line ends in
+    real numbers: the Four Noble Truths is a live, fully-coded flower in the garden.</div>
+</header>
+
+<nav class="alt">
+  <a class="a1" href="#acquire"><b>Acquire</b><span class="st">stations 0–5 · gap → text we hold</span></a>
+  <a class="a2" href="#chunk"><b>Chunk</b><span class="st">stations 6–8 · text → atoms</span></a>
+  <a class="a3" href="#code"><b>Code</b><span class="st">stations 9–11 · atoms → coded</span></a>
+  <a class="a4" href="#find"><b>Find</b><span class="st">stations 12–13 · coded → thread + rhyme</span></a>
+</nav>
+
+<main>
+
+<div class="legendrow">
+  <span><b>Reading the line:</b></span>
+  <span><span class="lkey" style="background:var(--shop)"></span>Shopping (the want)</span>
+  <span><span class="lkey" style="background:var(--cradle)"></span>CRADLE A–E (acquisition)</span>
+  <span><span class="lkey" style="background:var(--plumb)"></span>Plumbing (populate · manifest · chunk)</span>
+  <span><span class="lkey" style="background:var(--code)"></span>Coding order 1–5 (analysis)</span>
+  <span class="smallnote">— the top bar gives the same line in the orientation doc's four words.</span>
+  <span style="margin-left:auto"><button class="wtoggle" id="wtoggle">view: external · show the workstream overlay (internal)</button></span>
+</div>
+
+
+<div class="card" style="margin:14px 0;padding:16px 18px">
+  <div style="font-weight:800;font-size:15px">The Loom — the flywheel this line unrolls</div>
+  <div style="font-size:12.5px;color:#666;margin:3px 0 8px">The whole apparatus is one loop (Decision 53: CRADLE is the <i>shuttle</i> that carries threads in;
+   the stages are the <i>heddles</i>; the shopping overlay is the <i>warp tension</i>). The vertical line below is <b>this loop, cut open and laid flat</b> — stations 0–13.</div>
+  <svg viewBox="0 0 880 235" style="width:100%;max-width:880px" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5b5bd6"/></marker>
+    <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1a7a5a"/></marker></defs>
+    <!-- top row nodes -->
+    <g font-family="-apple-system,Segoe UI,sans-serif" font-size="12" text-anchor="middle">
+      <a href="#acquire"><rect x="14" y="38" width="108" height="44" rx="9" fill="#fff" stroke="#b08526" stroke-width="2"/>
+        <text x="68" y="56" font-weight="700" fill="#1a1a2e">the CART</text><text x="68" y="72" font-size="10" fill="#888">gaps · wants · st 0</text></a>
+      <a href="#acquire"><rect x="162" y="38" width="118" height="44" rx="9" fill="#fff" stroke="#a85a3a" stroke-width="2"/>
+        <text x="221" y="56" font-weight="700" fill="#1a1a2e">CRADLE A–E</text><text x="221" y="72" font-size="10" fill="#888">acquire · st 1–5</text></a>
+      <a href="#chunk"><rect x="320" y="38" width="108" height="44" rx="9" fill="#fff" stroke="#2a5a9e" stroke-width="2"/>
+        <text x="374" y="56" font-weight="700" fill="#1a1a2e">CORPUS</text><text x="374" y="72" font-size="10" fill="#888">390k sources · st 6–7</text></a>
+      <a href="#chunk"><rect x="468" y="38" width="100" height="44" rx="9" fill="#fff" stroke="#2a5a9e" stroke-width="2"/>
+        <text x="518" y="56" font-weight="700" fill="#1a1a2e">ATOMS</text><text x="518" y="72" font-size="10" fill="#888">9.5M passages · st 8</text></a>
+      <a href="#code"><rect x="608" y="38" width="100" height="44" rx="9" fill="#fff" stroke="#7a5fa8" stroke-width="2"/>
+        <text x="658" y="56" font-weight="700" fill="#1a1a2e">CODED</text><text x="658" y="72" font-size="10" fill="#888">the cards · st 9–11</text></a>
+      <a href="#find"><rect x="748" y="38" width="118" height="44" rx="9" fill="#fff" stroke="#5b5bd6" stroke-width="2.5"/>
+        <text x="807" y="56" font-weight="700" font-size="10.5" fill="#1a1a2e">THREADS + RHYMES</text><text x="807" y="72" font-size="10" fill="#888">the finding · st 12–13</text></a>
+      <!-- forward arrows -->
+      <g stroke="#5b5bd6" stroke-width="2" fill="none">
+        <path d="M122 60 H160" marker-end="url(#ah)"/><path d="M280 60 H318" marker-end="url(#ah)"/>
+        <path d="M428 60 H466" marker-end="url(#ah)"/><path d="M568 60 H606" marker-end="url(#ah)"/>
+        <path d="M708 60 H746" marker-end="url(#ah)"/>
+      </g>
+      <!-- bibliography flywheel return: CORPUS -> CART -->
+      <path d="M374 84 C374 150 120 150 70 86" stroke="#5a7a4a" stroke-width="2.2" fill="none" stroke-dasharray="6 4" marker-end="url(#ahg)"/>
+      <text x="225" y="148" font-size="11.5" fill="#5a7a4a" font-weight="700">↻ every text's bibliography surfaces the NEXT gaps — the flywheel</text>
+      <!-- shopping overlay return: any stage -> CART -->
+      <path d="M807 84 C807 215 110 215 64 88" stroke="#b08526" stroke-width="1.8" fill="none" stroke-dasharray="3 4" marker-end="url(#ahg)"/>
+      <text x="440" y="208" font-size="11.5" fill="#b08526" font-weight="700">gaps surface from EVERY stage (the shopping overlay) — back to the cart, continuously</text>
+    </g>
+  </svg>
+  <div class="smallnote">Source schemas this draws on: <code>pm/40_architecture/the_loom_unified_architecture_2026-05-11.md</code> (Decision 53 — the canonical unified picture) ·
+   CLAUDE.md §2.10 (CRADLE) · the factory-line doc. Not invented here — surfaced.</div>
+</div>
+
+<div class="wkey">
+  <b>The workstream model, on the line.</b> The 21 workstreams are the factory's staffing chart — five categories,
+  each living at a point on (or beside) the pipe. Badges below show who works each station.
+  <div style="margin-top:8px">
+    <div class="krow"><div><span class="wbadge wc1" style="display:inline-block">I · CORPUS INFRA</span></div><div>beneath every station — <b>W16</b> Corpus Integrity · <b>W18</b> Bridge to Neon (SQLite→Postgres; soak 1/7 green) · the semantic index (lives in W19)</div></div>
+    <div class="krow"><div><span class="wbadge wc2" style="display:inline-block">II · ACQUISITION</span></div><div>stations 0–5 — <b>W3</b> CRADLE/FOUNDRY · <b>W4</b> PRISM · <b>W5/W6</b> Shopping Cart · <b>W12</b> Fan-out Activation · <b>W17</b> Continuous Intake</div></div>
+    <div class="krow"><div><span class="wbadge wc3" style="display:inline-block">III · GARDEN-BUILDER</span></div><div>stations 8–12 — <b>W2</b> Flowers (the ~100 goal) · <b>W7</b> Chronology · <b>W9</b> Throughput (⚠️ THE bottleneck for 100) · <b>W10</b> RAIN · <b>W13</b> Germination · <b>W19</b> Flower-Builder Fairness (spec complete: IRR128+129)</div></div>
+    <div class="krow"><div><span class="wbadge wc4" style="display:inline-block">IV · METAXY / FINDING</span></div><div>station 13 — <b>W1</b> Metaxy/CTAG (rhyme engine) · <b>W14</b> Narrative Seeds (constellations/mythemes)</div></div>
+    <div class="krow"><div><span class="wbadge wc5" style="display:inline-block">V · OUTPUTS</span></div><div>after the line — <b>W11</b> Trellis/Node-Inspector · <b>W15</b> Imagery/Audio · <b>W20</b> Design · <b>W21</b> Essays / Grammar of Meaning</div></div>
+    <div class="krow"><div><span class="wbadge grad" style="display:inline-block">VI · GRADUATED ✅</span></div><div><b>W8</b> Coding-correctness gate — proved the cheap coder matches the 3-model consensus 100% on T-staging; production coding now runs on it (station 11's standing validation)</div></div>
+  </div>
+</div>
+
+<div class="wband"><b class="bt">Running beneath every station</b> — the substrate the whole line stands on:
+  <span class="wbadge wc1" style="display:inline-block">W16 Corpus Integrity</span>
+  <span class="wbadge wc1" style="display:inline-block">W18 Bridge to Neon</span>
+  <span class="wbadge wc1" style="display:inline-block">W19 · semantic index</span>
+  — provenance enforcement, the single write door, the SQLite→Postgres migration, and the embedding index that will let
+  retrieval find the overlooked voices keyword search starves.</div>
+
+<!-- ════════ PHASE: SHOPPING ════════ -->
+<div class="phase p-shop" id="acquire"><h2>Phase 1 — Shopping <span style="font-weight:400;font-size:13px">· the want</span></h2>
+  <div class="pmap">orientation: <b>Acquire</b> begins · gaps surface from any stage, continuously</div></div>
+
+<div class="station" style="--railc:var(--shop)">
+  <div class="rail"><div class="pipe top"></div><div class="nodewrap"><div class="node">0</div></div><div class="pipe"></div></div>
+  <div class="cards"><div class="itemcard">
+    <div class="sname">Gap surfaced <span class="wbadge wc2">W5/W6 Cart</span> <span class="wbadge wc2">W17 Intake</span></div>
+    <div class="itemtext">"The seed-set needs the Buddha's first sermon — the <span class="pali">Dhammacakkappavattana Sutta</span>,
+      where the Four Noble Truths are first taught — plus its commentaries and modern receptions." The want is captured
+      the moment it's noticed.</div>
+    <div class="statechip">the item is now: <b>a want</b></div>
+  </div></div>
+  <div class="cards"><div class="machcard"><div class="mh">What this station does</div>
+    <div class="takeaway">Nothing depends on memory — every gap becomes a database row the moment it's noticed.</div>
+    Any gap — a missing text, a tradition with thin coverage, a citation to chase — is captured as a shopping-list row
+    the moment it surfaces, from <i>any</i> stage of the line. Nothing depends on remembering it later.
+    <div class="mini"><div class="mt">The four input streams (per the Loom) — everything funnels to one cart</div>
+      <div class="flowrow"><span class="mbox">bibliography flywheel</span><span class="mbox">keyword / author surfaces</span><span class="mbox">direct asks ("find me X")</span><span class="mbox">fidelity-upgrade (we hold a stub; fetch the full text)</span><span class="marr">→</span><span class="mbox">one shopping cart · <span class="mnum">917</span> live rows today</span></div>
+    </div>
+    <div class="receipt">receipt: <code>shopping_list</code> row, <code>status=pending</code></div>
+  </div></div>
+</div>
+
+<!-- ════════ PHASE: CRADLE ════════ -->
+<div class="phase p-cradle"><h2>Phase 2 — CRADLE A–E <span style="font-weight:400;font-size:13px">· acquisition: a want becomes a text we hold</span></h2>
+  <div class="pmap">orientation: <b>Acquire</b> · the self-feeding harvesting engine</div></div>
+
+<div class="station" style="--railc:var(--cradle)">
+  <div class="rail"><div class="pipe"></div><div class="nodewrap"><div class="node">1</div></div><div class="pipe"></div></div>
+  <div class="cards"><div class="itemcard">
+    <div class="sname">Classify the input <span class="sub2">CRADLE-A</span> <span class="wbadge wc2">W3 CRADLE</span></div>
+    <div class="itemtext">The want becomes a structured request:
+      <span class="chip">type: scripture + book + academic</span> <span class="chip">era: ancient → modern reception</span>
+      <span class="chip">languages: Pāli · Sanskrit · Chinese · English</span> <span class="chip">tradition-hint: DHR-BUD</span></div>
+    <div class="statechip">the item is now: <b>a classified want</b></div>
+  </div></div>
+  <div class="cards"><div class="machcard"><div class="mh">What this station does</div>
+    <div class="takeaway">Typing the want decides which archives even get asked.</div>
+    A classifier reads the raw want and types it: what kind of artifact, what era, what languages, which tradition it
+    likely belongs to. The typing decides everything downstream — which archives even get asked.
+    <div class="receipt">receipt: classification columns on the <code>shopping_list</code> row</div>
+  </div></div>
+</div>
+
+<div class="station" style="--railc:var(--cradle)">
+  <div class="rail"><div class="pipe"></div><div class="nodewrap"><div class="node">2</div></div><div class="pipe"></div></div>
+  <div class="cards"><div class="itemcard">
+    <div class="sname">Route to clusters <span class="sub2">CRADLE-B</span> <span class="wbadge wc2">W3 CRADLE</span> <span class="wbadge wc2">W4 PRISM</span> <span class="wbadge wc2">W12 Fan-out</span></div>
+    <div class="itemtext">The request fans out in parallel: <b>SCRIPTURE</b> (Sutta Central · 84000 · CBETA — the canonical
+      sutta in Pāli and its Chinese parallels), <b>BOOK</b> (translations, commentaries), <b>ACADEMIC</b> (Buddhist-studies
+      scholarship — with Japanese and South-Asian journals queried at the <i>same priority</i> as Western ones).</div>
+    <div class="statechip">the item is now: <b>routed queries, in flight</b></div>
+  </div></div>
+  <div class="cards"><div class="machcard"><div class="mh">What this station does</div>
+    <div class="takeaway">Archives are chosen by what they CONTAIN — never by whose scholarship they are.</div>
+    Six endpoint clusters (scripture / book / academic / oral / literary / manuscript), each with its own archive
+    priority list. One input can fire several clusters at once. <b>The Parity Principle:</b> archives are routed by what
+    they <i>contain</i>, never by whose scholarship they are — a Japanese journal on the suttas fires for any sutta query.
+    <div class="mini"><div class="mt">How PRISM feeds the router (counts queried live, 2026-06-12)</div>
+      <div class="flowrow"><span class="mbox"><span class="mnum">4,703</span> endpoints catalogued</span><span class="marr">→</span><span class="mbox">PRISM tags each on 13 axes</span><span class="marr">→</span><span class="mbox"><span class="mnum">3,750</span> archetype-tagged</span></div>
+      <svg viewBox="0 0 560 92" style="width:100%;max-width:560px;margin:4px 0" font-family="-apple-system,sans-serif">
+        <circle cx="28" cy="46" r="7" fill="#5b5bd6"/><text x="28" y="70" font-size="9.5" text-anchor="middle" fill="#888">one query</text>
+        <g stroke="#c8c8e0" fill="none"><path d="M36 46 C90 46 90 12 138 12"/><path d="M36 46 C90 46 90 27 138 27"/><path d="M36 46 H138"/><path d="M36 46 C90 46 90 60 138 60"/><path d="M36 46 C90 46 90 74 138 74"/><path d="M36 46 C90 46 90 88 138 88"/></g>
+        <g font-size="9.5" fill="#3a3a6a">
+          <text x="142" y="15">SCRIPTURE — Sutta Central · 84000 · CBETA · Sefaria</text>
+          <text x="142" y="30">BOOK — Gutenberg · Internet Archive · HathiTrust · Aozora</text>
+          <text x="142" y="49">ACADEMIC — CrossRef · AJOL · SciELO · J-STAGE · CNKI</text>
+          <text x="142" y="63">ORAL — AODL · Mukurtu · Folkways</text>
+          <text x="142" y="77">LITERARY — IA · Open Library</text>
+          <text x="142" y="91">MANUSCRIPT — IIIF · Europeana · DPLA</text>
+        </g></svg>
+      <div class="flowrow" style="color:#777">matched by <b>content</b>, never by whose scholarship it is — full per-cluster lists in the toggle below</div>
+    </div>
+    <details style="margin-top:7px;border:none;background:transparent"><summary style="padding:2px 0;font-size:11.5px;color:#5b5bd6">▸ which archives, by cluster (the named endpoints)</summary>
+        <div class="body" style="padding:6px 2px;font-size:11.5px;color:#555">
+        <b>SCRIPTURE:</b> Sutta Central · 84000 · CBETA · Sefaria · GRETIL · Qur'an APIs · Bible APIs<br>
+        <b>BOOK:</b> Gutenberg · Internet Archive · Open Library · HathiTrust · Aozora (JP) · DLI (IN) · DOAB<br>
+        <b>ACADEMIC:</b> CrossRef · Semantic Scholar · OpenAlex · CORE · AJOL (Africa) · SciELO (LATAM) · Redalyc · J-STAGE (JP) · CNKI (CN)<br>
+        <b>ORAL:</b> AODL · Mukurtu · LoC American Folklife · Smithsonian Folkways<br>
+        <b>MANUSCRIPT:</b> IIIF crawlers · Europeana · DPLA · Wayback CDX &nbsp; <b>LITERARY:</b> IA · Open Library · Gutenberg<br>
+        <span style="color:#999">Non-Western archives sit IN the priority lists, not in a side-list — that's the Parity Principle doing §2.8's work.</span></div></details>
+    <div class="receipt">receipt: cluster assignments per query</div>
+  </div></div>
+</div>
+
+<div class="station" style="--railc:var(--cradle)">
+  <div class="rail"><div class="pipe"></div><div class="nodewrap"><div class="node">3</div></div><div class="pipe"></div></div>
+  <div class="cards"><div class="itemcard">
+    <div class="sname">Resolve <span class="sub2">CRADLE-C</span> <span class="wbadge wc2">W3 FOUNDRY</span></div>
+    <div class="itemtext">Hits come back: the sutta itself (SN 56.11) with parallel recensions, translations,
+      commentarial layers, modern receptions. <b>And every archive that was tried is logged — including the misses.</b></div>
+    <div class="statechip">the item is now: <b>resolver hits + a source-tried log</b></div>
+  </div></div>
+  <div class="cards"><div class="machcard"><div class="mh">What this station does</div>
+    <div class="takeaway">The misses are logged too: corpus skew becomes visible data, not a hidden filter.</div>
+    Resolvers run per cluster in priority order; first confident match wins. The misses matter as much as the hits:
+    the full source-tried log is the <b>bias trail</b> — if coverage of a text is thin in some language or region, that
+    skew becomes visible drift-data, never a hidden pre-filter.
+    <div class="mini"><div class="mt">The chain, and the funnel it draws from</div>
+      <div class="flowrow">try <span class="mbox miss">archive #1</span><span class="marr">→</span><span class="mbox miss">archive #2</span><span class="marr">→</span><span class="mbox hit">archive #3 · confident match ✓</span> <span style="color:#999">— every miss logged</span></div>
+      <div class="flowrow">the funnel: <span class="mbox"><span class="mnum">4,703</span> catalogued</span><span class="marr">→</span><span class="mbox"><span class="mnum">3,190</span> built</span><span class="marr">→</span><span class="mbox"><span class="mnum">3,175</span> healthy</span> <span style="color:#999">(<span class="mnum">276</span> dead — kept visible, that's the bias trail)</span></div>
+    </div>
+    <div class="mini"><div class="mt">Who builds this — PRISM classifies, FOUNDRY casts</div>
+      <div class="flowrow"><span class="mbox">PRISM</span> labels every endpoint (13 routing axes: cluster · geo · language · era · voice-tier · peer-review · …)</div>
+      <div class="flowrow"><span class="mbox">FOUNDRY</span> casts the harvesters from <span class="mnum">~8</span> reusable protocol molds — ~70% shared handler + 30% per-endpoint config — so endpoints batch-build instead of one-off</div>
+    </div>
+    <div class="receipt">receipt: resolver hits + per-row source-tried log</div>
+  </div></div>
+</div>
+
+<div class="station" style="--railc:var(--cradle)">
+  <div class="rail"><div class="pipe"></div><div class="nodewrap"><div class="node">4</div></div><div class="pipe"></div></div>
+  <div class="cards"><div class="itemcard">
+    <div class="sname">Dedup <span class="sub2">CRADLE-D</span> <span class="wbadge wc1">W16 Integrity</span></div>
+    <div class="itemtext">Do we already hold the Pāli canon? (Largely yes.) The hits converge by canonical identity —
+      only the genuinely new sources continue down the pipe; the rest attach to what's already held.</div>
+    <div class="statechip">the item is now: <b>a deduped candidate set</b></div>
+  </div></div>
+  <div class="cards"><div class="machcard"><div class="mh">What this station does</div>
+    <div class="takeaway">Canonical texts live once — duplication is blocked before it happens.</div>
+    Before anything is added, the candidate is checked against everything already ingested. Shared canonical texts
+    live <i>once</i>, at the parent — re-ingesting the same canon under every sub-tradition is exactly the corruption this
+    station exists to block.
+    <div class="receipt">receipt: dedup verdict against <code>sources</code> + <code>canonical_sources</code></div>
+  </div></div>
+</div>
+
+<div class="station" style="--railc:var(--cradle)">
+  <div class="rail"><div class="pipe"></div><div class="nodewrap"><div class="node">5</div></div><div class="pipe"></div></div>
+  <div class="cards"><div class="itemcard">
+    <div class="sname">Ingest — the single write door <span class="sub2">CRADLE-E</span> <span class="wbadge wc1">W16 Integrity</span> <span class="wbadge wc2">W17 Intake</span></div>
+    <div class="itemtext">The sutta, its commentaries, and receptions enter the corpus through the one gateway:
+      full provenance stamped, bound to <span class="chip">DHR-BUD</span>.
+      <div class="gatenote">The CARE gate lives here too: Indigenous material is always <b>included + tagged</b> for
+      community-stewardship review, never deferred or excluded. The 4NT passes through untagged — the gate exists,
+      and this item doesn't trip it.</div></div>
+    <div class="statechip">the item is now: <b>source rows we hold</b></div>
+  </div></div>
+  <div class="cards"><div class="machcard"><div class="mh">What this station does</div>
+    <div class="takeaway">One door in. No provenance, no entry.</div>
+    One write door; no bypass. Every row gets where-it-came-from, how-it-was-harvested, who-wrote-it provenance —
+    non-negotiable fields, enforced at the database layer, so every later coded value can be audited back to its origin.
+    <b>And the flywheel turns here:</b> each ingested text's bibliography surfaces the <i>next</i> gaps → back to station 0.
+    <div class="mini"><div class="mt">Every ingested text flows twice — the flywheel</div>
+      <div class="flowrow"><span class="mbox">the text</span><span class="marr">→</span> flow 1: <span class="mbox">into the corpus</span><span class="marr">→</span><span class="mbox">chunk → code → find</span></div>
+      <div class="flowrow"><span class="mloop">↻</span> flow 2: <span class="mbox">its bibliography</span><span class="marr">→</span><span class="mbox">new gaps surfaced</span><span class="marr">→</span><span class="mbox">back to station 0</span> <span style="color:#999">— the engine feeds itself</span></div>
+    </div>
+    <div class="receipt">receipt: <code>sources</code> + <code>canonical_sources</code> rows, provenance complete</div>
+  </div></div>
+</div>
+
+<!-- ════════ PHASE: PLUMBING ════════ -->
+<div class="phase p-plumb" id="chunk"><h2>Phase 3 — Plumbing <span style="font-weight:400;font-size:13px">· every datum crosses these, however it arrived</span></h2>
+  <div class="pmap">orientation: <b>Chunk</b> · text → analytical atoms</div></div>
+
+<div class="station" style="--railc:var(--plumb)">
+  <div class="rail"><div class="pipe"></div><div class="nodewrap"><div class="node">6–7</div></div><div class="pipe"></div></div>
+  <div class="cards"><div class="itemcard">
+    <div class="sname">Populate · Manifest <span class="wbadge wc1">W16 Integrity</span></div>
+    <div class="itemtext">The sutta's rows take their place in the corpus: fidelity tier set (full text held),
+      structural type detected (a sutta with formulaic verse structure), sub-tradition arbitrated (canonical home
+      Theravāda; Mahāyāna receptions tagged as receptions, not duplicates).</div>
+    <div class="statechip">the item is now: <b>a structured, placed source</b></div>
+  </div></div>
+  <div class="cards"><div class="machcard"><div class="mh">What these stations do</div>
+    <div class="takeaway">The chunker has to know what kind of text it's holding before it cuts.</div>
+    Bookkeeping with teeth: fidelity tiers (do we hold full text, partial, or just metadata?), structural typing
+    (the chunker needs to know a sutta from a sermon from an oral transcript), provenance enrichment, sub-tag arbitration.
+    <div class="receipt">receipt: manifest fields on <code>sources</code></div>
+  </div></div>
+</div>
+
+<div class="station" style="--railc:var(--plumb)">
+  <div class="rail"><div class="pipe"></div><div class="nodewrap"><div class="node">8</div></div><div class="pipe"></div></div>
+  <div class="cards"><div class="itemcard">
+    <div class="sname">Chunk <span class="wbadge wc1">W16 Integrity</span></div>
+    <div class="itemtext">The sermon breaks into quotable atoms: <span class="pali">"Idaṁ kho pana, bhikkhave, dukkhaṁ
+      ariyasaccaṁ…"</span> — "This, monks, is the noble truth of <span class="pali">dukkha</span>…" Each truth, each turning,
+      each commentarial gloss becomes its own addressable passage.</div>
+    <div class="statechip">the item is now: <b>anchor passages — the analytical atoms</b></div>
+  </div></div>
+  <div class="cards"><div class="machcard"><div class="mh">What this station does</div>
+    <div class="takeaway">Sources are containers; passages are the atoms — that's why 390k becomes 9.5M.</div>
+    Sources are containers; <b>passages are the unit of analysis</b>. Chunking is why ~390k sources become ~9.5M passages —
+    one source yields many atoms, each individually quotable, codeable, and traceable to its exact location in the source.
+    <div class="mini"><div class="mt">Why source-count ≠ depth — the container/atom split</div>
+      <div class="flowrow"><span class="mbox">1 source (container)</span><span class="marr">→</span><span class="mbox">▫▫▫▫▫▫ many passages (atoms)</span></div>
+      <div class="flowrow">corpus-wide: <span class="mbox"><span class="mnum">389,993</span> sources</span><span class="marr">→</span><span class="mbox"><span class="mnum">~9.5M</span> passages</span> <span style="color:#999">(≈ 24 atoms per source, across <span class="mnum">535</span> traditions)</span></div>
+    </div>
+    <div class="receipt">receipt: <code>passages</code> rows (L4 anchors)</div>
+  </div></div>
+</div>
+
+<!-- ════════ PHASE: CODING ORDER ════════ -->
+<div class="phase p-code" id="code"><h2>Phase 4 — The coding order 1–5 <span style="font-weight:400;font-size:13px">· analysis: an atom becomes a coded, threaded, rhyme-mined unit</span></h2>
+  <div class="pmap">orientation: <b>Code</b> (stations 9–11) then <b>Find</b> (stations 12–13)</div></div>
+
+<div class="station" style="--railc:var(--code)">
+  <div class="rail"><div class="pipe"></div><div class="nodewrap"><div class="node">9</div></div><div class="pipe"></div></div>
+  <div class="cards"><div class="itemcard">
+    <div class="sname">classify <span class="sub2">coding-order 1</span> <span class="wbadge wc3">W10 RAIN</span> <span class="wbadge wc3">W19 Fairness</span></div>
+    <div class="itemtext">Per atom: significance (the first teaching of the truths = canonical-tier), artifact type
+      (scripture vs commentary vs modern reception), tradition confirmed at the passage level.</div>
+    <div class="statechip">the item is now: <b>tagged atoms</b></div>
+  </div></div>
+  <div class="cards"><div class="machcard"><div class="mh">What this station does</div>
+    <div class="takeaway">Cheap triage first, so expensive interpretation lands on the right material.</div>
+    Cheap, scalable triage so the expensive interpretive coding lands on the right material first — and so a
+    commentary is never mistaken for the canon it comments on.
+    <div class="mini"><div class="mt">Why the coding order runs 1→2→3</div>
+      <div class="flowrow"><span class="mbox">1 classify</span><span class="marr">→</span><span class="mbox">2 glossary</span><span class="marr">→</span><span class="mbox">3 code</span></div>
+      <div class="flowrow" style="color:#777">triage before expense · the tradition's own vocabulary before interpretation · tradition-internal before any comparison — the §2.1 anti-pre-anchoring discipline, built into the sequence</div>
+    </div>
+    <div class="receipt">receipt: significance + artifact-type tags per passage</div>
+  </div></div>
+</div>
+
+<div class="station" style="--railc:var(--code)">
+  <div class="rail"><div class="pipe"></div><div class="nodewrap"><div class="node">10</div></div><div class="pipe"></div></div>
+  <div class="cards"><div class="itemcard">
+    <div class="sname">glossary <span class="sub2">coding-order 2</span> <span class="wbadge wc3">W2 Flowers</span></div>
+    <div class="itemtext">The tradition's own vocabulary is seeded before any coding:
+      <span class="chip pali">dukkha</span> <span class="chip pali">samudaya</span> <span class="chip pali">nirodha</span>
+      <span class="chip pali">magga</span> <span class="chip pali">taṇhā</span> <span class="chip pali">majjhimā paṭipadā</span></div>
+    <div class="statechip">the item is now: <b>atoms + their tradition's own words</b></div>
+  </div></div>
+  <div class="cards"><div class="machcard"><div class="mh">What this station does</div>
+    <div class="takeaway">The tradition's own words come before any analysis touches them.</div>
+    Builds each tradition's in-vivo term glossary — and keeps growing it: when coding surfaces a term the glossary
+    lacks, the term flows back in (grounded-theory style). The glossary is a drift-check, never a cage.
+    <div class="receipt">receipt: <code>tradition_glossary</code> entries</div>
+  </div></div>
+</div>
+
+<div class="station" style="--railc:var(--code)">
+  <div class="rail"><div class="pipe"></div><div class="nodewrap"><div class="node">11</div></div><div class="pipe"></div></div>
+  <div class="cards"><div class="itemcard">
+    <div class="sname">code <span class="sub2">coding-order 3 · the current frontier</span> <span class="wbadge wc3">W2 Flowers</span> <span class="wbadge wc3">W9 Throughput ⚠️</span> <span class="wbadge wc3">W13 Germination</span> <span class="wbadge wc3">W19 Fairness</span> <span class="wbadge grad">W8 gate ✅</span></div>
+    <div class="itemtext">Each atom is coded <b>first in Buddhist terms</b> — <span class="pali">dukkha</span>, not "suffering-concept";
+      <span class="pali">taṇhā</span>, not "desire" — then mapped: is this a <b>move</b> (operation) or a <b>claim</b> (interpretation)?
+      Where on the T1–T9 lineage chain (+ T10 orthogonal)? What scale (S0–S8), what depth? Three reviewers — insider · outsider · practitioner — code
+      independently; their disagreement is kept as data.</div>
+    <div class="statechip">the item is now: <b>coded passages, agreement-scored</b></div>
+  </div></div>
+  <div class="cards"><div class="machcard"><div class="mh">What this station does</div>
+    <div class="takeaway">First-cycle coding speaks ONLY the tradition's language — and disagreement is kept as data.</div>
+    The interpretive heart. First-cycle coding uses <i>only</i> the tradition's own vocabulary — no preset categories,
+    no imported hypothesis-space; the cross-tradition layer comes later, from aggregation, or not at all. Reliability is
+    measured per cell (inter-rater agreement, Krippendorff-α-style), so "qualitative" never means "unverifiable."
+    <div class="mini"><div class="mt">The three-reviewer panel — consensus never forced</div>
+      <div class="flowrow"><span class="mbox">passage</span><span class="marr">→</span><span class="mbox">Insider</span><span class="mbox">Outsider</span><span class="mbox">Practitioner</span><span class="marr">→</span><span class="mbox hit">agree = convergent data</span> · <span class="mbox">diverge = kept as data (α per cell)</span></div>
+    </div>
+    <div class="mini"><div class="mt">The grammar stack (mapping #2) — what the layer-coding records</div>
+      <div class="flowrow"><span class="mbox">Substrate — what's attended to (a felt, fixed self)</span><span class="marr">→</span><span class="mbox">Operation — the move (loosening the self-construct)</span></div>
+      <div class="flowrow"><span class="marr">→</span><span class="mbox">Outcome — what emerges (a restructured identity)</span><span class="marr">→</span><span class="mbox">Paradigm — the claim ("no self", little-t or Big-T)</span></div>
+      <div class="flowrow" style="color:#777">where a thing sits decides what it does — the same content can be a move, a product, or a claim</div>
+    </div>
+    <div class="receipt">receipt: <code>passage_codes</code> rows + ensemble agreement scores</div>
+  </div></div>
+</div>
+
+<div class="station" style="--railc:var(--code)" id="find">
+  <div class="rail"><div class="pipe"></div><div class="nodewrap"><div class="node">12</div></div><div class="pipe"></div></div>
+  <div class="cards"><div class="itemcard">
+    <div class="sname">thread <span class="sub2">coding-order 4</span> <span class="wbadge wc3">W2 Flowers</span> <span class="wbadge wc3">W7 Chronology</span> <span class="wbadge wc5">W11 Trellis</span></div>
+    <div class="itemtext">The 4NT atoms assemble by T-stage into the seed's branching tree — from the sermon's own
+      encoding (T2), through textual codification (T3) and the scholarly-commentary layer (T5 — where the Visuddhimagga lives), to the living lineage today (T9 — Secular Buddhism, the podcasts). T10 (artistic reimagination) is <b>orthogonal</b> — a parallel axis, not a rung after T9. <b>This is real:</b> the live flower spans 4 lineage stages today.</div>
+    <div class="statechip">the item is now: <b>a thread — the morph made visible</b></div>
+  </div></div>
+  <div class="cards"><div class="machcard"><div class="mh">What this station does</div>
+    <div class="takeaway">The branching is the finding.</div>
+    Assembles every passage anchored to one seed into the branching tree of its institutional life — mapping #1 as a
+    data structure. One branch faithful codification, one evacuation-into-slogan, one re-encounter. The branching
+    <i>is</i> the finding.
+    <div class="flowrow" style="margin-top:6px;font-size:11.5px"><span class="mbox">see it live:</span> <a href="garden.html" data-local-note="full inspector opens in the local archive" style="color:#5b5bd6">the 4NT inspector</a> — every passage, stage, and code, walkable</div>
+    <figure class="shot"><img src="_shots/inspector_4nt.png" alt="the 4NT inspector — live render" onerror="this.parentElement.style.display='none'"><figcaption>the real render: the 4NT inspector — every passage, stage, and code, walkable</figcaption></figure>
+    <div class="receipt">receipt: <code>thread_membership</code> rows → the threads-tree</div>
+  </div></div>
+</div>
+
+<div class="station" style="--railc:var(--code)">
+  <div class="rail"><div class="pipe"></div><div class="nodewrap"><div class="node">13</div></div><div class="pipe"></div></div>
+  <div class="cards"><div class="itemcard">
+    <div class="sname">rhyme <span class="sub2">coding-order 5</span> <span class="wbadge wc4">W1 Metaxy/CTAG</span> <span class="wbadge wc4">W14 Narrative Seeds</span></div>
+    <div class="itemtext">The coded 4NT operations are mined for cross-tradition analogies — A:B::C:D structures shared
+      with traditions that never met it. <b>The live flower carries 5 confirmed rhyme-edges</b>, each flagged on the
+      contact spectrum (documented · plausible · no-known-direct).</div>
+    <div class="statechip">the item is now: <b>a node in the rhyme-graph</b></div>
+  </div></div>
+  <div class="cards"><div class="machcard"><div class="mh">What this station does</div>
+    <div class="takeaway">Rhymes match moves, not words.</div>
+    Computes similarity on the <i>operation</i> — the move, not the words. Zero lexical overlap required: fasting and
+    silence look nothing alike, yet <i>fasting : appetite :: silence : speech</i>. Convergence across traditions with no
+    historical contact is the thesis question (Q2), surfaced at scale.
+    <div class="mini"><div class="mt">The rhyme shape</div>
+      <div class="flowrow"><span class="mbox">fasting : appetite</span><span class="marr">::</span><span class="mbox">silence : speech</span> <span style="color:#999">— matched on the relation, never on the words</span></div>
+    </div>
+    <div class="flowrow" style="margin-top:6px;font-size:11.5px"><span class="mbox">see it live:</span> <a href="#" onclick="return false" style="cursor:default" title="CTAG viz opens in the local archive" style="color:#5b5bd6">the CTAG rhyme-graph viz</a> · <a href="garden.html" style="color:#5b5bd6">the garden</a> (13 confirmed rhymes)</div>
+    <figure class="shot"><img src="_shots/ctag_viz.png" alt="the CTAG rhyme-graph — live render" onerror="this.parentElement.style.display='none'"><figcaption>the real render: the Cross-Tradition Analogy Graph (CTAG)</figcaption></figure>
+    <div class="receipt">receipt: rhyme-graph edges (the CTAG), contact-flagged</div>
+  </div></div>
+</div>
+
+<!-- ════════ FINISHED GOOD ════════ -->
+<div class="finished">
+  <h2>The finished good — the Four Noble Truths, in the garden today</h2>
+  <div style="font-size:13.5px;color:#555">The factory ships <b>threads</b>. This one is live and fully coded — these are
+   queried numbers, not projections:</div>
+  <div class="fstats">
+    <div class="fstat"><b>92</b> passages threaded</div>
+    <div class="fstat"><b>92</b> coded (100%)</div>
+    <div class="fstat"><b>4</b> T-stages in bloom <span class="smallnote">(T2 · T3 · T5 · T9 — DB-queried; the Jun-11 garden render still shows T10)</span></div>
+    <div class="fstat"><b>5</b> confirmed cross-tradition rhymes</div>
+  </div>
+  <figure class="shot" style="max-width:760px"><img src="_shots/garden.png" alt="the garden — live render" onerror="this.parentElement.style.display='none'"><figcaption>the real render: the garden — this flower among the 14</figcaption></figure>
+  <div style="font-size:12.5px;color:#777">See it live: the garden (<code>data/chunk_quality/_garden/garden.html</code>) →
+   the Four Noble Truths flower → its inspector walks every passage, code, and rhyme-edge.</div>
+</div>
+
+<div class="wband"><b class="bt">After the line — the outputs the factory feeds</b> (the finished threads flow onward):
+  <span class="wbadge wc5" style="display:inline-block">W11 Trellis / Node-Inspector</span>
+  <span class="wbadge wc5" style="display:inline-block">W15 Imagery / Audio</span>
+  <span class="wbadge wc5" style="display:inline-block">W20 Design</span>
+  <span class="wbadge wc5" style="display:inline-block">W21 Essays / Grammar of Meaning</span>
+  <span style="font-size:11.5px">— <a href="essay-engine.html" style="color:#5b5bd6">the essay engine has its own factory-line page</a></span>
+  — the Archive interface that renders the garden, the media layer, the design language, and the essays written from
+  the database. <span class="wbadge grad" style="display:inline-block">W8 ✅ graduated</span> stands behind station 11 as
+  the validation that production coding rests on.</div>
+
+
+<div class="card" style="margin:18px 0;padding:16px 18px">
+  <div style="font-weight:800;font-size:15px">The tree itself — the 92, threaded, standing in their soil</div>
+  <div style="font-size:12.5px;color:#666;margin:3px 0 6px">Every dot is one real passage from <code>thread_membership</code>, branch = its T-stage;
+   the strata below the ground line are the <b>soil</b> — the civilizational conditions the tree grew in
+   (<code>conditioned-by</code> edges to substrate-events). All queried live, 2026-06-12.</div>
+  <svg viewBox="0 0 880 580" style="width:100%;max-width:880px" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
+    <defs>
+      <linearGradient id="soil" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#cdb992"/><stop offset="0.5" stop-color="#a98f63"/><stop offset="1" stop-color="#7d6647"/>
+      </linearGradient>
+    </defs>
+    <!-- branches -->
+    <g stroke="#6b4f35" fill="none" stroke-linecap="round">
+      <path d="M440 408 C440 360 440 350 438 332" stroke-width="11"/>
+      <path d="M438 340 C390 330 270 330 215 302" stroke-width="7"/>
+      <path d="M438 345 C540 340 630 335 672 322" stroke-width="4.5"/>
+      <path d="M438 332 C420 250 370 200 325 162" stroke-width="6"/>
+      <path d="M438 332 C480 250 560 205 612 172" stroke-width="5"/>
+    </g>
+    <!-- leaf clusters (the actual 92) -->
+    <circle cx="195.0" cy="295.0" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="189.4" cy="299.4" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="195.9" cy="285.8" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="203.0" cy="304.0" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="180.0" cy="292.7" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="209.3" cy="287.2" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="190.2" cy="310.5" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="185.7" cy="279.7" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="215.2" cy="301.3" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="173.9" cy="302.5" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="205.2" cy="276.3" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="202.5" cy="315.7" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="172.2" cy="283.6" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="221.8" cy="289.9" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="178.6" cy="315.0" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="191.2" cy="269.9" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="218.2" cy="311.8" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="163.7" cy="296.1" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="217.9" cy="275.4" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="193.5" cy="323.5" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="173.2" cy="272.6" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="229.5" cy="299.0" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="165.7" cy="312.5" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="203.0" cy="264.4" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="213.5" cy="322.8" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="158.8" cy="285.1" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="230.2" cy="281.0" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="179.8" cy="326.3" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="181.4" cy="262.5" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="231.2" cy="311.4" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="154.7" cy="304.1" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="217.9" cy="264.4" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="202.3" cy="331.4" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="160.5" cy="272.0" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="239.2" cy="291.9" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="164.5" cy="323.4" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="195.2" cy="255.8" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="226.1" cy="324.4" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="148.4" cy="291.3" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="232.8" cy="270.3" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="186.4" cy="335.7" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="169.1" cy="259.6" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="242.5" cy="306.2" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="150.7" cy="314.6" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="212.5" cy="254.3" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="214.2" cy="335.6" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="148.4" cy="276.0" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="244.8" cy="281.8" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="168.4" cy="334.1" r="3.1" fill="#5b5bd6" opacity="0.92"/><circle cx="680.0" cy="318.0" r="3.1" fill="#4f6fd6" opacity="0.92"/><circle cx="674.4" cy="322.4" r="3.1" fill="#4f6fd6" opacity="0.92"/><circle cx="680.9" cy="308.8" r="3.1" fill="#4f6fd6" opacity="0.92"/><circle cx="688.0" cy="327.0" r="3.1" fill="#4f6fd6" opacity="0.92"/><circle cx="665.0" cy="315.7" r="3.1" fill="#4f6fd6" opacity="0.92"/><circle cx="694.3" cy="310.2" r="3.1" fill="#4f6fd6" opacity="0.92"/><circle cx="675.2" cy="333.5" r="3.1" fill="#4f6fd6" opacity="0.92"/><circle cx="670.7" cy="302.7" r="3.1" fill="#4f6fd6" opacity="0.92"/><circle cx="700.2" cy="324.3" r="3.1" fill="#4f6fd6" opacity="0.92"/><circle cx="315.0" cy="150.0" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="309.4" cy="154.4" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="315.9" cy="140.8" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="323.0" cy="159.0" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="300.0" cy="147.7" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="329.3" cy="142.2" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="310.2" cy="165.5" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="305.7" cy="134.7" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="335.2" cy="156.3" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="293.9" cy="157.5" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="325.2" cy="131.3" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="322.5" cy="170.7" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="292.2" cy="138.6" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="341.8" cy="144.9" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="298.6" cy="170.0" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="311.2" cy="124.9" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="338.2" cy="166.8" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="283.7" cy="151.1" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="337.9" cy="130.4" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="313.5" cy="178.5" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="293.2" cy="127.6" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="349.5" cy="154.0" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="285.7" cy="167.5" r="3.1" fill="#7a3fd1" opacity="0.92"/><circle cx="620.0" cy="165.0" r="3.1" fill="#c9788a" opacity="0.92"/><circle cx="614.4" cy="169.4" r="3.1" fill="#c9788a" opacity="0.92"/><circle cx="620.9" cy="155.8" r="3.1" fill="#c9788a" opacity="0.92"/><circle cx="628.0" cy="174.0" r="3.1" fill="#c9788a" opacity="0.92"/><circle cx="605.0" cy="162.7" r="3.1" fill="#c9788a" opacity="0.92"/><circle cx="634.3" cy="157.2" r="3.1" fill="#c9788a" opacity="0.92"/><circle cx="615.2" cy="180.5" r="3.1" fill="#c9788a" opacity="0.92"/><circle cx="610.7" cy="149.7" r="3.1" fill="#c9788a" opacity="0.92"/><circle cx="640.2" cy="171.3" r="3.1" fill="#c9788a" opacity="0.92"/><circle cx="598.9" cy="172.5" r="3.1" fill="#c9788a" opacity="0.92"/><circle cx="630.2" cy="146.3" r="3.1" fill="#c9788a" opacity="0.92"/>
+    <!-- branch labels -->
+    <g font-size="11.5" fill="#1a1a2e">
+      <text x="100" y="372" font-weight="700">T2 · first encoding — 49</text>
+      <text x="100" y="386" font-size="10" fill="#777">the sermon itself (SN 56.11) · Saṃyutta-nikāya · Dhammapada · Pāli Canon</text>
+      <text x="620" y="372" font-weight="700">T3 · textual codification — 9</text>
+      <text x="620" y="386" font-size="10" fill="#777">Saṃyutta edns · Anattalakkhana Sutta</text>
+      <text x="170" y="92" font-weight="700">T5 · scholarly commentary — 23</text>
+      <text x="170" y="106" font-size="10" fill="#777">Visuddhimagga (11) · Madhyamaka/Yogācāra scholarship · Abhidhamma</text>
+      <text x="585" y="92" font-weight="700">T9 · living lineage — 11</text>
+      <text x="560" y="106" font-size="10" fill="#777">Secular Buddhism · Dhammagiri podcasts · Gay Buddhist Forum</text>
+    </g>
+    <!-- seed label -->
+    <text x="452" y="400" font-size="11" fill="#6b4f35" font-weight="700">the seed — SN 56.11</text>
+    <!-- ground line -->
+    <line x1="20" y1="408" x2="860" y2="408" stroke="#7d6647" stroke-width="2.5"/>
+    <!-- soil -->
+    <rect x="20" y="408" width="840" height="150" fill="url(#soil)" opacity="0.5"/>
+    <!-- roots -->
+    <g stroke="#6b4f35" fill="none" stroke-width="3" opacity="0.75" stroke-linecap="round">
+      <path d="M440 408 C430 440 380 455 330 462"/>
+      <path d="M440 408 C448 445 520 460 575 468"/>
+      <path d="M440 408 C438 460 420 490 400 510"/>
+    </g>
+    <!-- soil strata items (queried) -->
+    <g font-size="11">
+      <text x="34" y="430" font-weight="800" fill="#4a3a26" font-size="11.5">The soil (Sitz) — the conditions the tree grew in · 5 substrate-events attached to the Buddhist grove</text>
+      <g>
+        <rect x="120" y="444" width="180" height="26" rx="13" fill="#fffdf8" stroke="#8a6f4d"/><text x="210" y="461" text-anchor="middle" fill="#4a3a26" font-weight="600">Axial Age (Jaspers/Bellah)</text>
+        <rect x="320" y="450" width="90" height="26" rx="13" fill="#fffdf8" stroke="#8a6f4d"/><text x="365" y="467" text-anchor="middle" fill="#4a3a26" font-weight="600">Coinage</text>
+        <rect x="430" y="444" width="250" height="26" rx="13" fill="#fffdf8" stroke="#8a6f4d"/><text x="555" y="461" text-anchor="middle" fill="#4a3a26" font-weight="600">Siddhārtha Gautama · ~500 BCE Magadha</text>
+      </g>
+      <g opacity="0.85">
+        <rect x="200" y="500" width="200" height="24" rx="12" fill="#f5efe2" stroke="#8a6f4d" stroke-dasharray="3 2"/><text x="300" y="516" text-anchor="middle" fill="#4a3a26">Black Death · bubonic plague</text>
+        <rect x="430" y="506" width="260" height="24" rx="12" fill="#f5efe2" stroke="#8a6f4d" stroke-dasharray="3 2"/><text x="560" y="522" text-anchor="middle" fill="#4a3a26">Greek koinē as Mediterranean lingua franca</text>
+        <text x="34" y="545" font-size="10" fill="#5a4a34">deeper stratum — the Mahāyāna reception's conditions (DHR-BUD-MAH)</text>
+      </g>
+    </g>
+  </svg>
+  <div class="smallnote">Counts: T2=49 · T3=9 · T5=23 · T9=11 = 92 (<code>thread_membership</code>, queried 2026-06-12).
+   Honest flag: the Jun-11 garden render shows a T10 chip for this flower; the DB today holds <b>4</b> stages, no T10 rows — reconcile before show-time.
+   Soil rows: <code>tradition_substrate_attachment</code> ⨝ <code>civilizational_substrate_events</code> (DHR-BUD: 3 · DHR-BUD-MAH: 2).
+   Walk any leaf: <a href="garden.html" data-local-note="full inspector opens in the local archive" style="color:#5b5bd6">the 4NT inspector</a>.</div>
+</div>
+
+<div class="callout"><b>Why the line is auditable, end to end</b> — three properties make it a measurable factory rather
+ than a story: (1) <b>every source tried is logged</b>, including the failures — corpus skew becomes visible drift-data
+ (station 3); (2) <b>one write door</b> — nothing enters without provenance and dedup (station 5); (3) <b>dashboards read
+ the database, not narration</b> — every count on this page exists as rows, so "we have the Four Noble Truths" can never
+ be claimed without the receipts existing.</div>
+
+</main>
+
+<footer>
+  Built from <code>pm/30_methodology/method_factory_line_idea_to_thread_2026-06-01.md</code> (the 14-station value-stream)
+  with the Four Noble Truths as the worked item · live flower numbers from the garden render (2026-06-11) ·
+  pairs with <code>field_ed/luminous_archive_explainer_2026-06-12.html</code> (the whole-instrument view).
+</footer>
+
+<script>
+var wt=document.getElementById('wtoggle');
+wt.addEventListener('click',function(){
+  document.body.classList.toggle('show-w');
+  var on=document.body.classList.contains('show-w');
+  wt.classList.toggle('on',on);
+  wt.textContent=on?'view: internal · hide the workstream overlay (external)':'view: external · show the workstream overlay (internal)';
+});
+var lex=document.getElementById('lexicon');
+document.getElementById('lexbtn').addEventListener('click',function(){lex.classList.toggle('open')});
+document.getElementById('lexclose').addEventListener('click',function(){lex.classList.remove('open')});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')lex.classList.remove('open')});
+</script>
+
+<!--
+METHODOLOGY FOOTER
+HOW PRODUCED. S116 design session (2026-06-12), design-SB in isolated worktree (branch claude/design-sb-explainer),
+at researcher direction: the factory-line value-stream as a standalone VERTICAL pipe (researcher's layout call —
+"as big as needed, vertical, explanation on the right"), with the Four Noble Truths replacing Tengri as the worked
+item (researcher's call: a first-seed example, not an unfamiliar tradition). Two-voice layout per station: left =
+the item's state (4NT concretely), right = the machine (what the station does generally) + DB receipt line.
+SCHOLARLY SOURCES. pm/30_methodology/method_factory_line_idea_to_thread_2026-06-01.md (the 14 stations / 4 phases /
+receipts); field_ed/PROJECT_ORIENTATION_2026-05-27.md (the Acquire/Chunk/Code/Find altitude + 3-reviewer panel);
+data/chunk_quality/_garden/garden.html (live 4NT flower numbers: 92 passages / 92 coded / 5 stages T2-T3-T5-T9-T10 /
+5 rhymes, as of 2026-06-11); CLAUDE.md 2.10 (CRADLE + Parity), 2.11 (CARE INCLUDE+TAG), 2.7 (single write door),
+2.8 (source-tried bias trail), 2.1 (first-cycle tradition-internal coding); SN 56.11 (Dhammacakkappavattana Sutta —
+awakening at Bodh Gaya under the Bodhi tree; first sermon at the Deer Park, Sarnath: stated accurately).
+WHAT NEEDS VERIFICATION. (0) endpoint/cart/source counts in the mini-schemas were queried read-only from data/project.db on 2026-06-12 (4,703/3,750/3,190/3,175/276 endpoints; 917 cart; 389,993 sources; 535 traditions) - these SUPERSEDE the S94 funnel-state doc figures; re-query at show-time. (1) 4NT flower numbers are from the Jun-11 garden render — refresh from the DB at show-time;
+(2) the Pali quote at station 8 is the standard SN 56.11 formula — verify against the corpus's own held text before
+showing; (3) station 9 "canonical-tier" for SN 56.11 assumed — confirm against the actual significance_tier value;
+(4) the T-stage gloss at station 12 (Abhidharma=T3, curricular=T5) is illustrative narrative — confirm against the
+actual coded stage assignments in the inspector.
+-->
+</body></html>
