@@ -198,10 +198,20 @@ function render(){
 }
 document.querySelectorAll(".tg").forEach(function(el){el.onclick=function(){view=el.dataset.v;document.querySelectorAll(".tg").forEach(function(x){x.classList.toggle("on",x===el);});render();};});
 function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-/* --- host gate: the "Tamara" view is only available locally (Tamara, with the local drive).
-   On the public site a visitor only ever sees the Saquib view. True privacy = not-deployed, not a button. --- */
+/* --- host gate: the "Tamara" view is available locally (your drive) OR on the live site via the
+   private ?tamara link (bookmark grammarofmeaning.org/?tamara). The bare public URL stays Saquib-only,
+   so a visitor — or Saquib over your shoulder — never even sees a Tamara toggle. --- */
 var LOCAL = location.protocol==='file:' || ['','localhost','127.0.0.1'].indexOf(location.hostname)>=0 || /^(192\.168|10|172\.(1[6-9]|2\d|3[01]))\./.test(location.hostname);
-if(!LOCAL){ view="saquib"; var mt=document.querySelector('.tg[data-v="tamara"]'); if(mt) mt.style.display='none'; document.getElementById('barnote').textContent=''; }
+var PARAM = /(?:^|[?&#])(tamara|me)(?:=|&|$)/i.test(location.search + location.hash);
+var ME = LOCAL || PARAM;
+if(ME){
+  if(PARAM) view="tamara";                 // landing via ?tamara → drop straight into the full 17
+  document.querySelectorAll(".tg").forEach(function(x){x.classList.toggle("on", x.dataset.v===view);});
+} else {
+  view="saquib";
+  var mt=document.querySelector('.tg[data-v="tamara"]'); if(mt) mt.style.display='none';
+  document.getElementById('barnote').textContent='';
+}
 render();
 </script>
 </body></html>
