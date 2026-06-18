@@ -383,4 +383,15 @@ body{background:#fbf6ec}
    document.getElementById('fc-bars').innerHTML=bars;
  }
  window.addEventListener('DOMContentLoaded',function(){forestCut(2026);});</script>
+<script>/* --- host gate: flower→inspector detail pages are local-only (Tamara, on the drive).
+   On the public site, neutralize those links so there are no dead ends. --- */
+(function(){
+ var LOCAL = location.protocol==='file:' || ['','localhost','127.0.0.1'].indexOf(location.hostname)>=0 || /^(192\.168|10|172\.(1[6-9]|2\d|3[01]))\./.test(location.hostname);
+ if(LOCAL) return;
+ document.querySelectorAll('a.flower').forEach(function(a){
+   a.removeAttribute('href'); a.style.cursor='default'; a.title='detail view available in the local archive';
+ });
+ var hint=Array.prototype.slice.call(document.querySelectorAll('div,p')).filter(function(e){return /Click a flower to walk its thread/.test(e.textContent)&&e.children.length<3;})[0];
+ if(hint) hint.innerHTML=hint.innerHTML.replace('Click a flower to walk its thread.','Each flower’s threaded detail opens in the local archive.');
+})();</script>
 </body></html>

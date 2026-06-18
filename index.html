@@ -179,6 +179,10 @@ function render(){
 }
 document.querySelectorAll(".tg").forEach(function(el){el.onclick=function(){view=el.dataset.v;document.querySelectorAll(".tg").forEach(function(x){x.classList.toggle("on",x===el);});render();};});
 function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+/* --- host gate: the "Everything (mine)" view is only available locally (Tamara, with the local drive).
+   On the public site a visitor only ever sees the Public view. True privacy = not-deployed, not a button. --- */
+var LOCAL = location.protocol==='file:' || ['','localhost','127.0.0.1'].indexOf(location.hostname)>=0 || /^(192\.168|10|172\.(1[6-9]|2\d|3[01]))\./.test(location.hostname);
+if(!LOCAL){ view="public"; var mt=document.querySelector('.tg[data-v="mine"]'); if(mt) mt.style.display='none'; document.getElementById('barnote').textContent=''; }
 render();
 </script>
 </body></html>
