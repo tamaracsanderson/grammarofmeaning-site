@@ -113,8 +113,8 @@ h1{font-size:clamp(28px,5vw,44px);margin:0 0 8px;font-weight:700}
   <p class="navhint">The work, in one house — three channels, each from <b>how it's made → what's built → what's live</b>.</p>
   <div class="bar">
     <span class="lab">View:</span>
-    <span class="tg on" data-v="public">Public</span>
-    <span class="tg" data-v="mine">Everything (mine)</span>
+    <span class="tg on" data-v="saquib">Saquib</span>
+    <span class="tg" data-v="tamara">Tamara</span>
     <span class="barnote" id="barnote"></span>
   </div>
   <div id="bands"></div>
@@ -131,9 +131,9 @@ h1{font-size:clamp(28px,5vw,44px);margin:0 0 8px;font-weight:700}
   <div class="legend">
     <b>The arc</b> (left→right in each channel): <b>made</b> = how it works · <b>built</b> = what we've made · <b>live</b> = what's out / the horizon.
     &nbsp;<b>Status</b>: <span class="st ready">ready</span> <span class="st draft">draft</span> <span class="st concept">concept</span> <span class="st live">live</span>.
-    &nbsp;<span class="mine">mine</span> = Tamara-only (not on the public site — true privacy is what's *not deployed*, not a button).
+    &nbsp;<span class="mine">WIP</span> = work-in-progress, Tamara-only (not on the public site — true privacy is what's *not deployed*, not a button).
   </div>
-  <div class="foot">A working house (unlisted). Public view = what a visitor sees; "Everything (mine)" adds your local-only pieces, marked — they list but don't open for a stranger.<br><em>Grammar of Meaning</em> · v0 · 2026-06-17.</div>
+  <div class="foot">A working house (unlisted). <b>Saquib</b> view = the curated set (what's shown in the meeting); <b>Tamara</b> view adds your work-in-progress pieces, marked WIP — deprecated things appear in neither. The Tamara toggle only shows on your local drive; a visitor only ever sees the Saquib view.<br><em>Grammar of Meaning</em> · v0 · 2026-06-18.</div>
 </div>
 
 <script>
@@ -152,7 +152,7 @@ var A=[
  ["engine","built","The Romans tree","romans-tree.html","The chronology-spine tree, the seed planted.","draft","local",0],
  ["engine","built","Review workbench","workbench.html","Code / flag passages by hand.","draft","local",0],
  ["engine","built","Influence-grammar","influence-grammar.html","The movement of an idea as a citation/influence graph.","concept","local",0],
- ["engine","built","T1–T10 lifecycle","__local__","The form-chain: definitions, scholars, the coding prompt. (Framing under revision — pulled from public.)","draft","local",0],
+ ["engine","built","T1–T10 lifecycle","__local__","The form-chain: definitions, scholars, the coding prompt. (Framing under revision — deprecated.)","deprecated","local",0],
  ["engine","live","The coded corpus","__horizon__","400+ traditions, coded — feeds the garden ↓.","","",0],
  // VOICE
  ["voice","made","The voice doc","__local__","The writing guide — how the essays sound.","draft","local",0],
@@ -167,14 +167,15 @@ var A=[
  ["garden","built","The constellations","__local__","Per-pattern cross-tradition constellations (flood, exile-return, sacrifice…).","concept","local",0],
  ["garden","live","The pilgrimage","__horizon__","The interactive Archive anyone can walk — the decade-scale horizon.","","",0]
 ];
-var view="public";
-function visible(a){ if(a[6]==="local") return view==="mine"; return true; }
+var view="saquib";
+/* deprecated rows (status "deprecated") show in NEITHER view; WIP local rows show only in Tamara view */
+function visible(a){ if(a[5]==="deprecated") return false; if(a[6]==="local") return view==="tamara"; return true; }
 function card(a){
  var name=a[2],href=a[3],what=a[4],st=a[5],where=a[6],star=a[7];
  if(href==="__horizon__") return "<div class='horizon'><b>"+esc(name)+"</b> — "+esc(what)+"</div>";
  var ext=(where==="ext")?" target=_blank rel=noopener":"";
  var open=(href==="__local__")?null:href;
- var tag = where==="ext"?"<span class='ext'>Substack ↗</span>" : where==="local"?"<span class='mine'>mine</span>" : "";
+ var tag = where==="ext"?"<span class='ext'>Substack ↗</span>" : where==="local"?"<span class='mine'>WIP</span>" : "";
  var stb = st?"<span class='st "+st+"'>"+st+"</span>":"";
  var inner="<div class='nm'>"+esc(name)+"</div><div class='wt'>"+esc(what)+"</div><div class='meta'>"+stb+tag+"</div>";
  return open ? "<a class='card"+(star?" star":"")+"' href='"+open+"'"+ext+">"+inner+"</a>"
@@ -193,14 +194,14 @@ function render(){
   html+="</div></div>";
  });
  document.getElementById("bands").innerHTML=html;
- document.getElementById("barnote").textContent = view==="public" ? "what a visitor sees" : "+ your local-only pieces (marked “mine”)";
+ document.getElementById("barnote").textContent = view==="saquib" ? "the curated set — what Saquib sees" : "+ your work-in-progress (marked WIP); deprecated hidden";
 }
 document.querySelectorAll(".tg").forEach(function(el){el.onclick=function(){view=el.dataset.v;document.querySelectorAll(".tg").forEach(function(x){x.classList.toggle("on",x===el);});render();};});
 function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-/* --- host gate: the "Everything (mine)" view is only available locally (Tamara, with the local drive).
-   On the public site a visitor only ever sees the Public view. True privacy = not-deployed, not a button. --- */
+/* --- host gate: the "Tamara" view is only available locally (Tamara, with the local drive).
+   On the public site a visitor only ever sees the Saquib view. True privacy = not-deployed, not a button. --- */
 var LOCAL = location.protocol==='file:' || ['','localhost','127.0.0.1'].indexOf(location.hostname)>=0 || /^(192\.168|10|172\.(1[6-9]|2\d|3[01]))\./.test(location.hostname);
-if(!LOCAL){ view="public"; var mt=document.querySelector('.tg[data-v="mine"]'); if(mt) mt.style.display='none'; document.getElementById('barnote').textContent=''; }
+if(!LOCAL){ view="saquib"; var mt=document.querySelector('.tg[data-v="tamara"]'); if(mt) mt.style.display='none'; document.getElementById('barnote').textContent=''; }
 render();
 </script>
 </body></html>
