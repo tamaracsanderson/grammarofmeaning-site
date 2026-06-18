@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Grammar of Meaning essay engine</title>
+<style>
+  :root{
+    --bg:#faf7f1; --card:#fffdf9; --ink:#2b2622; --muted:#6b6258; --line:#e7e0d4;
+    --you:#b45309; --you-bg:#fdf2e3; --you-bd:#eaa84a;
+    --eng:#1f6091; --eng-bg:#e6f1f8; --eng-bd:#5a9fcf;
+    --pub:#15803d; --pub-bg:#e6f5ec; --pub-bd:#4cae74;
+    --slate:#475569;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6}
+  .wrap{max-width:1040px;margin:0 auto;padding:28px 24px 40px}
+  h1{font-family:var(--serif);font-size:27px;font-weight:600;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:15px;margin:0 0 10px}
+  .toggle{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+  .toggle button{border:0;background:var(--card);padding:8px 15px;font-size:13.5px;cursor:pointer;font-family:var(--sans);color:var(--muted);border-right:1px solid var(--line)}
+  .toggle button:last-child{border-right:0}
+  .toggle button.on{background:var(--ink);color:#fff}
+  .ex{font-size:14px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 12px;display:inline-block;margin:12px 0 0 10px}
+  .ex b{font-family:var(--serif)}
+  .legend{font-size:13px;color:var(--muted);margin-top:10px}
+  .sw{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:middle;margin:0 4px 0 12px}
+  .body{display:grid;grid-template-columns:300px 1fr;gap:22px;margin-top:20px}
+  @media(max-width:760px){.body{grid-template-columns:1fr}}
+  .stage{display:flex;gap:11px;align-items:flex-start;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);
+    border-left:4px solid var(--line);border-radius:11px;padding:10px 13px;margin-bottom:8px;cursor:pointer;transition:.12s;font-family:var(--sans)}
+  .stage:hover{border-color:#cfc6b6}
+  .stage .num{font-family:var(--serif);font-size:13.5px;color:#fff;background:var(--slate);min-width:23px;height:23px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .stage .nm{font-weight:600;font-size:14.5px}
+  .stage .ol{font-size:12px;color:var(--muted)}
+  .stage.you{border-left-color:var(--you-bd)} .stage.you .num{background:var(--you)}
+  .stage.eng{border-left-color:var(--eng-bd)} .stage.eng .num{background:var(--eng)}
+  .stage.pub{border-left-color:var(--pub-bd)} .stage.pub .num{background:var(--pub)}
+  .stage.active{box-shadow:0 0 0 2px rgba(0,0,0,.05);border-color:#bfb6a4}
+  .stage.you.active{background:var(--you-bg)} .stage.eng.active{background:var(--eng-bg)} .stage.pub.active{background:var(--pub-bg)}
+  .detail{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:22px 24px;min-height:430px}
+  .tag{display:inline-block;font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:20px}
+  .tag.you{background:var(--you-bg);color:var(--you)} .tag.eng{background:var(--eng-bg);color:var(--eng)} .tag.pub{background:var(--pub-bg);color:var(--pub)}
+  .detail h2{font-family:var(--serif);font-size:22px;margin:11px 0 2px}
+  .blurb{color:var(--muted);font-size:14.5px;margin:0 0 16px}
+  .lab{font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--slate);margin:18px 0 6px}
+  .out{background:#fff;border:1px solid var(--line);border-radius:9px;padding:13px 15px;font-size:14px}
+  .out .serif{font-family:var(--serif)}
+  .door{border-left:3px solid var(--eng-bd);padding:2px 0 2px 11px;margin:9px 0;font-size:14px}
+  .door b{font-family:var(--serif)}
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:620px){.ba{grid-template-columns:1fr}}
+  .ba .col{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:13.5px}
+  .ba .col .h{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+  .before .h{color:#a16207} .after .h{color:var(--pub)}
+  .foot{margin-top:22px;font-size:13.5px;color:var(--muted);text-align:center;border-top:1px solid var(--line);padding-top:14px}
+  .foot b{color:var(--ink);font-family:var(--serif)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>The Grammar of Meaning essay engine</h1>
+  <p class="sub">How a shower-thought becomes a published essay — and who does what.</p>
+  <span class="toggle" id="toggle">
+    <button data-ex="simplicity">Simplicity · Diogenes</button>
+    <button data-ex="systems">Systems · the Great Law</button>
+  </span>
+  <span class="ex" id="exlabel"></span>
+  <div class="legend"><span class="sw" style="background:var(--you-bd)"></span>you<span class="sw" style="background:var(--eng-bd)"></span>the engine<span class="sw" style="background:var(--pub-bd)"></span>publish &nbsp;·&nbsp; the engine writes the first draft; you own the judgment calls — rebalancing and revision.</div>
+
+  <div class="body">
+    <nav id="rail"></nav>
+    <section class="detail" id="detail"></section>
+  </div>
+
+  <div class="foot">↺ building surfaces new questions, which fall back in as <b>seeds</b> &nbsp;·&nbsp; every piece ships to two places: <b>Substack</b> → <b>grammarofmeaning.org</b></div>
+</div>
+
+<script>
+const EX={
+ simplicity:{label:`<b>"What's Worth Wanting"</b> — Day 1, Diogenes the Cynic`, stages:[
+  {n:1,role:"you",nm:"Seed",ol:"an idea · acorn",blurb:"A shower-thought, an archive passage, an interesting word. Captured in an acorn inbox so it doesn't evaporate.",
+   body:`<div class="lab">The seed</div><div class="out"><span class="serif">"Simplicity keeps surfacing across traditions that never touched — but each one wants less for a completely different reason. The divergence is the interesting thing."</span><br><br>→ a series, <b>What's Worth Wanting.</b> Day 1: the Cynics, and Diogenes — whose reason is <b>freedom</b>.</div>`},
+  {n:2,role:"eng",nm:"Harvest",ol:"from the database",blurb:"The engine pulls from the 335K-source corpus — related texts, quotable lines, public-domain images, and a WWWWWH 'sitz' (the who/when/where that makes a figure picturable) — with a parity fan-out so non-Western voices aren't dropped.",
+   body:`<div class="lab">Reference pack — the Diogenes sitz (excerpt)</div><div class="out"><b>WHO</b> — Diogenes of Sinope (c.412–323 BCE), founder-figure of the Cynics; exiled over a coin-defacing scandal.<br><b>WHERE</b> — not a "barrel" (a mistranslation) but a <i>pithos</i>, a large ceramic storage jar, in the agora.<br><b>WHY</b> — <i>autarkeia</i>: nothing external can be taken from you if you need none of it.<br><b>★ PICTURE</b> — a man in a clay jar throwing away his last cup, because he just watched a child drink from cupped hands.</div>`},
+  {n:3,role:"eng",nm:"Bake-off",ol:"parallel drafts",blurb:"Several agents draft the piece in parallel, each through a different 'door' — story-first, provocation-first, paradox-first. The author grafts; she never just picks.",
+   body:`<div class="lab">Three doors, generated at once</div>
+    <div class="door"><b>A · "The Man Who Threw Away His Cup"</b> — scene-first: <i>"A child cups his hands at the fountain and drinks. An old man in a filthy cloak watches, then throws his one wooden cup on the ground…"</i></div>
+    <div class="door"><b>B · "The Man in the Jar"</b> — provocation-first: <i>"Count the things you would lose sleep over losing. Every one is a handle someone else can grab…"</i></div>
+    <div class="door"><b>C</b> — paradox-first: <i>"A man with one cup owns one thing the world can take from him. So he threw the cup away."</i></div>`},
+  {n:4,role:"eng",nm:"9-panel",ol:"adversarial review",blurb:"A simulated nine-person panel — three scholars, three readers, three practitioners — reviews adversarially, to refute. The cousin of the 5-LLM inter-rater-reliability method used on the corpus coding.",
+   body:`<div class="lab">What the panel caught</div><div class="out">Organizing the series by "life-area" would force each tradition into one room — <b>"Cynics = stuff, Buddhists = desire"</b> — a false partition that <b>flattens</b> what each actually held.<br><br><b>The fix it pushed:</b> hold the question constant (<i>want less</i>), vary only the <i>why</i>. <span style="color:var(--muted)">(This is why the series format exists at all.)</span></div>`},
+  {n:5,role:"you",nm:"Revision ★",ol:"where the real work is",blurb:"The human pass — where the archive enters and the essay gets made. Pull the sitz, check every attribution, flag legend as 'the tradition tells,' cut redundancy. The fixes get encoded back into the scripts.",
+   body:`<div class="lab">A real edit — adding context + the §13 honesty</div>
+    <div class="ba"><div class="col before"><div class="h">draft (engine)</div>"This is how the tradition tells Diogenes of Sinope. Exiled from his home city…"</div>
+    <div class="col after"><div class="h">revised (you)</div>"…Diogenes of Sinope — <b>founder-figure of the Cynics, who held that virtue was the only good and everything else a cage.</b> Exiled…"</div></div>
+    <div class="out" style="margin-top:11px">The sitz also gains the lineage pulled from the corpus — Socrates → Antisthenes → Diogenes → Crates → <b>Zeno / Stoicism</b>.</div>`},
+  {n:6,role:"pub",nm:"Publish",ol:"Substack → .org",blurb:"Ships to two places: the Substack, then the standalone site at grammarofmeaning.org.",
+   body:`<div class="lab">The published series intro (excerpt)</div><div class="out"><span class="serif">"In pursuit of learning, every day something is acquired. In pursuit of Tao, every day something is dropped…"</span><br><br>The cast: Diogenes (exiled, <b>freedom</b>), Rabiʿa (a slave, <b>God</b>), Francis (rich, <b>love</b>), the Buddha (a prince, <b>the end of suffering</b>). <i>Each wanted less — each for a completely different reason.</i></div>`},
+ ]},
+ systems:{label:`<b>"The Oldest Systems Engineers"</b> — Day 2, the Great Law of Peace`, stages:[
+  {n:1,role:"you",nm:"Seed",ol:"the Meadows idea",blurb:"An idea — here, a conversation about wealth inequality and systems theory. Captured so it doesn't evaporate.",
+   body:`<div class="lab">The seed</div><div class="out">A conversation about Donella Meadows's <span class="serif">system traps</span> — and the catch that the sociological name for "the rich get richer," the <b>Matthew effect</b>, is named after a line of Jesus.<br><br>→ if the traditions named these traps and shipped the fixes millennia before the diagrams, then <b>religion is a system.</b> A series, <b>The Oldest Systems Engineers.</b> Day 2: the Tragedy of the Commons, and the <b>Haudenosaunee Great Law of Peace.</b></div>`},
+  {n:2,role:"eng",nm:"Scaffold",ol:"all 8 days at once",blurb:"The engine scaffolds every day in parallel — for each it states Meadows's trap, proposes the tradition's answer(s), pulls a WWWWWH sitz, and lays out directions to develop.",
+   body:`<div class="lab">Day 2 scaffold (excerpt)</div><div class="out"><b>Trap</b> — the commons collapses because each user reaps the full benefit of taking while the cost spreads to all, including the unborn; the future has no seat at the table.<br><b>Answer</b> — the Great Law binds every council decision to <i>"those whose faces are yet beneath the surface of the ground"</i> (Law 28): it <b>seats the absent future</b> at the table.<br><b>Sitz</b> — the Peacemaker buries the weapons of war in the hole beneath a great white pine at Onondaga Lake.<br><b>Counterweight</b> — Elinor Ostrom: governed commons endure for centuries.</div>`},
+  {n:3,role:"you",nm:"Rebalance ★",ol:"bias-visibility (§2.8)",blurb:"The bias-visibility step — the project's core methodological commitment, and the one most relevant to citation-network work. The first scaffold's answers skewed Abrahamic; the primaries get rebalanced across families before anything drafts.",
+   body:`<div class="lab">Catching the skew, at the source</div>
+    <div class="ba"><div class="col before"><div class="h">first scaffold</div>6 of 8 primaries were Hebrew or Christian — and <b>Leviticus was the primary for two different days.</b></div>
+    <div class="col after"><div class="h">rebalanced</div>Day 2 → the <b>Haudenosaunee Great Law</b> (Indigenous, foregrounded per CARE — include, never defer); Leviticus freed for Day 5.</div></div>
+    <div class="out" style="margin-top:11px">Final spread of primaries: <b>Daoist · Indigenous · Hebrew · Hindu · Hebrew · Buddhist · Confucian · Christian.</b> No family dominates; the commons goes to the tradition whose home turf it is.</div>`},
+  {n:4,role:"eng",nm:"Bake-off",ol:"parallel drafts",blurb:"Several agents draft Day 2 in parallel, each through a different door. The author grafts the best of each.",
+   body:`<div class="lab">Three doors, generated at once</div>
+    <div class="door"><b>A · "The Seat for the Unborn"</b> — scene-first: <i>"The fifty leaders throw their weapons of war into the hole beneath a great white pine, and an underground stream carries them off…"</i></div>
+    <div class="door"><b>B · "The Faces Beneath the Ground"</b> — trap-first: <i>"Every captain who fishes harder is acting sensibly for his own boat — right up until the stock everyone depended on collapses…"</i></div>
+    <div class="door"><b>C</b> — paradox-first: opens on the buried weapons as the image of a missing feedback loop, made.</div>`},
+  {n:5,role:"eng",nm:"9-panel",ol:"review + honesty rails",blurb:"Adversarial review, plus the §13 honesty rails that matter most for cross-tradition claims.",
+   body:`<div class="lab">The honesty check</div><div class="out">It flags three things: the pairing is a <b>noticing</b>, not a claim the Haudenosaunee read Meadows; the famous <b>"seventh generation"</b> is a modern slogan, while Law 28 says <i>"faces beneath the ground"</i> — name the gap; and the founding (the Peacemaker, Hiawatha) is <b>sacred oral history</b>, framed "the tradition tells," never asserted as dated fact.</div>`},
+  {n:6,role:"you",nm:"Revision ★",ol:"where the real work is",blurb:"The human pass — where the archive enters and the essay gets made.",
+   body:`<div class="lab">The human pass</div><div class="out">Pull the verbatim <b>Law 28</b> from the source; cite <b>Oren Lyons</b> as the contemporary Haudenosaunee articulator; weave in the <b>Ostrom</b> counterweight (the Great Law as a ~600-year worked example of the institution Ostrom won a Nobel for describing); graft the scene-first open onto the stronger title. The legend stays reverent.</div>`},
+  {n:7,role:"pub",nm:"Publish",ol:"Substack → .org",blurb:"Ships to two places — the Substack, then grammarofmeaning.org.",
+   body:`<div class="lab">The payoff</div><div class="out">The series makes the project's boldest claim <b>demonstrable</b>: religion is a system in the engineer's sense — humanity's oldest systems-engineering for the recurring traps of living.<br><br><span class="serif">Meadows drew the diagram; the Gospel told the story; the Jubilee shipped the fix.</span></div>`},
+ ]},
+};
+let cur='simplicity';
+const rail=document.getElementById('rail'), detail=document.getElementById('detail'), exlabel=document.getElementById('exlabel');
+function show(i){
+  const st=EX[cur].stages;
+  [...rail.children].forEach((c,j)=>c.classList.toggle('active',j===i));
+  const s=st[i];
+  detail.innerHTML=`<span class="tag ${s.role}">${s.role==='you'?'you':s.role==='pub'?'output':'the engine'}</span>
+    <h2>${s.n}. ${s.nm}</h2><p class="blurb">${s.blurb}</p>${s.body}`;
+}
+function render(){
+  exlabel.innerHTML='Worked example: '+EX[cur].label;
+  [...document.querySelectorAll('#toggle button')].forEach(b=>b.classList.toggle('on',b.dataset.ex===cur));
+  rail.innerHTML='';
+  EX[cur].stages.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.className='stage '+s.role;
+    b.innerHTML=`<span class="num">${s.n}</span><span><span class="nm">${s.nm}</span><br><span class="ol">${s.ol}</span></span>`;
+    b.onclick=()=>show(i); rail.appendChild(b);
+  });
+  show(0);
+}
+document.querySelectorAll('#toggle button').forEach(b=>b.onclick=()=>{cur=b.dataset.ex;render();});
+render();
+</script>
+</body>
+</html>
