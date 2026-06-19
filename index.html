@@ -2,8 +2,10 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Grammar of Meaning — the work</title>
 <style>
+html{scroll-behavior:smooth}
+.band{scroll-margin-top:14px}
 :root{--ink:#221c14;--parch:#fbf6ec;--parch2:#f4ecd9;--line:#e3dac6;--mut:#8a7d63;
- --engine:#8a6a3a;--engine-bg:#f6efe2; --voice:#6a4a72;--voice-bg:#f4eef6; --garden:#4f6e46;--garden-bg:#eef3e9;}
+ --engine:#8a6a3a;--engine-bg:#f6efe2; --voice:#6a4a72;--voice-bg:#f4eef6; --garden:#4f6e46;--garden-bg:#eef3e9; --system:#5a6b7a;--system-bg:#eef1f4;}
 *{box-sizing:border-box}
 body{margin:0;background:var(--parch);color:var(--ink);font:16px/1.6 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
 .wrap{max-width:1120px;margin:0 auto;padding:0 22px 70px}
@@ -28,12 +30,13 @@ h1{font-size:clamp(28px,5vw,44px);margin:0 0 8px;font-weight:700}
 /* channel band */
 .band{border:1px solid var(--line);border-radius:16px;margin:18px 0;overflow:hidden;background:#fff}
 .band>.bh{padding:14px 18px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
-.band .bnum{font:800 13px/1 -apple-system,sans-serif;color:#fff;border-radius:6px;padding:5px 9px}
+.band .bnum{font-size:20px;line-height:1;padding:0;background:none}
 .band .bname{font:700 21px/1.1 -apple-system,Segoe UI,sans-serif}
 .band .btag{font-size:13.5px;color:var(--mut);font-style:italic}
-.band.engine .bnum{background:var(--engine)} .band.engine{border-color:#d9c39c}
-.band.voice .bnum{background:var(--voice)} .band.voice{border-color:#d9c1de}
-.band.garden .bnum{background:var(--garden)} .band.garden{border-color:#c4d6ba}
+.band.engine{border-color:#d9c39c}
+.band.voice{border-color:#d9c1de}
+.band.garden{border-color:#c4d6ba}
+.band.system{border-color:#c2cdd6}
 /* phases */
 .phases{display:grid;grid-template-columns:1fr 1fr 1fr}
 @media(max-width:820px){.phases{grid-template-columns:1fr}}
@@ -107,10 +110,10 @@ h1{font-size:clamp(28px,5vw,44px);margin:0 0 8px;font-weight:700}
   <p class="tagline">How humans make meaning.</p>
   <p class="sub" style="max-width:700px;margin:0 auto 4px">Grammar of Meaning is an open, bottom-up study of how humans make meaning. It reads the world's traditions — religion, philosophy, psychology — each in its own terms, to find both what's unique to each and the patterns that recur across traditions.</p>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:920px;margin:24px auto 0;text-align:left">
-    <a href="engine.html" style="display:block;background:#fcfbf6;border:1px solid #e3dac6;border-radius:12px;padding:16px 16px;text-decoration:none;color:#221c14;transition:border-color .15s,transform .15s;text-align:center"><div style="font-size:26px;line-height:1">📚</div><b style="font-size:15px;display:block;margin-top:6px">The Library</b><span style="display:block;font-size:12px;color:#8a7d63;margin-top:3px;font-family:-apple-system,sans-serif">the world's traditions, gathered</span></a>
+    <a href="#engine" style="display:block;background:#fcfbf6;border:1px solid #e3dac6;border-radius:12px;padding:16px 16px;text-decoration:none;color:#221c14;transition:border-color .15s,transform .15s;text-align:center"><div style="font-size:26px;line-height:1">📚</div><b style="font-size:15px;display:block;margin-top:6px">The Library</b><span style="display:block;font-size:12px;color:#8a7d63;margin-top:3px;font-family:-apple-system,sans-serif">the world's traditions, gathered</span></a>
     <a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" style="display:block;background:#fcfbf6;border:1px solid #e3dac6;border-radius:12px;padding:16px 16px;text-decoration:none;color:#221c14;transition:border-color .15s,transform .15s;text-align:center"><div style="font-size:26px;line-height:1">✍️</div><b style="font-size:15px;display:block;margin-top:6px">The Essays ↗</b><span style="display:block;font-size:12px;color:#8a7d63;margin-top:3px;font-family:-apple-system,sans-serif">meaning-making in public</span></a>
-    <a href="pilgrimage_pitch.html" style="display:block;background:#fcfbf6;border:1px solid #e3dac6;border-radius:12px;padding:16px 16px;text-decoration:none;color:#221c14;transition:border-color .15s,transform .15s;text-align:center"><div style="font-size:26px;line-height:1">🌿</div><b style="font-size:15px;display:block;margin-top:6px">The Garden</b><span style="display:block;font-size:12px;color:#8a7d63;margin-top:3px;font-family:-apple-system,sans-serif">a pilgrimage you walk</span></a>
-    <a href="method.html" style="display:block;background:#fcfbf6;border:1px solid #e3dac6;border-radius:12px;padding:16px 16px;text-decoration:none;color:#221c14;transition:border-color .15s,transform .15s;text-align:center"><div style="font-size:26px;line-height:1">🔭</div><b style="font-size:15px;display:block;margin-top:6px">The System</b><span style="display:block;font-size:12px;color:#8a7d63;margin-top:3px;font-family:-apple-system,sans-serif">the open method + grammar of rhymes</span></a>
+    <a href="#garden" style="display:block;background:#fcfbf6;border:1px solid #e3dac6;border-radius:12px;padding:16px 16px;text-decoration:none;color:#221c14;transition:border-color .15s,transform .15s;text-align:center"><div style="font-size:26px;line-height:1">🌿</div><b style="font-size:15px;display:block;margin-top:6px">The Garden</b><span style="display:block;font-size:12px;color:#8a7d63;margin-top:3px;font-family:-apple-system,sans-serif">a pilgrimage you walk</span></a>
+    <a href="#system" style="display:block;background:#fcfbf6;border:1px solid #e3dac6;border-radius:12px;padding:16px 16px;text-decoration:none;color:#221c14;transition:border-color .15s,transform .15s;text-align:center"><div style="font-size:26px;line-height:1">🔭</div><b style="font-size:15px;display:block;margin-top:6px">The System</b><span style="display:block;font-size:12px;color:#8a7d63;margin-top:3px;font-family:-apple-system,sans-serif">the open method — corpus coding, systems-mapping, a grammar of rhymes</span></a>
   </div>
   <p style="margin:16px 0 0"><a href="mission.html" style="display:inline-block;font:600 14px/1 -apple-system,Segoe UI,sans-serif;background:#3f5a39;color:#fbf6ec;text-decoration:none;border-radius:22px;padding:11px 22px;box-shadow:0 1px 6px rgba(40,60,30,.18)">Start here — what this is →</a></p>
 </header>
@@ -144,11 +147,9 @@ h1{font-size:clamp(28px,5vw,44px);margin:0 0 8px;font-weight:700}
   <div class="refshelf">
     <div class="ref-h">Reference <span>· lookup docs we use a lot</span></div>
     <div class="ref-row">
-      <a class="ref-card reftamara" href="lexicon.html"><b>The Lexicon</b><span>our coined terms — methodology, architecture, coding vocabulary + the tradition-taxonomy codes</span></a>
+      <a class="ref-card" href="glossary.html"><b>Glossary</b><span>the site's working vocabulary — every term as we use it publicly (our master list)</span></a>
       <a class="ref-card" href="subtraditions.html"><b>Sub-traditions</b><span>the full tradition taxonomy — every sub-tradition the corpus tags, by family</span></a>
-      <a class="ref-card reftamara" href="scholars.html"><b>Scholars</b><span>whose work we build on — by where their contribution sits in the project (interdisciplinary; a living list)</span></a>
-      <a class="ref-card reftamara" href="bibliography.html"><b>Bibliography</b><span>a worked reading bibliography — the Romans seed's scholarly editions (HOLLIS), as a sample</span></a>
-      <a class="ref-card" href="method.html"><b>About the method</b><span>how the reading is done — bottom-up, multi-model reliability, bias made visible, the lineage</span></a>
+      <a class="ref-card" href="scholars.html"><b>Scholars</b><span>whose work we build on — by where their contribution sits in the project (interdisciplinary; a living list)</span></a>
     </div>
   </div>
 
@@ -163,14 +164,20 @@ h1{font-size:clamp(28px,5vw,44px);margin:0 0 8px;font-weight:700}
 <script>
 /* ch: engine|voice|garden · ph: made|built|live · where: site|local|ext */
 var CH=[
- ["engine","①","the Library","gathering the traditions"],
- ["voice","②","the Essays","telling it"],
- ["garden","③","the Garden","the experience"]
+ ["engine","📚","the Library",""],
+ ["voice","✍️","the Essays",""],
+ ["garden","🌿","the Garden",""],
+ ["system","🔭","the System",""]
 ];
 var PH=[["made","made — how it works"],["built","built — what we've made"],["live","live — what's out / horizon"]];
 var A=[
  // ENGINE
- ["engine","made","The grammar schema","schema.html","One structure, seven lenses + registry, lexicon cards, level/grain. (Superseded — new schema in progress.)","deprecated","site",0],
+ ["system","made","The grammar schema","schema.html","One structure, seven lenses (superseded — new schema in progress).","deprecated","site",0],
+ ["system","made","About the method ⭐","method.html","The open method — bottom-up coding, the reliability panel, bias-visibility, the lineage.","ready","site",1],
+ ["system","made","What this is","mission.html","The mission — what the project is and why.","ready","site",0],
+ ["system","built","The Lexicon (internal)","lexicon.html","Coined terms incl. internal code-names — superseded by the public Glossary (see Reference below).","deprecated","site",0],
+ ["system","built","Bibliography (HOLLIS)","bibliography.html","Romans-seed scholarly editions — superseded; the Scholars list is the reference now.","deprecated","site",0],
+ ["system","live","The open methodology","__horizon__","Published method + corpus + tooling so others can extend, audit, contest.","","horizon",0],
  ["engine","made","The bake-off","__local__","How the grammar gets built — the process diagram.","ready","local",0],
  ["engine","made","How an idea joins the library ⭐","engine.html","How one idea (Tengri, from Wolf Totem) gets INTO the library — check → search everywhere → trail → passages → coded → feeds the next search. Where the engine stops; the findings are a separate story.","ready","site",1],
  ["engine","made","The factory line (detailed)","factory.html","The same engine in full internal detail — every station, live DB counts. The engine room.","ready","local",0],
@@ -228,7 +235,7 @@ function card(a){
 function render(){
  var html="";
  CH.forEach(function(c){
-  html+="<div class='band "+c[0]+"'><div class='bh'><span class='bnum'>"+c[1]+"</span><span class='bname'>"+c[2]+"</span><span class='btag'>"+c[3]+"</span></div><div class='phases'>";
+  html+="<div id='"+c[0]+"' class='band "+c[0]+"'><div class='bh'><span class='bnum'>"+c[1]+"</span><span class='bname'>"+c[2]+"</span>"+(c[3]?"<span class='btag'>"+c[3]+"</span>":"")+"</div><div class='phases'>";
   PH.forEach(function(p){
    html+="<div class='phase'><div class='ph-h'>"+esc(p[1].split(" — ")[0])+" <span class='ar'>›</span> <span style='font-weight:500;text-transform:none;letter-spacing:0'>"+esc(p[1].split(" — ")[1])+"</span></div>";
    var items=A.filter(function(a){return a[0]===c[0]&&a[1]===p[0]&&visible(a);});
