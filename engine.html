@@ -237,7 +237,7 @@ footer b{color:var(--dim)}
           • <b>CRADLE</b> — the acquisition pipeline: classify a request → route it → resolve it to real sources → dedupe → ingest.<br>
           • <b>PRISM</b> — tags every archive on 13 routing axes (region, language, era, peer-review…), so the engine knows <i>where</i> to look.<br>
           • <b>FOUNDRY</b> — builds the individual harvesters that pull from each archive.<br>
-          • <b>The shopping cart</b> — the running list of what to acquire next.<br>
+          • <b>The acquisition queue</b> — the engine's running want-list of what to acquire next (internally, the "shopping cart").<br>
           Two kinds of harvester run side by side: <b>core</b> (general, cross-tradition archives) and <b>tradition-specific</b> (e.g. steppe / Mongolian sources). <b>4,703 archives catalogued</b> so far.
         </div>
       </details>
@@ -252,13 +252,23 @@ footer b{color:var(--dim)}
     <h2>Each source arrives with a <span class="q">full trail.</span></h2>
     <p class="lede">Nothing comes in anonymously. Every source carries where it came from, how it was fetched, and who wrote it — and the empty searches are recorded too.</p>
     <div class="card roseb">
-      <div class="muted">For a passage about Tengri, the trail records the source, the archive, the retrieval method, and a citation — so any later claim can be traced back to the exact text. When an archive comes back <b>empty</b>, that absence is logged, not silently dropped: over time the logged gaps become a visible map of where the world's record is thin.</div>
+      <div class="muted">For a passage about Tengri, the trail records three things that can never be left blank — <b>where it came from</b>, <b>what shaped it</b>, and <b>what wrote the row</b> — plus the live source URL, the citation locator, and its access/consent status. So any later claim can be traced back to the exact text. When an archive comes back <b>empty</b>, that absence is logged, not silently dropped: over time the logged gaps become a visible map of where the world's record is thin.</div>
       <div class="tags" style="margin-top:12px">
         <span class="tag" style="border-color:rgba(95,214,196,.5);color:var(--teal)">✓ found · Mongolian manuscript archive</span>
         <span class="tag" style="border-color:rgba(95,214,196,.5);color:var(--teal)">✓ found · Eurasian oral-history corpus</span>
         <span class="tag" style="border-color:rgba(230,128,154,.5);color:var(--rose)">✗ empty · Western theology index — logged</span>
       </div>
       <div class="sowhat"><span class="ar">→</span><span>Every later claim traces back to a source — <b>and the misses are part of the record.</b></span></div>
+      <details class="curious">
+        <summary>For the curious — the fields on every row</summary>
+        <div class="body">
+          Three provenance fields are enforced at the database layer and can never be NULL:<br>
+          • <b>where it came from</b> (<code>extraction_provenance</code>) — which archive, harvested how.<br>
+          • <b>what shaped it</b> (<code>methodology_notes</code>) — the scholarly / methodological context.<br>
+          • <b>what wrote the row</b> (<code>description_author</code>) — the exact script or process.<br>
+          Alongside them: the live source URL, the citation locator (so a claim points at the precise passage), and the access / consent status. No provenance, no entry — every coded value can be audited back to its origin.
+        </div>
+      </details>
     </div>
   </div>
 </section>
@@ -278,7 +288,7 @@ footer b{color:var(--dim)}
         <div class="body">
           Texts are split into a shallow hierarchy:<br>
           • <b>L0</b> — a shared canonical root (e.g. a scripture many traditions read).<br>
-          • <b>L1–L3</b> — organizational scaffolding (book → chapter → section).<br>
+          • <b>L1–L3</b> — organizational scaffolding (e.g. book → chapter → section for scripture; sermon → section → turn for a transcript).<br>
           • <b>L4</b> — the quotable passage itself. <b>"Atom" = an L4 passage</b> — the actual unit of analysis.<br>
           Container vs. atom: the book is the container; the L4 passage is the atom. A small shelf of books yields a vast number of atoms.
         </div>
@@ -287,31 +297,51 @@ footer b{color:var(--dim)}
   </div>
 </section>
 
-<!-- 5 · CODING -->
-<section class="step" data-state="coded in its own words">
+<!-- 5 · TRIAGE + GLOSSARY -->
+<section class="step" data-state="triaged, then given its tradition's words">
   <div class="wrap reveal">
     <span class="num">5</span>
-    <h2>Each passage is described in <span class="q">its own tradition's words.</span></h2>
-    <p class="lede">No outside category is forced on. The passage is labelled first in <b>its own vocabulary</b>, by a panel of three AI readers playing different roles — so no single viewpoint decides.</p>
+    <h2>Before coding: <span class="q">triage, then the tradition's own glossary.</span></h2>
+    <p class="lede">Coding doesn't start cold. First each passage is <b>triaged</b>, then the engine seeds a <b>glossary in the tradition's own words</b> — so the analysis lands on the right material, in the right vocabulary.</p>
+    <div class="card">
+      <div class="muted"><b>Triage</b> tags each passage cheaply first — how central is it (a 13th-century imperial edict invoking Tengri is high-significance), and what kind of artifact is it (a decree, a chronicle, a modern commentary)? — so the expensive interpretive step lands on the right material, and a commentary is never mistaken for the thing it comments on.</div>
+      <div class="muted" style="margin-top:10px"><b>Glossary seed.</b> Then, before any coding, the engine collects the tradition's own in-vivo terms — the words a member would actually use:</div>
+      <div style="margin-top:8px"><span class="lcode">Möngke Tengri</span><span class="lcode">Köke Tengri (blue sky)</span><span class="lcode">sülde (spirit)</span><span class="lcode">jayaɣa (mandate)</span></div>
+      <div class="sowhat"><span class="ar">→</span><span>Triage before expense; <b>the tradition's vocabulary before any interpretation.</b> The anti-pre-anchoring discipline, built into the order.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · CODING (two passes) -->
+<section class="step" data-state="coded in its own words">
+  <div class="wrap reveal">
+    <span class="num">6</span>
+    <h2>Each passage is coded in <span class="q">its own tradition's words.</span></h2>
+    <p class="lede">No outside category is forced on. <b>Pass 1</b> codes the passage in <b>its own vocabulary</b>, read three ways — insider, outsider, practitioner — so no single viewpoint decides. <b>Pass 2</b> checks each code back against the tradition's glossary.</p>
     <div class="card">
       <div class="panelrow">
         <div class="panel"><div class="role">Insider</div><div class="say">"Reverence for the sky as the source of legitimate rule."</div><div><span class="lcode">Möngke-Tengri</span><span class="lcode">sky-mandate</span></div></div>
         <div class="panel"><div class="role">Outsider</div><div class="say">"A high-god sanctioning earthly authority — recognizable cross-culturally."</div><div><span class="lcode">divine-sanction</span></div></div>
         <div class="panel"><div class="role">Practitioner</div><div class="say">"You invoke Tengri before acting; the sky is witness, not idol."</div><div><span class="lcode">invocation</span><span class="lcode">witness-sky</span></div></div>
       </div>
+      <div class="muted" style="font-size:14px;margin-top:10px">The instrument records more than a label: the <b>in-vivo terms</b>, a <b>scale of concern</b> (how wide a circle the passage cares about — from a single self to the whole cosmos), and a short <b>orientation note</b> (what is this passage <i>for</i>?).</div>
       <div class="warn">Notice: nobody wrote "monotheism" or "God." Those are outside categories — applied later, carefully, only after the passage's own words have been heard.</div>
       <div class="sowhat"><span class="ar">→</span><span>Each passage is described in <b>its own tradition's words first</b> — no imported categories.</span></div>
       <details class="curious">
-        <summary>For the curious — the actual coding prompt (representative)</summary>
+        <summary>For the curious — the two-pass coding instrument</summary>
         <div class="body">
-          Each of the three readers gets a prompt of this shape:
+          <b>Pass 1</b> — each of the three readers gets a prompt of this shape:
           <span class="q-code">Read this passage. Describe what it says using ONLY the
 tradition's own vocabulary — the in-vivo terms a member
 would use. Do NOT import outside categories yet.
 
 Role: {insider | outsider | practitioner}
-Return: in-vivo term codes + a one-line reading.</span>
-          The three independent readings are scored for agreement; disagreement flags a passage as uncertain, rather than being smoothed over. (This stands in for a human rating team a solo researcher can't afford.)
+Return: in-vivo term codes
+      + the scale of concern (how wide a circle it values)
+      + a 2-3 sentence orientation note (what is this for?).</span>
+          The real instrument asks for more than a one-line reading — the scale of concern, the tradition's own glossary terms, and that orientation note are all part of the record.<br><br>
+          <b>Pass 2 — the glossary drift-check.</b> Each code from Pass 1 is compared back against the tradition's seed glossary; terms the glossary lacks flow <i>back into</i> it (grounded-theory style), so the vocabulary keeps growing. The glossary is a drift-check, never a cage.<br><br>
+          The three independent readings get <b>per-axis agreement</b> scoring; disagreement flags a passage as uncertain rather than being smoothed over. (This stands in for a human rating team a solo researcher can't afford.)
         </div>
       </details>
     </div>
@@ -325,16 +355,40 @@ Return: in-vivo term codes + a one-line reading.</span>
     <h2>Tengri is in the library — and it <span class="q">feeds the next search.</span></h2>
     <p class="lede">The engine isn't a one-way pipe. What it brings in becomes fuel for what it looks for next.</p>
     <div class="card">
-      <div class="loop">
-        <div class="loopnode">coded passages</div>
-        <span class="looparrow">→</span>
-        <div class="loopnode">new terms &amp; sources<br><span style="font-size:11.5px;color:var(--faint)">glossary · bibliography</span></div>
-        <span class="looparrow">→</span>
-        <div class="loopnode">the shopping cart</div>
-        <span class="looparrow">→</span>
-        <div class="loopnode">the next acquisition</div>
-      </div>
-      <div class="muted" style="text-align:center;margin-top:6px">Coding Tengri surfaces new in-vivo terms and citations; those refill the shopping cart; which drives the next search. The library grows itself.</div>
+      <svg viewBox="0 0 880 215" style="width:100%;max-width:880px" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--teal)"/></marker>
+          <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--gold)"/></marker>
+        </defs>
+        <g font-family="-apple-system,Segoe UI,sans-serif" font-size="12" text-anchor="middle">
+          <!-- node chain -->
+          <rect x="14" y="34" width="112" height="44" rx="9" fill="rgba(243,201,105,.06)" stroke="var(--gold)" stroke-width="1.5"/>
+          <text x="70" y="52" font-weight="700" fill="var(--ink)">the want-list</text><text x="70" y="68" font-size="10" fill="var(--faint)">gaps · wants</text>
+          <rect x="166" y="34" width="116" height="44" rx="9" fill="rgba(95,214,196,.06)" stroke="var(--teal)" stroke-width="1.5"/>
+          <text x="224" y="52" font-weight="700" fill="var(--ink)">CRADLE</text><text x="224" y="68" font-size="10" fill="var(--faint)">acquire</text>
+          <rect x="322" y="34" width="112" height="44" rx="9" fill="rgba(95,214,196,.06)" stroke="var(--teal)" stroke-width="1.5"/>
+          <text x="378" y="52" font-weight="700" fill="var(--ink)">corpus</text><text x="378" y="68" font-size="10" fill="var(--faint)">sources held</text>
+          <rect x="474" y="34" width="100" height="44" rx="9" fill="rgba(95,214,196,.06)" stroke="var(--teal)" stroke-width="1.5"/>
+          <text x="524" y="52" font-weight="700" fill="var(--ink)">passages</text><text x="524" y="68" font-size="10" fill="var(--faint)">the atoms</text>
+          <rect x="614" y="34" width="100" height="44" rx="9" fill="rgba(95,214,196,.06)" stroke="var(--teal)" stroke-width="1.5"/>
+          <text x="664" y="52" font-weight="700" fill="var(--ink)">coded</text><text x="664" y="68" font-size="10" fill="var(--faint)">in its own words</text>
+          <rect x="754" y="34" width="112" height="44" rx="9" fill="rgba(243,201,105,.08)" stroke="var(--gold)" stroke-width="2"/>
+          <text x="810" y="52" font-weight="700" fill="var(--ink)">in the library</text><text x="810" y="68" font-size="10" fill="var(--faint)">the finding</text>
+          <!-- forward arrows -->
+          <g stroke="var(--teal)" stroke-width="1.8" fill="none">
+            <path d="M126 56 H164" marker-end="url(#ah)"/><path d="M282 56 H320" marker-end="url(#ah)"/>
+            <path d="M434 56 H472" marker-end="url(#ah)"/><path d="M574 56 H612" marker-end="url(#ah)"/>
+            <path d="M714 56 H752" marker-end="url(#ah)"/>
+          </g>
+          <!-- bibliography flywheel return: corpus -> want-list -->
+          <path d="M378 80 C378 142 124 142 72 82" stroke="var(--teal)" stroke-width="1.8" fill="none" stroke-dasharray="6 4" marker-end="url(#ahg)"/>
+          <text x="226" y="140" font-size="11" fill="var(--teal)" font-weight="600">↻ each text's bibliography surfaces the NEXT gaps</text>
+          <!-- shopping overlay return: coded -> want-list -->
+          <path d="M810 80 C810 198 110 198 66 84" stroke="var(--gold)" stroke-width="1.6" fill="none" stroke-dasharray="3 4" marker-end="url(#ahg)"/>
+          <text x="438" y="192" font-size="11" fill="var(--gold)" font-weight="600">new terms &amp; sources refill the want-list — from any stage, continuously</text>
+        </g>
+      </svg>
+      <div class="muted" style="text-align:center;margin-top:6px">Coding Tengri surfaces new in-vivo terms and citations; those refill the acquisition queue; which drives the next search. The library grows itself — it's a loop, not a line.</div>
       <div class="sowhat"><span class="ar">→</span><span>Bringing one idea in <b>makes the engine better at finding the next.</b> That's why it's an engine, not a pipe.</span></div>
     </div>
 
