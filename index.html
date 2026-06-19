@@ -104,8 +104,8 @@ h1{font-size:clamp(28px,5vw,44px);margin:0 0 8px;font-weight:700}
       <circle cx="30" cy="22" r="1.6" fill="#d8b25f"/>
     </svg>
   </div>
-  <p class="tagline">How the world makes meaning.</p>
-  <p class="sub" style="max-width:700px;margin:0 auto 4px">Grammar of Meaning is an open, bottom-up study of how humans make meaning. It reads across the world's meaning-making traditions — religion, philosophy, and psychology — each in its own words, to surface the underlying <b>moves</b>; and through a move you see both what's particular to a tradition and where it <b>rhymes</b> with others — the same move in a different voice, an analogy you can carry into your own life.</p>
+  <p class="tagline">How humans make meaning.</p>
+  <p class="sub" style="max-width:700px;margin:0 auto 4px">Grammar of Meaning is an open, bottom-up study of how humans make meaning. It reads the world's traditions — religion, philosophy, psychology — each in its own terms, to find both what's unique to each and the patterns that recur across traditions.</p>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:920px;margin:24px auto 0;text-align:left">
     <a href="engine.html" style="display:block;background:#fcfbf6;border:1px solid #e3dac6;border-radius:12px;padding:14px 16px;text-decoration:none;color:#221c14;transition:border-color .15s,transform .15s"><b style="font-size:16px">The Library</b><span style="display:block;font-size:13px;color:#8a7d63;margin-top:5px;font-family:-apple-system,sans-serif">What the world's traditions observe about meaning, gathered — and the engine that acquires it.</span></a>
     <a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" style="display:block;background:#fcfbf6;border:1px solid #e3dac6;border-radius:12px;padding:14px 16px;text-decoration:none;color:#221c14;transition:border-color .15s,transform .15s"><b style="font-size:16px">The Essays ↗</b><span style="display:block;font-size:13px;color:#8a7d63;margin-top:5px;font-family:-apple-system,sans-serif">Meaning-making in public — one pattern at a time.</span></a>
@@ -144,9 +144,9 @@ h1{font-size:clamp(28px,5vw,44px);margin:0 0 8px;font-weight:700}
   <div class="refshelf">
     <div class="ref-h">Reference <span>· lookup docs we use a lot</span></div>
     <div class="ref-row">
-      <a class="ref-card" href="lexicon.html"><b>The Lexicon</b><span>our coined terms — methodology, architecture, coding vocabulary + the tradition-taxonomy codes</span></a>
+      <a class="ref-card reftamara" href="lexicon.html"><b>The Lexicon</b><span>our coined terms — methodology, architecture, coding vocabulary + the tradition-taxonomy codes</span></a>
       <a class="ref-card" href="subtraditions.html"><b>Sub-traditions</b><span>the full tradition taxonomy — every sub-tradition the corpus tags, by family</span></a>
-      <a class="ref-card" href="bibliography.html"><b>Bibliography</b><span>a worked reading bibliography — the Romans seed's scholarly editions (HOLLIS), as a sample</span></a>
+      <a class="ref-card reftamara" href="bibliography.html"><b>Bibliography</b><span>a worked reading bibliography — the Romans seed's scholarly editions (HOLLIS), as a sample</span></a>
       <a class="ref-card" href="method.html"><b>About the method</b><span>how the reading is done — bottom-up, multi-model reliability, bias made visible, the lineage</span></a>
     </div>
   </div>
@@ -183,10 +183,10 @@ var A=[
  ["engine","live","The coded corpus","__horizon__","400+ traditions, coded — feeds the garden ↓.","","",0],
  // VOICE
  ["voice","made","The voice doc","__local__","The writing guide — how the essays sound.","draft","local",0],
- ["voice","made","The essay engine","essay-engine.html","How an essay gets made from the corpus.","concept","site",0],
-  ["voice","made","Essay-engine bake-off ① — narrative (IDEO)","essay_bakeoff_ideo.html","The making-of; Revision as a hand-marked manuscript. Candidate.","concept","local",0],
-  ["voice","made","Essay-engine bake-off ② — scrollytelling (web)","essay_bakeoff_web.html","Interactive; the 22 revision passes itemized + effort balance. Candidate.","concept","local",0],
-  ["voice","made","Essay-engine bake-off ③ — diagram (info/comms)","essay_bakeoff_infoviz.html","The river the human carves; step size = real effort. Candidate.","concept","local",0],
+ ["voice","made","The essay engine ⭐","essay-engine.html","How an essay gets made — the engine drafts; you make it (revision is the bulk). Worked example: Rabiʿa, from the simplicity series.","ready","site",1],
+  ["voice","made","Essay-engine bake-off ① — narrative (IDEO)","essay_bakeoff_ideo.html","The making-of; Revision as a hand-marked manuscript. Candidate.","deprecated","local",0],
+  ["voice","made","Essay-engine bake-off ② — scrollytelling (web)","essay_bakeoff_web.html","Interactive; the 22 revision passes itemized + effort balance. Candidate.","deprecated","local",0],
+  ["voice","made","Essay-engine bake-off ③ — diagram (info/comms)","essay_bakeoff_infoviz.html","The river the human carves; step size = real effort. Candidate.","deprecated","local",0],
  ["voice","built","The reading-site (bookshelf)","__local__","The essays as a bookshelf — skin still being chosen.","draft","local",0],
  ["voice","live","The essays — Substack","https://grammarofmeaning.substack.com/","Field notes on how meaning gets made — published.","live","ext",1],
  // GARDEN
@@ -237,6 +237,7 @@ function render(){
   html+="</div></div>";
  });
  document.getElementById("bands").innerHTML=html;
+ document.querySelectorAll(".reftamara").forEach(function(el){el.style.display=(view==="saquib")?"none":"";});
  document.getElementById("barnote").textContent = view==="saquib" ? "the curated set" : view==="tamara" ? "+ your work-in-progress (marked WIP)" : "the retired bin — superseded / pulled";
 }
 document.querySelectorAll(".tg").forEach(function(el){el.onclick=function(){view=el.dataset.v;document.querySelectorAll(".tg").forEach(function(x){x.classList.toggle("on",x===el);});render();};});
