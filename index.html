@@ -208,7 +208,7 @@ function render(){
   html+="</div></div>";
  });
  document.getElementById("bands").innerHTML=html;
- document.getElementById("barnote").textContent = view==="saquib" ? "the curated set — what Saquib sees" : view==="tamara" ? "+ your work-in-progress (marked WIP); deprecated hidden" : "the retired bin — superseded / pulled (not in either working view)";
+ document.getElementById("barnote").textContent = view==="saquib" ? "the curated set" : view==="tamara" ? "+ your work-in-progress (marked WIP)" : "the retired bin — superseded / pulled";
 }
 document.querySelectorAll(".tg").forEach(function(el){el.onclick=function(){view=el.dataset.v;document.querySelectorAll(".tg").forEach(function(x){x.classList.toggle("on",x===el);});render();};});
 function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
