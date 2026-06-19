@@ -48,6 +48,7 @@ h1{font-size:clamp(28px,5vw,44px);margin:0 0 8px;font-weight:700}
 .card{display:block;border:1px solid var(--line);border-radius:9px;padding:9px 11px;margin:0 0 8px;background:#fcfbf6;text-decoration:none;color:inherit;transition:.12s}
 .card:hover{box-shadow:0 3px 10px rgba(80,60,20,.10);transform:translateY(-1px)}
 .card.star{background:linear-gradient(180deg,rgba(232,199,102,.13),#fff);border-color:#e0c486}
+.card .form{font:700 9.5px/1 -apple-system,sans-serif;letter-spacing:.11em;text-transform:uppercase;color:var(--mut);opacity:.7;margin-bottom:4px}
 .card .nm{font:700 14.5px/1.25 -apple-system,Segoe UI,sans-serif}
 .card .wt{font-size:12px;color:var(--mut);margin-top:2px;line-height:1.4}
 .card .meta{margin-top:6px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
@@ -172,12 +173,12 @@ var PH=[["made","made — how it works"],["built","built — what we've made"],[
 var A=[
  // ENGINE
  ["system","made","The grammar schema","schema.html","One structure, seven lenses (superseded — new schema in progress).","deprecated","site",0],
- ["system","made","About the method ⭐","method.html","The open method — bottom-up coding, the reliability panel, bias-visibility, the lineage.","ready","site",1],
+ ["system","made","About the method ⭐","method.html","The open method — bottom-up coding, the reliability panel, bias-visibility, the lineage.","ready","site",1,"Explainer"],
  ["system","built","The Lexicon (internal)","lexicon.html","Coined terms incl. internal code-names — superseded by the public Glossary (see Reference below).","deprecated","site",0],
  ["system","built","Bibliography (HOLLIS)","bibliography.html","Romans-seed scholarly editions — superseded; the Scholars list is the reference now.","deprecated","site",0],
  ["system","live","The open methodology","__horizon__","Published method + corpus + tooling so others can extend, audit, contest.","","horizon",0],
  ["engine","made","The bake-off","__local__","How the grammar gets built — the process diagram.","ready","local",0],
- ["engine","made","How an idea joins the library ⭐","engine.html","How one idea (Tengri, from Wolf Totem) gets INTO the library — check → search everywhere → trail → passages → coded → feeds the next search. Where the engine stops; the findings are a separate story.","ready","site",1],
+ ["engine","made","How an idea joins the library ⭐","engine.html","How one idea (Tengri, from Wolf Totem) gets INTO the library — check → search everywhere → trail → passages → coded → feeds the next search. Where the engine stops; the findings are a separate story.","ready","site",1,"Walkthrough"],
  ["engine","made","The factory line (detailed)","factory.html","The same engine in full internal detail — every station, live DB counts. The engine room.","ready","local",0],
  ["engine","made","Bake-off ① — narrative (IDEO)","bakeoff_ideo_2026-06-18.html","Superseded by 'How an idea joins the library' (grafted winner).","deprecated","local",0],
  ["engine","made","Bake-off ② — scrollytelling (web)","bakeoff_web_2026-06-18.html","Superseded by 'How an idea joins the library' (grafted winner).","deprecated","local",0],
@@ -189,14 +190,14 @@ var A=[
  ["engine","live","The coded corpus","__horizon__","400+ traditions, coded — feeds the garden ↓.","","",0],
  // VOICE
  ["voice","made","The voice doc","file:///Users/tamarasanderson/Documents/twelve-laws/drafts/grammar_of_meaning/voice_guide.md","The writing guide — how the essays sound.","draft","local",0],
- ["voice","made","The essay engine ⭐","essay-engine.html","How an essay gets made — the engine drafts; you make it (revision is the bulk). Worked example: Rabiʿa, from the simplicity series.","ready","site",1],
+ ["voice","made","The essay engine ⭐","essay-engine.html","How an essay gets made — the engine drafts; you make it (revision is the bulk). Worked example: Rabiʿa, from the simplicity series.","ready","site",1,"Walkthrough"],
   ["voice","made","Essay-engine bake-off ① — narrative (IDEO)","essay_bakeoff_ideo.html","The making-of; Revision as a hand-marked manuscript. Candidate.","deprecated","local",0],
   ["voice","made","Essay-engine bake-off ② — scrollytelling (web)","essay_bakeoff_web.html","Interactive; the 22 revision passes itemized + effort balance. Candidate.","deprecated","local",0],
   ["voice","made","Essay-engine bake-off ③ — diagram (info/comms)","essay_bakeoff_infoviz.html","The river the human carves; step size = real effort. Candidate.","deprecated","local",0],
  ["voice","built","The reading-site (bookshelf)","__local__","The essays as a bookshelf — skin still being chosen.","draft","local",0],
- ["voice","live","The essays — Substack","https://grammarofmeaning.substack.com/","Field notes on how meaning gets made — published.","live","ext",1],
+ ["voice","live","Meaning-making, in public","https://grammarofmeaning.substack.com/","Field notes on how meaning gets made — published.","live","ext",1],
  // GARDEN
- ["garden","made","The vision pitch","pilgrimage_pitch.html","The whole vision — ache → garden → lineage → the walk → the invitation.","ready","site",1],
+ ["garden","made","The vision pitch","pilgrimage_pitch.html","The whole vision — ache → garden → lineage → the walk → the invitation.","ready","site",1,"Vision"],
  ["garden","made","The design principles","file:///Users/tamarasanderson/Documents/twelve-laws/field_ed/docent_voice_design_principles_for_SB_2026-06-08.md","The visual language — Three Forms, Pilgrimage, Soil, moodboards.","ready","local",0],
  ["garden","made","The moodboard (filterable · 202 images)","file:///Users/tamarasanderson/Documents/twelve-laws/field_ed/moodboard_tagged_2026-06-06.html","The full image corpus, tag-filterable (museum images — opens locally). The master board.","concept","local",0],
  ["garden","made","Moodboard · cross-tradition rhymes","file:///Users/tamarasanderson/Documents/twelve-laws/field_ed/moodboard_cross_tradition_rhymes_2026-06-06.html","The Q2 rhyme highlights — curated subset (museum images — opens locally).","concept","local",0],
@@ -220,13 +221,13 @@ function visible(a){
   return true;                                          // site/ext/horizon: Saquib + Tamara
 }
 function card(a){
- var name=a[2],href=a[3],what=a[4],st=a[5],where=a[6],star=a[7];
+ var name=a[2],href=a[3],what=a[4],st=a[5],where=a[6],star=a[7],form=a[8];
  if(href==="__horizon__") return "<div class='horizon'><b>"+esc(name)+"</b> — "+esc(what)+"</div>";
  var ext=(where==="ext")?" target=_blank rel=noopener":"";
  var open=(href==="__local__")?null:href;
  var tag = where==="ext"?"<span class='ext'>Substack ↗</span>" : where==="local"?"<span class='mine'>WIP</span>" : "";
  var stb = st?"<span class='st "+st+"'>"+st+"</span>":"";
- var inner="<div class='nm'>"+esc(name)+"</div><div class='wt'>"+esc(what)+"</div><div class='meta'>"+stb+tag+"</div>";
+ var inner=(form?"<div class='form'>"+esc(form)+"</div>":"")+"<div class='nm'>"+esc(name)+"</div><div class='wt'>"+esc(what)+"</div><div class='meta'>"+stb+tag+"</div>";
  return open ? "<a class='card"+(star?" star":"")+"' href='"+open+"'"+ext+">"+inner+"</a>"
             : "<div class='card"+(star?" star":"")+"' style='cursor:default'>"+inner+"</div>";
 }
