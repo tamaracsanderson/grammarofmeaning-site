@@ -1,0 +1,401 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Sky-God at the Door — how an idea finds its place in the library</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+  :root{
+    --ink:#2c2417; --ink-soft:#5e5340; --paper:#f4ecd8; --paper-deep:#ece0c4;
+    --card:#fbf6e9; --line:#d8c9a4; --rule:#cdb98e;
+    --sky:#3f6fa3; --sky-soft:#dce8f2; --ember:#b5642e; --moss:#5f7548;
+    --gold:#a9852f; --plum:#7a5a86; --shadow:rgba(44,36,23,.13);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; color:var(--ink);
+    font:17px/1.65 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    background:
+      radial-gradient(circle at 20% -10%, #fbf4e2 0%, transparent 55%),
+      radial-gradient(circle at 90% 5%, #f0e6cd 0%, transparent 45%),
+      var(--paper);
+  }
+  ::selection{background:#e3d3a4}
+  .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+
+  /* ---- rationale box ---- */
+  .rationale{
+    max-width:760px;margin:26px auto 0;background:#2c2417;color:#f3ead2;
+    border-radius:14px;padding:18px 22px;font-size:14px;line-height:1.6;
+    box-shadow:0 6px 22px var(--shadow);
+  }
+  .rationale h4{margin:0 0 7px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#d8b96a;font-family:-apple-system,Segoe UI,sans-serif}
+  .rationale p{margin:0 0 6px}
+  .rationale b{color:#fff}
+
+  /* ---- title ---- */
+  header.hero{text-align:center;padding:56px 22px 30px}
+  .kicker{font-family:-apple-system,Segoe UI,sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:14px}
+  header.hero h1{font-size:38px;line-height:1.12;margin:0 0 14px;font-weight:600}
+  header.hero .lede{font-size:18px;color:var(--ink-soft);max-width:600px;margin:0 auto;line-height:1.55}
+  .knock{display:inline-block;font-size:54px;margin:6px 0 2px;animation:sway 5s ease-in-out infinite;transform-origin:50% 0}
+  @keyframes sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+
+  /* ---- progress dots ---- */
+  .progress{position:sticky;top:0;z-index:20;background:rgba(244,236,216,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .progress .pin{max-width:760px;margin:0 auto;display:flex;gap:0;font-family:-apple-system,Segoe UI,sans-serif;font-size:11px;overflow-x:auto}
+  .progress a{flex:1;min-width:74px;text-align:center;padding:9px 4px 8px;color:var(--ink-soft);text-decoration:none;border-bottom:3px solid transparent;white-space:nowrap}
+  .progress a b{display:block;font-size:15px;line-height:1}
+  .progress a:hover{background:#efe6cc}
+  .progress a.on{border-bottom-color:var(--sky);color:var(--ink);font-weight:700}
+
+  /* ---- chapters ---- */
+  .chapter{padding:42px 0 14px}
+  .chapnum{font-family:-apple-system,Segoe UI,sans-serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px}
+  .chapter h2{font-size:27px;margin:0 0 4px;font-weight:600;line-height:1.18}
+  .chapter .beat{font-size:14px;color:var(--ink-soft);font-style:italic;margin:0 0 18px}
+  .chapter p{margin:0 0 15px}
+  .chapter p .plain{color:var(--ink-soft)}
+
+  /* the protagonist's voice */
+  .voice{
+    position:relative;background:var(--sky-soft);border-left:4px solid var(--sky);
+    border-radius:0 12px 12px 0;padding:14px 18px 14px 20px;margin:18px 0;
+    font-size:16.5px;font-style:italic;color:#274866;
+  }
+  .voice::before{content:"Tengri";position:absolute;top:-10px;left:14px;background:var(--sky);color:#fff;font-style:normal;font-family:-apple-system,Segoe UI,sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:2px 9px;border-radius:8px}
+
+  /* gloss — inline jargon translation */
+  .gloss{border-bottom:1px dotted var(--ember);cursor:help;font-style:normal}
+  .glosswhat{display:block;font-size:13.5px;color:var(--ink-soft);font-style:normal;font-family:-apple-system,Segoe UI,sans-serif;background:#fff8e8;border:1px dashed var(--line);border-radius:8px;padding:7px 12px;margin:10px 0}
+  .glosswhat b{color:var(--ember);font-style:normal}
+
+  /* the "what the machine actually does" aside */
+  .machine{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:14px 18px;margin:18px 0;font-family:-apple-system,Segoe UI,sans-serif;font-size:13.5px;line-height:1.55;color:var(--ink-soft);
+    box-shadow:0 2px 10px var(--shadow);
+  }
+  .machine .mh{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:6px}
+  .machine b{color:var(--ink)}
+
+  /* the big emotional beat callouts */
+  .heartbeat{
+    text-align:center;font-size:21px;line-height:1.4;font-weight:600;color:var(--ink);
+    margin:26px auto;max-width:560px;
+  }
+  .heartbeat .em{color:var(--ember)}
+
+  /* parity diagram */
+  .parity{margin:20px 0}
+  .parity svg{width:100%;max-width:680px;display:block;margin:0 auto}
+
+  /* provenance ledger */
+  .ledger{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12.5px;background:#fffdf6;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:18px 0;box-shadow:0 2px 10px var(--shadow)}
+  .ledger .lhead{background:var(--paper-deep);padding:8px 14px;font-family:-apple-system,Segoe UI,sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;border-bottom:1px solid var(--line)}
+  .ledger .lrow{display:flex;gap:10px;padding:6px 14px;border-bottom:1px dashed #e8dcbd}
+  .ledger .lrow:last-child{border-bottom:0}
+  .ledger .lrow .src{flex:1;color:var(--ink)}
+  .ledger .lrow .vd{white-space:nowrap;font-weight:700}
+  .ledger .lrow .hit{color:var(--moss)}
+  .ledger .lrow .miss{color:var(--ember)}
+  .ledger .lnote{padding:8px 14px;font-family:-apple-system,Segoe UI,sans-serif;font-size:12px;color:var(--ink-soft);background:#fbf3df}
+
+  /* the three readers */
+  .readers{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}
+  .reader{flex:1;min-width:180px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 15px;box-shadow:0 2px 8px var(--shadow)}
+  .reader .face{font-size:26px}
+  .reader .role{font-family:-apple-system,Segoe UI,sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:700;margin:4px 0 5px}
+  .reader p{font-size:13.5px;margin:0;color:var(--ink-soft)}
+  .reader .word{font-style:italic;color:var(--sky)}
+
+  /* the garden / rhyme finale */
+  .garden{margin:22px 0}
+  .garden svg{width:100%;max-width:680px;display:block;margin:0 auto}
+
+  .pull{font-size:15px;color:var(--ink-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin:22px 0;font-style:italic}
+
+  /* receipt chip */
+  .receipt{font-family:"SF Mono",Menlo,monospace;font-size:11.5px;color:var(--ink-soft);background:#f3ebd4;border-radius:6px;padding:2px 8px;display:inline-block;margin-top:6px}
+
+  /* end card */
+  .endcard{background:linear-gradient(180deg,#fbf6e9,#efe4c8);border:2px solid var(--gold);border-radius:16px;padding:26px 26px 22px;margin:30px 0;text-align:center;box-shadow:0 6px 22px var(--shadow)}
+  .endcard h3{font-size:23px;margin:0 0 6px}
+  .endcard .one{font-size:18px;color:var(--ember);font-weight:600;margin:8px 0}
+  .endcard p{font-size:14.5px;color:var(--ink-soft);max-width:540px;margin:8px auto 0}
+
+  footer{padding:30px 22px 50px;text-align:center;font-family:-apple-system,Segoe UI,sans-serif;font-size:12px;color:var(--ink-soft)}
+  footer code{background:#f3ebd4;border-radius:4px;padding:1px 6px;font-size:11px}
+
+  @media(max-width:560px){
+    header.hero h1{font-size:29px}
+    .progress a .lb{display:none}
+  }
+</style><style>/* site chrome: home link (matches grammarofmeaning.org) */.gom-home{position:fixed;top:14px;left:16px;z-index:9999;font:600 13px/1 -apple-system,Segoe UI,sans-serif;color:#3f5a39;text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px;box-shadow:0 1px 5px rgba(80,60,20,.10)}.gom-home:hover{background:#fff;border-color:#b8893a;color:#b8893a}@media print{.gom-home{display:none}}</style>
+</head>
+<body>
+<a href="index.html" class="gom-home">← Grammar of Meaning</a>
+
+<!-- ─────────── DESIGN RATIONALE ─────────── -->
+<div class="rationale">
+  <h4>Design rationale</h4>
+  <p><b>Concept:</b> a knock at the door. We follow ONE idea — <b>Tengri</b>, the Turkic-Mongol sky-god — as a character who arrives <i>uninvited</i> and watches herself get welcomed into a library that's already half-built. The engine's steps become beats in a guest's arrival story.</p>
+  <p><b>The one thing I optimized for:</b> a single felt takeaway — <b>"a stranger gets the same welcome the regulars got."</b> That one feeling (fairness / hospitality) is what every step is in service of.</p>
+  <p><b>How it differs from a structure-mirroring diagram:</b> no stage names as headlines, no pipe-and-station rail, no workstream badges. The architecture is still all here — it's just demoted to a quiet "what the machine actually does" margin note beside each story beat. The <i>story</i> leads; the <i>system</i> follows.</p>
+</div>
+
+<!-- ─────────── HERO ─────────── -->
+<header class="hero">
+  <div class="kicker">A guest's arrival, in eight beats</div>
+  <div class="knock">🚪</div>
+  <h1>The Sky-God at the Door</h1>
+  <p class="lede">An idea named <b>Tengri</b> arrives at a library that didn't expect her — and discovers it was already keeping a place.</p>
+</header>
+
+<!-- ─────────── PROGRESS NAV ─────────── -->
+<nav class="progress"><div class="pin">
+  <a href="#c1" class="on"><b>🚪</b><span class="lb">Arrives</span></a>
+  <a href="#c2"><b>🗂️</b><span class="lb">Asked for</span></a>
+  <a href="#c3"><b>🧭</b><span class="lb">Searched</span></a>
+  <a href="#c4"><b>📜</b><span class="lb">Gathered</span></a>
+  <a href="#c5"><b>✂️</b><span class="lb">Unpacked</span></a>
+  <a href="#c6"><b>🗣️</b><span class="lb">Heard</span></a>
+  <a href="#c7"><b>🎴</b><span class="lb">Rhymes</span></a>
+  <a href="#c8"><b>🌿</b><span class="lb">Planted</span></a>
+</div></nav>
+
+<main class="wrap">
+
+<!-- ── 1. ARRIVES ── -->
+<section class="chapter" id="c1">
+  <div class="chapnum">Beat 1 · The knock</div>
+  <h2>Someone the library wasn't looking for</h2>
+  <p class="beat">The protagonist arrives.</p>
+
+  <p>Most ideas that reach this library were already on the guest list. The Buddha's <b>Four Noble Truths</b>, for instance, walked in long ago — its texts shelved, its terms learned, its passages quoted and cross-referenced. It belongs.</p>
+
+  <p>Then there's <b>Tengri</b> — the eternal blue sky worshipped across the Turkic and Mongol steppe for two thousand years. Tengri is not on most guest lists. No tidy canon. No single holy book. A tradition carried in oaths, in open-air ritual, in the title of khans who ruled "by the will of Tengri." When she knocks, the honest question is: <i>is she even in here yet?</i></p>
+
+  <div class="voice">I am older than most of your books, and yet I am not sure you have a shelf for me. I have come to find out.</div>
+
+  <div class="heartbeat">This is the story of what happens when an idea the library <span class="em">didn't plan for</span> shows up at the door.</div>
+</section>
+
+<!-- ── 2. ASKED FOR ── -->
+<section class="chapter" id="c2">
+  <div class="chapnum">Beat 2 · The half-built house</div>
+  <h2>The room was already partly furnished</h2>
+  <p class="beat">The honest nuance: this is not a search starting from zero.</p>
+
+  <p>Here's the part that surprises Tengri. The library is <b>not</b> empty, and it is <b>not</b> blank toward her. Before she ever arrived, someone had sketched a plan of which traditions <i>ought</i> to be represented — and Tengrism was on that hopeful sketch. Background research reports had been filed. Earlier notes, drafted by AI assistants, had laid down a first rough outline of what a Tengri shelf might hold.</p>
+
+  <p>So she doesn't walk into a void. She walks into a <b>room with her name already pencilled on an empty shelf</b> — scaffolding waiting to be filled, or corrected, by the real thing.</p>
+
+  <div class="glosswhat">
+    <b>What this means plainly:</b> the engine starts from a hypothesis-driven list of traditions to include, plus prior research write-ups and AI-drafted groundwork. A new idea is <i>checked against an existing structure</i> — it's "add to a partly-built library," never "build from nothing."
+  </div>
+
+  <div class="machine">
+    <div class="mh">what the machine actually does</div>
+    The arrival is logged as a <b>want</b> — a single row in a standing wish-list (<span class="gloss">the cart</span>). Nothing here depends on anyone remembering it later; the moment a gap is noticed, it's written down.
+    <div class="receipt">→ shopping_list row · status: pending</div>
+  </div>
+
+  <div class="voice">Ah. You were expecting me. Sort of.</div>
+</section>
+
+<!-- ── 3. SEARCHED ── -->
+<section class="chapter" id="c3">
+  <div class="chapnum">Beat 3 · The errand</div>
+  <h2>They look for her <em>everywhere at once</em></h2>
+  <p class="beat">The most important fairness move in the whole engine.</p>
+
+  <p>Now the library goes hunting for Tengri's texts. And here is the move that matters most: <b>it does not only look where you'd expect.</b> It doesn't quietly decide "Tengrism is Central Asian, so check the Central Asian shelf and call it done."</p>
+
+  <p>Instead, the same request fans out to <b>many archives at the same time</b> — Mongolian and Turkic collections, yes, but also the great Western digital libraries, African scholarly journals, Latin American and Japanese ones. A study of Tengri written in Brazil is asked for with the <i>exact same priority</i> as one written in Ulaanbaatar.</p>
+
+  <div class="parity">
+    <svg viewBox="0 0 680 250" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#a9852f"/></marker>
+      </defs>
+      <!-- center: the one request -->
+      <circle cx="100" cy="125" r="34" fill="#3f6fa3"/>
+      <text x="100" y="121" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">Tengri</text>
+      <text x="100" y="137" text-anchor="middle" fill="#dce8f2" font-size="10">one ask</text>
+      <!-- spokes -->
+      <g stroke="#cdb98e" stroke-width="1.6" fill="none">
+        <path d="M134 110 C220 60 300 45 360 40" marker-end="url(#ar)"/>
+        <path d="M138 118 C230 95 300 86 360 84" marker-end="url(#ar)"/>
+        <path d="M138 128 C230 128 300 128 360 128" marker-end="url(#ar)"/>
+        <path d="M138 138 C230 161 300 170 360 172" marker-end="url(#ar)"/>
+        <path d="M134 148 C220 196 300 211 360 216" marker-end="url(#ar)"/>
+      </g>
+      <!-- destinations -->
+      <g font-size="12.5" fill="#2c2417">
+        <rect x="362" y="28" width="300" height="26" rx="7" fill="#fbf6e9" stroke="#d8c9a4"/><text x="375" y="45">Mongolian &amp; Turkic collections <tspan fill="#5f7548">(her home)</tspan></text>
+        <rect x="362" y="72" width="300" height="26" rx="7" fill="#fbf6e9" stroke="#d8c9a4"/><text x="375" y="89">Western digital libraries <tspan fill="#9a8a64">(Gutenberg, Archive…)</tspan></text>
+        <rect x="362" y="116" width="300" height="26" rx="7" fill="#fbf6e9" stroke="#d8c9a4"/><text x="375" y="133">African journals <tspan fill="#9a8a64">(AJOL) · LATAM (SciELO)</tspan></text>
+        <rect x="362" y="160" width="300" height="26" rx="7" fill="#fbf6e9" stroke="#d8c9a4"/><text x="375" y="177">Japanese scholarship <tspan fill="#9a8a64">(J-STAGE) · Chinese (CNKI)</tspan></text>
+        <rect x="362" y="204" width="300" height="26" rx="7" fill="#fbf6e9" stroke="#d8c9a4"/><text x="375" y="221">oral-tradition &amp; manuscript archives</text>
+      </g>
+      <text x="100" y="208" text-anchor="middle" font-size="11.5" fill="#a9852f" font-style="italic" font-weight="600">searched everywhere,</text>
+      <text x="100" y="224" text-anchor="middle" font-size="11.5" fill="#a9852f" font-style="italic" font-weight="600">not just "at home"</text>
+    </svg>
+  </div>
+
+  <div class="glosswhat">
+    <b>The project calls this the Parity Principle:</b> an archive is chosen for what it <i>contains</i>, never for whose scholarship it is. A tradition is searched for everywhere — so the library doesn't accidentally treat "non-Western" ideas as second-class guests.
+  </div>
+
+  <div class="heartbeat">A stranger gets the <span class="em">same errand run</span> that the regulars got.</div>
+</section>
+
+<!-- ── 4. GATHERED ── -->
+<section class="chapter" id="c4">
+  <div class="chapnum">Beat 4 · The honest haul</div>
+  <h2>What came back — and what didn't</h2>
+  <p class="beat">The misses are kept, not hidden.</p>
+
+  <p>Texts come home: a few primary sources, scholarly studies, ethnographies of steppe ritual. But Tengri is a tradition of <b>spoken</b> faith, so some shelves come back thin. A normal library would quietly shrug and move on.</p>
+
+  <p>This one keeps a <b>receipt for every door it knocked on</b> — including the ones that didn't open. The gaps aren't erased; they're written into the record as honest data: <i>here is where Tengri is well-documented, and here is exactly where she isn't.</i></p>
+
+  <div class="ledger">
+    <div class="lhead">The provenance ledger — every source, every miss</div>
+    <div class="lrow"><span class="src">Mongolian ritual-text collection</span><span class="vd hit">✓ found</span></div>
+    <div class="lrow"><span class="src">Ethnography of steppe sky-worship (academic)</span><span class="vd hit">✓ found</span></div>
+    <div class="lrow"><span class="src">Turkic oral-history archive</span><span class="vd hit">✓ found</span></div>
+    <div class="lrow"><span class="src">Western canonical-scripture index</span><span class="vd miss">✗ no canon to match</span></div>
+    <div class="lrow"><span class="src">Peer-reviewed English-language monographs</span><span class="vd miss">✗ sparse — logged as a gap</span></div>
+    <div class="lnote">The misses are the <b>bias trail</b>. Where coverage is thin, that thinness becomes visible — never a silent filter pretending the tradition simply isn't there.</div>
+  </div>
+
+  <p>Everything found enters through a <b>single door</b>, and nothing gets in without saying where it came from. <span class="plain">If a source ever needs to be questioned later, you can trace it all the way back to the archive it walked in from.</span></p>
+
+  <div class="machine">
+    <div class="mh">what the machine actually does</div>
+    Found texts are ingested with full <b>provenance</b> (origin, how-harvested, who-recorded) through one enforced gateway; the source-tried log — hits <i>and</i> misses — is preserved as a corpus-skew audit. <span class="gloss">Care note:</span> Indigenous and oral material is always <b>included and tagged</b> for community-stewardship review — never deferred or left out.
+    <div class="receipt">→ source rows + per-source provenance + source-tried log</div>
+  </div>
+</section>
+
+<!-- ── 5. UNPACKED ── -->
+<section class="chapter" id="c5">
+  <div class="chapnum">Beat 5 · Unpacking the trunk</div>
+  <h2>From whole texts to quotable pieces</h2>
+  <p class="beat">A container becomes its contents.</p>
+
+  <p>The texts arrive like packed trunks. A trunk is useful, but you can't <i>quote</i> a trunk. So each text is carefully unpacked into its smallest meaningful pieces — a single invocation, one line of an oath, a sentence of an elder's account. Each little piece gets its own address, so it can be pointed to, quoted, and studied on its own.</p>
+
+  <p class="plain">This is why a library of a few hundred thousand <i>texts</i> becomes a library of millions of <i>passages</i>: one trunk holds many quotable things.</p>
+
+  <div class="machine">
+    <div class="mh">what the machine actually does</div>
+    Sources are <b>containers</b>; passages are the <b>unit of analysis</b>. Chunking turns ~390k sources into ~9.5M individually addressable, quotable passages — each traceable to its exact spot in the original.
+    <div class="receipt">→ passage (anchor) rows, each location-stamped</div>
+  </div>
+</section>
+
+<!-- ── 6. HEARD ── -->
+<section class="chapter" id="c6">
+  <div class="chapnum">Beat 6 · Heard in her own language</div>
+  <h2>Described in <em>her</em> words, not borrowed ones</h2>
+  <p class="beat">The discipline at the heart of the project.</p>
+
+  <p>Now comes the moment Tengri most feared: being <i>described</i>. Will the librarians reach for familiar, foreign categories — file her under "monotheism," shrug her into a Western frame, flatten the blue sky into someone else's god?</p>
+
+  <p>No. Each passage is first described in <b>the tradition's own vocabulary</b> — <i>Tengri, Köke Möngke Tengri</i> ("the Eternal Blue Sky"), <i>khan</i>, the steppe oath — before any outside label is allowed near it. And it isn't one librarian deciding alone. A small panel reads each piece from three different chairs:</p>
+
+  <div class="readers">
+    <div class="reader"><div class="face">🏠</div><div class="role">The insider</div><p>Reads as someone <span class="word">within</span> the tradition would — on its own terms.</p></div>
+    <div class="reader"><div class="face">🔭</div><div class="role">The outsider</div><p>The <span class="word">comparativist</span> who sees how it sits among other traditions.</p></div>
+    <div class="reader"><div class="face">🙏</div><div class="role">The practitioner</div><p>The one who asks what it's <span class="word">for</span> — what it does in a life.</p></div>
+  </div>
+
+  <div class="glosswhat">
+    <b>Why three readers?</b> A solo researcher can't convene a room of human raters, so a small panel of AI reviewers plays insider / outsider / practitioner, and their agreement is measured. Describing a tradition in its own words first — before any imported category — is the project's core rule against bending strangers into shapes that aren't theirs.
+  </div>
+
+  <div class="voice">They wrote down what I call myself, before they wrote down what I remind them of. That is the whole difference.</div>
+</section>
+
+<!-- ── 7. RHYMES ── -->
+<section class="chapter" id="c7">
+  <div class="chapnum">Beat 7 · The unexpected echo</div>
+  <h2>She discovers she rhymes with strangers</h2>
+  <p class="beat">The payoff — convergence across traditions that never met.</p>
+
+  <p>Once Tengri is fully herself on the shelf, something quiet and remarkable happens. The library, looking across <i>all</i> its traditions at once, notices an <b>echo</b>: the steppe's reverence for the vast, impartial sky <i>rhymes</i> with how other faiths — that never once touched the Mongol world — reached for the same vault of heaven to name what is boundless and just.</p>
+
+  <p>Not the same words. Not borrowed from one another. The <b>same move</b>, arrived at independently — like two distant poets stumbling on the same rhyme. That's the finding the whole engine exists to surface.</p>
+
+  <div class="garden">
+    <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
+      <!-- rhyme edge -->
+      <line x1="150" y1="100" x2="530" y2="100" stroke="#7a5a86" stroke-width="2.5" stroke-dasharray="2 6"/>
+      <text x="340" y="90" text-anchor="middle" font-size="13" fill="#7a5a86" font-style="italic" font-weight="700">they rhyme — and never met</text>
+      <!-- node A -->
+      <circle cx="150" cy="100" r="46" fill="#dce8f2" stroke="#3f6fa3" stroke-width="2"/>
+      <text x="150" y="95" text-anchor="middle" font-size="13" font-weight="700" fill="#274866">Tengri</text>
+      <text x="150" y="112" text-anchor="middle" font-size="10.5" fill="#3f6fa3">the impartial sky</text>
+      <!-- node B -->
+      <circle cx="530" cy="100" r="46" fill="#f0e6d0" stroke="#a9852f" stroke-width="2"/>
+      <text x="530" y="95" text-anchor="middle" font-size="11.5" font-weight="700" fill="#6e561c">a distant tradition</text>
+      <text x="530" y="112" text-anchor="middle" font-size="10.5" fill="#a9852f">heaven as the just</text>
+      <text x="340" y="150" text-anchor="middle" font-size="12" fill="#5e5340">an idea added in beat 6 becomes a connection nobody planted</text>
+    </svg>
+  </div>
+
+  <div class="machine">
+    <div class="mh">what the machine actually does</div>
+    Across coded passages from many traditions, the engine surfaces <b>cross-tradition rhymes</b> — independently-arising parallels between traditions with no historical contact. Convergence, not influence, is the signal worth keeping.
+  </div>
+</section>
+
+<!-- ── 8. PLANTED ── -->
+<section class="chapter" id="c8">
+  <div class="chapnum">Beat 8 · A place in the garden</div>
+  <h2>The stranger becomes a neighbor</h2>
+  <p class="beat">The landing.</p>
+
+  <p>The shelf that had only Tengri's name pencilled on it is now full — real texts, in her own words, with an honest note about what's still missing, and a fresh thread of light connecting her to traditions she'll never meet. She isn't a curiosity in a side cabinet. She's <b>planted in the same garden as everyone else</b>, with the same care the Four Noble Truths received.</p>
+
+  <div class="garden">
+    <svg viewBox="0 0 680 150" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
+      <g>
+        <text x="60" y="120" font-size="34" text-anchor="middle">🌼</text><text x="60" y="140" font-size="10" text-anchor="middle" fill="#5e5340">4 Noble Truths</text>
+        <text x="170" y="120" font-size="30" text-anchor="middle">🌿</text><text x="170" y="140" font-size="10" text-anchor="middle" fill="#5e5340">a tradition</text>
+        <text x="280" y="120" font-size="32" text-anchor="middle">🌺</text><text x="280" y="140" font-size="10" text-anchor="middle" fill="#5e5340">a tradition</text>
+        <!-- new arrival, highlighted -->
+        <circle cx="390" cy="100" r="30" fill="none" stroke="#3f6fa3" stroke-width="2" stroke-dasharray="3 3"/>
+        <text x="390" y="112" font-size="34" text-anchor="middle">🪻</text><text x="390" y="140" font-size="10.5" text-anchor="middle" fill="#3f6fa3" font-weight="700">Tengri — new</text>
+        <text x="500" y="120" font-size="30" text-anchor="middle">🌻</text><text x="500" y="140" font-size="10" text-anchor="middle" fill="#5e5340">a tradition</text>
+        <text x="610" y="120" font-size="32" text-anchor="middle">🌷</text><text x="610" y="140" font-size="10" text-anchor="middle" fill="#5e5340">a tradition</text>
+        <!-- rhyme threads -->
+        <path d="M390 90 C420 50 470 50 500 92" stroke="#7a5a86" stroke-width="1.5" fill="none" stroke-dasharray="2 4"/>
+        <path d="M390 90 C300 40 150 45 60 92" stroke="#7a5a86" stroke-width="1.5" fill="none" stroke-dasharray="2 4"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="voice">I came to ask if you had a shelf for me. You did better — you found the threads I share with strangers I never met.</div>
+
+  <div class="endcard">
+    <h3>What this engine really is</h3>
+    <p class="one">A hospitality machine for ideas.</p>
+    <p>It welcomes a tradition the world half-forgot, describes it in its own words, keeps an honest record of what it couldn't find — and then shows that tradition it was never as alone as it thought. The Four Noble Truths got that welcome. So did Tengri. So does the next stranger at the door.</p>
+  </div>
+
+  <div class="pull">The system is the same one in the engineers' diagrams — gather, ingest with provenance, chunk, code in-vivo, surface convergence. What changes here is only the question we lead with: not "what are the stages?" but <b>"what is it like to be the idea moving through them?"</b></div>
+</section>
+
+</main>
+
+<footer>
+  Audience-first retelling of the corpus engine · facts drawn from <code>field_ed/factory_line_4nt_2026-06-12.html</code> and CLAUDE.md §2.10 (CRADLE) / §2.8 (bias-visibility) / §2.11 (CARE).<br>
+  Protagonist: Tengri (Tengrism, Turkic-Mongol sky-tradition) · contrast: the Four Noble Truths (already in the corpus).<br>
+  IDEO bake-off entry · 2026-06-18
+</footer>
+
+</body></html>

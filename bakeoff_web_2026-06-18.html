@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How a new idea joins the library — follow Tengri</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{
+  --bg:#0d0f1a;          /* night sky */
+  --bg2:#141832;
+  --ink:#eef0fb;
+  --dim:#9aa0c4;
+  --faint:#5a6090;
+  --gold:#f3c969;        /* Tengri / the idea */
+  --teal:#5fd6c4;        /* convergence / rhyme */
+  --rose:#e6809a;        /* the honest-miss / bias trail */
+  --line:rgba(255,255,255,.12);
+  --card:rgba(255,255,255,.045);
+  --card2:rgba(255,255,255,.075);
+  --maxw:760px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:var(--teal)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+/* ---------- rationale box ---------- */
+.rationale{
+  max-width:880px;margin:18px auto 0;padding:14px 18px;
+  border:1px solid var(--line);border-radius:12px;background:var(--card);
+  font-size:13px;line-height:1.55;color:var(--dim);
+}
+.rationale b{color:var(--gold)}
+.rationale .t{color:var(--ink);font-weight:700;font-size:13.5px;letter-spacing:.4px;text-transform:uppercase}
+
+/* ---------- the sky / hero ---------- */
+#sky{position:fixed;inset:0;z-index:-2;background:
+  radial-gradient(1200px 700px at 70% -10%, #1f2550 0%, transparent 60%),
+  radial-gradient(900px 600px at 10% 110%, #161a38 0%, transparent 55%),
+  var(--bg);}
+#stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:#fff;opacity:.0;transition:opacity 1.4s}
+.hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:80px 22px 40px}
+.kicker{color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-size:12.5px;font-weight:700}
+.hero h1{font-size:clamp(30px,6vw,54px);line-height:1.08;margin:14px auto 10px;max-width:14ch;font-weight:800}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p{color:var(--dim);max-width:42ch;margin:6px auto;font-size:18px}
+.glyph{font-size:64px;line-height:1;filter:drop-shadow(0 0 26px rgba(243,201,105,.55));margin-bottom:6px}
+.scrollcue{margin-top:34px;color:var(--faint);font-size:13px;letter-spacing:1px;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(7px);opacity:1}}
+
+/* ---------- the persistent idea token (rides along) ---------- */
+#token{
+  position:fixed;left:50%;top:18px;transform:translateX(-50%);
+  z-index:40;display:flex;align-items:center;gap:9px;
+  padding:8px 16px 8px 10px;border-radius:30px;
+  background:rgba(20,24,50,.82);backdrop-filter:blur(8px);
+  border:1px solid rgba(243,201,105,.4);
+  box-shadow:0 6px 26px rgba(0,0,0,.45);
+  opacity:0;pointer-events:none;transition:opacity .5s, transform .5s;
+  font-size:13px;max-width:90vw;
+}
+#token.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#token .tg{font-size:22px;filter:drop-shadow(0 0 10px rgba(243,201,105,.6))}
+#token .lab{color:var(--gold);font-weight:700}
+#token .state{color:var(--dim);border-left:1px solid var(--line);padding-left:9px}
+#token .state b{color:var(--ink);font-weight:600}
+
+/* progress rail */
+#rail{position:fixed;left:0;right:0;top:0;height:3px;background:transparent;z-index:41}
+#railfill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--teal))}
+
+/* ---------- steps ---------- */
+.step{padding:14vh 0;position:relative}
+.num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:50%;border:1px solid var(--line);
+  color:var(--gold);font-weight:800;font-size:15px;background:var(--bg2);
+  margin-bottom:14px;
+}
+.step h2{font-size:clamp(22px,3.4vw,30px);line-height:1.18;margin:0 0 12px;font-weight:800}
+.step h2 .q{color:var(--gold)}
+.lede{color:var(--dim);font-size:18px;margin:0 0 18px}
+.card{
+  border:1px solid var(--line);border-radius:14px;background:var(--card);
+  padding:18px 20px;margin:14px 0;
+}
+.card.tealb{border-color:rgba(95,214,196,.35);background:rgba(95,214,196,.06)}
+.card.roseb{border-color:rgba(230,128,154,.32);background:rgba(230,128,154,.06)}
+.card h3{margin:0 0 8px;font-size:15px;letter-spacing:.3px;color:var(--ink)}
+.muted{color:var(--dim);font-size:15px}
+.gloss{font-size:13.5px;color:var(--faint);border-top:1px dashed var(--line);margin-top:12px;padding-top:9px}
+.gloss b{color:var(--dim)}
+.tag{display:inline-block;font-size:12px;padding:2px 9px;border-radius:20px;border:1px solid var(--line);color:var(--dim);margin:2px 3px 2px 0}
+.tag.gold{border-color:rgba(243,201,105,.5);color:var(--gold)}
+.tag.teal{border-color:rgba(95,214,196,.5);color:var(--teal)}
+.tag.rose{border-color:rgba(230,128,154,.5);color:var(--rose)}
+
+/* reveal-on-scroll */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease, transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- interactive: type an idea ---------- */
+.trybox{margin:10px 0 0}
+.tryrow{display:flex;gap:8px;flex-wrap:wrap}
+.tryrow input{
+  flex:1;min-width:180px;background:rgba(0,0,0,.25);border:1px solid var(--line);
+  color:var(--ink);border-radius:10px;padding:11px 13px;font:inherit;font-size:15px;
+}
+.tryrow input:focus{outline:none;border-color:var(--gold)}
+.btn{
+  background:var(--gold);color:#1a1505;border:none;border-radius:10px;
+  padding:11px 18px;font:inherit;font-weight:700;font-size:15px;cursor:pointer;white-space:nowrap;
+}
+.btn:hover{filter:brightness(1.06)}
+.btn.ghost{background:transparent;color:var(--dim);border:1px solid var(--line);font-weight:600}
+.chips{margin-top:10px}
+.chip{display:inline-block;font-size:13px;padding:5px 12px;border-radius:20px;border:1px solid var(--line);
+  color:var(--dim);margin:4px 5px 0 0;cursor:pointer;background:rgba(255,255,255,.03)}
+.chip:hover{border-color:var(--gold);color:var(--gold)}
+#verdict{margin-top:14px;min-height:0;overflow:hidden;transition:all .4s}
+.verline{font-size:16px}
+.verline .yes{color:var(--teal);font-weight:700}
+.verline .no{color:var(--gold);font-weight:700}
+
+/* ---------- archive parity grid (step 3) ---------- */
+.archgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:6px}
+.arch{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;background:rgba(0,0,0,.18);
+  opacity:.35;transform:scale(.97);transition:all .5s}
+.arch.lit{opacity:1;transform:scale(1)}
+.arch .nm{font-weight:700;color:var(--ink);font-size:13.5px}
+.arch .rg{color:var(--faint);font-size:11.5px}
+.arch .res{font-size:12px;margin-top:5px}
+.arch .res.hit{color:var(--teal)}
+.arch .res.miss{color:var(--rose)}
+.parity-note{font-size:13px;color:var(--dim);margin-top:10px}
+
+/* ---------- passage / label demo (steps 5–6) ---------- */
+.passage{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.7;
+  border-left:3px solid var(--gold);padding:6px 0 6px 16px;color:#f4ecd8;font-style:italic;margin:6px 0 14px}
+.word{cursor:help;border-bottom:1px dotted var(--faint);transition:background .2s}
+.word:hover{background:rgba(243,201,105,.18)}
+.panelrow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
+.panel{border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:rgba(0,0,0,.16);font-size:13px}
+.panel .role{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);font-weight:700}
+.panel .say{color:var(--dim);margin-top:5px;font-style:italic}
+.panel .lc{margin-top:7px}
+.lcode{display:inline-block;font-size:11.5px;color:var(--gold);border:1px solid rgba(243,201,105,.4);
+  border-radius:6px;padding:1px 7px;margin:2px 3px 0 0;font-family:ui-monospace,Menlo,monospace}
+.warn{font-size:13px;color:var(--rose);margin-top:10px}
+
+/* ---------- rhyme (step 7) ---------- */
+.rhyme{display:flex;align-items:center;justify-content:center;gap:0;margin:16px 0 6px;flex-wrap:wrap}
+.rnode{border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center;max-width:220px;background:rgba(0,0,0,.2)}
+.rnode .who{color:var(--gold);font-weight:700;font-size:13px}
+.rnode .obs{color:var(--dim);font-size:14px;margin-top:5px}
+.rlink{width:64px;height:2px;background:linear-gradient(90deg,var(--gold),var(--teal));position:relative;margin:0 4px}
+.rlink::after{content:'rhymes';position:absolute;top:-22px;left:50%;transform:translateX(-50%);
+  color:var(--teal);font-size:11px;letter-spacing:.5px;white-space:nowrap}
+@media(max-width:560px){.rhyme{flex-direction:column}.rlink{width:2px;height:46px}.rlink::after{top:50%;left:14px;transform:translateY(-50%)}.panelrow{grid-template-columns:1fr}}
+
+/* ---------- garden (finale) ---------- */
+.garden{position:relative;height:300px;margin:18px 0 10px;border:1px solid var(--line);border-radius:14px;
+  background:radial-gradient(600px 300px at 50% 120%, rgba(95,214,196,.10), transparent 70%);overflow:hidden}
+.bloom{position:absolute;font-size:20px;opacity:0;transform:scale(.4);transition:opacity .6s,transform .6s;filter:drop-shadow(0 0 8px rgba(255,255,255,.25))}
+.bloom.in{opacity:.92;transform:scale(1)}
+.bloom.you{font-size:30px;filter:drop-shadow(0 0 16px rgba(243,201,105,.8))}
+.gcap{text-align:center;color:var(--dim);font-size:14px}
+
+.stats{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;margin:18px 0}
+.stat{text-align:center}.stat b{display:block;font-size:26px;color:var(--gold);font-weight:800}.stat span{font-size:12.5px;color:var(--faint)}
+
+footer{padding:50px 22px 70px;text-align:center;color:var(--faint);font-size:13px;border-top:1px solid var(--line);margin-top:40px}
+footer b{color:var(--dim)}
+
+/* honesty banner */
+.honest{border:1px solid rgba(230,128,154,.3);background:rgba(230,128,154,.06);border-radius:14px;padding:16px 18px;margin:16px 0}
+.honest .h{color:var(--rose);font-weight:700;font-size:14px;letter-spacing:.3px}
+</style>
+<style>/* site chrome: home link (matches grammarofmeaning.org) */.gom-home{position:fixed;top:14px;left:16px;z-index:9999;font:600 13px/1 -apple-system,Segoe UI,sans-serif;color:#3f5a39;text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px;box-shadow:0 1px 5px rgba(80,60,20,.10)}.gom-home:hover{background:#fff;border-color:#b8893a;color:#b8893a}@media print{.gom-home{display:none}}</style>
+</head>
+<body>
+<a href="index.html" class="gom-home">← Grammar of Meaning</a>
+
+<div id="sky"></div>
+<div id="stars"></div>
+<div id="rail"><div id="railfill"></div></div>
+
+<!-- DESIGN RATIONALE -->
+<div class="rationale">
+  <div class="t">Design rationale</div>
+  <b>Concept:</b> a night-sky scrollytelling journey. You follow ONE idea — <b>Tengri</b>, the sky-god, who is <em>not yet in the library</em> — as it travels the engine and becomes a bloom in the garden. The idea rides with you as a pinned token whose <b>state changes</b> at every step, so the abstraction stays concrete.<br>
+  <b>Optimized for:</b> a stranger's "aha" — the page itself <em>performs</em> the pipeline (type an idea, watch the check; watch archives light up in parallel; hover a passage to see it labelled). No stage names, no internal jargon left unglossed.<br>
+  <b>Differs from a structure-mirror:</b> a factory diagram answers "what are the parts?" — this answers "what happens to MY idea, and can I trust it?" It's a narrative with one protagonist, not a labelled blueprint. The honest nuance (pre-scaffolded ground; logged misses) is dramatized, not footnoted.
+</div>
+
+<!-- pinned idea token -->
+<div id="token"><span class="tg">☼</span><span class="lab">Tengri</span><span class="state" id="tokenstate"><b>a name knocking at the door</b></span></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="glyph">☼</div>
+  <div class="kicker">Follow one idea into the library</div>
+  <h1>What happens when <em>Tengri</em> wants in?</h1>
+  <p>Tengri is the eternal blue sky — the sky-god of the old Turkic and Mongol peoples of the Eurasian steppe.</p>
+  <p>It isn't in our collection yet. Watch how a single idea gets checked, gathered, read, and finally takes its place among traditions that never met.</p>
+  <div class="scrollcue">scroll to begin ↓</div>
+</section>
+
+<main>
+
+<!-- STEP 1 -->
+<section class="step" data-state="checked against a half-built library">
+  <div class="wrap reveal">
+    <span class="num">1</span>
+    <h2>The ground is already half-planted.</h2>
+    <p class="lede">A common myth: the engine starts from nothing. It doesn't.</p>
+    <div class="card">
+      <div class="muted">Before Tengri ever arrives, a person sketched a <b>hypothesis-list</b> of traditions worth including, and earlier passes already produced background research, reliability reports, and first-draft notes. The library is a <b>partially-built</b> structure — shelves with labels, some already full.</div>
+      <div class="gloss"><b>So Tengri doesn't enter a void.</b> It enters a room with a map on the wall — and lands either in an empty shelf that was waiting for it, or beside something already there.</div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 2 — interactive check -->
+<section class="step" data-state="checking: already on the shelves?">
+  <div class="wrap reveal">
+    <span class="num">2</span>
+    <h2>First question: <span class="q">is it already here?</span></h2>
+    <p class="lede">Every new idea is checked against what the library already holds. Try it yourself.</p>
+    <div class="card">
+      <div class="trybox">
+        <div class="tryrow">
+          <input id="tryin" type="text" placeholder="enter an idea, e.g. Tengri" autocomplete="off">
+          <button class="btn" id="trybtn">check the library →</button>
+        </div>
+        <div class="chips">
+          <span class="chip" data-v="Tengri">Tengri</span>
+          <span class="chip" data-v="Four Noble Truths">Four Noble Truths</span>
+          <span class="chip" data-v="ubuntu">ubuntu</span>
+          <span class="chip" data-v="apophatic prayer">apophatic prayer</span>
+        </div>
+        <div id="verdict"></div>
+      </div>
+      <div class="gloss"><b>The honest part:</b> a "miss" is good news — it's exactly the case the engine exists for. A "hit" just means we route you to what's already grown.</div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 3 — parity hunt -->
+<section class="step" data-state="hunting sources — everywhere at once">
+  <div class="wrap reveal">
+    <span class="num">3</span>
+    <h2>Not in the library. So we <span class="q">hunt — everywhere at once.</span></h2>
+    <p class="lede">Here's the principle that matters most: Tengri is searched <b>everywhere</b>, not just in its home region. Steppe archives <em>and</em> Western ones fire in parallel.</p>
+    <div class="card">
+      <div class="archgrid" id="archgrid">
+        <!-- filled by JS -->
+      </div>
+      <div class="parity-note" id="paritynote">Searching…</div>
+      <div class="gloss"><b>Why this matters (the "parity" rule):</b> an archive is searched for what it <em>contains</em>, never for whose region it "belongs to." A Mongolian manuscript library and a German one are both asked about Tengri. Skipping the "obvious" ones is how blind spots form.</div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 4 — provenance / bias trail -->
+<section class="step" data-state="ingested with provenance — misses logged too">
+  <div class="wrap reveal">
+    <span class="num">4</span>
+    <h2>Everything found is stamped — and so is <span class="q">everything missed.</span></h2>
+    <p class="lede">Each text comes in carrying a receipt: where it came from, how it was found.</p>
+    <div class="card roseb">
+      <div class="honest">
+        <div class="h">⚑ The honest bias-trail</div>
+        <div class="muted" style="margin-top:6px">When an archive comes up <b>empty</b>, that's recorded too — not silently dropped. Over time these logged absences become a visible map of <b>where the world's record is thin</b>. The gaps are part of the finding, not hidden under the rug.</div>
+      </div>
+      <div style="margin-top:12px">
+        <span class="tag teal">✓ found · Mongolian manuscript archive</span>
+        <span class="tag teal">✓ found · Eurasian oral-history collection</span>
+        <span class="tag rose">✗ empty · major Western theology index — logged</span>
+      </div>
+      <div class="gloss"><b>Trust comes from the receipts.</b> A scholar can later ask, "what did you look at, and what came back nothing?" — and get an answer.</div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 5 — break into passages -->
+<section class="step" data-state="broken into quotable passages">
+  <div class="wrap reveal">
+    <span class="num">5</span>
+    <h2>Big texts become <span class="q">small, quotable pieces.</span></h2>
+    <p class="lede">A whole book is too big to compare. So each text is broken into <b>passages</b> — the smallest unit you could quote and stand behind.</p>
+    <div class="card">
+      <div class="passage">"By the will of <span class="word" data-tip="Möngke = 'eternal'">Möngke</span> Tengri — the Eternal Sky — under whose power all things live, this decree is given."</div>
+      <div class="muted" style="font-size:14px;color:var(--faint)">↑ one passage, lifted from a 13th-century steppe edict. It can now be pointed at, quoted, and labelled on its own.</div>
+      <div class="gloss"><b>Container vs. atom:</b> the book is the container; the passage is the atom we actually analyze. A small collection of books can yield a vast number of passages.</div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 6 — label in its own words -->
+<section class="step" data-state="labelled in its OWN words, by a 3-voice panel">
+  <div class="wrap reveal">
+    <span class="num">6</span>
+    <h2>Labelled in Tengri's <span class="q">own vocabulary first.</span></h2>
+    <p class="lede">The rule that protects against bias: no outside category is forced onto the passage. It's described first in <b>its own tradition's words</b> — by a small panel of AI reviewers each playing a different role.</p>
+    <div class="card">
+      <div class="panelrow">
+        <div class="panel">
+          <div class="role">Insider</div>
+          <div class="say">"This is reverence for the sky as the source of legitimate rule."</div>
+          <div class="lc"><span class="lcode">Möngke-Tengri</span><span class="lcode">sky-mandate</span></div>
+        </div>
+        <div class="panel">
+          <div class="role">Outsider</div>
+          <div class="say">"A high-god sanctioning earthly authority — recognizable cross-culturally."</div>
+          <div class="lc"><span class="lcode">divine-sanction</span></div>
+        </div>
+        <div class="panel">
+          <div class="role">Practitioner</div>
+          <div class="say">"You invoke Tengri before acting; the sky is witness, not idol."</div>
+          <div class="lc"><span class="lcode">invocation</span><span class="lcode">witness-sky</span></div>
+        </div>
+      </div>
+      <div class="warn">Notice: nobody wrote "monotheism" or "God." Those are <em>our</em> categories — imported later, carefully, only when the passage's own words have been heard.</div>
+      <div class="gloss"><b>Why three voices?</b> One reviewer can be confidently wrong. Three independent readings, with their agreement scored, stand in for a human rating team the solo researcher can't afford.</div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 7 — convergence / rhyme -->
+<section class="step" data-state="found rhyming with traditions it never met">
+  <div class="wrap reveal">
+    <span class="num">7</span>
+    <h2>Later, the surprise: where Tengri <span class="q">rhymes.</span></h2>
+    <p class="lede">Only after many traditions are labelled this way does the engine look <b>across</b> them — for ideas that arose independently yet echo each other. We call it a <b>rhyme</b>: traditions that never met, making the same move.</p>
+    <div class="card tealb">
+      <div class="rhyme">
+        <div class="rnode"><div class="who">☼ Tengri (steppe)</div><div class="obs">the open sky as impartial witness to every act</div></div>
+        <div class="rlink"></div>
+        <div class="rnode"><div class="who">☸ a contemplative line</div><div class="obs">"sky-like mind" — awareness as boundless, unstained space</div></div>
+      </div>
+      <div class="muted" style="text-align:center;margin-top:10px">No contact. No borrowing. Two peoples reached for the sky to say something about an open, watching awareness.</div>
+      <div class="gloss"><b>This is the payoff.</b> Convergence between traditions with no shared history is interesting <em>because</em> most things don't converge — the rhyme is the rare signal worth studying.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINALE — garden -->
+<section class="step" data-state="a bloom in the garden">
+  <div class="wrap reveal">
+    <span class="num">✦</span>
+    <h2>Tengri takes its place in the <span class="q">garden.</span></h2>
+    <p class="lede">The library isn't a list. It's a sky-map of many traditions' observations — each a bloom, with glowing lines drawn between the ones that rhyme.</p>
+    <div class="garden" id="garden"></div>
+    <p class="gcap" id="gcap">…and one new light just appeared.</p>
+
+    <div class="stats">
+      <div class="stat"><b>1 → many</b><span>one knock → a fully-read entry</span></div>
+      <div class="stat"><b>everywhere</b><span>searched, not just its home region</span></div>
+      <div class="stat"><b>misses logged</b><span>the gaps are part of the record</span></div>
+    </div>
+
+    <div class="card">
+      <h3>What you just followed, in one breath</h3>
+      <div class="muted">A name knocked. We checked the half-built library, hunted for it across the whole world at once, stamped every find <em>and</em> every miss, broke the texts into quotable pieces, let each piece speak in its own words, and finally watched it rhyme with a tradition it never met — becoming one more light in a shared sky.</div>
+    </div>
+
+    <div style="text-align:center;margin-top:20px">
+      <button class="btn ghost" id="restart">↺ follow another idea from the top</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  An interactive explainer of the engine behind a comparative-religion library.<br>
+  <b>Tengri</b> stands in for any idea not yet in the corpus. <b>Glosses inline; no internal stage-names.</b><br>
+  Self-contained · vanilla JS · no external assets.
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- stars ---------- */
+  var starsEl=document.getElementById('stars');
+  for(var i=0;i<90;i++){
+    var s=document.createElement('div');
+    s.className='star';
+    var sz=Math.random()*2+1;
+    s.style.width=sz+'px';s.style.height=sz+'px';
+    s.style.left=(Math.random()*100)+'%';
+    s.style.top=(Math.random()*100)+'%';
+    starsEl.appendChild(s);
+    (function(el,d){setTimeout(function(){el.style.opacity=(Math.random()*0.6+0.15).toFixed(2);},d);})(s,Math.random()*1800);
+  }
+
+  /* ---------- progress rail ---------- */
+  var railfill=document.getElementById('railfill');
+  function onScroll(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    var p=h>0?(window.scrollY/h):0;
+    railfill.style.width=(p*100)+'%';
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+
+  /* ---------- reveal + token-state via IntersectionObserver ---------- */
+  var token=document.getElementById('token');
+  var tokenstate=document.getElementById('tokenstate');
+  var steps=Array.prototype.slice.call(document.querySelectorAll('.step'));
+  var reveals=Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+
+  var revObs=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); } });
+  },{threshold:0.18});
+  reveals.forEach(function(r){revObs.observe(r);});
+
+  var stepObs=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting && e.intersectionRatio>0.4){
+        var st=e.target.getAttribute('data-state');
+        if(st){ token.classList.add('show'); tokenstate.innerHTML='<b>'+st+'</b>'; }
+        // fire per-step animations
+        if(e.target.id==='') {}
+      }
+    });
+  },{threshold:[0.4]});
+  steps.forEach(function(s){stepObs.observe(s);});
+
+  // hide token at hero
+  var hero=document.querySelector('.hero');
+  var heroObs=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting && e.intersectionRatio>0.5){ token.classList.remove('show'); } });
+  },{threshold:[0.5]});
+  heroObs.observe(hero);
+
+  /* ---------- STEP 2: library check ---------- */
+  var corpus={
+    'four noble truths':'Already a fully-read entry — its passages are coded and it rhymes with several traditions.',
+    'apophatic prayer':'Already here, under negative theology — many coded passages.',
+    'ubuntu':'Partly here — sketched on the hypothesis-list, a few sources gathered, not yet fully read.'
+  };
+  var tryin=document.getElementById('tryin');
+  var trybtn=document.getElementById('trybtn');
+  var verdict=document.getElementById('verdict');
+
+  function runCheck(val){
+    var v=(val||'').trim();
+    if(!v){ verdict.innerHTML='<div class="verline muted">Type something — or tap a suggestion.</div>'; return; }
+    var key=v.toLowerCase();
+    var html;
+    if(corpus[key]){
+      html='<div class="verline"><span class="yes">✓ Already in the library.</span> '+corpus[key]+'<br><span class="muted" style="font-size:14px">→ We route you to what\'s already grown. No hunt needed.</span></div>';
+    }else{
+      html='<div class="verline"><span class="no">✦ Not in the library yet.</span> This is exactly the journey "<b style="color:var(--gold)">'+escapeHtml(v)+'</b>" now begins — checked against the half-built shelves, then hunted for across the whole world.<br><span class="muted" style="font-size:14px">→ Keep scrolling to follow it. (Tengri\'s path is the example.)</span></div>';
+    }
+    verdict.innerHTML=html;
+  }
+  function escapeHtml(s){return s.replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
+
+  trybtn.addEventListener('click',function(){runCheck(tryin.value);});
+  tryin.addEventListener('keydown',function(e){if(e.key==='Enter'){runCheck(tryin.value);}});
+  Array.prototype.forEach.call(document.querySelectorAll('.chip'),function(c){
+    c.addEventListener('click',function(){tryin.value=c.getAttribute('data-v');runCheck(tryin.value);});
+  });
+
+  /* ---------- STEP 3: parallel archive hunt ---------- */
+  var archives=[
+    {nm:'Mongolian manuscript library',rg:'steppe / home region',res:'hit',txt:'✓ 3 edicts mention Tengri'},
+    {nm:'Eurasian oral-history corpus',rg:'Central Asia',res:'hit',txt:'✓ 2 invocation chants'},
+    {nm:'Western theology index',rg:'Europe',res:'miss',txt:'✗ empty — logged'},
+    {nm:'Latin-American journal portal',rg:'global academic',res:'hit',txt:'✓ 1 comparative article'},
+    {nm:'East-Asian text database',rg:'East Asia',res:'hit',txt:'✓ 1 Yuan-era reference'},
+    {nm:'Open scholarly repository',rg:'global academic',res:'hit',txt:'✓ 4 papers on Tengrism'}
+  ];
+  var archgrid=document.getElementById('archgrid');
+  var paritynote=document.getElementById('paritynote');
+  archives.forEach(function(a){
+    var d=document.createElement('div');
+    d.className='arch';
+    d.innerHTML='<div class="nm">'+a.nm+'</div><div class="rg">'+a.rg+'</div><div class="res '+a.res+'">'+a.txt+'</div>';
+    archgrid.appendChild(d);
+  });
+  var archFired=false;
+  var arch3Obs=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting && !archFired){
+        archFired=true;
+        var nodes=archgrid.querySelectorAll('.arch');
+        nodes.forEach(function(n,idx){ setTimeout(function(){n.classList.add('lit');},idx*260); });
+        setTimeout(function(){
+          paritynote.innerHTML='<b style="color:var(--teal)">5 hits, 1 honest miss</b> — all queried <b>at the same time</b>, home-region and far-flung alike.';
+        },archives.length*260+200);
+      }
+    });
+  },{threshold:0.5});
+  arch3Obs.observe(archgrid);
+
+  /* ---------- STEP 5: word tooltips ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.word'),function(w){
+    w.addEventListener('mouseenter',function(){ w.setAttribute('title',w.getAttribute('data-tip')); });
+    w.title=w.getAttribute('data-tip');
+  });
+
+  /* ---------- FINALE: garden blooms ---------- */
+  var garden=document.getElementById('garden');
+  var glyphs=['☸','✝','☪','✡','☯','✺','❀','✶','♁','❁','✦','❂','✷','✹'];
+  var positions=[];
+  for(var g=0;g<14;g++){
+    var b=document.createElement('div');
+    b.className='bloom';
+    b.textContent=glyphs[g];
+    var x=8+Math.random()*84, y=12+Math.random()*72;
+    positions.push([x,y]);
+    b.style.left=x+'%';b.style.top=y+'%';
+    b.style.color=(Math.random()<0.4?'var(--teal)':'#cdd2f0');
+    garden.appendChild(b);
+  }
+  // the YOU bloom (Tengri)
+  var you=document.createElement('div');
+  you.className='bloom you';
+  you.textContent='☼';
+  you.style.left='50%';you.style.top='44%';you.style.color='var(--gold)';
+  garden.appendChild(you);
+
+  var gardenFired=false;
+  var gObs=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting && !gardenFired){
+        gardenFired=true;
+        var blooms=garden.querySelectorAll('.bloom:not(.you)');
+        blooms.forEach(function(bl,idx){ setTimeout(function(){bl.classList.add('in');},idx*120); });
+        setTimeout(function(){ you.classList.add('in'); },blooms.length*120+400);
+      }
+    });
+  },{threshold:0.4});
+  gObs.observe(garden);
+
+  /* ---------- restart ---------- */
+  document.getElementById('restart').addEventListener('click',function(){
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  onScroll();
+})();
+</script>
+</body>
+</html>
