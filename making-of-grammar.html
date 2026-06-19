@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>How the grammar was made — Grammar of Meaning</title>
+<style>
+:root{
+  --ink:#221c14; --parch:#fbf6ec; --parch2:#f4ecd9; --line:#e3dac6; --mut:#8a7d63;
+  --moss:#3f5a39; --moss-d:#2f4a2c; --gold:#b8893a; --soft:#fcfbf6;
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--parch);color:var(--ink);font-family:var(--serif);line-height:1.62;-webkit-font-smoothing:antialiased}
+.gom-home{position:fixed;top:14px;left:16px;z-index:999;font:600 13px/1 var(--sans);color:var(--moss);
+  text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px;box-shadow:0 1px 5px rgba(80,60,20,.10)}
+.gom-home:hover{background:#fff;border-color:var(--gold);color:var(--gold)}
+.wrap{max-width:760px;margin:0 auto;padding:0 26px}
+.hero{padding:92px 0 26px}
+.hero .eyebrow{font:600 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin-bottom:14px}
+.hero h1{font-size:38px;line-height:1.08;margin:0 0 12px;font-weight:600;letter-spacing:-.01em}
+.hero .sub{font-size:18px;color:#2c2418;margin:0}
+.hero .sub i{color:var(--moss-d)}
+.rule{width:54px;height:2px;background:var(--gold);opacity:.6;margin:34px 0;border:0}
+section{margin:34px 0}
+h2{font-size:13px;font-family:var(--sans);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 12px}
+p{font-size:17.5px;line-height:1.6;margin:0 0 14px}
+.lede p{font-size:18.5px;line-height:1.62}
+.lede b{color:var(--moss-d)}
+.lede i{color:var(--moss-d)}
+.kicker{font-size:19px;line-height:1.5;color:#2c2418;margin:18px 0 0}
+.kicker b{color:var(--moss-d)}
+
+/* flat schema table — the one visual */
+.arc{margin:8px 0 6px;border-top:1px solid var(--line)}
+.arc-row{display:flex;gap:0;border-bottom:1px solid var(--line);align-items:stretch}
+.arc-row .n{flex:0 0 46px;display:flex;align-items:flex-start;justify-content:center;padding:16px 0 0;
+  font-family:var(--sans);font-weight:700;font-size:17px;color:var(--moss);background:var(--parch2)}
+.arc-row .cell{flex:1 1 0;padding:15px 16px;min-width:0}
+.arc-row .move{flex:0 0 34%;border-left:1px solid var(--line)}
+.arc-row .move b{display:block;font-size:16.5px;font-family:var(--sans);font-weight:700;color:var(--ink);margin-bottom:3px}
+.arc-row .move .role{font-size:13px;font-family:var(--sans);color:var(--mut);font-style:normal;letter-spacing:.02em}
+.arc-row .what{font-size:15.5px;line-height:1.5;color:#2c2418;border-left:1px dashed var(--line)}
+.arc-row.head{border-bottom:2px solid var(--line)}
+.arc-row.head .n,.arc-row.head .cell{background:transparent;font-family:var(--sans);font-weight:700;
+  font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);padding-top:8px;padding-bottom:8px}
+.arc-row.head .n{padding-top:8px}
+
+.three{margin:6px 0}
+.t{padding:16px 0;border-top:1px solid var(--line)}
+.t:first-child{border-top:0}
+.t b{display:block;font-size:18px;font-weight:600;color:var(--moss-d);margin-bottom:6px;font-family:var(--serif)}
+.t p{font-size:16.5px;line-height:1.58;margin:0}
+.t .aside{display:block;margin-top:8px;font-size:15.5px;color:var(--mut);font-style:italic;line-height:1.5}
+
+.flag{background:var(--parch2);border:1px solid var(--line);border-left:4px solid var(--moss);border-radius:0 10px 10px 0;padding:16px 20px;margin:18px 0;font-size:16.5px}
+.flag b{color:var(--moss-d)}
+
+.gate{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin:16px 0}
+.gate .lbl{font-family:var(--sans);font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.gate p{margin:0;font-size:16.5px}
+
+.soonwrap{margin:24px 0 0;padding-top:18px;border-top:1px dashed var(--line)}
+.soon{font-family:var(--sans);font-size:15px;color:var(--mut);cursor:default}
+.soon .arrow{color:#c4b89a}
+.soon .tag{display:inline-block;margin-left:8px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--mut);background:var(--parch2);border:1px solid var(--line);border-radius:20px;padding:3px 9px;vertical-align:1px}
+
+.crosslink{font-family:var(--sans);font-size:15px;margin:6px 0 0;color:var(--mut)}
+.crosslink a{color:var(--moss);font-weight:600;text-decoration:none}.crosslink a:hover{color:var(--gold)}
+.back{font-family:var(--sans);font-size:14px;margin:30px 0 0}
+.back a{color:var(--moss);font-weight:600;text-decoration:none}.back a:hover{color:var(--gold)}
+.foot{font-family:var(--sans);font-size:12px;color:var(--mut);text-align:center;padding:44px 0 60px}
+@media(max-width:640px){
+  .hero h1{font-size:30px}
+  .arc-row{flex-wrap:wrap}
+  .arc-row .n{flex:0 0 100%;justify-content:flex-start;padding:8px 16px 0;align-items:center}
+  .arc-row .move{flex:0 0 100%;border-left:0}
+  .arc-row .what{flex:0 0 100%;border-left:0;border-top:1px dashed var(--line)}
+  .arc-row.head{display:none}
+}
+</style>
+</head>
+<body>
+<a href="index.html" class="gom-home">← Grammar of Meaning</a>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Grammar of Meaning · Method</div>
+    <h1>How the grammar was made</h1>
+    <p class="sub">A companion to <a href="grammar.html" style="color:var(--moss);text-decoration:none;border-bottom:1px solid var(--line)">the grammar itself</a>:
+      that page shows <i>what</i> the grammar is. This one shows <i>how</i> it was arrived at.</p>
+  </header>
+
+  <hr class="rule">
+
+  <section class="lede">
+    <p>The grammar wasn't declared. It was <i>arrived at</i> — and the surprising part is from where.</p>
+    <p><b>Four separate paths reached the same six-part skeleton without coordinating.</b> An intuition I'd carried
+      for years — that meaning gets made in the <i>between</i>, and that the practical mechanics of that deserve as
+      much attention as the beliefs. A systems-thinking sketch — a move has a <i>substrate</i>, an <i>operation</i>,
+      and an <i>outcome</i>, like a stock-and-flow drawn as a graph. Four scholars, read fresh this month. And a
+      close reading of a single scripture. None was looking at the others. They landed in the same place.</p>
+    <p>That agreement is the grammar's own evidence. It isn't arbitrary, it isn't an artifact of one source, and it
+      isn't something an AI handed me. <b>It's where independent paths meet</b> — the same kind of evidence the
+      project looks for in the traditions themselves: when paths that developed apart arrive at the same structure,
+      the structure is worth taking seriously.</p>
+    <p class="kicker">It is also <b>not finished.</b> What follows is a working draft, caught mid-process on purpose.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2>How we got there — in five moves</h2>
+
+    <div class="arc">
+      <div class="arc-row head">
+        <div class="n cell">·</div>
+        <div class="cell move">the move</div>
+        <div class="cell what">what happened</div>
+      </div>
+
+      <div class="arc-row">
+        <div class="n">1</div>
+        <div class="cell move"><b>The brief</b><span class="role">the hypothesis</span></div>
+        <div class="cell what">An intuition and a systems sketch proposed a six-part skeleton for a "move."</div>
+      </div>
+
+      <div class="arc-row">
+        <div class="n">2</div>
+        <div class="cell move"><b>Diverge</b><span class="role">the concepts</span></div>
+        <div class="cell what">Four scholars, read fresh — and a <i>bake-off</i> of six rival ways to organize the grammar, each judged by three readers: a scholar, a seeker, and a builder.</div>
+      </div>
+
+      <div class="arc-row">
+        <div class="n">3</div>
+        <div class="cell move"><b>Converge</b><span class="role">the critique</span></div>
+        <div class="cell what">A panel of five different AI models, set up to <i>disagree</i> with us, caught a blind spot we'd missed — we'd flattened everything into one kind of move. Then I went through every candidate myself and decided its fate.</div>
+      </div>
+
+      <div class="arc-row">
+        <div class="n">4</div>
+        <div class="cell move"><b>Field-test</b><span class="role">the test</span></div>
+        <div class="cell what">We read Paul's letter to the Romans — all 107 verses of the argument — inside its own historical world, then twelve more passages from across the traditions. The skeleton held; a short list of refinements fell out.</div>
+      </div>
+
+      <div class="arc-row">
+        <div class="n">5</div>
+        <div class="cell move"><b>Lock — not yet</b><span class="role">the gate ahead</span></div>
+        <div class="cell what">Fourteen held-out passages, frozen, then a human typologist who works outside the Western language family.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>A little more on the three that mattered most</h2>
+    <div class="three">
+      <div class="t">
+        <b>The four scholars came third, not first.</b>
+        <p>Reinhart Koselleck (concepts carry time inside them), Arthur Lovejoy (ideas travel and recombine across
+          centuries), Charles Taylor (we don't just label the world, we <i>constitute</i> it in language), Ann Taves
+          (the smallest religious move is someone <i>deeming</i> something special). They didn't author the skeleton —
+          they arrived to test and sharpen one that intuition and systems-thinking already had. Remove the scholars
+          and the skeleton still stands; remove the intuition and there's nothing to stand.</p>
+      </div>
+      <div class="t">
+        <b>The method was built to catch its own bias.</b>
+        <p>The five-model panel was set up to argue with us, and it did — it named a flattening we couldn't see from
+          inside. Publishing that, rather than hiding it, is the point: a method you can audit is worth more than one
+          that only shows its wins.</p>
+      </div>
+      <div class="t">
+        <b>Paul was field-tested in his own world.</b>
+        <p>Before asking whether a move in Romans <i>rhymes</i> with a move in another tradition, we reconstructed
+          Paul's setting — Rome around 57 CE, the mixed Jewish-and-Gentile house-churches, the aftershock of an
+          imperial expulsion order, the politics of the grain supply. The reason is discipline: a rhyme only counts
+          if it's a real structural echo, not an accident of two traditions sharing the same circumstances.</p>
+        <span class="aside">And the interpreter has a setting too — we watched how Augustine's own world, centuries
+          later, colors the way he reads Paul.</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Where it stands</h2>
+    <p>A working draft — provisional on purpose. It has survived a scripture it didn't choose and twelve other
+      passages, and it was reached independently from four directions. It has <i>not</i> passed the gate that would
+      let us call it settled.</p>
+    <div class="gate">
+      <div class="lbl">The gate ahead</div>
+      <p>Fourteen held-out passages, frozen in advance — and an outside human expert, a typologist working beyond the
+        Western language family. Until it clears that, we'll keep calling it a draft.</p>
+    </div>
+    <div class="soonwrap">
+      <span class="soon"><span class="arrow">→</span> The detailed sprint log — the receipts: every candidate,
+        every critique, every refinement <span class="tag">coming soon</span></span>
+    </div>
+  </section>
+
+  <p class="crosslink"><a href="grammar.html">→ See the grammar itself</a> &nbsp;·&nbsp; <a href="method.html">→ How the reading is done</a></p>
+  <p class="back"><a href="index.html">← back to the Grammar of Meaning</a></p>
+  <div class="foot">A working house, unlisted · The Library · Essays · the Garden · Method</div>
+
+</div>
+</body>
+</html>
