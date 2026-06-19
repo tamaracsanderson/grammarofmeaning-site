@@ -50,11 +50,6 @@
     background:var(--you-bg);border:1px solid var(--you-bd);border-radius:14px;padding:14px 22px;max-width:30em;line-height:1.5}
   .thesis em{color:var(--you-deep);font-style:normal;font-weight:700}
 
-  /* rationale */
-  .rationale{max-width:760px;margin:30px auto 0;background:var(--card);border:1px dashed var(--line2);border-radius:12px;
-    padding:14px 20px;font-size:13px;color:var(--muted);line-height:1.55}
-  .rationale b{color:var(--ink)}
-
   /* ---------- §1 the five pieces (meta-architecture) ---------- */
   .arch{max-width:980px;margin:44px auto 0;text-align:left}
   .arch-h{font-family:var(--serif);font-size:clamp(21px,3vw,27px);font-weight:600;text-align:center;margin:0 0 6px}
@@ -77,30 +72,6 @@
   .ac-d code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:#eef3f7;
     border:1px solid var(--eng-bd);border-radius:5px;padding:1px 5px;color:var(--eng)}
   .archcard.you .ac-d{color:var(--ink)}
-
-  /* ---------- §2 the full ~10-step flow ---------- */
-  .flow{max-width:820px;margin:40px auto 0}
-  .flow-h{font-family:var(--serif);font-size:clamp(19px,2.6vw,23px);font-weight:600;text-align:center;margin:0 0 16px}
-  .flowlist{list-style:none;counter-reset:fl;margin:0;padding:0;display:grid;gap:7px}
-  .flowlist li{counter-increment:fl;position:relative;padding:10px 14px 10px 44px;border-radius:10px;font-size:14px;
-    background:linear-gradient(var(--eng-bg),#fff);border:1px solid var(--eng-bd);color:#4a443c}
-  .flowlist li::before{content:counter(fl);position:absolute;left:12px;top:50%;transform:translateY(-50%);
-    width:22px;height:22px;border-radius:50%;background:var(--eng);color:#fff;font-size:12px;font-weight:700;
-    display:flex;align-items:center;justify-content:center}
-  .flowlist li.you{background:linear-gradient(180deg,var(--you-bg),#fffdf9);border-color:var(--you-bd);
-    border-left:5px solid var(--you);color:var(--ink)}
-  .flowlist li.you::before{background:var(--you)}
-  .flowlist li.both{background:linear-gradient(135deg,var(--you-bg),var(--eng-bg));border-color:var(--you-bd)}
-  .flowlist li.both::before{background:linear-gradient(135deg,var(--you),var(--eng))}
-  .flowlist li.pub{background:linear-gradient(180deg,var(--pub-bg),#fffdf9);border-color:var(--pub-bd);border-left:5px solid var(--pub)}
-  .flowlist li.pub::before{background:var(--pub)}
-  .flowlist li.big{box-shadow:0 5px 16px rgba(124,58,6,.12);font-weight:600}
-  .flowlist li b{font-family:var(--serif);font-weight:600}
-  .flowlist .who{float:right;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);
-    margin-left:10px}
-  .flowlist li.you .who{color:var(--you-deep)} .flowlist li.pub .who{color:var(--pub)}
-  .flow-foot{text-align:center;color:var(--muted);font-size:13px;margin:14px auto 0;max-width:46em}
-  @media(max-width:560px){.flowlist .who{float:none;display:block;margin:4px 0 0}}
 
   /* toggle */
   .toggle-wrap{text-align:center;margin:40px 0 8px}
@@ -250,17 +221,13 @@
   <header class="hero">
     <div class="kicker">How an essay gets made &nbsp;·&nbsp; <b>five machines and a human</b></div>
     <h1>Watch an essay get built — and see who actually does the work.</h1>
-    <p class="lede">A public essay starts as a <b>seed</b> and ends on a Substack. In between, several engines harvest, draft in parallel, and review — all from a corpus of roughly <b>335,000 sources</b>. But the engine doesn't <i>make</i> the essay.</p>
+    <p class="lede">A public essay starts as a <b>seed</b> and ends on a Substack. In between, several engines harvest, draft in parallel, and review — all from a corpus of roughly <b>335,000 sources</b>.</p>
     <div class="thesis">The engines gather, draft, and review.<br><em>The human makes the essay.</em></div>
-
-    <div class="rationale">
-      <b>Design rationale.</b> This page <i>performs</i> the process: stages reveal as you scroll, and the layout itself carries the argument. Engine steps render light and compact; human steps render heavy, tall, and amber — because the human does the decisive work. <b>Revision</b> isn't one tidy box; it's dozens of passes (Rabiʿa ≈ 22), drawn at scale so the page can't imply automation does most of it. A closing balance-scale tallies engine-vs-human effort. Toggle three real worked examples. The frame is <b>moves → analogy</b> — a move surfaced in one tradition becomes an analogy you can recognize in another, and in your own life — never "convergence," never "traditions that never met."
-    </div>
 
     <!-- ===== §1 THE FIVE PIECES — the meta-architecture, front and center ===== -->
     <section class="arch">
       <div class="arch-h">What's actually doing the work — five distinct pieces</div>
-      <p class="arch-sub">It's not "an AI that writes essays." It's a small machine shop. Four engines, plus the human who runs them — and the most important step happens after every engine has done its part.</p>
+      <p class="arch-sub">It's not "an AI that writes essays." It's a small machine shop: four engines, plus the human who runs them.</p>
       <div class="archgrid">
         <div class="archcard eng">
           <div class="ac-tag eng">engine</div>
@@ -285,29 +252,9 @@
         <div class="archcard you">
           <div class="ac-tag you">the human</div>
           <div class="ac-n">5 · The human</div>
-          <div class="ac-d">The seed, the harvest direction, the <b>form</b>, the <b>graft</b>, and the <b>revision</b> — the bulk, dozens of line-level passes — and the judgment: what's true, what flatters, what flattens, what's hers. <b>The engines draft; the human makes the essay.</b></div>
+          <div class="ac-d">The seed, the harvest direction, the <b>form</b>, the <b>graft</b>, and the <b>revision</b> — the bulk, dozens of line-level passes — and the judgment: what's true, what flatters, what flattens, what's hers.</div>
         </div>
       </div>
-    </section>
-
-    <!-- ===== §2 the full ~10-step flow, who-does-what ===== -->
-    <section class="flow">
-      <div class="flow-h">The full run — about ten steps, tagged by who does each</div>
-      <ol class="flowlist">
-        <li class="you"><b>Seed</b> — a shower-thought, an archive passage, an interesting word. <span class="who">human</span></li>
-        <li class="eng"><b>Research / harvest</b> — corpus + parity fan-out + frame sweep → reference pack, sitz, shopping cart. <span class="who">engine</span></li>
-        <li class="both"><b>Co-ideation</b> — several directions proposed; the human picks the angle and the series slot. <span class="who">human + engine</span></li>
-        <li class="you"><b>Form</b> — choose the structural form, apply the homiletic correction. <span class="who">human</span></li>
-        <li class="eng"><b>Bake-off</b> — several parallel drafts, in the chosen form, through different doors. <span class="who">engine</span></li>
-        <li class="eng"><b>Panel review</b> — the nine-persona adversarial read + honesty rails. <span class="who">engine</span></li>
-        <li class="eng"><b>Polish</b> — tighten the grafted draft. <span class="who">engine</span></li>
-        <li class="you"><b>Handover</b> — Tamara reads it as a reader: what works, what doesn't. <span class="who">human</span></li>
-        <li class="you big"><b>Revision</b> — dozens of passes. This is where the essay is actually made. <span class="who">human · the bulk</span></li>
-        <li class="eng"><b>Footnotes</b> — provenance, "where this came from," translations pinned to a named source. <span class="who">engine</span></li>
-        <li class="pub"><b>Post</b> — Tamara ships to Substack → grammarofmeaning.org. <span class="who">human</span></li>
-        <li class="eng"><b>Tags, blurb &amp; art</b> — Substack tags, the social blurb, image candidates from the Library. <span class="who">engine</span></li>
-      </ol>
-      <p class="flow-foot">The worked examples below compress this into eight visible stages — but every step above is somebody's job, and the heaviest one is the human's.</p>
     </section>
 
     <div class="toggle-wrap">
@@ -377,7 +324,7 @@ const EX = {
        body:`<div class="out"><span class="serif">"…So that what remains is love, free and clear."</span><br><br>This is a <b>move</b>, not a doctrine: love the thing for itself, not for what it pays out. You can carry that into a marriage, a craft, a friendship — an <b>analogy</b> that rhymes across very different lives.</div>`},
 
       {n:2,role:ENG,nm:"Harvest",ol:"the sitz · from the Library",eff:2,
-       blurb:"The engine pulls the tradition's own sources and the sitz — where, when, and under what conditions, so you can picture the person. A parity fan-out keeps non-Western voices from being dropped.",
+       blurb:"The engine pulls the tradition's own sources and the sitz — where, when, and under what conditions, so you can picture the person.",
        body:`<div class="lab">Reference pack · the Basra sitz (excerpt)</div>
         <div class="out"><b>WHO</b> — Rabiʿa al-ʿAdawiyya (c.714–801), born into slavery, freed, became a teacher of pure love.<br>
         <b>WHERE</b> — 8th-c. Basra: canal-port, slave economy, the Muʿtazila theology debates in the air.<br>
@@ -395,7 +342,7 @@ const EX = {
           <div class="flex"><div class="ft">Watts flex</div><div class="fs">paradox → wander → circle → noticing</div></div>
           <div class="flex"><div class="ft">Black-preaching principles</div><div class="fs">something at stake · communal · borrowed-and-<i>attributed</i>, never cosplayed</div></div>
         </div>
-        <div class="out" style="font-size:13px;opacity:.82;margin-top:8px"><b>The repertoire is small and deliberate.</b> One governing correction (proclaim-and-trust) plus these <b>three named flexes</b> — these are what the engine's default self-help march breaks against. It is <i>not</i> a thirty-form catalogue; it's the correction and the three flexes.</div>
+        <div class="out" style="font-size:13px;opacity:.82;margin-top:8px"><b>The repertoire is small and deliberate:</b> one governing correction (proclaim-and-trust) plus these <b>three named flexes</b> — the shapes that break the engine's default self-help march.</div>
         <div class="chosen"><b>Chosen for Rabiʿa: the Thurman flex.</b> The torch is the invocation, her life is the story, three angles circle "love for nothing," and her own prayer is the hand-back. The default audit / "now do this" march is deliberately cut.</div>`},
 
       {n:4,role:ENG,nm:"Draft (bake-off)",ol:"several doors at once",eff:2,
@@ -414,7 +361,7 @@ const EX = {
         <div class="rail-item"><span class="ico">⚑</span><span>A move that surfaces in one tradition is an <b>analogy</b> you can recognize in another — not a claim that anyone converged, or that traditions that never met arrived at the same thing.</span></div>`},
 
       {n:6,role:HUMAN,nm:"Revision",ol:"≈ 22 passes — THE BULK",eff:5,big:true,
-       blurb:"This is where the essay is actually made. Not one tidy step — dozens of line-level passes. By a wide margin, the most time-consuming part of the whole build.",
+       blurb:"This is where the essay is actually made — by a wide margin, the most time-consuming part of the whole build.",
        rev:{count:22, engPasses:4,
          items:[
           `the <b>ʿabd / slave</b> hinge — making the etymology carry the argument`,
@@ -449,7 +396,7 @@ const EX = {
        blurb:"A shower-thought captured before it evaporates: simplicity keeps surfacing across very different traditions — but each one wants less for a completely different reason. The divergence is the interesting thing.",
        body:`<div class="out"><span class="serif">"A child cups his hands at the fountain and drinks. An old man in a filthy cloak watches, then reaches into his bag, takes out his one wooden cup — his last object with a function — and lets it fall. ‘A child has beaten me in plainness of living.’"</span><br><br>→ a series, <b>What's Worth Wanting</b>. Day 1: Diogenes, whose reason is <b>freedom</b>. The carryable move: own less, and fewer handles exist for the world to grab.</div>`},
       {n:2,role:ENG,nm:"Harvest",ol:"the sitz · from the Library",eff:2,
-       blurb:"The engine pulls related texts, quotable lines, and a WWWWWH sitz, with a parity fan-out so non-Western voices aren't dropped.",
+       blurb:"The engine pulls related texts, quotable lines, and a WWWWWH sitz.",
        body:`<div class="lab">The Diogenes sitz (excerpt)</div>
         <div class="out"><b>WHO</b> — Diogenes of Sinope (c.412–323 BCE), founder-figure of the Cynics; exiled over a coin-defacing scandal.<br>
         <b>WHERE</b> — not a "barrel" (a mistranslation) but a <i>pithos</i>, a large ceramic jar, in the agora.<br>
@@ -464,7 +411,7 @@ const EX = {
           <div class="flex"><div class="ft">Watts flex</div><div class="fs">paradox → wander → circle → noticing</div></div>
           <div class="flex"><div class="ft">Thurman flex</div><div class="fs">invocation → story → circle → hand back</div></div>
         </div>
-        <div class="out" style="font-size:13px;opacity:.82;margin-top:8px"><b>Three flexes and a correction — not a thirty-form catalogue.</b> The repertoire is small on purpose: it's the set of shapes that break the engine's default self-help march.</div>
+        <div class="out" style="font-size:13px;opacity:.82;margin-top:8px"><b>Three flexes and one correction.</b> The repertoire is small on purpose: the set of shapes that break the engine's default self-help march.</div>
         <div class="chosen"><b>Chosen: a Watts-leaning flex.</b> Open on the paradox of the thrown cup; wander through autarkeia; circle the freedom; end on a noticing, not an instruction.</div>`},
       {n:4,role:ENG,nm:"Draft (bake-off)",ol:"several doors at once",eff:2,
        blurb:"Parallel drafts, each through a different door. The author grafts; she never just picks.",
@@ -505,7 +452,7 @@ const EX = {
        blurb:"The middle of the series: a Daoist answer that inverts the whole frame. Don't want less to gain freedom or to empty the self — want less because being passed over is what lets a thing live out its own nature.",
        body:`<div class="out"><span class="serif">"What is useful gets used up; what is useless is left alone."</span><br><br>The <b>move</b>: usefulness is a claim the world makes on you. Step out of it and you're left to grow as what you are — an <b>analogy</b> that rhymes with a career, a friendship, a life.</div>`},
       {n:2,role:ENG,nm:"Harvest",ol:"the sitz · from the Library",eff:2,
-       blurb:"The engine pulls the tradition's own sources and the sitz, with a parity fan-out so the East-Asian voices aren't routed around.",
+       blurb:"The engine pulls the tradition's own sources and the sitz.",
        body:`<div class="lab">The Warring-States sitz (excerpt)</div>
         <div class="out"><b>WHO</b> — Zhuang Zhou (Zhuangzi), c.4th-c. BCE.<br>
         <b>WHEN/WHERE</b> — <span class="serif">"Around 369 BCE, in a small state in what would become China, a man named Zhuang Zhou sat at a river with a fishing line."</span><br>
@@ -520,7 +467,7 @@ const EX = {
           <div class="flex"><div class="ft">Watts flex</div><div class="fs">paradox → wander → circle → noticing</div></div>
           <div class="flex"><div class="ft">Thurman flex</div><div class="fs">invocation → story → circle → hand back</div></div>
         </div>
-        <div class="out" style="font-size:13px;opacity:.82;margin-top:8px"><b>One correction, three flexes</b> — the whole repertoire, not a thirty-form list. It's the small set of shapes that break the engine's default march.</div>
+        <div class="out" style="font-size:13px;opacity:.82;margin-top:8px"><b>One correction, three flexes</b> — the whole repertoire: the small set of shapes that break the engine's default march.</div>
         <div class="chosen"><b>Chosen: a Watts-leaning flex with a reveal device</b> — the turtle question that turns the paradox over in the reader's hand.</div>`},
       {n:4,role:ENG,nm:"Draft (bake-off)",ol:"several doors at once",eff:2,
        blurb:"Parallel drafts, each through a different door. The author grafts; she never just picks one.",
