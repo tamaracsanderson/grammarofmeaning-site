@@ -133,7 +133,7 @@ h1{font-size:clamp(28px,5vw,44px);margin:0 0 8px;font-weight:700}
     &nbsp;<b>Status</b>: <span class="st ready">ready</span> <span class="st draft">draft</span> <span class="st concept">concept</span> <span class="st live">live</span>.
     &nbsp;<span class="mine">WIP</span> = work-in-progress, Tamara-only (not on the public site — true privacy is what's *not deployed*, not a button).
   </div>
-  <div class="foot">A working house (unlisted). <b>Saquib</b> view = the curated set (what's shown in the meeting); <b>Tamara</b> view adds your work-in-progress pieces, marked WIP — deprecated things appear in neither. The Tamara toggle only shows on your local drive; a visitor only ever sees the Saquib view.<br><em>Grammar of Meaning</em> · v0 · 2026-06-18.</div>
+  <div class="foot">A working house (unlisted). <b>Saquib</b> view = the curated set (the default); <b>Tamara</b> view adds your work-in-progress pieces, marked WIP — deprecated things appear in neither. <code>?tamara</code> lands straight in the Tamara view.<br><em>Grammar of Meaning</em> · v0 · 2026-06-18.</div>
 </div>
 
 <script>
@@ -206,20 +206,11 @@ function render(){
 }
 document.querySelectorAll(".tg").forEach(function(el){el.onclick=function(){view=el.dataset.v;document.querySelectorAll(".tg").forEach(function(x){x.classList.toggle("on",x===el);});render();};});
 function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-/* --- host gate: the "Tamara" view is available locally (your drive) OR on the live site via the
-   private ?tamara link (bookmark grammarofmeaning.org/?tamara). The bare public URL stays Saquib-only,
-   so a visitor — or Saquib over your shoulder — never even sees a Tamara toggle. --- */
-var LOCAL = location.protocol==='file:' || ['','localhost','127.0.0.1'].indexOf(location.hostname)>=0 || /^(192\.168|10|172\.(1[6-9]|2\d|3[01]))\./.test(location.hostname);
+/* --- always-on: both views are available to everyone; default is Saquib (the curated set).
+   ?tamara still lands directly in the Tamara view. Deprecated rows never show in either. --- */
 var PARAM = /(?:^|[?&#])(tamara|me)(?:=|&|$)/i.test(location.search + location.hash);
-var ME = LOCAL || PARAM;
-if(ME){
-  if(PARAM) view="tamara";                 // landing via ?tamara → drop straight into the full 17
-  document.querySelectorAll(".tg").forEach(function(x){x.classList.toggle("on", x.dataset.v===view);});
-} else {
-  view="saquib";
-  var mt=document.querySelector('.tg[data-v="tamara"]'); if(mt) mt.style.display='none';
-  document.getElementById('barnote').textContent='';
-}
+if(PARAM) view="tamara";
+document.querySelectorAll(".tg").forEach(function(x){x.classList.toggle("on", x.dataset.v===view);});
 render();
 </script>
 </body></html>
