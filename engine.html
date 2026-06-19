@@ -1,0 +1,320 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>How an idea joins the library — Grammar of Meaning</title>
+<style>
+ :root{
+   --ink:#1b1b2a; --paper:#f7f5ef; --card:#fffdf8; --line:#e2ddd0;
+   --sky:#3a6ea5;        /* Tengri — the sky-god; the travelling idea */
+   --sky-soft:#e7eef6;
+   --earth:#9a6b3f;      /* the ground / the existing library */
+   --earth-soft:#f1e7da;
+   --gold:#c08a2d;       /* convergence / rhyme / the finding */
+   --gold-soft:#f6edda;
+   --grey:#8b8678; --hit:#2f7d54; --miss:#b5573f;
+ }
+ *{box-sizing:border-box}
+ body{font:15px/1.62 -apple-system,Segoe UI,Helvetica,sans-serif;margin:0;background:var(--paper);color:var(--ink)}
+ .gom-home{position:fixed;top:14px;left:16px;z-index:999;font:600 13px/1 -apple-system,Segoe UI,sans-serif;color:#3f5a39;
+   text-decoration:none;background:rgba(247,245,239,.95);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px;box-shadow:0 1px 5px rgba(80,60,20,.10)}
+ .gom-home:hover{background:#fff;border-color:var(--gold);color:var(--gold)}
+ .wrap{max-width:920px;margin:0 auto;padding:0 22px 80px}
+ header{padding:74px 22px 18px;text-align:center}
+ header h1{margin:0 0 8px;font-size:27px;letter-spacing:-.4px}
+ header .sub{max-width:660px;margin:0 auto;color:#55503f;font-size:15px}
+ .protag{display:inline-block;color:var(--sky);font-weight:700}
+ .contrast{display:inline-block;color:var(--earth);font-weight:700}
+
+ /* the legend / how to read */
+ .key{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;font-size:12.5px;color:#5a5544;margin:24px auto 6px;max-width:760px}
+ .key span{display:inline-flex;align-items:center;gap:7px}
+ .dot{width:13px;height:13px;border-radius:50%;display:inline-block}
+ .dot.sky{background:var(--sky)} .dot.earth{background:var(--earth)} .dot.gold{background:var(--gold)}
+ .dot.ring{background:#fff;border:2px solid var(--miss)}
+
+ /* THE SPINE — vertical journey */
+ .journey{position:relative;margin:30px 0 0}
+ .journey::before{content:"";position:absolute;left:31px;top:18px;bottom:60px;width:3px;
+   background:linear-gradient(180deg,var(--sky) 0%,var(--sky) 62%,var(--gold) 100%)}
+ .step{position:relative;display:grid;grid-template-columns:64px 1fr;gap:0 18px;margin:0 0 6px;align-items:start}
+ .marker{position:relative;z-index:2;display:flex;justify-content:center;padding-top:2px}
+ .glyph{width:50px;height:50px;border-radius:50%;background:var(--card);border:3px solid var(--sky);
+   display:flex;align-items:center;justify-content:center}
+ .glyph svg{width:28px;height:28px}
+ .step.earthc .glyph{border-color:var(--earth)}
+ .step.goldc  .glyph{border-color:var(--gold)}
+ .panel{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:14px 18px 16px;margin-bottom:18px;
+   box-shadow:0 1px 0 rgba(0,0,0,.02)}
+ .panel .q{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--sky);font-weight:700;margin:0 0 3px}
+ .step.earthc .panel .q{color:var(--earth)} .step.goldc .panel .q{color:var(--gold)}
+ .panel h3{margin:0 0 6px;font-size:18px;letter-spacing:-.2px}
+ .panel p{margin:0 0 8px;font-size:14px;color:#454031}
+ .panel p:last-child{margin-bottom:0}
+ .tengri{color:var(--sky);font-weight:600}
+ .gloss{font-size:12.5px;color:var(--grey);font-style:italic}
+
+ /* GRAFT ②: the "Tengri is now: ___" state-chip that rides the journey */
+ .state{display:inline-flex;align-items:center;gap:7px;background:var(--sky-soft);color:#2c4761;border-radius:20px;
+   padding:3px 12px;font-size:11.5px;font-weight:600;margin:0 0 9px}
+ .state .lab{color:#6f8aab;font-weight:700;letter-spacing:.04em}
+ .step.goldc .state{background:var(--gold-soft);color:#7a5410} .step.goldc .state .lab{color:#b08526}
+
+ /* GRAFT ①: the three chairs at the labelling step */
+ .chairs{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:11px 0 4px}
+ .chair{background:#fbf9f3;border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+ .chair b{display:block;font-size:12.5px;color:var(--sky);margin-bottom:3px}
+ .chair span{font-size:11.5px;color:#5a5544;line-height:1.45}
+
+ /* the parallel-search fan (step 3) */
+ .fan{margin:11px 0 4px;background:#fbf9f3;border:1px solid var(--line);border-radius:9px;padding:12px 14px}
+ .fan .cap{font-size:11.5px;color:var(--grey);margin-bottom:6px}
+ .archcol{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px}
+ .arch{display:flex;align-items:center;gap:7px;font-size:12.5px;padding:2px 0}
+ .arch .b{width:9px;height:9px;border-radius:2px;flex:none}
+ .arch.west .b{background:var(--sky)} .arch.non .b{background:var(--earth)}
+ .arch .res{margin-left:auto;font-size:11px;font-weight:700}
+ .arch .res.hit{color:var(--hit)} .arch .res.miss{color:var(--miss)}
+ .parity{margin-top:9px;font-size:12px;color:#6b4a26;background:var(--earth-soft);border-radius:7px;padding:7px 11px}
+ .parity b{color:#5a3c1d}
+
+ /* receipt strip */
+ .receipt{margin-top:11px;font-size:11.5px;color:var(--grey);border-top:1px dashed var(--line);padding-top:7px}
+ .receipt code{background:#efece2;border-radius:3px;padding:0 5px;font-size:11px}
+
+ .aside4nt{margin:6px 0 18px 82px;background:var(--earth-soft);border:1px dashed #d8c5aa;border-radius:9px;
+   padding:9px 14px;font-size:12.5px;color:#6b4a26;max-width:640px}
+ .aside4nt b{color:#5a3c1d}
+
+ /* the finding — convergence */
+ .garden{margin:8px 0 0;text-align:center;position:relative}
+ .garden svg{width:100%;max-width:560px}
+ /* GRAFT §2.1: illustrative honesty tag */
+ .illus{background:var(--gold-soft);border:1px solid #e6d2a3;border-radius:8px;padding:8px 12px;margin:8px 0 0;
+   font-size:12px;color:#7a5410}
+ .illus b{color:#5e3f0a}
+ .illusbadge{display:inline-block;background:#fff;border:1px solid var(--gold);color:#8a6011;border-radius:5px;
+   font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:1px 7px;margin-bottom:6px}
+
+ .scaffold{max-width:760px;margin:26px auto 0;background:var(--sky-soft);border:1px solid #c9dcef;border-radius:11px;padding:14px 20px;font-size:13.5px;color:#2c4761}
+ .scaffold b{color:#1d3047}
+ .scaffold .lab{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--sky);font-weight:700;display:block;margin-bottom:4px}
+
+ footer{max-width:920px;margin:30px auto 0;font-size:12px;color:var(--grey);text-align:center;line-height:1.6}
+ @media(max-width:620px){
+   .step{grid-template-columns:50px 1fr;gap:0 12px}
+   .journey::before{left:24px}
+   .glyph{width:42px;height:42px} .glyph svg{width:23px;height:23px}
+   .archcol{grid-template-columns:1fr}
+   .chairs{grid-template-columns:1fr}
+   .aside4nt{margin-left:62px}
+ }
+</style></head><body>
+<a href="index.html" class="gom-home">← Grammar of Meaning</a>
+
+<header>
+  <h1>How an idea joins the library</h1>
+  <div class="sub">Follow one traveller — <span class="protag">Tengri</span>, the sky-god of the steppe — as it knocks on the door
+  and gets woven into a garden of the world's traditions. <span class="contrast">The Four Noble Truths</span> walks beside it as
+  a contrast: already inside, already at home.</div>
+</header>
+
+<div class="key">
+  <span><i class="dot sky"></i> Tengri — the idea travelling in</span>
+  <span><i class="dot earth"></i> the ground it lands in (already-built library)</span>
+  <span><i class="dot gold"></i> where it rhymes with traditions that never met it</span>
+  <span><i class="dot ring"></i> a miss — logged, never hidden</span>
+</div>
+
+<div class="wrap">
+<div class="journey">
+
+<!-- 0 · the ground is already there -->
+<div class="step earthc">
+  <div class="marker"><div class="glyph">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#9a6b3f" stroke-width="1.8" stroke-linecap="round"><path d="M3 20h18M5 20v-7l7-4 7 4v7M9 20v-4h6v4"/></svg>
+  </div></div>
+  <div class="panel">
+    <div class="q">Before the traveller arrives</div>
+    <h3>The ground is already built</h3>
+    <p>The library does <b>not</b> start empty. A hypothesis-driven map of traditions was sketched in advance, and earlier
+    research — deep-dive reports, cross-checks between several AI readers, first-pass draft entries — laid the soil.
+    <span class="contrast">The Four Noble Truths</span> is already planted here; it grew long ago.</p>
+    <p>So when a new idea shows up, it isn't dropped into a void — it's <b>checked against a structure that already exists.</b></p>
+    <div class="receipt">In short: a scaffolded shelf with marked gaps, not a blank page.</div>
+  </div>
+</div>
+
+<!-- 1 · knock -->
+<div class="step">
+  <div class="marker"><div class="glyph">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#3a6ea5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3M5 12H2M22 12h-3M5 5l2 2M19 5l-2 2"/><circle cx="12" cy="14" r="6"/></svg>
+  </div></div>
+  <div class="panel">
+    <div class="q">Question 1 · who's knocking?</div>
+    <h3>A new idea asks to come in</h3>
+    <div class="state"><span class="lab">Tengri is now</span> a name at the door</div>
+    <p><span class="tengri">Tengri</span> — the eternal blue sky worshipped across the Turkic and Mongol steppe — arrives at the door.
+    Someone names the gap: <i>"We should have this. Do we?"</i></p>
+    <p>The request is written down the instant it's noticed — never kept in someone's head.</p>
+    <div class="receipt">A want, captured. <span class="gloss">It joins a standing wish-list of things the library knows it's missing.</span></div>
+  </div>
+</div>
+
+<!-- 2 · do we have you? -->
+<div class="step earthc">
+  <div class="marker"><div class="glyph">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#9a6b3f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+  </div></div>
+  <div class="panel">
+    <div class="q">Question 2 · do we have you already?</div>
+    <h3>Check the shelves first</h3>
+    <div class="state"><span class="lab">Tengri is now</span> not in the library — yet</div>
+    <p>The engine looks: is <span class="tengri">Tengri</span> already in the collection? <b>No</b> — the steppe sky-religion
+    is exactly the kind of tradition that's easy to under-collect. That "no" is the interesting moment: the journey to
+    bring it in actually begins.</p>
+  </div>
+</div>
+<div class="aside4nt">↺ <b>Contrast — the Four Noble Truths:</b> here the answer is <b>"yes, already held."</b> Its road ended at this door long ago.
+  Tengri's is just starting — which is why we follow Tengri.</div>
+
+<!-- 3 · where do we look (THE diagram) -->
+<div class="step">
+  <div class="marker"><div class="glyph">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#3a6ea5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/></svg>
+  </div></div>
+  <div class="panel">
+    <div class="q">Question 3 · where do we look?</div>
+    <h3>Search everywhere at once — not just its home region</h3>
+    <div class="state"><span class="lab">Tengri is now</span> being hunted, everywhere at once</div>
+    <p>The hunt fires across many archives <b>in parallel</b>, on one rule: an archive is asked for what it
+    <i>contains</i>, never for whose scholarship it is. A Mongolian study and a Cambridge study of the sky-god are asked
+    with the <b>same priority.</b></p>
+    <div class="fan">
+      <div class="cap">Tengri's request fans out — Western <i class="dot sky" style="width:8px;height:8px;vertical-align:0"></i> and non-Western <i class="dot earth" style="width:8px;height:8px;vertical-align:0"></i> archives, side by side</div>
+      <div class="archcol">
+        <div class="arch non"><span class="b"></span>Mongolian & Central-Asian studies<span class="res hit">found ✓</span></div>
+        <div class="arch west"><span class="b"></span>European history of religions<span class="res hit">found ✓</span></div>
+        <div class="arch non"><span class="b"></span>Turkic-language oral archives<span class="res hit">found ✓</span></div>
+        <div class="arch west"><span class="b"></span>open scripture / text repositories<span class="res miss">none — logged</span></div>
+        <div class="arch non"><span class="b"></span>Siberian ethnographic collections<span class="res hit">found ✓</span></div>
+        <div class="arch west"><span class="b"></span>academic citation indexes<span class="res hit">found ✓</span></div>
+      </div>
+      <div class="parity"><b>Why side-by-side matters:</b> if Tengri were searched only "where it's from," the library would quietly
+        inherit the bias of which regions got digitized first. Asking everywhere keeps the search honest.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 4 · ingest with provenance + the honest miss -->
+<div class="step">
+  <div class="marker"><div class="glyph">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#3a6ea5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"/><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 11h8M8 15h5"/></svg>
+  </div></div>
+  <div class="panel">
+    <div class="q">Question 4 · how do we shelve it honestly?</div>
+    <h3>Bring it in with a paper trail — even the misses</h3>
+    <div class="state"><span class="lab">Tengri is now</span> gathered, with its paper trail</div>
+    <p>Each source enters with a label saying exactly <b>where it came from</b>. And the <span style="color:var(--miss);font-weight:600">empty-handed
+    searches are written down too</span> — "looked here, found nothing." That record is the library's honesty: where
+    coverage is thin, you can <i>see</i> it, instead of it hiding as a silent gap.</p>
+    <div class="receipt">Every later judgment about <span class="tengri">Tengri</span> can be traced back to the exact source it came from.
+      <code>where-from · how-fetched · who-wrote-it</code></div>
+  </div>
+</div>
+
+<!-- 5 · break into passages -->
+<div class="step">
+  <div class="marker"><div class="glyph">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#3a6ea5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 9v12M15 3v18"/></svg>
+  </div></div>
+  <div class="panel">
+    <div class="q">Question 5 · what are the quotable pieces?</div>
+    <h3>Break each text into small, quotable units</h3>
+    <div class="state"><span class="lab">Tengri is now</span> broken into quotable passages</div>
+    <p>A whole book is too big to compare. So each text about <span class="tengri">Tengri</span> — an invocation, a prayer
+    to the eternal blue sky, an ethnographer's field note — is cut into <b>small passages</b>, each one short enough to
+    quote and point to precisely.</p>
+    <p class="gloss">One book becomes many passages — the pieces are what actually get studied, not the book as a lump.</p>
+  </div>
+</div>
+
+<!-- 6 · label in its own words + the three chairs -->
+<div class="step">
+  <div class="marker"><div class="glyph">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#3a6ea5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 3h9l4 4v10a2 2 0 0 1-2 2H7.5"/><path d="M7.5 3 3 7.5V19a2 2 0 0 0 2 2h2.5"/><path d="M9 12h6M9 16h4"/></svg>
+  </div></div>
+  <div class="panel">
+    <div class="q">Question 6 · in whose words?</div>
+    <h3>Label each piece in Tengri's own vocabulary first</h3>
+    <div class="state"><span class="lab">Tengri is now</span> described in its own words</div>
+    <p>Crucially, the engine does <b>not</b> stamp borrowed categories on it. It labels each passage in the tradition's
+    <i>own</i> terms — <span class="tengri">Tengri</span> (the sky itself), <span class="tengri">Köke Möngke Tengri</span>
+    ("eternal blue sky"), the mandate a ruler holds from heaven.</p>
+    <p>And it isn't one reader deciding alone. A small panel reads each passage from <b>three different chairs</b>, so no single viewpoint sorts it:</p>
+    <div class="chairs">
+      <div class="chair"><b>the insider</b><span>reads as a member of the tradition — does this honor how it understands itself?</span></div>
+      <div class="chair"><b>the outsider</b><span>reads as a comparativist — what does it look like from outside?</span></div>
+      <div class="chair"><b>the practitioner</b><span>reads as one who lives it — what does it ask of a life?</span></div>
+    </div>
+    <p>Only the tradition's own language goes on first. Comparison comes later — never before.</p>
+  </div>
+</div>
+
+<!-- 7 · convergence / rhyme -->
+<div class="step goldc">
+  <div class="marker"><div class="glyph">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#c08a2d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 21v-4M3 12h4M21 12h-4"/><circle cx="12" cy="12" r="4"/><path d="m6 6 2 2M18 6l-2 2M6 18l2-2M18 18l-2-2"/></svg>
+  </div></div>
+  <div class="panel">
+    <div class="q">The payoff · where does it rhyme?</div>
+    <h3>Find where strangers said the same thing</h3>
+    <div class="state"><span class="lab">Tengri is now</span> a bloom in the garden</div>
+    <p>Now the comparison the whole journey was for. Across traditions that <b>never met</b>, the engine surfaces
+    <i>rhymes</i> — independently-arising ideas that line up — and tests whether they hold.</p>
+    <div class="garden">
+      <div class="illusbadge">Illustrative example</div>
+      <svg viewBox="0 0 540 150" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
+        <g stroke="#c08a2d" stroke-width="1.6" stroke-dasharray="4 4" opacity=".85">
+          <path d="M90 78 C190 30 300 30 400 60" fill="none"/>
+          <path d="M90 78 C180 120 310 120 430 96" fill="none"/>
+          <path d="M400 60 C430 78 430 80 430 96" fill="none"/>
+        </g>
+        <circle cx="90" cy="78" r="15" fill="#3a6ea5"/>
+        <text x="90" y="82" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">Tengri</text>
+        <text x="90" y="110" text-anchor="middle" fill="#3a6ea5" font-size="10.5">eternal sky · heaven's mandate</text>
+        <circle cx="400" cy="60" r="13" fill="#fffdf8" stroke="#c08a2d" stroke-width="2.5"/>
+        <text x="400" y="46" text-anchor="middle" fill="#9a6b3f" font-size="10.5">Mandate of Heaven (China)</text>
+        <circle cx="430" cy="96" r="13" fill="#fffdf8" stroke="#c08a2d" stroke-width="2.5"/>
+        <text x="430" y="124" text-anchor="middle" fill="#9a6b3f" font-size="10.5">sky-God's covenant (Hebrew)</text>
+        <g fill="#d9d2c0">
+          <circle cx="250" cy="20" r="3"/><circle cx="300" cy="135" r="3"/><circle cx="180" cy="135" r="3"/><circle cx="500" cy="40" r="3"/><circle cx="470" cy="130" r="3"/>
+        </g>
+        <text x="270" y="148" text-anchor="middle" fill="#b3ab98" font-size="9.5">…and the rest of the garden, waiting for their own rhymes</text>
+      </svg>
+    </div>
+    <div class="illus"><b>Illustrative, not a result.</b> The Tengri ↔ Mandate-of-Heaven ↔ sky-God's-covenant rhyme is shown to
+      explain <i>what kind of pattern</i> the engine looks for — sky-powers that legitimate or judge a people, in traditions
+      that never met. It's a candidate of that shape, not a locked finding: real rhymes are coded bottom-up in each tradition's
+      own words first, then tested for whether they actually hold.</div>
+    <p style="margin-top:10px">That's the question the library exists to make answerable: not "everyone agrees," but
+    <b>where wholly separate peoples reached for the same shape of meaning</b> — and where they didn't.</p>
+  </div>
+</div>
+
+</div><!-- /journey -->
+
+<div class="scaffold">
+  <span class="lab">One honest caveat the journey rests on</span>
+  The engine is <b>not</b> a magic box that creates knowledge from nothing. <span class="tengri">Tengri</span> landed in
+  <b>ground that was already prepared</b> — a hypothesis-shaped list of traditions, prior research, and earlier draft
+  entries. The engine's real work is to grow that ground <i>honestly and at scale</i>: searching everywhere, logging the
+  misses, listening in each tradition's own words before it ever compares them.
+</div>
+
+<footer>
+  A traveller's-eye view of the engine that populates the library, for someone meeting the project for the first time.
+  Protagonist: <b>Tengri</b> (Turkic–Mongol sky-god) · contrast: <b>the Four Noble Truths</b> (already in the corpus).<br>
+  Color is the legend: blue = the idea travelling in · brown = the existing ground · gold = cross-tradition rhyme.
+</footer>
+
+</body></html>
