@@ -69,6 +69,14 @@ body{margin:0;background:var(--parch);color:var(--ink);font-family:var(--serif);
   border-radius:0 12px 12px 0;padding:16px 20px;margin:18px 0;font-size:17px;line-height:1.56;color:#2c2418}
 .deep .ex b{color:var(--moss-d)}
 
+/* Park & Folkman two-arrow coping diagram */
+.pf-fig{margin:22px 0 6px}
+.pf-svg{display:block;margin:0 auto;max-width:100%}
+.pf-cap{font:400 13.5px/1.5 var(--sans);color:var(--mut);text-align:center;margin:8px auto 0;max-width:460px;font-style:italic}
+.pf-bridge{background:var(--parch2);border:1px solid var(--line);border-left:4px solid var(--moss);
+  border-radius:0 12px 12px 0;padding:18px 22px;margin:22px 0 6px;font-size:18px;line-height:1.6;color:#2c2418}
+.pf-bridge b{color:var(--moss-d)}
+
 /* four-needs table */
 .tcap{font:700 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin:34px 0 12px;text-align:center}
 .needs{width:100%;border-collapse:collapse;background:var(--soft);border:1px solid var(--line);
@@ -214,6 +222,61 @@ body{margin:0;background:var(--parch);color:var(--ink);font-family:var(--serif);
       beliefs to fit the event — letting the world re-teach you what you thought you knew. These are
       <i>moves</i> in exactly the sense this project means — the same kind of gesture we catalog across
       traditions, here turned inward on a single life.</p>
+
+    <figure class="pf-fig">
+      <svg class="pf-svg" width="560" height="270" viewBox="0 0 560 270" fill="none" role="img"
+        aria-label="The same meaning-violating event handled two ways: assimilation bends the event to fit an unchanged belief; accommodation revises the belief to fit the event.">
+        <!-- the shared event, at center top -->
+        <text x="280" y="26" text-anchor="middle" font-family="-apple-system,Segoe UI,sans-serif" font-size="11.5" letter-spacing=".06em" fill="#8a7d63">A MEANING-VIOLATING EVENT</text>
+        <rect x="206" y="36" width="148" height="40" rx="9" fill="#fbf6ec" stroke="#b8893a" stroke-width="1.4"/>
+        <text x="280" y="55" text-anchor="middle" font-family="'Iowan Old Style',Palatino,Georgia,serif" font-style="italic" font-size="14.5" fill="#2c2418">the diagnosis,</text>
+        <text x="280" y="71" text-anchor="middle" font-family="'Iowan Old Style',Palatino,Georgia,serif" font-style="italic" font-size="14.5" fill="#2c2418">the loss, the betrayal</text>
+
+        <!-- branch lines from event down to the two paths -->
+        <g stroke="#cabf9f" stroke-width="1.2">
+          <line x1="280" y1="76" x2="140" y2="108"/>
+          <line x1="280" y1="76" x2="420" y2="108"/>
+        </g>
+
+        <!-- LEFT: assimilation — event bent to fit unchanged belief -->
+        <text x="140" y="126" text-anchor="middle" font-family="-apple-system,Segoe UI,sans-serif" font-weight="700" font-size="12" letter-spacing=".08em" fill="#3f5a39">ASSIMILATION</text>
+        <!-- belief stays fixed (solid box) -->
+        <rect x="68" y="142" width="144" height="46" rx="9" fill="#eef2ea" stroke="#3f5a39" stroke-width="1.6"/>
+        <text x="140" y="161" text-anchor="middle" font-family="'Iowan Old Style',Palatino,Georgia,serif" font-size="13.5" fill="#2f4a2c">the belief stays</text>
+        <text x="140" y="178" text-anchor="middle" font-family="'Iowan Old Style',Palatino,Georgia,serif" font-style="italic" font-size="13" fill="#2f4a2c">“a test of faith”</text>
+        <!-- arrow: event bends inward into the belief -->
+        <defs>
+          <marker id="pf-arrow-moss" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#3f5a39"/>
+          </marker>
+          <marker id="pf-arrow-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#b8893a"/>
+          </marker>
+        </defs>
+        <path d="M140 200 q0 18 0 30" stroke="#3f5a39" stroke-width="1.8" fill="none" marker-end="url(#pf-arrow-moss)"/>
+        <text x="140" y="252" text-anchor="middle" font-family="-apple-system,Segoe UI,sans-serif" font-size="12.5" fill="#8a7d63">bend the event to fit</text>
+
+        <!-- RIGHT: accommodation — belief revised to fit event -->
+        <text x="420" y="126" text-anchor="middle" font-family="-apple-system,Segoe UI,sans-serif" font-weight="700" font-size="12" letter-spacing=".08em" fill="#b8893a">ACCOMMODATION</text>
+        <!-- belief reshapes (dashed box) -->
+        <rect x="348" y="142" width="144" height="46" rx="9" fill="#f7efdd" stroke="#b8893a" stroke-width="1.6" stroke-dasharray="5 4"/>
+        <text x="420" y="161" text-anchor="middle" font-family="'Iowan Old Style',Palatino,Georgia,serif" font-size="13.5" fill="#7a5a1e">the belief reshapes</text>
+        <text x="420" y="178" text-anchor="middle" font-family="'Iowan Old Style',Palatino,Georgia,serif" font-style="italic" font-size="13" fill="#7a5a1e">the world re-teaches</text>
+        <path d="M420 200 q0 18 0 30" stroke="#b8893a" stroke-width="1.8" fill="none" marker-end="url(#pf-arrow-gold)"/>
+        <text x="420" y="252" text-anchor="middle" font-family="-apple-system,Segoe UI,sans-serif" font-size="12.5" fill="#8a7d63">revise the belief to fit</text>
+      </svg>
+      <figcaption class="pf-cap">The same event, two directions. Park &amp; Folkman’s two moves: bend the
+        event to fit an unchanged belief, or revise the belief to fit the event.</figcaption>
+    </figure>
+
+    <p class="pf-bridge">The moves a tradition makes are the moves a person makes. When Park and Folkman
+      watched people cope with catastrophe, they found two: <b>bend the event to fit what you believe</b>, or
+      <b>revise what you believe to fit the event.</b> Those are moves in exactly the sense this project means —
+      the same gestures we catalog across traditions, here turned inward on a single life. Robert Kegan
+      describes maturity as the same motion run on the self: what you were <i>fused</i> with becomes something
+      you can <i>hold and revise.</i> So the traditions aren’t a museum of beliefs. They’re a <b>repertoire</b> —
+      the library of moves a person draws on to make sense of grief, or a self that won’t stay still, or dying.
+      The Garden gives you more moves to make.</p>
 
     <h3>The capacity matures</h3>
     <p>And it grows. The developmental arc (Robert Kegan's <i>self-transforming mind</i>) runs toward being able
