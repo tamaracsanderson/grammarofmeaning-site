@@ -115,6 +115,7 @@ h1{font-size:clamp(28px,5vw,44px);margin:0 0 8px;font-weight:700}
     <span class="lab">View:</span>
     <span class="tg on" data-v="saquib">Saquib</span>
     <span class="tg" data-v="tamara">Tamara</span>
+    <span class="tg" data-v="deprecated">Deprecated</span>
     <span class="barnote" id="barnote"></span>
   </div>
   <div id="bands"></div>
@@ -162,12 +163,12 @@ var A=[
  // GARDEN
  ["garden","made","The vision pitch","pilgrimage_pitch.html","The whole vision — ache → garden → lineage → the walk → the invitation.","ready","site",1],
  ["garden","made","The design principles","__local__","The visual language — Three Forms, Pilgrimage, Soil, moodboards.","ready","local",0],
- ["garden","made","Moodboard · cross-tradition rhymes","__local__","The rhyme convergences as imagery (museum images — opens locally).","concept","local",0],
- ["garden","made","Moodboard · by section","__local__","Imagery organized by section (museum images — opens locally).","concept","local",0],
- ["garden","made","Moodboard · convergences","__local__","Convergence imagery (museum images — opens locally).","concept","local",0],
- ["garden","made","Moodboard · tagged","__local__","Tagged image set (museum images — opens locally).","concept","local",0],
+ ["garden","made","The moodboard (filterable · 202 images)","__local__","The full image corpus, tag-filterable (museum images — opens locally). The master board.","concept","local",0],
+ ["garden","made","Moodboard · cross-tradition rhymes","__local__","The Q2 rhyme highlights — curated subset (museum images — opens locally).","concept","local",0],
  ["garden","made","Moodboard · design patterns (S107)","__local__","Interface design-pattern references (museum images — opens locally).","concept","local",0],
- ["garden","made","Image picker","__local__","Image-selection tool (museum images — opens locally).","concept","local",0],
+ ["garden","made","Moodboard · by section","__local__","Superseded by the filterable master board (same 202 images, no filter).","deprecated","local",0],
+ ["garden","made","Moodboard · convergences","__local__","Folded into the master board (curated subset).","deprecated","local",0],
+ ["garden","made","Image picker","__local__","A build tool (W15), not a board — retired from the catalog.","deprecated","local",0],
  ["garden","made","Icon system dashboard","__local__","The icon system — rights-clean, can be promoted to live.","concept","local",0],
  ["garden","made","Icon pack gallery","__local__","The icon gallery — rights-clean, can be promoted to live.","concept","local",0],
  ["garden","made","The instrument, in one view","explainer.html","The whole Luminous Archive at a glance.","ready","site",0],
@@ -176,8 +177,13 @@ var A=[
  ["garden","live","The pilgrimage","__horizon__","The interactive Archive anyone can walk — the decade-scale horizon.","","",0]
 ];
 var view="saquib";
-/* deprecated rows (status "deprecated") show in NEITHER view; WIP local rows show only in Tamara view */
-function visible(a){ if(a[5]==="deprecated") return false; if(a[6]==="local") return view==="tamara"; return true; }
+/* three views: Saquib = curated (site/ext) · Tamara = + WIP (local) · Deprecated = the retired bin only */
+function visible(a){
+  if(view==="deprecated") return a[5]==="deprecated";   // Deprecated view shows ONLY retired rows
+  if(a[5]==="deprecated") return false;                 // retired rows hidden from Saquib + Tamara
+  if(a[6]==="local") return view==="tamara";            // WIP local rows: Tamara only
+  return true;                                          // site/ext/horizon: Saquib + Tamara
+}
 function card(a){
  var name=a[2],href=a[3],what=a[4],st=a[5],where=a[6],star=a[7];
  if(href==="__horizon__") return "<div class='horizon'><b>"+esc(name)+"</b> — "+esc(what)+"</div>";
@@ -202,7 +208,7 @@ function render(){
   html+="</div></div>";
  });
  document.getElementById("bands").innerHTML=html;
- document.getElementById("barnote").textContent = view==="saquib" ? "the curated set — what Saquib sees" : "+ your work-in-progress (marked WIP); deprecated hidden";
+ document.getElementById("barnote").textContent = view==="saquib" ? "the curated set — what Saquib sees" : view==="tamara" ? "+ your work-in-progress (marked WIP); deprecated hidden" : "the retired bin — superseded / pulled (not in either working view)";
 }
 document.querySelectorAll(".tg").forEach(function(el){el.onclick=function(){view=el.dataset.v;document.querySelectorAll(".tg").forEach(function(x){x.classList.toggle("on",x===el);});render();};});
 function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
