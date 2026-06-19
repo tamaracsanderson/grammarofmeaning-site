@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How a move gets coded — Grammar of Meaning</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{
+  --bg:#0d0f1a; --bg2:#141832; --ink:#eef0fb; --dim:#9aa0c4; --faint:#5a6090;
+  --gold:#f3c969; --teal:#5fd6c4; --rose:#e6809a; --indigo:#9aa0ff;
+  --line:rgba(255,255,255,.12); --card:rgba(255,255,255,.045);
+  --grid:rgba(255,255,255,.06);
+  --maxw:1080px;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--teal)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+
+#sky{position:fixed;inset:0;z-index:-1;background:
+  radial-gradient(1200px 700px at 80% -10%, #1c2148 0%, transparent 60%),
+  radial-gradient(900px 600px at 5% 110%, #141838 0%, transparent 55%), var(--bg)}
+
+/* ---- header ---- */
+header.top{padding:60px 26px 26px;max-width:var(--maxw);margin:0 auto}
+.kicker{color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-size:11.5px;font-weight:700}
+h1.page{font-size:clamp(26px,4.4vw,40px);line-height:1.08;margin:12px 0 10px;font-weight:800;max-width:22ch}
+h1.page em{font-style:normal;color:var(--gold)}
+.sub{color:var(--dim);font-size:17px;max-width:62ch}
+.sub b{color:var(--ink);font-weight:600}
+
+/* ---- legend bar (the honesty key, always visible at top) ---- */
+.legend{max-width:var(--maxw);margin:22px auto 0;padding:0 26px;display:flex;gap:10px;flex-wrap:wrap}
+.lg{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--dim);
+  border:1px solid var(--line);border-radius:9px;padding:8px 13px;background:var(--card)}
+.lg .sw{width:13px;height:13px;border-radius:3px;flex:none}
+.lg.prov{border-color:rgba(243,201,105,.4)}
+.lg.illus{border-color:rgba(230,128,154,.45);background:rgba(230,128,154,.05)}
+.lg b{color:var(--ink);font-weight:600}
+
+/* ---- section scaffold ---- */
+section{max-width:var(--maxw);margin:0 auto;padding:48px 26px 8px}
+.axis{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;
+  border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:baseline}
+.axis .n{color:var(--faint);font-weight:700}
+h2{font-size:clamp(20px,2.8vw,26px);margin:14px 0 6px;font-weight:800}
+h2 .q{color:var(--gold)}
+.lede{color:var(--dim);font-size:16px;margin:0 0 8px;max-width:70ch}
+.note{font-size:13px;color:var(--faint);font-style:italic;max-width:74ch;margin:10px 0}
+.note b{color:var(--dim);font-style:normal}
+
+/* ---- the schema: two-tier nested frame ---- */
+.schema{display:grid;grid-template-columns:1fr;gap:0;margin:18px 0 4px;
+  border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02);overflow:hidden}
+.tier{padding:16px 18px;border-bottom:1px solid var(--line)}
+.tier:last-child{border-bottom:none}
+.tierhead{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.tierhead .lab{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700}
+.tierhead .lab.setting{color:var(--indigo)}
+.tierhead .lab.spine{color:var(--teal)}
+.tierhead .lab.qual{color:var(--gold)}
+.tierhead .hint{font-size:12.5px;color:var(--faint)}
+.fieldgrid{display:grid;gap:8px}
+.fieldgrid.cols4{grid-template-columns:repeat(4,1fr)}
+.fieldgrid.cols5{grid-template-columns:repeat(5,1fr)}
+.setting .fieldgrid{grid-template-columns:repeat(3,1fr)}
+
+/* a field cell — the clickable schema atom */
+.fcell{border:1px solid var(--line);border-radius:11px;padding:11px 12px;background:rgba(0,0,0,.18);
+  cursor:pointer;transition:border-color .18s,background .18s,transform .18s;position:relative;text-align:left;color:inherit;font:inherit;display:block;width:100%}
+.fcell:hover{border-color:var(--gold);background:rgba(243,201,105,.05);transform:translateY(-1px)}
+.fcell.active{border-color:var(--gold);background:rgba(243,201,105,.08)}
+.fcell .fn{display:flex;align-items:center;gap:8px}
+.fcell .num{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;
+  background:rgba(255,255,255,.07);color:var(--dim);font-size:11px;font-weight:700;flex:none;font-family:var(--mono)}
+.fcell .name{font-weight:700;font-size:14.5px}
+.fcell .def{font-size:12px;color:var(--dim);margin-top:5px;line-height:1.4}
+.fcell .badge{position:absolute;top:9px;right:10px;font-size:9.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+.fcell .badge.built{color:var(--teal)}
+.fcell .badge.open{color:var(--faint)}
+.fcell .badge.prov{color:var(--rose)}
+.spine .fcell .name,.spine .fcell .num{color:var(--teal)}
+.spine .fcell:hover,.spine .fcell.active{border-color:var(--teal);background:rgba(95,214,196,.06)}
+
+/* the spine arrow flow on the spine row */
+.spineflow{display:flex;align-items:center;gap:6px;margin-bottom:10px;font-size:11.5px;color:var(--faint);font-family:var(--mono)}
+.spineflow .ar{color:var(--teal)}
+
+/* ---- the inspector drawer (field detail = the verbatim subtable) ---- */
+.inspector{margin:14px 0 4px;border:1px solid var(--gold);border-radius:14px;background:rgba(243,201,105,.04);overflow:hidden;
+  display:none}
+.inspector.open{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.insphead{display:flex;align-items:baseline;gap:12px;padding:14px 18px 6px;flex-wrap:wrap}
+.insphead .title{font-size:18px;font-weight:800;color:var(--gold)}
+.insphead .one{font-size:13.5px;color:var(--dim)}
+.insphead .stat{margin-left:auto;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.insphead .stat.built{color:var(--teal)}.insphead .stat.open{color:var(--faint)}.insphead .stat.prov{color:var(--rose)}
+.inspbody{padding:4px 18px 18px}
+.whatis{font-size:13.5px;color:var(--dim);line-height:1.55;margin:6px 0 8px}
+.whatis b{color:var(--ink)}
+.whatis em.kw{font-style:normal;background:rgba(255,255,255,.07);border-radius:4px;padding:0 5px;color:var(--ink)}
+
+/* verbatim subtables */
+.cap{font-size:12px;color:var(--dim);font-weight:700;margin:14px 0 4px}
+table.sub{border-collapse:collapse;width:100%;font-size:13px;margin:2px 0 4px}
+table.sub th{text-align:left;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);font-weight:700;
+  padding:7px 10px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--line)}
+table.sub td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45;color:var(--ink)}
+table.sub td.term{font-weight:700;white-space:nowrap;color:var(--gold)}
+table.sub td.test{font-style:italic;color:var(--dim)}
+table.sub td.ex{color:var(--faint)}
+table.sub tr:last-child td{border-bottom:none}
+table.sub i{font-style:italic}
+.subnote{font-size:12px;color:var(--faint);font-style:italic;margin-top:8px;line-height:1.5}
+.subnote b{color:var(--dim);font-style:normal}
+code{font-family:var(--mono);font-size:12px;background:rgba(0,0,0,.4);border:1px solid var(--line);border-radius:5px;padding:1px 5px;color:#cdd2f0}
+
+/* ---- the Romans coded-row data table ---- */
+.romans{margin:18px 0 6px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02);overflow:hidden}
+.romanstop{padding:14px 18px;border-bottom:1px solid var(--line)}
+.romanstop .passage{font-family:Georgia,serif;font-size:16px;line-height:1.65;color:#f4ecd8;font-style:italic;border-left:3px solid var(--gold);padding-left:14px}
+.romanstop .src{font-size:12px;color:var(--faint);margin-top:7px;font-family:var(--mono)}
+table.coded{border-collapse:collapse;width:100%;font-size:13px}
+table.coded th{text-align:left;font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);font-weight:700;
+  padding:8px 12px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--line);white-space:nowrap}
+table.coded td{padding:9px 12px;border-bottom:1px solid var(--grid);vertical-align:top;line-height:1.4}
+table.coded tr:last-child td{border-bottom:none}
+table.coded td.field{font-weight:700;color:var(--dim);white-space:nowrap;font-family:var(--mono);font-size:12px}
+table.coded td.val{color:var(--ink);font-weight:600}
+table.coded td.gloss{color:var(--faint);font-size:12.5px}
+table.coded td.tierx{font-size:10px;text-transform:uppercase;letter-spacing:.5px;font-weight:700;white-space:nowrap}
+.tx-setting{color:var(--indigo)}.tx-spine{color:var(--teal)}.tx-qual{color:var(--gold)}
+table.coded tr.row-spine{background:rgba(95,214,196,.04)}
+.contest{display:inline-block;font-size:10px;font-weight:700;color:var(--rose);border:1px solid rgba(230,128,154,.4);border-radius:5px;padding:0 5px;margin-left:6px;vertical-align:middle}
+
+/* golden-chain inset */
+.chaininset{margin:16px 0 4px;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.18)}
+.chaininset .ct{font-size:13px;color:var(--dim);margin-bottom:6px}
+.chaininset .ct b{color:var(--ink)}
+
+/* ---- the rhyme graph ---- */
+.graphwrap{margin:18px 0 4px;border:1px solid var(--line);border-radius:16px;background:rgba(0,0,0,.22);overflow:hidden}
+.graphtop{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding:13px 18px;border-bottom:1px solid var(--line)}
+.graphtop .lt{font-size:13px;color:var(--dim)}
+.graphtop .lt b{color:var(--ink)}
+.gkey{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--dim)}
+.gkey span{display:flex;align-items:center;gap:6px}
+.gkey .dot{width:11px;height:11px;border-radius:50%}
+.gkey .edge{width:18px;height:0;border-top:3px solid var(--gold)}
+.gkey .edgesh{width:18px;height:0;border-top:1.5px solid var(--faint)}
+.graphstage{position:relative}
+#rhymeSvg{width:100%;display:block;background:
+  repeating-linear-gradient(0deg,transparent 0 39px,var(--grid) 39px 40px),
+  repeating-linear-gradient(90deg,transparent 0 39px,var(--grid) 39px 40px)}
+.gnode-move{cursor:pointer}
+.gnode-move:hover circle{stroke-width:3}
+.ginfo{padding:13px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--dim);min-height:46px}
+.ginfo b{color:var(--ink)}
+.ginfo .tag{display:inline-block;font-size:11px;font-family:var(--mono);color:var(--gold);border:1px solid rgba(243,201,105,.35);border-radius:5px;padding:1px 6px;margin:2px 4px 0 0}
+.illuslabel{font-size:11.5px;color:var(--rose);font-style:italic;padding:10px 18px;background:rgba(230,128,154,.05);border-top:1px solid rgba(230,128,154,.25)}
+.illuslabel b{color:var(--rose);font-style:normal}
+
+/* ---- bridge table (grammar -> graph) ---- */
+table.bridge{border-collapse:collapse;width:100%;font-size:13.5px;margin:14px 0 6px;
+  border:1px solid var(--line);border-radius:12px;overflow:hidden}
+table.bridge th{text-align:left;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);font-weight:700;
+  padding:9px 13px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--line)}
+table.bridge td{padding:9px 13px;border-bottom:1px solid var(--grid);vertical-align:top;line-height:1.45}
+table.bridge tr:last-child td{border-bottom:none}
+table.bridge td.from{color:var(--dim);font-weight:600}
+table.bridge td.arrow{color:var(--faint);text-align:center;width:34px}
+table.bridge td.to{color:var(--ink)}
+table.bridge td.to b{color:var(--gold)}
+.oneidea{font-size:14.5px;background:rgba(95,214,196,.06);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0}
+.oneidea b{color:var(--ink)}
+
+/* timeline (how we arrived) */
+.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0 4px}
+.tlcell{border:1px solid var(--line);border-radius:11px;padding:11px 13px;background:rgba(0,0,0,.18);font-size:12.5px;color:var(--dim);position:relative}
+.tlcell .step{font-family:var(--mono);font-size:11px;color:var(--gold);font-weight:700}
+.tlcell .h{color:var(--ink);font-weight:700;font-size:13px;margin:4px 0 3px}
+.tlcell.gate{border-color:var(--rose);background:rgba(230,128,154,.05)}
+.tlcell.gate .step{color:var(--rose)}
+
+footer{padding:40px 26px 80px;max-width:var(--maxw);margin:0 auto;color:var(--faint);font-size:12.5px;border-top:1px solid var(--line);margin-top:42px;line-height:1.65}
+footer b{color:var(--dim)}
+
+@media(max-width:820px){
+  .fieldgrid.cols4,.fieldgrid.cols5,.setting .fieldgrid{grid-template-columns:repeat(2,1fr)}
+  .timeline{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .fieldgrid.cols4,.fieldgrid.cols5,.setting .fieldgrid{grid-template-columns:1fr}
+  table.coded td.gloss{display:none}
+}
+/* site chrome: home pill */
+.gom-home{position:fixed;top:14px;right:16px;z-index:9999;font:600 13px/1 -apple-system,Segoe UI,sans-serif;
+  color:#3f5a39;text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;
+  padding:8px 14px;box-shadow:0 1px 5px rgba(80,60,20,.10)}
+.gom-home:hover{background:#fff;border-color:#b8893a;color:#b8893a}
+@media print{.gom-home{display:none}}
+</style>
+</head>
+<body>
+<a href="index.html" class="gom-home">Grammar of Meaning →</a>
+<div id="sky"></div>
+
+<header class="top">
+  <div class="kicker">Method · the coding instrument</div>
+  <h1 class="page">How a <em>move</em> gets coded — and how moves become a rhyme-graph.</h1>
+  <p class="sub">A passage is read once for its <b>world</b>, then each <b>move</b> inside it is coded on twelve fields. Those fields are a graph: a move is a node, a shared value is a shared node, a <b>rhyme</b> is an edge. This page is the schema, one move fully coded, and the graph the schema produces — every claim labelled.</p>
+</header>
+
+<!-- HONESTY LEGEND — always at the top -->
+<div class="legend">
+  <span class="lg prov"><span class="sw" style="background:var(--gold)"></span><b>provisional-v1.</b>&nbsp;Decided-so-far, not locked.</span>
+  <span class="lg"><span class="sw" style="background:var(--teal)"></span><b>built</b>&nbsp;= value-list complete · <span style="color:var(--faint)">open = structure set, values pending</span></span>
+  <span class="lg illus"><span class="sw" style="background:var(--rose)"></span><b>illustrative graph.</b>&nbsp;0 passages coded yet — no real data.</span>
+  <span class="lg prov"><span class="sw" style="background:var(--rose);border:1px solid var(--rose);background:transparent"></span>next gate → <b>14 held-out seeds + a human typologist</b></span>
+</div>
+
+<!-- ============ §1 THE SCHEMA ============ -->
+<section>
+  <div class="axis"><span>§1 · The schema</span><span class="n">12 fields · 2 tiers</span></div>
+  <h2>The twelve-field grammar — <span class="q">click any field to open its coding key.</span></h2>
+  <p class="lede">The <b style="color:var(--indigo)">setting</b> is a wrapper, filled once per passage; the <b style="color:var(--teal)">move</b> sits inside it, coded per operation. Each field's drawer below is the verbatim codebook — <i>value · what it is · how to tell (the test) · example</i> — the operational definition two coders use to reach the same code.</p>
+
+  <div class="schema">
+    <!-- TIER 1: SETTING -->
+    <div class="tier setting">
+      <div class="tierhead"><span class="lab setting">▢ the setting</span><span class="hint">— the world the move sits in · fill once per passage</span></div>
+      <div class="fieldgrid">
+        <button class="fcell" data-f="sitz"><span class="badge built">✓ built</span><span class="fn"><span class="num">1</span><span class="name">sitz</span></span><span class="def">the conditions — where / when / how the world was</span></button>
+        <button class="fcell" data-f="paradigm"><span class="badge built">✓ built</span><span class="fn"><span class="num">2</span><span class="name">paradigm</span></span><span class="def">the governing frame the move assumes</span></button>
+        <button class="fcell" data-f="consequence"><span class="badge open">stub</span><span class="fn"><span class="num">3</span><span class="name">consequence</span></span><span class="def">what follows downstream of the move</span></button>
+      </div>
+    </div>
+    <!-- TIER 2a: SPINE -->
+    <div class="tier spine">
+      <div class="tierhead"><span class="lab spine">◆ the move · the spine</span><span class="hint">— fill per operation</span></div>
+      <div class="spineflow">agent <span class="ar">→</span> substrate <span class="ar">→</span> <b style="color:var(--teal)">operation</b> <span class="ar">→</span> outcome <span style="color:var(--faint)">&nbsp;(the stock → flow → stock)</span></div>
+      <div class="fieldgrid cols4">
+        <button class="fcell" data-f="agent"><span class="badge open">open</span><span class="fn"><span class="num">4</span><span class="name">agent</span></span><span class="def">who / what acts (+ source-type)</span></button>
+        <button class="fcell" data-f="substrate"><span class="badge open">open</span><span class="fn"><span class="num">5</span><span class="name">substrate</span></span><span class="def">what it acts on — the input</span></button>
+        <button class="fcell" data-f="operation"><span class="badge open">the unit</span><span class="fn"><span class="num">6</span><span class="name">operation</span></span><span class="def">the move itself — the verb</span></button>
+        <button class="fcell" data-f="outcome"><span class="badge open">open</span><span class="fn"><span class="num">7</span><span class="name">outcome</span></span><span class="def">what it produces — the output</span></button>
+      </div>
+    </div>
+    <!-- TIER 2b: QUALIFIERS -->
+    <div class="tier qual">
+      <div class="tierhead"><span class="lab qual">◇ the move · qualifiers</span><span class="hint">— fill per operation · the axes that make rhymes computable</span></div>
+      <div class="fieldgrid cols5">
+        <button class="fcell" data-f="operation-type"><span class="badge prov">provisional</span><span class="fn"><span class="num">8</span><span class="name">operation-type</span></span><span class="def">what kind of move</span></button>
+        <button class="fcell" data-f="voice"><span class="badge built">✓ built</span><span class="fn"><span class="num">9</span><span class="name">voice</span></span><span class="def">the agent's relation to the verb</span></button>
+        <button class="fcell" data-f="mechanism"><span class="badge built">✓ built</span><span class="fn"><span class="num">10</span><span class="name">mechanism</span></span><span class="def">by what means it takes effect</span></button>
+        <button class="fcell" data-f="basis"><span class="badge built">✓ built</span><span class="fn"><span class="num">11</span><span class="name">basis</span></span><span class="def">on what basis it's justified</span></button>
+        <button class="fcell" data-f="telos"><span class="badge built">✓ built</span><span class="fn"><span class="num">12</span><span class="name">telos</span></span><span class="def">what it's ultimately for</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE INSPECTOR DRAWER -->
+  <div class="inspector" id="inspector">
+    <div class="insphead">
+      <span class="title" id="inspTitle"></span>
+      <span class="one" id="inspOne"></span>
+      <span class="stat" id="inspStat"></span>
+    </div>
+    <div class="inspbody" id="inspBody"></div>
+  </div>
+
+  <p class="note"><b>The compositional logic:</b> a move = <code>operation-type × voice × target</code>. Named moves <i>fall out</i> — <i>declare</i> = constitute + active; <i>emerge</i> = constitute + stative; <i>reframe</i> = transform + (target: paradigm). No flat sub-types — the axes generate them.</p>
+</section>
+
+<!-- ============ §2 THE WORKED ROW ============ -->
+<section>
+  <div class="axis"><span>§2 · One move, fully coded</span><span class="n">Romans 8:28–30 · "predestined"</span></div>
+  <h2>The move <span class="q">predestined</span> (<i>proōrisen</i>), across all twelve fields.</h2>
+  <p class="lede">A single coded move is one row of values. Read the setting (the world), then the spine (agent → substrate → operation → outcome), then the qualifiers (the axes). This is what one node carries.</p>
+
+  <div class="romans">
+    <div class="romanstop">
+      <div class="passage">"And we know that for those who love God all things work together for good… For those whom he foreknew he also <b style="font-style:normal;color:var(--gold)">predestined</b> to be conformed to the image of his Son… and those he predestined he also called, and those he called he also justified, and those he justified he also glorified."</div>
+      <div class="src">Romans 8:28–30 · Paul, c.57 CE · Roman house-churches</div>
+    </div>
+    <table class="coded">
+      <tr><th>tier</th><th>field</th><th>coded value</th><th>reading</th></tr>
+      <tr><td class="tierx tx-setting">setting</td><td class="field">sitz</td><td class="val">Paul, c.57 CE, Roman house-churches, Jew–Gentile tension</td><td class="gloss">diaspora Pharisee &amp; Roman citizen; the Claudius edict in living memory</td></tr>
+      <tr><td class="tierx tx-setting">setting</td><td class="field">paradigm</td><td class="val">providence</td><td class="gloss">assumed, never argued — the move reasons <i>from</i> it (intrinsic)</td></tr>
+      <tr><td class="tierx tx-setting">setting</td><td class="field">consequence</td><td class="val">assurance</td><td class="gloss">"who shall separate us…" (8:31–39) — the downstream effect</td></tr>
+      <tr class="row-spine"><td class="tierx tx-spine">spine</td><td class="field">agent</td><td class="val">God</td><td class="gloss">source-type: personal</td></tr>
+      <tr class="row-spine"><td class="tierx tx-spine">spine</td><td class="field">substrate</td><td class="val">those God foreknew</td><td class="gloss">the input the move acts on</td></tr>
+      <tr class="row-spine"><td class="tierx tx-spine">spine</td><td class="field">operation</td><td class="val">predestined <i>(proōrisen)</i></td><td class="gloss">the verb — the unit</td></tr>
+      <tr class="row-spine"><td class="tierx tx-spine">spine</td><td class="field">outcome</td><td class="val">"conformed to the image of his Son"</td><td class="gloss">the output of this move</td></tr>
+      <tr><td class="tierx tx-qual">qualifier</td><td class="field">operation-type</td><td class="val">transformative <span class="contest">contested</span></td><td class="gloss">value-list still settling → coding pass</td></tr>
+      <tr><td class="tierx tx-qual">qualifier</td><td class="field">voice</td><td class="val">active</td><td class="gloss">God predestines; the human is the object</td></tr>
+      <tr><td class="tierx tx-qual">qualifier</td><td class="field">mechanism</td><td class="val">by-grace <span style="color:var(--faint)">(charis / election)</span></td><td class="gloss">the shared sub-mechanism · in-vivo: predestination</td></tr>
+      <tr><td class="tierx tx-qual">qualifier</td><td class="field">basis</td><td class="val">revelation</td><td class="gloss">grounded in divine disclosure, not argument</td></tr>
+      <tr><td class="tierx tx-qual">qualifier</td><td class="field">telos</td><td class="val">union / salvation</td><td class="gloss">the higher-order aim above the immediate outcome</td></tr>
+    </table>
+  </div>
+
+  <div class="chaininset">
+    <div class="ct"><b>The flow edges — the golden chain.</b> The five verbs of Romans 8:29–30 are five moves on one spine; each move's outcome is the next move's substrate. That's a directed flow inside the graph.</div>
+    <figure style="margin:8px 0 0">
+      <svg viewBox="0 0 920 110" style="width:100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The golden chain: foreknew to predestined to called to justified to glorified, as a directed flow">
+        <defs><marker id="gc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5fd6c4"/></marker></defs>
+        <g font-family="-apple-system,Segoe UI,sans-serif" text-anchor="middle">
+          <!-- 5 nodes -->
+          <g>
+            <rect x="8"   y="34" width="150" height="42" rx="10" fill="rgba(95,214,196,.07)" stroke="#5fd6c4" stroke-width="1.4"/>
+            <text x="83" y="60" font-size="14" font-weight="700" fill="#eef0fb">foreknew</text>
+            <rect x="200" y="22" width="170" height="66" rx="10" fill="rgba(243,201,105,.10)" stroke="#f3c969" stroke-width="2"/>
+            <text x="285" y="50" font-size="15" font-weight="800" fill="#f3c969">predestined</text>
+            <text x="285" y="70" font-size="10" fill="#9aa0c4">the coded move</text>
+            <rect x="412" y="34" width="128" height="42" rx="10" fill="rgba(95,214,196,.07)" stroke="#5fd6c4" stroke-width="1.4"/>
+            <text x="476" y="60" font-size="14" font-weight="700" fill="#eef0fb">called</text>
+            <rect x="582" y="34" width="140" height="42" rx="10" fill="rgba(95,214,196,.07)" stroke="#5fd6c4" stroke-width="1.4"/>
+            <text x="652" y="60" font-size="14" font-weight="700" fill="#eef0fb">justified</text>
+            <rect x="764" y="34" width="148" height="42" rx="10" fill="rgba(95,214,196,.07)" stroke="#5fd6c4" stroke-width="1.4"/>
+            <text x="838" y="60" font-size="14" font-weight="700" fill="#eef0fb">glorified</text>
+          </g>
+          <g stroke="#5fd6c4" stroke-width="1.8" fill="none">
+            <path d="M158 55 H198" marker-end="url(#gc)"/>
+            <path d="M370 55 H410" marker-end="url(#gc)"/>
+            <path d="M540 55 H580" marker-end="url(#gc)"/>
+            <path d="M722 55 H762" marker-end="url(#gc)"/>
+          </g>
+          <text x="460" y="102" font-size="11" fill="#5a6090" font-style="italic">each outcome is the next move's substrate — a directed flow (stock → flow → stock)</text>
+        </g>
+      </svg>
+    </figure>
+  </div>
+  <p class="note"><b>Two edge kinds already visible:</b> the <span style="color:var(--teal)">flow</span> edge (within a passage, above) and the <span style="color:var(--gold)">rhyme</span> edge (across traditions, in §3). The flow is internal structure; the rhyme is the cross-tradition finding.</p>
+</section>
+
+<!-- ============ §3 GRAMMAR → GRAPH ============ -->
+<section>
+  <div class="axis"><span>§3 · The bridge</span><span class="n">grammar = graph</span></div>
+  <h2>Every field you just coded <span class="q">is a piece of a graph.</span></h2>
+  <p class="lede">Nothing new is invented here. Each grammar field simply <i>is</i> a graph element — so a corpus of coded moves is, already, a network.</p>
+
+  <table class="bridge">
+    <tr><th>the grammar — what you fill</th><th></th><th>the graph — what it becomes</th></tr>
+    <tr><td class="from">a coded move (operation)</td><td class="arrow">→</td><td class="to">a <b>node</b></td></tr>
+    <tr><td class="from">substrate → operation → outcome</td><td class="arrow">→</td><td class="to">a <b>flow</b> (stock → flow → stock)</td></tr>
+    <tr><td class="from">agent</td><td class="arrow">→</td><td class="to">an <b>agent node</b> linked to the move</td></tr>
+    <tr><td class="from">qualifiers (type · voice · mechanism · basis · telos)</td><td class="arrow">→</td><td class="to">node <b>attributes</b> + links to <b>shared value-nodes</b></td></tr>
+    <tr><td class="from">shared sub-values (<i>fasting</i> · <i>liberation</i> · <i>by-grace</i>)</td><td class="arrow">→</td><td class="to"><b>shared nodes</b> many moves link to — <i>the convergence substrate</i></td></tr>
+    <tr><td class="from">a move-rhyme (same move-type + structure)</td><td class="arrow">→</td><td class="to">an <b>edge</b> between two move-nodes</td></tr>
+    <tr><td class="from">convergence-degree</td><td class="arrow">→</td><td class="to">node <b>size</b></td></tr>
+  </table>
+
+  <div class="oneidea"><b>The one idea that makes it computable:</b> the shared controlled-vocabularies. Without shared labels, every move is an island. With them, moves connect through shared value-nodes, and <b>convergence becomes "many moves share a neighbour"</b> — exactly what network science computes. <b>Rhyme is computable.</b></div>
+
+  <!-- THE RHYME GRAPH -->
+  <div class="graphwrap">
+    <div class="graphtop">
+      <div class="lt"><b>The rhyme-graph.</b> Moves (●) · shared value-nodes (◆) · rhyme edges. <span style="color:var(--faint)">Hover a node or edge to inspect.</span></div>
+      <div class="gkey">
+        <span><span class="dot" style="background:var(--indigo)"></span>move-node — size = rhyme-count</span>
+        <span><span class="dot" style="background:var(--gold);border-radius:3px"></span>shared value-node</span>
+        <span><span class="edge"></span>rhyme edge</span>
+        <span><span class="edgesh"></span>links to value</span>
+      </div>
+    </div>
+    <div class="graphstage">
+      <svg id="rhymeSvg" viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
+        <!-- EDGES drawn first (under nodes) -->
+        <g id="gEdges" stroke-linecap="round"></g>
+        <!-- VALUE NODES + MOVE NODES injected by JS -->
+        <g id="gValues"></g>
+        <g id="gMoves"></g>
+      </svg>
+    </div>
+    <div class="ginfo" id="ginfo">Hover the largest node — it's the move that recurs across the most traditions: the portable, little-t observation the thesis looks for.</div>
+    <div class="illuslabel"><b>Illustrative.</b> This graph is the design we are building toward, drawn with example moves. <b>Stage 6 coding = 0 passages.</b> No passages have been coded yet — this is not real coded data. Node sizes and edges are hand-set to show the method, not measured.</div>
+  </div>
+
+  <p class="note"><b>What Saquib's tools then do:</b> once the corpus is a graph, network science finds the structure automatically — <i>shared-neighbour analysis</i> (which moves converge), <i>community detection</i> (clusters of rhyming moves), <i>graph embedding</i> (distance = similarity). Size by convergence-degree and the picture <i>becomes the thesis</i>: the biggest nodes are the moves that recur across the most traditions.</p>
+</section>
+
+<!-- ============ §4 HOW WE ARRIVED ============ -->
+<section>
+  <div class="axis"><span>§4 · How we arrived</span><span class="n">the method was derived, not declared</span></div>
+  <h2>The instrument has a <span class="q">paper trail.</span></h2>
+  <p class="lede">Publishing the <i>how</i> is the point — the grammar was earned through a documented sequence, and the next gate is named, not hidden.</p>
+  <div class="timeline">
+    <div class="tlcell"><span class="step">1 · reading-week</span><div class="h">Mine the scholars</div>Koselleck · Lovejoy · Taylor · Taves → a candidate pool of fields.</div>
+    <div class="tlcell"><span class="step">2 · bake-off</span><div class="h">Six doors → one spine</div>A primed arm <i>and</i> a blind arm (the over-priming control).</div>
+    <div class="tlcell"><span class="step">3 · external IRR</span><div class="h">Five-LLM cross-check</div>IRR135 demoted a candidate; IRR136 caught an operation-atom monoculture.</div>
+    <div class="tlcell"><span class="step">4 · CLC walk</span><div class="h">Disposition each candidate</div>LOCK / EXTEND / DROP / DEFER → a provisional-v1 spine.</div>
+    <div class="tlcell"><span class="step">5 · prototype-test</span><div class="h">Romans — PASSED</div>The 6-noun skeleton held across 107 verses, from two independent reads that converged.</div>
+    <div class="tlcell"><span class="step">6 · 13-seed coding</span><div class="h">Apply across the garden</div>Romans / Genesis / Daodejing / Ifá… <i>illustratively</i> (0 coded for real).</div>
+    <div class="tlcell"><span class="step">7 · stress-test</span><div class="h">HELD / STRETCHED / ESCAPES</div>The honest limits named adversarially.</div>
+    <div class="tlcell"><span class="step">8 · CLC re-walk (B1–B8)</span><div class="h">Corrected spine</div>Every axis re-dispositioned → corrected provisional-v1.</div>
+    <div class="tlcell gate"><span class="step">→ next gate</span><div class="h">14 held-out seeds + a typologist</div>Attribute-set frozen → a human non-Indo-European typologist → <b style="color:var(--rose)">then</b> lock. Not yet locked.</div>
+  </div>
+</section>
+
+<footer>
+  <b>How a move gets coded</b> — the grammar of a single move, and how moves become a cross-tradition rhyme-graph. · Method channel · the Grammar of Meaning. The subtables are lifted verbatim from the grammar codebook (the coding key); the graph is illustrative — <b>0 passages are coded yet</b> (Stage 6 = 0). The grammar is <b>provisional-v1</b>: decided-so-far, not locked; the next gate is 14 held-out seeds + a human typologist. We speak of <b>moves, analogy, and rhyme</b> — "rhyme is computable" is a statement about the method, not a claim of measured convergence. Library · Essays · the Garden · Method.
+  <!-- HOW PRODUCED: design-SB (infoviz/Tufte bake-off entry 3 of 3), 2026-06-19, at researcher request — a diagram-first interactive walkthrough of the coding instrument: the 12-field grammar as a clickable schema (subtables lifted VERBATIM from grammar_codebook_interactive_2026-06-18.html), Romans 8:28-30 "predestined" coded across all 12 fields as an elegant data table, the golden-chain flow as a directed-graph inset, the grammar->graph bridge table, and an interactive illustrative rhyme-graph (node size = rhyme-count). SCHOLARLY SOURCES: HANDOVER_designSB_engine_grammar_walkthrough_2026-06-19.md (the spec); grammar_codebook_interactive_2026-06-18.html (the verbatim subtables — voice/mechanism/basis/telos/paradigm/sitz); grammar_to_graph_2026-06-19.html (the node/edge/size model + rhyme diagram); engine.html (the dark skin + home pill + noindex). CLAUDE.md §2.1 (candidate, not finding; Stage 6 = 0 coded passages — graph labelled illustrative), §2.6 (the controlled-vocab/IRR convergence substrate), §2.12 (built in the design-SB worktree). WHAT NEEDS VERIFICATION: (1) provisional-v1 rendered visibly via the top legend + the §4 next-gate cell; never presented as locked. (2) subtables are verbatim lifts, not paraphrase. (3) the rhyme-graph is prominently labelled illustrative (no real coded data) so a quantitative-methods examiner cannot mistake it for measured convergence. (4) framing = moves/analogy/rhyme; no "convergence without contact / no contact / never met". (5) naming: "the Garden" never "Luminous Archive". -->
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     FIELD INSPECTOR — the verbatim codebook subtables
+     Lifted from grammar_codebook_interactive_2026-06-18.html
+     ============================================================ */
+  var FIELDS = {
+
+    sitz:{title:"sitz",stat:["built","✓ built"],one:"the conditions — where / when / how the world was",
+      whatis:'The world <i>before / around</i> the move, what conditioned it. You read it through <b>4 layers</b> (lenses on the situation) and check it against <b>10 substrate categories</b> (dimensions of the world). You don\'t fill all 14 — you scan them and fill the ones that are <i>loud</i>.',
+      blocks:[
+        {cap:"the 4 layers — lenses on the situation",
+         head:["layer","what it is","Romans 8 example"],
+         rows:[
+           ["personal-biography","the figure's own life &amp; circumstances","Paul: a diaspora Pharisee &amp; Roman citizen who once persecuted the church"],
+           ["cultural-intellectual","the ideas &amp; schools in the air","Second Temple Judaism · Hellenistic diatribe · the Jesus-movement's internal debates"],
+           ["polemical","who / what the move argues against","the Jew/Gentile “weak vs strong” tension; the question of Gentile inclusion"],
+           ["ecological-material","the physical &amp; geographic world — incl. <b>scope</b> (a place’s extent + what it meant <i>then</i>)","“Rome” = the city (~1M, the insulae) <i>and</i> the empire (the whole Mediterranean world) <i>and</i> a symbol; tenement house-churches; the trip to Spain"]
+         ],cls:["term","","ex"]},
+        {cap:"the 10-category substrate — scan all, fill the salient (— = quiet in Romans 8)",
+         head:["category","Romans 8 example"],
+         rows:[
+           ["political-institutional","the Empire &amp; imperial cult; the Claudius edict (Jews expelled from Rome, 49 CE)"],
+           ["economic-material","patronage; Phoebe the patron; the commercial capital"],
+           ["communication-media <span style=\"color:var(--faint)\">(+ the move’s <b>medium</b>)</span>","the move’s form: <i>written / oral / ritual / divinatory / iconic / embodied</i> — here: a letter, read aloud by a lector; the scroll."],
+           ["science-technology","— (roads / travel, minor here)"],
+           ["epidemic-health","the famine under Claudius (c.46 CE; Acts 11:28); the brutal urban mortality of the tenement (<i>insula</i>) poor"],
+           ["climate-ecology","Rome’s dependence on imported Egyptian grain (the <i>annona</i>) — a harvest-and-famine-dependent food system"],
+           ["demographic-social","mixed Jew–Gentile house-churches; slave &amp; free together"],
+           ["migration-diaspora","the Jewish diaspora in Rome; the expulsion-and-return"],
+           ["interreligious-contact","Judaism ↔ the Jesus-movement ↔ pagan Rome ↔ the imperial cult"],
+           ["kinship-residence","the household-church (the <i>oikos</i>) as the unit"]
+         ],cls:["term","ex"]},
+        {cap:"whose sitz? — a passage has more than one world",
+         head:["whose","what it is","Romans example"],
+         rows:[
+           ["author's","the world that produced the text (the default)","Paul, Rome c.57 CE"],
+           ["interpreter's","a reader-figure's world, which <i>colors</i> the reading","Augustine reading Romans in 410 CE as Rome is sacked — predestination through a collapsing empire"],
+           ["reader's-own","your present world — the <b>FALSE-SITZ risk</b> if projected onto the text","Stendahl's “introspective conscience of the West” read back into Paul"]
+         ],cls:["term","","ex"]}
+      ],
+      note:'Scan all 10 substrate categories and fill the salient ones — but a <b>blank must be earned</b> (you looked and found nothing), not skipped: “epidemic-health” looked empty until the Claudius famine surfaced. · Sitz also <b>stocks which paradigms are available.</b>'
+    },
+
+    paradigm:{title:"paradigm",stat:["built","✓ built"],one:"the governing frame the move assumes",
+      whatis:'The worldview the move <i>presupposes</i>: the unstated frame that, if changed, changes the meaning. <em class="kw">providence</em> (Romans) · <em class="kw">the karmic cosmos</em> (Gītā) · <em class="kw">the Dao as silent ground</em> · <em class="kw">covenant</em> · <em class="kw">apocalyptic</em>.',
+      blocks:[
+        {head:["aspect","what it is","how to tell (the test)","example"],
+         rows:[
+           ["how to identify it","the “given” the move assumes about reality — never argued for","what does this move assume that it never argues for?","Romans 8 assumes <i>providence</i> and reasons from it"],
+           ["intrinsic vs overlay","<b>intrinsic</b> = the text's own frame (recover it) · <b>overlay</b> = a frame the reader brings (flag it)","is this the text's frame, or mine?","Paul's apocalyptic = intrinsic; reading him via modern individualism = overlay"],
+           ["the role","paradigm is role-fluid: <b>ambient</b> · <b>object</b> (a reframe) · <b>outcome</b> (a shift)","does the move assume the frame, act on it, or produce a new one?","most moves assume providence; a reframe acts on it; a conversion swaps it. <b>Two paradigms in a shift:</b> incoming = this field; shifted/new = the <code>outcome</code>"]
+         ],cls:["term","","test","ex"]}
+      ],
+      note:'Hard case (paradigm vs sitz): paradigm = the frame-for-<i>meaning</i>; sitz = the ground-of-<i>conditions</i>. Sitz stocks the paradigms; the danger is mistaking your overlay for the text’s own frame.'
+    },
+
+    consequence:{title:"consequence",stat:["open","stub · downstream"],one:"what follows downstream of the move",
+      whatis:'The effect <i>after</i> the move. <em class="kw">assurance</em> — “who shall separate us” (Romans 8:31–39). The entry (to build) = how to identify the downstream effect + its normative type (moral / ethical / value).',
+      blocks:[],note:'Structure set; the value-entry is a stub — the next codebook build. Shown here so the schema is complete.'
+    },
+
+    agent:{title:"agent",stat:["open","open + source-type"],one:"who / what acts",
+      whatis:'The in-frame originator (<em class="kw">God</em> · <em class="kw">the Dao</em> · <em class="kw">the Buddha</em>) — paired with a closed <b>source-type</b> so “agentless” traditions aren’t coded as a blank: <em class="kw">personal</em> · <em class="kw">impersonal-ground</em> · <em class="kw">self-so</em> (<i>ziran</i>) · <em class="kw">conditioned-arising</em> · <em class="kw">topic-field</em>.',
+      blocks:[],note:'Table to build — the exact source-type set goes to the typologist. The structure (an agent paired with a source-type) is set.'
+    },
+
+    substrate:{title:"substrate",stat:["open","open · stock"],one:"what it acts on — the input",
+      whatis:'What the move acts on. <em class="kw">“those who love God”</em> (Romans) · <em class="kw">dukkha</em> (4NT) · <em class="kw">the over-managed situation</em> (wu-wei). With <code>operation</code> and <code>outcome</code>: <i>substrate → operation → outcome</i> = the stock-flow.',
+      blocks:[],note:'Open field (the tradition’s own input term) — no fixed value-list; recorded in-vivo.'
+    },
+
+    operation:{title:"operation",stat:["open","the unit"],one:"the move itself — the verb",
+      whatis:'No fixed values — the <em class="kw">verb</em> the text uses. Its entry is the <b>unit rule</b>: <i>what counts as ONE move</i>. The most important entry.',
+      blocks:[],note:'The unit-rule for <code>operation</code> is the next codebook build — what counts as one move. Shown here as the spine’s pivot.'
+    },
+
+    outcome:{title:"outcome",stat:["open","open · stock"],one:"what it produces — the output",
+      whatis:'<em class="kw">“glorified”</em> (Romans) · <em class="kw">nirodha</em> (4NT) · <em class="kw">effortless order</em> (wu-wei). With substrate: <i>substrate → operation → outcome</i> = the stock-flow.',
+      blocks:[],note:'Open field — recorded in the tradition’s own output term.'
+    },
+
+    "operation-type":{title:"operation-type",stat:["prov","closed · pending re-walk"],one:"what kind of move",
+      whatis:'Values (settling): <em class="kw">transform</em> · <em class="kw">constitute</em> · <em class="kw">disclose</em> · <em class="kw">designate</em> · <em class="kw">diagnose</em> · <em class="kw">prescribe</em> · <em class="kw">authorize</em> · <em class="kw">align</em> · <em class="kw">negate</em>. (<i>declare</i> / <i>emerge</i> / <i>reframe</i> fall out as combinations with <b>voice</b> and <b>target</b>.)',
+      blocks:[],note:'The value-list is still settling (coding pass) — rendered as <b style="color:var(--rose)">provisional</b>. This is why Romans “predestined” is coded transformative <i>(contested)</i>.'
+    },
+
+    voice:{title:"voice",stat:["built","✓ built"],one:"the agent's relationship to the verb",
+      whatis:'The subject’s grammatical relation to the verb — active / passive / middle / stative.',
+      blocks:[
+        {head:["value","what it is","how to tell (the test)","example"],
+         rows:[
+           ["active","the subject performs the verb; the subject <i>is</i> the agent","does the subject DO the action (to something)?","God foreknew them · “let there be” · the sage acts"],
+           ["passive","the subject undergoes the verb; the doer offstage","is the subject DONE TO, with the doer backgrounded?","the believer is called · the elect are justified"],
+           ["middle","the subject acts <i>and</i> is changed by the acting","does the action return to / transform the doer?","work out your own salvation · <i>jiriki</i>"],
+           ["stative","no agent at all; a state or arising; the subject is the theme","is there NO doer — does it just arise / exist / remain?","it arises · the Odu appears · <i>ziran</i>"]
+         ],cls:["term","","test","ex"]}
+      ],
+      note:'Hard case (middle vs passive): the grace/works dispute — code the voice the <i>text</i> uses, flag the contestation. · “stative” is candidate jargon (may rename: quiescent / receptive).'
+    },
+
+    mechanism:{title:"mechanism",stat:["built","✓ built · 3-level"],one:"by what means the move takes effect",
+      whatis:'The instrumental “how” — by what <i>means</i> the move takes effect. <b>Three levels:</b> the top mechanism (broad) → the sub-mechanism (the shared rhyme-layer) → the in-vivo instance (the tradition’s own word). Code the in-vivo term first; the shared sub-mechanism emerges. <b>This is where faith/works, orthodoxy/orthopraxy, and the big cross-tradition rhymes live.</b>',
+      blocks:[
+        {head:["top mechanism","sub-mechanisms (the shared rhyme-layer)","in-vivo (the tradition's own term)"],
+         rows:[
+           ["by utterance","blessing · oath/vow · legal-declaration · creative-word · invocation","“let there be” · <i>ṭalāq</i> · <i>àṣẹ</i> · <i>bismillah</i>"],
+           ["by practice","prayer · fasting · almsgiving · pilgrimage · chanting · law-keeping · bodily-discipline","salat / Jesus Prayer / <i>japa</i> · Ramadan / Lent / Yom Kippur · <i>zakat</i> / <i>dāna</i> / <i>tzedakah</i>"],
+           ["by belief","faith / trust · creedal-assent · insight","<i>sola fide</i> · <i>īmān</i> · <i>śraddhā</i>"],
+           ["by grace","grace · election · other-power","<i>charis</i> · predestination · <i>tariki</i>"],
+           ["by cultivation","the path/way · habituation · meditation · working-through","eightfold path · <i>hexis</i> · <i>bhāvanā</i> · therapy"],
+           ["by participation","contemplation · presence · devotion · encounter","<i>theoria</i> · <i>sati</i> · <i>bhakti</i> / <i>ishq</i> · the metaxy"]
+         ],cls:["term","","ex"]}
+      ],
+      note:'The shared sub-mechanism column <b>is</b> the rhyme substrate — <i>fasting</i> across Islam/Christianity/Judaism/Buddhism is a convergence candidate. · <b>uptake</b> (felicity) is a sub-field of <i>by-utterance</i>: none / audience / office / ritual-correctness / lineage / divine-sanction / divinatory / communal. · Grows bottom-up; the in-vivo term is always recorded underneath.'
+    },
+
+    basis:{title:"basis",stat:["built","✓ built · 11 values"],one:"on what basis it's justified — “how do you know?”",
+      whatis:'What the move <i>rests on</i> — its source of justification (was <code>warrant</code>; renamed so it doesn’t read like an arrest warrant). The grammar underneath is <b>evidentiality</b> (Aikhenvald · <i>pramāṇa</i> · Tibetan epistemology). The validated-gold axis — confirmed from the CLC walk, the 5-LLM IRR (5/5), <i>and</i> the typology survey (every language grammaticalizes “how do you know this”).',
+      blocks:[
+        {head:["value","what it is","how to tell (the test)","example"],
+         rows:[
+           ["argument","reasoned inference grounds it","is it justified by reasoning you could follow and check?","Plato's dialectic · a philosophical proof"],
+           ["revelation","divine disclosure grounds it","is it grounded in something revealed/given from beyond?","scripture · “thus says the Lord”"],
+           ["arising / divination","it comes through a divinatory process","does it come through casting / oracle / sign, read by a diviner?","the Ifá Odu · the I Ching · augury"],
+           ["witness","someone perceived it (testimony)","is it grounded in “I / someone saw or experienced it”?","an eyewitness · “we beheld his glory”"],
+           ["self-positing","it grounds itself; no external source","does it claim its own ground (groundless / self-evident)?","Sartre's radical freedom · “I am that I am”"],
+           ["lineage / transmission","the chain of transmission authorizes it","is it grounded in “handed down through X → Y → Z”?","<i>isnād</i> (ḥadīth chain) · dharma-transmission · apostolic succession"],
+           ["experience / realization","direct first-person knowing grounds it","is it grounded in realization, not someone else's testimony?","mystical realization · <i>pratyakṣa</i> · “taste and see”"],
+           ["ritual-efficacy","it's grounded in the rite working","is the proof that the ritual produces its effect?","the sacrament “works” · the offering is accepted"],
+           ["tradition / ancestral","the ancestors / tradition authorize it","is it grounded in “what our ancestors / elders hold”?","Indigenous ancestral knowing · the Confucian appeal to the ancients"],
+           ["cosmic-order / resonance","it's grounded in <i>fitting</i> the order of things","is it justified by fitting the Dao / <i>li</i> / <i>ṛta</i> / the way things are?","the Dao · <i>li</i> (Confucian pattern) · <i>ṛta</i> (Vedic order)"],
+           ["analogical","grounded by correspondence / analogy","is it justified by “it's like X, so it holds”?","<i>qiyās</i> (Islamic analogy) · typology · “as above, so below”"]
+         ],cls:["term","","test","ex"]}
+      ],
+      note:'Hard case: a move often rests on <i>more than one</i> basis (a theological claim grounded in revelation <i>and</i> argument) — code the primary/explicit one, flag multiples if contested. · Adjacency: <b>basis</b> (why-believe-it) sits near <b>mechanism</b> (how-it-works) — “by revelation” (basis) vs “by utterance” (mechanism); distinct, sharpened in the coding pass. · Grows bottom-up.'
+    },
+
+    telos:{title:"telos",stat:["built","✓ built · 3-level"],one:"what the move is ultimately for — the higher-order aim",
+      whatis:'The move’s <i>final cause</i> (Aristotle) — what it’s ultimately <i>for</i>, above the immediate outcome. The chain: <code>outcome</code> (what it produces) → <code>consequence</code> (what follows) → <b>telos</b> (the higher-order aim). <b>Crosses religious + secular</b> (a Buddhist move for <i>liberation</i>, a therapy move for <i>integration</i> — same question, comparable). Three levels like <code>mechanism</code>, so telos-rhymes are findable. (Telos often carries the <b>Big-T</b> — coding it makes the metaphysical aim visible without importing it into the move.)',
+      blocks:[
+        {head:["top telos","sub-telos (the shared rhyme-layer)","in-vivo (the tradition's own term)"],
+         rows:[
+           ["liberation / release","from suffering · from illusion · from constraint","<i>nirvāṇa</i> / <i>mokṣa</i> · <i>gnosis</i> · existential freedom"],
+           ["union / communion","with the divine · with the ground · with all","<i>theosis</i> / <i>fanāʾ</i> · <i>henosis</i> · the Dao"],
+           ["harmony / order","social · cosmic · inner","Confucian <i>hé</i> 和 · the Way · psychic integration"],
+           ["flourishing / wholeness","virtue · health / healing · self-actualization","<i>eudaimonia</i> · IFS / Jungian integration · Maslow"],
+           ["equanimity / peace","freedom-from-passion · acceptance · serenity","<i>apatheia</i> / <i>ataraxia</i> · <i>upekkhā</i>"],
+           ["knowledge / awakening","insight · realization · enlightenment","<i>prajñā</i> / <i>bodhi</i> · <i>gnosis</i> · philosophical truth"]
+         ],cls:["term","","ex"]}
+      ],
+      note:'Telos can <i>nest</i> (fasting → discipline → purification → union) — code the one the move explicitly serves. · For a paradigm-<i>shift</i> move, the telos is to install the new paradigm (= the <code>outcome</code>). · Subsumes “formation” (to form the person = a transformative telos). · Grows bottom-up.'
+    }
+  };
+
+  var insp=document.getElementById('inspector'),
+      iTitle=document.getElementById('inspTitle'),
+      iOne=document.getElementById('inspOne'),
+      iStat=document.getElementById('inspStat'),
+      iBody=document.getElementById('inspBody');
+
+  function renderBlock(b){
+    var h='';
+    if(b.cap) h+='<div class="cap">'+b.cap+'</div>';
+    h+='<table class="sub"><tr>';
+    b.head.forEach(function(x){h+='<th>'+x+'</th>';});
+    h+='</tr>';
+    b.rows.forEach(function(r){
+      h+='<tr>';
+      r.forEach(function(c,i){
+        var cl=(b.cls&&b.cls[i])?(' class="'+b.cls[i]+'"'):'';
+        h+='<td'+cl+'>'+c+'</td>';
+      });
+      h+='</tr>';
+    });
+    h+='</table>';
+    return h;
+  }
+
+  function openField(key){
+    var f=FIELDS[key]; if(!f) return;
+    iTitle.textContent=f.title;
+    iOne.textContent='— '+f.one;
+    iStat.className='stat '+f.stat[0];
+    iStat.textContent=f.stat[1];
+    var body='<div class="whatis"><b>What it is —</b> '+f.whatis+'</div>';
+    f.blocks.forEach(function(b){body+=renderBlock(b);});
+    if(f.note) body+='<div class="subnote"><b>Note —</b> '+f.note+'</div>';
+    iBody.innerHTML=body;
+    insp.classList.add('open');
+    document.querySelectorAll('.fcell').forEach(function(c){c.classList.toggle('active',c.getAttribute('data-f')===key);});
+  }
+
+  document.querySelectorAll('.fcell').forEach(function(c){
+    c.addEventListener('click',function(){openField(c.getAttribute('data-f'));});
+  });
+  // open voice by default so the page demonstrates the interaction
+  openField('voice');
+
+  /* ============================================================
+     THE RHYME GRAPH — illustrative move-nodes, value-nodes, edges
+     node radius = rhyme-count (convergence-degree). NOT real data.
+     ============================================================ */
+  var moves=[
+    // x,y are in the 1000x480 viewBox. rc = rhyme-count (drives radius).
+    {id:"surrender",  label:"surrender",   trad:"Christian", x:300, y:120, rc:5, type:"yield",  voice:"passive", val:["by-grace","union"],
+       note:"<b>surrender</b> (Christian) · type=yield · voice=passive · rhyme-count 5 — the most-connected move here. The big node is the candidate portable observation."},
+    {id:"fana",       label:"fanāʾ", trad:"Sufi", x:540, y:90,  rc:4, type:"yield",  voice:"middle",  val:["by-grace","union"],
+       note:"<b>fanāʾ</b> (Sufi) · type=yield · voice=middle — rhymes with <i>surrender</i> (same move-type) but a different <b>voice</b>: “the same move in a different voice.”"},
+    {id:"predestined",label:"predestined", trad:"Pauline", x:140, y:240, rc:3, type:"transform",voice:"active", val:["by-grace","revelation"],
+       note:"<b>predestined</b> (Pauline · Romans 8) · the move coded in §2 above · mechanism=by-grace · basis=revelation."},
+    {id:"wuwei",      label:"wu-wei",      trad:"Daoist", x:560, y:300, rc:3, type:"yield",  voice:"stative", val:["cosmic","harmony"],
+       note:"<b>wu-wei</b> (Daoist) · voice=stative (no doer; <i>ziran</i>) · basis=cosmic-order · telos=harmony — a different telos = the finding."},
+    {id:"tariki",     label:"tariki",      trad:"Pure Land", x:780, y:170, rc:2, type:"yield", voice:"passive", val:["by-grace","liberation"],
+       note:"<b>tariki</b> (Pure Land · “other-power”) · mechanism=by-grace — links to the same shared value-node as surrender / fanāʾ / predestined."},
+    {id:"surrender2", label:"islām",   trad:"Islamic", x:330, y:380, rc:2, type:"yield", voice:"middle", val:["by-grace","union"],
+       note:"<b>islām</b> (the root sense: submission) · type=yield · voice=middle — another node in the surrender cluster."}
+  ];
+  var values=[
+    {id:"by-grace",  label:"by-grace",   sub:"mechanism", x:500, y:215, kind:"mech",
+       note:"shared value-node <b>mechanism: by-grace</b> — surrender · fanāʾ · predestined · tariki · islām all link here. Five moves sharing one neighbour <i>is</i> the convergence substrate."},
+    {id:"union",     label:"union",      sub:"telos", x:520, y:430, kind:"telos",
+       note:"shared value-node <b>telos: union</b> — a telos-convergence (the broader axis-convergence layer)."},
+    {id:"revelation",label:"revelation", sub:"basis", x:60,  y:330, kind:"basis",
+       note:"shared value-node <b>basis: revelation</b> — predestined links here."},
+    {id:"cosmic",    label:"cosmic-order",sub:"basis", x:760, y:380, kind:"basis",
+       note:"shared value-node <b>basis: cosmic-order</b> — wu-wei links here (it rests on <i>fitting the Dao</i>, not revelation)."},
+    {id:"liberation",label:"liberation", sub:"telos", x:910, y:280, kind:"telos",
+       note:"shared value-node <b>telos: liberation</b> — tariki links here."},
+    {id:"harmony",   label:"harmony",    sub:"telos", x:740, y:460, kind:"telos",
+       note:"shared value-node <b>telos: harmony</b> — wu-wei's aim; a different telos from the union cluster."}
+  ];
+  // rhyme edges (cross-tradition, same move-type) — the only edge that crosses traditions
+  var rhymes=[
+    ["surrender","fana"],["surrender","predestined"],["surrender","tariki"],
+    ["surrender","surrender2"],["fana","tariki"],["fana","surrender2"]
+  ];
+
+  var mById={}; moves.forEach(function(m){mById[m.id]=m;});
+  var vById={}; values.forEach(function(v){vById[v.id]=v;});
+
+  var SVGNS="http://www.w3.org/2000/svg";
+  var gEdges=document.getElementById('gEdges'),
+      gValues=document.getElementById('gValues'),
+      gMoves=document.getElementById('gMoves'),
+      ginfo=document.getElementById('ginfo');
+  var defaultInfo=ginfo.innerHTML;
+
+  function el(name,attrs){var e=document.createElementNS(SVGNS,name);for(var k in attrs)e.setAttribute(k,attrs[k]);return e;}
+
+  // radius from rhyme-count
+  function rad(rc){return 16+rc*4.2;}
+
+  // --- links from moves to their value-nodes (thin) ---
+  moves.forEach(function(m){
+    m.val.forEach(function(vid){
+      var v=vById[vid]; if(!v) return;
+      var ln=el("line",{x1:m.x,y1:m.y,x2:v.x,y2:v.y,stroke:"#5a6090","stroke-width":1.3,"stroke-dasharray":"3 4",opacity:.55,"data-link":m.id+"|"+vid});
+      gEdges.appendChild(ln);
+    });
+  });
+  // --- rhyme edges (thick gold) ---
+  rhymes.forEach(function(pr){
+    var a=mById[pr[0]],b=mById[pr[1]]; if(!a||!b) return;
+    var ln=el("line",{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:"#f3c969","stroke-width":2.6,opacity:.78,"data-rhyme":pr[0]+"|"+pr[1],"class":"redge",style:"cursor:pointer"});
+    ln.addEventListener('mouseenter',function(){
+      ln.setAttribute('stroke-width','4');
+      ginfo.innerHTML='<b style="color:var(--gold)">RHYME edge</b> · '+a.label+' ('+a.trad+') &harr; '+b.label+' ('+b.trad+') — drawn only when move-type + structure correspond, recorded <i>with</i> their differences on the qualifier axes. The rhyme edge is the only one that crosses traditions: it is the Q2 finding drawn as a line.';
+    });
+    ln.addEventListener('mouseleave',function(){ln.setAttribute('stroke-width','2.6');ginfo.innerHTML=defaultInfo;});
+    gEdges.appendChild(ln);
+  });
+
+  // --- value nodes (diamonds) ---
+  var valColors={mech:"#f3c969",telos:"#5fd6c4",basis:"#9aa0ff"};
+  values.forEach(function(v){
+    var c=valColors[v.kind]||"#f3c969";
+    var g=el("g",{transform:"translate("+v.x+","+v.y+")",style:"cursor:pointer"});
+    g.appendChild(el("rect",{x:-9,y:-9,width:18,height:18,rx:3,transform:"rotate(45)",fill:c,opacity:.22,stroke:c,"stroke-width":1.6}));
+    var t=el("text",{y:26,"text-anchor":"middle","font-size":11,fill:"#9aa0c4","font-weight":600});t.textContent=v.label;
+    g.appendChild(t);
+    g.addEventListener('mouseenter',function(){ginfo.innerHTML=v.note;});
+    g.addEventListener('mouseleave',function(){ginfo.innerHTML=defaultInfo;});
+    gValues.appendChild(g);
+  });
+
+  // --- move nodes (circles, size = rhyme-count) ---
+  moves.forEach(function(m){
+    var r=rad(m.rc);
+    var g=el("g",{"class":"gnode-move",transform:"translate("+m.x+","+m.y+")"});
+    g.appendChild(el("circle",{r:r,fill:"rgba(154,160,255,.16)",stroke:"#9aa0ff","stroke-width":2}));
+    var t1=el("text",{"text-anchor":"middle","font-size":(m.rc>=4?13:12),"font-weight":700,fill:"#eef0fb",y:1});t1.textContent=m.label;
+    g.appendChild(t1);
+    var t2=el("text",{"text-anchor":"middle","font-size":9.5,fill:"#9aa0c4",y:r+13});t2.textContent="("+m.trad+")";
+    g.appendChild(t2);
+    // rhyme-count badge
+    var badge=el("text",{"text-anchor":"middle","font-size":9,fill:"#f3c969","font-weight":700,y:14});badge.textContent="✨"+m.rc;
+    g.appendChild(badge);
+    g.addEventListener('mouseenter',function(){ginfo.innerHTML=m.note;});
+    g.addEventListener('mouseleave',function(){ginfo.innerHTML=defaultInfo;});
+    gMoves.appendChild(g);
+  });
+
+})();
+</script>
+</body>
+</html>

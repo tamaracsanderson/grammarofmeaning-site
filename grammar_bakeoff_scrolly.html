@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How a move gets coded — Grammar of Meaning</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{
+  --bg:#0d0f1a; --bg2:#141832; --ink:#eef0fb; --dim:#9aa0c4; --faint:#5a6090;
+  --gold:#f3c969; --teal:#5fd6c4; --rose:#e6809a; --indigo:#8a8ff0;
+  --line:rgba(255,255,255,.12); --card:rgba(255,255,255,.045);
+  --maxw:780px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--teal)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+#sky{position:fixed;inset:0;z-index:-2;background:
+  radial-gradient(1200px 700px at 70% -10%, #1f2550 0%, transparent 60%),
+  radial-gradient(900px 600px at 10% 110%, #161a38 0%, transparent 55%), var(--bg)}
+#stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:#fff;opacity:0;transition:opacity 1.4s}
+
+/* hero */
+.hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:80px 22px 40px}
+.kicker{color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-size:12.5px;font-weight:700}
+.hero h1{font-size:clamp(30px,6vw,52px);line-height:1.08;margin:14px auto 16px;max-width:16ch;font-weight:800}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero .story{color:var(--dim);max-width:52ch;margin:0 auto;font-size:18px;text-align:left}
+.hero .story b{color:var(--ink);font-weight:600}
+.hero .story .real{color:var(--gold);font-weight:600}
+.sunwrap{margin-bottom:8px}
+.scrollcue{margin-top:32px;color:var(--faint);font-size:13px;letter-spacing:1px;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(7px);opacity:1}}
+
+.provis{display:inline-block;margin:18px auto 0;font-size:12.5px;color:var(--rose);
+  border:1px solid rgba(230,128,154,.4);border-radius:20px;padding:5px 14px;background:rgba(230,128,154,.06)}
+
+/* PINNED STAGE — transforms as you scroll (the engine's pinned-token analogue) */
+#stage{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:40;
+  width:min(92vw,540px);
+  background:rgba(13,16,30,.92);backdrop-filter:blur(10px);
+  border:1px solid rgba(243,201,105,.35);border-radius:16px;
+  box-shadow:0 8px 34px rgba(0,0,0,.55);
+  opacity:0;pointer-events:none;transition:opacity .5s;overflow:hidden}
+#stage.show{opacity:1}
+#stagehead{display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--line);
+  font-size:11.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);font-weight:700}
+#stagehead .tg{color:var(--gold);font-size:14px}
+#stagehead .now{margin-left:auto;color:var(--gold);font-weight:700;text-transform:none;letter-spacing:0;font-size:12px}
+#stagebody{padding:11px 14px 13px;position:relative;min-height:108px}
+
+/* the backdrop layer (sitz) — inside the stage */
+.sg-sitz{font-size:11px;color:var(--faint);transition:opacity .5s,color .5s;opacity:.3;margin-bottom:6px;line-height:1.4}
+.sg-sitz.on{opacity:1;color:var(--dim)}
+.sg-sitz b{color:var(--teal)}
+.sg-paradigm{display:inline-block;font-size:10.5px;color:var(--faint);border:1px dashed var(--line);
+  border-radius:14px;padding:1px 9px;margin-bottom:8px;opacity:.3;transition:opacity .5s}
+.sg-paradigm.on{opacity:1;color:var(--indigo);border-color:rgba(138,143,240,.5)}
+
+/* the move spine — agent→substrate→operation→outcome */
+.sg-spine{display:flex;align-items:stretch;gap:5px;margin:4px 0 2px}
+.sg-node{flex:1;border:1px solid var(--line);border-radius:8px;padding:6px 5px;text-align:center;
+  background:rgba(0,0,0,.22);opacity:.18;transform:translateY(6px);transition:all .5s}
+.sg-node.on{opacity:1;transform:none}
+.sg-node.op{border-color:rgba(243,201,105,.55);background:rgba(243,201,105,.08)}
+.sg-node .r{font-size:8.5px;letter-spacing:.4px;text-transform:uppercase;color:var(--faint);font-weight:700}
+.sg-node .v{font-size:12.5px;color:var(--ink);font-weight:600;margin-top:2px;line-height:1.2}
+.sg-node.op .v{color:var(--gold)}
+.sg-arrow{align-self:center;color:var(--faint);font-size:11px;opacity:.18;transition:opacity .5s}
+.sg-arrow.on{opacity:.7}
+
+/* qualifier chips inside the stage */
+.sg-quals{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.sg-q{font-size:10px;border:1px solid var(--line);border-radius:12px;padding:2px 8px;color:var(--faint);
+  opacity:.2;transform:scale(.92);transition:all .45s;white-space:nowrap}
+.sg-q.on{opacity:1;transform:none;color:var(--teal);border-color:rgba(95,214,196,.45)}
+.sg-q b{color:var(--ink)}
+
+/* the rhyme / constellation mini inside stage */
+.sg-graph{margin-top:6px;opacity:.2;transition:opacity .6s}
+.sg-graph.on{opacity:1}
+
+#rail{position:fixed;left:0;right:0;top:0;height:3px;z-index:41}
+#railfill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--teal))}
+
+/* steps */
+.step{padding:16vh 0;position:relative}
+.step.intro{padding-top:7vh}
+.num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--line);color:var(--gold);font-weight:800;font-size:15px;background:var(--bg2);margin-bottom:14px}
+.num.star{border-color:rgba(243,201,105,.5)}
+.eyebrow{color:var(--faint);letter-spacing:2px;text-transform:uppercase;font-size:11.5px;font-weight:700;margin-bottom:8px}
+.step h2{font-size:clamp(21px,3.2vw,28px);line-height:1.2;margin:0 0 12px;font-weight:800}
+.step h2 .q{color:var(--gold)}
+.lede{color:var(--dim);font-size:18px;margin:0 0 16px}
+.card{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:18px 20px;margin:14px 0}
+.muted{color:var(--dim);font-size:15px}
+.passage{font-family:Georgia,serif;font-size:17px;line-height:1.7;border-left:3px solid var(--gold);
+  padding:6px 0 6px 16px;color:#f4ecd8;font-style:italic;margin:6px 0 12px}
+.passage .hl{color:var(--gold);font-style:normal;font-weight:600}
+
+/* the "so what" takeaway box */
+.sowhat{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:12px 16px;
+  border-left:3px solid var(--gold);background:rgba(243,201,105,.06);border-radius:0 10px 10px 0;font-size:15px}
+.sowhat .ar{color:var(--gold);font-weight:800;flex:none}
+.sowhat b{color:var(--ink)}
+
+/* for the curious */
+details.curious{margin:12px 0 0;border:1px solid var(--line);border-radius:10px;background:rgba(0,0,0,.18)}
+details.curious summary{cursor:pointer;list-style:none;padding:10px 14px;font-size:13px;color:var(--teal);font-weight:600}
+details.curious summary::-webkit-details-marker{display:none}
+details.curious summary::before{content:"▸ ";color:var(--teal)}
+details.curious[open] summary::before{content:"▾ "}
+details.curious .body{padding:2px 16px 14px;font-size:13.5px;color:var(--dim);line-height:1.55}
+details.curious .body b{color:var(--ink)}
+details.curious code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--gold);background:rgba(0,0,0,.3);border-radius:4px;padding:1px 5px}
+
+/* the verbatim subtables (lifted from the codebook) */
+table{border-collapse:collapse;width:100%;font-size:12.5px;margin:10px 0 4px}
+caption{text-align:left;font-size:11.5px;color:var(--dim);font-weight:600;padding:4px 0 4px}
+th{text-align:left;font-weight:700;font-size:9.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.04em;
+  padding:7px 9px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--line)}
+td{padding:8px 9px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink);line-height:1.45}
+td.term{font-weight:600;white-space:nowrap;color:var(--gold)}
+td.test{font-style:italic;color:var(--dim)}
+td.ex{color:var(--faint)}
+tr:last-child td{border-bottom:none}
+.tnote{font-size:12px;color:var(--faint);margin-top:8px;font-style:italic;line-height:1.5}
+.tnote b{color:var(--dim);font-style:normal}
+
+/* illustrative + honesty flags */
+.illus{font-size:11.5px;color:var(--faint);font-style:italic;margin-top:8px}
+.flag{display:inline-block;font-size:11px;color:var(--rose);border:1px solid rgba(230,128,154,.4);
+  border-radius:6px;padding:1px 8px;background:rgba(230,128,154,.06);margin:6px 4px 0 0}
+
+/* graph SVG cards */
+figure{margin:14px 0 0}
+.svgcap{font-size:13px;color:var(--dim);text-align:center;margin-top:6px}
+
+/* gate panel */
+.gate{border:1px solid rgba(230,128,154,.3);background:rgba(230,128,154,.05);border-radius:14px;padding:16px 20px;margin:14px 0}
+.gate h3{margin:0 0 8px;font-size:15px;color:var(--rose);font-weight:700}
+.gate ol{margin:6px 0 0;padding-left:20px;color:var(--dim);font-size:14.5px;line-height:1.6}
+.gate ol b{color:var(--ink)}
+
+.next{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);padding:16px 20px;margin:18px 0;font-size:15px;color:var(--dim)}
+.next b{color:var(--ink)}
+.btn{background:var(--gold);color:#1a1505;border:none;border-radius:10px;padding:11px 18px;font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--dim);border:1px solid var(--line);font-weight:600}
+.btn:hover{filter:brightness(1.06)}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+footer{padding:46px 22px 130px;text-align:center;color:var(--faint);font-size:13px;border-top:1px solid var(--line);margin-top:36px}
+footer b{color:var(--dim)}
+@media(max-width:560px){.sg-spine{gap:3px}.sg-node{padding:5px 3px}.sg-node .v{font-size:11px}#stagebody{min-height:120px}}
+
+/* site chrome: home pill */
+.gom-home{position:fixed;top:14px;left:16px;z-index:9999;font:600 13px/1 -apple-system,Segoe UI,sans-serif;
+  color:#3f5a39;text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;
+  padding:8px 14px;box-shadow:0 1px 5px rgba(80,60,20,.10)}
+.gom-home:hover{background:#fff;border-color:#b8893a;color:#b8893a}
+@media print{.gom-home,#stage{display:none}}
+</style>
+</head>
+<body>
+<a href="index.html" class="gom-home">← Grammar of Meaning</a>
+<div id="sky"></div>
+<div id="stars"></div>
+<div id="rail"><div id="railfill"></div></div>
+
+<!-- ============ THE PINNED STAGE ============ -->
+<div id="stage" aria-hidden="true">
+  <div id="stagehead"><span class="tg">✶</span>Romans 8:28–30 · the move <b style="color:var(--gold);font-weight:700">predestined</b><span class="now" id="stagenow">the world</span></div>
+  <div id="stagebody">
+    <div class="sg-sitz" id="sgSitz">Paul · c.57 CE · Roman house-churches · <b>Jew–Gentile tension</b> · a letter read aloud</div>
+    <div class="sg-paradigm" id="sgParadigm">paradigm: providence</div>
+    <div class="sg-spine">
+      <div class="sg-node" data-n="agent"><div class="r">agent</div><div class="v">God</div></div>
+      <span class="sg-arrow" data-a="1">→</span>
+      <div class="sg-node" data-n="substrate"><div class="r">substrate</div><div class="v">those foreknown</div></div>
+      <span class="sg-arrow" data-a="2">→</span>
+      <div class="sg-node op" data-n="operation"><div class="r">operation</div><div class="v">predestined</div></div>
+      <span class="sg-arrow" data-a="3">→</span>
+      <div class="sg-node" data-n="outcome"><div class="r">outcome</div><div class="v">conformed</div></div>
+    </div>
+    <div class="sg-quals" id="sgQuals">
+      <span class="sg-q" data-q="type">type · <b>transformative</b></span>
+      <span class="sg-q" data-q="voice">voice · <b>active</b></span>
+      <span class="sg-q" data-q="mechanism">mechanism · <b>by-grace</b></span>
+      <span class="sg-q" data-q="basis">basis · <b>revelation</b></span>
+      <span class="sg-q" data-q="telos">telos · <b>union</b></span>
+    </div>
+    <div class="sg-graph" id="sgGraph">
+      <svg viewBox="0 0 512 78" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
+        <line id="sgEdge" x1="118" y1="39" x2="394" y2="39" stroke="#d97706" stroke-width="3" opacity="0"/>
+        <rect id="sgEdgeLab" x="206" y="29" width="100" height="18" rx="5" fill="#0d0f1a" stroke="#d97706" stroke-width=".5" opacity="0"/>
+        <text id="sgEdgeTxt" x="256" y="42" text-anchor="middle" font-size="10" fill="#d97706" opacity="0">RHYME</text>
+        <circle cx="78" cy="39" r="30" fill="rgba(243,201,105,.12)" stroke="#f3c969" stroke-width="2"/>
+        <text x="78" y="36" text-anchor="middle" font-size="11.5" font-weight="700" fill="#eef0fb">predestined</text>
+        <text x="78" y="50" text-anchor="middle" font-size="8.5" fill="#9aa0c4">(Pauline)</text>
+        <circle id="sgN2" cx="434" cy="39" r="27" fill="rgba(95,214,196,.12)" stroke="#5fd6c4" stroke-width="2" opacity="0"/>
+        <text id="sgN2a" x="434" y="36" text-anchor="middle" font-size="11.5" font-weight="700" fill="#eef0fb" opacity="0">tariki</text>
+        <text id="sgN2b" x="434" y="50" text-anchor="middle" font-size="8.5" fill="#9aa0c4" opacity="0">(Pure Land)</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="sunwrap">
+    <svg width="78" height="78" viewBox="0 0 78 78" aria-hidden="true">
+      <circle cx="39" cy="39" r="13" fill="none" stroke="#f3c969" stroke-width="2.2"/>
+      <circle cx="39" cy="39" r="5" fill="#f3c969"/>
+      <g stroke="#f3c969" stroke-width="2.2" stroke-linecap="round">
+        <line x1="39" y1="6" x2="39" y2="17"/><line x1="39" y1="61" x2="39" y2="72"/>
+        <line x1="6" y1="39" x2="17" y2="39"/><line x1="61" y1="39" x2="72" y2="39"/>
+        <line x1="15" y1="15" x2="23" y2="23"/><line x1="55" y1="55" x2="63" y2="63"/>
+        <line x1="63" y1="15" x2="55" y2="23"/><line x1="23" y1="55" x2="15" y2="63"/>
+      </g>
+    </svg>
+  </div>
+  <div class="kicker">Method · how the coding works</div>
+  <h1>How a single <em>move</em> gets coded</h1>
+  <p class="story">A text doesn't just <i>say</i> things — it <b>does</b> things. It declares, it surrenders, it diagnoses, it reframes. We call each of these a <b>move</b> (a verb), and the heart of the method is a single coding instrument that reads one move at a time.<br><br>Watch one move — Paul's <span class="real">predestined</span>, from Romans 8 — get coded field by field. Then watch the coded move become a <b>node</b>, and a second tradition's move <b>rhyme</b> with it. That's how rhyme across traditions becomes something a computer can find.</p>
+  <span class="provis">Decided-so-far · provisional-v1 — nothing locked (next gate named at the end)</span>
+  <div class="scrollcue">scroll to follow the move ↓</div>
+</section>
+
+<main>
+
+<!-- INTRO -->
+<section class="step intro" data-state="the world">
+  <div class="wrap reveal">
+    <div class="eyebrow">Two tiers</div>
+    <h2>You set the <span class="q">world</span> first — then code the move inside it.</h2>
+    <p class="lede">The instrument has two tiers. The <b>setting</b> (filled once per passage) is the world a move sits in. The <b>move</b> (filled per operation) is the action on the stage.</p>
+    <div class="card">
+      <div class="muted"><b>The stage metaphor.</b> <b style="color:var(--teal)">sitz</b> is the backdrop — the world the move sits in. <b style="color:var(--indigo)">paradigm</b> is the lens over it. The <b style="color:var(--gold)">move</b> (agent → substrate → operation → outcome) is the action on the stage. <b>consequence</b> is what follows after the scene. The setting wraps the move — it's not a flat list.</div>
+      <div class="sowhat"><span class="ar">→</span><span>The pinned card at the bottom is that stage. <b>It fills in as you scroll.</b></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 1 · SITZ FILLS IN -->
+<section class="step" data-state="the world">
+  <div class="wrap reveal">
+    <span class="num">1</span>
+    <div class="eyebrow">The setting · sitz</div>
+    <h2>First the backdrop fills in: <span class="q">where, when, how the world was.</span></h2>
+    <p class="lede">The <b>sitz</b> is the conditions <i>before and around</i> the move. You read it through 4 layers, and scan it against 10 substrate categories — filling the ones that are <i>loud</i>.</p>
+    <div class="card">
+      <table>
+        <caption>the 4 layers — lenses on the situation <span style="color:var(--faint);font-weight:400">(verbatim from the codebook)</span></caption>
+        <tr><th>layer</th><th>what it is</th><th>Romans 8 example</th></tr>
+        <tr><td class="term">personal-biography</td><td>the figure's own life &amp; circumstances</td><td class="ex">Paul: a diaspora Pharisee &amp; Roman citizen who once persecuted the church</td></tr>
+        <tr><td class="term">cultural-intellectual</td><td>the ideas &amp; schools in the air</td><td class="ex">Second Temple Judaism · Hellenistic diatribe · the Jesus-movement's internal debates</td></tr>
+        <tr><td class="term">polemical</td><td>who / what the move argues against</td><td class="ex">the Jew/Gentile "weak vs strong" tension; the question of Gentile inclusion</td></tr>
+        <tr><td class="term">ecological-material</td><td>the physical &amp; geographic world — incl. <b>scope</b> (a place's extent + what it meant <i>then</i>)</td><td class="ex">"Rome" = the city (~1M, the insulae) <i>and</i> the empire <i>and</i> a symbol; tenement house-churches; the trip to Spain</td></tr>
+      </table>
+      <div class="tnote">Scan all 10 substrate categories and fill the salient — but a <b>blank must be earned</b> (you looked and found nothing), not skipped: "epidemic-health" looked empty until the Claudius famine surfaced. · Sitz also <b>stocks which paradigms are available.</b></div>
+      <details class="curious">
+        <summary>For the curious — the 10-category substrate (verbatim) + whose sitz?</summary>
+        <div class="body">
+          <table>
+            <caption>the 10-category substrate — scan all, fill the salient (— = quiet in Romans 8)</caption>
+            <tr><th>category</th><th>Romans 8 example</th></tr>
+            <tr><td class="term">political-institutional</td><td class="ex">the Empire &amp; imperial cult; the Claudius edict (Jews expelled from Rome, 49 CE)</td></tr>
+            <tr><td class="term">economic-material</td><td class="ex">patronage; Phoebe the patron; the commercial capital</td></tr>
+            <tr><td class="term">communication-media (+ medium)</td><td class="ex">a letter, read aloud by a lector; the scroll</td></tr>
+            <tr><td class="term">science-technology</td><td class="ex">— (roads / travel, minor here)</td></tr>
+            <tr><td class="term">epidemic-health</td><td class="ex">the famine under Claudius (c.46 CE); the brutal urban mortality of the insula poor</td></tr>
+            <tr><td class="term">climate-ecology</td><td class="ex">Rome's dependence on imported Egyptian grain (the annona)</td></tr>
+            <tr><td class="term">demographic-social</td><td class="ex">mixed Jew–Gentile house-churches; slave &amp; free together</td></tr>
+            <tr><td class="term">migration-diaspora</td><td class="ex">the Jewish diaspora in Rome; the expulsion-and-return</td></tr>
+            <tr><td class="term">interreligious-contact</td><td class="ex">Judaism ↔ the Jesus-movement ↔ pagan Rome ↔ the imperial cult</td></tr>
+            <tr><td class="term">kinship-residence</td><td class="ex">the household-church (the oikos) as the unit</td></tr>
+          </table>
+          <table style="margin-top:14px">
+            <caption>whose sitz? — a passage has more than one world</caption>
+            <tr><th>whose</th><th>what it is</th><th>Romans example</th></tr>
+            <tr><td class="term">author's</td><td>the world that produced the text (the default)</td><td class="ex">Paul, Rome c.57 CE</td></tr>
+            <tr><td class="term">interpreter's</td><td>a reader-figure's world, which colors the reading</td><td class="ex">Augustine reading Romans in 410 CE as Rome is sacked</td></tr>
+            <tr><td class="term">reader's-own</td><td>your present world — the FALSE-SITZ risk if projected onto the text</td><td class="ex">Stendahl's "introspective conscience of the West" read back into Paul</td></tr>
+          </table>
+        </div>
+      </details>
+      <div class="sowhat"><span class="ar">→</span><span>The backdrop isn't decoration. <b>The world conditions what a move can mean.</b></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · THE MOVE BUILDS -->
+<section class="step" data-state="the move">
+  <div class="wrap reveal">
+    <span class="num">2</span>
+    <div class="eyebrow">The move · the spine</div>
+    <h2>Now the move builds: <span class="q">agent → substrate → operation → outcome.</span></h2>
+    <p class="lede">The unit is a <b>move</b> — what the text <i>does</i>. Its spine is a stock-flow: an <b>agent</b> acts on a <b>substrate</b> through an <b>operation</b>, producing an <b>outcome</b>.</p>
+    <div class="card">
+      <div class="passage">"…those whom he foreknew he also <span class="hl">predestined</span> to be conformed to the image of his Son…"<br><span style="font-size:13px;color:var(--faint);font-style:normal">Romans 8:29</span></div>
+      <table>
+        <tr><th>part of the spine</th><th>here, in Romans 8:29</th></tr>
+        <tr><td class="term">agent</td><td>God <span style="color:var(--faint)">(the in-frame originator)</span></td></tr>
+        <tr><td class="term">substrate</td><td>those God foreknew <span style="color:var(--faint)">(the input)</span></td></tr>
+        <tr><td class="term">operation</td><td><b style="color:var(--gold)">predestined</b> <span style="color:var(--faint)">(the verb — the unit)</span></td></tr>
+        <tr><td class="term">outcome</td><td>"conformed to the image of his Son" <span style="color:var(--faint)">(the output)</span></td></tr>
+      </table>
+      <div class="tnote"><b>The spine fields are still open</b> (no fixed value-lists yet) — the structure is fixed, the unit-rule for <i>operation</i> is the next codebook build. Shown here applied, not locked.</div>
+      <div class="sowhat"><span class="ar">→</span><span>Code the <b>verb</b>, not the sentence. One passage holds several moves — Romans 8:28–30 has five.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · THE QUALIFIERS LIGHT UP -->
+<section class="step" data-state="the qualifiers">
+  <div class="wrap reveal">
+    <span class="num">3</span>
+    <div class="eyebrow">The move · qualifiers</div>
+    <h2>Then the qualifiers light up: <span class="q">how, by what means, on what basis, for what.</span></h2>
+    <p class="lede">Five qualifier axes tag the move. Each below is lifted <b>verbatim</b> from the codebook — the shape is always <i>value · what it is · how to tell (the test) · example</i>. These shared vocabularies are what make a rhyme findable.</p>
+
+    <div class="card">
+      <table>
+        <caption><b style="color:var(--gold)">voice</b> — the subject's relationship to the verb · <span class="flag">predestined = active</span></caption>
+        <tr><th>value</th><th>what it is</th><th>how to tell (the test)</th><th>example</th></tr>
+        <tr><td class="term">active</td><td>the subject performs the verb; the subject <i>is</i> the agent</td><td class="test">does the subject DO the action (to something)?</td><td class="ex">God foreknew them · "let there be" · the sage acts</td></tr>
+        <tr><td class="term">passive</td><td>the subject undergoes the verb; the doer offstage</td><td class="test">is the subject DONE TO, with the doer backgrounded?</td><td class="ex">the believer is called · the elect are justified</td></tr>
+        <tr><td class="term">middle</td><td>the subject acts <i>and</i> is changed by the acting</td><td class="test">does the action return to / transform the doer?</td><td class="ex">work out your own salvation · <i>jiriki</i></td></tr>
+        <tr><td class="term">stative</td><td>no agent at all; a state or arising; the subject is the theme</td><td class="test">is there NO doer — does it just arise / exist / remain?</td><td class="ex">it arises · the Odu appears · <i>ziran</i></td></tr>
+      </table>
+      <div class="tnote">Hard case (middle vs passive): the grace/works dispute — code the voice the <i>text</i> uses, flag the contestation. · "stative" is candidate jargon (may rename: quiescent / receptive).</div>
+    </div>
+
+    <details class="curious">
+      <summary>For the curious — mechanism · basis · telos (the three-level rhyme axes, verbatim)</summary>
+      <div class="body">
+
+        <table>
+          <caption><b style="color:var(--gold)">mechanism</b> — by what means it takes effect · <span class="flag" style="color:var(--rose)">predestined = by-grace</span></caption>
+          <tr><th>top mechanism</th><th>sub-mechanisms (the shared rhyme-layer)</th><th>in-vivo (the tradition's own term)</th></tr>
+          <tr><td class="term">by utterance</td><td>blessing · oath/vow · legal-declaration · creative-word · invocation</td><td class="ex">"let there be" · <i>ṭalāq</i> · <i>àṣẹ</i> · <i>bismillah</i></td></tr>
+          <tr><td class="term">by practice</td><td>prayer · fasting · almsgiving · pilgrimage · chanting · law-keeping · bodily-discipline</td><td class="ex">salat / Jesus Prayer / <i>japa</i> · Ramadan / Lent / Yom Kippur · <i>zakat</i> / <i>dāna</i> / <i>tzedakah</i></td></tr>
+          <tr><td class="term">by belief</td><td>faith / trust · creedal-assent · insight</td><td class="ex"><i>sola fide</i> · <i>īmān</i> · <i>śraddhā</i></td></tr>
+          <tr><td class="term">by grace</td><td>grace · election · other-power</td><td class="ex"><i>charis</i> · predestination · <i>tariki</i></td></tr>
+          <tr><td class="term">by cultivation</td><td>the path/way · habituation · meditation · working-through</td><td class="ex">eightfold path · <i>hexis</i> · <i>bhāvanā</i> · therapy</td></tr>
+          <tr><td class="term">by participation</td><td>contemplation · presence · devotion · encounter</td><td class="ex"><i>theoria</i> · <i>sati</i> · <i>bhakti</i> / <i>ishq</i> · the metaxy</td></tr>
+        </table>
+        <div class="tnote">The shared sub-mechanism column <b>is</b> the rhyme substrate — <i>fasting</i> across Islam/Christianity/Judaism/Buddhism is a convergence candidate. · uptake (felicity) is a sub-field of <i>by-utterance</i>. · Grows bottom-up; the in-vivo term is always recorded underneath.</div>
+
+        <table style="margin-top:16px">
+          <caption><b style="color:var(--gold)">basis</b> — on what basis it's justified ("how do you know?") · <span class="flag">predestined = revelation</span></caption>
+          <tr><th>value</th><th>what it is</th><th>how to tell (the test)</th><th>example</th></tr>
+          <tr><td class="term">argument</td><td>reasoned inference grounds it</td><td class="test">is it justified by reasoning you could follow and check?</td><td class="ex">Plato's dialectic · a philosophical proof</td></tr>
+          <tr><td class="term">revelation</td><td>divine disclosure grounds it</td><td class="test">is it grounded in something revealed/given from beyond?</td><td class="ex">scripture · "thus says the Lord"</td></tr>
+          <tr><td class="term">arising / divination</td><td>it comes through a divinatory process</td><td class="test">does it come through casting / oracle / sign, read by a diviner?</td><td class="ex">the Ifá Odu · the I Ching · augury</td></tr>
+          <tr><td class="term">witness</td><td>someone perceived it (testimony)</td><td class="test">is it grounded in "I / someone saw or experienced it"?</td><td class="ex">an eyewitness · "we beheld his glory"</td></tr>
+          <tr><td class="term">self-positing</td><td>it grounds itself; no external source</td><td class="test">does it claim its own ground (groundless / self-evident)?</td><td class="ex">Sartre's radical freedom · "I am that I am"</td></tr>
+          <tr><td class="term">lineage / transmission</td><td>the chain of transmission authorizes it</td><td class="test">is it grounded in "handed down through X → Y → Z"?</td><td class="ex"><i>isnād</i> · dharma-transmission · apostolic succession</td></tr>
+          <tr><td class="term">experience / realization</td><td>direct first-person knowing grounds it</td><td class="test">is it grounded in realization, not someone else's testimony?</td><td class="ex">mystical realization · <i>pratyakṣa</i> · "taste and see"</td></tr>
+          <tr><td class="term">ritual-efficacy</td><td>it's grounded in the rite working</td><td class="test">is the proof that the ritual produces its effect?</td><td class="ex">the sacrament "works" · the offering is accepted</td></tr>
+          <tr><td class="term">tradition / ancestral</td><td>the ancestors / tradition authorize it</td><td class="test">is it grounded in "this is what our ancestors / elders hold"?</td><td class="ex">Indigenous ancestral knowing · the Confucian appeal to the ancients</td></tr>
+          <tr><td class="term">cosmic-order / resonance</td><td>it's grounded in <i>fitting</i> the order of things</td><td class="test">is it justified by fitting the Dao / <i>li</i> / <i>ṛta</i>?</td><td class="ex">the Dao · <i>li</i> · <i>ṛta</i></td></tr>
+          <tr><td class="term">analogical</td><td>grounded by correspondence / analogy</td><td class="test">is it justified by "it's like X, so it holds"?</td><td class="ex"><i>qiyās</i> · typology · "as above, so below"</td></tr>
+        </table>
+        <div class="tnote">A move often rests on <i>more than one</i> basis — code the primary/explicit one, flag multiples if contested. · The grammar underneath is <b>evidentiality</b> (Aikhenvald · <i>pramāṇa</i>) — the validated-gold axis (CLC walk + 5-LLM IRR 5/5 + the typology survey).</div>
+
+        <table style="margin-top:16px">
+          <caption><b style="color:var(--gold)">telos</b> — what the move is ultimately for · <span class="flag">predestined = union / salvation</span></caption>
+          <tr><th>top telos</th><th>sub-telos (the shared rhyme-layer)</th><th>in-vivo (the tradition's own term)</th></tr>
+          <tr><td class="term">liberation / release</td><td>from suffering · from illusion · from constraint</td><td class="ex"><i>nirvāṇa</i> / <i>mokṣa</i> · <i>gnosis</i> · existential freedom</td></tr>
+          <tr><td class="term">union / communion</td><td>with the divine · with the ground · with all</td><td class="ex"><i>theosis</i> / <i>fanāʾ</i> · <i>henosis</i> · the Dao</td></tr>
+          <tr><td class="term">harmony / order</td><td>social · cosmic · inner</td><td class="ex">Confucian <i>hé</i> 和 · the Way · psychic integration</td></tr>
+          <tr><td class="term">flourishing / wholeness</td><td>virtue · health / healing · self-actualization</td><td class="ex"><i>eudaimonia</i> · IFS / Jungian integration · Maslow</td></tr>
+          <tr><td class="term">equanimity / peace</td><td>freedom-from-passion · acceptance · serenity</td><td class="ex"><i>apatheia</i> / <i>ataraxia</i> · <i>upekkhā</i></td></tr>
+          <tr><td class="term">knowledge / awakening</td><td>insight · realization · enlightenment</td><td class="ex"><i>prajñā</i> / <i>bodhi</i> · <i>gnosis</i> · philosophical truth</td></tr>
+        </table>
+        <div class="tnote">Telos can <i>nest</i> (fasting → discipline → purification → union) — code the one the move explicitly serves. · Subsumes "formation." · Grows bottom-up. <br><br><b>operation-type</b> (still settling): transform · constitute · disclose · designate · diagnose · prescribe · authorize · align · negate. The named moves <i>fall out</i> of combinations: <i>declare</i> = constitute + active; <i>emerge</i> = constitute + stative; <i>reframe</i> = transform + (target = paradigm). No flat sub-types — the axes generate them.</div>
+      </div>
+    </details>
+
+    <div class="sowhat"><span class="ar">→</span><span>The whole move, coded: <b>predestined · transformative · active · by-grace · revelation · union.</b> Six axes, one point in axis-space.</span></div>
+  </div>
+</section>
+
+<!-- 4 · THE FLOW (golden chain) -->
+<section class="step" data-state="the move">
+  <div class="wrap reveal">
+    <span class="num">4</span>
+    <div class="eyebrow">The relations · flow</div>
+    <h2>One move connects to the next — <span class="q">the golden chain.</span></h2>
+    <p class="lede">Romans 8:28–30 isn't one move; it's five, linked end to end. The substrate of one becomes the substrate of the next — a flow edge through the passage.</p>
+    <div class="card">
+      <figure>
+        <svg viewBox="0 0 700 110" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
+          <defs><marker id="gc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#f3c969"/></marker></defs>
+          <g text-anchor="middle">
+            <rect x="8" y="36" width="116" height="40" rx="9" fill="rgba(243,201,105,.07)" stroke="#f3c969" stroke-width="1.5"/>
+            <text x="66" y="61" font-size="13" font-weight="700" fill="#eef0fb">foreknew</text>
+            <rect x="152" y="36" width="124" height="40" rx="9" fill="rgba(243,201,105,.14)" stroke="#f3c969" stroke-width="2"/>
+            <text x="214" y="61" font-size="13" font-weight="700" fill="#f3c969">predestined</text>
+            <rect x="304" y="36" width="92" height="40" rx="9" fill="rgba(243,201,105,.07)" stroke="#f3c969" stroke-width="1.5"/>
+            <text x="350" y="61" font-size="13" font-weight="700" fill="#eef0fb">called</text>
+            <rect x="424" y="36" width="108" height="40" rx="9" fill="rgba(243,201,105,.07)" stroke="#f3c969" stroke-width="1.5"/>
+            <text x="478" y="61" font-size="13" font-weight="700" fill="#eef0fb">justified</text>
+            <rect x="560" y="36" width="116" height="40" rx="9" fill="rgba(243,201,105,.07)" stroke="#f3c969" stroke-width="1.5"/>
+            <text x="618" y="61" font-size="13" font-weight="700" fill="#eef0fb">glorified</text>
+            <g stroke="#f3c969" stroke-width="1.8" fill="none">
+              <path d="M124 56 H150" marker-end="url(#gc)"/><path d="M276 56 H302" marker-end="url(#gc)"/>
+              <path d="M396 56 H422" marker-end="url(#gc)"/><path d="M532 56 H558" marker-end="url(#gc)"/>
+            </g>
+            <text x="350" y="22" font-size="11.5" fill="#9aa0c4">the golden chain — five linked moves, one flow</text>
+            <text x="350" y="98" font-size="11" fill="#5a6090">the consequence: assurance — "who shall separate us?" (8:31–39)</text>
+          </g>
+        </svg>
+      </figure>
+      <div class="sowhat"><span class="ar">→</span><span>The <b>flow</b> is the within-passage edge. The <b>rhyme</b> (next) is the across-tradition edge — the only one that crosses traditions.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · A SECOND TRADITION + THE RHYME EDGE -->
+<section class="step" data-state="the rhyme">
+  <div class="wrap reveal">
+    <span class="num">5</span>
+    <div class="eyebrow">The bridge · grammar → graph</div>
+    <h2>A second move appears — and the <span class="q">rhyme-edge fires.</span></h2>
+    <p class="lede">A coded move <i>is</i> a node. Its qualifiers <i>are</i> attributes plus links to shared value-nodes. When two moves of the same type meet across traditions, you can draw an edge — a <b>move-rhyme</b>.</p>
+    <div class="card">
+      <div class="muted">Pure Land Buddhism's <b style="color:var(--teal)">tariki</b> ("other-power") is a move with the same shape as Paul's <b style="color:var(--gold)">predestined</b>: both transform a substrate <b>by-grace</b>, the saving power coming from beyond the self. Same move-type, same mechanism sub-value — that shared node is what makes the rhyme <i>computable</i>, not just felt.</div>
+      <figure>
+        <svg viewBox="0 0 700 320" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
+          <defs><marker id="a2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#5a6090"/></marker></defs>
+          <circle cx="150" cy="105" r="36" fill="rgba(243,201,105,.12)" stroke="#f3c969" stroke-width="2"/>
+          <text x="150" y="102" text-anchor="middle" font-size="13" font-weight="700" fill="#eef0fb">predestined</text>
+          <text x="150" y="118" text-anchor="middle" font-size="9.5" fill="#9aa0c4">(Pauline)</text>
+          <text x="150" y="158" text-anchor="middle" font-size="10" fill="#5a6090">type=transform · voice=active</text>
+          <circle cx="550" cy="105" r="32" fill="rgba(95,214,196,.12)" stroke="#5fd6c4" stroke-width="2"/>
+          <text x="550" y="102" text-anchor="middle" font-size="13" font-weight="700" fill="#eef0fb">tariki</text>
+          <text x="550" y="118" text-anchor="middle" font-size="9.5" fill="#9aa0c4">(Pure Land)</text>
+          <text x="550" y="154" text-anchor="middle" font-size="10" fill="#5a6090">type=transform · voice=middle</text>
+          <line x1="188" y1="105" x2="516" y2="105" stroke="#d97706" stroke-width="3"/>
+          <rect x="285" y="86" width="130" height="20" rx="5" fill="#0d0f1a" stroke="#d97706" stroke-width="0.5"/>
+          <text x="350" y="100" text-anchor="middle" font-size="10.5" fill="#d97706">RHYME (same move-type)</text>
+          <rect x="278" y="205" width="144" height="40" rx="8" fill="rgba(255,255,255,.04)" stroke="#9aa0c4" stroke-width="1.2"/>
+          <text x="350" y="222" text-anchor="middle" font-size="11" font-weight="700" fill="#eef0fb">mechanism: by-grace</text>
+          <text x="350" y="237" text-anchor="middle" font-size="9.5" fill="#9aa0c4">a SHARED node — both link here</text>
+          <line x1="165" y1="138" x2="308" y2="205" stroke="#5a6090" stroke-width="1.2" marker-end="url(#a2)"/>
+          <line x1="535" y1="134" x2="392" y2="205" stroke="#5a6090" stroke-width="1.2" marker-end="url(#a2)"/>
+          <rect x="55" y="278" width="160" height="32" rx="8" fill="rgba(243,201,105,.08)" stroke="#f3c969" stroke-width="0.8"/>
+          <text x="135" y="298" text-anchor="middle" font-size="10.5" fill="#eef0fb">telos: union / salvation</text>
+          <rect x="485" y="278" width="160" height="32" rx="8" fill="rgba(95,214,196,.08)" stroke="#5fd6c4" stroke-width="0.8"/>
+          <text x="565" y="298" text-anchor="middle" font-size="10.5" fill="#eef0fb">telos: Pure Land rebirth</text>
+          <text x="350" y="298" text-anchor="middle" font-size="10" fill="#9aa0c4">different telos = the finding</text>
+        </svg>
+        <div class="svgcap">A rhyme is recorded <i>with</i> its differences — "the same move in a different voice."</div>
+      </figure>
+      <div class="illus">Illustrative. No passages have been coded yet (coding = zero) — this shows the <i>design</i> of how a rhyme is drawn, not a result from data.</div>
+      <details class="curious">
+        <summary>For the curious — why shared vocabularies make rhyme computable</summary>
+        <div class="body">
+          Each grammar field <i>is</i> a graph element: a coded move → a <b>node</b>; substrate→operation→outcome → a <b>flow</b>; the qualifiers → node <b>attributes</b> + links to <b>shared value-nodes</b>; the shared sub-values (<i>fasting</i> · <i>by-grace</i> · <i>liberation</i>) → <b>shared nodes</b> many moves link to (the convergence substrate); a move-rhyme → an <b>edge</b>; convergence-degree → node <b>size</b>.<br><br>
+          The one idea that makes it computable: <b>the shared controlled-vocabularies.</b> Without shared labels, every move is an island — no computer can see two traditions line up. With them, <b>convergence becomes "many moves share a neighbor"</b> — exactly what network science computes (shared-neighbor analysis, community detection, graph embedding). "Use shared terms so rhymes are findable" wasn't a nicety; it was the computational substrate.<br><br>
+          <b>Two kinds of comparison:</b> a <b>move-rhyme</b> (the same move across traditions — the headline edge) and an <b>axis-convergence</b> (the same value on one field — both aim at <i>equanimity</i>, both use <i>fasting</i>, both in <i>diaspora</i>). The rhyme edge is the only one that crosses traditions — literally the cross-tradition question drawn as a line.
+        </div>
+      </details>
+      <div class="sowhat"><span class="ar">→</span><span>A shared label turns a felt resemblance into <b>an edge a computer can find.</b> That's the bridge from grammar to graph.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · ZOOM OUT TO THE CONSTELLATION -->
+<section class="step" data-state="the constellation">
+  <div class="wrap reveal">
+    <span class="num star">✦</span>
+    <div class="eyebrow">Zoom out · the constellation</div>
+    <h2>Zoom out: every move is a node, and <span class="q">rhymes are edges.</span></h2>
+    <p class="lede">Do this for the whole garden and the corpus becomes a graph. Size each node by how many traditions rhyme with it — and the most-connected nodes are the candidate portable observations.</p>
+    <div class="card">
+      <figure>
+        <svg viewBox="0 0 700 300" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
+          <!-- edges -->
+          <g stroke="#d97706" stroke-opacity=".5" stroke-width="1.6">
+            <line x1="350" y1="150" x2="150" y2="80"/>
+            <line x1="350" y1="150" x2="560" y2="90"/>
+            <line x1="350" y1="150" x2="180" y2="225"/>
+            <line x1="350" y1="150" x2="540" y2="225"/>
+            <line x1="350" y1="150" x2="350" y2="55"/>
+            <line x1="150" y1="80" x2="180" y2="225" stroke-opacity=".28"/>
+            <line x1="560" y1="90" x2="540" y2="225" stroke-opacity=".28"/>
+          </g>
+          <!-- big central node (high convergence) -->
+          <circle cx="350" cy="150" r="42" fill="rgba(243,201,105,.16)" stroke="#f3c969" stroke-width="2.5"/>
+          <text x="350" y="148" text-anchor="middle" font-size="13" font-weight="700" fill="#eef0fb">surrender /</text>
+          <text x="350" y="164" text-anchor="middle" font-size="13" font-weight="700" fill="#eef0fb">other-power</text>
+          <text x="350" y="206" text-anchor="middle" font-size="10" fill="#9aa0c4">rhymes across 5 traditions →  largest node</text>
+          <!-- satellites, sized by degree -->
+          <g text-anchor="middle">
+            <circle cx="150" cy="80" r="26" fill="rgba(95,214,196,.10)" stroke="#5fd6c4" stroke-width="1.6"/>
+            <text x="150" y="84" font-size="11" font-weight="600" fill="#eef0fb">predestined</text>
+            <circle cx="560" cy="90" r="24" fill="rgba(95,214,196,.10)" stroke="#5fd6c4" stroke-width="1.6"/>
+            <text x="560" y="94" font-size="11" font-weight="600" fill="#eef0fb">tariki</text>
+            <circle cx="180" cy="225" r="20" fill="rgba(95,214,196,.10)" stroke="#5fd6c4" stroke-width="1.4"/>
+            <text x="180" y="229" font-size="10.5" font-weight="600" fill="#eef0fb">fanāʾ</text>
+            <circle cx="540" cy="225" r="20" fill="rgba(95,214,196,.10)" stroke="#5fd6c4" stroke-width="1.4"/>
+            <text x="540" y="229" font-size="10.5" font-weight="600" fill="#eef0fb">prapatti</text>
+            <circle cx="350" cy="55" r="18" fill="rgba(95,214,196,.10)" stroke="#5fd6c4" stroke-width="1.4"/>
+            <text x="350" y="59" font-size="10" font-weight="600" fill="#eef0fb">wu-wei</text>
+          </g>
+          <text x="350" y="288" text-anchor="middle" font-size="11" fill="#5a6090">node size = convergence-degree · gold edges = move-rhymes</text>
+        </svg>
+        <div class="svgcap">Size the nodes by convergence-degree and the picture <i>becomes</i> the comparative question.</div>
+      </figure>
+      <div class="illus">Illustrative constellation. Coding = zero passages; these nodes and edges are a mock of the design, not coded data. The real picture is what the method is built to produce.</div>
+      <div class="sowhat"><span class="ar">→</span><span>The biggest, most-connected nodes would be the moves that recur across the most traditions — the <b>candidate portable, little-t observations.</b></span></div>
+    </div>
+
+    <!-- HONESTY: the gate -->
+    <div class="gate">
+      <h3>What's decided — and what isn't (the next gate)</h3>
+      <div class="muted" style="font-size:14px">The grammar above is <b>decided-so-far · provisional-v1</b>, not final. The instrument was <i>derived, not declared</i> — through a reading-week mining pass, a 6-door bake-off (a primed arm and a blind control), external 5-LLM reviews (one caught an over-narrow "operation-atom"), a researcher walk-through, and a Romans prototype-test that held across 107 verses from two independent reads. Three axes are validated-gold (voice · basis · telos); others are still settling.</div>
+      <ol>
+        <li><b>14 held-out seeds</b> — the attribute-set is frozen, then coded against traditions it hasn't seen, to test that it doesn't break.</li>
+        <li><b>A human non-Indo-European typologist</b> reviews the contested labels (e.g. "stative") before anything locks.</li>
+        <li><b>Then — and only then —</b> the spine locks. Until then: candidate, not finding.</li>
+      </ol>
+    </div>
+
+    <div class="next">
+      <b>Where this leaves us:</b> a single coding instrument — set the world, code the move, tag it on five shared axes — that turns each move into a node and each cross-tradition rhyme into an edge.<br><br>
+      <b>What the graph then shows</b> — where traditions rhyme, and where they diverge — is the next question. This page is just how <em>one move</em> becomes something you can compare.
+    </div>
+
+    <div style="text-align:center;margin-top:18px">
+      <button class="btn ghost" id="restart">↺ replay the coding from the top</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  How the coding instrument works, for someone meeting the project for the first time.<br>
+  <b>Romans 8:28–30 · "predestined"</b> is the demonstration move; the <b>tariki</b> rhyme and the constellation are illustrative — coding is at zero, no passages coded yet. Provisional-v1; nothing locked.<br><br>
+  Grammar of Meaning · Library · Essays · the Garden · Method
+  <!-- HOW PRODUCED: design-SB / Claude, 2026-06-19 — bake-off entry 2 of 3 (WEB SCROLLYTELLING idiom, engine.html sibling) for the grammar walkthrough. Built from HANDOVER_designSB_engine_grammar_walkthrough_2026-06-19.md (the spec: 12-field grammar, grammar→graph bridge, Romans 8:28-30 worked example, scrollytelling sequence). Subtables lifted VERBATIM from grammar_codebook_interactive_2026-06-18.html (voice · mechanism · basis · telos · sitz 4-layer + 10-category + whose-sitz). Rhyme diagram adapted from grammar_to_graph_2026-06-19.html. Dark night-sky skin + pinned-token mechanic + data-state + home pill + noindex + "for the curious" folds match web/site-deploy/engine.html. SCHOLARLY SOURCES: the codebook (the grammar + value-lists + tests, verbatim), the grammar→graph bridge doc, the handover spec, CLAUDE.md §2.1 (candidate; Stage 6 = 0 coded passages — "decided so far," never final), §2.6 (controlled-vocab convergence substrate). WHAT NEEDS VERIFICATION: (1) provisional-v1 — the "next gate" (14 held-out seeds + a human typologist) is rendered visibly; presented as decided-so-far, never locked. (2) subtables are verbatim codebook content (design-SB lifts, does not paraphrase). (3) every populated rhyme/constellation example labelled "illustrative" — coding = 0, no coded data exists; the interface does not imply otherwise. (4) framing: moves → rhyme/analogy; never "convergence without contact / no contact / arising independently"; "rhyme is computable" is method, not finding. (5) naming: "the Garden" (never "Luminous Archive"); Library · Essays · Garden · Method. -->
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  /* stars */
+  var starsEl=document.getElementById('stars');
+  for(var i=0;i<80;i++){var s=document.createElement('div');s.className='star';var sz=Math.random()*2+1;
+    s.style.width=sz+'px';s.style.height=sz+'px';s.style.left=(Math.random()*100)+'%';s.style.top=(Math.random()*100)+'%';
+    starsEl.appendChild(s);(function(el,d){setTimeout(function(){el.style.opacity=(Math.random()*0.6+0.15).toFixed(2);},d);})(s,Math.random()*1800);}
+
+  /* rail */
+  var railfill=document.getElementById('railfill');
+  function onScroll(){var h=document.documentElement.scrollHeight-window.innerHeight;railfill.style.width=((h>0?window.scrollY/h:0)*100)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});
+
+  /* reveal */
+  var reveals=[].slice.call(document.querySelectorAll('.reveal'));
+  var ro=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in');});},{threshold:0.14});
+  reveals.forEach(function(r){ro.observe(r);});
+
+  /* ===== the pinned STAGE — fills in / transforms by data-state ===== */
+  var stage=document.getElementById('stage'),stagenow=document.getElementById('stagenow');
+  var sgSitz=document.getElementById('sgSitz'),sgPara=document.getElementById('sgParadigm');
+  var spineNodes=[].slice.call(document.querySelectorAll('#stage .sg-node'));
+  var spineArrows=[].slice.call(document.querySelectorAll('#stage .sg-arrow'));
+  var quals=[].slice.call(document.querySelectorAll('#stage .sg-q'));
+  var sgGraph=document.getElementById('sgGraph');
+  var sgEdge=document.getElementById('sgEdge'),sgEdgeLab=document.getElementById('sgEdgeLab'),sgEdgeTxt=document.getElementById('sgEdgeTxt');
+  var sgN2=document.getElementById('sgN2'),sgN2a=document.getElementById('sgN2a'),sgN2b=document.getElementById('sgN2b');
+
+  function setNode(on){spineNodes.forEach(function(n){n.classList.toggle('on',on);});spineArrows.forEach(function(a){a.classList.toggle('on',on);});}
+  function setQuals(on){quals.forEach(function(q){q.classList.toggle('on',on);});}
+  function setEdge(on){[sgEdge,sgEdgeLab,sgEdgeTxt,sgN2,sgN2a,sgN2b].forEach(function(el){el.setAttribute('opacity',on?'1':'0');});}
+
+  // ordered states: drives a cumulative "fill" — later states keep earlier ones on
+  var order=['the world','the move','the qualifiers','the rhyme','the constellation'];
+  function applyState(st){
+    if(!st)return;
+    var idx=order.indexOf(st); if(idx<0)return;
+    stagenow.textContent=st;
+    // sitz + paradigm appear from "the world" onward
+    var worldOn=idx>=0; sgSitz.classList.toggle('on',worldOn); sgPara.classList.toggle('on',worldOn);
+    // spine from "the move" onward
+    setNode(idx>=1);
+    // qualifiers from "the qualifiers" onward
+    setQuals(idx>=2);
+    // rhyme graph from "the rhyme" onward
+    sgGraph.classList.toggle('on',idx>=3);
+    setEdge(idx>=3);
+    // constellation note (stage stays as the rhyme picture; head label updates)
+  }
+
+  var so=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting&&e.intersectionRatio>0.4){
+      var st=e.target.getAttribute('data-state');
+      if(st){stage.classList.add('show');applyState(st);}
+    }
+  });},{threshold:[0.4]});
+  [].slice.call(document.querySelectorAll('.step')).forEach(function(s){so.observe(s);});
+
+  // hide stage over hero
+  var hero=document.querySelector('.hero');
+  new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.5)stage.classList.remove('show');});},{threshold:[0.5]}).observe(hero);
+
+  /* restart */
+  document.getElementById('restart').addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+  onScroll();
+})();
+</script>
+</body>
+</html>
