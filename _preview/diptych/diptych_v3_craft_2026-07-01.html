@@ -1,0 +1,259 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The same silences, filled three ways — Demonstration 1</title>
+<!-- grammar-version: reception-discrimination v3 craft (2026-07-01) · content locked to diptych_narrative_v2 (bible §9) · form: Design-SB craft bake-off winner (Storyteller + grafts) · STAGED, not deployed -->
+<style>
+:root{
+ --ink:#221c14; --parch:#fbf6ec; --parch2:#f4ecd9; --line:#e3dac6; --mut:#8a7d63; --soft:#fcfbf6; --soil:#6b5436;
+ --green:#3f5a39; --green-bg:#e7efe1; --gold:#b8893a; --gold-l:#d8b25f;
+ --rust:#a8631f; --rust-bg:#f4e7d7; --violet:#6a4a72; --violet-bg:#efe7f2;
+ --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+ --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--parch);color:var(--ink);font-family:var(--serif);line-height:1.65;font-size:19px}
+a.home{position:fixed;top:14px;left:16px;z-index:99;font:600 13px/1 var(--sans);color:var(--green);text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px}
+.pbar{position:sticky;top:0;z-index:60;background:repeating-linear-gradient(45deg,#fbf0d6,#fbf0d6 12px,#f6e8c4 12px,#f6e8c4 24px);border-bottom:1px dashed #c79a5a;color:#6b4f1e;font:600 12px/1.4 var(--sans);text-align:center;padding:7px 14px}
+.pbar b{color:#8a5a14}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+.eyebrow{font:700 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+h1{font-size:clamp(34px,6vw,46px);line-height:1.12;margin:.2em 0 .3em;font-weight:700}
+h2.sec{font:700 13px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin:0 0 10px}
+.lede{font-size:clamp(20px,3vw,23px);color:var(--soil);font-style:italic}
+.small{font-size:16px;color:var(--mut)} .kk{font:700 12px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase}
+p{margin:.7em 0}
+/* scroll-reveal — default visible; enabled only when body.js */
+.reveal{}
+body.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+body.js .reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){body.js .reveal{opacity:1;transform:none;transition:none}}
+.act{padding:8vh 0;border-top:1px solid var(--line)}
+.act:first-of-type{border-top:0;padding-top:5vh}
+/* verse chain */
+.chain{margin:18px 0;border:1px solid var(--line);border-radius:12px;background:var(--soft);overflow:hidden}
+.setrow{background:var(--parch2);padding:13px 18px;font-size:17px;border-bottom:1px solid var(--line)}
+.link{display:flex;align-items:baseline;gap:14px;padding:12px 18px;border-bottom:1px dashed var(--line)}
+.link:last-child{border-bottom:0}
+.link .n{font:700 11px/1.3 var(--sans);color:var(--gold);min-width:64px;letter-spacing:.06em;text-transform:uppercase}
+.link .t{font-size:20px} .link .t b{color:var(--green);background:linear-gradient(transparent 62%,rgba(184,137,58,.22) 0)}
+/* holes (the silences) */
+.hole{background:var(--soft);border:1px solid var(--line);border-left:4px solid var(--gold-l);border-radius:0 12px 12px 0;padding:15px 20px;margin:13px 0}
+.hole .code{font:700 13px/1 var(--sans);letter-spacing:.06em;color:var(--gold)}
+.hole .q{font-size:22px;margin:5px 0 6px} .hole .why{font-size:16px;color:var(--mut)}
+/* readers */
+.reader{border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0;background:var(--soft)}
+.reader .nm{font-size:23px;font-weight:700;display:flex;align-items:center;gap:9px}
+.reader .when{font:600 13px/1.4 var(--sans);color:var(--mut);margin:3px 0 9px}
+.reader .theo{font-size:17px} .reader .theo b{color:var(--ink)}
+.reader .src{font-size:13px;color:var(--mut);font-style:italic;margin-top:9px}
+.reader.aug{border-top:4px solid var(--green)} .reader.aq{border-top:4px solid var(--violet)} .reader.arm{border-top:4px solid var(--rust)}
+.chip{width:13px;height:13px;border-radius:50%;flex:none}
+.c-aug{background:var(--green)} .c-aq{background:var(--violet)} .c-arm{background:var(--rust)}
+/* ===== the sticky-spine scrolly (the winning move) ===== */
+.scrolly{display:grid;grid-template-columns:300px 1fr;gap:34px;align-items:start;max-width:1040px;margin:0 auto;padding:0 24px}
+@media(max-width:820px){.scrolly{grid-template-columns:1fr;gap:0}}
+.spinewrap{position:sticky;top:64px;align-self:start}
+@media(max-width:820px){.spinewrap{position:sticky;top:34px;z-index:40;background:var(--parch);padding:8px 0;margin:0 -24px;box-shadow:0 6px 12px -8px rgba(80,60,20,.25)}.spinewrap .setrow{display:none}}
+.spine{border:1px solid var(--line);border-radius:12px;background:var(--soft);overflow:hidden}
+.spine .sh{font:700 10.5px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--mut);padding:11px 15px 6px}
+.sl{display:flex;align-items:baseline;gap:9px;padding:8px 15px;font-size:15px;color:#8b8064;transition:.3s}
+.sl b{color:#8b8064;transition:.3s}
+.sl .sn{font:700 9px/1 var(--sans);color:#c9bf9e;min-width:16px}
+.spine.h-B2 [data-lk="1"] b,.spine.h-B1 [data-lk] b,.spine.h-B3 [data-lk] b{color:var(--green)} /* which links light per hole */
+.spine.h-B2 [data-lk="1"],.spine.h-B1 [data-lk],.spine.h-B3 [data-lk]{color:var(--ink)}
+.spine.h-B2 [data-lk="1"]{background:rgba(184,137,58,.14)}
+.spine.h-B1 [data-lk]{background:rgba(184,137,58,.09)} .spine.h-B3 [data-lk]{background:rgba(184,137,58,.09)}
+.gapcap{font:600 12.5px/1.4 var(--sans);color:var(--soil);padding:10px 15px;border-top:1px solid var(--line);background:#fff8ea;min-height:52px}
+/* the beats */
+.beat{min-height:74vh;display:flex;flex-direction:column;justify-content:center;padding:6vh 0}
+.beat .code{font:700 13px/1 var(--sans);letter-spacing:.06em;color:var(--gold)}
+.beat .q{font-size:26px;margin:5px 0 4px;font-weight:700}
+.beat .gapnote{font-size:16px;color:var(--mut);margin:0 0 16px}
+/* the mirror — Augustine left, Arminian right; Aquinas beneath */
+.mirror{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.mirror{grid-template-columns:1fr}}
+.fill{border:1px solid var(--line);border-radius:11px;padding:13px 16px;font-size:17px}
+.fill .who{font:700 12px/1 var(--sans);letter-spacing:.03em;text-transform:uppercase;display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.fill.aug{background:var(--green-bg)} .fill.aug .who{color:var(--green)} .fill.aug{border-left:3px solid var(--green)}
+.fill.arm{background:var(--rust-bg)} .fill.arm .who{color:var(--rust)} .fill.arm{border-right:3px solid var(--rust);text-align:right}
+.fill.arm .who{justify-content:flex-end}
+.third{margin:12px 0 0;border:1px solid var(--line);border-left:3px solid var(--violet);background:var(--violet-bg);border-radius:11px;padding:13px 16px;font-size:17px}
+.third .who{font:700 12px/1 var(--sans);text-transform:uppercase;color:var(--violet);display:flex;align-items:center;gap:6px;margin-bottom:6px}
+/* per-hole spectrum */
+.spectrum{margin:18px 0 0;border-top:1px dashed var(--line);padding-top:16px}
+.spectrum .lab{display:flex;justify-content:space-between;font:700 11px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin-bottom:8px}
+.track{position:relative;height:14px;background:linear-gradient(90deg,var(--green-bg),var(--parch2),var(--rust-bg));border:1px solid var(--line);border-radius:20px}
+.pin{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;transform:translate(-50%,-50%);border:2px solid var(--soft);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.pin.aug{background:var(--green)} .pin.aq{background:var(--violet)} .pin.arm{background:var(--rust)}
+.pinlab{position:absolute;top:-17px;transform:translateX(-50%);font:600 9px/1 var(--sans);white-space:nowrap}
+.shape{font-size:16px;font-style:italic;color:var(--soil);margin-top:14px} .shape b{font-style:normal;color:var(--ink)}
+/* payoff */
+.payoff{background:var(--parch2);border:1px solid var(--gold-l);border-radius:14px;padding:24px 26px}
+.payoff p{font-size:18px} .payoff b{color:var(--ink)}
+.honesty{font:400 14px/1.55 var(--sans);color:var(--soil);background:var(--soft);border:1px dashed var(--gold-l);border-radius:10px;padding:13px 17px;margin-top:16px}
+.honesty b{color:var(--ink)}
+.foot{color:var(--mut);font:13px/1.6 var(--sans);text-align:center;padding:44px 0 70px;border-top:1px solid var(--line);margin-top:20px}
+</style></head><body>
+<a href="index.html" class="home">← Grammar of Meaning</a>
+<div class="pbar">⏸ <b>STAGED — craft version for review.</b> Demonstration 1 of "The Method at Work." Content locked to bible §9 · deploy PARKED.</div>
+
+<div class="wrap">
+  <!-- ACT 0 — HERO -->
+  <div class="act reveal" style="text-align:center">
+    <div class="eyebrow">The Method at Work · Demonstration 1</div>
+    <h1>The same silences,<br>filled three ways</h1>
+    <p class="lede">A famous passage leaves three questions unanswered. Watch three readers, eight centuries apart, walk up to the exact same gaps — and fill them differently.</p>
+    <p class="small">This validates the <b>instrument</b> — that the gaps are really in the text, and that the method can sort who fills them. It is not a claim about who is right. &nbsp;Scroll ↓</p>
+  </div>
+
+  <!-- ACT 1 — THE VERSE -->
+  <div class="act reveal">
+    <h2 class="sec">First — what the text says</h2>
+    <p>Paul, writing to Rome around 57 CE, builds a chain. Five links, and God is the actor of every one — the passage later called <i>the golden chain</i>.</p>
+    <div class="chain">
+      <div class="setrow"><span class="kk" style="color:var(--mut)">who it's about</span> — “those who love God, who are called according to his purpose”: a set named two ways at once, a <b>human</b> verb (they love God) and a <b>divine</b> one (God called them).</div>
+      <div class="link"><span class="n">link 1</span><span class="t">those whom he <b>foreknew</b></span></div>
+      <div class="link"><span class="n">link 2</span><span class="t">he also <b>predestined</b> — to be conformed to the image of his Son</span></div>
+      <div class="link"><span class="n">link 3</span><span class="t">those whom he predestined he also <b>called</b></span></div>
+      <div class="link"><span class="n">link 4</span><span class="t">those whom he called he also <b>justified</b></span></div>
+      <div class="link"><span class="n">link 5</span><span class="t">those whom he justified he also <b>glorified</b></span></div>
+    </div>
+    <p class="small">Rom 8:28–30 (NRSVUE). The set that enters at <i>foreknew</i> exits, intact, at <i>glorified</i> — welded, no one added or lost.</p>
+  </div>
+
+  <!-- ACT 2 — THE SILENCES -->
+  <div class="act reveal">
+    <h2 class="sec">Then — what it doesn't say</h2>
+    <p>The chain is airtight about the <i>sequence</i>. But its own grammar raises three questions it never answers. These are the <b>negative space</b> — not gaps we invented, but questions the text itself opens and leaves open.</p>
+    <div class="hole"><span class="code">B2 · the basis</span><div class="q">Foreknew <i>on what ground?</i></div><div class="why">It names the act — “those whom he foreknew” — but never its criterion. Foreknew <i>what</i> about them? Their faith? The love it just mentioned? Nothing they did at all?</div></div>
+    <div class="hole"><span class="code">B1 · the reprobate</span><div class="q">And <i>those he did not</i> foreknow?</div><div class="why">The chain describes only the included set. Naming a chosen group implies an un-chosen one — but the text says nothing about who they are, or what becomes of them.</div></div>
+    <div class="hole"><span class="code">B3 · the agency</span><div class="q">Where does the human <i>enter?</i></div><div class="why">Verse 28 says the set “loves God” — a human act. Then every link is God's verb, the person only the object. The loving is never re-connected to the chain. Do we do anything?</div></div>
+    <p class="small">Three obligated silences. Now watch what happens when serious readers meet them.</p>
+  </div>
+
+  <!-- ACT 3 — THE READERS -->
+  <div class="act reveal">
+    <h2 class="sec">Three readers, eight centuries</h2>
+    <p>They are not strangers to each other — each reads the two before him. But they read from different worlds (their <i>Sitz</i> — the when, where, and how-the-world-was that shapes a reading).</p>
+    <div class="reader aug">
+      <div class="nm"><span class="chip c-aug"></span>Augustine of Hippo</div>
+      <div class="when">354–430 CE · Roman North Africa (Hippo, in modern Algeria) · bishop</div>
+      <div class="theo"><b>Predestinarian.</b> The late Augustine, arguing against Pelagius: grace is unearned and unstoppable; election rests on God's inscrutable will, not on anything he foresaw us do.</div>
+      <div class="src">coded text: <i>On Rebuke and Grace</i>, c. 427</div>
+    </div>
+    <div class="reader aq">
+      <div class="nm"><span class="chip c-aq"></span>Thomas Aquinas</div>
+      <div class="when">1225–1274 · Italy &amp; Paris · Dominican friar, the great scholastic</div>
+      <div class="theo"><b>The mediator.</b> Grounds election in God's goodness (not foreseen merit, with Augustine) — but insists our free will is a <i>real</i> cause operating <i>inside</i> God's larger causing. Holds both.</div>
+      <div class="src">coded text: <i>Summa Theologiae</i> I, q. 23, c. 1266</div>
+    </div>
+    <div class="reader arm">
+      <div class="nm"><span class="chip c-arm"></span>The Arminian</div>
+      <div class="when">after Jacobus Arminius (d. 1609, Dutch) &amp; the Remonstrants; carried by John Wesley &amp; the Methodists</div>
+      <div class="theo"><b>Synergist.</b> God elects those he foreknows will freely believe; the will is a genuine, independent power; unconditional reprobation is rejected as a “horrible decree.”</div>
+      <div class="src">coded text: an Arminian sermon in <i>The Calvinistic Controversy</i>, 1837 — the Wesleyan-Arminian line (not Wesley himself)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ACT 4 — HOLE BY HOLE (sticky spine + scrolling beats) -->
+<div class="act" style="border-top:1px solid var(--line);padding-top:6vh">
+  <div class="wrap reveal"><h2 class="sec">Hole by hole — the same three gaps, three fills each</h2>
+  <p class="small">The verse stays with you on the left; each gap lights on the chain as you reach it.</p></div>
+  <div class="scrolly">
+    <div class="spinewrap">
+      <div class="spine" id="spine">
+        <div class="sh">Romans 8 · the golden chain</div>
+        <div class="sl" data-lk="1"><span class="sn">1</span><b>foreknew</b></div>
+        <div class="sl" data-lk="2"><span class="sn">2</span><b>predestined</b></div>
+        <div class="sl" data-lk="3"><span class="sn">3</span><b>called</b></div>
+        <div class="sl" data-lk="4"><span class="sn">4</span><b>justified</b></div>
+        <div class="sl" data-lk="5"><span class="sn">5</span><b>glorified</b></div>
+        <div class="gapcap" id="gapcap">The gap in view will name itself here as you scroll.</div>
+      </div>
+    </div>
+    <div class="steps">
+
+      <div class="beat" data-hole="B2">
+        <div class="code">B2 · the basis of election</div>
+        <div class="q">Foreknew on what ground?</div>
+        <div class="gapnote">The chain begins at “foreknew” — but never says on what ground. The silence sits on link 1.</div>
+        <div class="mirror">
+          <div class="fill aug"><span class="who"><span class="chip c-aug"></span>Augustine</span>Sheer grace — God's bare purpose. <i>Not</i> anything we did.</div>
+          <div class="fill arm"><span class="who">The Arminian<span class="chip c-arm"></span></span>Foreknowledge of a foreseen <i>response</i> — God elects those he sees will believe, and foreknowing comes <i>first</i>.</div>
+        </div>
+        <div class="third"><span class="who"><span class="chip c-aq"></span>Aquinas · the third reader</span>God's own goodness, resolving into his sheer will — and he <i>rejects</i> the foreseen-merit view outright.</div>
+        <div class="spectrum">
+          <div class="lab"><span>predestinarian pole</span><span>Arminian pole</span></div>
+          <div class="track"><span class="pin aug" style="left:9%"><span class="pinlab" style="color:var(--green)">Augustine</span></span><span class="pin aq" style="left:17%"><span class="pinlab" style="color:var(--violet)">Aquinas</span></span><span class="pin arm" style="left:91%"><span class="pinlab" style="color:var(--rust)">Arminian</span></span></div>
+          <div class="shape"><b>Near-binary.</b> Augustine and Aquinas sit almost on top of each other; only the Arminian is apart. On the <i>ground</i> of election the dispute is nearly categorical — two-against-one, not a spread.</div>
+        </div>
+      </div>
+
+      <div class="beat" data-hole="B1">
+        <div class="code">B1 · reprobation</div>
+        <div class="q">And those he did not foreknow?</div>
+        <div class="gapnote">The chain names only the saved. Its silence is the whole God-subject chain — the un-chosen appear nowhere.</div>
+        <div class="mirror">
+          <div class="fill aug"><span class="who"><span class="chip c-aug"></span>Augustine</span>Affirmed — the non-foreknown perish; they were never truly God's.</div>
+          <div class="fill arm"><span class="who">The Arminian<span class="chip c-arm"></span></span>Denied — by moral recoil. An unconditional decree of damnation is the “horrible decree.”</div>
+        </div>
+        <div class="third"><span class="who"><span class="chip c-aq"></span>Aquinas · the third reader</span>Real, but <i>permitted, not caused</i> — God “endures” them (a gift withheld, not an injustice done).</div>
+        <div class="spectrum">
+          <div class="lab"><span>predestinarian pole</span><span>Arminian pole</span></div>
+          <div class="track"><span class="pin aug" style="left:9%"><span class="pinlab" style="color:var(--green)">Augustine</span></span><span class="pin aq" style="left:48%"><span class="pinlab" style="color:var(--violet)">Aquinas</span></span><span class="pin arm" style="left:91%"><span class="pinlab" style="color:var(--rust)">Arminian</span></span></div>
+          <div class="shape"><b>A genuine spectrum.</b> Here the three spread out — Aquinas stakes a real middle (affirms it, softens the mechanism). On the <i>mechanism</i>, the dispute is gradient, not either/or.</div>
+        </div>
+      </div>
+
+      <div class="beat" data-hole="B3">
+        <div class="code">B3 · where agency enters</div>
+        <div class="q">Do we do anything?</div>
+        <div class="gapnote">Verse 28's human “loving” is never re-connected to the chain; every link past it is God's verb.</div>
+        <div class="mirror">
+          <div class="fill aug"><span class="who"><span class="chip c-aug"></span>Augustine</span>Absorbed — even our perseverance is God's gift; the human act folds into God's purpose.</div>
+          <div class="fill arm"><span class="who">The Arminian<span class="chip c-arm"></span></span>Independent — free choice is a self-evident power the chain must accommodate.</div>
+        </div>
+        <div class="third"><span class="who"><span class="chip c-aq"></span>Aquinas · the third reader</span>Double-causality — free will is a <i>real</i> secondary cause, whose every effect is still “of predestination.”</div>
+        <div class="spectrum">
+          <div class="lab"><span>predestinarian pole</span><span>Arminian pole</span></div>
+          <div class="track"><span class="pin aug" style="left:9%"><span class="pinlab" style="color:var(--green)">Augustine</span></span><span class="pin aq" style="left:54%"><span class="pinlab" style="color:var(--violet)">Aquinas</span></span><span class="pin arm" style="left:91%"><span class="pinlab" style="color:var(--rust)">Arminian</span></span></div>
+          <div class="shape"><b>A genuine spectrum.</b> Again the three spread — Aquinas's “real but contained” agency is a stable centre between absorption and independence.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ACT 5 — PAYOFF -->
+<div class="wrap">
+  <div class="act reveal">
+    <h2 class="sec">What just happened</h2>
+    <div class="payoff">
+      <p style="margin-top:0">Three readers met the <i>same three silences</i> and filled them differently. That two facts hold at once is the whole point:</p>
+      <p>— They found the <b>same</b> holes → the holes belong to the <b>text</b>, not to any one reader's bias.</p>
+      <p>— They filled them <b>differently</b> → the map <b>sorts</b> the readers who fight over them.</p>
+      <p>And it sorts more than <i>where</i> they stand. It shows the <b>shape of the dispute</b>: the <b>ground</b> (B2) is nearly categorical — you're basically predestinarian or you're not — while the <b>mechanisms</b> (B1, B3) open real spectra, room for a mediator like Aquinas to stand in the middle. The negative-space map tells you <i>which questions are either/or and which are a matter of degree.</i></p>
+    </div>
+    <div class="honesty"><b>Sorted, not scored.</b> The instrument places the readers; it never says which fill is correct. And it validates the <i>method</i>, not any claim about religion — these are candidates, not findings; no passage is coded yet (Stage-6 coding = 0).</div>
+  </div>
+  <div class="foot">design-SB · craft version (v3) of the reception-discrimination demonstration · content locked to bible §9 (backbone: diptych_narrative_v2) · form: craft bake-off winner (Storyteller + grafts) · 2026-07-01 · staged, not deployed</div>
+</div>
+
+<script>
+document.body.classList.add('js');
+var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.14});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+// sticky-spine sync: light the active hole's links + name the gap
+var spine=document.getElementById('spine'), gapcap=document.getElementById('gapcap');
+var caps={B2:'▸ B2 · the basis — “foreknew on what ground?” (link 1)',B1:'▸ B1 · reprobation — “and those he did not foreknow?” (the whole chain)',B3:'▸ B3 · agency — “where does the human enter?” (the whole chain)'};
+var sobs=new IntersectionObserver(function(es){es.forEach(function(e){
+  if(e.isIntersecting){var h=e.target.getAttribute('data-hole');
+    spine.classList.remove('h-B2','h-B1','h-B3');spine.classList.add('h-'+h);
+    if(gapcap)gapcap.textContent=caps[h];}
+});},{rootMargin:'-40% 0px -40% 0px'});
+document.querySelectorAll('.beat').forEach(function(b){sobs.observe(b);});
+</script>
+</body></html>
