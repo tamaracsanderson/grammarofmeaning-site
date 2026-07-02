@@ -1,0 +1,95 @@
+/* ============================================================================
+   gom.css — Grammar of Meaning shared design system (v0, the "garden" skin)
+   ----------------------------------------------------------------------------
+   THE SINGLE SOURCE OF TRUTH for the site's look. Every doc posted to the site
+   links this:  <link rel="stylesheet" href="assets/gom.css">  (adjust the path
+   depth if the doc sits in a subfolder).
+   To restyle the WHOLE site (e.g. when the final skin from the prototypes /
+   Lovable is chosen) → change the tokens in :root here, once. Everything updates.
+   Doc-specific styles stay in that doc's own <style>; SHARED look lives here.
+   ============================================================================ */
+
+:root{
+  /* ---- palette (the garden skin) ---- */
+  --ink:#221c14;        /* primary text */
+  --parch:#fbf6ec;      /* page background */
+  --parch2:#f4ecd9;     /* raised background / header wash */
+  --line:#e3dac6;       /* hairlines / borders */
+  --mut:#8a7d63;        /* muted / secondary text */
+  --soft:#fcfbf6;       /* card background */
+  --moss:#5a7a52; --moss-d:#3f5a39;   /* green accent (links, success) */
+  --gold:#b8893a; --gold-l:#d8b25f;   /* gold accent (eyebrow, highlight) */
+  --soil:#6b5436;       /* brown */
+  --plum:#6a4a72;       /* violet accent */
+  /* ---- the three channels (consistent color-coding everywhere) ---- */
+  --engine:#8a6a3a; --engine-bg:#f6efe2;
+  --voice:#6a4a72;  --voice-bg:#f4eef6;
+  --garden:#4f6e46; --garden-bg:#eef3e9;
+  /* ---- status colors ---- */
+  --st-ready:#3f5a39; --st-ready-bg:#e1efdb;
+  --st-draft:#8a7320; --st-draft-bg:#f1ece0;
+  --st-concept:#6a4a72; --st-concept-bg:#efe7f2;
+  --st-live:#3f5a39; --st-live-bg:#d7ead0;
+  /* ---- type ---- */
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,Menlo,"JetBrains Mono",monospace;
+  /* ---- shape / rhythm ---- */
+  --radius:12px; --radius-sm:8px;
+  --maxw:1040px;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--parch);color:var(--ink);font:16px/1.6 var(--serif)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px 70px}
+a{color:var(--moss-d)} em{color:var(--moss-d);font-style:italic} strong,b{color:var(--soil)}
+
+/* ---- standard header / hero ---- */
+.gom-header{text-align:center;padding:50px 22px 32px;border-bottom:1px solid var(--line);
+  background:radial-gradient(120% 90% at 50% -20%,rgba(232,199,102,.26),transparent 60%),linear-gradient(180deg,var(--parch2),var(--parch))}
+.eyebrow{font:600 12px/1.4 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 9px}
+h1{font-size:clamp(28px,5vw,44px);margin:0 0 8px;font-weight:700;letter-spacing:-.01em}
+h2{font-size:clamp(22px,4vw,30px);margin:0 0 14px;font-weight:700}
+h3{font:700 18px/1.3 var(--sans);margin:0 0 6px}
+.tagline{font-size:clamp(22px,3.4vw,32px);font-weight:700;margin:6px 0 8px;letter-spacing:-.01em}
+.sub{font-style:italic;color:var(--moss-d);font-size:clamp(15px,2.2vw,19px);margin:0 auto;max-width:50ch}
+.summary{font-size:15px;line-height:1.65;color:#4a4133;max-width:62ch;margin:16px auto 0;text-align:left}
+.summary b{color:var(--moss-d)}
+.mut{color:var(--mut)}
+
+/* ---- cards ---- */
+.card{display:block;border:1px solid var(--line);border-radius:var(--radius-sm);padding:11px 13px;
+  background:var(--soft);text-decoration:none;color:inherit;transition:.12s}
+.card:hover{box-shadow:0 3px 12px rgba(80,60,20,.10);transform:translateY(-1px)}
+.card.star{background:linear-gradient(180deg,rgba(232,199,102,.13),#fff);border-color:var(--gold-l)}
+
+/* ---- status badges ---- */
+.st{font:700 9.5px/1.3 var(--sans);border-radius:4px;padding:1px 6px;text-transform:uppercase;letter-spacing:.03em;display:inline-block}
+.st.ready{background:var(--st-ready-bg);color:var(--st-ready)}
+.st.draft{background:var(--st-draft-bg);color:var(--st-draft)}
+.st.concept{background:var(--st-concept-bg);color:var(--st-concept)}
+.st.live{background:var(--st-live-bg);color:var(--st-live)}
+
+/* ---- tables ---- */
+table{border-collapse:collapse;width:100%;font-size:14.5px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+thead th{background:var(--parch2);text-align:left;font:700 11px/1.3 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:#6a5d44;padding:10px 12px;border-bottom:1px solid var(--line)}
+tbody td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--soft)}
+
+/* ---- misc ---- */
+code,kbd{font-family:var(--mono);font-size:.92em;background:#f3efe5;border-radius:4px;padding:0 4px}
+.gom-foot{font:13px/1.6 var(--sans);color:var(--mut);border-top:1px solid var(--line);margin-top:34px;padding-top:16px}
+.hide{display:none}
+
+/* ============================================================================
+   HOW PRODUCED. design-SB, 2026-06-17 — shared design system so all docs posted
+   to grammarofmeaning.org share one look + are restyled from one file. v0 = the
+   "garden" skin (parchment/moss/gold), the de-facto look across the hub/pitch/
+   landing; codified here as swappable tokens. SCHOLARLY SOURCES. the garden
+   palette established in pilgrimage_pitch_v0 + the catalog landing; Universal
+   Principles of Design (consistency, hierarchy). WHAT NEEDS VERIFICATION.
+   (1) when the final skin is chosen (prototypes/Lovable), update :root tokens
+   here; (2) existing docs are retrofitted to link this incrementally (as each is
+   finalized), not all at once; (3) docs in subfolders adjust the href depth.
+   ============================================================================ */

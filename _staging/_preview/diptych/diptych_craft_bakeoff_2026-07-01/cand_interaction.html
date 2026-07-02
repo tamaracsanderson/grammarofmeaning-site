@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Reception discrimination — Romans 8:28–30 · Grammar of Meaning</title>
+<style>
+:root{
+  --ink:#221c14; --parch:#fbf6ec; --parch2:#f4ecd9; --line:#e3dac6; --mut:#8a7d63;
+  --moss:#3f5a39; --moss-d:#2f4a2c; --gold:#b8893a; --soft:#fcfbf6;
+  --clay:#a5622c; --clay-d:#7a441c; --plum:#6a4a63; --plum-d:#4e3548;
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--parch);color:var(--ink);font-family:var(--serif);line-height:1.6;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:820px;margin:0 auto;padding:44px 26px 70px}
+
+/* standfirst / honesty channel #1 */
+.eyebrow{font:700 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+h1{font-size:32px;line-height:1.12;margin:0 0 14px;font-weight:600;letter-spacing:-.01em}
+.standfirst{font-size:18px;line-height:1.6;color:#2c2418;max-width:680px;margin:0 0 8px}
+.standfirst .flag{color:var(--moss-d);font-style:italic}
+.doing{font:600 13.5px/1.5 var(--sans);color:var(--mut);background:var(--parch2);border:1px solid var(--line);
+  border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:11px 16px;margin:18px 0 6px;max-width:680px}
+.doing b{color:var(--moss-d)}
+.rule{width:54px;height:2px;background:var(--gold);opacity:.55;margin:34px 0;border:0}
+
+/* ============ OVERVIEW: the verse with clickable holes ============ */
+.stage{margin:30px 0 6px}
+.stage-lab{font:700 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-bottom:6px}
+.stage-lab .step{color:var(--gold)}
+.verse{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:26px 30px;
+  font-size:20px;line-height:1.75;color:#2c2418;position:relative}
+.verse .ref{display:block;font:600 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--mut);margin-bottom:14px}
+.verse .chainv{color:var(--moss-d);font-weight:600;font-variant:small-caps;letter-spacing:.02em}
+
+/* the golden chain rail */
+.chainrail{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:18px 0 4px;
+  font:600 13px/1 var(--sans);letter-spacing:.03em;color:var(--moss-d)}
+.chainrail .link{background:#eef2ea;border:1px solid #cddac6;border-radius:20px;padding:6px 13px}
+.chainrail .arr{color:var(--gold);font-size:15px}
+.chainrail .cap{width:100%;font:400 13px/1.5 var(--sans);color:var(--mut);font-style:italic;margin-top:6px;letter-spacing:0}
+
+/* a hole marker inline in the verse (a button when JS on; a plain mark when off) */
+.hole{display:inline;border:0;background:transparent;font:inherit;color:inherit;padding:0;cursor:default}
+.holemark{display:inline-block;vertical-align:baseline;font:700 11px/1 var(--sans);color:var(--gold);
+  border:1.4px solid var(--gold);border-radius:50%;width:19px;height:19px;text-align:center;line-height:16px;
+  margin:0 2px;position:relative;top:-2px;background:var(--parch)}
+
+/* JS-on: holes become real buttons */
+body.js .hole{cursor:pointer;border-radius:4px;transition:background .12s}
+body.js .hole:hover,body.js .hole:focus-visible{background:#f7efdd;outline:none}
+body.js .hole:focus-visible .holemark{box-shadow:0 0 0 3px rgba(184,137,58,.35)}
+body.js .hole[aria-expanded="true"] .holemark{background:var(--gold);color:#fff}
+.hole .huline{border-bottom:1.6px dotted var(--gold);padding-bottom:1px}
+
+/* the pins strip under the verse — invitation to explore */
+.pins{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 0}
+.pin{display:flex;align-items:center;gap:9px;background:var(--parch2);border:1px solid var(--line);
+  border-radius:11px;padding:10px 14px;font:inherit;color:var(--ink);text-align:left;cursor:default;flex:1 1 210px}
+body.js .pin{cursor:pointer;transition:border-color .14s,transform .14s,background .14s}
+body.js .pin:hover,body.js .pin:focus-visible{border-color:var(--gold);transform:translateY(-2px);background:#f7efdd;outline:none}
+body.js .pin:focus-visible{box-shadow:0 0 0 3px rgba(184,137,58,.3)}
+body.js .pin[aria-expanded="true"]{border-color:var(--moss);background:#eef2ea}
+.pin .badge{flex:0 0 auto;font:700 12px/1 var(--sans);color:var(--gold);border:1.5px solid var(--gold);
+  border-radius:50%;width:24px;height:24px;text-align:center;line-height:21px}
+.pin[aria-expanded="true"] .badge{background:var(--moss);border-color:var(--moss);color:#fff}
+.pin .pt{display:block}
+.pin .pt b{display:block;font:600 14.5px/1.25 var(--serif);color:var(--moss-d);margin-bottom:2px}
+.pin .pt span{font:400 12.5px/1.35 var(--sans);color:var(--mut)}
+.pin .chev{margin-left:auto;font:700 12px/1 var(--sans);color:var(--gold);transition:transform .2s}
+.pin[aria-expanded="true"] .chev{transform:rotate(180deg)}
+
+/* ============ DETAIL ON DEMAND: the mirror + spectrum per hole ============ */
+.detail{border:1px solid var(--line);border-radius:14px;background:var(--soft);margin:14px 0 0;
+  padding:22px 24px;box-shadow:0 2px 10px rgba(80,60,20,.05)}
+.detail .dhead{font:700 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin-bottom:4px}
+.detail .dq{font-size:19px;font-style:italic;color:var(--ink);margin:0 0 16px}
+
+/* the two-reader mirror */
+.mirror{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.reader{border-radius:12px;padding:16px 18px;border:1px solid var(--line)}
+.reader.aug{background:#eef2ea;border-left:4px solid var(--moss)}
+.reader.arm{background:#f7ecdf;border-left:4px solid var(--clay)}
+.reader .rname{font:600 15px/1.2 var(--serif);margin:0 0 3px;position:relative;display:inline-block}
+.reader.aug .rname{color:var(--moss-d)}
+.reader.arm .rname{color:var(--clay-d)}
+.reader .pole{font:700 10.5px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;margin-bottom:9px}
+.reader.aug .pole{color:var(--moss)}
+.reader.arm .pole{color:var(--clay)}
+.reader .fill{font-size:16px;line-height:1.5;color:#2c2418}
+@media(max-width:600px){.mirror{grid-template-columns:1fr}}
+
+/* hover-bio on a reader name (JS-on tooltip; JS-off = the <details> below) */
+.rname .biobtn{border:0;background:transparent;color:inherit;font:inherit;cursor:default;padding:0;
+  border-bottom:1.4px dotted currentColor}
+body.js .rname .biobtn{cursor:help}
+.bio-pop{display:none}
+body.js .bio-pop{position:absolute;left:0;top:calc(100% + 8px);z-index:20;width:270px;
+  background:#fffdf7;border:1px solid var(--line);border-radius:10px;padding:12px 14px;
+  font:400 13px/1.5 var(--sans);color:#2c2418;box-shadow:0 6px 20px rgba(80,60,20,.16);text-align:left}
+body.js .rname:hover .bio-pop,body.js .rname:focus-within .bio-pop{display:block}
+.bio-pop b{color:var(--ink)}
+
+/* JS-off fallback bios (open by default; JS hides) */
+.bios-fallback{margin:14px 0 0;font:400 13.5px/1.55 var(--sans);color:#2c2418}
+body.js .bios-fallback{display:none}
+.bios-fallback dt{font-weight:700;margin-top:8px;color:var(--ink)}
+.bios-fallback dd{margin:0 0 2px}
+
+/* ============ THE EARNED SPECTRUM (Aquinas reveal) ============ */
+.spectrum{margin:20px 0 2px;border-top:1px dashed var(--line);padding-top:18px}
+.spectrum .slab{font:700 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--plum-d);margin-bottom:3px}
+.spectrum .earn{font:400 13px/1.5 var(--sans);color:var(--mut);font-style:italic;margin:0 0 16px}
+.spectrum .earn b{color:var(--plum-d);font-style:normal}
+.axis{position:relative;height:66px;margin:0 6px}
+.axisline{position:absolute;left:0;right:0;top:30px;height:2px;background:linear-gradient(90deg,var(--moss),var(--gold) 50%,var(--clay))}
+.pole-l,.pole-r{position:absolute;top:44px;font:600 11px/1.3 var(--sans);color:var(--mut);max-width:120px}
+.pole-l{left:0;text-align:left}
+.pole-r{right:0;text-align:right}
+.dot{position:absolute;top:24px;width:14px;height:14px;border-radius:50%;transform:translateX(-50%);
+  border:2px solid #fff;box-shadow:0 1px 3px rgba(80,60,20,.3)}
+.dot.aug{background:var(--moss)}
+.dot.aqu{background:var(--plum);width:16px;height:16px;top:23px}
+.dot.arm{background:var(--clay)}
+.dot .dtip{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);white-space:nowrap;
+  font:600 11px/1 var(--sans);color:#2c2418;background:#fffdf7;border:1px solid var(--line);border-radius:6px;
+  padding:3px 7px;box-shadow:0 2px 6px rgba(80,60,20,.15);opacity:0;transition:opacity .12s;pointer-events:none}
+body.js .dot:hover .dtip,body.js .dot:focus-visible .dtip{opacity:1}
+.dot{outline:none}
+body.js .dot:focus-visible{box-shadow:0 0 0 3px rgba(106,74,99,.4)}
+.aqu-row{display:flex;align-items:flex-start;gap:11px;background:#f0eaf0;border:1px solid #ddd0dd;
+  border-left:4px solid var(--plum);border-radius:0 10px 10px 0;padding:13px 16px;margin:16px 0 0}
+.aqu-row .an{flex:0 0 auto;font:600 14px/1.2 var(--serif);color:var(--plum-d);position:relative}
+.aqu-row .af{font-size:15px;line-height:1.5;color:#2c2418}
+.aqu-row .an .biobtn{border-bottom:1.4px dotted currentColor;cursor:help}
+.shape{font:400 13.5px/1.55 var(--sans);color:var(--mut);margin:14px 0 0;font-style:italic}
+.shape b{color:var(--plum-d);font-style:normal}
+
+/* the 4-part validation card — honesty channel #2 */
+.valcard{background:var(--parch2);border:1px solid var(--line);border-radius:14px;padding:22px 26px;margin:38px 0 0}
+.valcard h2{font:700 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 16px}
+.valgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.valstep{padding:0 16px;border-left:1px solid var(--line)}
+.valstep:first-child{padding-left:0;border-left:0}
+.valstep .n{font:700 11px/1 var(--sans);color:var(--gold);margin-bottom:6px}
+.valstep b{display:block;font:600 15px/1.25 var(--serif);color:var(--moss-d);margin-bottom:5px}
+.valstep p{margin:0;font:400 13.5px/1.5 var(--sans);color:#2c2418}
+.valstep.integrity b{color:var(--plum-d)}
+@media(max-width:680px){.valgrid{grid-template-columns:1fr 1fr;gap:16px 0}.valstep{border-left:0;padding:0 12px}
+  .valstep:nth-child(odd){padding-left:0}}
+@media(max-width:420px){.valgrid{grid-template-columns:1fr}.valstep{padding:0;border-top:1px solid var(--line);padding-top:14px}
+  .valstep:first-child{border-top:0;padding-top:0}}
+
+.foot{font:400 12px/1.6 var(--sans);color:var(--mut);margin-top:44px;padding-top:20px;border-top:1px solid var(--line)}
+.explore-hint{font:600 13px/1.4 var(--sans);color:var(--moss);margin:8px 0 0;display:none}
+body.js .explore-hint{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">The method at work · reception discrimination</div>
+  <h1>One verse. Three holes. Watch the map sort the readers.</h1>
+
+  <!-- honesty channel #1: standfirst -->
+  <p class="standfirst">The negative-space instrument reads a text for its <b>holes</b> — the questions the words leave open — then sorts the theologies that rush in to fill them. <span class="flag">This is instrument-validation, not a theological verdict: coding has barely begun (Stage 6 = 0 coded passages), so what you see below is a <b>candidate</b> — a worked demonstration, not a finding.</span> We measure the in-between; we don't fill it.</p>
+
+  <p class="doing"><b>Explore it yourself.</b> The three holes are hidden in the verse below. Click a marker — or a card — to open that hole to its two readers, and drill in to earn the third.</p>
+
+  <hr class="rule">
+
+  <!-- ============ OVERVIEW ============ -->
+  <div class="stage">
+    <div class="stage-lab"><span class="step">Overview</span> — the verse and its golden chain</div>
+    <div class="verse">
+      <span class="ref">Romans 8:28–30 · KJV</span>
+      And we know that all things work together for good to them that love God&hellip; For whom he did <span class="chainv">foreknow</span><button class="hole" type="button" data-hole="B2" id="hole-B2" aria-expanded="false" aria-controls="detail-B2"><span class="holemark" aria-hidden="true">2</span></button>, he also did <span class="chainv">predestinate</span> to be conformed to the image of his Son&hellip; Moreover whom he did predestinate, them he also <span class="chainv">called</span>: and whom he called, them he also <span class="chainv">justified</span><button class="hole" type="button" data-hole="B3" id="hole-B3" aria-expanded="false" aria-controls="detail-B3"><span class="holemark" aria-hidden="true">3</span></button>: and whom he justified, them he also <span class="chainv">glorified</span><button class="hole" type="button" data-hole="B1" id="hole-B1" aria-expanded="false" aria-controls="detail-B1"><span class="holemark" aria-hidden="true">1</span></button>.
+
+      <div class="chainrail" aria-hidden="true">
+        <span class="link">foreknew</span><span class="arr">→</span>
+        <span class="link">predestined</span><span class="arr">→</span>
+        <span class="link">called</span><span class="arr">→</span>
+        <span class="link">justified</span><span class="arr">→</span>
+        <span class="link">glorified</span>
+        <span class="cap">Five verbs — God is the subject of every one. The human is only ever the object. That grammar is where the holes open.</span>
+      </div>
+    </div>
+
+    <p class="explore-hint">↓ Three holes to open. Pick one.</p>
+
+    <!-- the pins: the three holes as clickable invitations -->
+    <div class="pins" role="group" aria-label="The three holes in the verse">
+      <button class="pin" type="button" data-hole="B2" aria-expanded="false" aria-controls="detail-B2">
+        <span class="badge" aria-hidden="true">2</span>
+        <span class="pt"><b>B2 · basis of election</b><span>On what ground foreknown?</span></span>
+        <span class="chev" aria-hidden="true">▾</span>
+      </button>
+      <button class="pin" type="button" data-hole="B1" aria-expanded="false" aria-controls="detail-B1">
+        <span class="badge" aria-hidden="true">1</span>
+        <span class="pt"><b>B1 · reprobation</b><span>What of those not chosen?</span></span>
+        <span class="chev" aria-hidden="true">▾</span>
+      </button>
+      <button class="pin" type="button" data-hole="B3" aria-expanded="false" aria-controls="detail-B3">
+        <span class="badge" aria-hidden="true">3</span>
+        <span class="pt"><b>B3 · where agency enters</b><span>The human only acts&hellip; where?</span></span>
+        <span class="chev" aria-hidden="true">▾</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ============ DETAIL ON DEMAND — one panel per hole ============ -->
+
+  <!-- B2 -->
+  <section class="detail" id="detail-B2" data-detail="B2">
+    <div class="dhead">Hole B2 · basis of election</div>
+    <p class="dq">The chain <i>begins</i> at &ldquo;foreknew&rdquo; — but never says on what ground God foreknew.</p>
+    <div class="mirror">
+      <div class="reader aug">
+        <div class="rname"><span class="biobtn" tabindex="0" role="button" aria-label="Augustine of Hippo — bio">Augustine</span>
+          <span class="bio-pop" role="tooltip"><b>Augustine of Hippo</b> — 354–430 CE · bishop of Hippo Regius, Roman North Africa (modern Algeria) · led the anti-Pelagian controversy; taught salvation by unmerited <b>grace</b>, original sin, predestination (<i>Confessions</i>, <i>City of God</i>). The predestinarian pole.</span>
+        </div>
+        <div class="pole">Predestinarian pole</div>
+        <div class="fill">sheer grace / God's bare purpose — <i>not works</i></div>
+      </div>
+      <div class="reader arm">
+        <div class="rname"><span class="biobtn" tabindex="0" role="button" aria-label="The Arminian tradition — bio">Arminian</span>
+          <span class="bio-pop" role="tooltip"><b>The Arminian tradition</b> — after <b>Jacobus Arminius</b>, 1560–1609 · Leiden, Dutch Republic · his followers issued the <b>Remonstrance</b> (1610). Taught <b>conditional election</b> (God elects those he foreknows will believe), resistible grace, free human response. The synergist pole.</span>
+        </div>
+        <div class="pole">Synergist pole</div>
+        <div class="fill">foreknowledge of a foreseen <i>response</i>, made prior to predestination</div>
+      </div>
+    </div>
+
+    <div class="spectrum">
+      <div class="slab">The depth reveal — where a third reader stands</div>
+      <p class="earn">You opened the hole and saw two poles. Drill in and the map places a <b>third reader</b> — and the <i>shape</i> of the whole dispute becomes visible.</p>
+      <div class="axis">
+        <div class="axisline" aria-hidden="true"></div>
+        <div class="dot aug" style="left:9%" tabindex="0" role="img" aria-label="Augustine, near the predestinarian pole"><span class="dtip">Augustine</span></div>
+        <div class="dot aqu" style="left:20%" tabindex="0" role="img" aria-label="Aquinas, clustered near Augustine"><span class="dtip">Aquinas</span></div>
+        <div class="dot arm" style="left:90%" tabindex="0" role="img" aria-label="Arminian, near the synergist pole"><span class="dtip">Arminian</span></div>
+        <div class="pole-l">Augustine — predestinarian</div>
+        <div class="pole-r">Arminian — synergist</div>
+      </div>
+      <div class="aqu-row">
+        <div class="an"><span class="biobtn" tabindex="0" role="button" aria-label="Thomas Aquinas — bio">Aquinas<span class="bio-pop" role="tooltip"><b>Thomas Aquinas</b> — 1225–1274 · Dominican friar, Paris &amp; Naples · the <i>Summa Theologiae</i> (I, q.23): God's will the ground; reprobation by <i>permission</i>; <b>double causality</b> (God first cause, free will a real secondary cause). The mediating reader.</span></span></div>
+        <div class="af">God's goodness resolving into sheer divine will; <i>rejects</i> foreseen-merits</div>
+      </div>
+      <p class="shape"><b>The shape here is near-binary.</b> Augustine and Aquinas cluster tightly at one pole; the Arminian reading sits far apart. On the <i>ground</i> of election the dispute is categorical, not gradient.</p>
+    </div>
+  </section>
+
+  <!-- B1 -->
+  <section class="detail" id="detail-B1" data-detail="B1">
+    <div class="dhead">Hole B1 · reprobation</div>
+    <p class="dq">The chain names only the saved — it is silent about those <i>not</i> foreknown.</p>
+    <div class="mirror">
+      <div class="reader aug">
+        <div class="rname"><span class="biobtn" tabindex="0" role="button" aria-label="Augustine of Hippo — bio">Augustine</span>
+          <span class="bio-pop" role="tooltip"><b>Augustine of Hippo</b> — 354–430 CE · bishop of Hippo Regius, Roman North Africa (modern Algeria) · led the anti-Pelagian controversy; taught salvation by unmerited <b>grace</b>, original sin, predestination (<i>Confessions</i>, <i>City of God</i>). The predestinarian pole.</span>
+        </div>
+        <div class="pole">Predestinarian pole</div>
+        <div class="fill">affirmed — the non-foreknown perish</div>
+      </div>
+      <div class="reader arm">
+        <div class="rname"><span class="biobtn" tabindex="0" role="button" aria-label="The Arminian tradition — bio">Arminian</span>
+          <span class="bio-pop" role="tooltip"><b>The Arminian tradition</b> — after <b>Jacobus Arminius</b>, 1560–1609 · Leiden, Dutch Republic · his followers issued the <b>Remonstrance</b> (1610). Taught <b>conditional election</b> (God elects those he foreknows will believe), resistible grace, free human response. The synergist pole.</span>
+        </div>
+        <div class="pole">Synergist pole</div>
+        <div class="fill">denied, by reductio (&ldquo;the horrible decree&rdquo;)</div>
+      </div>
+    </div>
+
+    <div class="spectrum">
+      <div class="slab">The depth reveal — where a third reader stands</div>
+      <p class="earn">You opened the hole and saw two poles. Drill in and the map places a <b>third reader</b> — and the <i>shape</i> of the whole dispute becomes visible.</p>
+      <div class="axis">
+        <div class="axisline" aria-hidden="true"></div>
+        <div class="dot aug" style="left:6%" tabindex="0" role="img" aria-label="Augustine, at the predestinarian pole"><span class="dtip">Augustine</span></div>
+        <div class="dot aqu" style="left:50%" tabindex="0" role="img" aria-label="Aquinas, midway between the poles"><span class="dtip">Aquinas</span></div>
+        <div class="dot arm" style="left:94%" tabindex="0" role="img" aria-label="Arminian, at the synergist pole"><span class="dtip">Arminian</span></div>
+        <div class="pole-l">Augustine — predestinarian</div>
+        <div class="pole-r">Arminian — synergist</div>
+      </div>
+      <div class="aqu-row">
+        <div class="an"><span class="biobtn" tabindex="0" role="button" aria-label="Thomas Aquinas — bio">Aquinas<span class="bio-pop" role="tooltip"><b>Thomas Aquinas</b> — 1225–1274 · Dominican friar, Paris &amp; Naples · the <i>Summa Theologiae</i> (I, q.23): God's will the ground; reprobation by <i>permission</i>; <b>double causality</b> (God first cause, free will a real secondary cause). The mediating reader.</span></span></div>
+        <div class="af">affirmed <i>but permission-not-causation</i> (&ldquo;endured&rdquo; = &ldquo;permitted&rdquo;; gift-not-debt)</div>
+      </div>
+      <p class="shape"><b>Here the shape is a genuine spectrum.</b> Aquinas sits squarely in the middle — the dispute is gradient, with real room between the poles, not a fork.</p>
+    </div>
+  </section>
+
+  <!-- B3 -->
+  <section class="detail" id="detail-B3" data-detail="B3">
+    <div class="dhead">Hole B3 · where agency enters</div>
+    <p class="dq">Every verb is God's; the human is only the object. Where does the human act?</p>
+    <div class="mirror">
+      <div class="reader aug">
+        <div class="rname"><span class="biobtn" tabindex="0" role="button" aria-label="Augustine of Hippo — bio">Augustine</span>
+          <span class="bio-pop" role="tooltip"><b>Augustine of Hippo</b> — 354–430 CE · bishop of Hippo Regius, Roman North Africa (modern Algeria) · led the anti-Pelagian controversy; taught salvation by unmerited <b>grace</b>, original sin, predestination (<i>Confessions</i>, <i>City of God</i>). The predestinarian pole.</span>
+        </div>
+        <div class="pole">Predestinarian pole</div>
+        <div class="fill">absorbed into God's purpose (perseverance itself a gift)</div>
+      </div>
+      <div class="reader arm">
+        <div class="rname"><span class="biobtn" tabindex="0" role="button" aria-label="The Arminian tradition — bio">Arminian</span>
+          <span class="bio-pop" role="tooltip"><b>The Arminian tradition</b> — after <b>Jacobus Arminius</b>, 1560–1609 · Leiden, Dutch Republic · his followers issued the <b>Remonstrance</b> (1610). Taught <b>conditional election</b> (God elects those he foreknows will believe), resistible grace, free human response. The synergist pole.</span>
+        </div>
+        <div class="pole">Synergist pole</div>
+        <div class="fill">free agency affirmed as independent, self-evident</div>
+      </div>
+    </div>
+
+    <div class="spectrum">
+      <div class="slab">The depth reveal — where a third reader stands</div>
+      <p class="earn">You opened the hole and saw two poles. Drill in and the map places a <b>third reader</b> — and the <i>shape</i> of the whole dispute becomes visible.</p>
+      <div class="axis">
+        <div class="axisline" aria-hidden="true"></div>
+        <div class="dot aug" style="left:6%" tabindex="0" role="img" aria-label="Augustine, at the predestinarian pole"><span class="dtip">Augustine</span></div>
+        <div class="dot aqu" style="left:52%" tabindex="0" role="img" aria-label="Aquinas, midway between the poles"><span class="dtip">Aquinas</span></div>
+        <div class="dot arm" style="left:94%" tabindex="0" role="img" aria-label="Arminian, at the synergist pole"><span class="dtip">Arminian</span></div>
+        <div class="pole-l">Augustine — predestinarian</div>
+        <div class="pole-r">Arminian — synergist</div>
+      </div>
+      <div class="aqu-row">
+        <div class="an"><span class="biobtn" tabindex="0" role="button" aria-label="Thomas Aquinas — bio">Aquinas<span class="bio-pop" role="tooltip"><b>Thomas Aquinas</b> — 1225–1274 · Dominican friar, Paris &amp; Naples · the <i>Summa Theologiae</i> (I, q.23): God's will the ground; reprobation by <i>permission</i>; <b>double causality</b> (God first cause, free will a real secondary cause). The mediating reader.</span></span></div>
+        <div class="af">double-causality — free will a <i>real</i> secondary cause, contained under God as first cause</div>
+      </div>
+      <p class="shape"><b>Another genuine spectrum.</b> Aquinas holds the middle again — the question of agency is gradient too. Two holes gradient, one near-binary: the map sorts not just where readers stand but the shape of each dispute.</p>
+    </div>
+  </section>
+
+  <!-- JS-off bio fallback (hidden when JS on; the tooltips take over) -->
+  <dl class="bios-fallback">
+    <dt>Augustine of Hippo</dt>
+    <dd>354–430 CE · bishop of Hippo Regius, Roman North Africa (modern Algeria) · led the anti-Pelagian controversy; taught salvation by unmerited grace, original sin, predestination. The predestinarian pole.</dd>
+    <dt>The Arminian tradition</dt>
+    <dd>after Jacobus Arminius, 1560–1609 · Leiden, Dutch Republic · his followers issued the Remonstrance (1610). Taught conditional election, resistible grace, free human response. The synergist pole.</dd>
+    <dt>Thomas Aquinas</dt>
+    <dd>1225–1274 · Dominican friar, Paris &amp; Naples · the Summa Theologiae (I, q.23): God's will the ground; reprobation by permission; double causality. The mediating reader.</dd>
+  </dl>
+
+  <!-- honesty channel #2: the 4-part validation card -->
+  <div class="valcard">
+    <h2>Why this is instrument-validation — the four beats</h2>
+    <div class="valgrid">
+      <div class="valstep">
+        <div class="n">1 · the move</div>
+        <b>The golden chain</b>
+        <p>Five verbs, God the subject of every one — one continuous act of election.</p>
+      </div>
+      <div class="valstep">
+        <div class="n">2 · the hole</div>
+        <b>What it leaves open</b>
+        <p>Ground of election, the fate of the un-chosen, where the human acts — three silences.</p>
+      </div>
+      <div class="valstep">
+        <div class="n">3 · who fills it</div>
+        <b>The readers sorted</b>
+        <p>Augustine, Arminian, Aquinas — the map places each, and shows which holes are categorical, which gradient.</p>
+      </div>
+      <div class="valstep integrity">
+        <div class="n">4 · why it counts</div>
+        <b>Method integrity</b>
+        <p>The instrument discriminates; it does not adjudicate. Sorted, not scored — and coding has barely begun.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">Staged for researcher review — not deploy · <em>Grammar of Meaning</em> · fills verbatim from bible §9</div>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  document.body.classList.add("js");
+
+  // Progressive enhancement: JS collapses the always-visible details into interactive panels.
+  var details = Array.prototype.slice.call(document.querySelectorAll(".detail"));
+  var triggers = Array.prototype.slice.call(document.querySelectorAll("[data-hole]"));
+
+  // Map each hole id -> its detail panel
+  var panelFor = {};
+  details.forEach(function(d){ panelFor[d.getAttribute("data-detail")] = d; });
+
+  // Collapse all panels to start (overview-first).
+  function collapse(panel){ panel.style.display = "none"; }
+  function open(panel){ panel.style.display = "block"; }
+  details.forEach(collapse);
+
+  // Keep every trigger's aria-expanded synced to whether its panel is open.
+  function syncTriggers(hole, isOpen){
+    triggers.forEach(function(t){
+      if (t.getAttribute("data-hole") === hole){
+        t.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      }
+    });
+  }
+
+  function toggle(hole){
+    var panel = panelFor[hole];
+    if (!panel) return;
+    var isOpen = panel.style.display === "block";
+    if (isOpen){
+      collapse(panel);
+      syncTriggers(hole, false);
+    } else {
+      open(panel);
+      syncTriggers(hole, true);
+      // scroll the newly-opened panel into view for the overview->detail feel
+      panel.scrollIntoView({behavior:"smooth", block:"nearest"});
+      // move focus to the panel heading for keyboard users
+      panel.setAttribute("tabindex","-1");
+      panel.focus({preventScroll:true});
+    }
+  }
+
+  triggers.forEach(function(t){
+    t.addEventListener("click", function(e){
+      e.preventDefault();
+      toggle(t.getAttribute("data-hole"));
+    });
+  });
+
+  // Bio tooltips: make them keyboard-dismissable with Escape (hover/focus handled in CSS).
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape" && document.activeElement){
+      document.activeElement.blur();
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>What this is — Grammar of Meaning</title>
+<!-- grammar-version: v2 positioning (2026-07-01) · copy source: field_ed/positioning_grammar_of_meaning_DRAFT_v2_2026-07-01.md · skin: positioning_bakeoff PREVIEW_homepage -->
+<style>
+:root{
+  --ink:#221c14; --parch:#fbf6ec; --parch2:#f4ecd9; --line:#e3dac6; --mut:#8a7d63; --soft:#fcfbf6;
+  --moss:#5a7a52; --moss-d:#3f5a39; --gold:#b8893a; --gold-l:#d8b25f; --soil:#6b5436;
+  --st-draft:#8a7320; --st-draft-bg:#f1ece0; --st-live:#3f5a39; --st-live-bg:#d7ead0;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; --maxw:1040px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--parch);color:var(--ink);font-family:var(--serif);line-height:1.62;font-size:17px;-webkit-font-smoothing:antialiased}
+.gom-home{position:fixed;top:14px;left:16px;z-index:999;font:600 13px/1 var(--sans);color:var(--moss-d);text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px;box-shadow:0 1px 5px rgba(80,60,20,.10)}
+.gom-home:hover{background:#fff;border-color:var(--gold);color:var(--gold)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+/* hero */
+.hero{text-align:center;padding:88px 0 8px}
+.eyebrow{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 14px}
+.hero h1{font-size:44px;line-height:1.08;font-weight:600;margin:0 0 6px}
+.hero .tagline{font-style:italic;color:var(--moss-d);font-size:21px;margin:0 0 22px}
+.metaxy{display:block;margin:8px auto 26px;max-width:100%}
+.intro{font-size:19px;max-width:36em;margin:0 auto;text-align:left}
+.intro b{color:var(--moss-d)} .intro i{color:var(--soil)}
+.rule{height:1px;background:var(--line);border:0;margin:46px 0}
+h2.sec{font-family:var(--sans);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:600;margin:0 0 16px}
+.prose{max-width:36em;font-size:17.5px;line-height:1.62}
+.prose b{color:var(--moss-d)} .prose i{color:var(--soil)}
+.prose p{margin:0 0 14px}
+/* the shadow — the frontier, highlighted */
+.frontier{background:#fcf7ec;border:1px solid var(--gold-l);box-shadow:0 0 0 1px var(--gold-l) inset;border-radius:14px;padding:24px 26px;max-width:40em}
+.frontier .tag{display:inline-block;font-family:var(--sans);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--st-live);background:var(--st-live-bg);border-radius:20px;padding:2px 9px;margin-left:8px;vertical-align:middle}
+.frontier h2{font-family:var(--serif);text-transform:none;letter-spacing:0;font-size:23px;color:var(--ink);font-weight:600;margin:0 0 10px}
+.frontier p{margin:0 0 12px;font-size:17px} .frontier p:last-child{margin:0}
+.frontier b{color:var(--moss-d)} .frontier i{color:var(--soil)}
+/* honest stand */
+.stand{background:var(--parch2);border:1px solid var(--line);border-radius:14px;padding:26px 28px;max-width:40em}
+.stand .badge{display:inline-block;font-family:var(--sans);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--st-draft);background:var(--st-draft-bg);border-radius:20px;padding:3px 11px;margin-bottom:12px}
+.stand h2{font-family:var(--serif);text-transform:none;letter-spacing:0;font-size:23px;color:var(--ink);font-weight:600;margin:0 0 10px}
+.stand p{margin:0;font-size:17px} .stand b{color:var(--moss-d)} .stand i{color:var(--soil)}
+/* forms */
+.forms{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:40em}
+@media(max-width:820px){.forms{grid-template-columns:1fr}}
+.form{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.form h3{margin:0 0 6px;font-size:19px;font-weight:600} .form p{margin:0;font-size:15px;color:var(--mut)}
+.wager{font-size:22px;font-style:italic;color:var(--soil);max-width:24em;margin:0}
+/* reference */
+.refhead{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:600;margin:0 0 16px}
+.refs{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+@media(max-width:820px){.refs{grid-template-columns:repeat(2,1fr)}}
+.ref{display:block;background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:16px 16px 18px;text-decoration:none;color:var(--ink);transition:border-color .15s,transform .15s}
+.ref:hover{border-color:var(--gold);transform:translateY(-2px)}
+.ref.method{border-color:var(--gold-l)}
+.ref h4{margin:0 0 6px;font-size:18px;font-weight:600} .ref p{margin:0;font-size:13px;color:var(--mut);line-height:1.5}
+.foot{font-family:var(--sans);font-size:12px;color:var(--mut);margin:40px 0 60px;font-style:italic}
+
+/* ---- research-underneath fold (ported from the prior mission.html, git 4b211b592) ---- */
+/* deep section — progressive disclosure */
+.casefold{margin:30px 0}
+.casefold > summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--parch2);border:1px solid var(--line);border-radius:12px;padding:16px 22px;
+  font:600 16px/1.3 var(--serif);color:var(--moss-d);text-align:center;transition:border-color .15s,background .15s}
+.casefold > summary::-webkit-details-marker{display:none}
+.casefold > summary:hover{border-color:var(--gold);background:#f0e6cf}
+.casefold > summary .chev{font:700 13px/1 var(--sans);color:var(--gold);transition:transform .2s}
+.casefold[open] > summary{margin-bottom:6px}
+.casefold[open] > summary .chev{transform:rotate(180deg)}
+.casefold > summary .hint{display:block;font:400 13.5px/1.4 var(--sans);color:var(--mut);font-style:normal;margin-top:4px}
+.deep{margin:24px 0 6px}
+.deep > .lab{font:700 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.deep h3{font:700 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:28px 0 8px}
+.deep h3:first-of-type{margin-top:8px}
+.deep p{font-size:18px;line-height:1.6;color:#2c2418;margin:0 0 14px}
+.deep .ex{background:var(--parch2);border:1px solid var(--line);border-left:4px solid var(--gold);
+  border-radius:0 12px 12px 0;padding:16px 20px;margin:18px 0;font-size:17px;line-height:1.56;color:#2c2418}
+.deep .ex b{color:var(--moss-d)}
+
+/* Park & Folkman two-arrow coping diagram */
+.pf-fig{margin:22px 0 6px}
+.pf-svg{display:block;margin:0 auto;max-width:100%}
+.pf-cap{font:400 13.5px/1.5 var(--sans);color:var(--mut);text-align:center;margin:8px auto 0;max-width:460px;font-style:italic}
+.pf-bridge{background:var(--parch2);border:1px solid var(--line);border-left:4px solid var(--moss);
+  border-radius:0 12px 12px 0;padding:18px 22px;margin:22px 0 6px;font-size:18px;line-height:1.6;color:#2c2418}
+.pf-bridge b{color:var(--moss-d)}
+
+/* four-needs table */
+.tcap{font:700 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin:34px 0 12px;text-align:center}
+.needs{width:100%;border-collapse:collapse;background:var(--soft);border:1px solid var(--line);
+  border-radius:12px;overflow:hidden;margin:0 0 10px;font-size:17px}
+.needs tr{border-top:1px solid var(--line)}
+.needs tr:first-child{border-top:0}
+.needs th{text-align:left;width:140px;vertical-align:top;padding:15px 16px;background:var(--parch2);
+  font-family:var(--serif);font-weight:600;font-size:18px;color:var(--moss-d);letter-spacing:-.01em}
+.needs td{padding:15px 18px;vertical-align:top;line-height:1.5;color:#2c2418}
+.needs caption{caption-side:bottom;font-size:14.5px;color:var(--mut);font-style:italic;padding:12px 4px 0;text-align:left;line-height:1.5}
+@media(max-width:640px){.needs th{width:108px;font-size:16px;padding:13px 12px}.needs td{padding:13px 13px;font-size:16px}}
+</style>
+</head>
+<body>
+<a href="index.html" class="gom-home">← Grammar of Meaning</a>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Grammar of Meaning · field notes on how meaning gets made</div>
+    <h1>Grammar of Meaning</h1>
+    <div class="tagline">The moves underneath how meaning gets made.</div>
+
+    <svg class="metaxy" width="320" height="150" viewBox="0 0 320 150" fill="none" aria-hidden="true">
+      <circle cx="92" cy="70" r="50" fill="#3f5a39" opacity=".10" stroke="#3f5a39" stroke-width="1.2" stroke-opacity=".5"/>
+      <circle cx="228" cy="70" r="50" fill="#3f5a39" opacity=".10" stroke="#3f5a39" stroke-width="1.2" stroke-opacity=".5"/>
+      <circle cx="160" cy="70" r="11" fill="#b8893a" opacity=".22"/>
+      <circle cx="160" cy="70" r="4.5" fill="#b8893a"/>
+      <g stroke="#b8893a" stroke-width="1.4" stroke-linecap="round" opacity=".75">
+        <line x1="160" y1="49" x2="160" y2="40"/><line x1="160" y1="91" x2="160" y2="100"/>
+        <line x1="139" y1="70" x2="130" y2="70"/><line x1="181" y1="70" x2="190" y2="70"/>
+        <line x1="146" y1="56" x2="140" y2="50"/><line x1="174" y1="84" x2="180" y2="90"/>
+        <line x1="174" y1="56" x2="180" y2="50"/><line x1="146" y1="84" x2="140" y2="90"/>
+      </g>
+      <text x="92" y="74" text-anchor="middle" font-family="'Iowan Old Style',Palatino,Georgia,serif" font-style="italic" font-size="15" fill="#2f4a2c">person</text>
+      <text x="228" y="74" text-anchor="middle" font-family="'Iowan Old Style',Palatino,Georgia,serif" font-style="italic" font-size="15" fill="#2f4a2c">world</text>
+      <text x="160" y="140" text-anchor="middle" font-family="-apple-system,Segoe UI,sans-serif" font-size="12.5" letter-spacing=".02em" fill="#8a7d63">meaning is made in the between</text>
+    </svg>
+
+    <p class="intro">Meaning isn't a thing you find — it's made, in the meeting between a person and the world. This project reads religions, philosophies, and psychologies as three dialects of that one human act, and studies the <b>moves</b> underneath their answers rather than the answers themselves — and, more unusually, the moves they pointedly <i>didn't</i> make.</p>
+  </header>
+
+  <hr class="rule">
+  <section>
+    <h2 class="sec">What a move is</h2>
+    <div class="prose">
+      <p>A <b>move</b> is the smallest thing a tradition <i>does</i> with experience — one operation on some raw material: what it does with suffering, with attention, with the self, with desire. A belief is what a tradition <i>holds</i>; a move is what it <i>does</i> to turn an experience into a meaning. A tradition, read this way, is a long accumulation of moves.</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+  <section class="frontier">
+    <h2>The move, and its shadow<span class="tag">the frontier</span></h2>
+    <p>Every move a tradition makes casts a shadow — a fork it declined, a question it raised and then didn't answer. We call that the <b>negative space</b>, and we've built a way to make it speak: to give the unsaid a positive shape. It's the other half of reading a move — what it says, <i>and</i> the shadow it casts.</p>
+    <p>And the aim is generative. A silence isn't only a gap to fill; held open, it can be a <b>productive tension</b> — the kind that raises a new question instead of closing one. When a text says <i>"Jesus is God"</i> and never marks whether that's a metaphor or a literal identity, that unforced fork is generative: it's the question centuries of the tradition then lived inside. (The same open fork sits under a line like <i>"the self is the divine."</i>) Giving the negative space a positive form is how such a tension stays workable — a place to make meaning, not just a blank.</p>
+  </section>
+
+  <hr class="rule">
+  <section>
+    <h2 class="sec">A spectroscope, not a dictionary</h2>
+    <div class="prose">
+      <p>A "move" looks like one thing but bundles several: what's being operated on, the operation, the outcome, who acts, on what warrant, at what scale. We never say this verse <i>means</i> X. We pass it through the grammar and separate the components, so each is visible on its own — and so the shadow it casts becomes legible too.</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+  <section>
+    <h2 class="sec">Rhymes, not agreement</h2>
+    <div class="prose">
+      <p>Read a move inside its own tradition and it's a <b>window</b> — a way into that tradition's particular wisdom. See what looks like the same move in another tradition, and it's a <b>rhyme</b>: not proof that everyone secretly agrees, but an <i>analogy</i> — one tradition you can hold up against another. For instance, the Islamic God is not the Christian God, but <i>devotion to the sacred</i> is a move you can hold up against both. The rhyme is the analogy; the divergence is where each tradition's own wisdom lives.</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+  <section class="stand">
+    <span class="badge">the method, left showing</span>
+    <h2>Where this honestly stands</h2>
+    <p>This is early, and in the open. There are no findings yet — the corpus coding hasn't started, by design. What we've built and begun testing is the <i>instrument</i>, not the conclusions. It's a <b>work in progress</b>, and this site will keep changing as it develops. What we can show honestly now is the method: reliability isn't proof, a human and scholarly check are owed before anything is claimed, and we'll say so as we go.</p>
+  </section>
+
+  <hr class="rule">
+  <section>
+    <h2 class="sec">The forms</h2>
+    <div class="forms">
+      <div class="form"><h3>The essays</h3><p>One pattern at a time — a figure, an image, or a word, read as a move you can carry into your own life.</p></div>
+      <div class="form"><h3>The Garden</h3><p>An interactive map of the moves (the Luminous Archive), where the exploring is itself a kind of formation.</p></div>
+    </div>
+  </section>
+
+  <hr class="rule">
+  <section>
+    <h2 class="sec">The wager</h2>
+    <p class="wager">A rebuilt commons for meaning-making — for a moment when the inherited commons has thinned.</p>
+  </section>
+
+  <hr class="rule">
+  <section>
+  <details class="casefold">
+    <summary>
+      <span>The research underneath — why this isn't hand-wavy<span class="hint">the case that meaning-making is a real, measurable capacity</span></span>
+      <span class="chev">▾</span>
+    </summary>
+  <section class="deep">
+    <div class="lab">What meaning-making does</div>
+
+    <p>Underneath the philosophy, meaning-making is a real human <i>capacity</i> — something we can watch
+      people do, and watch some people lose. Viktor Frankl, who came out of the camps, called it the
+      <i>will to meaning</i>: when a person can answer <i>why</i>, they can bear almost any <i>how</i>.
+      A meaning-system lets people endure suffering, steady their emotions, and look at their own mortality
+      without flinching away. It isn't decoration on a life; it's load-bearing.</p>
+
+    <h3>The moves of coping</h3>
+    <p>You can see the capacity working most clearly when it's under strain. When an event violates someone's
+      meaning-system — the diagnosis, the loss, the betrayal that "wasn't supposed to happen" — there are two
+      moves available (Park &amp; Folkman map this precisely). <b>Assimilation:</b> bend the event to fit the
+      beliefs you already hold — <i>"this illness is a test of faith."</i> <b>Accommodation:</b> revise the
+      beliefs to fit the event — letting the world re-teach you what you thought you knew. These are
+      <i>moves</i> in exactly the sense this project means — the same kind of gesture we catalog across
+      traditions, here turned inward on a single life.</p>
+
+    <figure class="pf-fig">
+      <svg class="pf-svg" width="560" height="270" viewBox="0 0 560 270" fill="none" role="img"
+        aria-label="The same meaning-violating event handled two ways: assimilation bends the event to fit an unchanged belief; accommodation revises the belief to fit the event.">
+        <!-- the shared event, at center top -->
+        <text x="280" y="26" text-anchor="middle" font-family="-apple-system,Segoe UI,sans-serif" font-size="11.5" letter-spacing=".06em" fill="#8a7d63">A MEANING-VIOLATING EVENT</text>
+        <rect x="206" y="36" width="148" height="40" rx="9" fill="#fbf6ec" stroke="#b8893a" stroke-width="1.4"/>
+        <text x="280" y="55" text-anchor="middle" font-family="'Iowan Old Style',Palatino,Georgia,serif" font-style="italic" font-size="14.5" fill="#2c2418">the diagnosis,</text>
+        <text x="280" y="71" text-anchor="middle" font-family="'Iowan Old Style',Palatino,Georgia,serif" font-style="italic" font-size="14.5" fill="#2c2418">the loss, the betrayal</text>
+
+        <!-- branch lines from event down to the two paths -->
+        <g stroke="#cabf9f" stroke-width="1.2">
+          <line x1="280" y1="76" x2="140" y2="108"/>
+          <line x1="280" y1="76" x2="420" y2="108"/>
+        </g>
+
+        <!-- LEFT: assimilation — event bent to fit unchanged belief -->
+        <text x="140" y="126" text-anchor="middle" font-family="-apple-system,Segoe UI,sans-serif" font-weight="700" font-size="12" letter-spacing=".08em" fill="#3f5a39">ASSIMILATION</text>
+        <!-- belief stays fixed (solid box) -->
+        <rect x="68" y="142" width="144" height="46" rx="9" fill="#eef2ea" stroke="#3f5a39" stroke-width="1.6"/>
+        <text x="140" y="161" text-anchor="middle" font-family="'Iowan Old Style',Palatino,Georgia,serif" font-size="13.5" fill="#2f4a2c">the belief stays</text>
+        <text x="140" y="178" text-anchor="middle" font-family="'Iowan Old Style',Palatino,Georgia,serif" font-style="italic" font-size="13" fill="#2f4a2c">“a test of faith”</text>
+        <!-- arrow: event bends inward into the belief -->
+        <defs>
+          <marker id="pf-arrow-moss" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#3f5a39"/>
+          </marker>
+          <marker id="pf-arrow-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#b8893a"/>
+          </marker>
+        </defs>
+        <path d="M140 200 q0 18 0 30" stroke="#3f5a39" stroke-width="1.8" fill="none" marker-end="url(#pf-arrow-moss)"/>
+        <text x="140" y="252" text-anchor="middle" font-family="-apple-system,Segoe UI,sans-serif" font-size="12.5" fill="#8a7d63">bend the event to fit</text>
+
+        <!-- RIGHT: accommodation — belief revised to fit event -->
+        <text x="420" y="126" text-anchor="middle" font-family="-apple-system,Segoe UI,sans-serif" font-weight="700" font-size="12" letter-spacing=".08em" fill="#b8893a">ACCOMMODATION</text>
+        <!-- belief reshapes (dashed box) -->
+        <rect x="348" y="142" width="144" height="46" rx="9" fill="#f7efdd" stroke="#b8893a" stroke-width="1.6" stroke-dasharray="5 4"/>
+        <text x="420" y="161" text-anchor="middle" font-family="'Iowan Old Style',Palatino,Georgia,serif" font-size="13.5" fill="#7a5a1e">the belief reshapes</text>
+        <text x="420" y="178" text-anchor="middle" font-family="'Iowan Old Style',Palatino,Georgia,serif" font-style="italic" font-size="13" fill="#7a5a1e">the world re-teaches</text>
+        <path d="M420 200 q0 18 0 30" stroke="#b8893a" stroke-width="1.8" fill="none" marker-end="url(#pf-arrow-gold)"/>
+        <text x="420" y="252" text-anchor="middle" font-family="-apple-system,Segoe UI,sans-serif" font-size="12.5" fill="#8a7d63">revise the belief to fit</text>
+      </svg>
+      <figcaption class="pf-cap">The same event, two directions. Park &amp; Folkman’s two moves: bend the
+        event to fit an unchanged belief, or revise the belief to fit the event.</figcaption>
+    </figure>
+
+    <p class="pf-bridge">The moves a tradition makes are the moves a person makes. When Park and Folkman
+      watched people cope with catastrophe, they found two: <b>bend the event to fit what you believe</b>, or
+      <b>revise what you believe to fit the event.</b> Those are moves in exactly the sense this project means —
+      the same gestures we catalog across traditions, here turned inward on a single life. Robert Kegan
+      describes maturity as the same motion run on the self: what you were <i>fused</i> with becomes something
+      you can <i>hold and revise.</i> So the traditions aren’t a museum of beliefs. They’re a <b>repertoire</b> —
+      the library of moves a person draws on to make sense of grief, or a self that won’t stay still, or dying.
+      The Garden gives you more moves to make.</p>
+
+    <h3>The capacity matures</h3>
+    <p>And it grows. The developmental arc (Robert Kegan's <i>self-transforming mind</i>) runs toward being able
+      to hold more than one meaning-world at once — to stand inside several frameworks, even contradictory ones,
+      without feeling that another person's meaning is a threat to your own. That capacity is the whole rationale
+      for the Garden, and for pluralism. The Garden isn't a neutral comparison chart; it's a place to
+      <i>practice</i> exactly this — moving between meaning-worlds until the moving gets easier.</p>
+
+    <h3>Why it matters — and what its absence costs</h3>
+    <p>Meaning earns its keep most where nothing can be fixed. In low-control situations — illness, grief, the
+      irreversible — it's meaning, not problem-solving, that regulates emotion. It also binds people to one
+      another: shared meaning is what holds a family or a community together, the prosocial good. And it
+      quietly buffers the fear of death. Its <i>absence</i> is just as concrete. Clinicians have names for the
+      hole it leaves: demoralization; <i>spiritual distress</i>, a condition nurses actually chart at the
+      bedside; complicated grief that won't resolve. At population scale the absence turns lethal — what
+      Case &amp; Deaton named <i>deaths of despair</i>. The capacity is real because you can measure what
+      happens when it's gone.</p>
+
+    <h3>The gap — and our answer to it</h3>
+    <p>As inherited religious frameworks recede — the rise of the <i>nones</i> — more people are left without a
+      ready-made meaning-home. The usual responses are to convert someone into a tradition, or to hand them a
+      thin secular substitute. This project does neither. The answer is to let people engage the world's
+      meaning-making traditions — religious ones very much included — through <b>analogy and rhyme</b>, with no
+      pressure to accept a metaphysical claim. You might come to accept one; you don't have to. That's what
+      <i>depth without dogma</i> means.</p>
+    <div class="ex">Take Rabiʿa al-ʿAdawiyya, the Sufi mystic, who prayed to love God for God's own sake —
+      not for the promise of paradise or the fear of hell. Her devotion is thoroughly religious. But the
+      <b>move</b> — loving the beloved for its own sake, not for the reward it pays out — is portable. You can
+      hold it up against a Christian's <i>caritas</i>, a parent's love, a craftsman's devotion to the work.
+      You don't have to share her God to carry her move.</div>
+
+    <h3>Why it works — third things</h3>
+    <p>Parker Palmer has a name for how this happens: a <b>third thing</b>. The soul, he says, is shy — it
+      won't be stared at directly. But set a poem, a story, a song between you and it, and you can approach
+      the hardest material sidelong, through the third thing, without flinching away. You can't look straight
+      at your own grief; you can look at Rabiʿa's, or Zhuangzi's, or a song someone else wrote about a
+      breakup — and find your own in it. The same artifact is two things at once: <i>direct</i>
+      meaning-making for the person who made it, and a <i>third thing</i> for everyone who later meets it.
+      Every tradition's text was someone's direct reckoning; for us it becomes the third thing we make our
+      own meaning through, by analogy. The essays and the Garden are built to be exactly that — third things
+      to think with.</p>
+
+    <div class="tcap">Four needs a meaning makes</div>
+    <table class="needs">
+      <tbody>
+        <tr><th>Purpose</th><td>A sense of direction — connecting today's actions to a desired future. Without it, a life drifts.</td></tr>
+        <tr><th>Value</th><td>A moral framework — a basis for right and wrong, and for justifying what one does.</td></tr>
+        <tr><th>Efficacy</th><td>A sense of agency — the belief that you can actually make a difference.</td></tr>
+        <tr><th>Self-worth</th><td>Identity and belonging — a sense of one's own positive value, and a place among others.</td></tr>
+      </tbody>
+      <caption>Roy Baumeister's four needs. A life can run on intense <i>purpose</i> and still fracture if it
+        lacks <i>value</i> or <i>efficacy</i> — the four work together, not one at a time.</caption>
+    </table>
+  </section>
+  </details>
+  </section>
+
+  <hr class="rule">
+  <div class="refhead">Reference · lookup docs we use a lot</div>
+  <div class="refs">
+    <a class="ref method" href="method.html"><h4>Method</h4><p>the method bible — how the whole apparatus works, with the honesty commitments visible</p></a>
+    <a class="ref" href="glossary.html"><h4>Glossary</h4><p>the site's working vocabulary — every term as we use it publicly</p></a>
+    <a class="ref" href="subtraditions.html"><h4>Sub-traditions</h4><p>the full tradition taxonomy — every sub-tradition the corpus tags, by family</p></a>
+    <a class="ref" href="scholars.html"><h4>Scholars</h4><p>whose work we build on — by where their contribution sits in the project</p></a>
+    <a class="ref" href="principles.html"><h4>Principles</h4><p>how we work — the visual language, the writing voice, and CARE</p></a>
+  </div>
+
+  <p class="foot">A working house, unlisted · Grammar of Meaning</p>
+</div>
+</body>
+</html>

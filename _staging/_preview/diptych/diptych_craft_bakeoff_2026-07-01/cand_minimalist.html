@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Reception discrimination — Romans 8:28–30</title>
+<style>
+:root{
+  --ink:#221c14; --parch:#fbf6ec; --parch2:#f4ecd9; --line:#e3dac6; --mut:#8a7d63;
+  --moss:#3f5a39; --moss-d:#2f4a2c; --gold:#b8893a; --soft:#fcfbf6;
+  --clay:#a4582f; --plum:#6b4b6b;
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--parch);color:var(--ink);font-family:var(--serif);
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding:52px 30px 70px}
+
+/* header */
+.eyebrow{font:600 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin-bottom:14px}
+h1{font-size:32px;line-height:1.1;margin:0 0 12px;font-weight:600;letter-spacing:-.01em}
+.standfirst{font-size:17px;line-height:1.55;color:#2c2418;max-width:640px;margin:0 0 6px}
+.standfirst .m{font-style:italic;color:var(--moss-d)}
+.integrity{font:400 13.5px/1.5 var(--sans);color:var(--mut);max-width:640px;margin:14px 0 0;
+  padding-left:14px;border-left:2px solid var(--gold)}
+.integrity b{color:var(--moss-d);font-weight:600}
+.rule{width:100%;height:1px;background:var(--line);border:0;margin:34px 0}
+
+/* verse: the golden chain, holes located IN text */
+.versecap{font:700 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 14px}
+.verse{font-size:19.5px;line-height:1.85;color:#2c2418;max-width:720px}
+.verse .ref{color:var(--mut);font-size:16px;font-style:italic}
+.verb{color:var(--moss-d);font-weight:600;border-bottom:2px solid var(--gold)}
+.hole{display:inline-block;color:var(--gold);font-family:var(--sans);font-weight:700;font-size:12px;
+  letter-spacing:.06em;vertical-align:2px;padding:0 3px;white-space:nowrap}
+.hole::before{content:"◦ ";opacity:.7}
+.chainline{font:400 13.5px/1.5 var(--sans);color:var(--mut);margin:16px 0 0;font-style:italic}
+.chainline b{color:var(--moss-d);font-style:normal;font-weight:600}
+
+/* readers legend */
+.legend{display:flex;gap:22px;flex-wrap:wrap;margin:8px 0 0;font:400 13px/1.5 var(--sans);color:var(--mut)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.dotk{width:9px;height:9px;border-radius:50%;display:inline-block}
+.dotk.aug{background:var(--moss)} .dotk.aqu{background:var(--plum)} .dotk.arm{background:var(--clay)}
+.legend b{color:var(--ink);font-weight:600}
+.legend em{font-style:normal;color:#9a8c70}
+
+/* small-multiple hole cards */
+.cards{margin:6px 0 0}
+.card{border-top:1px solid var(--line);padding:30px 0 28px}
+.card:first-child{border-top:0}
+.card .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:0 0 4px}
+.card .bcode{font:700 12px/1 var(--sans);letter-spacing:.1em;color:var(--gold);
+  border:1px solid var(--gold);border-radius:4px;padding:4px 7px}
+.card h2{font-size:20px;font-weight:600;margin:0;letter-spacing:-.01em}
+.card .q{font-size:15.5px;font-style:italic;color:var(--mut);margin:0 0 18px}
+
+/* the quiet spectrum strip — sparkline discipline, per hole */
+.spec{margin:0 0 20px;max-width:560px}
+.spec svg{display:block;width:100%;height:44px;overflow:visible}
+.spec .poles{display:flex;justify-content:space-between;font:400 11px/1 var(--sans);
+  letter-spacing:.04em;color:#9a8c70;margin:5px 2px 0}
+.spec .shapenote{font:400 12px/1.4 var(--sans);color:var(--mut);margin:8px 0 0}
+.spec .shapenote b{color:var(--moss-d);font-weight:600}
+
+/* two-reader mirror + mediating fill */
+.fills{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);
+  border-radius:8px;overflow:hidden;background:var(--soft)}
+.fill{padding:16px 18px;font-size:15.5px;line-height:1.5}
+.fill.aug{border-left:4px solid var(--moss);background:#f6f3e7}
+.fill.arm{border-left:4px solid var(--clay);background:#f7efe6}
+.fill .who{font:700 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;margin:0 0 6px}
+.fill.aug .who{color:var(--moss-d)} .fill.arm .who{color:var(--clay)}
+.fill p{margin:0;color:#2c2418}
+.mid{margin:10px 0 0;padding:14px 18px;border:1px solid var(--line);border-left:4px solid var(--plum);
+  border-radius:0 8px 8px 0;background:#f6f2f4;font-size:15px;line-height:1.5}
+.mid .who{font:700 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--plum);margin:0 0 6px}
+.mid p{margin:0;color:#2c2418}
+
+/* the 4-part card — the single second honesty channel */
+.method{margin:40px 0 0;background:var(--parch2);border:1px solid var(--line);
+  border-left:4px solid var(--moss);border-radius:0 10px 10px 0;padding:22px 24px}
+.method .lab{font:700 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--moss);margin:0 0 14px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.step{padding:0 16px;border-left:1px solid var(--line)}
+.step:first-child{padding-left:0;border-left:0}
+.step .n{font:700 11px/1 var(--sans);color:var(--gold);letter-spacing:.08em;margin:0 0 6px}
+.step p{margin:0;font-size:14.5px;line-height:1.5;color:#2c2418}
+.step p b{color:var(--moss-d);font-weight:600}
+.foot{font:400 12px/1.5 var(--sans);color:var(--mut);margin:30px 0 0;text-align:center}
+
+@media(max-width:680px){
+  .wrap{padding:40px 20px 54px}
+  h1{font-size:26px}
+  .fills{grid-template-columns:1fr}
+  .fill.arm{border-top:1px solid var(--line)}
+  .steps{grid-template-columns:1fr 1fr;gap:16px 0}
+  .step:nth-child(3){padding-left:0;border-left:0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Grammar of Meaning · The Method at Work</div>
+    <h1>One text. Three holes. The map sorts who fills them.</h1>
+    <p class="standfirst">Paul's chain of five verbs runs <span class="m">foreknew → predestined → called → justified → glorified</span> — God the actor of every one. The negative-space instrument reads what the chain <em>leaves unsaid</em>, then sorts how later readers fill each silence — and even the <em>shape</em> of the disagreement.</p>
+    <p class="integrity">This is <b>method integrity, not apology</b>: we measure the in-between; we don't fill it. The fills below are documented reception, a <b>candidate demonstration</b> of the instrument — not a coded finding.</p>
+  </header>
+
+  <hr class="rule">
+
+  <!-- THE VERSE — chain + holes located in the text -->
+  <div class="versecap">The text, and the gaps inside it</div>
+  <p class="verse">
+    <span class="ref">Romans 8:28–30 (KJV) — </span>
+    “And we know that all things work together for good to them that love God…
+    For whom he did <span class="verb">foreknow</span><span class="hole">B2 · on what ground?</span>,
+    he also did <span class="verb">predestinate</span> to be conformed to the image of his Son…
+    Moreover whom he did predestinate, them he also <span class="verb">called</span><span class="hole">B3 · where does the human act?</span>:
+    and whom he called, them he also <span class="verb">justified</span>: and whom he justified, them he also <span class="verb">glorified</span>.”<span class="hole">B1 · and those not chosen?</span>
+  </p>
+  <p class="chainline">Five gold-underlined verbs = <b>the golden chain</b>. Three ◦ marks = the negative space — the questions the chain raises but never answers.</p>
+
+  <hr class="rule">
+
+  <div class="legend">
+    <span><i class="dotk aug"></i><b>Augustine</b> <em>· 354–430, Hippo — the predestinarian pole</em></span>
+    <span><i class="dotk aqu"></i><b>Aquinas</b> <em>· 1225–74, Paris — the mediating reader</em></span>
+    <span><i class="dotk arm"></i><b>Arminian</b> <em>· after Arminius, 1560–1609 — the synergist pole</em></span>
+  </div>
+
+  <!-- SMALL-MULTIPLE HOLE CARDS -->
+  <div class="cards">
+
+    <!-- B2 -->
+    <section class="card">
+      <div class="top"><span class="bcode">B2</span><h2>Basis of election</h2></div>
+      <p class="q">The chain begins at “foreknew” — but never says on what ground God foreknew.</p>
+
+      <div class="spec">
+        <svg viewBox="0 0 560 44" role="img" aria-label="Spectrum for B2: Augustine 0.09, Aquinas 0.20, Arminian 0.90 — near-binary, the two poles cluster">
+          <line x1="8" y1="22" x2="552" y2="22" stroke="#e3dac6" stroke-width="1.5"/>
+          <!-- Augustine .09 -> 8 + .09*544 = 57 ; Aquinas .20 -> 8+.20*544=117 ; Arminian .90 -> 8+.90*544=498 -->
+          <circle cx="57"  cy="22" r="6" fill="#3f5a39"/>
+          <circle cx="117" cy="22" r="6" fill="#6b4b6b"/>
+          <circle cx="498" cy="22" r="6" fill="#a4582f"/>
+        </svg>
+        <div class="poles"><span>← grace / God's bare will</span><span>foreseen response →</span></div>
+        <p class="shapenote"><b>Near-binary.</b> Augustine and Aquinas cluster tight at one pole; the Arminian sits far off. On this hole the readers barely gradate.</p>
+      </div>
+
+      <div class="fills">
+        <div class="fill aug"><div class="who">Augustine</div><p>sheer grace / God's bare purpose — <em>not works</em></p></div>
+        <div class="fill arm"><div class="who">Arminian</div><p>foreknowledge of a foreseen <em>response</em>, made prior to predestination</p></div>
+      </div>
+      <div class="mid"><div class="who">Aquinas · mediating</div><p>God's goodness resolving into sheer divine will; <em>rejects</em> foreseen-merits</p></div>
+    </section>
+
+    <!-- B1 -->
+    <section class="card">
+      <div class="top"><span class="bcode">B1</span><h2>Reprobation</h2></div>
+      <p class="q">The chain names only the saved. What of those <em>not</em> foreknown?</p>
+
+      <div class="spec">
+        <svg viewBox="0 0 560 44" role="img" aria-label="Spectrum for B1: Augustine 0.06, Aquinas 0.50, Arminian 0.94 — a genuine spectrum, Aquinas sits mid">
+          <line x1="8" y1="22" x2="552" y2="22" stroke="#e3dac6" stroke-width="1.5"/>
+          <!-- .06->41 ; .50->280 ; .94->519 -->
+          <circle cx="41"  cy="22" r="6" fill="#3f5a39"/>
+          <circle cx="280" cy="22" r="6" fill="#6b4b6b"/>
+          <circle cx="519" cy="22" r="6" fill="#a4582f"/>
+        </svg>
+        <div class="poles"><span>← affirmed, by cause</span><span>denied →</span></div>
+        <p class="shapenote"><b>A genuine spectrum.</b> Aquinas sits squarely in the middle — the readers spread evenly across the axis, not into two camps.</p>
+      </div>
+
+      <div class="fills">
+        <div class="fill aug"><div class="who">Augustine</div><p>affirmed — the non-foreknown perish</p></div>
+        <div class="fill arm"><div class="who">Arminian</div><p>denied, by reductio (“the horrible decree”)</p></div>
+      </div>
+      <div class="mid"><div class="who">Aquinas · mediating</div><p>affirmed <em>but permission-not-causation</em> (“endured” = “permitted”; gift-not-debt)</p></div>
+    </section>
+
+    <!-- B3 -->
+    <section class="card">
+      <div class="top"><span class="bcode">B3</span><h2>Where agency enters</h2></div>
+      <p class="q">Every verb is God's; the human is only the object. Where does the human act?</p>
+
+      <div class="spec">
+        <svg viewBox="0 0 560 44" role="img" aria-label="Spectrum for B3: Augustine 0.06, Aquinas 0.52, Arminian 0.94 — a genuine spectrum, Aquinas sits mid">
+          <line x1="8" y1="22" x2="552" y2="22" stroke="#e3dac6" stroke-width="1.5"/>
+          <!-- .06->41 ; .52->291 ; .94->519 -->
+          <circle cx="41"  cy="22" r="6" fill="#3f5a39"/>
+          <circle cx="291" cy="22" r="6" fill="#6b4b6b"/>
+          <circle cx="519" cy="22" r="6" fill="#a4582f"/>
+        </svg>
+        <div class="poles"><span>← absorbed into God</span><span>independent free agency →</span></div>
+        <p class="shapenote"><b>A genuine spectrum.</b> Again Aquinas holds the middle — free will a <em>real</em> secondary cause, neither pole.</p>
+      </div>
+
+      <div class="fills">
+        <div class="fill aug"><div class="who">Augustine</div><p>absorbed into God's purpose (perseverance itself a gift)</p></div>
+        <div class="fill arm"><div class="who">Arminian</div><p>free agency affirmed as independent, self-evident</p></div>
+      </div>
+      <div class="mid"><div class="who">Aquinas · mediating</div><p>double-causality — free will a <em>real</em> secondary cause, contained under God as first cause</p></div>
+    </section>
+
+  </div>
+
+  <!-- THE 4-PART METHOD CARD — second honesty channel (the only one) -->
+  <div class="method">
+    <div class="lab">How to read this — the instrument in four steps</div>
+    <div class="steps">
+      <div class="step"><div class="n">1 · THE MOVE</div><p>Paul chains five verbs with God as sole actor.</p></div>
+      <div class="step"><div class="n">2 · THE HOLE</div><p>The chain <b>leaves gaps</b> — ground, the unchosen, agency.</p></div>
+      <div class="step"><div class="n">3 · WHO FILLS IT</div><p>Later readers fill each gap differently — <b>sorted, not scored</b>.</p></div>
+      <div class="step"><div class="n">4 · WHY IT MATTERS</div><p>The map discriminates fills — <b>a candidate demonstration; nothing here is a coded finding.</b></p></div>
+    </div>
+  </div>
+
+  <p class="foot">Fills are documented theological reception (Rom 8:28–30). Reader dates approximate; theological positions verbatim. Staged for review.</p>
+
+</div>
+</body>
+</html>

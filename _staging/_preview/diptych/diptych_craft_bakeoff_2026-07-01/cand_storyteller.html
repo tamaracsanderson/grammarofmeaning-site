@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Reception discrimination — a scroll through one verse</title>
+<style>
+:root{
+  --ink:#221c14; --parch:#fbf6ec; --parch2:#f4ecd9; --line:#e3dac6; --mut:#8a7d63;
+  --moss:#3f5a39; --moss-d:#2f4a2c; --moss-soft:#eef2ea;
+  --gold:#b8893a; --gold-d:#7a5a1e;
+  --clay:#b06a2c; --clay-soft:#f7efdd; --clay-d:#8a4e1a;
+  --plum:#6d5170; --plum-soft:#efeaf0; --plum-d:#4f3a52;
+  --soft:#fcfbf6;
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--parch);color:var(--ink);font-family:var(--serif);
+  line-height:1.62;-webkit-font-smoothing:antialiased}
+
+/* ---------- opening hero ---------- */
+.hero{max-width:760px;margin:0 auto;padding:88px 26px 20px;text-align:center}
+.hero .eyebrow{font:600 13px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-bottom:18px}
+.hero h1{font-size:42px;line-height:1.08;margin:0 0 14px;font-weight:600;letter-spacing:-.01em}
+.hero .standfirst{font-size:19px;line-height:1.6;color:#2c2418;text-align:left;max-width:640px;margin:0 auto}
+.hero .standfirst .hon{color:var(--moss-d);font-style:italic}
+.scrollcue{font:600 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--mut);
+  margin-top:40px;display:inline-flex;flex-direction:column;align-items:center;gap:8px}
+.scrollcue .arr{font-size:18px;color:var(--gold);animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+@media(prefers-reduced-motion:reduce){.arr{animation:none}}
+
+/* ---------- the two-column stage ---------- */
+.stage{max-width:1120px;margin:0 auto;padding:0 26px;
+  display:grid;grid-template-columns:minmax(300px,380px) 1fr;gap:56px;align-items:start}
+
+/* sticky verse spine (left) */
+.spine{position:sticky;top:0;align-self:start;height:100vh;display:flex;align-items:center}
+.spinecard{background:var(--parch2);border:1px solid var(--line);border-radius:14px;
+  padding:26px 26px 22px;width:100%;box-shadow:0 1px 8px rgba(80,60,20,.06)}
+.spinecard .cite{font:700 11px/1 var(--sans);letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.chain{list-style:none;margin:0;padding:0}
+.chain li{position:relative;padding:9px 0 9px 26px;font-size:19px;color:#4a4232;line-height:1.35;
+  transition:color .35s ease}
+.chain li .lk{position:absolute;left:6px;top:14px;width:8px;height:8px;border-radius:50%;
+  background:var(--gold);opacity:.32;transition:opacity .35s,box-shadow .35s}
+.chain li:not(:last-child)::before{content:"";position:absolute;left:9.4px;top:22px;bottom:-9px;
+  width:1.4px;background:var(--gold);opacity:.28}
+.chain li b{color:var(--ink);font-weight:600}
+/* verse-line highlight when its hole is active */
+.chain li.lit{color:var(--ink)}
+.chain li.lit .lk{opacity:1;box-shadow:0 0 0 4px rgba(184,137,58,.18)}
+.chain li.lit b{color:var(--moss-d)}
+/* the "hole marker" — a gap annotation that appears next to the active line */
+.holemark{margin-top:20px;min-height:74px;border-top:1px dashed var(--line);padding-top:16px}
+.holemark .hlab{font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--clay-d);margin-bottom:6px;
+  opacity:0;transform:translateY(4px);transition:opacity .4s,transform .4s}
+.holemark .htxt{font-size:15px;font-style:italic;color:var(--mut);line-height:1.45;
+  opacity:0;transform:translateY(4px);transition:opacity .4s .06s,transform .4s .06s}
+.holemark.on .hlab,.holemark.on .htxt{opacity:1;transform:none}
+.spinenote{font:400 12.5px/1.5 var(--sans);color:var(--mut);margin-top:16px;font-style:italic}
+
+/* narrative column (right) */
+.narr{padding:0 0 40px}
+.readers{padding:120px 0 40px}
+.readers .kicker{font:700 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.readers h2{font-size:28px;font-weight:600;margin:0 0 8px;letter-spacing:-.01em}
+.readers .sub{font-size:18px;color:#2c2418;margin:0 0 28px;max-width:560px}
+.bio{border-left:4px solid var(--line);padding:4px 0 4px 18px;margin:0 0 20px}
+.bio.aug{border-color:var(--moss)}
+.bio.arm{border-color:var(--clay)}
+.bio.aqu{border-color:var(--plum)}
+.bio .who{font-size:20px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.bio .meta{font:600 12.5px/1.4 var(--sans);color:var(--mut);margin-bottom:6px}
+.bio .role{display:inline-block;font:700 10.5px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;
+  padding:4px 9px;border-radius:20px;margin-bottom:8px}
+.bio.aug .role{background:var(--moss-soft);color:var(--moss-d)}
+.bio.arm .role{background:var(--clay-soft);color:var(--clay-d)}
+.bio.aqu .role{background:var(--plum-soft);color:var(--plum-d)}
+.bio p{font-size:16.5px;line-height:1.55;color:#2c2418;margin:0}
+
+/* per-hole beats — each is tall, generous room */
+.beat{padding:120px 0 60px;border-top:1px solid var(--line)}
+.beat .tag{font:700 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--clay-d);margin-bottom:12px}
+.beat h2{font-size:30px;font-weight:600;margin:0 0 6px;letter-spacing:-.01em;line-height:1.12}
+.beat .gap{font-size:19px;font-style:italic;color:var(--moss-d);margin:0 0 26px;max-width:560px}
+.beat .locate{background:var(--parch2);border:1px solid var(--line);border-left:4px solid var(--gold);
+  border-radius:0 12px 12px 0;padding:14px 18px;margin:0 0 30px;font-size:16.5px;line-height:1.55;color:#2c2418}
+.beat .locate b{color:var(--gold-d)}
+
+/* the mirror — two fills side by side */
+.mirror{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 22px}
+.fill{border-radius:12px;padding:18px 18px 20px;border:1px solid var(--line)}
+.fill.aug{background:var(--moss-soft);border-color:#cddac7}
+.fill.arm{background:var(--clay-soft);border-color:#e7d3ad}
+.fill .name{font:700 11px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;margin-bottom:9px}
+.fill.aug .name{color:var(--moss-d)}
+.fill.arm .name{color:var(--clay-d)}
+.fill .txt{font-size:17px;line-height:1.5;color:#2c2418}
+@media(max-width:560px){.mirror{grid-template-columns:1fr}}
+
+/* the third reader, inline */
+.third{background:var(--plum-soft);border:1px solid #ddd2de;border-left:4px solid var(--plum);
+  border-radius:0 12px 12px 0;padding:16px 20px;margin:0 0 26px}
+.third .name{font:700 11px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--plum-d);margin-bottom:8px}
+.third .txt{font-size:17px;line-height:1.5;color:#2c2418}
+
+/* per-hole spectrum strip */
+.spectrum{margin:6px 0 0}
+.spectrum .slab{font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin-bottom:16px}
+.axis{position:relative;height:60px;margin:0 6px 12px}
+.axis .track{position:absolute;left:0;right:0;top:29px;height:3px;border-radius:2px;
+  background:linear-gradient(90deg,var(--moss) 0%,var(--plum) 50%,var(--clay) 100%);opacity:.28}
+.axis .pole{position:absolute;top:44px;font:600 11.5px/1 var(--sans);color:var(--mut);white-space:nowrap}
+.axis .pole.l{left:0}
+.axis .pole.r{right:0;text-align:right}
+.dot{position:absolute;top:20px;transform:translateX(-50%);text-align:center;transition:left .1s}
+.dot .pip{width:19px;height:19px;border-radius:50%;margin:0 auto 5px;border:2.5px solid #fff;
+  box-shadow:0 1px 4px rgba(80,60,20,.22)}
+.dot.aug .pip{background:var(--moss)}
+.dot.aqu .pip{background:var(--plum)}
+.dot.arm .pip{background:var(--clay)}
+.dot .dl{font:700 9.5px/1 var(--sans);letter-spacing:.03em;text-transform:uppercase;color:var(--mut);
+  position:absolute;top:-16px;left:50%;transform:translateX(-50%);white-space:nowrap}
+.readshape{font-size:16px;line-height:1.5;color:#2c2418;margin:14px 4px 0;font-style:italic}
+.readshape b{font-style:normal;color:var(--moss-d)}
+
+/* payoff + honesty */
+.payoff{max-width:760px;margin:0 auto;padding:110px 26px 20px}
+.payoff .kicker{font:700 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.payoff h2{font-size:30px;font-weight:600;margin:0 0 16px;letter-spacing:-.01em;line-height:1.14}
+.payoff p{font-size:19px;line-height:1.62;color:#2c2418;margin:0 0 16px}
+.payoff .pull{font-size:21px;font-style:italic;color:var(--moss-d)}
+
+.card{max-width:760px;margin:14px auto 0;padding:0 26px}
+.card .cframe{background:var(--parch2);border:1px solid var(--line);border-left:4px solid var(--moss);
+  border-radius:0 14px 14px 0;padding:24px 26px}
+.card .clab{font:700 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--moss);margin-bottom:16px}
+.card ol{margin:0;padding:0;list-style:none;counter-reset:step}
+.card li{position:relative;padding:0 0 16px 40px;counter-increment:step}
+.card li:last-child{padding-bottom:0}
+.card li::before{content:counter(step);position:absolute;left:0;top:1px;width:26px;height:26px;
+  border-radius:50%;background:var(--moss);color:#fff;font:700 13px/26px var(--sans);text-align:center}
+.card li .h{font-size:17px;font-weight:600;color:var(--ink);display:block;margin-bottom:2px}
+.card li .b{font-size:16px;line-height:1.5;color:#2c2418}
+.card li .b i{color:var(--moss-d)}
+
+.foot{font-family:var(--sans);font-size:12px;color:var(--mut);text-align:center;padding:56px 26px 70px}
+
+/* scroll-reveal — only active when JS is on */
+body.js .revealable{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+body.js .revealable.seen{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  body.js .revealable{opacity:1;transform:none;transition:none}
+}
+
+/* ---------- mobile: spine becomes an inline strip ---------- */
+@media(max-width:820px){
+  .stage{display:block;padding:0 20px}
+  .spine{position:static;height:auto;display:block;margin:0 -20px 8px;padding:0}
+  .spinecard{border-radius:0;border-left:0;border-right:0;box-shadow:none;
+    position:sticky;top:0;z-index:20;padding:16px 20px 14px;
+    background:rgba(244,236,217,.97);backdrop-filter:blur(3px)}
+  .chain{display:flex;flex-wrap:wrap;gap:4px 14px}
+  .chain li{padding:2px 0 2px 16px;font-size:15px}
+  .chain li .lk{top:8px;left:2px;width:7px;height:7px}
+  .chain li:not(:last-child)::before{display:none}
+  .holemark,.spinenote{display:none}
+  .readers{padding:40px 0 20px}
+  .beat{padding:48px 0 30px}
+  .hero{padding:60px 20px 16px}
+  .hero h1{font-size:32px}
+  .payoff{padding:56px 20px 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- OPENING HOOK + STANDFIRST (honesty channel #1 of 2 lives here) -->
+<header class="hero">
+  <div class="eyebrow">The Method at Work · Reception discrimination</div>
+  <h1>Read one verse the way three readers did — and watch the gaps appear.</h1>
+  <p class="standfirst">Every text leaves things unsaid. Our instrument finds those gaps — the
+    negative space — and sorts the readers who fill them. <span class="hon">This is
+    instrument-validation, not a theological finding: the coding is barely begun (candidate,
+    not conclusion). We measure the in-between; we don't fill it.</span></p>
+  <span class="scrollcue">Scroll to begin<span class="arr">↓</span></span>
+</header>
+
+<!-- THE STAGE: sticky verse spine (left) + scrolling narrative (right) -->
+<div class="stage">
+
+  <!-- LEFT: sticky verse spine — the golden chain -->
+  <aside class="spine">
+    <div class="spinecard">
+      <div class="cite">Romans 8:28–30 · KJV</div>
+      <ul class="chain" id="chain">
+        <li data-verb="foreknew"><span class="lk"></span>whom he did <b>foreknow</b></li>
+        <li data-verb="predestined"><span class="lk"></span>he also did <b>predestinate</b></li>
+        <li data-verb="called"><span class="lk"></span>them he also <b>called</b></li>
+        <li data-verb="justified"><span class="lk"></span>them he also <b>justified</b></li>
+        <li data-verb="glorified"><span class="lk"></span>them he also <b>glorified</b></li>
+      </ul>
+      <div class="holemark" id="holemark">
+        <div class="hlab" id="holeLab">The gap in view</div>
+        <div class="htxt" id="holeTxt">Scroll down — each hole lights on the chain as its beat arrives.</div>
+      </div>
+      <div class="spinenote">Five verbs. God is the subject of every one. The reader is only the object.</div>
+    </div>
+  </aside>
+
+  <!-- RIGHT: scrolling narrative -->
+  <div class="narr">
+
+    <!-- MEET THE READERS -->
+    <section class="readers" data-hole="none" data-lab="Three readers, one text"
+             data-txt="Before the gaps — meet the readers who will fill them.">
+      <div class="kicker revealable">First, the readers</div>
+      <h2 class="revealable">Three people read this same chain — and disagreed about what it leaves out.</h2>
+      <p class="sub revealable">Across fifteen centuries, three readers pressed on the same five verbs.
+        None disputed the words. They disputed the <i>silences</i>.</p>
+
+      <div class="bio aug revealable">
+        <div class="role">The predestinarian pole</div>
+        <div class="who">Augustine of Hippo</div>
+        <div class="meta">354–430 CE · bishop of Hippo Regius, Roman North Africa (modern Algeria)</div>
+        <p>Led the anti-Pelagian controversy; taught salvation by unmerited <b>grace</b>, original sin,
+          predestination (<i>Confessions</i>, <i>City of God</i>).</p>
+      </div>
+
+      <div class="bio arm revealable">
+        <div class="role">The synergist pole</div>
+        <div class="who">The Arminian tradition</div>
+        <div class="meta">after Jacobus Arminius, 1560–1609 · Leiden, Dutch Republic</div>
+        <p>His followers issued the <b>Remonstrance</b> (1610): <b>conditional election</b> (God elects those
+          he foreknows will believe), resistible grace, free human response.</p>
+      </div>
+
+      <div class="bio aqu revealable">
+        <div class="role">The mediating reader</div>
+        <div class="who">Thomas Aquinas</div>
+        <div class="meta">1225–1274 · Dominican friar, Paris &amp; Naples</div>
+        <p>The <i>Summa Theologiae</i> (I, q.23): God's will the ground; reprobation by <b>permission</b>;
+          <b>double causality</b> — God first cause, free will a real secondary cause.</p>
+      </div>
+    </section>
+
+    <!-- BEAT 1 — B2, basis of election (near-binary) -->
+    <section class="beat" data-hole="B2" data-line="0" data-lab="B2 — basis of election"
+             data-txt="The chain begins at &ldquo;foreknew&rdquo; — but never says on what ground.">
+      <div class="tag revealable">Hole B2 — basis of election</div>
+      <h2 class="revealable">The chain begins — but on what ground?</h2>
+      <p class="gap revealable">"On what ground was anyone foreknown?" The chain <i>starts</i> at
+        <b>foreknew</b>, yet never says why God foreknew whom he foreknew.</p>
+      <div class="locate revealable">Look left: the gap sits at the very first link, <b>foreknew</b>.
+        The word is there; its <i>reason</i> is missing. That missing reason is the hole.</div>
+
+      <div class="mirror revealable">
+        <div class="fill aug">
+          <div class="name">Augustine fills it</div>
+          <div class="txt">sheer grace / God's bare purpose — <i>not works</i></div>
+        </div>
+        <div class="fill arm">
+          <div class="name">The Arminian fills it</div>
+          <div class="txt">foreknowledge of a foreseen <i>response</i>, made prior to predestination</div>
+        </div>
+      </div>
+
+      <div class="third revealable">
+        <div class="name">Aquinas, between them</div>
+        <div class="txt">God's goodness resolving into sheer divine will; <i>rejects</i> foreseen-merits</div>
+      </div>
+
+      <div class="spectrum revealable">
+        <div class="slab">Where the three land · sorted, not scored</div>
+        <div class="axis" data-b2>
+          <div class="track"></div>
+          <div class="dot aug" style="left:9%"><span class="dl">Augustine</span><span class="pip"></span></div>
+          <div class="dot aqu" style="left:20%"><span class="dl">Aquinas</span><span class="pip"></span></div>
+          <div class="dot arm" style="left:90%"><span class="dl">Arminian</span><span class="pip"></span></div>
+          <div class="pole l">grace alone</div>
+          <div class="pole r">foreseen response</div>
+        </div>
+        <p class="readshape"><b>Near-binary.</b> Augustine and Aquinas cluster tight on one end; the Arminian
+          sits far off. On <i>this</i> hole, the dispute is almost categorical — two camps, not a gradient.</p>
+      </div>
+    </section>
+
+    <!-- BEAT 2 — B1, reprobation (genuine spectrum) -->
+    <section class="beat" data-hole="B1" data-line="0" data-lab="B1 — reprobation"
+             data-txt="The chain names only the saved — silent about those not foreknown.">
+      <div class="tag revealable">Hole B1 — reprobation</div>
+      <h2 class="revealable">And those not on the chain?</h2>
+      <p class="gap revealable">"What of those <i>not</i> chosen?" The chain names only the saved — foreknown,
+        called, justified, glorified. It says nothing about those left off it.</p>
+      <div class="locate revealable">Look left: every link names the <i>foreknown</i>. The hole is
+        everyone the chain <b>doesn't</b> mention — the silence around the saved.</div>
+
+      <div class="mirror revealable">
+        <div class="fill aug">
+          <div class="name">Augustine fills it</div>
+          <div class="txt">affirmed — the non-foreknown perish</div>
+        </div>
+        <div class="fill arm">
+          <div class="name">The Arminian fills it</div>
+          <div class="txt">denied, by reductio ("the horrible decree")</div>
+        </div>
+      </div>
+
+      <div class="third revealable">
+        <div class="name">Aquinas, between them</div>
+        <div class="txt">affirmed <i>but permission-not-causation</i> ("endured" = "permitted"; gift-not-debt)</div>
+      </div>
+
+      <div class="spectrum revealable">
+        <div class="slab">Where the three land · sorted, not scored</div>
+        <div class="axis" data-b1>
+          <div class="track"></div>
+          <div class="dot aug" style="left:6%"><span class="dl">Augustine</span><span class="pip"></span></div>
+          <div class="dot aqu" style="left:50%"><span class="dl">Aquinas</span><span class="pip"></span></div>
+          <div class="dot arm" style="left:94%"><span class="dl">Arminian</span><span class="pip"></span></div>
+          <div class="pole l">affirmed</div>
+          <div class="pole r">denied</div>
+        </div>
+        <p class="readshape"><b>A genuine spectrum.</b> Aquinas sits squarely in the middle — reprobation
+          affirmed, but as <i>permission</i>, not cause. Here the dispute is a gradient, not two camps.</p>
+      </div>
+    </section>
+
+    <!-- BEAT 3 — B3, where agency enters (genuine spectrum) -->
+    <section class="beat" data-hole="B3" data-line="2" data-lab="B3 — where agency enters"
+             data-txt="Every verb is God's; the human is only the object. Where does the human act?">
+      <div class="tag revealable">Hole B3 — where agency enters</div>
+      <h2 class="revealable">Where does the human act?</h2>
+      <p class="gap revealable">Every verb is God's — foreknew, predestined, called, justified, glorified.
+        The human is only ever the <i>object</i>. So where does the human's own agency enter?</p>
+      <div class="locate revealable">Look left: God is the subject of all five verbs. The hole is the
+        <b>missing human subject</b> — the place where a person would act, if they act at all.</div>
+
+      <div class="mirror revealable">
+        <div class="fill aug">
+          <div class="name">Augustine fills it</div>
+          <div class="txt">absorbed into God's purpose (perseverance itself a gift)</div>
+        </div>
+        <div class="fill arm">
+          <div class="name">The Arminian fills it</div>
+          <div class="txt">free agency affirmed as independent, self-evident</div>
+        </div>
+      </div>
+
+      <div class="third revealable">
+        <div class="name">Aquinas, between them</div>
+        <div class="txt">double-causality — free will a <i>real</i> secondary cause, contained under God as first cause</div>
+      </div>
+
+      <div class="spectrum revealable">
+        <div class="slab">Where the three land · sorted, not scored</div>
+        <div class="axis" data-b3>
+          <div class="track"></div>
+          <div class="dot aug" style="left:6%"><span class="dl">Augustine</span><span class="pip"></span></div>
+          <div class="dot aqu" style="left:52%"><span class="dl">Aquinas</span><span class="pip"></span></div>
+          <div class="dot arm" style="left:94%"><span class="dl">Arminian</span><span class="pip"></span></div>
+          <div class="pole l">absorbed in God</div>
+          <div class="pole r">independent agency</div>
+        </div>
+        <p class="readshape"><b>A genuine spectrum</b> again. Double-causality places Aquinas mid-axis —
+          free will real, but held under God as first cause. A gradient, not a binary.</p>
+      </div>
+    </section>
+
+  </div><!-- /.narr -->
+</div><!-- /.stage -->
+
+<!-- PAYOFF -->
+<section class="payoff" data-hole="none" data-lab="What the instrument did"
+         data-txt="Three holes, three shapes. The map sorted them.">
+  <div class="kicker revealable">The payoff</div>
+  <h2 class="revealable">The map sorted the theologies — and the shape of each dispute.</h2>
+  <p class="revealable">Three holes in one verse. Three readers. The instrument located each gap in the
+    actual text, then sorted where each reader stands — <b>and</b> read the shape of every dispute:
+    one hole nearly <b>categorical</b> (B2 — two camps), two genuinely <b>gradient</b> (B1, B3 — a
+    spectrum with Aquinas in the middle).</p>
+  <p class="pull revealable">Sorted, not scored. The instrument discriminates between readings; it never
+    decides which is right.</p>
+</section>
+
+<!-- HONESTY CARD (channel #2 of 2 — the 4-part card) -->
+<div class="card">
+  <div class="cframe revealable">
+    <div class="clab">How to read this — method integrity</div>
+    <ol>
+      <li>
+        <span class="h">The move</span>
+        <span class="b">We read the verse for its <i>negative space</i> — the things a text leaves unsaid,
+          not the things it states.</span>
+      </li>
+      <li>
+        <span class="h">The hole</span>
+        <span class="b">Each gap (B2 ground · B1 reprobation · B3 agency) is located <i>in the actual verse</i>,
+          not imposed from outside.</span>
+      </li>
+      <li>
+        <span class="h">Who fills it</span>
+        <span class="b">Augustine, Aquinas, and the Arminian each fill the same holes differently — and the
+          instrument <i>sorts</i> them, without ranking.</span>
+      </li>
+      <li>
+        <span class="h">Why this is instrument-validation</span>
+        <span class="b">This shows the instrument <i>works</i> — it finds real holes and sorts real readers.
+          It is <i>not</i> a theological finding: the coding has barely begun (candidate, not conclusion).
+          <i>We measure the in-between; we don't fill it.</i></span>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div class="foot">Staged for review · not deploy · <em>Grammar of Meaning — The Method at Work</em></div>
+
+<!-- ============ scrollytelling behavior ============ -->
+<script>
+(function(){
+  // 1) mark JS on — enables scroll-reveal hidden-start; without this everything is visible
+  document.body.classList.add('js');
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 2) reveal-on-scroll for .revealable
+  var revealables = Array.prototype.slice.call(document.querySelectorAll('.revealable'));
+  if ('IntersectionObserver' in window && !reduce) {
+    var revObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add('seen'); revObs.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.15 });
+    revealables.forEach(function(el){ revObs.observe(el); });
+  } else {
+    // no IO or reduced-motion → show everything
+    revealables.forEach(function(el){ el.classList.add('seen'); });
+  }
+
+  // 3) spine sync — as each beat/section enters, light its verse line + write the hole marker
+  var chainItems = Array.prototype.slice.call(document.querySelectorAll('#chain li'));
+  var holemark = document.getElementById('holemark');
+  var holeLab  = document.getElementById('holeLab');
+  var holeTxt  = document.getElementById('holeTxt');
+
+  function clearLit(){ chainItems.forEach(function(li){ li.classList.remove('lit'); }); }
+
+  function litForHole(hole, lineIdx){
+    clearLit();
+    if (hole === 'B1'){
+      // reprobation = silence around ALL the saved links
+      chainItems.forEach(function(li){ li.classList.add('lit'); });
+    } else if (hole === 'B3'){
+      // agency = every verb is God's; light them all, the human is nowhere
+      chainItems.forEach(function(li){ li.classList.add('lit'); });
+    } else if (hole === 'B2'){
+      // basis of election = the first link, foreknew
+      if (chainItems[0]) chainItems[0].classList.add('lit');
+    }
+  }
+
+  function setSpine(section){
+    var hole = section.getAttribute('data-hole');
+    var lab  = section.getAttribute('data-lab') || '';
+    var txt  = section.getAttribute('data-txt') || '';
+    holeLab.innerHTML = lab;
+    holeTxt.innerHTML = txt;
+    if (hole && hole !== 'none'){
+      holemark.classList.add('on');
+      litForHole(hole, parseInt(section.getAttribute('data-line')||'0',10));
+    } else {
+      // readers / payoff — no hole lit, but keep the marker text
+      if (hole === 'none' && lab){ holemark.classList.add('on'); }
+      clearLit();
+    }
+  }
+
+  var syncSections = Array.prototype.slice.call(
+    document.querySelectorAll('[data-hole]')
+  );
+  if ('IntersectionObserver' in window){
+    var spineObs = new IntersectionObserver(function(entries){
+      // choose the entry most centered in the viewport
+      var best = null, bestRatio = 0;
+      entries.forEach(function(e){
+        if (e.isIntersecting && e.intersectionRatio >= bestRatio){
+          best = e.target; bestRatio = e.intersectionRatio;
+        }
+      });
+      if (best) setSpine(best);
+    }, { rootMargin: '-35% 0px -35% 0px', threshold: [0.01, 0.25, 0.5, 0.75] });
+    syncSections.forEach(function(s){ spineObs.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
