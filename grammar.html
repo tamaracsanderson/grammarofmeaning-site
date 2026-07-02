@@ -44,8 +44,8 @@ a{color:var(--teal)}
   border:1px solid rgba(230,128,154,.4);border-radius:20px;padding:5px 14px;background:rgba(230,128,154,.06)}
 
 /* PINNED STAGE — transforms as you scroll (the engine's pinned-token analogue) */
-#stage{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:40;
-  width:min(92vw,540px);
+#stage{position:fixed;right:20px;bottom:18px;z-index:40;
+  width:min(92vw,460px);
   background:rgba(13,16,30,.92);backdrop-filter:blur(10px);
   border:1px solid rgba(243,201,105,.35);border-radius:16px;
   box-shadow:0 8px 34px rgba(0,0,0,.55);
@@ -163,6 +163,8 @@ figure{margin:14px 0 0}
 footer{padding:46px 22px 130px;text-align:center;color:var(--faint);font-size:13px;border-top:1px solid var(--line);margin-top:36px}
 footer b{color:var(--dim)}
 @media(max-width:560px){.sg-spine{gap:3px}.sg-node{padding:5px 3px}.sg-node .v{font-size:11px}#stagebody{min-height:120px}}
+/* on narrow screens there's no side margin to use — re-center the specimen at the bottom */
+@media(max-width:820px){#stage{right:50%;transform:translateX(50%);width:min(94vw,460px)}}
 
 /* site chrome: home pill */
 .gom-home{position:fixed;top:14px;left:16px;z-index:9999;font:600 13px/1 -apple-system,Segoe UI,sans-serif;
