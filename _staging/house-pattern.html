@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grammar of Meaning — The House Pattern</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ---- GROUNDS (Garden skin) ---- */
+    --paper:#F6F1E4;        /* herbarium rag paper — warm ground */
+    --paper-2:#EFE7D3;      /* recessed card / panel ground */
+    --paper-3:#FBF8ED;      /* raised plate ground */
+    --rule:#C9BE9F;         /* hairline rules on paper (Swiss separators) */
+    --rule-soft:rgba(110,123,58,.26);
+
+    /* ---- INK (Garden — no near-black) ---- */
+    --ink:#24302A;          /* deep pine ink — body text */
+    --ink-2:#52605A;        /* secondary text */
+    --ink-3:#7C8478;        /* captions / metadata */
+
+    /* ---- LIVING GREENS ---- */
+    --fern:#3F7D57;         /* luminous fern — primary accent */
+    --moss:#2C4A38;         /* moss — headlines / dark grounds */
+    --sage:#8AA88B;         /* sage — soft supporting fills */
+    --olive:#6E7B3A;        /* olive — botanical linework / diagram spine */
+
+    /* ---- WARM COUNTER-ACCENTS ---- */
+    --terracotta:#C4602F;   /* soil — the pop; outcome edge / signal */
+    --honey:#E0A93B;        /* honey gold — seed-node / bloom highlight */
+
+    --maxw:920px;
+    --grid:8px;
+    --serif:'Newsreader',Georgia,serif;
+    --sans:'Inter',system-ui,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:16px;line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    /* Garden rag-paper grain, CSS only */
+    background-image:
+      radial-gradient(circle at 16% 10%, rgba(224,169,59,.05), transparent 42%),
+      radial-gradient(circle at 84% 82%, rgba(63,125,87,.055), transparent 46%),
+      repeating-linear-gradient(0deg, rgba(110,123,58,.014) 0 2px, transparent 2px 5px),
+      repeating-linear-gradient(90deg, rgba(196,96,47,.011) 0 3px, transparent 3px 7px);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  a{color:var(--fern);text-decoration:none}
+  a:hover{text-decoration:underline;text-underline-offset:3px}
+
+  /* ---------- TYPE SCALE ---------- */
+  h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:-0.01em;color:var(--moss);margin:0}
+  .label{font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--terracotta)}
+  .label-mute{font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3)}
+
+  /* ---------- SECTION FRAME (Swiss) ---------- */
+  section{padding:60px 0;border-top:1px solid var(--rule)}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:26px}
+  .sec-num{font-family:var(--mono);font-size:12px;color:var(--terracotta);font-weight:600}
+  .sec-title{font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-2)}
+  .sec-line{flex:1;height:1px;background:var(--rule);align-self:center}
+  .rationale{font-size:15px;color:var(--ink-2);line-height:1.62;margin-top:6px}
+  .rationale b{color:var(--ink)}
+
+  /* ---------- reading-time chip ---------- */
+  .rt-chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;font-weight:500;
+    letter-spacing:0.04em;color:var(--ink-2);background:var(--paper-3);border:1px solid var(--rule);
+    border-radius:999px;padding:4px 11px}
+  .rt-chip .leaf{width:11px;height:11px;flex:0 0 auto}
+
+  /* ---------- NAV ---------- */
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(246,241,228,0.92);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--rule)}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+  .brandmark{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:600;font-size:18px;letter-spacing:-0.01em;color:var(--moss)}
+  .brandmark .mark{width:22px;height:22px;flex:0 0 auto}
+  .nav{display:flex;gap:4px}
+  .nav a{font-family:var(--sans);font-size:13.5px;font-weight:500;color:var(--ink-2);padding:6px 10px;border-radius:4px;border-bottom:2px solid transparent}
+  .nav a:hover{background:var(--paper-2);color:var(--moss);text-decoration:none}
+  .nav a.active{color:var(--moss);border-bottom-color:var(--honey)}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:84px 0 68px;border-top:none;position:relative;overflow:hidden;
+    background:
+      radial-gradient(120% 90% at 50% -12%, rgba(63,125,87,.10), transparent 60%),
+      linear-gradient(180deg,#F8F4E8,var(--paper))}
+  .hero-grid{position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(90deg,var(--rule) 1px,transparent 1px);
+    background-size:calc(100%/12) 100%;opacity:0.32;
+    -webkit-mask-image:linear-gradient(180deg,transparent,#000 40%,#000 60%,transparent);
+            mask-image:linear-gradient(180deg,transparent,#000 40%,#000 60%,transparent)}
+  .hero .watermark{position:absolute;right:-30px;bottom:-70px;width:330px;height:330px;z-index:1;opacity:.13;pointer-events:none}
+  .hero .wrap{position:relative;z-index:2}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.06em;color:var(--ink-3);margin-bottom:22px}
+  .kicker b{color:var(--terracotta);font-weight:600}
+  .hero h1{font-size:clamp(46px,8vw,84px);line-height:0.98;letter-spacing:-0.03em;font-weight:600;color:var(--moss)}
+  .hero .sub{font-family:var(--serif);font-style:italic;font-size:clamp(20px,3.4vw,29px);color:var(--fern);margin-top:16px;font-weight:400}
+  .hero .lede{max-width:560px;margin-top:24px;font-size:17px;color:var(--ink-2);line-height:1.62}
+  .hero-cta{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+  .btn{font-family:var(--sans);font-weight:600;font-size:14px;padding:11px 20px;border-radius:8px;border:1px solid transparent;cursor:pointer}
+  .btn-primary{background:var(--fern);color:#F7F3E7}
+  .btn-primary:hover{background:var(--moss);text-decoration:none}
+  .btn-ghost{background:rgba(255,255,255,.4);color:var(--moss);border-color:var(--rule)}
+  .btn-ghost:hover{border-color:var(--fern);color:var(--fern);text-decoration:none}
+
+  /* ---------- house-pattern header band ---------- */
+  .hp-head{padding:52px 0 44px;border-top:none}
+  .hp-head .lockup{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+  .hp-head .lockbadge{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--paper);background:var(--moss);border-radius:999px;padding:5px 13px}
+  .hp-head h2{font-size:clamp(30px,5vw,44px);letter-spacing:-0.02em;max-width:20ch;line-height:1.06}
+  .hp-head .two{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:26px}
+  @media(max-width:640px){.hp-head .two{grid-template-columns:1fr}}
+  .hp-card{border:1px solid var(--rule);border-radius:12px;background:var(--paper-3);padding:20px 22px}
+  .hp-card .t{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--terracotta);margin-bottom:8px}
+  .hp-card .t.g{color:var(--fern)}
+  .hp-card p{margin:0;font-size:14.5px;color:var(--ink-2);line-height:1.55}
+  .hp-card p b{color:var(--ink)}
+
+  /* ---------- PALETTE ---------- */
+  .chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+  .chip{border:1px solid var(--rule);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 1px 0 rgba(44,74,56,.04)}
+  .chip .swatch{height:74px;position:relative}
+  .chip .meta{padding:11px 13px 13px}
+  .chip .role{font-family:var(--sans);font-weight:600;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--moss)}
+  .chip .hex{font-family:var(--mono);font-size:12.5px;font-weight:500;color:var(--ink);margin-top:3px}
+  .chip .note{font-size:11.5px;color:var(--ink-3);margin-top:7px;line-height:1.45}
+
+  /* ---------- TYPE SPECIMEN ---------- */
+  .type-grid{display:grid;grid-template-columns:1fr;gap:18px}
+  .spec{border:1px solid var(--rule);border-radius:12px;padding:24px 26px;background:var(--paper-3)}
+  .spec .facelabel{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:12px;margin-bottom:16px}
+  .spec .facelabel .fam{font-family:var(--sans);font-weight:700;font-size:15px;color:var(--moss)}
+  .spec .facelabel .use{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+  .spec .big{font-family:var(--serif);font-size:44px;line-height:1.05;font-weight:600;letter-spacing:-0.02em;color:var(--moss)}
+  .spec .mid{font-family:var(--serif);font-size:23px;font-weight:500;margin-top:12px;color:var(--ink)}
+  .spec .bodyset{font-family:var(--serif);font-size:17px;line-height:1.62;color:var(--ink);margin-top:14px;max-width:60ch}
+  .spec .cap{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:14px;letter-spacing:0.02em}
+  .spec.sans .big{font-family:var(--sans);font-weight:700;letter-spacing:-0.03em;color:var(--moss)}
+  .spec.sans .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  .spec.sans .pill{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:6px 12px;border:1px solid var(--rule);border-radius:20px;color:var(--ink-2)}
+  .spec.sans .scale{font-family:var(--sans);display:flex;align-items:baseline;gap:20px;margin-top:16px;flex-wrap:wrap}
+  .spec.sans .scale span{color:var(--ink)}
+
+  /* ---------- COMPONENTS · content / specimen card ---------- */
+  .specimen{background:var(--paper-3);border:1px solid var(--rule);border-radius:16px;overflow:hidden;box-shadow:0 8px 28px rgba(44,74,56,.06);max-width:680px}
+  .specimen .band{height:5px;background:linear-gradient(90deg,var(--fern),var(--olive) 60%,var(--terracotta))}
+  .specimen .plate{display:grid;grid-template-columns:150px 1fr;gap:0}
+  @media(max-width:560px){.specimen .plate{grid-template-columns:1fr}}
+  .specimen .illo{background:radial-gradient(90% 70% at 50% 30%, rgba(63,125,87,.10), transparent),var(--paper-2);border-right:1px solid var(--rule);display:flex;align-items:center;justify-content:center;padding:14px}
+  @media(max-width:560px){.specimen .illo{border-right:none;border-bottom:1px solid var(--rule)}}
+  .specimen .meta{padding:22px 24px}
+  .specimen .region{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--terracotta)}
+  .specimen h3{font-size:25px;margin:4px 0 4px;color:var(--moss)}
+  .specimen .taxon{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--olive)}
+  .specimen p{margin:12px 0 0;font-size:15.5px;color:var(--ink);line-height:1.58}
+  .specimen .datarow{display:flex;gap:22px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px dashed var(--rule)}
+  .datarow .d .k{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3)}
+  .datarow .d .v{font-family:var(--serif);font-size:19px;color:var(--moss);margin-top:2px}
+
+  /* ---------- MOVE SPECIMEN (Tufte diagram, Garden-recolored) ---------- */
+  .diagram-frame{border:1px solid var(--rule);border-radius:16px;
+    background:radial-gradient(100% 120% at 0% 0%, rgba(224,169,59,.06), transparent 55%),var(--paper-3);
+    padding:30px 28px 26px}
+  .diagram-frame .dtitle{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+  .diagram-frame .dtitle h3{font-size:22px}
+  .diagram-frame .dtag{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+  .diagram-frame .dsub{font-family:var(--serif);font-style:italic;color:var(--ink-2);font-size:16px;margin-bottom:22px}
+  svg{display:block;width:100%;height:auto;font-family:var(--sans)}
+  .fig-caption{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:18px;line-height:1.55;border-top:1px solid var(--rule);padding-top:14px}
+  .fig-caption b{color:var(--terracotta)}
+
+  /* ---------- PULL QUOTE ---------- */
+  .pull{border-left:3px solid var(--terracotta);padding:6px 0 6px 26px;margin:0;max-width:700px}
+  .pull p{font-family:var(--serif);font-size:27px;line-height:1.32;font-weight:500;letter-spacing:-0.01em;color:var(--moss);margin:0}
+  .pull p i{color:var(--fern);font-style:italic}
+  .pull .attr{font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:0.02em;color:var(--ink-3);margin-top:16px}
+  .pull .attr b{color:var(--terracotta)}
+
+  /* ---------- RHYME COMPONENT ---------- */
+  .rhyme{border:1px solid var(--rule);border-radius:16px;background:var(--paper-3);overflow:hidden;max-width:760px}
+  .rhyme .rband{height:5px;background:linear-gradient(90deg,var(--fern),var(--honey))}
+  .rhyme .rbody{padding:26px 28px}
+  .rhyme .rkick{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--terracotta)}
+  .rhyme h3{font-size:26px;margin-top:8px;letter-spacing:-0.01em;line-height:1.15}
+  .rhyme .shared{font-family:var(--serif);font-size:17px;line-height:1.6;color:var(--ink);margin-top:14px;max-width:64ch}
+  .rgrid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:20px;background:var(--rule);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+  @media(max-width:560px){.rgrid{grid-template-columns:1fr}}
+  .rgrid .cell{background:var(--paper-3);padding:15px 17px}
+  .rgrid .cell .t{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--fern)}
+  .rgrid .cell .d{font-family:var(--serif);font-size:15px;color:var(--ink-2);margin-top:6px;line-height:1.5}
+  .rhyme .rfoot{display:flex;gap:18px;margin-top:20px;padding-top:14px;border-top:1px dashed var(--rule);font-family:var(--mono);font-size:12px;color:var(--ink-3);flex-wrap:wrap}
+  .rhyme .rfoot b{color:var(--terracotta);font-weight:600}
+
+  /* ---------- SLOW-READING ACCORDION ("the workings, unhurried") ---------- */
+  .slow-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+  .slow-head h3{font-size:26px}
+  .slow-head .voice{font-family:var(--serif);font-style:italic;color:var(--ink-2);font-size:16px}
+  .curious{border:1px solid var(--rule-soft);border-radius:14px;overflow:hidden;
+    background:repeating-linear-gradient(135deg, rgba(110,123,58,.032) 0 12px, transparent 12px 24px),var(--paper-2)}
+  .curious + .curious{margin-top:12px}
+  .curious summary{list-style:none;cursor:pointer;padding:18px 22px;display:flex;align-items:center;gap:14px;user-select:none}
+  .curious summary::-webkit-details-marker{display:none}
+  .curious .leaf-toggle{width:28px;height:28px;flex:0 0 auto;transition:transform .3s ease;color:var(--fern)}
+  .curious[open] .leaf-toggle{transform:rotate(90deg)}
+  .curious .sum-txt{display:flex;flex-direction:column}
+  .curious .sum-txt .kick{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--terracotta)}
+  .curious .sum-txt .ttl{font-family:var(--serif);font-size:19px;color:var(--moss);margin-top:2px;font-weight:600}
+  .curious .rt-chip{margin-left:auto;align-self:center}
+  .curious .inner{padding:2px 24px 24px 64px;border-top:1px solid var(--rule-soft)}
+  @media(max-width:560px){.curious .inner{padding:2px 22px 22px 22px}}
+  .curious .inner .lead{font-family:var(--serif);font-size:16.5px;line-height:1.62;color:var(--ink);margin:16px 0 0;max-width:62ch}
+  .curious .inner .lead i{color:var(--fern)}
+  .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:18px;background:var(--rule);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+  @media(max-width:560px){.cgrid{grid-template-columns:1fr}}
+  .cgrid .cell{background:var(--paper-3);padding:14px 16px}
+  .cgrid .cell .t{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--terracotta)}
+  .cgrid .cell .d{font-family:var(--serif);font-size:14.5px;color:var(--ink-2);margin-top:6px;line-height:1.5}
+  .aside{font-family:var(--sans);font-size:13.5px;color:var(--ink-2);border-left:3px solid var(--honey);padding-left:14px;line-height:1.55;margin-top:16px;max-width:62ch}
+  .aside b{color:var(--ink)}
+
+  /* full 7-part anatomy list inside expander */
+  .anatomy{list-style:none;padding:0;margin:16px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--rule);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+  @media(max-width:560px){.anatomy{grid-template-columns:1fr}}
+  .anatomy li{background:var(--paper-3);padding:13px 16px;display:flex;gap:12px;align-items:flex-start}
+  .anatomy li .n{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--honey);flex:0 0 auto;margin-top:2px}
+  .anatomy li .term{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--moss);display:block}
+  .anatomy li .gl{font-family:var(--serif);font-size:14px;color:var(--ink-2);margin-top:3px;display:block;line-height:1.45}
+
+  /* ---------- botanical sprig divider ---------- */
+  .sprig{display:block;margin:8px auto 0;width:150px;height:34px;opacity:.85}
+
+  /* ---------- PICK-LIST FOOTER ---------- */
+  footer{background:var(--moss);color:#E6E1CE;border-top:none}
+  footer .wrap{padding:54px 24px}
+  footer .flabel{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--honey);margin-bottom:6px}
+  footer h3{font-family:var(--serif);color:#F1EAD6;font-size:26px;margin-bottom:24px}
+  .pickgrid{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+  @media(max-width:640px){.pickgrid{grid-template-columns:1fr}}
+  .picklist{font-family:var(--mono);font-size:13px;line-height:1.95}
+  .picklist .k{color:var(--sage)}
+  .picklist .v{color:#fff}
+  .picklist .sw{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:8px;vertical-align:-1px;border:1px solid rgba(255,255,255,.2)}
+  .foot-note{font-family:var(--sans);font-size:12px;color:var(--sage);margin-top:28px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<!-- reusable sprig divider symbol -->
+<svg style="display:none" aria-hidden="true"><defs>
+  <symbol id="sprig" viewBox="0 0 150 34">
+    <path d="M5 17 H145" stroke="#6E7B3A" stroke-width="1" fill="none"/>
+    <g fill="none" stroke="#3F7D57" stroke-width="1.3">
+      <path d="M60 17 q-9 -11 -20 -9 q7 8 20 9"/>
+      <path d="M90 17 q9 -11 20 -9 q-7 8 -20 9"/>
+      <path d="M68 17 q-6 9 -15 9 q5 -7 15 -9"/>
+      <path d="M82 17 q6 9 15 9 q-5 -7 -15 -9"/>
+    </g>
+    <circle cx="75" cy="17" r="3.2" fill="#E0A93B"/>
+    <circle cx="75" cy="17" r="6" fill="none" stroke="#C4602F" stroke-width="1"/>
+  </symbol>
+  <symbol id="leaf-toggle" viewBox="0 0 24 24">
+    <path d="M5 19 C5 10 12 5 20 5 C20 14 13 19 5 19 Z" fill="#8AA88B" fill-opacity=".35" stroke="#3F7D57" stroke-width="1.4"/>
+    <path d="M5 19 C9 15 14 11 19 7" stroke="#2C4A38" stroke-width="1.2" fill="none"/>
+  </symbol>
+</defs></svg>
+
+<!-- NAV -->
+<div class="topbar">
+  <div class="wrap">
+    <div class="brandmark">
+      <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 22 V9" stroke="#6E7B3A" stroke-width="1.6"/>
+        <path d="M12 13 q-7 -2 -8 -9 q7 1 8 9" fill="#8AA88B" stroke="#3F7D57" stroke-width="1"/>
+        <path d="M12 10 q7 -3 8 -9 q-7 1 -8 9" fill="#3F7D57" stroke="#2C4A38" stroke-width="1"/>
+        <circle cx="12" cy="6" r="2.4" fill="#E0A93B" stroke="#C4602F" stroke-width="1"/>
+      </svg>
+      Grammar&nbsp;of&nbsp;Meaning
+    </div>
+    <nav class="nav">
+      <a href="#" class="active">Home</a>
+      <a href="#">Library</a>
+      <a href="#">Essays</a>
+      <a href="#garden">Garden</a>
+      <a href="#">Method</a>
+      <a href="#">Reference</a>
+    </nav>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <svg class="watermark" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+    <path d="M100 195 V70" stroke="#3F7D57" stroke-width="1.4"/>
+    <g stroke="#3F7D57" stroke-width="1.2" fill="none">
+      <path d="M100 150 q-46 -10 -58 -55 q46 6 58 55"/>
+      <path d="M100 120 q46 -12 58 -58 q-46 6 -58 58"/>
+      <path d="M100 96 q-38 -8 -48 -46 q38 5 48 46"/>
+      <path d="M100 78 q40 -10 50 -48 q-40 5 -50 48"/>
+    </g>
+    <circle cx="100" cy="62" r="7" fill="#E0A93B"/>
+  </svg>
+  <div class="wrap">
+    <div class="kicker">THE HOUSE PATTERN · <b>FIELD NOTES</b> skeleton · <b>LIVING GARDEN</b> skin</div>
+    <h1>Grammar of<br>Meaning</h1>
+    <div class="sub">How meaning gets made.</div>
+    <p class="lede">A bottom-up study of the moves that recur — as a rhyme, not a copy — across ~545 traditions, each read in its own vocabulary. Meaning is made in the in-between.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary">Enter the Garden</button>
+      <button class="btn btn-ghost">Read the Essays</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- 0. THE HOUSE PATTERN header -->
+<section class="hp-head" id="pattern">
+  <div class="lockup">
+    <span class="lockbadge">Locked · v1</span>
+    <span class="label-mute">the house pattern</span>
+  </div>
+  <h2>One skeleton, one skin. Never two palettes or two type families in parallel.</h2>
+  <div class="two">
+    <div class="hp-card">
+      <div class="t">Skeleton — Field Notes</div>
+      <p>The <b>Swiss grid</b>, the <b>type system</b> (Newsreader · Inter · IBM Plex Mono), the Tufte <b>move-specimen</b> with a plain gloss under every box, the <b>hairline rules</b>, the components, the reading-time chip.</p>
+    </div>
+    <div class="hp-card">
+      <div class="t g">Skin — Living Garden</div>
+      <p>The <b>palette</b> (living greens · terracotta · honey · pine-ink on rag paper — no near-black), the <b>botanical sprig</b>, the move as a <b>growing branch</b>, and the slow-reading voice: <i>the workings, unhurried.</i></p>
+    </div>
+  </div>
+  <p class="rationale" style="margin-top:22px;max-width:66ch">The Field Notes diagrams are recolored into the Garden palette — olive/fern spine, terracotta outcome-edge, honey seed-node. It doesn't clash: the Garden's botanical linework is already geometric and Swiss, so skeleton and skin are cousins, not rivals.</p>
+</section>
+
+<!-- 1. PALETTE -->
+<section id="palette">
+  <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">Palette</span><span class="sec-line"></span></div>
+  <p class="rationale" style="max-width:64ch;margin-bottom:22px">Living greens against warm rag paper, warmed by terracotta soil and honey bloom. No near-black anywhere — body text is a deep pine ink. Terracotta is the signal; honey is the seed-node.</p>
+  <div class="chips">
+    <div class="chip"><div class="swatch" style="background:#F6F1E4;border-bottom:1px solid var(--rule)"></div><div class="meta"><div class="role">Rag Paper · ground</div><div class="hex">#F6F1E4</div><div class="note">Warm herbarium sheet. Every accent sits on this; keeps the field bright, never muddy.</div></div></div>
+    <div class="chip"><div class="swatch" style="background:#EFE7D3;border-bottom:1px solid var(--rule)"></div><div class="meta"><div class="role">Paper-2 · panel</div><div class="hex">#EFE7D3</div><div class="note">Recessed card / accordion ground. The deeper parchment.</div></div></div>
+    <div class="chip"><div class="swatch" style="background:#24302A"></div><div class="meta"><div class="role">Pine Ink · body</div><div class="hex">#24302A</div><div class="note">Not black — a deep pine-green ink. ~11:1 on paper: warm, botanical, fully legible.</div></div></div>
+    <div class="chip"><div class="swatch" style="background:#3F7D57"></div><div class="meta"><div class="role">Fern · primary</div><div class="hex">#3F7D57</div><div class="note">Luminous living green. Links, primary actions, the diagram spine's fern half.</div></div></div>
+    <div class="chip"><div class="swatch" style="background:#2C4A38"></div><div class="meta"><div class="role">Moss · headlines</div><div class="hex">#2C4A38</div><div class="note">Rich display green, ~9:1. Deep but alive — the pine-not-black rule for titles.</div></div></div>
+    <div class="chip"><div class="swatch" style="background:#8AA88B"></div><div class="meta"><div class="role">Sage · support</div><div class="hex">#8AA88B</div><div class="note">Quiet green for fills and leaf undersides. Behind text, never for it.</div></div></div>
+    <div class="chip"><div class="swatch" style="background:#6E7B3A"></div><div class="meta"><div class="role">Olive · linework</div><div class="hex">#6E7B3A</div><div class="note">The botanical drawing green. Stems, hairlines, the diagram spine.</div></div></div>
+    <div class="chip"><div class="swatch" style="background:#C4602F"></div><div class="meta"><div class="role">Terracotta · signal</div><div class="hex">#C4602F</div><div class="note">Warm soil — the ONE counter-accent that pops against green. Outcome edge, eyebrows, signal.</div></div></div>
+    <div class="chip"><div class="swatch" style="background:#E0A93B"></div><div class="meta"><div class="role">Honey · seed-node</div><div class="hex">#E0A93B</div><div class="note">The bloom note. Seed dots, active tabs, honey-ruled asides. Used sparingly.</div></div></div>
+    <div class="chip"><div class="swatch" style="background:#C9BE9F"></div><div class="meta"><div class="role">Rule · hairline</div><div class="hex">#C9BE9F</div><div class="note">Swiss separators. They only ever separate — never ornament.</div></div></div>
+  </div>
+</section>
+
+<!-- 2. TYPE -->
+<section id="type">
+  <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">Type System</span><span class="sec-line"></span></div>
+  <div class="type-grid">
+    <div class="spec">
+      <div class="facelabel"><span class="fam">Newsreader</span><span class="use">DISPLAY · READING — serif</span></div>
+      <div class="big">The moves that recur</div>
+      <div class="mid">Read each tradition in its own vocabulary.</div>
+      <p class="bodyset">A contemporary text serif with an optical-size axis — warm and human at reading sizes, then sharpened into a confident display face for headlines. This is the voice of the Essays and the reading pages: literary, but modern, never antiquarian.</p>
+      <div class="cap">FIG. — Newsreader 6..72 opsz · 400 / 500 / 600 · italic</div>
+    </div>
+    <div class="spec sans">
+      <div class="facelabel"><span class="fam">Inter</span><span class="use">UI · LABELS · DATA — neo-grotesk</span></div>
+      <div class="big">AGENT · SUBSTRATE · OPERATION</div>
+      <div class="scale"><span style="font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase">Nav / Label</span><span style="font-size:15px">Interface copy</span><span style="font-family:var(--mono);font-size:13px">Mono → IBM Plex Mono for data</span></div>
+      <div class="row"><span class="pill">Library</span><span class="pill">Method</span><span class="pill">Foreknew</span><span class="pill">Glorified</span></div>
+      <p class="rationale">Inter carries every label, nav item, and diagram annotation at high legibility — a neutral, exacting workhorse. <b>IBM Plex Mono</b> handles data, citations, figure numbers, and the reading-time chip, giving the research an instrument-panel precision.</p>
+    </div>
+  </div>
+  <p class="rationale" style="margin-top:22px;max-width:70ch"><b>Pairing rationale.</b> A warm literary serif for meaning (Newsreader) against an exacting neo-grotesk for structure (Inter), arbitrated by a mono for data (Plex Mono). The serif says <i>human</i>; the grotesk says <i>serious contemporary publication</i>; the mono says <i>this is measured, not asserted</i>. Three registers, one clear hierarchy — and one skin over all three.</p>
+</section>
+
+<!-- 3. COMPONENTS · content card (a tradition as a specimen-plant) -->
+<section id="garden">
+  <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">Components · Real Content</span><span class="sec-line"></span></div>
+  <span class="label-mute">A · Content card — a tradition, drawn as a specimen-plant</span>
+  <div class="specimen" style="margin-top:14px">
+    <div class="band"></div>
+    <div class="plate">
+      <div class="illo">
+        <svg viewBox="0 0 120 210" style="width:118px;height:200px" fill="none" aria-hidden="true">
+          <path d="M60 205 V52" stroke="#6E7B3A" stroke-width="1.7"/>
+          <g stroke="#3F7D57" stroke-width="1.3" fill="none">
+            <path d="M60 176 q-34 -8 -44 -44 q34 6 44 44"/>
+            <path d="M60 150 q34 -9 44 -46 q-34 6 -44 46"/>
+            <path d="M60 126 q-30 -7 -40 -40 q30 5 40 40"/>
+            <path d="M60 104 q32 -8 42 -42 q-32 5 -42 42"/>
+            <path d="M60 84 q-24 -6 -32 -32 q24 4 32 32"/>
+          </g>
+          <g fill="#8AA88B" fill-opacity=".35">
+            <path d="M60 176 q-34 -8 -44 -44 q34 6 44 44"/>
+            <path d="M60 150 q34 -9 44 -46 q-34 6 -44 46"/>
+          </g>
+          <circle cx="60" cy="46" r="7" fill="#E0A93B" stroke="#C4602F" stroke-width="1.6"/>
+          <circle cx="60" cy="46" r="12" fill="none" stroke="#C4602F" stroke-width="1" stroke-dasharray="2 3"/>
+        </svg>
+      </div>
+      <div class="meta">
+        <div class="region">From the Library · Pauline corpus</div>
+        <h3>Pauline Christianity</h3>
+        <div class="taxon">reads in its own vocabulary — charis, pistis, dikaiosynē</div>
+        <p>A tradition that names the human problem as estrangement and its resolution as being <i>conformed</i> — remade into a likeness held in advance. Its reception has grown for two millennia, each commentary a new leaf on the same stem. Read in its own vocabulary first; the rhyme to other traditions comes later, and only if it earns it.</p>
+        <div class="datarow">
+          <div class="d"><div class="k">Specimen</div><div class="v">№ 0114</div></div>
+          <div class="d"><div class="k">Family</div><div class="v">Abrahamic</div></div>
+          <div class="d"><div class="k">Moves found</div><div class="v">37</div></div>
+          <div class="d"><div class="k">Reception</div><div class="v">growing</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B · THE MOVE SPECIMEN — Tufte diagram, Garden-recolored, 4 boxes + glosses -->
+  <div style="margin-top:44px"></div>
+  <span class="label-mute">B · The "move" specimen — Tufte-grade diagram, Garden-recolored</span>
+  <div class="diagram-frame" style="margin-top:14px">
+    <div class="dtitle"><h3>Anatomy of a move</h3><span class="dtag">FIG. 1 · specimen · Romans 8:29–30</span></div>
+    <div class="dsub">Agent → Substrate → Operation → Outcome</div>
+
+    <svg viewBox="0 0 920 300" role="img" aria-label="Flowchart of a move: God acts on those foreknown, predestined, conformed to the image">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#6E7B3A"/>
+        </marker>
+      </defs>
+
+      <!-- lane labels (honest, high-contrast) -->
+      <g font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="1.4" fill="#7C8478">
+        <text x="102" y="34" text-anchor="middle">AGENT</text>
+        <text x="330" y="34" text-anchor="middle">SUBSTRATE</text>
+        <text x="565" y="34" text-anchor="middle">OPERATION</text>
+        <text x="805" y="34" text-anchor="middle">OUTCOME</text>
+      </g>
+      <line x1="20" y1="46" x2="900" y2="46" stroke="#C9BE9F" stroke-width="1"/>
+
+      <!-- connective spine (olive) -->
+      <line x1="185" y1="130" x2="230" y2="130" stroke="#6E7B3A" stroke-width="1.8" marker-end="url(#arrow)"/>
+      <line x1="420" y1="130" x2="465" y2="130" stroke="#6E7B3A" stroke-width="1.8" marker-end="url(#arrow)"/>
+      <line x1="655" y1="130" x2="700" y2="130" stroke="#6E7B3A" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+      <!-- NODE: AGENT (fern edge, honey seed-node) -->
+      <g>
+        <rect x="20" y="86" width="165" height="88" rx="10" fill="#FBF8ED" stroke="#3F7D57" stroke-width="1.4"/>
+        <rect x="20" y="86" width="6" height="88" rx="3" fill="#3F7D57"/>
+        <circle cx="34" cy="100" r="4.5" fill="#E0A93B" stroke="#C4602F" stroke-width="1.4"/>
+        <text x="46" y="124" font-family="Newsreader, serif" font-size="26" font-weight="600" fill="#2C4A38">God</text>
+        <text x="46" y="150" font-family="Inter, sans-serif" font-size="12.5" fill="#52605A">the one who acts</text>
+      </g>
+
+      <!-- NODE: SUBSTRATE (fern edge) -->
+      <g>
+        <rect x="230" y="86" width="190" height="88" rx="10" fill="#FBF8ED" stroke="#6E7B3A" stroke-width="1.4"/>
+        <rect x="230" y="86" width="6" height="88" rx="3" fill="#6E7B3A"/>
+        <text x="252" y="124" font-family="Newsreader, serif" font-size="22" font-weight="600" fill="#2C4A38">those foreknew</text>
+        <text x="252" y="150" font-family="Inter, sans-serif" font-size="12.5" fill="#52605A">the material worked on</text>
+      </g>
+
+      <!-- NODE: OPERATION (olive edge) -->
+      <g>
+        <rect x="465" y="86" width="190" height="88" rx="10" fill="#FBF8ED" stroke="#6E7B3A" stroke-width="1.4"/>
+        <rect x="465" y="86" width="6" height="88" rx="3" fill="#6E7B3A"/>
+        <text x="487" y="124" font-family="Newsreader, serif" font-size="22" font-weight="600" fill="#2C4A38">predestined</text>
+        <text x="487" y="150" font-family="Inter, sans-serif" font-size="12.5" fill="#52605A">the operation applied</text>
+      </g>
+
+      <!-- NODE: OUTCOME (terracotta edge — the bloom) -->
+      <g>
+        <rect x="700" y="86" width="200" height="88" rx="10" fill="#FBF8ED" stroke="#C4602F" stroke-width="1.9"/>
+        <rect x="700" y="86" width="6" height="88" rx="3" fill="#C4602F"/>
+        <circle cx="884" cy="100" r="5" fill="#E0A93B" stroke="#C4602F" stroke-width="1.4"/>
+        <text x="722" y="118" font-family="Newsreader, serif" font-size="21" font-weight="600" fill="#2C4A38">conformed to</text>
+        <text x="722" y="140" font-family="Newsreader, serif" font-size="21" font-weight="600" fill="#2C4A38">the image</text>
+        <text x="722" y="162" font-family="Inter, sans-serif" font-size="12.5" fill="#C4602F">the result produced</text>
+      </g>
+
+      <!-- data-ink footnote row -->
+      <line x1="20" y1="214" x2="900" y2="214" stroke="#C9BE9F" stroke-width="1"/>
+      <g font-family="IBM Plex Mono, monospace" font-size="11.5" fill="#7C8478">
+        <text x="20" y="240">MOVE-ID</text><text x="112" y="240" fill="#24302A">RM8-FORE-01</text>
+        <text x="320" y="240">SOURCE</text><text x="404" y="240" fill="#24302A">Romans 8:29–30</text>
+        <text x="630" y="240">RHYME</text><text x="702" y="240" fill="#C4602F" font-weight="600">candidate · unranked</text>
+      </g>
+    </svg>
+
+    <p class="fig-caption"><b>Reading:</b> one operation with its arguments, drawn honestly — every glyph carries information, nothing decorates. The public card shows four beats; the <b>terracotta edge</b> marks the outcome, the <b>olive spine</b> carries the flow, the <b>honey seed-node</b> marks where a move takes root. The full seven-part anatomy lives in the drawer below.</p>
+  </div>
+
+  <!-- C · GOLDEN CHAIN as a growing branch (5 nodes) -->
+  <div style="margin-top:44px"></div>
+  <span class="label-mute">C · The golden chain — drawn as a growing branch, five nodes</span>
+  <div class="diagram-frame" style="margin-top:14px">
+    <div class="dtitle"><h3>The golden chain</h3><span class="dtag">FIG. 2 · Romans 8:29–30 · five nodes on one stem</span></div>
+    <div class="dsub">foreknew → predestined → called → justified → glorified</div>
+
+    <svg viewBox="0 0 900 260" role="img" aria-label="A growing branch with five nodes: foreknew, predestined, called, justified, glorified">
+      <!-- growing stem (olive) -->
+      <path d="M40 214 C 150 214 150 176 230 162 S 360 140 430 128 S 560 108 620 96 S 760 72 860 50"
+            stroke="#6E7B3A" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <!-- side leaves along the stem -->
+      <g stroke="#3F7D57" stroke-width="1.4" fill="#8AA88B" fill-opacity=".3">
+        <path d="M180 184 q-16 -14 -30 -8 q10 12 30 8"/>
+        <path d="M330 150 q16 -14 30 -8 q-10 12 -30 8"/>
+        <path d="M520 116 q-16 -13 -30 -7 q10 11 30 7"/>
+        <path d="M700 78 q16 -13 30 -7 q-10 11 -30 7"/>
+      </g>
+
+      <!-- NODE 1: foreknew (seed — honey) -->
+      <g>
+        <circle cx="40" cy="214" r="9" fill="#E0A93B" stroke="#C4602F" stroke-width="2"/>
+        <text x="40" y="242" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" letter-spacing="1" fill="#7C8478">01</text>
+        <text x="40" y="196" text-anchor="middle" font-family="Newsreader, serif" font-size="16" font-weight="600" fill="#2C4A38">foreknew</text>
+      </g>
+      <!-- NODE 2: predestined (fern) -->
+      <g>
+        <circle cx="230" cy="162" r="8" fill="#3F7D57" stroke="#2C4A38" stroke-width="2"/>
+        <text x="230" y="144" text-anchor="middle" font-family="Newsreader, serif" font-size="16" font-weight="600" fill="#2C4A38">predestined</text>
+      </g>
+      <!-- NODE 3: called (fern) -->
+      <g>
+        <circle cx="430" cy="128" r="8" fill="#3F7D57" stroke="#2C4A38" stroke-width="2"/>
+        <text x="430" y="110" text-anchor="middle" font-family="Newsreader, serif" font-size="16" font-weight="600" fill="#2C4A38">called</text>
+      </g>
+      <!-- NODE 4: justified (fern) -->
+      <g>
+        <circle cx="620" cy="96" r="8" fill="#3F7D57" stroke="#2C4A38" stroke-width="2"/>
+        <text x="620" y="78" text-anchor="middle" font-family="Newsreader, serif" font-size="16" font-weight="600" fill="#2C4A38">justified</text>
+      </g>
+      <!-- NODE 5: glorified (bloom — terracotta + honey) -->
+      <g>
+        <circle cx="860" cy="50" r="11" fill="#E0A93B" stroke="#C4602F" stroke-width="2.2"/>
+        <circle cx="860" cy="50" r="17" fill="none" stroke="#C4602F" stroke-width="1" stroke-dasharray="2 3"/>
+        <text x="860" y="30" text-anchor="middle" font-family="Newsreader, serif" font-size="16" font-weight="600" fill="#C4602F">glorified</text>
+      </g>
+    </svg>
+
+    <p class="fig-caption"><b>Reading:</b> the same four-beat grammar, extended — the chain sprouts five nodes on one growing stem, seed to bloom. <b>foreknew</b> is the seed; <b>glorified</b> is the flower. The branch is how the Garden draws any move for node-for-node comparison.</p>
+  </div>
+
+  <!-- D · PULL QUOTE -->
+  <div style="margin-top:44px"></div>
+  <span class="label-mute">D · Pull-quote</span>
+  <blockquote class="pull" style="margin-top:16px">
+    <p>Meaning is not stored in the plant. It is made in the <i>in-between</i> — the metaxy — where a reader and a tradition meet and something takes root.</p>
+    <div class="attr">— <b>Grammar of Meaning</b> · on the metaxy</div>
+  </blockquote>
+</section>
+
+<!-- 4. RHYME COMPONENT (with the required copy fix) -->
+<section id="rhyme">
+  <div class="sec-head"><span class="sec-num">04</span><span class="sec-title">Convergence · The Rhyme</span><span class="sec-line"></span></div>
+  <span class="label-mute">E · Rhyme card — the same shape, spoken in two voices</span>
+  <div class="rhyme" style="margin-top:14px">
+    <div class="rband"></div>
+    <div class="rbody">
+      <div class="rkick">Cross-tradition · candidate rhyme</div>
+      <h3>The same shape, spoken in two voices.</h3>
+      <p class="shared">Two poems rhyme when their endings agree, even though the words differ. A cross-tradition rhyme is the same: two moves share a <b>shape</b> — agent, substrate, operation, outcome — while the vocabulary, the metaphysics, and the world behind them stay entirely their own. Pauline "conformed to the image" and a Confucian account of becoming a <i>junzi</i> make the same move — a self reshaped toward a pattern held in advance — while disagreeing on almost everything else.</p>
+      <div class="rgrid">
+        <div class="cell"><div class="t">Not equivalence</div><div class="d">We never flatten one tradition into another. The Big-T claims stay tradition-internal.</div></div>
+        <div class="cell"><div class="t">Not influence</div><div class="d">Two voices can land on one shape on their own. Whether the two ever touched is a separate question.</div></div>
+        <div class="cell"><div class="t">Portable, little-t</div><div class="d">The recurring <i>move</i> travels. That portability is what the study is after.</div></div>
+        <div class="cell"><div class="t">Earned, not assumed</div><div class="d">A candidate rhyme stays "unranked" until the corpus supports it.</div></div>
+      </div>
+      <div class="rfoot">
+        <span>SHAPE · <b>Agent → Substrate → Operation → Outcome</b></span>
+        <span>STATUS · <b>candidate · unranked</b></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. SLOW-READING ACCORDION ("the workings, unhurried") + reading-time chip -->
+<section id="workings">
+  <div class="sec-head"><span class="sec-num">05</span><span class="sec-title">The Workings, Unhurried</span><span class="sec-line"></span></div>
+  <div class="slow-head">
+    <h3>The workings, unhurried</h3>
+    <span class="voice">Open only what draws you.</span>
+  </div>
+
+  <details class="curious" open>
+    <summary>
+      <svg class="leaf-toggle" aria-hidden="true"><use href="#leaf-toggle"/></svg>
+      <span class="sum-txt">
+        <span class="kick">For the curious</span>
+        <span class="ttl">The full anatomy of a move — all seven parts</span>
+      </span>
+      <span class="rt-chip"><svg class="leaf" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="#leaf-toggle"/></svg>3 min</span>
+    </summary>
+    <div class="inner">
+      <p class="lead">The public card shows four beats — <i>agent, substrate, operation, outcome</i> — because that is enough to read a move at a glance. But a fully coded move carries seven components. Here is the whole specimen, unhurried.</p>
+      <ul class="anatomy">
+        <li><span class="n">1</span><span><span class="term">Operation</span><span class="gl">the verb — the single move being made (e.g. <i>predestined</i>).</span></span></li>
+        <li><span class="n">2</span><span><span class="term">Substrate</span><span class="gl">the material worked on — who or what the operation acts upon.</span></span></li>
+        <li><span class="n">3</span><span><span class="term">Outcome</span><span class="gl">the result produced — what the substrate becomes.</span></span></li>
+        <li><span class="n">4</span><span><span class="term">Agency</span><span class="gl">who acts — the agent, and whether the move is done, received, or shared.</span></span></li>
+        <li><span class="n">5</span><span><span class="term">Warrant</span><span class="gl">on what authority — the ground the tradition gives for the move.</span></span></li>
+        <li><span class="n">6</span><span><span class="term">Consequence</span><span class="gl">what follows — the stakes, the downstream of the move landing.</span></span></li>
+        <li><span class="n">7</span><span><span class="term">Scale</span><span class="gl">how far it reaches — one soul, a people, a cosmos.</span></span></li>
+      </ul>
+      <p class="aside"><b>Field note.</b> The four public beats are a reading aid, not the model. Coding always records all seven; the branch diagram simply hides the last three until you open the drawer — so the glance stays clean and the depth stays available.</p>
+    </div>
+  </details>
+
+  <details class="curious">
+    <summary>
+      <svg class="leaf-toggle" aria-hidden="true"><use href="#leaf-toggle"/></svg>
+      <span class="sum-txt">
+        <span class="kick">For the curious</span>
+        <span class="ttl">Why "rhyme," and not "the same thing"?</span>
+      </span>
+      <span class="rt-chip"><svg class="leaf" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="#leaf-toggle"/></svg>2 min</span>
+    </summary>
+    <div class="inner">
+      <p class="lead">Two poems rhyme when their <i>endings</i> agree, even though the words differ. A cross-tradition rhyme is the same: two moves share a shape while the vocabulary, the metaphysics, and the world behind them stay entirely their own.</p>
+      <div class="cgrid">
+        <div class="cell"><div class="t">Not equivalence</div><div class="d">We never flatten one tradition into another. The Big-T claims stay tradition-internal.</div></div>
+        <div class="cell"><div class="t">Not influence</div><div class="d">Two voices can land on one shape independently. Whether they ever touched is a separate question.</div></div>
+        <div class="cell"><div class="t">Portable, little-t</div><div class="d">The recurring move travels. That portability is what the study is after.</div></div>
+        <div class="cell"><div class="t">Earned, not assumed</div><div class="d">A candidate rhyme stays "unranked" until the corpus supports it.</div></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="curious">
+    <summary>
+      <svg class="leaf-toggle" aria-hidden="true"><use href="#leaf-toggle"/></svg>
+      <span class="sum-txt">
+        <span class="kick">For the curious</span>
+        <span class="ttl">How does a specimen "grow"?</span>
+      </span>
+      <span class="rt-chip"><svg class="leaf" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="#leaf-toggle"/></svg>1 min</span>
+    </summary>
+    <div class="inner">
+      <p class="lead">Each new reading — a commentary, a translation, a lived retelling — adds a leaf. The plate you see is a snapshot of a plant still in season, still putting out growth.</p>
+    </div>
+  </details>
+
+  <svg class="sprig" style="margin-top:34px"><use href="#sprig"/></svg>
+</section>
+
+</div><!-- /wrap -->
+
+<!-- 6. PICK-LIST FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="flabel">The House Pattern · Locked v1</div>
+    <h3>Pick-list — the locked system, ready to copy.</h3>
+    <div class="pickgrid">
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">PALETTE</div>
+        <div class="picklist">
+          <div><span class="sw" style="background:#F6F1E4"></span><span class="k">paper&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="v">#F6F1E4</span></div>
+          <div><span class="sw" style="background:#EFE7D3"></span><span class="k">paper-2&nbsp;&nbsp;&nbsp;</span><span class="v">#EFE7D3</span></div>
+          <div><span class="sw" style="background:#24302A"></span><span class="k">pine-ink&nbsp;&nbsp;</span><span class="v">#24302A</span></div>
+          <div><span class="sw" style="background:#3F7D57"></span><span class="k">fern&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="v">#3F7D57</span></div>
+          <div><span class="sw" style="background:#2C4A38"></span><span class="k">moss&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="v">#2C4A38</span></div>
+          <div><span class="sw" style="background:#8AA88B"></span><span class="k">sage&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="v">#8AA88B</span></div>
+          <div><span class="sw" style="background:#6E7B3A"></span><span class="k">olive&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="v">#6E7B3A</span></div>
+          <div><span class="sw" style="background:#C4602F"></span><span class="k">terracotta</span><span class="v">#C4602F</span></div>
+          <div><span class="sw" style="background:#E0A93B"></span><span class="k">honey&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="v">#E0A93B</span></div>
+          <div><span class="sw" style="background:#C9BE9F"></span><span class="k">rule&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="v">#C9BE9F</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">TYPE</div>
+        <div class="picklist">
+          <div><span class="k">display/read&nbsp;</span><span class="v">Newsreader</span></div>
+          <div><span class="k">ui/labels&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="v">Inter</span></div>
+          <div><span class="k">data/mono&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="v">IBM Plex Mono</span></div>
+        </div>
+        <div class="label-mute" style="color:var(--sage);margin:22px 0 12px">THE PATTERN</div>
+        <div class="picklist" style="font-size:12.5px;line-height:1.75">
+          <div class="v" style="font-family:var(--sans)">Field Notes skeleton · Garden skin —</div>
+          <div class="k" style="font-family:var(--sans)">Swiss grid + hairline rules + Tufte move-specimen<br>with plain glosses · recolored into living greens ·<br>the move as a growing branch · seed-to-bloom ·<br>"the workings, unhurried" + a reading-time chip.</div>
+        </div>
+      </div>
+    </div>
+    <p class="foot-note">Self-contained single HTML · inline CSS · Google Fonts via &lt;link&gt; · CSS/SVG botanical linework only · no raster images, no other external deps. — STAGING.</p>
+  </div>
+</footer>
+
+</body>
+</html>
