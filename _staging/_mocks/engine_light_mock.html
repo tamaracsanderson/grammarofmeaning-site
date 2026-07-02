@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How an idea joins the library — Grammar of Meaning</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{
+  --bg:#0d0f1a; --bg2:#141832; --ink:#eef0fb; --dim:#9aa0c4; --faint:#5a6090;
+  --gold:#f3c969; --teal:#5fd6c4; --rose:#e6809a;
+  --line:rgba(255,255,255,.12); --card:rgba(255,255,255,.045);
+  --maxw:760px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--teal)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+#sky{position:fixed;inset:0;z-index:-2;background:
+  radial-gradient(1200px 700px at 70% -10%, #1f2550 0%, transparent 60%),
+  radial-gradient(900px 600px at 10% 110%, #161a38 0%, transparent 55%), var(--bg)}
+#stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:#fff;opacity:0;transition:opacity 1.4s}
+
+/* hero */
+.hero{min-height:94vh;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:80px 22px 40px}
+.kicker{color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-size:12.5px;font-weight:700}
+.hero h1{font-size:clamp(30px,6vw,52px);line-height:1.08;margin:14px auto 16px;max-width:15ch;font-weight:800}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero .story{color:var(--dim);max-width:50ch;margin:0 auto;font-size:18px;text-align:left}
+.hero .story b{color:var(--ink);font-weight:600}
+.hero .story .real{color:var(--gold);font-weight:600}
+.sunwrap{margin-bottom:8px}
+.scrollcue{margin-top:32px;color:var(--faint);font-size:13px;letter-spacing:1px;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(7px);opacity:1}}
+
+/* rideable token (bottom) */
+#token{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:40;
+  display:flex;align-items:center;gap:9px;padding:8px 16px 8px 12px;border-radius:30px;
+  background:rgba(20,24,50,.86);backdrop-filter:blur(8px);border:1px solid rgba(243,201,105,.4);
+  box-shadow:0 6px 26px rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .5s;font-size:13px;max-width:92vw}
+#token.show{opacity:1}
+#token .tg{color:var(--gold);font-size:16px}
+#token .lab{color:var(--gold);font-weight:700}
+#token .state{color:var(--dim);border-left:1px solid var(--line);padding-left:9px}
+#token .state b{color:var(--ink);font-weight:600}
+
+#rail{position:fixed;left:0;right:0;top:0;height:3px;z-index:41}
+#railfill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--teal))}
+
+/* steps */
+.step{padding:13vh 0;position:relative}
+.step.intro{padding-top:6vh}
+.num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--line);color:var(--gold);font-weight:800;font-size:15px;background:var(--bg2);margin-bottom:14px}
+.num.star{border-color:rgba(243,201,105,.5)}
+.eyebrow{color:var(--faint);letter-spacing:2px;text-transform:uppercase;font-size:11.5px;font-weight:700;margin-bottom:8px}
+.step h2{font-size:clamp(21px,3.2vw,28px);line-height:1.2;margin:0 0 12px;font-weight:800}
+.step h2 .q{color:var(--gold)}
+.lede{color:var(--dim);font-size:18px;margin:0 0 16px}
+.card{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:18px 20px;margin:14px 0}
+.card.roseb{border-color:rgba(230,128,154,.3);background:rgba(230,128,154,.05)}
+.muted{color:var(--dim);font-size:15px}
+.gloss{font-size:13.5px;color:var(--faint);border-top:1px dashed var(--line);margin-top:12px;padding-top:9px}
+.gloss b{color:var(--dim)}
+
+/* the "so what" takeaway box (McKinsey bottom-box) */
+.sowhat{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:12px 16px;
+  border-left:3px solid var(--gold);background:rgba(243,201,105,.06);border-radius:0 10px 10px 0;font-size:15px}
+.sowhat .ar{color:var(--gold);font-weight:800;flex:none}
+.sowhat b{color:var(--ink)}
+
+/* for the curious — expandable */
+details.curious{margin:12px 0 0;border:1px solid var(--line);border-radius:10px;background:rgba(0,0,0,.18)}
+details.curious summary{cursor:pointer;list-style:none;padding:10px 14px;font-size:13px;color:var(--teal);font-weight:600}
+details.curious summary::-webkit-details-marker{display:none}
+details.curious summary::before{content:"▸ ";color:var(--teal)}
+details.curious[open] summary::before{content:"▾ "}
+details.curious .body{padding:2px 16px 14px;font-size:13.5px;color:var(--dim);line-height:1.55}
+details.curious .body b{color:var(--ink)}
+details.curious code,.q-code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--gold)}
+.q-code{display:block;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin-top:8px;color:#cdd2f0;white-space:pre-wrap;line-height:1.5}
+
+/* interactive check */
+.tryrow{display:flex;gap:8px;flex-wrap:wrap}
+.tryrow input{flex:1;min-width:180px;background:rgba(0,0,0,.25);border:1px solid var(--line);color:var(--ink);
+  border-radius:10px;padding:11px 13px;font:inherit;font-size:15px}
+.tryrow input:focus{outline:none;border-color:var(--gold)}
+.btn{background:var(--gold);color:#1a1505;border:none;border-radius:10px;padding:11px 18px;font:inherit;font-weight:700;font-size:15px;cursor:pointer;white-space:nowrap}
+.btn:hover{filter:brightness(1.06)}
+.btn.ghost{background:transparent;color:var(--dim);border:1px solid var(--line);font-weight:600}
+.trylabel{font-size:12px;color:var(--faint);letter-spacing:.5px;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.chips{margin-top:10px}
+.chip{display:inline-block;font-size:13px;padding:5px 12px;border-radius:20px;border:1px solid var(--line);color:var(--dim);margin:4px 5px 0 0;cursor:pointer;background:rgba(255,255,255,.03)}
+.chip:hover{border-color:var(--gold);color:var(--gold)}
+#verdict{margin-top:12px}
+.verline{font-size:15.5px}.verline .yes{color:var(--teal);font-weight:700}.verline .no{color:var(--gold);font-weight:700}
+
+/* archive flow (left→right) */
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0}
+.flowsrc{flex:none;font-size:13px;color:var(--gold);font-weight:700;border:1px solid rgba(243,201,105,.4);border-radius:20px;padding:6px 13px}
+.flowarrow{color:var(--faint);flex:none}
+.flowcol{flex:1;min-width:220px;display:flex;flex-direction:column;gap:6px}
+.arch{border:1px solid var(--line);border-radius:9px;padding:8px 12px;font-size:13px;background:rgba(0,0,0,.18);
+  display:flex;justify-content:space-between;gap:8px;opacity:.35;transform:translateX(-6px);transition:all .45s}
+.arch.lit{opacity:1;transform:none}
+.arch .nm{color:var(--ink)}
+.arch .res{font-size:12px;font-weight:700;white-space:nowrap}
+.arch .res.hit{color:var(--teal)}.arch .res.miss{color:var(--rose)}
+.parity-note{font-size:13px;color:var(--dim);margin-top:10px}
+.illus{font-size:11.5px;color:var(--faint);font-style:italic;margin-top:6px}
+
+/* passage / panel */
+.passage{font-family:Georgia,serif;font-size:17px;line-height:1.7;border-left:3px solid var(--gold);
+  padding:6px 0 6px 16px;color:#f4ecd8;font-style:italic;margin:6px 0 12px}
+.panelrow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
+.panel{border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:rgba(0,0,0,.16);font-size:13px}
+.panel .role{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);font-weight:700}
+.panel .say{color:var(--dim);margin-top:5px;font-style:italic}
+.lcode{display:inline-block;font-size:11.5px;color:var(--gold);border:1px solid rgba(243,201,105,.4);border-radius:6px;padding:1px 7px;margin:6px 3px 0 0;font-family:ui-monospace,Menlo,monospace}
+.warn{font-size:13px;color:var(--rose);margin-top:10px}
+
+/* the loop (finale) */
+.loop{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:14px 0}
+.loopnode{border:1px solid rgba(95,214,196,.4);border-radius:12px;padding:10px 14px;font-size:13.5px;color:var(--ink);background:rgba(95,214,196,.06);text-align:center}
+.looparrow{color:var(--teal);font-size:18px}
+.tags .tag{display:inline-block;font-size:12px;padding:2px 9px;border-radius:20px;border:1px solid var(--line);color:var(--dim);margin:3px 4px 0 0}
+
+.next{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);padding:16px 20px;margin:18px 0;font-size:15px;color:var(--dim)}
+.next b{color:var(--ink)}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+footer{padding:46px 22px 80px;text-align:center;color:var(--faint);font-size:13px;border-top:1px solid var(--line);margin-top:36px}
+footer b{color:var(--dim)}
+@media(max-width:560px){.panelrow{grid-template-columns:1fr}.loop{flex-direction:column}.looparrow{transform:rotate(90deg)}}
+</style>
+<style>/* site chrome: home link (matches grammarofmeaning.org) */.gom-home{position:fixed;top:14px;left:16px;z-index:9999;font:600 13px/1 -apple-system,Segoe UI,sans-serif;color:#3f5a39;text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px;box-shadow:0 1px 5px rgba(80,60,20,.10)}.gom-home:hover{background:#fff;border-color:#b8893a;color:#b8893a}@media print{.gom-home{display:none}}</style>
+<style id="light-skin-mock">
+/* MOCK: engine in the parchment (Library) skin instead of dark-sky */
+:root{--bg:#fbf6ec!important;--bg2:#f4ecd9!important;--ink:#221c14!important;--dim:#4a4133!important;--faint:#8a7d63!important;--gold:#b8893a!important;--teal:#3f6e5a!important;--line:rgba(80,60,20,.14)!important;--card:rgba(80,60,20,.035)!important}
+body{background:#fbf6ec!important;color:#221c14!important}
+#sky{background:radial-gradient(120% 90% at 50% -20%,rgba(232,199,102,.22),transparent 60%),linear-gradient(180deg,#f4ecd9,#fbf6ec)!important}
+#stars,#constellation{display:none!important}
+.hero h1 em,.kicker{color:#b8893a!important}
+.hero .story b{color:#221c14!important}
+/* nav → light */
+.gnav{background:rgba(251,246,236,.9)!important;border-color:#e3dac6!important}
+.gnav-home{color:#3f5a39!important}
+.gnav-links a{color:#6a5f48!important}
+.gnav-links a:hover{background:#efe7d3!important;color:#221c14!important}
+.gnav-links a.on{background:#3f5a39!important;color:#fbf6ec!important}
+</style>
+</head>
+<body>
+<style id="gnav-css">
+body{animation:gfade .32s ease both}@keyframes gfade{from{opacity:0}to{opacity:1}}
+.gom-home{display:none!important}
+.gnav{position:sticky;top:0;z-index:1000;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);border-bottom:1px solid}
+.gnav-in{max-width:1120px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.gnav-home{font-weight:700;font-size:13.5px;text-decoration:none;white-space:nowrap;letter-spacing:.01em}
+.gnav-links{display:flex;gap:3px;flex-wrap:wrap;margin-left:auto}
+.gnav-links a{font-size:13px;text-decoration:none;padding:5px 11px;border-radius:14px;white-space:nowrap;transition:.12s}
+.gnav--light{background:rgba(251,246,236,.86);border-color:#e3dac6}
+.gnav--light .gnav-home{color:#3f5a39}
+.gnav--light .gnav-links a{color:#6a5f48}
+.gnav--light .gnav-links a:hover{background:#efe7d3;color:#221c14}
+.gnav--light .gnav-links a.on{background:#3f5a39;color:#fbf6ec}
+.gnav--dark{background:rgba(13,15,26,.82);border-color:rgba(255,255,255,.13)}
+.gnav--dark .gnav-home{color:#f3c969}
+.gnav--dark .gnav-links a{color:#c8cbe0}
+.gnav--dark .gnav-links a:hover{background:rgba(255,255,255,.09);color:#fff}
+.gnav--dark .gnav-links a.on{background:#f3c969;color:#0d0f1a}
+@media(max-width:560px){.gnav-home{font-size:12px}.gnav-links a{font-size:12px;padding:4px 8px}}
+</style>
+<nav class="gnav gnav--dark"><div class="gnav-in">
+<a class="gnav-home" href="index.html">Grammar of Meaning</a>
+<div class="gnav-links">
+<a href="index.html" data-k="index.html">Home</a>
+<a href="subtraditions.html" data-k="subtraditions.html">Library</a>
+<a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener">Essays &#8599;</a>
+<a href="garden.html" data-k="garden.html">Garden</a>
+<a href="grammar.html" data-k="grammar.html">Method</a>
+<a href="glossary.html" data-k="glossary.html">Reference</a>
+</div></div></nav>
+<script>(function(){var m={'index.html':'index.html','subtraditions.html':'subtraditions.html','engine.html':'subtraditions.html','factory.html':'subtraditions.html','garden.html':'garden.html','explainer.html':'garden.html','pilgrimage_pitch.html':'garden.html','grammar.html':'grammar.html','mission.html':'grammar.html','romans.html':'grammar.html','method.html':'grammar.html','glossary.html':'glossary.html','lexicon.html':'glossary.html','principles.html':'glossary.html','scholars.html':'glossary.html','bibliography.html':'glossary.html'};var p=(location.pathname.split('/').pop()||'index.html');var k=m[p];if(k){var a=document.querySelector('.gnav-links a[data-k="'+k+'"]');if(a)a.classList.add('on');}})();</script>
+
+<a href="index.html" class="gom-home">← Grammar of Meaning</a>
+<div id="sky"></div>
+<div id="stars"></div>
+<div id="rail"><div id="railfill"></div></div>
+
+<div id="token"><span class="tg">✶</span><span class="lab">Tengri</span><span class="state" id="tokenstate"><b>at the door</b></span></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="sunwrap">
+    <svg width="78" height="78" viewBox="0 0 78 78" aria-hidden="true">
+      <circle cx="39" cy="39" r="13" fill="none" stroke="#f3c969" stroke-width="2.2"/>
+      <circle cx="39" cy="39" r="5" fill="#f3c969"/>
+      <g stroke="#f3c969" stroke-width="2.2" stroke-linecap="round">
+        <line x1="39" y1="6" x2="39" y2="17"/><line x1="39" y1="61" x2="39" y2="72"/>
+        <line x1="6" y1="39" x2="17" y2="39"/><line x1="61" y1="39" x2="72" y2="39"/>
+        <line x1="15" y1="15" x2="23" y2="23"/><line x1="55" y1="55" x2="63" y2="63"/>
+        <line x1="63" y1="15" x2="55" y2="23"/><line x1="23" y1="55" x2="15" y2="63"/>
+      </g>
+    </svg>
+  </div>
+  <div class="kicker">Follow one idea into the library</div>
+  <h1>What happens when <em>Tengri</em> wants in?</h1>
+  <p class="story">I was reading <b>Wolf Totem</b> — Jiang Rong's novel of the Mongolian steppe — and wondered: is <b>Tengri</b>, the eternal blue sky, the sky-god of the old Turkic and Mongol peoples, in the library I've been building? I'd spent a summer in Mongolia; the name kept appearing.<br><br>So I searched. <span class="real">Almost nothing — two stray mentions, in a library of 9.6 million passages.</span> Exactly the kind of gap this engine exists to close. Here's how it brings an idea in.</p>
+  <div class="scrollcue">scroll to follow it ↓</div>
+</section>
+
+<main>
+
+<!-- INTRO -->
+<section class="step intro" data-state="at the door">
+  <div class="wrap reveal">
+    <div class="eyebrow">Before the search</div>
+    <h2>The library was never empty.</h2>
+    <p class="lede">Before I went looking for Tengri, I'd already scaffolded it.</p>
+    <div class="card">
+      <div class="muted">A hypothesis-list of traditions worth including, plus earlier passes of background research and first-draft notes, gave the library a shape: shelves with labels, some already full. So a new idea doesn't drop into a void — it lands in a structure that already exists.</div>
+      <div class="sowhat"><span class="ar">→</span><span><b>The engine adds to a partly-built library, not a blank page.</b></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 1 · CHECK -->
+<section class="step" data-state="checked against the library">
+  <div class="wrap reveal">
+    <span class="num">1</span>
+    <h2>First, the engine checks: <span class="q">is it already here?</span></h2>
+    <p class="lede">Every idea is matched against what the library already holds.</p>
+    <div class="card">
+      <div class="trylabel">Try it — illustrative</div>
+      <div class="tryrow">
+        <input id="tryin" type="text" placeholder="type an idea, e.g. Tengri" autocomplete="off">
+        <button class="btn" id="trybtn">check the library</button>
+      </div>
+      <div class="chips">
+        <span class="chip" data-v="Tengri">Tengri</span>
+        <span class="chip" data-v="Four Noble Truths">Four Noble Truths</span>
+        <span class="chip" data-v="Ubuntu">Ubuntu</span>
+        <span class="chip" data-v="Apophatic Prayer">Apophatic Prayer</span>
+      </div>
+      <div id="verdict"></div>
+    </div>
+    <div class="sowhat"><span class="ar">→</span><span>A miss isn't a failure. <b>It's the case the engine exists for.</b></span></div>
+  </div>
+</section>
+
+<!-- 2 · SEARCH EVERYWHERE -->
+<section class="step" data-state="searched everywhere at once">
+  <div class="wrap reveal">
+    <span class="num">2</span>
+    <h2>Not here. So the engine <span class="q">searches everywhere at once.</span></h2>
+    <p class="lede">Tengri is searched across many archives in parallel — its home-region collections and the big Western ones, with equal priority.</p>
+    <div class="card">
+      <div class="flow">
+        <span class="flowsrc">✶ Tengri</span>
+        <span class="flowarrow">→</span>
+        <div class="flowcol" id="flowcol">
+          <div class="arch"><span class="nm">Mongolian manuscript archive <span style="color:var(--faint)">· home region</span></span><span class="res hit">3 found</span></div>
+          <div class="arch"><span class="nm">Eurasian oral-history corpus</span><span class="res hit">2 found</span></div>
+          <div class="arch"><span class="nm">Siberian ethnographic collection</span><span class="res hit">found</span></div>
+          <div class="arch"><span class="nm">Open scholarly repository <span style="color:var(--faint)">· global</span></span><span class="res hit">papers found</span></div>
+          <div class="arch"><span class="nm">Major Western theology index</span><span class="res miss">empty — logged</span></div>
+        </div>
+      </div>
+      <div class="parity-note" id="paritynote">Searching…</div>
+      <div class="illus">Illustrative of how the search fans out; counts shown are representative.</div>
+      <div class="sowhat"><span class="ar">→</span><span>An archive is searched for <b>what it contains</b>, never for whose region it "belongs to." Skipping the obvious ones is how blind spots form.</span></div>
+      <details class="curious">
+        <summary>For the curious — the tools doing this</summary>
+        <div class="body">
+          The search runs on a small stack I built:<br>
+          • <b>CRADLE</b> — the acquisition pipeline: classify a request → route it → resolve it to real sources → dedupe → ingest.<br>
+          • <b>PRISM</b> — tags every archive on 13 routing axes (region, language, era, peer-review…), so the engine knows <i>where</i> to look.<br>
+          • <b>FOUNDRY</b> — builds the individual harvesters that pull from each archive.<br>
+          • <b>The acquisition queue</b> — the engine's running want-list of what to acquire next (internally, the "shopping cart").<br>
+          Two kinds of harvester run side by side: <b>core</b> (general, cross-tradition archives) and <b>tradition-specific</b> (e.g. steppe / Mongolian sources). <b>4,745 archives catalogued</b> so far.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · PROVENANCE TRAIL -->
+<section class="step" data-state="brought in with a full trail">
+  <div class="wrap reveal">
+    <span class="num">3</span>
+    <h2>Each source arrives with a <span class="q">full trail.</span></h2>
+    <p class="lede">Nothing comes in anonymously. Every source carries where it came from, how it was fetched, and who wrote it — and the empty searches are recorded too.</p>
+    <div class="card roseb">
+      <div class="muted">For a passage about Tengri, the trail records three things that can never be left blank — <b>where it came from</b>, <b>what shaped it</b>, and <b>what wrote the row</b> — plus the live source URL, the citation locator, and its access/consent status. So any later claim can be traced back to the exact text. When an archive comes back <b>empty</b>, that absence is logged, not silently dropped: over time the logged gaps become a visible map of where the world's record is thin.</div>
+      <div class="tags" style="margin-top:12px">
+        <span class="tag" style="border-color:rgba(95,214,196,.5);color:var(--teal)">✓ found · Mongolian manuscript archive</span>
+        <span class="tag" style="border-color:rgba(95,214,196,.5);color:var(--teal)">✓ found · Eurasian oral-history corpus</span>
+        <span class="tag" style="border-color:rgba(230,128,154,.5);color:var(--rose)">✗ empty · Western theology index — logged</span>
+      </div>
+      <div class="sowhat"><span class="ar">→</span><span>Every later claim traces back to a source — <b>and the misses are part of the record.</b></span></div>
+      <details class="curious">
+        <summary>For the curious — the fields on every row</summary>
+        <div class="body">
+          Three provenance fields are enforced at the database layer and can never be NULL:<br>
+          • <b>where it came from</b> (<code>extraction_provenance</code>) — which archive, harvested how.<br>
+          • <b>what shaped it</b> (<code>methodology_notes</code>) — the scholarly / methodological context.<br>
+          • <b>what wrote the row</b> (<code>description_author</code>) — the exact script or process.<br>
+          Alongside them: the live source URL, the citation locator (so a claim points at the precise passage), and the access / consent status. No provenance, no entry — every coded value can be audited back to its origin.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · CHUNKING -->
+<section class="step" data-state="split into passages">
+  <div class="wrap reveal">
+    <span class="num">4</span>
+    <h2>Big texts become <span class="q">small, quotable passages.</span></h2>
+    <p class="lede">A whole book is too big to compare. So the engine splits each text into passages — the smallest unit you could quote and stand behind. This is the step we call <b>chunking</b>.</p>
+    <div class="card">
+      <div class="passage">"By the will of Möngke Tengri — the Eternal Sky — under whose power all things live, this decree is given."</div>
+      <div class="muted" style="font-size:14px;color:var(--faint)">↑ one passage, lifted from a 13th-century steppe edict. It can now be pointed at, quoted, and labelled on its own.</div>
+      <div class="sowhat"><span class="ar">→</span><span>The <b>passage, not the book, is the unit</b> we analyze. 392,000 sources have become 9.6 million passages.</span></div>
+      <details class="curious">
+        <summary>For the curious — how a passage is sized</summary>
+        <div class="body">
+          Texts are split into a shallow hierarchy:<br>
+          • <b>L0</b> — a shared canonical root (e.g. a scripture many traditions read).<br>
+          • <b>L1–L3</b> — organizational scaffolding (e.g. book → chapter → section for scripture; sermon → section → turn for a transcript).<br>
+          • <b>L4</b> — the quotable passage itself. <b>"Atom" = an L4 passage</b> — the actual unit of analysis.<br>
+          Container vs. atom: the book is the container; the L4 passage is the atom. A small shelf of books yields a vast number of atoms.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · TRIAGE + GLOSSARY -->
+<section class="step" data-state="triaged, then given its tradition's words">
+  <div class="wrap reveal">
+    <span class="num">5</span>
+    <h2>Before coding: <span class="q">triage, then the tradition's own glossary.</span></h2>
+    <p class="lede">Coding doesn't start cold. First each passage is <b>triaged</b>, then the engine seeds a <b>glossary in the tradition's own words</b> — so the analysis lands on the right material, in the right vocabulary.</p>
+    <div class="card">
+      <div class="muted"><b>Triage</b> tags each passage cheaply first — how central is it (a 13th-century imperial edict invoking Tengri is high-significance), and what kind of artifact is it (a decree, a chronicle, a modern commentary)? — so the expensive interpretive step lands on the right material, and a commentary is never mistaken for the thing it comments on.</div>
+      <div class="muted" style="margin-top:10px"><b>Glossary seed.</b> Then, before any coding, the engine collects the tradition's own in-vivo terms — the words a member would actually use:</div>
+      <div style="margin-top:8px"><span class="lcode">Möngke Tengri</span><span class="lcode">Köke Tengri (blue sky)</span><span class="lcode">sülde (spirit)</span><span class="lcode">jayaɣa (mandate)</span></div>
+      <div class="sowhat"><span class="ar">→</span><span>Triage before expense; <b>the tradition's vocabulary before any interpretation.</b> The anti-pre-anchoring discipline, built into the order.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · CODING (two passes) -->
+<section class="step" data-state="coded in its own words">
+  <div class="wrap reveal">
+    <span class="num">6</span>
+    <h2>Each passage is coded in <span class="q">its own tradition's words.</span></h2>
+    <p class="lede">No outside category is forced on. <b>Pass 1</b> codes the passage in <b>its own vocabulary</b>, read three ways — insider, outsider, practitioner — so no single viewpoint decides. <b>Pass 2</b> checks each code back against the tradition's glossary.</p>
+    <div class="card">
+      <div class="panelrow">
+        <div class="panel"><div class="role">Insider</div><div class="say">"Reverence for the sky as the source of legitimate rule."</div><div><span class="lcode">Möngke-Tengri</span><span class="lcode">sky-mandate</span></div></div>
+        <div class="panel"><div class="role">Outsider</div><div class="say">"A high-god sanctioning earthly authority — recognizable cross-culturally."</div><div><span class="lcode">divine-sanction</span></div></div>
+        <div class="panel"><div class="role">Practitioner</div><div class="say">"You invoke Tengri before acting; the sky is witness, not idol."</div><div><span class="lcode">invocation</span><span class="lcode">witness-sky</span></div></div>
+      </div>
+      <div class="muted" style="font-size:14px;margin-top:10px">The instrument records more than a label: the <b>in-vivo terms</b>, a <b>scale of concern</b> (how wide a circle the passage cares about — from a single self to the whole cosmos), and a short <b>orientation note</b> (what is this passage <i>for</i>?).</div>
+      <div class="warn">Notice: nobody wrote "monotheism" or "God." Those are outside categories — applied later, carefully, only after the passage's own words have been heard.</div>
+      <div class="sowhat"><span class="ar">→</span><span>Each passage is described in <b>its own tradition's words first</b> — no imported categories.</span></div>
+      <details class="curious">
+        <summary>For the curious — the two-pass coding instrument</summary>
+        <div class="body">
+          <b>Pass 1</b> — each of the three readers gets a prompt of this shape:
+          <span class="q-code">Read this passage. Describe what it says using ONLY the
+tradition's own vocabulary — the in-vivo terms a member
+would use. Do NOT import outside categories yet.
+
+Role: {insider | outsider | practitioner}
+Return: in-vivo term codes
+      + the scale of concern (how wide a circle it values)
+      + a 2-3 sentence orientation note (what is this for?).</span>
+          The real instrument asks for more than a one-line reading — the scale of concern, the tradition's own glossary terms, and that orientation note are all part of the record.<br><br>
+          <b>Pass 2 — the glossary drift-check.</b> Each code from Pass 1 is compared back against the tradition's seed glossary; terms the glossary lacks flow <i>back into</i> it (grounded-theory style), so the vocabulary keeps growing. The glossary is a drift-check, never a cage.<br><br>
+          The three independent readings get <b>per-axis agreement</b> scoring; disagreement flags a passage as uncertain rather than being smoothed over. (This stands in for a human rating team a solo researcher can't afford.)
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSE · THE LOOP -->
+<section class="step" data-state="in the library — feeding the next search">
+  <div class="wrap reveal">
+    <span class="num star">✦</span>
+    <h2>Tengri is in the library — and it <span class="q">feeds the next search.</span></h2>
+    <p class="lede">The engine isn't a one-way pipe. What it brings in becomes fuel for what it looks for next.</p>
+    <div class="card">
+      <svg viewBox="0 0 880 215" style="width:100%;max-width:880px" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--teal)"/></marker>
+          <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--gold)"/></marker>
+        </defs>
+        <g font-family="-apple-system,Segoe UI,sans-serif" font-size="12" text-anchor="middle">
+          <!-- node chain -->
+          <rect x="14" y="34" width="112" height="44" rx="9" fill="rgba(243,201,105,.06)" stroke="var(--gold)" stroke-width="1.5"/>
+          <text x="70" y="52" font-weight="700" fill="var(--ink)">the want-list</text><text x="70" y="68" font-size="10" fill="var(--faint)">gaps · wants</text>
+          <rect x="166" y="34" width="116" height="44" rx="9" fill="rgba(95,214,196,.06)" stroke="var(--teal)" stroke-width="1.5"/>
+          <text x="224" y="52" font-weight="700" fill="var(--ink)">CRADLE</text><text x="224" y="68" font-size="10" fill="var(--faint)">acquire</text>
+          <rect x="322" y="34" width="112" height="44" rx="9" fill="rgba(95,214,196,.06)" stroke="var(--teal)" stroke-width="1.5"/>
+          <text x="378" y="52" font-weight="700" fill="var(--ink)">corpus</text><text x="378" y="68" font-size="10" fill="var(--faint)">sources held</text>
+          <rect x="474" y="34" width="100" height="44" rx="9" fill="rgba(95,214,196,.06)" stroke="var(--teal)" stroke-width="1.5"/>
+          <text x="524" y="52" font-weight="700" fill="var(--ink)">passages</text><text x="524" y="68" font-size="10" fill="var(--faint)">the atoms</text>
+          <rect x="614" y="34" width="100" height="44" rx="9" fill="rgba(95,214,196,.06)" stroke="var(--teal)" stroke-width="1.5"/>
+          <text x="664" y="52" font-weight="700" fill="var(--ink)">coded</text><text x="664" y="68" font-size="10" fill="var(--faint)">in its own words</text>
+          <rect x="754" y="34" width="112" height="44" rx="9" fill="rgba(243,201,105,.08)" stroke="var(--gold)" stroke-width="2"/>
+          <text x="810" y="52" font-weight="700" fill="var(--ink)">in the library</text><text x="810" y="68" font-size="10" fill="var(--faint)">the finding</text>
+          <!-- forward arrows -->
+          <g stroke="var(--teal)" stroke-width="1.8" fill="none">
+            <path d="M126 56 H164" marker-end="url(#ah)"/><path d="M282 56 H320" marker-end="url(#ah)"/>
+            <path d="M434 56 H472" marker-end="url(#ah)"/><path d="M574 56 H612" marker-end="url(#ah)"/>
+            <path d="M714 56 H752" marker-end="url(#ah)"/>
+          </g>
+          <!-- bibliography flywheel return: corpus -> want-list -->
+          <path d="M378 80 C378 142 124 142 72 82" stroke="var(--teal)" stroke-width="1.8" fill="none" stroke-dasharray="6 4" marker-end="url(#ahg)"/>
+          <text x="226" y="140" font-size="11" fill="var(--teal)" font-weight="600">↻ each text's bibliography surfaces the NEXT gaps</text>
+          <!-- shopping overlay return: coded -> want-list -->
+          <path d="M810 80 C810 198 110 198 66 84" stroke="var(--gold)" stroke-width="1.6" fill="none" stroke-dasharray="3 4" marker-end="url(#ahg)"/>
+          <text x="438" y="192" font-size="11" fill="var(--gold)" font-weight="600">new terms &amp; sources refill the want-list — from any stage, continuously</text>
+        </g>
+      </svg>
+      <div class="muted" style="text-align:center;margin-top:6px">Coding Tengri surfaces new in-vivo terms and citations; those refill the acquisition queue; which drives the next search. The library grows itself — it's a loop, not a line.</div>
+      <div class="sowhat"><span class="ar">→</span><span>Bringing one idea in <b>makes the engine better at finding the next.</b> That's why it's an engine, not a pipe.</span></div>
+    </div>
+
+    <div class="next">
+      <b>Where Tengri ends up:</b> in the library — sources gathered with a full trail, split into passages, coded in its own vocabulary. Ready to be compared with everything else.<br><br>
+      <b>What the library then does</b> with all those coded passages — where traditions converge, and where they don't — is a different question, and a different story. This page is just how an idea gets <em>in</em>.
+    </div>
+
+    <div style="text-align:center;margin-top:18px">
+      <button class="btn ghost" id="restart">↺ follow another idea from the top</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  How the engine fills the library, for someone meeting the project for the first time.<br>
+  <b>Tengri</b> stands in for any idea not yet in the library; the real search returned ~2 mentions.
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  /* stars */
+  var starsEl=document.getElementById('stars');
+  for(var i=0;i<80;i++){var s=document.createElement('div');s.className='star';var sz=Math.random()*2+1;
+    s.style.width=sz+'px';s.style.height=sz+'px';s.style.left=(Math.random()*100)+'%';s.style.top=(Math.random()*100)+'%';
+    starsEl.appendChild(s);(function(el,d){setTimeout(function(){el.style.opacity=(Math.random()*0.6+0.15).toFixed(2);},d);})(s,Math.random()*1800);}
+  /* rail */
+  var railfill=document.getElementById('railfill');
+  function onScroll(){var h=document.documentElement.scrollHeight-window.innerHeight;railfill.style.width=((h>0?window.scrollY/h:0)*100)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});
+  /* reveal + token state */
+  var token=document.getElementById('token'),tokenstate=document.getElementById('tokenstate');
+  var reveals=[].slice.call(document.querySelectorAll('.reveal'));
+  var ro=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in');});},{threshold:0.16});
+  reveals.forEach(function(r){ro.observe(r);});
+  var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.4){var st=e.target.getAttribute('data-state');if(st){token.classList.add('show');tokenstate.innerHTML='<b>'+st+'</b>';}}});},{threshold:[0.4]});
+  [].slice.call(document.querySelectorAll('.step')).forEach(function(s){so.observe(s);});
+  var hero=document.querySelector('.hero');
+  new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&e.intersectionRatio>0.5)token.classList.remove('show');});},{threshold:[0.5]}).observe(hero);
+  /* check */
+  var corpus={'four noble truths':'Already a full entry — sources gathered, split into passages, ready for coding (the current frontier).','apophatic prayer':'Already here, under negative theology.','ubuntu':'Partly here — on the hypothesis-list, a few sources gathered.'};
+  var tryin=document.getElementById('tryin'),verdict=document.getElementById('verdict');
+  function esc(s){return s.replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
+  function runCheck(v){v=(v||'').trim();if(!v){verdict.innerHTML='<div class="verline muted">Type something, or tap a suggestion.</div>';return;}
+    var k=v.toLowerCase(),h;
+    if(corpus[k]){h='<div class="verline"><span class="yes">✓ Already in the library.</span> '+corpus[k]+'</div>';}
+    else{h='<div class="verline"><span class="no">✦ Not in the library yet.</span> That\'s the case the engine is for — "<b style="color:var(--gold)">'+esc(v)+'</b>" would now start the journey below. <span class="muted" style="font-size:14px">(Tengri is the example.)</span></div>';}
+    verdict.innerHTML=h;}
+  document.getElementById('trybtn').addEventListener('click',function(){runCheck(tryin.value);});
+  tryin.addEventListener('keydown',function(e){if(e.key==='Enter')runCheck(tryin.value);});
+  [].slice.call(document.querySelectorAll('.chip')).forEach(function(c){c.addEventListener('click',function(){tryin.value=c.getAttribute('data-v');runCheck(tryin.value);});});
+  /* archive flow animation */
+  var flowcol=document.getElementById('flowcol'),paritynote=document.getElementById('paritynote'),fired=false;
+  new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!fired){fired=true;
+    var n=flowcol.querySelectorAll('.arch');n.forEach(function(a,i){setTimeout(function(){a.classList.add('lit');},i*240);});
+    setTimeout(function(){paritynote.innerHTML='<b style="color:var(--teal)">Several hits, one honest miss</b> — all queried at the same time, home-region and far-flung alike.';},n.length*240+200);}});},{threshold:0.5}).observe(flowcol);
+  /* restart */
+  document.getElementById('restart').addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+  onScroll();
+})();
+</script>
+</body>
+</html>
