@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Illuminated Codex — Grammar of Meaning · style board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ── The illuminated palette ─────────────────────────── */
+  --vellum:#f7efe0;        /* ground — warm limed vellum */
+  --vellum-2:#efe4cf;      /* panel ground, one step deeper */
+  --vellum-hi:#fdf9f0;     /* raised card / lit page */
+  --ink:#1c1a16;           /* true manuscript ink-black (NOT near-black-grey) */
+  --ink-soft:#3a352b;      /* body ink, warmed */
+  --gold:#b8860b;          /* burnished gold-leaf — the rule + minor ornament */
+  --gold-bright:#e0a92e;   /* raised/lit gold, for POP on vellum */
+  --lapis:#1f4fb5;         /* PRIMARY jewel accent — ultramarine, pops hard on vellum */
+  --lapis-deep:#173c8c;    /* lapis for hovers/pressed */
+  --vermilion:#cf2f1f;     /* SECONDARY jewel — rubric red / minium */
+  --sap:#4e7d3f;           /* support — sap-green botanical (used sparingly) */
+  --line:#dfd0b2;          /* hairline rules on vellum */
+  --mut:#7a6f57;           /* muted caption ink */
+  --disp:"Cormorant Garamond",Georgia,serif;
+  --body:"Spectral",Palatino,Georgia,serif;
+  --sans:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --maxw:820px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--ink-soft);font-family:var(--body);line-height:1.66;font-size:18px;
+  -webkit-font-smoothing:antialiased;
+  background-color:var(--vellum);
+  /* vellum grain, evoked with CSS only — layered soft mottling + fibre flecks */
+  background-image:
+    radial-gradient(circle at 18% 12%, rgba(184,134,11,.05), transparent 42%),
+    radial-gradient(circle at 82% 78%, rgba(31,79,181,.035), transparent 46%),
+    radial-gradient(circle at 60% 30%, rgba(0,0,0,.018), transparent 30%),
+    repeating-linear-gradient(52deg, rgba(120,95,40,.014) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(-48deg, rgba(120,95,40,.010) 0 2px, transparent 2px 6px);
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+
+/* section labels */
+.kicker{font-family:var(--sans);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--vermilion);margin:0 0 6px}
+.board-sec{padding:52px 0;border-top:1px solid var(--line)}
+.board-sec:first-of-type{border-top:0}
+.board-sec > .wrap > h2.title{font-family:var(--disp);font-size:34px;font-weight:600;letter-spacing:.01em;color:var(--ink);margin:0 0 4px;line-height:1.1}
+.lede{font-family:var(--body);font-style:italic;color:var(--mut);font-size:17px;margin:0 0 26px;max-width:40em}
+
+/* ── gold rule with a lapis lozenge (the codex divider) ── */
+.goldrule{display:flex;align-items:center;gap:14px;margin:6px 0 30px}
+.goldrule::before,.goldrule::after{content:"";height:2px;flex:1;background:linear-gradient(90deg,transparent,var(--gold-bright),var(--gold),var(--gold-bright),transparent)}
+.goldrule .lozenge{width:12px;height:12px;transform:rotate(45deg);background:var(--lapis);box-shadow:0 0 0 2px var(--vellum),0 0 0 3px var(--gold-bright)}
+
+/* ═══════════ MASTHEAD ═══════════ */
+.masthead{text-align:center;padding:68px 0 46px}
+.masthead .dir{font-family:var(--sans);font-size:12px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--gold);margin:0 0 18px}
+.masthead h1{font-family:var(--disp);font-weight:600;font-size:clamp(48px,9vw,84px);line-height:.98;letter-spacing:.01em;color:var(--ink);margin:0}
+.masthead h1 .amp{color:var(--vermilion);font-style:italic;font-weight:500}
+.masthead .mood{font-family:var(--body);font-style:italic;font-size:20px;color:var(--ink-soft);max-width:30em;margin:22px auto 0}
+.masthead .mood b{font-style:normal;color:var(--lapis);font-weight:500}
+
+/* ═══════════ PALETTE ═══════════ */
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+.chip{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--vellum-hi);box-shadow:0 2px 10px rgba(60,45,15,.06)}
+.chip .well{height:96px;position:relative}
+.chip .well .leaf{position:absolute;right:9px;bottom:8px;font-family:var(--sans);font-size:10px;letter-spacing:.08em;font-weight:700}
+.chip .meta{padding:11px 13px 13px}
+.chip .role{font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--mut);margin:0 0 3px}
+.chip .hex{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink);letter-spacing:.02em}
+.contrast-note{font-family:var(--body);font-style:italic;color:var(--mut);font-size:15.5px;margin:20px 0 0;max-width:44em}
+.contrast-note b{font-style:normal;color:var(--lapis)}
+
+/* ═══════════ TYPE SPECIMEN ═══════════ */
+.spec{background:var(--vellum-hi);border:1px solid var(--line);border-radius:14px;padding:30px 34px;box-shadow:0 2px 12px rgba(60,45,15,.06)}
+.spec .sh1{font-family:var(--disp);font-weight:600;font-size:54px;line-height:1.02;color:var(--ink);margin:0 0 6px;letter-spacing:.01em}
+.spec .sh2{font-family:var(--disp);font-weight:500;font-style:italic;font-size:30px;color:var(--lapis);margin:18px 0 12px}
+.spec .sbody{font-family:var(--body);font-size:18px;line-height:1.7;color:var(--ink-soft);max-width:38em;margin:0 0 14px}
+.spec .sbody .dropcap{float:left;font-family:var(--disp);font-weight:600;font-size:74px;line-height:.72;color:var(--vermilion);padding:6px 12px 0 0;margin-top:4px}
+.spec .slabel{font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--gold);margin:16px 0 0}
+.pairing{font-family:var(--body);font-style:italic;color:var(--mut);font-size:15.5px;margin:18px 0 0;max-width:44em}
+.facenames{font-family:var(--sans);font-size:12.5px;color:var(--mut);margin:8px 0 0;font-weight:600}
+.facenames span{color:var(--ink)}
+
+/* ═══════════ TEXTURE / MOOD ═══════════ */
+.mood-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:22px;align-items:stretch}
+@media(max-width:720px){.mood-grid{grid-template-columns:1fr}}
+.illum{position:relative;background:var(--vellum-2);border:1px solid var(--line);border-radius:14px;padding:26px 28px;overflow:hidden}
+.illum::before{/* gilt corner flourish */
+  content:"";position:absolute;top:0;left:0;width:120px;height:120px;
+  background:
+    radial-gradient(circle at 12px 12px, var(--gold-bright) 0 3px, transparent 4px),
+    conic-gradient(from 180deg at 0 0, transparent 0deg, rgba(184,134,11,.18) 40deg, transparent 90deg);
+  border-top:3px solid var(--gold);border-left:3px solid var(--gold);
+  border-top-left-radius:14px;
+}
+.illum .initial{float:left;width:88px;height:88px;margin:2px 18px 6px 8px;border:2px solid var(--gold);background:var(--lapis);
+  display:flex;align-items:center;justify-content:center;border-radius:6px;
+  box-shadow:0 0 0 3px var(--vellum-2),0 0 0 4px var(--gold-bright),inset 0 0 24px rgba(0,0,0,.28)}
+.illum .initial span{font-family:var(--disp);font-weight:700;font-size:58px;color:var(--gold-bright);line-height:1}
+.illum p{margin:0 0 10px;font-size:16.5px;line-height:1.62}
+.illum p:last-child{margin:0}
+.illum .sprig{color:var(--sap);font-size:15px;font-style:italic}
+.motifs{background:var(--vellum-hi);border:1px solid var(--line);border-radius:14px;padding:24px 26px}
+.motifs h4{font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--vermilion);margin:0 0 14px}
+.motif-row{display:flex;align-items:center;gap:13px;padding:9px 0;border-top:1px dashed var(--line);font-size:15.5px}
+.motif-row:first-of-type{border-top:0}
+.motif-row .glyph{flex:0 0 40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.motif-row .glyph.g-lapis{color:var(--lapis)} .motif-row .glyph.g-verm{color:var(--vermilion)}
+.motif-row .glyph.g-gold{color:var(--gold-bright)} .motif-row .glyph.g-sap{color:var(--sap)}
+.motif-row b{color:var(--ink)}
+.motif-note{font-family:var(--body);font-style:italic;color:var(--mut);font-size:15.5px;margin:22px 0 0}
+
+/* ═══════════ COMPONENTS ═══════════ */
+/* nav */
+.gnav{background:var(--vellum-hi);border:1px solid var(--line);border-radius:40px;
+  padding:9px 12px 9px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  box-shadow:0 3px 14px rgba(60,45,15,.08)}
+.gnav .brand{font-family:var(--disp);font-weight:600;font-size:19px;color:var(--ink);letter-spacing:.01em;margin-right:auto;white-space:nowrap}
+.gnav .brand .dot{color:var(--vermilion)}
+.gnav a{font-family:var(--sans);font-size:13px;font-weight:600;text-decoration:none;color:var(--ink-soft);padding:6px 13px;border-radius:20px;transition:.14s;white-space:nowrap}
+.gnav a:hover{background:var(--vellum-2);color:var(--lapis)}
+.gnav a.on{background:var(--lapis);color:var(--vellum-hi)}
+
+/* hero */
+.hero{text-align:center;padding:56px 0 30px}
+.hero .eye{font-family:var(--sans);font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--gold);margin:0 0 16px}
+.hero h1{font-family:var(--disp);font-weight:600;font-size:clamp(46px,8vw,72px);line-height:1;color:var(--ink);margin:0}
+.hero .tag{font-family:var(--body);font-style:italic;font-size:23px;color:var(--lapis);margin:14px 0 0}
+.hero .sub{font-size:17px;color:var(--ink-soft);max-width:34em;margin:20px auto 0}
+.hero .sub b{color:var(--vermilion);font-weight:500}
+
+/* content card */
+.card{background:var(--vellum-hi);border:1px solid var(--line);border-radius:14px;padding:24px 26px;
+  box-shadow:0 3px 14px rgba(60,45,15,.07);position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--gold-bright),var(--gold),var(--vermilion))}
+.card .flag{display:inline-block;font-family:var(--sans);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;
+  color:var(--vellum-hi);background:var(--sap);border-radius:20px;padding:3px 11px;margin:0 0 12px}
+.card h3{font-family:var(--disp);font-weight:600;font-size:27px;color:var(--ink);margin:0 0 3px;line-height:1.08}
+.card .tradmeta{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--mut);margin:0 0 12px}
+.card p{font-size:16.5px;line-height:1.62;margin:0 0 14px;color:var(--ink-soft)}
+.card .term{font-style:italic;color:var(--lapis)}
+.card .more{font-family:var(--sans);font-size:13px;font-weight:700;color:var(--vermilion);text-decoration:none;letter-spacing:.02em}
+.card .more:hover{text-decoration:underline}
+
+/* ── the MOVE specimen flowchart ── */
+.movefig{background:var(--vellum-hi);border:1px solid var(--line);border-radius:14px;padding:28px 26px 22px;
+  box-shadow:0 3px 14px rgba(60,45,15,.07)}
+.movefig .mf-head{font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--gold);text-align:center;margin:0 0 4px}
+.movefig .mf-sub{font-family:var(--body);font-style:italic;color:var(--mut);text-align:center;font-size:15.5px;margin:0 0 22px}
+.mf-flow{display:flex;align-items:stretch;justify-content:center;gap:0;flex-wrap:wrap}
+.mf-node{flex:1 1 150px;min-width:132px;max-width:190px;background:var(--vellum);border:2px solid var(--ink);border-radius:11px;
+  padding:14px 12px 15px;text-align:center;position:relative}
+.mf-node .role{font-family:var(--sans);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin:0 0 7px}
+.mf-node .val{font-family:var(--disp);font-weight:600;font-size:22px;line-height:1.1;color:var(--ink)}
+/* colour-code each stage with a jewel, high contrast on vellum */
+.mf-node.n-agent{border-color:var(--lapis)} .mf-node.n-agent .role{color:var(--lapis)}
+.mf-node.n-sub{border-color:var(--gold)} .mf-node.n-sub .role{color:#8a6608}
+.mf-node.n-op{border-color:var(--vermilion)} .mf-node.n-op .role{color:var(--vermilion)}
+.mf-node.n-out{border-color:var(--sap)} .mf-node.n-out .role{color:var(--sap)}
+.mf-arrow{flex:0 0 34px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:var(--sans);font-weight:700;font-size:22px}
+@media(max-width:640px){
+  .mf-flow{flex-direction:column;align-items:center}
+  .mf-node{max-width:280px;width:100%}
+  .mf-arrow{transform:rotate(90deg);height:26px}
+}
+.mf-legend{font-family:var(--body);font-style:italic;color:var(--mut);text-align:center;font-size:15px;margin:20px auto 0;max-width:42em}
+.mf-legend b{font-style:normal;color:var(--ink)}
+
+/* pull quote */
+.pull{position:relative;background:var(--vellum-2);border:1px solid var(--line);border-left:5px solid var(--vermilion);
+  border-radius:0 14px 14px 0;padding:26px 30px 26px 34px;margin:0}
+.pull::before{content:"\201C";position:absolute;top:-6px;left:12px;font-family:var(--disp);font-size:80px;color:var(--gold-bright);line-height:1;opacity:.55}
+.pull p{font-family:var(--disp);font-weight:500;font-style:italic;font-size:28px;line-height:1.28;color:var(--ink);margin:0;position:relative}
+.pull cite{display:block;font-family:var(--sans);font-style:normal;font-size:12.5px;letter-spacing:.06em;font-weight:600;color:var(--mut);margin:14px 0 0}
+.pull cite b{color:var(--lapis)}
+
+/* ── "for the curious" expandable ── */
+.curious{background:var(--vellum-hi);border:1px solid var(--gold);border-radius:14px;overflow:hidden;box-shadow:0 3px 14px rgba(60,45,15,.07)}
+.curious > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:20px 24px;
+  background:var(--vellum-2);transition:background .15s}
+.curious > summary::-webkit-details-marker{display:none}
+.curious > summary:hover{background:#e8dcc2}
+.curious > summary .seal{flex:0 0 40px;height:40px;border-radius:50%;background:var(--vermilion);
+  display:flex;align-items:center;justify-content:center;color:var(--gold-bright);
+  font-family:var(--disp);font-weight:700;font-size:22px;box-shadow:0 0 0 2px var(--vellum-hi),0 0 0 3px var(--gold)}
+.curious > summary .st{flex:1}
+.curious > summary .st .lab{font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--gold);margin:0 0 2px}
+.curious > summary .st .ti{font-family:var(--disp);font-weight:600;font-size:23px;color:var(--ink);line-height:1.05}
+.curious > summary .chev{font-family:var(--sans);font-weight:700;font-size:14px;color:var(--vermilion);transition:transform .2s}
+.curious[open] > summary .chev{transform:rotate(180deg)}
+.curious .cbody{padding:24px 30px 28px}
+.curious .cbody h5{font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--lapis);margin:20px 0 8px}
+.curious .cbody h5:first-child{margin-top:0}
+.curious .cbody p{font-size:16.5px;line-height:1.64;margin:0 0 14px;color:var(--ink-soft)}
+.curious .cbody .glossbox{background:var(--vellum-2);border:1px solid var(--line);border-left:4px solid var(--gold);
+  border-radius:0 10px 10px 0;padding:14px 18px;margin:16px 0;font-size:15.5px;line-height:1.55}
+.curious .cbody .glossbox b{color:var(--lapis)}
+.curious .cbody .marg{font-family:var(--body);font-style:italic;color:var(--mut);font-size:14.5px}
+
+/* pick-list footer */
+.picklist{background:var(--ink);color:var(--vellum);border-radius:14px;padding:30px 32px;margin:6px 0 60px}
+.picklist h3{font-family:var(--disp);font-weight:600;font-size:26px;color:var(--gold-bright);margin:0 0 4px}
+.picklist .sub{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#b9ad91;margin:0 0 20px}
+.picklist .pl-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:640px){.picklist .pl-grid{grid-template-columns:1fr}}
+.picklist code{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--vellum);display:block;
+  padding:6px 0;border-bottom:1px solid rgba(255,255,255,.1);letter-spacing:.03em}
+.picklist code .sw{display:inline-block;width:13px;height:13px;border-radius:3px;margin-right:9px;vertical-align:-1px;border:1px solid rgba(255,255,255,.3)}
+.picklist code .role{color:#b9ad91;font-weight:500}
+.picklist .fonts code{border:0}
+.picklist .fonts b{color:var(--gold-bright)}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ MASTHEAD ═══════════ -->
+<header class="masthead">
+  <div class="wrap">
+    <p class="dir">Bake-off candidate · Direction 01</p>
+    <h1>The Illuminated<br><span class="amp">&amp;</span> Codex</h1>
+    <p class="mood">A living manuscript for the digital age — warm vellum, a true ink-black, and <b>gold-leaf with lapis &amp; vermilion set sparingly, like illumination</b>. Sacred bibliophile, made legible.</p>
+    <div class="goldrule" style="margin-top:34px"><span class="lozenge"></span></div>
+  </div>
+</header>
+
+<!-- ═══════════ 1 · PALETTE ═══════════ -->
+<section class="board-sec">
+  <div class="wrap">
+    <p class="kicker">01 · Colour</p>
+    <h2 class="title">The pigment tray</h2>
+    <p class="lede">Ground the eye in vellum and true ink; then spend gold, lapis, and vermilion the way a scribe spends leaf — rarely, and so it glows.</p>
+    <div class="swatches">
+      <div class="chip"><div class="well" style="background:#f7efe0"><span class="leaf" style="color:#7a6f57">GROUND</span></div><div class="meta"><p class="role">Vellum · ground</p><span class="hex">#F7EFE0</span></div></div>
+      <div class="chip"><div class="well" style="background:#efe4cf"><span class="leaf" style="color:#7a6f57">PANEL</span></div><div class="meta"><p class="role">Deep vellum · panels</p><span class="hex">#EFE4CF</span></div></div>
+      <div class="chip"><div class="well" style="background:#1c1a16"><span class="leaf" style="color:#e0a92e">INK</span></div><div class="meta"><p class="role">Ink-black · text</p><span class="hex">#1C1A16</span></div></div>
+      <div class="chip"><div class="well" style="background:#1f4fb5"><span class="leaf" style="color:#e0a92e">PRIMARY</span></div><div class="meta"><p class="role">Lapis · primary accent</p><span class="hex">#1F4FB5</span></div></div>
+      <div class="chip"><div class="well" style="background:#cf2f1f"><span class="leaf" style="color:#f7efe0">SECONDARY</span></div><div class="meta"><p class="role">Vermilion · rubric</p><span class="hex">#CF2F1F</span></div></div>
+      <div class="chip"><div class="well" style="background:#e0a92e"><span class="leaf" style="color:#1c1a16">GILT</span></div><div class="meta"><p class="role">Bright gold · ornament</p><span class="hex">#E0A92E</span></div></div>
+      <div class="chip"><div class="well" style="background:#4e7d3f"><span class="leaf" style="color:#f7efe0">SUPPORT</span></div><div class="meta"><p class="role">Sap-green · botanical</p><span class="hex">#4E7D3F</span></div></div>
+    </div>
+    <p class="contrast-note"><b>Contrast, checked:</b> ink #1C1A16 on vellum reads ~14:1; lapis #1F4FB5 and vermilion #CF2F1F each clear 4.5:1 on the vellum ground, so accents genuinely <b>pop</b> — no near-black accent that highlights nothing, no muddy grey anywhere. Bright gold is ornament only, never body text.</p>
+  </div>
+</section>
+
+<!-- ═══════════ 2 · TYPOGRAPHY ═══════════ -->
+<section class="board-sec">
+  <div class="wrap">
+    <p class="kicker">02 · Type</p>
+    <h2 class="title">The hand</h2>
+    <p class="lede">A display face with the lift of an incised capital; a body face built for long, warm reading.</p>
+    <div class="spec">
+      <p class="slabel" style="margin-top:0">H1 · display</p>
+      <div class="sh1">Grammar of Meaning</div>
+      <p class="slabel">H2 · display italic</p>
+      <div class="sh2">How meaning gets made.</div>
+      <p class="slabel">Body · reading</p>
+      <p class="sbody"><span class="dropcap">M</span>eaning is not found lying in the world, nor invented wholly inside the head. It is made in the <em>metaxy</em> — the in-between, where a person and the world meet. Read enough traditions in their own vocabulary and the same underlying <em>moves</em> begin to rhyme across them: not the same words, but the same gesture, performed in a different voice.</p>
+      <p class="slabel">Caption / label</p>
+      <p style="font-family:var(--sans);font-size:12px;letter-spacing:.06em;color:var(--mut);margin:6px 0 0;font-weight:600">FIG. 1 — 545 TRADITIONS · READ EMICALLY · CODED FOR RECURRING MOVES</p>
+    </div>
+    <p class="pairing"><span style="font-style:normal">Why this pairing:</span> Cormorant Garamond carries the sacred, incised-capital gravity of the codex at display sizes; Spectral (a screen-native serif with true small-text legibility) does the long reading without the muddiness of a print face forced onto a screen. Public Sans handles labels, nav, and figure captions with crisp neutrality.</p>
+    <p class="facenames">Display: <span>Cormorant Garamond</span> · Body: <span>Spectral</span> · Labels/UI: <span>Public Sans</span></p>
+  </div>
+</section>
+
+<!-- ═══════════ 3 · TEXTURE / MOOD ═══════════ -->
+<section class="board-sec">
+  <div class="wrap">
+    <p class="kicker">03 · Texture &amp; mood</p>
+    <h2 class="title">The lit page</h2>
+    <p class="lede">Every surface is vellum; ornament is applied, never printed — a gilt corner, an illuminated initial, a botanical sprig in the margin.</p>
+    <div class="mood-grid">
+      <div class="illum">
+        <div class="initial"><span>Q</span></div>
+        <p><b>uid est ergo tempus?</b> — the illuminated initial is our signature unit: a lapis field, a gold border, a raised capital. It marks the opening of an essay or a tradition-page the way a scribe marked a new book.</p>
+        <p class="sprig">❧ a sap-green sprig closes the paragraph, the way a flower-book fills its margins.</p>
+      </div>
+      <div class="motifs">
+        <h4>Iconographic vocabulary</h4>
+        <div class="motif-row"><span class="glyph g-gold">◆</span><span><b>The lozenge</b> — a lapis diamond in gold; the divider + section mark.</span></div>
+        <div class="motif-row"><span class="glyph g-lapis">✦</span><span><b>The four-pointed star</b> — marks a "move," the atomic unit of the Grammar.</span></div>
+        <div class="motif-row"><span class="glyph g-verm">¶</span><span><b>The rubric</b> — vermilion pilcrow / label; wayfinding + emphasis.</span></div>
+        <div class="motif-row"><span class="glyph g-sap">❧</span><span><b>The sprig</b> — botanical fleuron; the Garden + the margins.</span></div>
+        <p class="motif-note">Motif idea: the site is one <em>codex</em>; the four Forms — Library, Essays, Garden, Method — are its four illuminated gatherings, each opening on a full drop-cap page.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 4 · COMPONENTS ═══════════ -->
+<section class="board-sec">
+  <div class="wrap">
+    <p class="kicker">04 · Components</p>
+    <h2 class="title">The system, at work</h2>
+    <p class="lede">Real content, in the direction — nav, hero, a tradition card, the move specimen, a rubric pull-quote, and the curious’ gathering.</p>
+
+    <!-- nav -->
+    <nav class="gnav">
+      <span class="brand">Grammar of Meaning<span class="dot">.</span></span>
+      <a class="on" href="#">Home</a>
+      <a href="#">Library</a>
+      <a href="#">Essays</a>
+      <a href="#">Garden</a>
+      <a href="#">Method</a>
+      <a href="#">Reference</a>
+    </nav>
+
+    <!-- hero -->
+    <div class="hero">
+      <p class="eye">An open study of how meaning gets made</p>
+      <h1>Grammar of Meaning</h1>
+      <p class="tag">How meaning gets made.</p>
+      <p class="sub">Read <b>545 traditions</b> in their own vocabulary. Ask which underlying <b>moves</b> recur — as a rhyme — across them.</p>
+    </div>
+
+    <div class="goldrule"><span class="lozenge"></span></div>
+
+    <!-- content card -->
+    <article class="card" style="margin:0 0 26px">
+      <span class="flag">❧ Garden · tradition</span>
+      <h3>Augustine of Hippo</h3>
+      <p class="tradmeta">LATIN CHRISTIAN · 354–430 CE · NORTH AFRICA</p>
+      <p>In the <em>Confessions</em>, Augustine asks <span class="term">quid est ergo tempus?</span> — “what, then, is time?” — and answers that he knows until asked. The move: <span class="term">interrogatio</span>, turning a lived certainty into an open question, so that meaning is re-made in the asking rather than assumed.</p>
+      <a class="more" href="#">Read the move · in the Garden →</a>
+    </article>
+
+    <!-- MOVE specimen flowchart -->
+    <div class="movefig" style="margin:0 0 26px">
+      <p class="mf-head">✦ Specimen — the anatomy of a move</p>
+      <p class="mf-sub">Romans 8:29 · one move, coded in the tradition’s own vocabulary</p>
+      <div class="mf-flow">
+        <div class="mf-node n-agent"><p class="role">Agent</p><div class="val">God</div></div>
+        <div class="mf-arrow">→</div>
+        <div class="mf-node n-sub"><p class="role">Substrate</p><div class="val">those foreknown</div></div>
+        <div class="mf-arrow">→</div>
+        <div class="mf-node n-op"><p class="role">Operation</p><div class="val">predestined</div></div>
+        <div class="mf-arrow">→</div>
+        <div class="mf-node n-out"><p class="role">Outcome</p><div class="val">conformed</div></div>
+      </div>
+      <p class="mf-legend">Read left to right: an <b>agent</b> acts on a <b>substrate</b> through an <b>operation</b>, yielding an <b>outcome</b>. Strip the theology and this shape recurs across traditions — the <em>rhyme</em> the Grammar listens for.</p>
+    </div>
+
+    <!-- pull quote -->
+    <blockquote class="pull" style="margin:0 0 26px">
+      <p>Meaning is made in the in-between — between a person and the world. Spirituality is the attention that makes the in-between visible.</p>
+      <cite>— <b>The working frame</b>, Grammar of Meaning</cite>
+    </blockquote>
+
+    <!-- FOR THE CURIOUS -->
+    <details class="curious">
+      <summary>
+        <span class="seal">✦</span>
+        <span class="st"><span class="lab">For the curious</span><span class="ti">Why call it a “move,” and why a “rhyme”?</span></span>
+        <span class="chev">▾</span>
+      </summary>
+      <div class="cbody">
+        <h5>The unit</h5>
+        <p>A <em>move</em> is one operation and its arguments — the smallest thing a tradition <em>does</em> to make meaning, not the doctrine it teaches. We read each passage <b>emically</b> (in the tradition’s own words) before we ever compare, so we’re never importing a foreign category.</p>
+        <div class="glossbox"><b>emic</b> — described from inside a tradition’s own vocabulary. Its partner, <b>etic</b>, describes from outside, in comparative terms. The Grammar codes emic first, compares etic second.</div>
+        <h5>The rhyme</h5>
+        <p>When the same <em>shape</em> of move recurs across traditions that never met, we call it a <b>rhyme</b>: same gesture, different voice — like <span style="color:var(--lapis)">A : B :: C : D</span>. Not proof of contact, and not a claim that all paths are one — only that the underlying grammar recurs.</p>
+        <p class="marg">This gathering is part of the design, not a footnote: the curious reader gets the same vellum, the same gold rule, the same care as the front matter.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ═══════════ PICK-LIST ═══════════ -->
+<section class="board-sec" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <p class="kicker">05 · Pick-list</p>
+    <h2 class="title">Copy-paste kit</h2>
+    <div class="picklist">
+      <h3>The Illuminated Codex</h3>
+      <p class="sub">Palette + fonts, ready to lift</p>
+      <div class="pl-grid">
+        <div>
+          <code><span class="sw" style="background:#f7efe0"></span>#F7EFE0 <span class="role">— vellum · ground</span></code>
+          <code><span class="sw" style="background:#efe4cf"></span>#EFE4CF <span class="role">— deep vellum · panels</span></code>
+          <code><span class="sw" style="background:#1c1a16"></span>#1C1A16 <span class="role">— ink-black · text</span></code>
+          <code><span class="sw" style="background:#1f4fb5"></span>#1F4FB5 <span class="role">— lapis · primary accent</span></code>
+          <code><span class="sw" style="background:#cf2f1f"></span>#CF2F1F <span class="role">— vermilion · secondary</span></code>
+          <code><span class="sw" style="background:#e0a92e"></span>#E0A92E <span class="role">— bright gold · ornament</span></code>
+          <code><span class="sw" style="background:#4e7d3f"></span>#4E7D3F <span class="role">— sap-green · support</span></code>
+        </div>
+        <div class="fonts">
+          <code><b>Display</b> — Cormorant Garamond (600)</code>
+          <code><b>Body</b> — Spectral (400 / 300)</code>
+          <code><b>Labels / UI</b> — Public Sans (600 / 700)</code>
+          <code style="margin-top:14px;color:#b9ad91;font-size:12px">Google Fonts:</code>
+          <code style="font-size:11.5px;color:#d8ccb0;letter-spacing:0">family=Cormorant+Garamond:ital,wght@0,600;1,500</code>
+          <code style="font-size:11.5px;color:#d8ccb0;letter-spacing:0">family=Spectral:wght@300;400;500</code>
+          <code style="font-size:11.5px;color:#d8ccb0;letter-spacing:0">family=Public+Sans:wght@600;700</code>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
