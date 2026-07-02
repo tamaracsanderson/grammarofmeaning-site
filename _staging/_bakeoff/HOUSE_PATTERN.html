@@ -10,9 +10,9 @@
 <style>
   :root{
     /* ---- GROUNDS (Garden skin) ---- */
-    --paper:#F6F1E4;        /* herbarium rag paper — warm ground */
+    --paper:#FCFBF7;        /* herbarium rag paper — warm ground */
     --paper-2:#EFE7D3;      /* recessed card / panel ground */
-    --paper-3:#FBF8ED;      /* raised plate ground */
+    --paper-3:#FFFFFF;      /* raised plate ground */
     --rule:#C9BE9F;         /* hairline rules on paper (Swiss separators) */
     --rule-soft:rgba(110,123,58,.26);
 
@@ -57,14 +57,14 @@
 
   /* ---------- TYPE SCALE ---------- */
   h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:-0.01em;color:var(--moss);margin:0}
-  .label{font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--terracotta)}
-  .label-mute{font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3)}
+  .label{font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:0.035em;text-transform:none;color:var(--terracotta)}
+  .label-mute{font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:0.035em;text-transform:none;color:var(--ink-3)}
 
   /* ---------- SECTION FRAME (Swiss) ---------- */
   section{padding:60px 0;border-top:1px solid var(--rule)}
   .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:26px}
   .sec-num{font-family:var(--mono);font-size:12px;color:var(--terracotta);font-weight:600}
-  .sec-title{font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-2)}
+  .sec-title{font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:0.035em;text-transform:none;color:var(--ink-2)}
   .sec-line{flex:1;height:1px;background:var(--rule);align-self:center}
   .rationale{font-size:15px;color:var(--ink-2);line-height:1.62;margin-top:6px}
   .rationale b{color:var(--ink)}
@@ -89,7 +89,7 @@
   .hero{padding:84px 0 68px;border-top:none;position:relative;overflow:hidden;
     background:
       radial-gradient(120% 90% at 50% -12%, rgba(63,125,87,.10), transparent 60%),
-      linear-gradient(180deg,#F8F4E8,var(--paper))}
+      linear-gradient(180deg,#F7F1E4,var(--paper))}
   .hero-grid{position:absolute;inset:0;pointer-events:none;
     background-image:linear-gradient(90deg,var(--rule) 1px,transparent 1px);
     background-size:calc(100%/12) 100%;opacity:0.32;
@@ -112,13 +112,13 @@
   /* ---------- house-pattern header band ---------- */
   .hp-head{padding:52px 0 44px;border-top:none}
   .hp-head .lockup{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-  .hp-head .lockbadge{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+  .hp-head .lockbadge{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.03em;text-transform:none;
     color:var(--paper);background:var(--moss);border-radius:999px;padding:5px 13px}
   .hp-head h2{font-size:clamp(30px,5vw,44px);letter-spacing:-0.02em;max-width:20ch;line-height:1.06}
   .hp-head .two{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:26px}
   @media(max-width:640px){.hp-head .two{grid-template-columns:1fr}}
   .hp-card{border:1px solid var(--rule);border-radius:12px;background:var(--paper-3);padding:20px 22px}
-  .hp-card .t{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--terracotta);margin-bottom:8px}
+  .hp-card .t{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:0.03em;text-transform:none;color:var(--terracotta);margin-bottom:8px}
   .hp-card .t.g{color:var(--fern)}
   .hp-card p{margin:0;font-size:14.5px;color:var(--ink-2);line-height:1.55}
   .hp-card p b{color:var(--ink)}
@@ -128,7 +128,7 @@
   .chip{border:1px solid var(--rule);border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 1px 0 rgba(44,74,56,.04)}
   .chip .swatch{height:74px;position:relative}
   .chip .meta{padding:11px 13px 13px}
-  .chip .role{font-family:var(--sans);font-weight:600;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--moss)}
+  .chip .role{font-family:var(--sans);font-weight:600;font-size:12px;letter-spacing:0.06em;text-transform:none;color:var(--moss)}
   .chip .hex{font-family:var(--mono);font-size:12.5px;font-weight:500;color:var(--ink);margin-top:3px}
   .chip .note{font-size:11.5px;color:var(--ink-3);margin-top:7px;line-height:1.45}
 
@@ -144,7 +144,7 @@
   .spec .cap{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:14px;letter-spacing:0.02em}
   .spec.sans .big{font-family:var(--sans);font-weight:700;letter-spacing:-0.03em;color:var(--moss)}
   .spec.sans .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-  .spec.sans .pill{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:6px 12px;border:1px solid var(--rule);border-radius:20px;color:var(--ink-2)}
+  .spec.sans .pill{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:0.03em;text-transform:none;padding:6px 12px;border:1px solid var(--rule);border-radius:20px;color:var(--ink-2)}
   .spec.sans .scale{font-family:var(--sans);display:flex;align-items:baseline;gap:20px;margin-top:16px;flex-wrap:wrap}
   .spec.sans .scale span{color:var(--ink)}
 
@@ -156,12 +156,12 @@
   .specimen .illo{background:radial-gradient(90% 70% at 50% 30%, rgba(63,125,87,.10), transparent),var(--paper-2);border-right:1px solid var(--rule);display:flex;align-items:center;justify-content:center;padding:14px}
   @media(max-width:560px){.specimen .illo{border-right:none;border-bottom:1px solid var(--rule)}}
   .specimen .meta{padding:22px 24px}
-  .specimen .region{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--terracotta)}
+  .specimen .region{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;text-transform:none;color:var(--terracotta)}
   .specimen h3{font-size:25px;margin:4px 0 4px;color:var(--moss)}
   .specimen .taxon{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--olive)}
   .specimen p{margin:12px 0 0;font-size:15.5px;color:var(--ink);line-height:1.58}
   .specimen .datarow{display:flex;gap:22px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px dashed var(--rule)}
-  .datarow .d .k{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3)}
+  .datarow .d .k{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:0.03em;text-transform:none;color:var(--ink-3)}
   .datarow .d .v{font-family:var(--serif);font-size:19px;color:var(--moss);margin-top:2px}
 
   /* ---------- MOVE SPECIMEN (Tufte diagram, Garden-recolored) ---------- */
@@ -187,13 +187,13 @@
   .rhyme{border:1px solid var(--rule);border-radius:16px;background:var(--paper-3);overflow:hidden;max-width:760px}
   .rhyme .rband{height:5px;background:linear-gradient(90deg,var(--fern),var(--honey))}
   .rhyme .rbody{padding:26px 28px}
-  .rhyme .rkick{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--terracotta)}
+  .rhyme .rkick{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;text-transform:none;color:var(--terracotta)}
   .rhyme h3{font-size:26px;margin-top:8px;letter-spacing:-0.01em;line-height:1.15}
   .rhyme .shared{font-family:var(--serif);font-size:17px;line-height:1.6;color:var(--ink);margin-top:14px;max-width:64ch}
   .rgrid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:20px;background:var(--rule);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
   @media(max-width:560px){.rgrid{grid-template-columns:1fr}}
   .rgrid .cell{background:var(--paper-3);padding:15px 17px}
-  .rgrid .cell .t{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--fern)}
+  .rgrid .cell .t{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;text-transform:none;color:var(--fern)}
   .rgrid .cell .d{font-family:var(--serif);font-size:15px;color:var(--ink-2);margin-top:6px;line-height:1.5}
   .rhyme .rfoot{display:flex;gap:18px;margin-top:20px;padding-top:14px;border-top:1px dashed var(--rule);font-family:var(--mono);font-size:12px;color:var(--ink-3);flex-wrap:wrap}
   .rhyme .rfoot b{color:var(--terracotta);font-weight:600}
@@ -210,7 +210,7 @@
   .curious .leaf-toggle{width:28px;height:28px;flex:0 0 auto;transition:transform .3s ease;color:var(--fern)}
   .curious[open] .leaf-toggle{transform:rotate(90deg)}
   .curious .sum-txt{display:flex;flex-direction:column}
-  .curious .sum-txt .kick{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--terracotta)}
+  .curious .sum-txt .kick{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:0.03em;text-transform:none;color:var(--terracotta)}
   .curious .sum-txt .ttl{font-family:var(--serif);font-size:19px;color:var(--moss);margin-top:2px;font-weight:600}
   .curious .rt-chip{margin-left:auto;align-self:center}
   .curious .inner{padding:2px 24px 24px 64px;border-top:1px solid var(--rule-soft)}
@@ -220,7 +220,7 @@
   .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:18px;background:var(--rule);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
   @media(max-width:560px){.cgrid{grid-template-columns:1fr}}
   .cgrid .cell{background:var(--paper-3);padding:14px 16px}
-  .cgrid .cell .t{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--terracotta)}
+  .cgrid .cell .t{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;text-transform:none;color:var(--terracotta)}
   .cgrid .cell .d{font-family:var(--serif);font-size:14.5px;color:var(--ink-2);margin-top:6px;line-height:1.5}
   .aside{font-family:var(--sans);font-size:13.5px;color:var(--ink-2);border-left:3px solid var(--honey);padding-left:14px;line-height:1.55;margin-top:16px;max-width:62ch}
   .aside b{color:var(--ink)}
@@ -230,7 +230,7 @@
   @media(max-width:560px){.anatomy{grid-template-columns:1fr}}
   .anatomy li{background:var(--paper-3);padding:13px 16px;display:flex;gap:12px;align-items:flex-start}
   .anatomy li .n{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--honey);flex:0 0 auto;margin-top:2px}
-  .anatomy li .term{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--moss);display:block}
+  .anatomy li .term{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:0.08em;text-transform:none;color:var(--moss);display:block}
   .anatomy li .gl{font-family:var(--serif);font-size:14px;color:var(--ink-2);margin-top:3px;display:block;line-height:1.45}
 
   /* ---------- botanical sprig divider ---------- */
@@ -239,7 +239,7 @@
   /* ---------- PICK-LIST FOOTER ---------- */
   footer{background:var(--moss);color:#E6E1CE;border-top:none}
   footer .wrap{padding:54px 24px}
-  footer .flabel{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--honey);margin-bottom:6px}
+  footer .flabel{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:0.04em;text-transform:none;color:var(--honey);margin-bottom:6px}
   footer h3{font-family:var(--serif);color:#F1EAD6;font-size:26px;margin-bottom:24px}
   .pickgrid{display:grid;grid-template-columns:1fr 1fr;gap:34px}
   @media(max-width:640px){.pickgrid{grid-template-columns:1fr}}
@@ -308,7 +308,7 @@
     <circle cx="100" cy="62" r="7" fill="#E0A93B"/>
   </svg>
   <div class="wrap">
-    <div class="kicker">THE HOUSE PATTERN · <b>FIELD NOTES</b> skeleton · <b>LIVING GARDEN</b> skin</div>
+    <div class="kicker">The house pattern · <b>Field Notes</b> skeleton · <b>Living Garden</b> skin</div>
     <h1>Grammar of<br>Meaning</h1>
     <div class="sub">How meaning gets made.</div>
     <p class="lede">A bottom-up study of the moves that recur — as a rhyme, not a copy — across ~545 traditions, each read in its own vocabulary. Meaning is made in the in-between.</p>
@@ -372,8 +372,8 @@
     </div>
     <div class="spec sans">
       <div class="facelabel"><span class="fam">Inter</span><span class="use">UI · LABELS · DATA — neo-grotesk</span></div>
-      <div class="big">AGENT · SUBSTRATE · OPERATION</div>
-      <div class="scale"><span style="font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase">Nav / Label</span><span style="font-size:15px">Interface copy</span><span style="font-family:var(--mono);font-size:13px">Mono → IBM Plex Mono for data</span></div>
+      <div class="big">Agent · Substrate · Operation</div>
+      <div class="scale"><span style="font-size:13px;font-weight:600;letter-spacing:.03em;text-transform:none">Nav / Label</span><span style="font-size:15px">Interface copy</span><span style="font-family:var(--mono);font-size:13px">Mono → IBM Plex Mono for data</span></div>
       <div class="row"><span class="pill">Library</span><span class="pill">Method</span><span class="pill">Foreknew</span><span class="pill">Glorified</span></div>
       <p class="rationale">Inter carries every label, nav item, and diagram annotation at high legibility — a neutral, exacting workhorse. <b>IBM Plex Mono</b> handles data, citations, figure numbers, and the reading-time chip, giving the research an instrument-panel precision.</p>
     </div>
@@ -437,10 +437,10 @@
 
       <!-- lane labels (honest, high-contrast) -->
       <g font-family="Inter, sans-serif" font-size="11" font-weight="700" letter-spacing="1.4" fill="#7C8478">
-        <text x="102" y="34" text-anchor="middle">AGENT</text>
-        <text x="330" y="34" text-anchor="middle">SUBSTRATE</text>
-        <text x="565" y="34" text-anchor="middle">OPERATION</text>
-        <text x="805" y="34" text-anchor="middle">OUTCOME</text>
+        <text x="102" y="34" text-anchor="middle">Agent</text>
+        <text x="330" y="34" text-anchor="middle">Substrate</text>
+        <text x="565" y="34" text-anchor="middle">Operation</text>
+        <text x="805" y="34" text-anchor="middle">Outcome</text>
       </g>
       <line x1="20" y1="46" x2="900" y2="46" stroke="#C9BE9F" stroke-width="1"/>
 
@@ -488,8 +488,8 @@
       <line x1="20" y1="214" x2="900" y2="214" stroke="#C9BE9F" stroke-width="1"/>
       <g font-family="IBM Plex Mono, monospace" font-size="11.5" fill="#7C8478">
         <text x="20" y="240">MOVE-ID</text><text x="112" y="240" fill="#24302A">RM8-FORE-01</text>
-        <text x="320" y="240">SOURCE</text><text x="404" y="240" fill="#24302A">Romans 8:29–30</text>
-        <text x="630" y="240">RHYME</text><text x="702" y="240" fill="#C4602F" font-weight="600">candidate · unranked</text>
+        <text x="320" y="240">Source</text><text x="404" y="240" fill="#24302A">Romans 8:29–30</text>
+        <text x="630" y="240">Rhyme</text><text x="702" y="240" fill="#C4602F" font-weight="600">candidate · unranked</text>
       </g>
     </svg>
 
@@ -573,8 +573,8 @@
         <div class="cell"><div class="t">Earned, not assumed</div><div class="d">A candidate rhyme stays "unranked" until the corpus supports it.</div></div>
       </div>
       <div class="rfoot">
-        <span>SHAPE · <b>Agent → Substrate → Operation → Outcome</b></span>
-        <span>STATUS · <b>candidate · unranked</b></span>
+        <span>Shape · <b>Agent → Substrate → Operation → Outcome</b></span>
+        <span>Status · <b>candidate · unranked</b></span>
       </div>
     </div>
   </div>
@@ -658,7 +658,7 @@
     <h3>Pick-list — the locked system, ready to copy.</h3>
     <div class="pickgrid">
       <div>
-        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">PALETTE</div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">Palette</div>
         <div class="picklist">
           <div><span class="sw" style="background:#F6F1E4"></span><span class="k">paper&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="v">#F6F1E4</span></div>
           <div><span class="sw" style="background:#EFE7D3"></span><span class="k">paper-2&nbsp;&nbsp;&nbsp;</span><span class="v">#EFE7D3</span></div>
@@ -673,13 +673,13 @@
         </div>
       </div>
       <div>
-        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">TYPE</div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">Type</div>
         <div class="picklist">
           <div><span class="k">display/read&nbsp;</span><span class="v">Newsreader</span></div>
           <div><span class="k">ui/labels&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="v">Inter</span></div>
           <div><span class="k">data/mono&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="v">IBM Plex Mono</span></div>
         </div>
-        <div class="label-mute" style="color:var(--sage);margin:22px 0 12px">THE PATTERN</div>
+        <div class="label-mute" style="color:var(--sage);margin:22px 0 12px">The pattern</div>
         <div class="picklist" style="font-size:12.5px;line-height:1.75">
           <div class="v" style="font-family:var(--sans)">Field Notes skeleton · Garden skin —</div>
           <div class="k" style="font-family:var(--sans)">Swiss grid + hairline rules + Tufte move-specimen<br>with plain glosses · recolored into living greens ·<br>the move as a growing branch · seed-to-bloom ·<br>"the workings, unhurried" + a reading-time chip.</div>
