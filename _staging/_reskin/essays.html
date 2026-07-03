@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The Essays — meaning-making in public · Grammar of Meaning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/gom.css">
+<style>
+  /* ---- page-specific tweaks (Essays) ---- */
+  .wrap{max-width:1080px}
+
+  /* hero sub for this page */
+  .hero .lede{max-width:640px}
+
+  /* a live-snapshot chip that rides above the hero title */
+  .snap-chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;
+    font-weight:500;letter-spacing:0.04em;color:var(--ink-2);background:var(--paper-3);
+    border:1px solid var(--rule);border-radius:999px;padding:5px 13px;margin-bottom:20px}
+  .snap-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--fern);flex:0 0 auto;
+    box-shadow:0 0 0 3px rgba(63,125,87,.16)}
+
+  /* section lede paragraph */
+  .lead-p{font-size:16px;color:var(--ink-2);line-height:1.66;max-width:66ch;margin:0 0 8px}
+  .lead-p b{color:var(--ink)}
+  .lead-p i{color:var(--fern);font-style:italic}
+  .lead-p + .lead-p{margin-top:18px}
+
+  /* the "what this is" paragraph that sits under the deck */
+  .what-this{font-size:16px;color:var(--ink-2);line-height:1.66;max-width:66ch;margin:20px 0 0}
+  .what-this b{color:var(--ink)}
+  .what-this i{color:var(--fern);font-style:italic}
+
+  /* the harvest snapshot chip (behind section 04) */
+  .harvest-chip{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11.5px;
+    font-weight:500;letter-spacing:0.03em;color:var(--ink-2);background:var(--paper-3);
+    border:1px solid var(--rule);border-radius:999px;padding:5px 14px;margin:22px 0 4px}
+  .harvest-chip .hn{color:var(--moss);font-weight:600}
+
+  /* the make-of pipeline strip — the four-step honest funnel */
+  .funnel{display:flex;align-items:stretch;gap:0;margin-top:22px;border:1px solid var(--rule);
+    border-radius:12px;overflow:hidden;background:var(--paper-3)}
+  @media(max-width:720px){.funnel{flex-direction:column}}
+  .funnel .fstep{flex:1;padding:15px 18px;border-right:1px solid var(--rule)}
+  @media(max-width:720px){.funnel .fstep{border-right:none;border-bottom:1px solid var(--rule)}}
+  .funnel .fstep:last-child{border-right:none;border-bottom:none}
+  .funnel .fstep .fn{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--moss);line-height:1.1}
+  .funnel .fstep .fl{font-family:var(--sans);font-size:12px;color:var(--ink-2);margin-top:6px;line-height:1.45}
+  .funnel .fstep .fl b{color:var(--ink)}
+  .funnel .fstep.human .fn{color:var(--terracotta)}
+
+  /* frontier / honest-status callout — a designed panel, not an apology */
+  .frontier{border:1px solid var(--rule);border-left:4px solid var(--terracotta);border-radius:0 14px 14px 0;
+    background:radial-gradient(120% 140% at 0% 0%, rgba(196,96,47,.06), transparent 60%),var(--paper-3);
+    padding:26px 30px;margin-top:8px}
+  .frontier .fk{font-family:var(--mono);font-size:11.5px;letter-spacing:0.06em;color:var(--terracotta);font-weight:600}
+  .frontier h3{font-family:var(--serif);font-size:26px;color:var(--moss);font-weight:600;margin:8px 0 12px;line-height:1.15;max-width:24ch}
+  .frontier p{font-size:15.5px;color:var(--ink-2);line-height:1.62;max-width:64ch;margin:0 0 12px}
+  .frontier p b{color:var(--ink)}
+  .frontier p i{color:var(--fern);font-style:italic}
+  .frontier .ships-row{display:flex;align-items:center;gap:20px;margin:20px 0 4px;flex-wrap:wrap}
+  .frontier .ships{font-family:var(--serif);font-size:34px;font-weight:600;color:var(--fern);line-height:1.05;max-width:12ch}
+  .frontier .ships-lbl{font-family:var(--sans);font-size:13.5px;color:var(--ink-2);line-height:1.5;max-width:44ch}
+  .frontier .ships-lbl b{color:var(--ink)}
+
+  .foot-close{font-family:var(--sans);font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--rule);
+    margin-top:34px;padding-top:16px;line-height:1.65}
+  .foot-close em{font-style:italic;color:var(--ink-2)}
+</style>
+</head>
+<body>
+
+<!-- reusable botanical symbols -->
+<svg style="display:none" aria-hidden="true"><defs>
+  <symbol id="sprig" viewBox="0 0 150 34">
+    <path d="M5 17 H145" stroke="#6E7B3A" stroke-width="1" fill="none"/>
+    <g fill="none" stroke="#3F7D57" stroke-width="1.3">
+      <path d="M60 17 q-9 -11 -20 -9 q7 8 20 9"/>
+      <path d="M90 17 q9 -11 20 -9 q-7 8 -20 9"/>
+      <path d="M68 17 q-6 9 -15 9 q5 -7 15 -9"/>
+      <path d="M82 17 q6 9 15 9 q-5 -7 -15 -9"/>
+    </g>
+    <circle cx="75" cy="17" r="3.2" fill="#E0A93B"/>
+    <circle cx="75" cy="17" r="6" fill="none" stroke="#C4602F" stroke-width="1"/>
+  </symbol>
+</defs></svg>
+
+<!-- NAV -->
+<div class="topbar">
+  <div class="wrap">
+    <a class="brandmark" href="index.html" style="color:var(--moss)">
+      <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 22 V9" stroke="#6E7B3A" stroke-width="1.6"/>
+        <path d="M12 13 q-7 -2 -8 -9 q7 1 8 9" fill="#8AA88B" stroke="#3F7D57" stroke-width="1"/>
+        <path d="M12 10 q7 -3 8 -9 q-7 1 -8 9" fill="#3F7D57" stroke="#2C4A38" stroke-width="1"/>
+        <circle cx="12" cy="6" r="2.4" fill="#E0A93B" stroke="#C4602F" stroke-width="1"/>
+      </svg>
+      Grammar&nbsp;of&nbsp;Meaning
+    </a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="library.html">Library</a>
+      <a href="essays.html" class="active">Essays</a>
+      <a href="garden.html">Garden</a>
+      <a href="grammar.html">Method</a>
+      <a href="glossary.html">Reference</a>
+    </nav>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <svg class="watermark" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+    <path d="M100 195 V70" stroke="#3F7D57" stroke-width="1.4"/>
+    <g stroke="#3F7D57" stroke-width="1.2" fill="none">
+      <path d="M100 150 q-46 -10 -58 -55 q46 6 58 55"/>
+      <path d="M100 120 q46 -12 58 -58 q-46 6 -58 58"/>
+      <path d="M100 96 q-38 -8 -48 -46 q38 5 48 46"/>
+      <path d="M100 78 q40 -10 50 -48 q-40 5 -50 48"/>
+    </g>
+    <circle cx="100" cy="62" r="7" fill="#E0A93B"/>
+  </svg>
+  <div class="wrap">
+    <div class="snap-chip"><span class="dot"></span>The public voice of the project · read live on Substack</div>
+    <div class="kicker">The Essays · <b>meaning-making in public</b></div>
+    <h1>The Essays</h1>
+    <div class="sub">Where the project thinks out loud — one figure, one image, one word, read closely enough to see what it is doing.</div>
+    <p class="what-this">The Library gathers the sources; the Method will one day code them; the Essays are where the questions get <i>felt</i> before they can be measured. Each essay takes a single life — Francis, Clare, Rabi&#699;a — and reads it the way the whole project is built to read: not for what the figure believed, but for the <i>move</i> underneath it. It is the grammar done by hand, in ordinary language, one life at a time — and published in the open, as it is made.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- 01 · WHAT THE ESSAYS ARE -->
+<section id="section-01">
+  <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">What the essays are — the move, done by hand</span><span class="sec-line"></span></div>
+
+  <p class="lead-p">The whole project turns on one small unit: the <b>move</b> — what a passage, a figure, a practice is actually <i>doing</i>, underneath the tradition it belongs to and the words it uses. The Method is built to name millions of these at scale. But that coding has not begun. It is the frontier, and it stands at zero.</p>
+
+  <p class="lead-p">The essays are where that same reading happens <i>now</i>: by hand, in prose, one figure at a time. An essay is a move read slowly — Francis's poverty read as the closing of a distance; Clare's read as the same hunger, walled in, turned inward — before any machine can read them fast. So the essays are two things at once: a proof of what the grammar sees when it works, and an honest placeholder for the coding that has not happened yet.</p>
+
+  <p class="lead-p">They are also the project's public voice — the <b>Grammar of Meaning</b> Substack, where the work is thought out loud, in the open, as it is made, rather than summarized once it is safe.</p>
+
+  <blockquote class="pull" style="margin-top:32px">
+    <p>The essays are the move done by hand — a life read slowly, before the machine can read them fast.</p>
+    <div class="attr">— <b>Grammar of Meaning</b> · on what the essays are for</div>
+  </blockquote>
+</section>
+
+<!-- 02 · HOW AN ESSAY READS -->
+<section id="section-02">
+  <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">How an essay reads — a window, not a verdict</span><span class="sec-line"></span></div>
+
+  <p class="lead-p">Each essay reads <i>one thing</i>: a single figure, image, or word, closely enough to see the move it makes. The register is curatorial, not confessional — first person about the <i>subject</i>, not the self — and it is built to earn its meaning, not assert it: stand the reader inside a real life, name plainly what it means, and then trust the image to carry the rest.</p>
+
+  <p class="lead-p">One discipline keeps it honest above all others: <b>a figure-essay is a <i>window</i>, not a <i>rhyme</i>.</b> It deepens one tradition from the inside; it never claims that two traditions "agree." A rhyme — the same move made in a different voice — is the project's real question, and it belongs to the Method and to the summary posts, never smuggled into a single portrait. The rhymes have not been drawn. That is the same frontier as the coding.</p>
+
+  <blockquote class="pull" style="margin-top:32px">
+    <p>A figure-essay opens a window. It does not draw a rhyme. The rhyme is the frontier — the same frontier as the coding.</p>
+    <div class="attr">— <b>Grammar of Meaning</b> · window vs rhyme</div>
+  </blockquote>
+</section>
+
+<!-- 03 · THE VOICE -->
+<section id="section-03">
+  <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">The voice — proclaim, don't preach; hold the shadow</span><span class="sec-line"></span></div>
+
+  <p class="lead-p">The essays are written for the message and to make the figure come alive; style serves, it never leads. That means proclaiming a meaning and trusting the reader with it, rather than lecturing toward it — analogy in the body, not a sermon at the end. No self-help, no homework.</p>
+
+  <p class="lead-p">It also means refusing the holy-card. A figure is held up to widen what a reader can see as choosable — never as an instruction to imitate. The cost is stated flat, without romance; where a life runs to a dangerous edge, the essay says so, and holds the bright half and the dark half in the same hand. The honesty <i>is</i> the value: the essays are clear about what is a portrait and what would be a claim, and unwilling to blur the two.</p>
+</section>
+
+<!-- 04 · HOW THE FIRST DRAFT GETS CROWDSOURCED -->
+<section id="section-04">
+  <div class="sec-head"><span class="sec-num">04</span><span class="sec-title">How the first draft gets crowdsourced</span><span class="sec-line"></span></div>
+
+  <p class="lead-p">The draft you eventually read is not typed once, start to finish. It is <i>crowdsourced from a small machine shop</i> — and the process is worth showing, because it says plainly who does what.</p>
+
+  <div class="harvest-chip"><span class="hn">~335K sources</span> behind the harvest · a labeled snapshot</div>
+
+  <p class="lead-p">A seed goes to the corpus, which returns a reference pack: sources, clean quotes, the historical <i>sitz</i>, and a deliberate reach for non-Western scholarship most tools skip. Several agents then draft the <i>whole</i> piece in parallel, each through a different door — story-first, provocation-first, paradox-first — returning a menu of complete drafts, not one. A panel of independent readers reviews it next, each prompted to <i>refute</i> rather than praise — the same adversarial, many-perspectives method the project uses to stand in for human inter-rater reliability on the corpus, turned on an essay instead of a code.</p>
+
+  <div class="funnel">
+    <div class="fstep"><div class="fn">Harvest</div><div class="fl">a seed goes to the corpus; back comes a <b>reference pack</b> — sources, clean quotes, the <i>sitz</i>, non-Western scholarship reached for on purpose</div></div>
+    <div class="fstep"><div class="fn">Draft in parallel</div><div class="fl">several agents write the <b>whole piece</b>, each through a different door — story-first, provocation-first, paradox-first; a menu, not one draft</div></div>
+    <div class="fstep"><div class="fn">Argue</div><div class="fl">an independent panel reads to <b>refute, not praise</b> — the adversarial, many-perspectives check, turned on an essay instead of a code</div></div>
+    <div class="fstep human"><div class="fn">The human makes it</div><div class="fl">the seed, the shape, the graft between drafts, and — above all — the <b>revision</b>, dozens of line-level passes: the human's work</div></div>
+  </div>
+
+  <p class="lead-p" style="margin-top:24px">What the engines do is gather, draft, and argue. What they do <i>not</i> do is make the essay. The seed, the shape, the graft between drafts, and — above all — the revision, which is the bulk of the work, dozens of line-level passes, are the human's. <b>The engines draft; the human makes the essay.</b></p>
+
+  <blockquote class="pull" style="margin-top:32px">
+    <p>The engines gather, draft, and argue. The human makes the essay — and the revision is the bulk.</p>
+    <div class="attr">— <b>Grammar of Meaning</b> · how an essay gets made</div>
+  </blockquote>
+</section>
+
+<!-- 05 · THE HONEST STATUS -->
+<section id="section-05">
+  <div class="sec-head"><span class="sec-num">05</span><span class="sec-title">What ships, and what it doesn't claim</span><span class="sec-line"></span></div>
+
+  <div class="frontier">
+    <div class="fk">shipping — but claiming no findings</div>
+    <h3>A window, not a result.</h3>
+    <div class="ships-row">
+      <div class="ships">Live on the Substack.</div>
+      <div class="ships-lbl">The essays are the one part of the project <b>shipping publicly now</b> — a growing series, read in the open. But they claim no findings.</div>
+    </div>
+    <p>Each is a window into a single tradition, not a cross-tradition result; the rhymes those windows are built to reveal wait on the coding, which stands at zero. What ships here is the <b>reading and the voice</b> — never a conclusion the corpus has not earned.</p>
+    <p>And the question those windows are built to open is a <b>rhyme</b>: not whether traditions agree, but whether they make the same <i>move</i> underneath their different answers. <b>A rhyme is the same move made in a different voice.</b> That is the frontier — and these essays will keep saying exactly that until it is crossed.</p>
+  </div>
+
+  <svg class="sprig" style="margin-top:40px"><use href="#sprig"/></svg>
+
+  <div class="foot-close">
+    The essays are the project's public voice — <em>meaning-making in public</em>, read live on the Substack. Each is a portrait of one tradition, read closely; none is a cross-tradition claim. Everything the essays gesture toward — the rhymes, the coding — is still <em>ahead</em>. <em>Grammar of Meaning</em> · a working house, unlisted.
+  </div>
+</section>
+
+<!-- 06 · EXPLORE -->
+<section id="explore">
+  <div class="sec-head"><span class="sec-num">06</span><span class="sec-title">Explore the essays</span><span class="sec-line"></span></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px" class="explore-cards">
+    <a class="hp-card" href="https://grammarofmeaning.substack.com" target="_blank" rel="noopener" style="display:flex;flex-direction:column;text-decoration:none">
+      <b style="font-family:var(--serif);font-size:18px;color:var(--moss)">Read live on Substack &#8599;</b>
+      <span style="font-size:13px;color:var(--ink-2);margin-top:7px;line-height:1.55">The essays as they publish: meaning-making in public, one figure at a time.</span>
+    </a>
+    <a class="hp-card" href="essay-engine.html" style="display:flex;flex-direction:column;text-decoration:none">
+      <b style="font-family:var(--serif);font-size:18px;color:var(--moss)">How an essay gets made →</b>
+      <span style="font-size:13px;color:var(--ink-2);margin-top:7px;line-height:1.55">Five machines and a human: watch a first draft get crowdsourced — harvested, drafted in parallel through different doors, argued over by an adversarial panel — and see who actually does the work.</span>
+    </a>
+    <a class="hp-card" href="#section-01" style="display:flex;flex-direction:column;text-decoration:none">
+      <b style="font-family:var(--serif);font-size:18px;color:var(--moss)">The essayistic move →</b>
+      <span style="font-size:13px;color:var(--ink-2);margin-top:7px;line-height:1.55">What it means to read one life as a <i>move</i>, not a belief — the unit the whole grammar is built on, done here by hand.</span>
+    </a>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px" class="explore-cards">
+    <div class="hp-card" style="display:flex;flex-direction:column;opacity:.72">
+      <b style="font-family:var(--serif);font-size:18px;color:var(--moss)">A featured essay</b>
+      <span style="font-size:13px;color:var(--ink-2);margin-top:7px;line-height:1.55">One worked piece, read closely: <i>The Length of a Road</i> (Francis) — poverty read as the closing of a distance.</span>
+      <span style="font-family:var(--mono);font-size:10.5px;color:var(--terracotta);margin-top:10px;letter-spacing:.04em">in progress</span>
+    </div>
+  </div>
+  <p style="font-size:12px;color:var(--ink-3);font-family:var(--sans);margin-top:14px;font-style:italic">More explorations will land here as the series grows — each a card, not a rewrite of this page.</p>
+</section>
+
+</div><!-- /wrap -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="flabel">Grammar of Meaning</div>
+    <h3>How meaning gets made — read each tradition in its own vocabulary first.</h3>
+    <div class="pickgrid">
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">The work</div>
+        <div class="picklist">
+          <div><a href="library.html" style="color:#fff">The Library</a> <span class="k">— the world's traditions, gathered</span></div>
+          <div><a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" style="color:#fff">The Essays ↗</a> <span class="k">— meaning-making in public</span></div>
+          <div><a href="garden.html" style="color:#fff">The Garden</a> <span class="k">— a pilgrimage you walk</span></div>
+          <div><a href="grammar.html" style="color:#fff">The Method</a> <span class="k">— the open method behind it all</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">Reference</div>
+        <div class="picklist">
+          <div><a href="glossary.html" style="color:#fff">Glossary</a></div>
+          <div><a href="principles.html" style="color:#fff">Principles</a></div>
+          <div><a href="scholars.html" style="color:#fff">Scholars</a></div>
+          <div><a href="bibliography.html" style="color:#fff">Bibliography</a></div>
+        </div>
+        <div class="label-mute" style="color:var(--sage);margin:22px 0 10px">Start here</div>
+        <div class="picklist">
+          <div><a href="mission.html" style="color:#fff">What this is →</a></div>
+        </div>
+      </div>
+    </div>
+    <p class="foot-note">A working house, unlisted · <em>Grammar of Meaning</em> · Tamara Sanderson · 2026 · content draft, not deployed</p>
+  </div>
+</footer>
+
+</body>
+</html>
