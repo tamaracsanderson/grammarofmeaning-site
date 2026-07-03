@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How an essay gets made · Grammar of Meaning</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/gom.css">
+<style>
+  /* =========================================================
+     ESSAY-ENGINE — reskinned to the house pattern (Field Notes
+     skeleton × Living Garden skin). The old amber/steel/green
+     role palette is remapped onto house tokens:
+       --you  (the human, heavy)  → terracotta (soil / signal)
+       --eng  (the engine, light) → fern / olive on paper
+       --pub  (publish)           → moss / fern
+     Nothing in the JS or the worked-example content changed —
+     only the skin. Uses gom.css tokens throughout.
+     ========================================================= */
+  :root{
+    /* re-point the page's local role tokens onto the house palette */
+    --bg:var(--paper); --card:var(--paper-3); --line:var(--rule); --line2:var(--rule);
+    --muted:var(--ink-3);
+    /* you = human craft (heavy, terracotta soil) */
+    --you:var(--terracotta); --you-bg:#F7ECDD; --you-bd:#E0A93B; --you-deep:#9A4A22;
+    /* engine = light fern/olive on paper */
+    --eng:var(--fern); --eng-bg:#EEF2E9; --eng-bd:#B7CBB3;
+    /* publish = moss/fern green */
+    --pub:var(--moss); --pub-bg:#E4EFE7; --pub-bd:#8AA88B;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  /* body ground + type come from gom.css; keep the soft radial wash, house-tinted */
+  body{
+    background-image:
+      radial-gradient(circle at 12% -5%,rgba(196,96,47,.045),transparent 40%),
+      radial-gradient(circle at 92% 8%,rgba(63,125,87,.05),transparent 42%),
+      radial-gradient(circle at 16% 10%, rgba(224,169,59,.05), transparent 42%),
+      radial-gradient(circle at 84% 82%, rgba(63,125,87,.055), transparent 46%);
+    background-attachment:fixed;
+  }
+  a{color:var(--fern)}
+
+  /* ---------- progress rail (sticky top) ---------- */
+  #progwrap{position:fixed;top:0;left:0;right:0;z-index:110;background:rgba(252,251,247,.90);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--rule);transform:translateY(-100%);transition:transform .25s ease}
+  #progwrap.show{transform:translateY(0)}
+  .progbar{height:3px;background:var(--rule);}
+  .progfill{height:3px;width:0;background:linear-gradient(90deg,var(--terracotta),var(--fern));transition:width .15s linear}
+  .pwrap{max-width:1060px;margin:0 auto;padding:7px 18px;display:flex;align-items:center;gap:5px;overflow-x:auto;scrollbar-width:none}
+  .pwrap::-webkit-scrollbar{display:none}
+  .pdot{flex:0 0 auto;display:flex;align-items:center;gap:6px;font-family:var(--sans);font-size:11.5px;color:var(--ink-3);cursor:pointer;
+    padding:3px 8px;border-radius:20px;white-space:nowrap;border:1px solid transparent;transition:.12s}
+  .pdot .d{width:8px;height:8px;border-radius:50%;background:var(--rule);flex:0 0 auto}
+  .pdot.you .d{background:var(--terracotta)} .pdot.eng .d{background:var(--fern)} .pdot.pub .d{background:var(--moss)}
+  .pdot.active{background:var(--paper-3);border-color:var(--rule);color:var(--ink);font-weight:600}
+  .pdot.active .d{box-shadow:0 0 0 3px rgba(196,96,47,.16)}
+
+  /* ---------- hero ---------- */
+  .e-wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+  .hero{padding:78px 0 26px;text-align:center;border-top:none;background:transparent}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:none;color:var(--ink-3);margin-bottom:16px;text-align:center}
+  .hero .kicker b{color:var(--terracotta);font-weight:600}
+  .hero h1{font-family:var(--serif);font-size:clamp(30px,5.2vw,46px);font-weight:600;line-height:1.12;margin:0 auto 16px;max-width:16ch;color:var(--moss);letter-spacing:-0.01em}
+  .lede{font-family:var(--serif);font-size:18px;color:var(--ink-2);max-width:32em;margin:0 auto 6px;line-height:1.55}
+  .lede b{color:var(--ink)}
+  .thesis{display:inline-block;margin-top:20px;font-family:var(--serif);font-size:19px;color:var(--ink);
+    background:var(--you-bg);border:1px solid var(--you-bd);border-radius:14px;padding:14px 22px;max-width:32em;line-height:1.5}
+  .thesis em{color:var(--you-deep);font-style:normal;font-weight:700}
+
+  /* ---------- §1 the five pieces (meta-architecture) ---------- */
+  .arch{max-width:980px;margin:44px auto 0;text-align:left}
+  .arch-h{font-family:var(--serif);font-size:clamp(21px,3vw,27px);font-weight:600;text-align:center;margin:0 0 6px;color:var(--moss)}
+  .arch-sub{text-align:center;color:var(--ink-2);font-size:15px;max-width:46em;margin:0 auto 22px;font-family:var(--serif)}
+  .archgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .archgrid .archcard:last-child{grid-column:1 / -1}
+  @media(max-width:680px){.archgrid{grid-template-columns:1fr}.archgrid .archcard:last-child{grid-column:auto}}
+  .archcard{position:relative;border-radius:14px;padding:16px 18px 17px;background:linear-gradient(var(--eng-bg),var(--paper-3));
+    border:1px solid var(--eng-bd)}
+  .archcard.you{border-color:var(--you-bd);border-left-width:6px;border-left-color:var(--terracotta);
+    background:linear-gradient(180deg,var(--you-bg),var(--paper-3));box-shadow:0 6px 20px rgba(154,74,34,.10)}
+  .archcard.star-card{border-color:var(--fern);box-shadow:0 4px 16px rgba(63,125,87,.16)}
+  .ac-tag{display:inline-block;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:none;
+    padding:3px 9px;border-radius:20px;margin-bottom:9px}
+  .ac-tag.eng{background:var(--paper-3);color:var(--fern);border:1px solid var(--eng-bd)}
+  .ac-tag.you{background:var(--terracotta);color:#F7F3E7}
+  .ac-n{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:5px;color:var(--moss)}
+  .archcard.you .ac-n{font-size:19px;color:var(--you-deep)}
+  .ac-d{font-size:13.5px;color:var(--ink-2);line-height:1.5}
+  .ac-d code{font-family:var(--mono);font-size:12.5px;background:var(--eng-bg);
+    border:1px solid var(--eng-bd);border-radius:5px;padding:1px 5px;color:var(--fern)}
+  .archcard.you .ac-d{color:var(--ink)}
+
+  /* toggle */
+  .toggle-wrap{text-align:center;margin:40px 0 8px}
+  .toggle-label{font-family:var(--sans);font-size:12px;letter-spacing:.035em;text-transform:none;color:var(--ink-3);margin-bottom:10px}
+  .toggle{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:8px}
+  .toggle button{border:1px solid var(--rule);background:var(--paper-3);padding:9px 16px;font-size:13.5px;cursor:pointer;
+    font-family:var(--sans);color:var(--ink-2);border-radius:24px;transition:.15s}
+  .toggle button:hover{border-color:var(--you-bd);color:var(--ink)}
+  .toggle button.on{background:var(--moss);color:#F1EAD6;border-color:var(--moss)}
+  .toggle button .star{color:var(--honey)}
+  .toggle button.on .star{color:var(--honey)}
+  .extitle{text-align:center;font-family:var(--serif);font-size:20px;margin:18px 0 2px;color:var(--moss)}
+  .exline{text-align:center;color:var(--ink-2);font-size:14.5px;margin-bottom:6px;font-family:var(--serif);font-style:italic}
+
+  /* legend */
+  .legend{text-align:center;font-family:var(--sans);font-size:13px;color:var(--ink-2);margin:18px 0 6px}
+  .sw{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:middle;margin:0 5px 0 16px}
+  .legend small{display:block;margin-top:6px;font-size:12px;color:var(--ink-3)}
+
+  /* scroll cue */
+  .cue{text-align:center;font-family:var(--mono);color:var(--ink-3);font-size:13px;margin:26px 0 6px;animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+  /* ---------- stages ---------- */
+  #stages{margin:8px 0 0}
+  .stage{position:relative;margin:0 auto;max-width:780px;opacity:0;transform:translateY(28px);
+    transition:opacity .6s ease,transform .6s ease}
+  .stage.in{opacity:1;transform:none}
+  /* connector line */
+  .stage::before{content:"";position:absolute;left:50%;top:-46px;width:2px;height:46px;
+    background:var(--rule);opacity:.7}
+  .stage:first-child::before{display:none}
+
+  .card{background:var(--paper-3);border:1px solid var(--rule);border-radius:16px;padding:20px 22px;
+    box-shadow:0 1px 2px rgba(44,74,56,.05)}
+  /* role weighting: engine = lighter, dim; human = heavy, warm */
+  .stage.eng .card{border-color:var(--eng-bd);background:linear-gradient(var(--eng-bg),var(--paper-3));opacity:.97}
+  .stage.you .card{border-color:var(--you-bd);border-left-width:6px;border-left-color:var(--terracotta);
+    background:linear-gradient(180deg,var(--you-bg),var(--paper-3));box-shadow:0 6px 20px rgba(154,74,34,.10)}
+  .stage.pub .card{border-color:var(--pub-bd);border-left-width:6px;border-left-color:var(--moss);background:linear-gradient(180deg,var(--pub-bg),var(--paper-3))}
+
+  .shead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .num{font-family:var(--serif);font-size:13px;color:#F7F3E7;min-width:26px;height:26px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;background:var(--fern)}
+  .stage.you .num{background:var(--terracotta)} .stage.pub .num{background:var(--moss)}
+  .nm{font-family:var(--serif);font-weight:600;font-size:18px;color:var(--moss)}
+  .stage.you .nm{font-size:23px}
+  .role-tag{font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:none;padding:3px 9px;border-radius:20px;margin-left:auto}
+  .role-tag.you{background:var(--terracotta);color:#F7F3E7} .role-tag.eng{background:var(--paper-3);color:var(--fern);border:1px solid var(--eng-bd)} .role-tag.pub{background:var(--moss);color:#F1EAD6}
+  .ol{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);margin:2px 0 0 38px}
+  .blurb{font-family:var(--serif);font-size:15px;color:var(--ink-2);margin:13px 0 0 0}
+  .stage.you .blurb{font-size:15.5px;color:var(--ink)}
+  .body-box{margin-top:14px}
+
+  /* effort meter (right edge of each card head) */
+  .effort{display:flex;gap:3px;align-items:center;margin-left:38px;margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+  .effort .bars{display:inline-flex;gap:2px}
+  .effort .bar{width:5px;height:13px;border-radius:1px;background:var(--rule)}
+  .stage.eng .effort .bar.f{background:var(--fern)}
+  .stage.you .effort .bar.f{background:var(--terracotta)}
+  .stage.pub .effort .bar.f{background:var(--moss)}
+
+  /* shared content widgets reused from worked-example bodies */
+  .lab{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:none;color:var(--fern);margin:14px 0 7px}
+  .stage.you .lab{color:var(--you-deep)}
+  .out{background:var(--paper-3);border:1px solid var(--rule);border-radius:10px;padding:13px 15px;font-family:var(--serif);font-size:14.5px;color:var(--ink);line-height:1.55}
+  .out .serif{font-family:var(--serif);font-style:italic;color:var(--moss)}
+  .door{border-left:3px solid var(--eng-bd);padding:3px 0 3px 12px;margin:9px 0;font-family:var(--serif);font-size:13.5px;color:var(--ink)}
+  .door b{font-family:var(--serif);font-style:normal;color:var(--moss)}
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:600px){.ba{grid-template-columns:1fr}}
+  .ba .col{background:var(--paper-3);border:1px solid var(--rule);border-radius:9px;padding:10px 12px;font-size:13px}
+  .ba .col .h{font-family:var(--sans);font-size:10.5px;font-weight:700;text-transform:none;letter-spacing:.04em;margin-bottom:5px}
+  .before .h{color:var(--terracotta)} .after .h{color:var(--moss)}
+  .picture{background:var(--moss);color:#EDE6D2;border-radius:10px;padding:14px 16px;font-family:var(--serif);font-size:14.5px;line-height:1.5}
+  .picture b{color:var(--honey);font-family:var(--sans);font-style:normal;font-weight:700;font-size:11px;letter-spacing:.04em}
+
+  /* form repertoire chips */
+  .flexrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .flex{flex:1 1 200px;background:var(--paper-3);border:1px solid var(--you-bd);border-radius:11px;padding:11px 13px}
+  .flex .ft{font-family:var(--serif);font-weight:600;font-size:14.5px;color:var(--you-deep)}
+  .flex .fs{font-family:var(--sans);font-size:12.5px;color:var(--ink-3);margin-top:3px}
+  .chosen{margin-top:11px;font-family:var(--serif);font-size:13.5px;background:var(--you-bg);border:1px dashed var(--you-bd);border-radius:9px;padding:10px 13px;color:var(--ink)}
+  .chosen b{color:var(--you-deep)}
+
+  /* REVISION — the bulk. Pass strip. */
+  .revwrap{margin-top:8px}
+  .revcount{font-family:var(--serif);font-size:30px;color:var(--you-deep);line-height:1}
+  .revcount span{font-family:var(--sans);font-size:14px;color:var(--ink-3)}
+  .passes{display:flex;flex-wrap:wrap;gap:5px;margin:14px 0 4px}
+  .pass{width:13px;height:13px;border-radius:3px;background:var(--terracotta);opacity:0;
+    animation:popin .4s ease forwards}
+  @keyframes popin{from{opacity:0;transform:scale(.4)}to{opacity:.85;transform:scale(1)}}
+  .pass.eng{background:var(--fern);opacity:.5}
+  .passnote{font-family:var(--sans);font-size:12px;color:var(--ink-3);margin-top:8px}
+  .revlist{margin:14px 0 0;padding:0;list-style:none;font-family:var(--serif);font-size:13.5px;color:var(--ink)}
+  .revlist li{padding:6px 0 6px 22px;border-bottom:1px dashed var(--rule);position:relative}
+  .revlist li:last-child{border-bottom:0}
+  .revlist li::before{content:"✎";position:absolute;left:0;color:var(--terracotta);font-size:13px}
+  .revlist li b{color:var(--you-deep)}
+
+  /* footnotes / where it came from */
+  .fn{font-family:var(--serif);font-size:13.5px;background:var(--paper-3);border:1px solid var(--rule);border-radius:9px;padding:11px 14px;margin-top:9px;color:var(--ink)}
+  .fn b{font-family:var(--serif);font-style:normal;color:var(--moss)}
+  .fn .src{color:var(--moss);font-weight:600}
+  .verify{margin-top:10px;font-family:var(--sans);font-size:12.5px;color:var(--ink-2);background:var(--you-bg);border-radius:8px;padding:9px 12px;border:1px solid var(--you-bd)}
+  .verify b{color:var(--you-deep)}
+
+  /* honesty rail */
+  .rail-item{display:flex;gap:9px;margin:8px 0;font-family:var(--serif);font-size:13.5px;color:var(--ink)}
+  .rail-item .ico{flex:0 0 auto;color:var(--fern);font-weight:700}
+
+  /* tally / who-did-what */
+  .tally{max-width:780px;margin:64px auto 0;background:var(--paper-3);border:1px solid var(--rule);border-radius:18px;padding:26px 26px 30px}
+  .tally h3{font-family:var(--serif);font-size:24px;margin:0 0 4px;text-align:center;color:var(--moss)}
+  .tally p.s{text-align:center;color:var(--ink-2);font-family:var(--serif);font-size:14px;margin:0 0 22px;line-height:1.55}
+  .scale{display:flex;height:54px;border-radius:12px;overflow:hidden;border:1px solid var(--rule);font-family:var(--sans);font-size:13px;font-weight:600}
+  .scale .seg{display:flex;align-items:center;justify-content:center;color:#F7F3E7;transition:flex-basis .8s ease;text-align:center;padding:0 4px}
+  .scale .seg.eng{background:var(--fern);flex:0 0 0%}
+  .scale .seg.you{background:var(--terracotta);flex:0 0 0%}
+  .scalecap{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:8px}
+  .tallynote{margin-top:18px;font-family:var(--serif);font-size:14px;color:var(--ink-2);text-align:center;line-height:1.55}
+  .tallynote b{color:var(--you-deep);font-style:normal}
+
+  /* loop / publish footer */
+  .loop{max-width:780px;margin:30px auto 0;text-align:center;font-family:var(--serif);font-size:14px;color:var(--ink-2);
+    border-top:1px solid var(--rule);padding-top:20px}
+  .loop b{color:var(--moss);font-family:var(--serif)}
+  .pubchip{display:inline-flex;align-items:center;gap:8px;background:var(--pub-bg);border:1px solid var(--pub-bd);
+    border-radius:24px;padding:7px 15px;font-family:var(--sans);font-size:13.5px;color:var(--moss);font-weight:600;margin-top:14px}
+  .pageend{text-align:center;font-family:var(--mono);color:var(--ink-3);font-size:12.5px;margin:44px 0 60px;line-height:1.6}
+  .pageend b{color:var(--ink-2)}
+
+  @media(max-width:760px){.hero{padding:64px 0 18px}.stage.you .nm{font-size:20px}}
+</style>
+</head>
+<body>
+
+<!-- reusable botanical symbols (house sprig + leaf toggle) -->
+<svg style="display:none" aria-hidden="true"><defs>
+  <symbol id="sprig" viewBox="0 0 150 34">
+    <path d="M5 17 H145" stroke="#6E7B3A" stroke-width="1" fill="none"/>
+    <g fill="none" stroke="#3F7D57" stroke-width="1.3">
+      <path d="M60 17 q-9 -11 -20 -9 q7 8 20 9"/>
+      <path d="M90 17 q9 -11 20 -9 q-7 8 -20 9"/>
+      <path d="M68 17 q-6 9 -15 9 q5 -7 15 -9"/>
+      <path d="M82 17 q6 9 15 9 q-5 -7 -15 -9"/>
+    </g>
+    <circle cx="75" cy="17" r="3.2" fill="#E0A93B"/>
+    <circle cx="75" cy="17" r="6" fill="none" stroke="#C4602F" stroke-width="1"/>
+  </symbol>
+</defs></svg>
+
+<!-- HOUSE NAV (topbar from the proven recipe) -->
+<div class="topbar">
+  <div class="wrap">
+    <a class="brandmark" href="index.html" style="color:var(--moss)">
+      <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 22 V9" stroke="#6E7B3A" stroke-width="1.6"/>
+        <path d="M12 13 q-7 -2 -8 -9 q7 1 8 9" fill="#8AA88B" stroke="#3F7D57" stroke-width="1"/>
+        <path d="M12 10 q7 -3 8 -9 q-7 1 -8 9" fill="#3F7D57" stroke="#2C4A38" stroke-width="1"/>
+        <circle cx="12" cy="6" r="2.4" fill="#E0A93B" stroke="#C4602F" stroke-width="1"/>
+      </svg>
+      Grammar&nbsp;of&nbsp;Meaning
+    </a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="subtraditions.html">Library</a>
+      <a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener">Essays&nbsp;&#8599;</a>
+      <a href="garden.html">Garden</a>
+      <a href="grammar.html">Method</a>
+      <a href="glossary.html">Reference</a>
+    </nav>
+  </div>
+</div>
+
+<!-- progress rail -->
+<div id="progwrap">
+  <div class="progbar"><div class="progfill" id="progfill"></div></div>
+  <div class="pwrap" id="pwrap"></div>
+</div>
+
+<div class="e-wrap">
+
+  <header class="hero">
+    <div class="kicker">How an essay gets made &nbsp;·&nbsp; <b>five machines and a human</b></div>
+    <h1>Watch an essay get built — and see who actually does the work.</h1>
+    <p class="lede">A public essay starts as a <b>seed</b> and ends on a Substack. In between, several engines harvest, draft in parallel, and review — all from a corpus of roughly <b>335,000 sources</b>.</p>
+    <div class="thesis">The engines gather, draft, and review.<br><em>The human makes the essay.</em></div>
+
+    <!-- ===== §1 THE FIVE PIECES — the meta-architecture, front and center ===== -->
+    <section class="arch">
+      <div class="arch-h">What's actually doing the work — five distinct pieces</div>
+      <p class="arch-sub">It's not "an AI that writes essays." It's a small machine shop: four engines, plus the human who runs them.</p>
+      <div class="archgrid">
+        <div class="archcard eng">
+          <div class="ac-tag eng">engine</div>
+          <div class="ac-n">1 · The script</div>
+          <div class="ac-d">The <code>/grammar</code> pipeline: a fixed recipe that <b>enforces the non-negotiables</b> — curatorial register, first-person-about-the-third, one thing per essay, archive-led not memory-led. It's the rules, made repeatable.</div>
+        </div>
+        <div class="archcard eng">
+          <div class="ac-tag eng">engine</div>
+          <div class="ac-n">2 · The harvest engine</div>
+          <div class="ac-d">Structured queries against the corpus → a <b>reference pack</b>: related sources, clean pull-quotes, candidate cross-tradition rhymes, public-domain images, the WWWWWH <i>sitz</i>. Plus a <b>parity fan-out</b> (non-Western scholarship) and a <b>frame sweep</b> (every tradition family) so nothing gets dropped.</div>
+        </div>
+        <div class="archcard eng star-card">
+          <div class="ac-tag eng">engine · the clever bit</div>
+          <div class="ac-n">3 · The bake-off engine</div>
+          <div class="ac-d">Several agents run <b>in parallel</b>, each drafting the <i>whole</i> piece through a different <b>door</b> (story-first / provocation-first / paradox-first). It returns a <b>menu</b> of complete drafts. <b>The human grafts and hybridizes — she never just picks one.</b></div>
+        </div>
+        <div class="archcard eng">
+          <div class="ac-tag eng">engine</div>
+          <div class="ac-n">4 · The reader / panel</div>
+          <div class="ac-d">A <b>nine-persona adversarial review</b> — three scholars, three readers, three practitioners — each prompted to <i>refute</i>, not praise. It is the direct cousin of the project's <b>5-LLM inter-rater-reliability method</b> used on the corpus coding: many independent perspectives, adversarial — applied to essays instead of codes.</div>
+        </div>
+        <div class="archcard you">
+          <div class="ac-tag you">the human</div>
+          <div class="ac-n">5 · The human</div>
+          <div class="ac-d">The seed, the harvest direction, the <b>form</b>, the <b>graft</b>, and the <b>revision</b> — the bulk, dozens of line-level passes — and the judgment: what's true, what flatters, what flattens, what's hers.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="toggle-wrap">
+      <div class="toggle-label">Now watch it run — choose a worked example</div>
+      <div class="toggle" id="toggle">
+        <button data-ex="rabia">Rabiʿa the Sufi <span class="star">★</span></button>
+        <button data-ex="simplicity">Diogenes the Cynic</button>
+        <button data-ex="tree">The Useless Tree</button>
+      </div>
+      <div class="extitle" id="extitle"></div>
+      <div class="exline" id="exline"></div>
+    </div>
+
+    <div class="legend">
+      <span class="sw" style="background:var(--terracotta)"></span>the human (heavy)
+      <span class="sw" style="background:var(--fern)"></span>the engine (light)
+      <span class="sw" style="background:var(--moss)"></span>publish
+      <small>Watch the cards change weight as you go: the terracotta ones are where the essay is actually made.</small>
+    </div>
+
+    <div class="cue">↓ scroll to build the essay</div>
+  </header>
+
+  <main id="stages"></main>
+
+  <!-- effort tally -->
+  <section class="tally" id="tally">
+    <h3>Who did the work?</h3>
+    <p class="s">Roughly where the hours go — <b>illustrative, not measured</b>. The engines do the <i>volume</i>: research, several parallel drafts, the adversarial panel, a polish, the footnotes, the tags &amp; blurb, even art suggestions. The human does the <i>decisive</i> work: the <b>form</b>, the <b>graft</b>, and especially the <b>revision</b> (the bulk). <b>The engines draft; Tamara makes the essay.</b></p>
+    <div class="scale">
+      <div class="seg eng" id="segEng">the engine</div>
+      <div class="seg you" id="segYou">the human</div>
+    </div>
+    <div class="scalecap"><span>gather &amp; draft</span><span>judge, form, revise, source</span></div>
+    <div class="tallynote" id="tallynote"></div>
+  </section>
+
+  <div class="loop">
+    ↺ Building the engine surfaces new questions — which fall back in as fresh <b>seeds</b>.
+    <br>
+    <span class="pubchip">▲ ships to two places: <b style="font-family:var(--sans)">Substack</b> → grammarofmeaning.org</span>
+  </div>
+
+  <div class="pageend">
+    Grammar of Meaning &nbsp;·&nbsp; <b>Library</b> (the corpus) · <b>Essays</b> (the writing) · <b>Garden</b> (what's growing) · <b>System</b> (the engines)
+    <br>The verbatim quotes here are pinned to the published essays; any citation still being confirmed (e.g. the 1928 prayer source) is shown as provisional, never as a locked fact.
+  </div>
+
+  <svg class="sprig" style="margin:8px auto 0"><use href="#sprig"/></svg>
+
+</div>
+
+<!-- HOUSE FOOTER (pick-list, from the proven recipe) -->
+<footer>
+  <div class="wrap">
+    <div class="flabel">Grammar of Meaning</div>
+    <h3>How meaning gets made — read each tradition in its own vocabulary first.</h3>
+    <div class="pickgrid">
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">The work</div>
+        <div class="picklist">
+          <div><a href="subtraditions.html" style="color:#fff">The Library</a> <span class="k">— the world's traditions, gathered</span></div>
+          <div><a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" style="color:#fff">The Essays ↗</a> <span class="k">— meaning-making in public</span></div>
+          <div><a href="garden.html" style="color:#fff">The Garden</a> <span class="k">— a pilgrimage you walk</span></div>
+          <div><a href="grammar.html" style="color:#fff">The Method</a> <span class="k">— the open method behind it all</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">Reference</div>
+        <div class="picklist">
+          <div><a href="glossary.html" style="color:#fff">Glossary</a></div>
+          <div><a href="principles.html" style="color:#fff">Principles</a></div>
+          <div><a href="scholars.html" style="color:#fff">Scholars</a></div>
+          <div><a href="bibliography.html" style="color:#fff">Bibliography</a></div>
+        </div>
+        <div class="label-mute" style="color:var(--sage);margin:22px 0 10px">Start here</div>
+        <div class="picklist">
+          <div><a href="mission.html" style="color:#fff">What this is →</a></div>
+        </div>
+      </div>
+    </div>
+    <p class="foot-note">A working house, unlisted · <em>Grammar of Meaning</em> · Tamara Sanderson · 2026</p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   Worked examples. role: you (human, heavy) / eng (engine, light) / pub.
+   effort: 1-5 visual weight. body: HTML for the detail.
+   ============================================================ */
+const HUMAN='you', ENG='eng', PUB='pub';
+
+const EX = {
+  rabia:{
+    title:`"What's Worth Wanting" — Day 3, Rabiʿa al-ʿAdawiyya`,
+    line:`Burn heaven, douse hell — love the thing for itself, not for the reward.`,
+    ratio:{eng:24,you:76},
+    note:`The engine pulled Basra, the etymology, the legend, three drafts. The <b>human</b> chose the homiletic form, cut the self-help march, ran ~22 revision passes, and pinned every line to a named source.`,
+    stages:[
+      {n:1,role:HUMAN,nm:"Seed",ol:"Day 3 · emptying",eff:2,
+       blurb:"An idea worth writing. The “What’s Worth Wanting” series, Day 3: Rabiʿa — whose reason for wanting less is the strangest of all. To love God for nothing: not for paradise, not from fear of hell.",
+       body:`<div class="out"><span class="serif">"…So that what remains is love, free and clear."</span><br><br>This is a <b>move</b>, not a doctrine: love the thing for itself, not for what it pays out. You can carry that into a marriage, a craft, a friendship — an <b>analogy</b> that rhymes across very different lives.</div>`},
+
+      {n:2,role:ENG,nm:"Harvest",ol:"the sitz · from the Library",eff:2,
+       blurb:"The engine pulls the tradition's own sources and the sitz — where, when, and under what conditions, so you can picture the person.",
+       body:`<div class="lab">Reference pack · the Basra sitz (excerpt)</div>
+        <div class="out"><b>WHO</b> — Rabiʿa al-ʿAdawiyya (c.714–801), born into slavery, freed, became a teacher of pure love.<br>
+        <b>WHERE</b> — 8th-c. Basra: canal-port, slave economy, the Muʿtazila theology debates in the air.<br>
+        <b>WORD</b> — <i>ʿabd / ʿibada</i>: the worshipper is literally "slave of God" — the hinge the whole essay turns on.<br>
+        <b>LEGEND</b> — the torch-and-bucket story (via ʿAttar). <span style="color:var(--ink-3)">§13 flagged: this is what the tradition <i>tells</i>, not the record.</span></div>
+        <div class="picture" style="margin-top:11px"><b>★ PICTURE</b> — <span class="serif">"Someone stops a woman running through the streets of Basra with fire in one hand and water in the other. Where are you going, Rabiʿa? To set heaven ablaze…"</span></div>`},
+
+      {n:3,role:HUMAN,nm:"Form",ol:"which shape — not just which words",eff:4,
+       blurb:"Before any draft: choose the structural FORM. The engine's default marches scene → logic → mechanism → audit → now-do-this — which reads as self-help. The repertoire breaks that. This is a human judgment call.",
+       body:`<div class="lab">The governing correction</div>
+        <div class="out"><b>Proclaim, hold, and celebrate a truth — then trust the reader to apply it.</b> Diagnose-and-prescribe is the self-help shape. Proclaim-and-trust is the homiletic one.</div>
+        <div class="lab">The repertoire</div>
+        <div class="flexrow">
+          <div class="flex"><div class="ft">Thurman flex</div><div class="fs">invocation → story → circle → hand back</div></div>
+          <div class="flex"><div class="ft">Watts flex</div><div class="fs">paradox → wander → circle → noticing</div></div>
+          <div class="flex"><div class="ft">Black-preaching principles</div><div class="fs">something at stake · communal · borrowed-and-<i>attributed</i>, never cosplayed</div></div>
+        </div>
+        <div class="out" style="font-size:13px;opacity:.82;margin-top:8px"><b>The repertoire is small and deliberate:</b> one governing correction (proclaim-and-trust) plus these <b>three named flexes</b> — the shapes that break the engine's default self-help march.</div>
+        <div class="chosen"><b>Chosen for Rabiʿa: the Thurman flex.</b> The torch is the invocation, her life is the story, three angles circle "love for nothing," and her own prayer is the hand-back. The default audit / "now do this" march is deliberately cut.</div>`},
+
+      {n:4,role:ENG,nm:"Draft (bake-off)",ol:"several doors at once",eff:2,
+       blurb:"The engine drafts the piece in parallel — each through a different door (an opening strategy). The human never just picks one; she grafts the best lines across doors into the chosen form.",
+       body:`<div class="lab">Three doors, generated at once</div>
+        <div class="door"><b>A · the torch invocation</b> — opens inside the legend: fire in one hand, water in the other.</div>
+        <div class="door"><b>B · the world-first open</b> — opens on the streets of Basra before she appears.</div>
+        <div class="door"><b>C · the freed-slave hinge</b> — opens on <i>ʿabd</i>: the slave who refuses to be even God's slave-for-wages.</div>
+        <div class="out" style="margin-top:9px;color:var(--ink-3)">Doors are raw material. The author grafts; she does not choose.</div>`},
+
+      {n:5,role:ENG,nm:"Review (9-panel)",ol:"adversarial + honesty rail",eff:2,
+       blurb:"A simulated nine-person panel reviews adversarially — to refute. Plus the §13 honesty rails that matter most for cross-tradition work: flag legend as legend; don't flatten a move across traditions.",
+       body:`<div class="lab">What the rail caught</div>
+        <div class="rail-item"><span class="ico">⚑</span><span>The lamp-manumission and the torch-and-bucket are <b>hagiography</b> — "the tradition tells," never asserted as record.</span></div>
+        <div class="rail-item"><span class="ico">⚑</span><span>Keep Rabiʿa's <b>emptying</b> distinct from Diogenes' <b>freedom</b> and the tree's <b>the natural</b>. Same series, different <i>why</i> — don't flatten "want less" into one thing.</span></div>
+        <div class="rail-item"><span class="ico">⚑</span><span>A move that surfaces in one tradition is an <b>analogy</b> you can recognize in another — not a claim that anyone converged, or that the traditions arrived at the same answer.</span></div>`},
+
+      {n:6,role:HUMAN,nm:"Revision",ol:"≈ 22 passes — THE BULK",eff:5,big:true,
+       blurb:"This is where the essay is actually made — by a wide margin, the most time-consuming part of the whole build.",
+       rev:{count:22, engPasses:4,
+         items:[
+          `the <b>ʿabd / slave</b> hinge — making the etymology carry the argument`,
+          `the <b>two-question close</b> (is there room? do you love it for itself?)`,
+          `the prayer reframed as her <b>answer</b>, not an epigraph`,
+          `Basra made imaginable — the canal-port, the slave economy`,
+          `cutting the audit / "now do this" march to keep the homiletic form`,
+          `pinning every quote to the live post + a named source before publishing`
+         ]}},
+
+      {n:7,role:HUMAN,nm:"Footnotes · where this came from",ol:"pin every claim to a name",eff:3,
+       blurb:"The §13 close-out, and the difference between looking sourced and being sourced. Pin each legend to 'the tradition tells'; pin each translation to a named source; add a generosity-to-sources note.",
+       body:`<div class="lab">The prayer (her answer)</div>
+        <div class="out"><span class="serif">"O God — if I worship You in fear of hell, burn me in hell. If I worship You in hope of paradise, shut me out of paradise. But if I worship You for Yourself alone, do not withhold from me Your everlasting beauty."</span></div>
+        <div class="fn">The prayer → traced to <b>Margaret Smith</b>, <span class="src">Rabiʿa the Mystic</span> <i>(1928)</i> <span style="color:var(--you-deep);font-weight:600">[citation provisional — to be verified before publication]</span>.</div>
+        <div class="fn">The torch-and-bucket → framed as legend the tradition carries — "the tradition tells," never asserted as record.</div>
+        <div class="verify"><b>Verify-first.</b> Every quote is pinned to the <b>live Substack post</b> and its named source before the page ships. The 1928 citation above is still unconfirmed and shown as provisional, not as a locked fact.</div>`},
+
+      {n:8,role:PUB,nm:"Publish",ol:"Substack → grammarofmeaning.org",eff:1,
+       blurb:"Ships to two places: the Substack first, then the standalone site. The loop closes — building surfaced the next seed.",
+       body:`<div class="out"><span class="serif">"Whatever is still standing when both have gone out — that is the thing you actually loved."</span></div>`}
+    ]
+  },
+
+  simplicity:{
+    title:`"What's Worth Wanting" — Day 1, Diogenes the Cynic`,
+    line:`Throw away the cup — anything you need, anyone who controls it controls you.`,
+    ratio:{eng:30,you:70},
+    note:`The engine surfaced the sitz and three doors. The <b>human</b> held the question constant across the series, fixed the attributions, and made the essay in revision.`,
+    stages:[
+      {n:1,role:HUMAN,nm:"Seed",ol:"Day 1 · freedom",eff:2,
+       blurb:"A shower-thought captured before it evaporates: simplicity keeps surfacing across very different traditions — but each one wants less for a completely different reason. The divergence is the interesting thing.",
+       body:`<div class="out"><span class="serif">"A child cups his hands at the fountain and drinks. An old man in a filthy cloak watches, then reaches into his bag, takes out his one wooden cup — his last object with a function — and lets it fall. ‘A child has beaten me in plainness of living.’"</span><br><br>→ a series, <b>What's Worth Wanting</b>. Day 1: Diogenes, whose reason is <b>freedom</b>. The carryable move: own less, and fewer handles exist for the world to grab.</div>`},
+      {n:2,role:ENG,nm:"Harvest",ol:"the sitz · from the Library",eff:2,
+       blurb:"The engine pulls related texts, quotable lines, and a WWWWWH sitz.",
+       body:`<div class="lab">The Diogenes sitz (excerpt)</div>
+        <div class="out"><b>WHO</b> — Diogenes of Sinope (c.412–323 BCE), founder-figure of the Cynics; exiled over a coin-defacing scandal.<br>
+        <b>WHERE</b> — not a "barrel" (a mistranslation) but a <i>pithos</i>, a large ceramic jar, in the agora.<br>
+        <b>WHY</b> — <i>autarkeia</i>, self-sufficiency: <i>"anything you need, anyone who controls it controls you."</i><br>
+        <b>LEGEND</b> — Alexander offers a favor; Diogenes answers <i>"stand out of my sunlight."</i> <span style="color:var(--ink-3)">§13 flagged: the tradition <i>tells</i> this, not the record.</span></div>
+        <div class="picture" style="margin-top:11px"><b>★ PICTURE</b> — a man in a clay jar throwing away his last cup, because he just watched a child drink from cupped hands.</div>`},
+      {n:3,role:HUMAN,nm:"Form",ol:"which shape — not just which words",eff:4,
+       blurb:"Choose the structural form, not just the opening. Diogenes wants the paradox-and-noticing shape, not a self-help checklist.",
+       body:`<div class="lab">The correction + repertoire</div>
+        <div class="out"><b>Proclaim-and-trust</b>, not diagnose-and-prescribe.</div>
+        <div class="flexrow">
+          <div class="flex"><div class="ft">Watts flex</div><div class="fs">paradox → wander → circle → noticing</div></div>
+          <div class="flex"><div class="ft">Thurman flex</div><div class="fs">invocation → story → circle → hand back</div></div>
+        </div>
+        <div class="out" style="font-size:13px;opacity:.82;margin-top:8px"><b>Three flexes and one correction.</b> The repertoire is small on purpose: the set of shapes that break the engine's default self-help march.</div>
+        <div class="chosen"><b>Chosen: a Watts-leaning flex.</b> Open on the paradox of the thrown cup; wander through autarkeia; circle the freedom; end on a noticing, not an instruction.</div>`},
+      {n:4,role:ENG,nm:"Draft (bake-off)",ol:"several doors at once",eff:2,
+       blurb:"Parallel drafts, each through a different door. The author grafts; she never just picks.",
+       body:`<div class="lab">Three doors</div>
+        <div class="door"><b>A · "The Man Who Threw Away His Cup"</b> — scene-first.</div>
+        <div class="door"><b>B · "The Man in the Jar"</b> — provocation-first: <i>"Count the things you'd lose sleep over losing. Every one is a handle."</i></div>
+        <div class="door"><b>C</b> — paradox-first: <i>"A man with one cup owns one thing the world can take. So he threw the cup away."</i></div>`},
+      {n:5,role:ENG,nm:"Review (9-panel)",ol:"adversarial + honesty rail",eff:2,
+       blurb:"The panel reviews to refute; the honesty rail keeps the cross-tradition claims clean.",
+       body:`<div class="out">Organizing the series by "life-area" would force <b>"Cynics = stuff, Buddhists = desire"</b> — a false partition that flattens what each held.<br><br><b>The fix:</b> hold the question constant (<i>want less</i>), vary only the <i>why</i>. A move in one tradition is an <b>analogy</b> you can recognize in another — not a borrowing, and not a claim that anyone converged.</div>`},
+      {n:6,role:HUMAN,nm:"Revision",ol:"many passes — THE BULK",eff:5,big:true,
+       blurb:"Where the essay is made. Dozens of line-level passes: the archive enters, every attribution gets checked, legend is flagged, redundancy is cut.",
+       rev:{count:16, engPasses:3,
+         items:[
+          `add the founder-figure context the engine left thin`,
+          `pull the lineage from the corpus: Socrates → Antisthenes → Diogenes → Crates → <b>Zeno / Stoicism</b>`,
+          `flag the "barrel" mistranslation`,
+          `graft door B's provocation onto door A's scene`,
+          `tighten the close to the noticing — <b>"The sun was enough."</b>`
+         ]}},
+      {n:7,role:HUMAN,nm:"Footnotes · where this came from",ol:"pin every claim to a name",eff:3,
+       blurb:"Pin attributions; flag legend; credit sources by name.",
+       body:`<div class="fn">The cup anecdote → <b>Diogenes Laërtius</b>, <span class="src">Lives of the Eminent Philosophers</span>, Book VI — framed as the tradition's telling.</div>
+        <div class="verify"><b>Verify-first.</b> Every quote is pinned to the <b>live Substack post</b> and its named source before the page ships.</div>`},
+      {n:8,role:PUB,nm:"Publish",ol:"Substack → grammarofmeaning.org",eff:1,
+       blurb:"Ships to the Substack, then grammarofmeaning.org. The series assembles across the days.",
+       body:`<div class="out"><span class="serif">"The sun was enough."</span><br><br>Diogenes (exiled — <b>freedom</b>) · the Useless Tree (Daoist — <b>the natural</b>) · Rabiʿa (a freed slave — <b>emptying</b>). <i>Same instruction — want less — three completely different reasons.</i></div>`}
+    ]
+  },
+
+  tree:{
+    title:`"What's Worth Wanting" — Day 2, the Useless Tree (Zhuang Zhou)`,
+    line:`What is useful gets used up; what is useless is left alone.`,
+    ratio:{eng:28,you:72},
+    note:`The engine pulled the Warring-States sitz, the key terms, and three doors. The <b>human</b> reconciled the draft against the published version, held the "natural" reason distinct from the others, and made the essay in revision.`,
+    stages:[
+      {n:1,role:HUMAN,nm:"Seed",ol:"Day 2 · the natural",eff:2,
+       blurb:"The middle of the series: a Daoist answer that inverts the whole frame. Don't want less to gain freedom or to empty the self — want less because being passed over is what lets a thing live out its own nature.",
+       body:`<div class="out"><span class="serif">"What is useful gets used up; what is useless is left alone."</span><br><br>The <b>move</b>: usefulness is a claim the world makes on you. Step out of it and you're left to grow as what you are — an <b>analogy</b> that rhymes with a career, a friendship, a life.</div>`},
+      {n:2,role:ENG,nm:"Harvest",ol:"the sitz · from the Library",eff:2,
+       blurb:"The engine pulls the tradition's own sources and the sitz.",
+       body:`<div class="lab">The Warring-States sitz (excerpt)</div>
+        <div class="out"><b>WHO</b> — Zhuang Zhou (Zhuangzi), c.4th-c. BCE.<br>
+        <b>WHEN/WHERE</b> — <span class="serif">"Around 369 BCE, in a small state in what would become China, a man named Zhuang Zhou sat at a river with a fishing line."</span><br>
+        <b>WORD</b> — <i>pu</i>, the uncarved block · <i>wu-wei</i>, non-forcing action.<br>
+        <b>MECHANISM</b> — <i>"what is useful gets used up; what is useless is left alone."</i></div>
+        <div class="picture" style="margin-top:11px"><b>★ PICTURE</b> — a gnarled tree the carpenter walks straight past: too knotted to cut, and so left to stand a thousand years.</div>`},
+      {n:3,role:HUMAN,nm:"Form",ol:"which shape — not just which words",eff:4,
+       blurb:"Choose the structural form. The Daoist piece wants paradox and a turning device, not a checklist — a Watts-leaning flex with a reveal at the hinge.",
+       body:`<div class="lab">The correction + repertoire</div>
+        <div class="out"><b>Proclaim-and-trust</b>, not diagnose-and-prescribe.</div>
+        <div class="flexrow">
+          <div class="flex"><div class="ft">Watts flex</div><div class="fs">paradox → wander → circle → noticing</div></div>
+          <div class="flex"><div class="ft">Thurman flex</div><div class="fs">invocation → story → circle → hand back</div></div>
+        </div>
+        <div class="out" style="font-size:13px;opacity:.82;margin-top:8px"><b>One correction, three flexes</b> — the whole repertoire: the small set of shapes that break the engine's default march.</div>
+        <div class="chosen"><b>Chosen: a Watts-leaning flex with a reveal device</b> — the turtle question that turns the paradox over in the reader's hand.</div>`},
+      {n:4,role:ENG,nm:"Draft (bake-off)",ol:"several doors at once",eff:2,
+       blurb:"Parallel drafts, each through a different door. The author grafts; she never just picks one.",
+       body:`<div class="lab">Three doors</div>
+        <div class="door"><b>A · the river-bank scene</b> — opens on Zhuang Zhou at the water with a fishing line.</div>
+        <div class="door"><b>B · the carpenter's walk-past</b> — opens on the tree no one bothers to cut.</div>
+        <div class="door"><b>C · the reveal-question</b> — opens straight on <i>"Which turtle could breathe?"</i></div>
+        <div class="out" style="margin-top:9px;color:var(--ink-3)">Doors are raw material. The author grafts; she does not choose.</div>`},
+      {n:5,role:ENG,nm:"Review (9-panel)",ol:"adversarial + honesty rail",eff:2,
+       blurb:"The panel reviews to refute; the honesty rail keeps the cross-tradition claims clean.",
+       body:`<div class="lab">What the rail caught</div>
+        <div class="rail-item"><span class="ico">⚑</span><span>The fishing-line and the turtle are the tradition's <b>telling</b> — keep "the tradition tells," never asserted as dated record.</span></div>
+        <div class="rail-item"><span class="ico">⚑</span><span>Keep the tree's <b>the natural</b> distinct from Diogenes' <b>freedom</b> and Rabiʿa's <b>emptying</b>. Same instruction, three different <i>whys</i>.</span></div>
+        <div class="rail-item"><span class="ico">⚑</span><span>The cross-series pairing is a <b>rhyme</b> — a move you can recognize as an analogy — not a claim that any tradition converged with another.</span></div>`},
+      {n:6,role:HUMAN,nm:"Revision",ol:"many passes — THE BULK",eff:5,big:true,
+       blurb:"Where the essay is made. Crucially, this is also where the draft gets reconciled against the published version — the engine's first pass had drifted from what actually went up.",
+       rev:{count:18, engPasses:3,
+         items:[
+          `reconcile against the <b>published post</b> — the engine's draft ("The Tree the Carpenter Walked Past") had drifted from what was posted`,
+          `set the <b>369 BCE</b> river-bank open as the entry`,
+          `make <i>pu</i> and <i>wu-wei</i> carry the argument instead of decorating it`,
+          `keep the <b>turtle reveal</b> as the hinge, not the opening`,
+          `land the close on the tree, not on an instruction`
+         ]}},
+      {n:7,role:HUMAN,nm:"Footnotes · where this came from",ol:"pin every claim to a name",eff:3,
+       blurb:"Pin the terms and the parable to a named source; flag the legend; pin every quote to the live post.",
+       body:`<div class="fn">The useless-tree and turtle parables → the <span class="src">Zhuangzi</span> — framed as the tradition's telling.</div>
+        <div class="verify"><b>Verify-first.</b> The earlier repo draft is out of sync with the posted essay; the page quotes the <b>live Substack version</b>, and every line is pinned there before it ships.</div>`},
+      {n:8,role:PUB,nm:"Publish",ol:"Substack → grammarofmeaning.org",eff:1,
+       blurb:"Ships to the Substack, then grammarofmeaning.org. Day 2 of the series.",
+       body:`<div class="out"><span class="serif">"That tree lived a thousand years. Not because it was trying. Because no one ever decided it was worth cutting down."</span></div>`}
+    ]
+  },
+};
+
+/* ============================================================ */
+let cur='rabia';
+const stagesEl=document.getElementById('stages');
+const pwrap=document.getElementById('pwrap');
+const progwrap=document.getElementById('progwrap');
+const progfill=document.getElementById('progfill');
+const extitle=document.getElementById('extitle');
+const exline=document.getElementById('exline');
+const tallynote=document.getElementById('tallynote');
+const segEng=document.getElementById('segEng'), segYou=document.getElementById('segYou');
+
+let io=null;
+
+function effortBars(role,eff){
+  let b='';
+  for(let i=0;i<5;i++) b+=`<span class="bar ${i<eff?'f':''}"></span>`;
+  const word = eff>=5?'the heaviest step':eff>=4?'heavy human work':eff<=1?'a quick output':'light';
+  return `<div class="effort"><span class="bars">${b}</span> <span>${word}</span></div>`;
+}
+
+function revisionBlock(rev){
+  // build pass squares: human + a few engine
+  let squares='';
+  const total=rev.count;
+  for(let i=0;i<total;i++){
+    const isEng = i<rev.engPasses;
+    const delay=(i*0.045).toFixed(2);
+    squares+=`<span class="pass ${isEng?'eng':''}" style="animation-delay:${delay}s"></span>`;
+  }
+  let items=rev.items.map(t=>`<li>${t}</li>`).join('');
+  return `<div class="revwrap">
+      <div class="revcount">${total} <span>line-level passes &nbsp;·&nbsp; ${rev.engPasses} drafted by the engine, ${total-rev.engPasses} by the human</span></div>
+      <div class="passes">${squares}</div>
+      <div class="passnote">Each square is one revision pass. The light ones are the engine's first drafts; the terracotta ones are the human making the essay.</div>
+      <ul class="revlist">${items}</ul>
+    </div>`;
+}
+
+function render(){
+  const ex=EX[cur];
+  extitle.innerHTML='Worked example: <span style="color:var(--you-deep)">'+ex.title+'</span>';
+  exline.textContent=ex.line;
+  [...document.querySelectorAll('#toggle button')].forEach(b=>b.classList.toggle('on',b.dataset.ex===cur));
+
+  // stages
+  stagesEl.innerHTML='';
+  ex.stages.forEach((s,i)=>{
+    const div=document.createElement('section');
+    div.className='stage '+s.role;
+    div.id='stage-'+i;
+    const roleword = s.role==='you'?'the human':s.role==='eng'?'the engine':'output';
+    const bodyHtml = s.rev ? revisionBlock(s.rev) : (s.body||'');
+    div.innerHTML=`<div class="card">
+        <div class="shead">
+          <span class="num">${s.n}</span>
+          <span class="nm">${s.nm}</span>
+          <span class="role-tag ${s.role}">${roleword}</span>
+        </div>
+        <div class="ol">${s.ol}</div>
+        ${effortBars(s.role,s.eff)}
+        <p class="blurb">${s.blurb}</p>
+        <div class="body-box">${bodyHtml}</div>
+      </div>`;
+    stagesEl.appendChild(div);
+  });
+
+  // progress dots
+  pwrap.innerHTML='';
+  ex.stages.forEach((s,i)=>{
+    const d=document.createElement('div');
+    d.className='pdot '+s.role;
+    d.dataset.i=i;
+    d.innerHTML=`<span class="d"></span>${s.nm}`;
+    d.onclick=()=>{document.getElementById('stage-'+i).scrollIntoView({behavior:'smooth',block:'center'});};
+    pwrap.appendChild(d);
+  });
+
+  // tally
+  segEng.style.flexBasis=ex.ratio.eng+'%';
+  segYou.style.flexBasis=ex.ratio.you+'%';
+  segEng.textContent=ex.ratio.eng>=14?`engine · ${ex.ratio.eng}%`:'';
+  segYou.textContent=`the human · ${ex.ratio.you}%`;
+  tallynote.innerHTML=ex.note;
+
+  setupObserver();
+  // reveal first couple immediately if already in view
+  requestAnimationFrame(updateScroll);
+}
+
+function setupObserver(){
+  if(io) io.disconnect();
+  io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+  },{threshold:0.18,rootMargin:'0px 0px -8% 0px'});
+  [...stagesEl.children].forEach(c=>io.observe(c));
+}
+
+function updateScroll(){
+  // progress bar fill = scroll fraction over stages region
+  const stagesTop=stagesEl.offsetTop;
+  const stagesH=stagesEl.offsetHeight;
+  const y=window.scrollY+window.innerHeight*0.5;
+  let frac=(y-stagesTop)/stagesH;
+  frac=Math.max(0,Math.min(1,frac));
+  progfill.style.width=(frac*100)+'%';
+
+  // show rail once past hero
+  if(window.scrollY>320) progwrap.classList.add('show'); else progwrap.classList.remove('show');
+
+  // active dot = stage nearest viewport center
+  const mid=window.scrollY+window.innerHeight*0.42;
+  let best=0,bestDist=1e9;
+  [...stagesEl.children].forEach((c,i)=>{
+    const center=c.offsetTop+c.offsetHeight/2;
+    const dist=Math.abs(center-mid);
+    if(dist<bestDist){bestDist=dist;best=i;}
+  });
+  [...pwrap.children].forEach((d,i)=>d.classList.toggle('active',i===best));
+}
+
+document.querySelectorAll('#toggle button').forEach(b=>{
+  b.onclick=()=>{cur=b.dataset.ex;render();window.scrollTo({top:0,behavior:'smooth'});};
+});
+window.addEventListener('scroll',updateScroll,{passive:true});
+window.addEventListener('resize',updateScroll);
+render();
+</script>
+</body>
+</html>
