@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Sound of the Genuine — Howard Thurman</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{ --sk4-ground:#0C0D10; --sk4-gold:#E7C97A; --sk4-white:#F5F1E6; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--sk4-ground); color:var(--sk4-white);
+        font-family:'Inter',sans-serif; display:flex; justify-content:center;
+        align-items:center; min-height:100vh; padding:24px; }
+  .sk4-stage{ position:relative; width:min(92vw,560px); min-height:440px;
+        display:flex; flex-direction:column; justify-content:center; align-items:center;
+        text-align:center; padding:40px 28px; }
+  .sk4-stage canvas{ position:absolute; inset:0; z-index:0; width:100%; height:100%; }
+  .sk4-content{ position:relative; z-index:1; width:100%; }
+  .sk4-kicker{ font-size:11px; text-transform:uppercase; letter-spacing:.32em;
+        color:var(--sk4-gold); opacity:.85; margin-bottom:22px; }
+  .sk4-name{ font-family:'Inter',sans-serif; font-weight:500; font-size:13px;
+        letter-spacing:.06em; color:var(--sk4-white); opacity:.7; margin-bottom:10px; }
+  .sk4-title{ font-family:'Newsreader',serif; font-weight:500; font-size:34px;
+        line-height:1.18; color:var(--sk4-white); margin:0 0 14px; min-height:1.2em; }
+  .sk4-excerpt{ font-family:'Newsreader',serif; font-style:italic; font-size:16px;
+        color:var(--sk4-gold); opacity:.9; margin:0 0 6px; }
+  .sk4-tag{ font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+        color:var(--sk4-white); opacity:.42; margin-bottom:26px; }
+  .sk4-player{ display:none; flex-direction:column; align-items:center; gap:8px; margin-bottom:24px; }
+  .sk4-player audio{ width:230px; filter:grayscale(1) opacity(.85); }
+  .sk4-note{ font-size:10.5px; color:var(--sk4-white); opacity:.4; max-width:320px; line-height:1.5; }
+  .sk4-btn{ font-family:'Inter',sans-serif; font-size:14px; letter-spacing:.04em;
+        color:var(--sk4-gold); background:rgba(255,255,255,.05);
+        border:1px solid rgba(231,201,122,.4); border-radius:999px;
+        padding:11px 26px; cursor:pointer; transition:background .2s,border-color .2s; }
+  .sk4-btn:hover:not(:disabled){ background:rgba(231,201,122,.12); border-color:var(--sk4-gold); }
+  .sk4-btn:disabled{ opacity:.5; cursor:default; }
+</style>
+</head>
+<body>
+<div class="sk4-stage" id="sk4-stage">
+  <canvas id="sk4-canvas"></canvas>
+  <div class="sk4-content">
+    <div class="sk4-kicker">the sound of the genuine</div>
+    <div class="sk4-name">Howard Thurman</div>
+    <h1 class="sk4-title" id="sk4-title">Spin to listen in</h1>
+    <p class="sk4-excerpt" id="sk4-excerpt">and let one of Thurman's meditations find you</p>
+    <div class="sk4-tag" id="sk4-tag"></div>
+    <div class="sk4-player" id="sk4-player">
+      <audio controls id="sk4-audio"></audio>
+      <div class="sk4-note">the waveform binds to the recording's live audio when the archive URL is surfaced.</div>
+    </div>
+    <button class="sk4-btn" id="sk4-btn">◉ Sound</button>
+  </div>
+</div>
+<script>
+(function(){
+  var SERMONS = [
+    ["The Sound of the Genuine","there is a sound of the genuine in you","commencement meditation"],
+    ["The Growing Edge","look well to the growing edge","meditation"],
+    ["Jesus and the Disinherited","to those with their backs against the wall","the sermon series"],
+    ["Freedom and Suffering","the fourth and final sermon","sermon series"],
+    ["A Moment of Crisis","bending the will","recorded sermon"],
+    ["Disciplines of the Spirit","commitment · suffering · prayer · reconciliation","1963"],
+    ["Quests for the Human","the introductory lecture","lecture series"],
+    ["Horn of the Wild Oxen","a recorded sermon","from the archive"],
+    ["An Easter Message","his eighth talk","recorded sermon"],
+    ["Prayers","Thurman reading his prayers aloud","recording"],
+    ["Eulogy for Mordecai Wyatt Johnson","for his teacher","recorded"],
+    ["On Religious Experience","religion as a deeply personal encounter","meditation"]
+  ];
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var stage=document.getElementById('sk4-stage'), cv=document.getElementById('sk4-canvas'), cx=cv.getContext('2d');
+  var elT=document.getElementById('sk4-title'), elE=document.getElementById('sk4-excerpt'),
+      elG=document.getElementById('sk4-tag'), elP=document.getElementById('sk4-player'), btn=document.getElementById('sk4-btn');
+  var W=0,H=0,dpr=Math.min(devicePixelRatio||1,2);
+  function resize(){ W=stage.clientWidth; H=stage.clientHeight; cv.width=W*dpr; cv.height=H*dpr; cx.setTransform(dpr,0,0,dpr,1*0,0); cx.scale(1,1); }
+  function fit(){ W=stage.clientWidth; H=stage.clientHeight; cv.width=W*dpr; cv.height=H*dpr; cx.setTransform(dpr,0,0,dpr,0,0); }
+  fit(); addEventListener('resize',fit);
+  var t=0, energy=0.18, target=0.18, running=true, visible=true, raf=null;
+  function wave(x, phase, amp){
+    // sum of slow sines + smoothed noise for an organic living line
+    var s = Math.sin(x*0.9+phase)*0.55 + Math.sin(x*2.3+phase*1.7)*0.28 + Math.sin(x*4.1+phase*0.6)*0.14;
+    s += (Math.sin(x*9.3+phase*3.1)*Math.sin(x*3.7+phase))*0.10; // pseudo-noise, smooth
+    return s*amp;
+  }
+  function draw(){
+    cx.clearRect(0,0,W,H);
+    var mid=H/2, jitter = energy>0.5 ? (Math.random()-0.5)*(energy-0.5)*22 : 0;
+    var amp = mid*0.06 + energy*mid*0.34;
+    function line(off, alpha, w){
+      cx.beginPath();
+      for(var px=0; px<=W; px+=3){
+        var x=px/W*8;
+        var y=mid + off + wave(x, t, amp) + (energy>0.5?(Math.random()-0.5)*jitter*0.15:0);
+        px===0?cx.moveTo(px,y):cx.lineTo(px,y);
+      }
+      cx.strokeStyle='rgba(245,241,230,'+alpha+')'; cx.lineWidth=w; cx.stroke();
+    }
+    var g=cx.createLinearGradient(0,0,W,0);
+    g.addColorStop(0,'rgba(231,201,122,0.85)'); g.addColorStop(0.5,'rgba(245,241,230,0.95)'); g.addColorStop(1,'rgba(231,201,122,0.85)');
+    cx.save();
+    cx.shadowColor='rgba(231,201,122,'+(0.35+energy*0.35)+')'; cx.shadowBlur=14+energy*20;
+    cx.beginPath();
+    for(var px=0; px<=W; px+=2){
+      var x=px/W*8;
+      var y=mid + wave(x,t,amp) + (energy>0.5?(Math.random()-0.5)*jitter*0.2:0);
+      px===0?cx.moveTo(px,y):cx.lineTo(px,y);
+    }
+    cx.strokeStyle=g; cx.lineWidth=1.6; cx.stroke();
+    cx.restore();
+    line(0, 0, 0); // no-op keep structure
+    // faint mirrored second line for depth
+    cx.save(); cx.globalAlpha=0.18;
+    cx.beginPath();
+    for(var px=0; px<=W; px+=4){
+      var x=px/W*8;
+      var y=mid + 8 - wave(x, t*0.8+1.3, amp*0.7);
+      px===0?cx.moveTo(px,y):cx.lineTo(px,y);
+    }
+    cx.strokeStyle='rgba(231,201,122,0.6)'; cx.lineWidth=1; cx.stroke();
+    cx.restore();
+  }
+  function loop(){
+    if(running&&visible){
+      energy += (target-energy)*0.06;
+      t += 0.012 + energy*0.05;
+      draw();
+    }
+    raf=requestAnimationFrame(loop);
+  }
+  if(reduce){ energy=0.18; draw(); } else { raf=requestAnimationFrame(loop); }
+  document.addEventListener('visibilitychange',function(){ visible=!document.hidden; });
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){ running=es[0].isIntersecting; }).observe(stage);
+  }
+  function rnd(){ return SERMONS[Math.floor(Math.random()*SERMONS.length)]; }
+  function land(s){
+    elT.textContent=s[0]; elE.textContent='“'+s[1]+'”'; elG.textContent=s[2];
+    elE.style.visibility='visible'; elP.style.display='flex';
+    target=0.14; // calm breathing standing-wave
+    btn.disabled=false; btn.textContent='◉ Sound again';
+  }
+  function spin(){
+    btn.disabled=true;
+    if(reduce){
+      var seq=[45,45], i=0;
+      (function step(){
+        if(i<seq.length){ var r=rnd(); elT.textContent=r[0]; i++; setTimeout(step,seq[i-1]); }
+        else { land(rnd()); }
+      })();
+      return;
+    }
+    target=0.95;
+    var delays=[45,45,55,65,80,100,130,170,220,290,380], i=0;
+    (function step(){
+      if(i<delays.length){
+        var r=rnd(); elT.textContent=r[0]; elE.style.visibility='hidden';
+        target=Math.min(0.95, 0.4 + (i/delays.length)*0.6);
+        i++; setTimeout(step, delays[i-1]);
+      } else { land(rnd()); }
+    })();
+  }
+  elE.style.visibility='visible';
+  btn.addEventListener('click', spin);
+})();
+</script>
+<!--
+METHODOLOGY FOOTER
+HOW PRODUCED: Design-SB bakeoff skin (Skin 4 of 5), 2026-07-03 (S133). Howard Thurman
+  "sermon roulette" — spin lands on a random Thurman sermon. Skin idiom = "The Sound of
+  the Genuine" (his 1980 Spelman commencement address): minimal deep-charcoal ground, a
+  single luminous synthesized waveform (warm gold into soft white) as the whole image; the
+  waveform agitates during spin and eases into a calm breathing standing-wave on land.
+  Vanilla JS + <canvas>, one rAF loop paused on hidden/off-screen, dpr capped at 2,
+  prefers-reduced-motion honored. No photo of Thurman (his images are ©).
+SCHOLARLY SOURCES: Thurman corpus — Jesus and the Disinherited; The Luminous Darkness;
+  Deep River; Meditations of the Heart; The Growing Edge; Disciplines of the Spirit; the
+  "Sound of the Genuine" Spelman address. Register per project orientation: contemplative,
+  dignified, luminous, unhurried — rendered from his own mystical-rooted horizon, never
+  exoticized. Sermon list embedded verbatim from the brief.
+WHAT NEEDS VERIFICATION: Stage 6 = 0 coded passages, so every excerpt/gloss is a PLACEHOLDER
+  and the <audio> element has NO src. Per §13 (ghost-in-the-machine): verify each sermon
+  title + gloss against a citable Thurman recording/text before publication; no invented
+  Thurman lines. The synthesized waveform is decorative only — it will BIND to the real
+  recording's live audio via a Web Audio AnalyserNode when an archive audio URL is surfaced.
+-->
+</body>
+</html>

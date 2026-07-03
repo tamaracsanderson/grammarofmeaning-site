@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Howard Thurman — The Luminous Darkness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:ital,opt@0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--sk1-ground:#0E1533;--sk1-edge:#05060F;--sk1-ink:#F5F1E6;--sk1-gold:#E7C97A;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--sk1-edge);font-family:Inter,system-ui,sans-serif;color:var(--sk1-ink);min-height:100vh;display:flex;align-items:center;justify-content:center}
+.sk1-stage{position:relative;width:min(92vw,560px);min-height:440px;border-radius:18px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:radial-gradient(120% 100% at 50% 42%,var(--sk1-ground) 0%,var(--sk1-edge) 78%)}
+.sk1-canvas{position:absolute;inset:0;z-index:0}
+.sk1-content{position:relative;z-index:1;text-align:center;padding:40px 30px;width:100%}
+.sk1-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.28em;color:var(--sk1-gold);opacity:.85;margin-bottom:20px}
+.sk1-name{font-size:14px;font-weight:500;letter-spacing:.04em;opacity:.72;margin-bottom:14px}
+.sk1-title{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:clamp(28px,6vw,40px);line-height:1.14;margin-bottom:16px;min-height:1.14em}
+.sk1-excerpt{font-family:Newsreader,serif;font-style:italic;font-size:16px;line-height:1.5;opacity:.82;max-width:38ch;margin:0 auto 8px}
+.sk1-tag{font-size:10.5px;text-transform:uppercase;letter-spacing:.18em;color:var(--sk1-gold);opacity:.7;margin-top:14px}
+.sk1-player{margin-top:22px;opacity:0;transition:opacity .6s ease}
+.sk1-player.on{opacity:1}
+.sk1-player audio{width:min(80%,320px);height:34px}
+.sk1-note{font-size:10px;letter-spacing:.06em;opacity:.5;margin-top:8px}
+.sk1-btn{margin-top:26px;font-family:Inter,sans-serif;font-size:14px;letter-spacing:.06em;color:var(--sk1-gold);background:rgba(231,201,122,.08);border:1px solid rgba(231,201,122,.32);border-radius:999px;padding:11px 26px;cursor:pointer;transition:background .3s,transform .2s}
+.sk1-btn:hover:not(:disabled){background:rgba(231,201,122,.16)}
+.sk1-btn:disabled{opacity:.5;cursor:default}
+</style>
+</head>
+<body>
+<div class="sk1-stage" id="sk1-stage">
+  <canvas class="sk1-canvas" id="sk1-canvas"></canvas>
+  <div class="sk1-content">
+    <div class="sk1-kicker">the luminous darkness</div>
+    <div class="sk1-name">Howard Thurman</div>
+    <div class="sk1-title" id="sk1-title">Spin to listen in</div>
+    <div class="sk1-excerpt" id="sk1-excerpt">and let one of Thurman's meditations find you</div>
+    <div class="sk1-tag" id="sk1-tag"></div>
+    <div class="sk1-player" id="sk1-player">
+      <audio controls id="sk1-audio"></audio>
+      <div class="sk1-note">recording binds when the archive URL is surfaced</div>
+    </div>
+    <button class="sk1-btn" id="sk1-btn">✦ Spin</button>
+  </div>
+</div>
+<script>
+(function(){
+var SERMONS = [
+["The Sound of the Genuine","there is a sound of the genuine in you","commencement meditation"],
+["The Growing Edge","look well to the growing edge","meditation"],
+["Jesus and the Disinherited","to those with their backs against the wall","the sermon series"],
+["Freedom and Suffering","the fourth and final sermon","sermon series"],
+["A Moment of Crisis","bending the will","recorded sermon"],
+["Disciplines of the Spirit","commitment · suffering · prayer · reconciliation","1963"],
+["Quests for the Human","the introductory lecture","lecture series"],
+["Horn of the Wild Oxen","a recorded sermon","from the archive"],
+["An Easter Message","his eighth talk","recorded sermon"],
+["Prayers","Thurman reading his prayers aloud","recording"],
+["Eulogy for Mordecai Wyatt Johnson","for his teacher","recorded"],
+["On Religious Experience","religion as a deeply personal encounter","meditation"]
+];
+var COLORS=[[231,201,122],[245,241,230],[154,140,200]];
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var titleEl=document.getElementById('sk1-title'),excEl=document.getElementById('sk1-excerpt'),tagEl=document.getElementById('sk1-tag'),playerEl=document.getElementById('sk1-player'),btn=document.getElementById('sk1-btn');
+var cv=document.getElementById('sk1-canvas'),ctx=cv.getContext('2d'),stage=document.getElementById('sk1-stage');
+var dpr=Math.min(devicePixelRatio||1,2),W=0,H=0,pts=[],intensity=0,running=true,visible=true,raf=0;
+function rand(a,b){return a+Math.random()*(b-a);}
+function pick(){return SERMONS[(Math.random()*SERMONS.length)|0];}
+function resize(){var r=stage.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+function seed(){var n=W<420?52:82;pts=[];for(var i=0;i<n;i++){pts.push({x:rand(0,W),y:rand(0,H),r:rand(.7,2.4),c:COLORS[(Math.random()*3)|0],vx:rand(-.12,.12),vy:rand(-.12,.12),ph:rand(0,6.28),tw:rand(.006,.02)});}}
+function draw(t){
+  ctx.clearRect(0,0,W,H);
+  intensity+=((window.__sk1i||0)-intensity)*0.06;
+  var boost=1+intensity*2.4;
+  for(var i=0;i<pts.length;i++){var p=pts[i];
+    p.x+=p.vx*(1+intensity*5);p.y+=p.vy*(1+intensity*5);
+    if(p.x<0)p.x+=W;if(p.x>W)p.x-=W;if(p.y<0)p.y+=H;if(p.y>H)p.y-=H;
+    var tw=0.55+0.45*Math.sin(t*p.tw+p.ph);
+    var a=tw*(0.5+intensity*0.5);
+    var rad=p.r*boost, glow=rad*6;
+    var g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,glow);
+    g.addColorStop(0,'rgba('+p.c[0]+','+p.c[1]+','+p.c[2]+','+(a*0.9)+')');
+    g.addColorStop(.4,'rgba('+p.c[0]+','+p.c[1]+','+p.c[2]+','+(a*0.22)+')');
+    g.addColorStop(1,'rgba('+p.c[0]+','+p.c[1]+','+p.c[2]+',0)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,glow,0,6.2832);ctx.fill();
+    ctx.fillStyle='rgba('+p.c[0]+','+p.c[1]+','+p.c[2]+','+a+')';ctx.beginPath();ctx.arc(p.x,p.y,rad,0,6.2832);ctx.fill();
+  }
+}
+function loop(t){if(running&&visible){draw(t);}raf=requestAnimationFrame(loop);}
+window.__sk1i=0;
+function start(){if(!raf)raf=requestAnimationFrame(loop);}
+function stop(){if(raf){cancelAnimationFrame(raf);raf=0;}}
+document.addEventListener('visibilitychange',function(){visible=!document.hidden;if(visible)start();else stop();});
+if('IntersectionObserver'in window){new IntersectionObserver(function(e){running=e[0].isIntersecting;}).observe(stage);}
+addEventListener('resize',function(){resize();seed();});
+resize();seed();if(!reduce)start();else{draw(0);}
+function settle(){pts.forEach(function(p){p.vx*=.35;p.vy*=.35;});}
+function land(s){titleEl.textContent=s[0];excEl.textContent='“'+s[1]+'”';tagEl.textContent=s[2];playerEl.classList.add('on');window.__sk1i=0;settle();btn.disabled=false;btn.textContent='✦ Spin again';}
+var DELAYS=[45,45,55,65,80,100,130,170,220,290,380];
+btn.addEventListener('click',function(){
+  btn.disabled=true;btn.textContent='✦ Spin';
+  if(reduce){var st=0;(function step(){if(st<3){titleEl.textContent=pick()[0];st++;setTimeout(step,120);}else{land(pick());}})();return;}
+  window.__sk1i=1;var i=0;
+  (function step(){
+    if(i<DELAYS.length){titleEl.textContent=pick()[0];excEl.textContent='';window.__sk1i=1-i/DELAYS.length*0.4;setTimeout(step,DELAYS[i]);i++;}
+    else{land(pick());}
+  })();
+});
+})();
+</script>
+<!--
+METHODOLOGY FOOTER
+HOW PRODUCED: design-SB bakeoff skin (Skin 1 — The Luminous Darkness, Thurman's 1965 book),
+  2026-07-03 (S133). Howard Thurman "sermon roulette" — spin lands on a random Thurman sermon.
+  Generative luminous-points background (gold/white/violet glowing dots drifting in mystic dark);
+  spin scatters+brightens the points, land coalesces them into a calm constellation.
+SCHOLARLY SOURCES: Howard Thurman corpus — Jesus and the Disinherited, The Luminous Darkness,
+  Deep River, Meditations of the Heart, Disciplines of the Spirit, "The Sound of the Genuine."
+  Register: contemplative, dignified, luminous; rendered from Thurman's own mystic-rooted horizon.
+  No photograph of Thurman used (© images). Ground colour/skin idiom drawn from The Luminous Darkness title.
+WHAT NEEDS VERIFICATION: Stage 6 = 0 — excerpt glosses and audio are PLACEHOLDERS. The <audio> has NO src;
+  binds to a real archive URL later. Excerpt lines must be verified against / replaced with real Thurman
+  text before publication (§13 — no invented Thurman lines). Sermon titles/tags to be confirmed against
+  the Thurman archive (BU Howard Thurman Center / archival recordings) when the corpus is coded.
+-->
+</body>
+</html>
