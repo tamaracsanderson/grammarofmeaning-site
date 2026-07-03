@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The Library — Grammar of Meaning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/gom.css">
+<style>
+  /* ---- page-specific tweaks (Library / taxonomy) ---- */
+  /* wider measure than the default reading column — this is a directory, not an essay */
+  .wrap{max-width:1120px}
+
+  /* intro rationale under the hero */
+  .tax-lede{max-width:66ch;color:var(--ink-2);font-size:15.5px;line-height:1.6;margin:0 0 6px}
+  .tax-meta{font-family:var(--mono);font-size:12px;color:var(--ink-3);letter-spacing:.02em;margin:0 0 2px}
+  .tax-meta b{color:var(--moss);font-weight:600}
+
+  /* family taxonomy as house cards, masonry-flowed in columns */
+  .famcol{columns:2;column-gap:22px;margin-top:20px}
+  @media(max-width:760px){.famcol{columns:1}}
+
+  .fam{break-inside:avoid;border:1px solid var(--rule);border-radius:12px;background:var(--paper-3);
+    padding:16px 18px 15px;margin:0 0 22px;transition:border-color .15s ease}
+  .fam:hover{border-color:var(--fern)}
+
+  .fam-head{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;
+    border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:11px}
+  .fam-name{font-family:var(--serif);font-weight:600;font-size:19px;line-height:1.15;color:var(--moss)}
+  .fam-tag{font-family:var(--mono);font-size:11.5px;color:var(--fern);letter-spacing:.02em}
+  .fam-count{margin-left:auto;font-family:var(--sans);font-size:12px;font-weight:500;color:var(--ink-3);white-space:nowrap}
+  .fam-count b{color:var(--olive);font-weight:600}
+
+  /* the code list itself — house mono, quiet, dot-separated (kept verbatim) */
+  .codes{font-family:var(--mono);font-size:11.5px;line-height:1.85;color:var(--ink-2);word-spacing:.01em}
+
+  /* quiet closing note */
+  .foot{font-family:var(--sans);font-size:12px;color:var(--ink-3);border-top:1px solid var(--rule);
+    margin-top:36px;padding-top:16px;line-height:1.6}
+  .foot em{font-style:italic;color:var(--ink-2)}
+</style>
+</head>
+<body>
+
+<!-- reusable botanical symbols -->
+<svg style="display:none" aria-hidden="true"><defs>
+  <symbol id="sprig" viewBox="0 0 150 34">
+    <path d="M5 17 H145" stroke="#6E7B3A" stroke-width="1" fill="none"/>
+    <g fill="none" stroke="#3F7D57" stroke-width="1.3">
+      <path d="M60 17 q-9 -11 -20 -9 q7 8 20 9"/>
+      <path d="M90 17 q9 -11 20 -9 q-7 8 -20 9"/>
+      <path d="M68 17 q-6 9 -15 9 q5 -7 15 -9"/>
+      <path d="M82 17 q6 9 15 9 q-5 -7 -15 -9"/>
+    </g>
+    <circle cx="75" cy="17" r="3.2" fill="#E0A93B"/>
+    <circle cx="75" cy="17" r="6" fill="none" stroke="#C4602F" stroke-width="1"/>
+  </symbol>
+</defs></svg>
+
+<!-- NAV -->
+<div class="topbar">
+  <div class="wrap">
+    <a class="brandmark" href="index.html" style="color:var(--moss)">
+      <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 22 V9" stroke="#6E7B3A" stroke-width="1.6"/>
+        <path d="M12 13 q-7 -2 -8 -9 q7 1 8 9" fill="#8AA88B" stroke="#3F7D57" stroke-width="1"/>
+        <path d="M12 10 q7 -3 8 -9 q-7 1 -8 9" fill="#3F7D57" stroke="#2C4A38" stroke-width="1"/>
+        <circle cx="12" cy="6" r="2.4" fill="#E0A93B" stroke="#C4602F" stroke-width="1"/>
+      </svg>
+      Grammar&nbsp;of&nbsp;Meaning
+    </a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="subtraditions.html" class="active">Library</a>
+      <a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener">Essays&nbsp;&#8599;</a>
+      <a href="garden.html">Garden</a>
+      <a href="grammar.html">Method</a>
+      <a href="glossary.html">Reference</a>
+    </nav>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <svg class="watermark" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+    <path d="M100 195 V70" stroke="#3F7D57" stroke-width="1.4"/>
+    <g stroke="#3F7D57" stroke-width="1.2" fill="none">
+      <path d="M100 150 q-46 -10 -58 -55 q46 6 58 55"/>
+      <path d="M100 120 q46 -12 58 -58 q-46 6 -58 58"/>
+      <path d="M100 96 q-38 -8 -48 -46 q38 5 48 46"/>
+      <path d="M100 78 q40 -10 50 -48 q-40 5 -50 48"/>
+    </g>
+    <circle cx="100" cy="62" r="7" fill="#E0A93B"/>
+  </svg>
+  <div class="wrap">
+    <div class="kicker">Reference · <b>the full tradition taxonomy</b></div>
+    <h1>The Library</h1>
+    <div class="sub">Every tradition the corpus tags, grouped by family.</div>
+    <p class="lede">The <b>tradition_id</b> taxonomy — the controlled vocabulary each passage is tagged to. Every sub-tradition code the corpus knows, gathered under its family. Read straight down, or scan a family to see how finely it branches.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- TAXONOMY -->
+<section id="taxonomy">
+  <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">The taxonomy</span><span class="sec-line"></span></div>
+  <p class="tax-lede">545 sub-tradition codes across 20 families. Each passage in the corpus is tagged to exactly one — this is the controlled vocabulary that makes convergence-detection possible. Live from the corpus.</p>
+  <p class="tax-meta"><b>545</b> codes · <b>20</b> families · live from the corpus</p>
+
+  <div class="famcol">
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">Abrahamic</span><span class="fam-tag">ABR</span><span class="fam-count"><b>155</b> codes</span></div>
+      <div class="codes">ABR · ABR-BAH · ABR-CEL · ABR-CHR · ABR-CHR-AIC · ABR-CHR-ANA · ABR-CHR-ANB · ABR-CHR-ANG · ABR-CHR-ASS · ABR-CHR-BLK · ABR-CHR-CAT · ABR-CHR-CAT-000 · ABR-CHR-CAT-BEN · ABR-CHR-CAT-CAR · ABR-CHR-CAT-CEN · ABR-CHR-CAT-DOM · ABR-CHR-CAT-EAST · ABR-CHR-CAT-FRA · ABR-CHR-CAT-IGN · ABR-CHR-CAT-MYS · ABR-CHR-CAT-SCH · ABR-CHR-CAT-TRD · ABR-CHR-CAT-V2 · ABR-CHR-CHA-MAI · ABR-CHR-CHL · ABR-CHR-CHN · ABR-CHR-CLO · ABR-CHR-CON · ABR-CHR-COP · ABR-CHR-DES · ABR-CHR-DIS · ABR-CHR-EAC · ABR-CHR-ECO · ABR-CHR-EOTC · ABR-CHR-GER · ABR-CHR-HES · ABR-CHR-HLN · ABR-CHR-IND · ABR-CHR-KOR · ABR-CHR-LAT · ABR-CHR-LDS · ABR-CHR-LIB · ABR-CHR-LIB-QD · ABR-CHR-LIT · ABR-CHR-LUT · ABR-CHR-MAR · ABR-CHR-MELK · ABR-CHR-MON · ABR-CHR-MOR · ABR-CHR-MYS · ABR-CHR-MYS-ECK · ABR-CHR-ORI · ABR-CHR-ORT · ABR-CHR-ORT-COP · ABR-CHR-ORT-ETH · ABR-CHR-ORT-GRE · ABR-CHR-ORT-HES · ABR-CHR-ORT-MOD · ABR-CHR-ORT-RUS · ABR-CHR-ORT-SYR · ABR-CHR-PEN · ABR-CHR-PEN-ASS · ABR-CHR-PEN-GLO · ABR-CHR-PEN-LATAM · ABR-CHR-PEN-ONE · ABR-CHR-PRC · ABR-CHR-PRO · ABR-CHR-PRO-ADV · ABR-CHR-PRO-AME · ABR-CHR-PRO-AMI · ABR-CHR-PRO-ANA · ABR-CHR-PRO-ANG · ABR-CHR-PRO-ANG-HI · ABR-CHR-PRO-ANG-LO · ABR-CHR-PRO-BAP · ABR-CHR-PRO-EVA · ABR-CHR-PRO-HOL · ABR-CHR-PRO-HUT · ABR-CHR-PRO-LUT · ABR-CHR-PRO-LUT-ELC · ABR-CHR-PRO-LUT-MIS · ABR-CHR-PRO-MEN · ABR-CHR-PRO-MET · ABR-CHR-PRO-PIE · ABR-CHR-PRO-PRT · ABR-CHR-PRO-QUA · ABR-CHR-PRO-QUA-UNP · ABR-CHR-PRO-REF · ABR-CHR-PRO-REF-PRE · ABR-CHR-PRO-REF-PUR · ABR-CHR-PRO-UNI · ABR-CHR-QUE · ABR-CHR-RES-JW · ABR-CHR-RES-LDS · ABR-CHR-WOM · ABR-DRU · ABR-ISL · ABR-ISL-AHM · ABR-ISL-ASH · ABR-ISL-ATH · ABR-ISL-BOH · ABR-ISL-DRU-SYNC · ABR-ISL-FEM · ABR-ISL-HAL · ABR-ISL-HET · ABR-ISL-IBN · ABR-ISL-MAL · ABR-ISL-MAT · ABR-ISL-MOD · ABR-ISL-QUR · ABR-ISL-RIF · ABR-ISL-SAL · ABR-ISL-SEA · ABR-ISL-SHI · ABR-ISL-SHI-ISM · ABR-ISL-SUF · ABR-ISL-SUF-CHI · ABR-ISL-SUF-MEV · ABR-ISL-SUF-NAQ · ABR-ISL-SUF-QAD · ABR-ISL-SUF-SHA · ABR-ISL-SUN · ABR-JUD · ABR-JUD-ANE · ABR-JUD-BRE · ABR-JUD-CHA · ABR-JUD-CON · ABR-JUD-FEM · ABR-JUD-HAS · ABR-JUD-KAB · ABR-JUD-KAB-LUR · ABR-JUD-KAR · ABR-JUD-MO-ISR · ABR-JUD-MOD · ABR-JUD-MUS · ABR-JUD-MYS · ABR-JUD-ORT · ABR-JUD-ORT-LAT · ABR-JUD-PHI · ABR-JUD-RAB · ABR-JUD-REC · ABR-JUD-REF · ABR-JUD-REN · ABR-JUD-ZIO · ABR-MAN-YAZ · ABR-OCC-ALC · ABR-OCC-DAI · ABR-OCC-GNO · ABR-OCC-MND · ABR-OTH-YAZ · ABR-YZD · ABR-ZOR · ABR-ZOR-EDU · ABR-ZOR-PRI · ABR-ZRO</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">Dharmic</span><span class="fam-tag">DHR</span><span class="fam-count"><b>69</b> codes</span></div>
+      <div class="codes">DHR · DHR-BUD · DHR-BUD-DZO · DHR-BUD-EAS-JOD · DHR-BUD-EAS-PUR · DHR-BUD-ENG · DHR-BUD-INN-VAJ · DHR-BUD-KOR · DHR-BUD-MAH · DHR-BUD-MAH-ENG · DHR-BUD-MAH-MAD · DHR-BUD-MAH-TAI · DHR-BUD-MAH-YOG · DHR-BUD-MIND · DHR-BUD-MISC · DHR-BUD-NAV · DHR-BUD-NYI · DHR-BUD-PUR · DHR-BUD-PUR-NIC · DHR-BUD-SEC · DHR-BUD-SEO · DHR-BUD-SOU-THE · DHR-BUD-SOU-VIP · DHR-BUD-THA · DHR-BUD-THE · DHR-BUD-THE-THA · DHR-BUD-THE-VIP · DHR-BUD-TIB · DHR-BUD-VAJ · DHR-BUD-VAJ-GEL · DHR-BUD-VAJ-KAG · DHR-BUD-VAJ-TIB · DHR-BUD-VIE · DHR-BUD-VIE-PLU · DHR-BUD-WST · DHR-BUD-ZEN · DHR-BUD-ZEN-CHN · DHR-BUD-ZEN-KOR · DHR-BUD-ZEN-PLU · DHR-BUD-ZEN-RIN · DHR-BUD-ZEN-SOT · DHR-HIN · DHR-HIN-ADV · DHR-HIN-BHA · DHR-HIN-BHK · DHR-HIN-CHA-GAU · DHR-HIN-CLA · DHR-HIN-DVA · DHR-HIN-EPI · DHR-HIN-KAR · DHR-HIN-KAS · DHR-HIN-KRI · DHR-HIN-RKM · DHR-HIN-SAM · DHR-HIN-SHA · DHR-HIN-SHI · DHR-HIN-SHK · DHR-HIN-TAN · DHR-HIN-VAI · DHR-HIN-VED · DHR-HIN-VIS · DHR-HIN-WST · DHR-HIN-YOG · DHR-HIN-YOG-JNA · DHR-HIN-YOG-KAR · DHR-HIN-YOG-RAJ · DHR-JAI · DHR-OTH · DHR-SIK</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">Modern / Movements</span><span class="fam-tag">MOD</span><span class="fam-count"><b>69</b> codes</span></div>
+      <div class="codes">MOD · MOD-4TH · MOD-4TH-OUS · MOD-4WA · MOD-5RH · MOD-ACT · MOD-ADY · MOD-AI · MOD-ALE · MOD-ALI · MOD-ANA · MOD-ANT · MOD-BDZ · MOD-BIO · MOD-BYK · MOD-CIM · MOD-COMM · MOD-COMP-REL · MOD-CON · MOD-CRE · MOD-CRS · MOD-ECO · MOD-ENA · MOD-ENN · MOD-ESO · MOD-FEL · MOD-FOU · MOD-HAPP · MOD-HAR · MOD-HAW · MOD-HOL · MOD-HYB · MOD-IFS-INT · MOD-INT · MOD-META · MOD-MIN · MOD-NAG · MOD-NEP · MOD-NEW · MOD-NTH · MOD-NTH-CS · MOD-NTH-UNI · MOD-NVC · MOD-OCC · MOD-PAG · MOD-PSY-TECH · MOD-PSYC · MOD-REL-ATT · MOD-REL-PLAY · MOD-REL-POL · MOD-RES · MOD-RN · MOD-ROL · MOD-SED · MOD-SGI · MOD-SHP · MOD-SLOW · MOD-SOM · MOD-SPI · MOD-SPR · MOD-TECH-ETH · MOD-TEN · MOD-THE · MOD-THO · MOD-TOL · MOD-TRE · MOD-TRS · MOD-WHM · MOD-WIC</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">Psychology</span><span class="fam-tag">PSY</span><span class="fam-count"><b>62</b> codes</span></div>
+      <div class="codes">PSY · PSY-ACT · PSY-AED · PSY-ANA · PSY-ATT · PSY-BIO · PSY-BRN · PSY-CBT · PSY-CFT · PSY-COG · PSY-CPE · PSY-DBT · PSY-DEI · PSY-DEV · PSY-DRV · PSY-EFT · PSY-EGO · PSY-EMD · PSY-EXI · PSY-EXT · PSY-FAM · PSY-FLD · PSY-FOC · PSY-FRA · PSY-FRD · PSY-GES · PSY-GRI · PSY-GRO · PSY-GRP · PSY-HAK · PSY-HUM · PSY-IFS · PSY-INF · PSY-INT · PSY-IPN · PSY-IST · PSY-JAN · PSY-JUN · PSY-JUN-ARC · PSY-LAC · PSY-LIB · PSY-MIN · PSY-NAK · PSY-NAR · PSY-NEU · PSY-OBJ · PSY-PDR · PSY-PDY · PSY-PSY · PSY-REB · PSY-REL · PSY-ROG · PSY-SCH · PSY-SEL · PSY-SELF · PSY-SEN · PSY-SOC · PSY-SOM · PSY-SPY · PSY-TRA · PSY-TRM · PSY-VOI</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">East Asian</span><span class="fam-tag">EAS</span><span class="fam-count"><b>45</b> codes</span></div>
+      <div class="codes">EAS · EAS-CHA · EAS-CHN · EAS-CHN-DAO · EAS-CHN-FEM · EAS-CHN-FOL · EAS-CON · EAS-CON-NEO · EAS-CON-NEW · EAS-CON-SIN · EAS-CON-WAN · EAS-DAO · EAS-FOL · EAS-HUA · EAS-IND-AJI · EAS-IND-BUD · EAS-IND-DVA · EAS-IND-HIN · EAS-IND-LOK · EAS-IND-MIM · EAS-IND-NYA · EAS-IND-SAM · EAS-IND-SHA · EAS-IND-SIK · EAS-IND-TAN · EAS-IND-VAI-SRI · EAS-JPN · EAS-JPN-KMP · EAS-JPN-PUR · EAS-KOR-000 · EAS-KYO · EAS-LEG · EAS-MOH · EAS-PLB · EAS-PLB-JOD · EAS-SEA-PHI · EAS-SEA-THAI · EAS-SHI · EAS-TAO · EAS-TAO-ALC · EAS-TAO-PHI · EAS-TAO-QUA · EAS-TAO-REL · EAS-TIA · EAS-VIE</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">Western Philosophy</span><span class="fam-tag">PHI</span><span class="fam-count"><b>28</b> codes</span></div>
+      <div class="codes">PHI · PHI-ABS · PHI-ANA · PHI-ANC · PHI-CON · PHI-CRI · PHI-CYN · PHI-ECO · PHI-EPI · PHI-EXI · PHI-EXI-ATH · PHI-EXI-THE · PHI-FEM · PHI-FOUR-WAY · PHI-GER · PHI-LOG · PHI-MARX · PHI-PHE · PHI-POS · PHI-PRA · PHI-PRC · PHI-PRO · PHI-PYR · PHI-RSI · PHI-STO · PHI-STO-ANC · PHI-STO-ROM · PHI-WESTERN</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">Ancient</span><span class="fam-tag">ANC</span><span class="fam-count"><b>27</b> codes</span></div>
+      <div class="codes">ANC · ANC-ALC · ANC-CEL · ANC-EGY · ANC-EPI · ANC-GNO · ANC-GNO-MAN · ANC-GNO-MND · ANC-GNO-VAL · ANC-GRK · ANC-HER · ANC-MES · ANC-MYS · ANC-MYS-DIO · ANC-MYS-ELE · ANC-MYS-ISI · ANC-MYS-MIT · ANC-MYS-ORP · ANC-NEO · ANC-NEO-IAM · ANC-NEO-PLO · ANC-NOR · ANC-PLA · ANC-PRE · ANC-PYR · ANC-ROM · ANC-STO</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">Indigenous</span><span class="fam-tag">IND</span><span class="fam-count"><b>27</b> codes</span></div>
+      <div class="codes">IND · IND-AFR · IND-AFR-YOR · IND-AMA · IND-AMA-AYA · IND-AME · IND-AMZ · IND-AND · IND-ARC · IND-AUS · IND-CSL · IND-DIA · IND-HAW · IND-INU · IND-KOR · IND-MAO · IND-MES · IND-MISC · IND-NAC · IND-NAM · IND-NAV · IND-PAC · IND-PLA · IND-PUE · IND-SHA · IND-SIB · IND-TIB</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">Secular</span><span class="fam-tag">SEC</span><span class="fam-count"><b>18</b> codes</span></div>
+      <div class="codes">SEC · SEC-12A · SEC-12S · SEC-12S-AA · SEC-12S-ALT · SEC-12S-SEC · SEC-ATH · SEC-CON · SEC-HUM · SEC-MBC · SEC-MBR · SEC-MBS · SEC-MIN-000 · SEC-MIN-MBS · SEC-MND · SEC-MND-APP · SEC-STO · SEC-SUN</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">Academic</span><span class="fam-tag">ACA</span><span class="fam-count"><b>13</b> codes</span></div>
+      <div class="codes">ACA-ANT · ACA-CE · ACA-COMP · ACA-CPH · ACA-CSR-EVO · ACA-ESO · ACA-HOR · ACA-MYT · ACA-PCS · ACA-RE · ACA-RSM · ACA-SOC · ACA-SRC</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">African</span><span class="fam-tag">AFR</span><span class="fam-count"><b>12</b> codes</span></div>
+      <div class="codes">AFR · AFR-AKA · AFR-CHR · AFR-DIA-CANDOMBLÉ · AFR-DIA-CARI · AFR-DIA-RAS · AFR-DIA-VOD · AFR-IGB · AFR-ISL · AFR-PHI · AFR-UBU · AFR-YOR</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">General</span><span class="fam-tag">GEN</span><span class="fam-count"><b>8</b> codes</span></div>
+      <div class="codes">GEN-REC · GEN-REC-DZOGCHEN · GEN-REC-IND · GEN-REC-NEO · GEN-REC-NEO-WIC · GEN-REC-NRM · GEN-REC-RELIGIO · GEN-REC-SHI</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">META</span><span class="fam-tag">META</span><span class="fam-count"><b>3</b> codes</span></div>
+      <div class="codes">META-ARC · META-CANON · META-GUT-AUTHOR</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">MISC</span><span class="fam-tag">MISC</span><span class="fam-count"><b>2</b> codes</span></div>
+      <div class="codes">MISC-CONTAMINATION · MISC-QUARANTINE</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">Pacific</span><span class="fam-tag">PAC</span><span class="fam-count"><b>2</b> codes</span></div>
+      <div class="codes">PAC · PAC-POL</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">&lt;e.g. IND</span><span class="fam-tag">&lt;e.g. IND</span><span class="fam-count"><b>1</b> code</span></div>
+      <div class="codes">&lt;e.g. IND-TIB&gt;</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">INT</span><span class="fam-tag">INT</span><span class="fam-count"><b>1</b> code</span></div>
+      <div class="codes">INT-DIA</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">MEDIA</span><span class="fam-tag">MEDIA</span><span class="fam-count"><b>1</b> code</span></div>
+      <div class="codes">MEDIA-POD</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">OOS</span><span class="fam-tag">OOS</span><span class="fam-count"><b>1</b> code</span></div>
+      <div class="codes">OOS</div>
+    </div>
+
+    <div class="fam">
+      <div class="fam-head"><span class="fam-name">ROOT</span><span class="fam-tag">ROOT</span><span class="fam-count"><b>1</b> code</span></div>
+      <div class="codes">ROOT</div>
+    </div>
+
+  </div><!-- /famcol -->
+
+  <svg class="sprig" style="margin-top:38px"><use href="#sprig"/></svg>
+</section>
+
+</div><!-- /wrap -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="flabel">Grammar of Meaning</div>
+    <h3>How meaning gets made — read each tradition in its own vocabulary first.</h3>
+    <div class="pickgrid">
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">The work</div>
+        <div class="picklist">
+          <div><a href="subtraditions.html" style="color:#fff">The Library</a> <span class="k">— the world's traditions, gathered</span></div>
+          <div><a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" style="color:#fff">The Essays ↗</a> <span class="k">— meaning-making in public</span></div>
+          <div><a href="garden.html" style="color:#fff">The Garden</a> <span class="k">— a pilgrimage you walk</span></div>
+          <div><a href="grammar.html" style="color:#fff">The Method</a> <span class="k">— the open method behind it all</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">Reference</div>
+        <div class="picklist">
+          <div><a href="glossary.html" style="color:#fff">Glossary</a></div>
+          <div><a href="principles.html" style="color:#fff">Principles</a></div>
+          <div><a href="scholars.html" style="color:#fff">Scholars</a></div>
+          <div><a href="bibliography.html" style="color:#fff">Bibliography</a></div>
+        </div>
+        <div class="label-mute" style="color:var(--sage);margin:22px 0 10px">Start here</div>
+        <div class="picklist">
+          <div><a href="mission.html" style="color:#fff">What this is →</a></div>
+        </div>
+      </div>
+    </div>
+    <p class="foot-note">A working house, unlisted · <em>Grammar of Meaning</em> · Tamara Sanderson · 2026</p>
+  </div>
+</footer>
+
+</body>
+</html>
