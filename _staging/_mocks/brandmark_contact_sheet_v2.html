@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grammar of Meaning — mark bake-off · round 2</title>
+<style>
+  :root {
+    --paper:  #FCFBF7;
+    --card:   #FFFFFF;
+    --rule:   #C9BE9F;
+    --ink:    #24302A;
+    --ink-2:  #52605A;
+    --ink-3:  #7C8478;
+    --fern:   #3F7D57;
+    --moss:   #2C4A38;
+    --sage:   #8AA88B;
+    --olive:  #6E7B3A;
+    --terra:  #C4602F;
+    --honey:  #E0A93B;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 40px 32px 64px;
+  }
+
+  header.sheet {
+    max-width: 1240px;
+    margin: 0 auto 32px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 20px;
+  }
+  header.sheet h1 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-weight: 500;
+    font-size: 30px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  header.sheet .sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-3);
+    letter-spacing: 0.01em;
+  }
+  header.sheet .note {
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    font-style: italic;
+    max-width: 720px;
+    line-height: 1.5;
+  }
+
+  .section-label {
+    max-width: 1240px;
+    margin: 36px auto 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    color: var(--terra);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-label .sl-note {
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--ink-2);
+    margin-left: 8px;
+  }
+
+  .grid {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .cell {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 18px 18px 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .art {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+  }
+  .art svg { display: block; }
+
+  .favrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0 12px;
+    padding: 7px 10px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+  }
+  .favrow svg { display: block; }
+  .favrow .fav-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ink-3);
+    letter-spacing: 0.02em;
+  }
+
+  .meta .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-right: 6px;
+  }
+  .meta .name {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--moss);
+    letter-spacing: -0.005em;
+  }
+  .meta .says {
+    margin-top: 5px;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+  .meta .test {
+    margin-top: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ink-3);
+    letter-spacing: 0.01em;
+  }
+  .meta .test .yes { color: var(--fern); }
+  .meta .test .tight { color: var(--terra); }
+
+  footer.sheet {
+    max-width: 1240px;
+    margin: 40px auto 0;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<header class="sheet">
+  <h1>Grammar of Meaning — mark bake-off · round 2 (split + shadow)</h1>
+  <div class="sub">8 candidates · two families · house palette · for design crit · staging</div>
+  <div class="note">Iterating the prism (de-Floyd'd) + the shadow-made-literal, per researcher; banked favorites from round 1: rhyming waves · golden chain · negative-space figure. Each must still read tiny (favicon ~32px) and large (hero).</div>
+</header>
+
+<div class="section-label">a · one answer, split into its moves<span class="sl-note">the prism concept without the spectrum — decomposition, not a rainbow</span></div>
+
+<div class="grid">
+
+  <!-- A1 — the lens -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the lens">
+        <!-- incoming single answer -->
+        <line x1="24" y1="100" x2="66" y2="100" stroke="#24302A" stroke-width="2.5"/>
+        <circle cx="30" cy="100" r="5" fill="#2C4A38"/>
+        <!-- hairline lens -->
+        <ellipse cx="80" cy="100" rx="10" ry="34" fill="none" stroke="#7C8478" stroke-width="1.5"/>
+        <!-- three resolved nodes fanning out -->
+        <line x1="90" y1="100" x2="150" y2="60" stroke="#C9BE9F" stroke-width="1.5"/>
+        <line x1="90" y1="100" x2="152" y2="100" stroke="#C9BE9F" stroke-width="1.5"/>
+        <line x1="90" y1="100" x2="150" y2="140" stroke="#C9BE9F" stroke-width="1.5"/>
+        <circle cx="156" cy="60" r="8" fill="#3F7D57"/>
+        <circle cx="160" cy="100" r="8" fill="#6E7B3A"/>
+        <circle cx="156" cy="140" r="8" fill="#C4602F"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="28" height="28" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="18" y1="100" x2="62" y2="100" stroke="#24302A" stroke-width="7"/>
+        <ellipse cx="78" cy="100" rx="12" ry="42" fill="none" stroke="#7C8478" stroke-width="6"/>
+        <circle cx="158" cy="52" r="15" fill="#3F7D57"/>
+        <circle cx="164" cy="100" r="15" fill="#6E7B3A"/>
+        <circle cx="158" cy="148" r="15" fill="#C4602F"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">a1</span><span class="name">the lens</span></div>
+      <div class="says">one answer meets a lens and resolves into substrate, operation, outcome.</div>
+      <div class="test">reads at 32px: <span class="yes">yes</span> — lens + three house-color nodes hold</div>
+    </div>
+  </div>
+
+  <!-- A2 — the exploded view -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the exploded view">
+        <!-- assembled mark, ghosted at center-left -->
+        <rect x="40" y="86" width="28" height="28" rx="5" fill="none" stroke="#8AA88B" stroke-width="1.5" opacity="0.5"/>
+        <!-- leader lines to exploded parts -->
+        <line x1="72" y1="92" x2="112" y2="56" stroke="#C9BE9F" stroke-width="1.25"/>
+        <line x1="72" y1="100" x2="118" y2="100" stroke="#C9BE9F" stroke-width="1.25"/>
+        <line x1="72" y1="108" x2="112" y2="144" stroke="#C9BE9F" stroke-width="1.25"/>
+        <!-- the three disassembled components, stacked -->
+        <rect x="116" y="44" width="26" height="26" rx="5" fill="none" stroke="#3F7D57" stroke-width="3"/>
+        <circle cx="129" cy="57" r="4" fill="#3F7D57"/>
+        <rect x="120" y="87" width="26" height="26" rx="5" fill="none" stroke="#6E7B3A" stroke-width="3"/>
+        <line x1="128" y1="100" x2="138" y2="100" stroke="#6E7B3A" stroke-width="3"/>
+        <rect x="116" y="130" width="26" height="26" rx="5" fill="none" stroke="#C4602F" stroke-width="3"/>
+        <circle cx="129" cy="143" r="6" fill="#C4602F"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="28" height="28" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="112" y="34" width="40" height="40" rx="6" fill="none" stroke="#3F7D57" stroke-width="7"/>
+        <rect x="112" y="82" width="40" height="40" rx="6" fill="none" stroke="#6E7B3A" stroke-width="7"/>
+        <rect x="112" y="130" width="40" height="40" rx="6" fill="none" stroke="#C4602F" stroke-width="7"/>
+        <line x1="60" y1="102" x2="104" y2="102" stroke="#C9BE9F" stroke-width="6"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">a2</span><span class="name">the exploded view</span></div>
+      <div class="says">the coded move pulled apart into its parts along thin leader lines.</div>
+      <div class="test">reads at 32px: <span class="tight">tight</span> — stacked parts hold, ghost + leaders die</div>
+    </div>
+  </div>
+
+  <!-- A3 — the comb / sieve -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the comb">
+        <!-- one input thread -->
+        <line x1="30" y1="100" x2="86" y2="100" stroke="#C4602F" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- the comb: a spine + teeth -->
+        <line x1="90" y1="58" x2="90" y2="142" stroke="#2C4A38" stroke-width="3"/>
+        <line x1="90" y1="70" x2="102" y2="70" stroke="#2C4A38" stroke-width="2"/>
+        <line x1="90" y1="90" x2="102" y2="90" stroke="#2C4A38" stroke-width="2"/>
+        <line x1="90" y1="110" x2="102" y2="110" stroke="#2C4A38" stroke-width="2"/>
+        <line x1="90" y1="130" x2="102" y2="130" stroke="#2C4A38" stroke-width="2"/>
+        <!-- separated strands -->
+        <path d="M 90 100 Q 120 70 168 66" fill="none" stroke="#3F7D57" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M 90 100 Q 124 96 168 100" fill="none" stroke="#6E7B3A" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M 90 100 Q 120 130 168 134" fill="none" stroke="#8AA88B" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="28" height="28" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="18" y1="100" x2="76" y2="100" stroke="#C4602F" stroke-width="8"/>
+        <line x1="84" y1="52" x2="84" y2="148" stroke="#2C4A38" stroke-width="8"/>
+        <path d="M 84 100 Q 128 60 178 56" fill="none" stroke="#3F7D57" stroke-width="6" stroke-linecap="round"/>
+        <path d="M 84 100 Q 130 100 178 104" fill="none" stroke="#6E7B3A" stroke-width="6" stroke-linecap="round"/>
+        <path d="M 84 100 Q 128 140 178 144" fill="none" stroke="#8AA88B" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">a3</span><span class="name">the comb</span></div>
+      <div class="says">one thread drawn through a comb, separated into distinct strands.</div>
+      <div class="test">reads at 32px: <span class="yes">yes</span> — spine + three fanned strands hold</div>
+    </div>
+  </div>
+
+  <!-- A4 — the unfolding -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the unfolding">
+        <!-- three discrete facets fanning from a hinge at bottom -->
+        <path d="M 100 150 L 62 66 L 92 58 Z" fill="#3F7D57" opacity="0.9"/>
+        <path d="M 100 150 L 90 52 L 110 52 Z" fill="#6E7B3A" opacity="0.9"/>
+        <path d="M 100 150 L 108 58 L 138 66 Z" fill="#C4602F" opacity="0.9"/>
+        <!-- hairline gaps keep facets discrete -->
+        <path d="M 100 150 L 62 66 L 92 58 Z" fill="none" stroke="#FCFBF7" stroke-width="1.5"/>
+        <path d="M 100 150 L 108 58 L 138 66 Z" fill="none" stroke="#FCFBF7" stroke-width="1.5"/>
+        <!-- hinge -->
+        <circle cx="100" cy="150" r="6" fill="#2C4A38"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="28" height="28" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M 100 160 L 54 60 L 90 50 Z" fill="#3F7D57"/>
+        <path d="M 100 160 L 88 44 L 112 44 Z" fill="#6E7B3A"/>
+        <path d="M 100 160 L 110 50 L 146 60 Z" fill="#C4602F"/>
+        <path d="M 100 160 L 54 60 L 90 50 Z" fill="none" stroke="#FCFBF7" stroke-width="4"/>
+        <path d="M 100 160 L 110 50 L 146 60 Z" fill="none" stroke="#FCFBF7" stroke-width="4"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">a4</span><span class="name">the unfolding</span></div>
+      <div class="says">one closed form opening like a fan — several discrete facets inside one answer.</div>
+      <div class="test">reads at 32px: <span class="yes">yes</span> — three-facet fan reads as a bold silhouette</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="section-label">b · the move and its shadow (literal)<span class="sl-note">one light source, a real ground-line — the shadow as the road not taken</span></div>
+
+<div class="grid">
+
+  <!-- B1 — the cone + shadow -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the cone and its shadow">
+        <!-- ground line -->
+        <line x1="40" y1="150" x2="168" y2="150" stroke="#C9BE9F" stroke-width="1.5"/>
+        <!-- cast shadow, lit from upper-left -> falls to the right -->
+        <path d="M 104 150 L 168 150 L 118 150 Z" fill="#8AA88B" opacity="0.45"/>
+        <ellipse cx="150" cy="150" rx="22" ry="5" fill="#6E7B3A" opacity="0.28"/>
+        <!-- upright cone (the coded move) -->
+        <path d="M 96 62 L 78 150 L 114 150 Z" fill="#2C4A38"/>
+        <path d="M 96 62 L 96 150 L 114 150 Z" fill="#6E7B3A"/>
+        <!-- hot accent at apex -->
+        <circle cx="96" cy="62" r="6" fill="#C4602F"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="28" height="28" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="30" y1="152" x2="176" y2="152" stroke="#C9BE9F" stroke-width="5"/>
+        <path d="M 106 152 L 180 152 L 120 152 Z" fill="#8AA88B" opacity="0.5"/>
+        <ellipse cx="156" cy="152" rx="26" ry="7" fill="#6E7B3A" opacity="0.35"/>
+        <path d="M 92 46 L 70 152 L 114 152 Z" fill="#2C4A38"/>
+        <circle cx="92" cy="46" r="12" fill="#C4602F"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">b1</span><span class="name">the cone + shadow</span></div>
+      <div class="says">an upright cone lit from one side; its shadow is the negative space.</div>
+      <div class="test">reads at 32px: <span class="yes">yes</span> — solid cone + cast mass hold</div>
+    </div>
+  </div>
+
+  <!-- B2 — the plant + shadow (hero) -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the plant and its shadow">
+        <!-- ground line -->
+        <line x1="34" y1="152" x2="170" y2="152" stroke="#C9BE9F" stroke-width="1.5"/>
+        <!-- SHADOW: the herbarium sprig from round-1 #06, skewed + laid down to the right, sage, low-opacity -->
+        <g transform="translate(96 152) matrix(1 0 1.15 -0.42 0 0) translate(-96 -152)" opacity="0.4">
+          <path d="M 96 152 C 96 122 96 98 96 68" fill="none" stroke="#8AA88B" stroke-width="3"/>
+          <path d="M 96 122 C 80 114 70 102 68 88" fill="none" stroke="#8AA88B" stroke-width="2.5"/>
+          <path d="M 96 106 C 112 100 122 90 126 78" fill="none" stroke="#8AA88B" stroke-width="2.5"/>
+          <path d="M 96 88 C 84 84 76 76 74 66" fill="none" stroke="#8AA88B" stroke-width="2.5"/>
+          <circle cx="96" cy="68" r="5" fill="#8AA88B"/>
+        </g>
+        <!-- OBJECT: the living herbarium sprig, upright -->
+        <path d="M 96 152 C 96 122 96 98 96 68" fill="none" stroke="#2C4A38" stroke-width="2.75"/>
+        <path d="M 96 122 C 80 114 70 102 68 88" fill="none" stroke="#3F7D57" stroke-width="2.25"/>
+        <path d="M 96 106 C 112 100 122 90 126 78" fill="none" stroke="#3F7D57" stroke-width="2.25"/>
+        <path d="M 96 88 C 84 84 76 76 74 66" fill="none" stroke="#3F7D57" stroke-width="2.25"/>
+        <circle cx="96" cy="68" r="5.5" fill="#C4602F"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="28" height="28" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="28" y1="156" x2="176" y2="156" stroke="#C9BE9F" stroke-width="4"/>
+        <g transform="translate(96 156) matrix(1 0 1.2 -0.45 0 0) translate(-96 -156)" opacity="0.45">
+          <path d="M 96 156 C 96 120 96 92 96 58" fill="none" stroke="#8AA88B" stroke-width="7"/>
+          <path d="M 96 118 C 76 108 66 92 64 78" fill="none" stroke="#8AA88B" stroke-width="6"/>
+        </g>
+        <path d="M 96 156 C 96 120 96 92 96 58" fill="none" stroke="#2C4A38" stroke-width="7"/>
+        <path d="M 96 118 C 76 108 66 92 64 78" fill="none" stroke="#3F7D57" stroke-width="6"/>
+        <circle cx="96" cy="58" r="12" fill="#C4602F"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">b2</span><span class="name">the plant + shadow</span></div>
+      <div class="says">the living sprig is the move; the shadow it casts is what it withheld.</div>
+      <div class="test">reads at 32px: <span class="yes">yes</span> — stem + bloom + laid-down shadow all hold</div>
+    </div>
+  </div>
+
+  <!-- B3 — the forked shadow -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the forked shadow">
+        <!-- ground line -->
+        <line x1="34" y1="152" x2="170" y2="152" stroke="#C9BE9F" stroke-width="1.5"/>
+        <!-- SHADOW that FORKS (the road not taken the object doesn't have) -->
+        <path d="M 100 152 L 128 132" fill="none" stroke="#8AA88B" stroke-width="3" opacity="0.5" stroke-linecap="round"/>
+        <path d="M 128 132 L 158 120" fill="none" stroke="#8AA88B" stroke-width="2.75" opacity="0.5" stroke-linecap="round"/>
+        <path d="M 128 132 L 150 150" fill="none" stroke="#8AA88B" stroke-width="2.75" opacity="0.5" stroke-linecap="round"/>
+        <circle cx="158" cy="120" r="4.5" fill="#8AA88B" opacity="0.55"/>
+        <circle cx="150" cy="150" r="4.5" fill="#8AA88B" opacity="0.55"/>
+        <!-- OBJECT: a single upright seed-pod stem, NO fork -->
+        <path d="M 100 152 C 100 120 100 96 100 64" fill="none" stroke="#2C4A38" stroke-width="3"/>
+        <ellipse cx="100" cy="58" rx="7" ry="12" fill="#6E7B3A"/>
+        <circle cx="100" cy="52" r="4.5" fill="#C4602F"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="28" height="28" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="28" y1="156" x2="176" y2="156" stroke="#C9BE9F" stroke-width="4"/>
+        <path d="M 100 156 L 132 132" fill="none" stroke="#8AA88B" stroke-width="8" opacity="0.55" stroke-linecap="round"/>
+        <path d="M 132 132 L 168 116" fill="none" stroke="#8AA88B" stroke-width="7" opacity="0.55" stroke-linecap="round"/>
+        <path d="M 132 132 L 158 156" fill="none" stroke="#8AA88B" stroke-width="7" opacity="0.55" stroke-linecap="round"/>
+        <path d="M 100 156 C 100 116 100 90 100 56" fill="none" stroke="#2C4A38" stroke-width="8"/>
+        <circle cx="100" cy="50" r="12" fill="#C4602F"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">b3</span><span class="name">the forked shadow</span></div>
+      <div class="says">the stem is straight; its shadow forks — the un-chosen path the move never had.</div>
+      <div class="test">reads at 32px: <span class="tight">tight</span> — object holds; the fork needs the caption</div>
+    </div>
+  </div>
+
+  <!-- B4 — object + its negative -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="object and its negative">
+        <!-- ground line -->
+        <line x1="34" y1="152" x2="170" y2="152" stroke="#C9BE9F" stroke-width="1.5"/>
+        <!-- SOLID plant, upright (the move) -->
+        <path d="M 78 152 C 78 122 78 98 78 68" fill="none" stroke="#2C4A38" stroke-width="2.75"/>
+        <path d="M 78 122 C 64 114 56 104 55 92" fill="none" stroke="#3F7D57" stroke-width="2.25"/>
+        <path d="M 78 106 C 92 100 100 92 103 82" fill="none" stroke="#3F7D57" stroke-width="2.25"/>
+        <circle cx="78" cy="68" r="5.5" fill="#C4602F"/>
+        <!-- MOSS FIELD with the same silhouette carved OUT (figure-ground shadow) -->
+        <rect x="112" y="66" width="56" height="86" rx="3" fill="#2C4A38"/>
+        <path d="M 140 152 C 140 128 140 108 140 82" fill="none" stroke="#FCFBF7" stroke-width="3"/>
+        <path d="M 140 118 C 128 111 122 103 121 93" fill="none" stroke="#FCFBF7" stroke-width="2.5"/>
+        <path d="M 140 104 C 152 99 158 92 160 84" fill="none" stroke="#FCFBF7" stroke-width="2.5"/>
+        <circle cx="140" cy="80" r="4.5" fill="#FCFBF7"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="28" height="28" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M 62 156 C 62 120 62 92 62 58" fill="none" stroke="#2C4A38" stroke-width="7"/>
+        <path d="M 62 118 C 44 108 36 92 34 78" fill="none" stroke="#3F7D57" stroke-width="6"/>
+        <circle cx="62" cy="56" r="11" fill="#C4602F"/>
+        <rect x="108" y="48" width="62" height="112" rx="4" fill="#2C4A38"/>
+        <path d="M 139 156 C 139 120 139 92 139 62" fill="none" stroke="#FCFBF7" stroke-width="7"/>
+        <path d="M 139 118 C 121 108 113 92 111 78" fill="none" stroke="#FCFBF7" stroke-width="6"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">b4</span><span class="name">object + its negative</span></div>
+      <div class="says">the plant solid, then carved out of a moss field — figure-ground as cast shadow.</div>
+      <div class="test">reads at 32px: <span class="yes">yes</span> — solid sprig + cut-out block both hold</div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="sheet">
+  method · round 2 · 8 concepts across two families (split + shadow) · house palette + hairline weight + botanical restraint carried from round 1 · plant paths lifted from #06 herbarium; the prism (#09) and dashed Y-fork (#03) are the marks being replaced · each rendered ~200×200 and shrunk to 28px for the favicon-legibility read · house tokens only, no near-black / pure black · Newsreader + Inter + IBM Plex Mono · staging exploration, not deployed
+</footer>
+
+</body>
+</html>
