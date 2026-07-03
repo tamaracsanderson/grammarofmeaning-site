@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grammar of Meaning — tree master-mark exploration</title>
+<style>
+  :root {
+    --paper:  #FCFBF7;
+    --card:   #FFFFFF;
+    --rule:   #C9BE9F;
+    --ink:    #24302A;
+    --ink-2:  #52605A;
+    --ink-3:  #7C8478;
+    --fern:   #3F7D57;
+    --moss:   #2C4A38;
+    --sage:   #8AA88B;
+    --olive:  #6E7B3A;
+    --terra:  #C4602F;
+    --honey:  #E0A93B;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 40px 32px 64px;
+  }
+
+  header.sheet {
+    max-width: 1240px;
+    margin: 0 auto 32px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 20px;
+  }
+  header.sheet h1 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-weight: 500;
+    font-size: 30px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  header.sheet .sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-3);
+    letter-spacing: 0.01em;
+  }
+  header.sheet .note {
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    font-style: italic;
+    max-width: 760px;
+    line-height: 1.5;
+  }
+
+  .section-label {
+    max-width: 1240px;
+    margin: 36px auto 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    color: var(--terra);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-label .sl-note {
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--ink-2);
+    margin-left: 8px;
+  }
+
+  .grid {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .cell {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 18px 18px 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .art {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+  }
+  .art svg { display: block; }
+
+  .favrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0 12px;
+    padding: 7px 10px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+  }
+  .favrow svg { display: block; }
+  .favrow .fav-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ink-3);
+    letter-spacing: 0.02em;
+  }
+
+  .meta .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-right: 6px;
+  }
+  .meta .name {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--moss);
+    letter-spacing: -0.005em;
+  }
+  .meta .says {
+    margin-top: 5px;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+  .meta .test {
+    margin-top: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ink-3);
+    letter-spacing: 0.01em;
+  }
+  .meta .test .yes { color: var(--fern); }
+  .meta .test .tight { color: var(--terra); }
+
+  footer.sheet {
+    max-width: 1240px;
+    margin: 40px auto 0;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<header class="sheet">
+  <h1>Grammar of Meaning — tree master-mark exploration</h1>
+  <div class="sub">8 tree variants · object + its negative · house palette · for design crit · staging</div>
+  <div class="note">the master as a tree — object + its negative; tree = garden · forking · branches · growth; tradition-neutral, organic form. Explicitly not the Sefirot lattice, not a Bodhi leaf, not a dome or crescent. Each must read tiny (favicon ~32px) and large (hero).</div>
+</header>
+
+<div class="section-label">tree master-mark · eight forms<span class="sl-note">a natural branching tree owned by no one tradition — the move and its shadow, carried into wood</span></div>
+
+<div class="grid">
+
+  <!-- 1 — the fork -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the fork">
+        <!-- ground line -->
+        <line x1="60" y1="164" x2="140" y2="164" stroke="#C9BE9F" stroke-width="1.5"/>
+        <!-- trunk -->
+        <path d="M 100 164 C 100 148 99 134 100 118" fill="none" stroke="#2C4A38" stroke-width="7" stroke-linecap="round"/>
+        <!-- taken branch: solid -->
+        <path d="M 100 120 C 96 100 82 84 70 66" fill="none" stroke="#2C4A38" stroke-width="6" stroke-linecap="round"/>
+        <path d="M 82 92 C 74 84 66 80 56 78" fill="none" stroke="#3F7D57" stroke-width="4" stroke-linecap="round"/>
+        <!-- road not taken: ghosted / negative dashed branch -->
+        <path d="M 100 120 C 108 102 124 90 138 74" fill="none" stroke="#8AA88B" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="2 7" opacity="0.65"/>
+        <path d="M 120 100 C 128 94 136 92 146 92" fill="none" stroke="#8AA88B" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="2 7" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="32" height="32" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M 100 172 C 100 150 99 132 100 112" fill="none" stroke="#2C4A38" stroke-width="15" stroke-linecap="round"/>
+        <path d="M 100 116 C 94 90 78 68 62 46" fill="none" stroke="#2C4A38" stroke-width="14" stroke-linecap="round"/>
+        <path d="M 100 116 C 110 94 128 76 146 56" fill="none" stroke="#8AA88B" stroke-width="12" stroke-linecap="round" stroke-dasharray="2 14" opacity="0.7"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">1</span><span class="name">the fork</span></div>
+      <div class="says">a trunk that splits: one branch taken (solid), the other the road not taken (ghosted). the move and its shadow in one glyph.</div>
+      <div class="test">reads at 32px: <span class="tight">tight</span> — solid fork holds; the dashed ghost thins</div>
+    </div>
+  </div>
+
+  <!-- 2 — forking sapling, carved-negative -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="forking sapling, carved negative">
+        <!-- ground line -->
+        <line x1="34" y1="164" x2="170" y2="164" stroke="#C9BE9F" stroke-width="1.5"/>
+        <!-- SOLID sapling, upright, 3 forks -->
+        <path d="M 66 164 C 66 146 65 128 66 108" fill="none" stroke="#2C4A38" stroke-width="5.5" stroke-linecap="round"/>
+        <path d="M 66 112 C 60 96 50 86 40 74" fill="none" stroke="#2C4A38" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M 66 118 C 74 104 84 96 96 86" fill="none" stroke="#3F7D57" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M 66 128 C 62 118 56 112 48 108" fill="none" stroke="#3F7D57" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="40" cy="74" r="5" fill="#C4602F"/>
+        <!-- MOSS FIELD with same silhouette carved OUT -->
+        <rect x="112" y="72" width="56" height="92" rx="3" fill="#2C4A38"/>
+        <path d="M 140 164 C 140 146 139 128 140 108" fill="none" stroke="#FCFBF7" stroke-width="5.5" stroke-linecap="round"/>
+        <path d="M 140 112 C 134 96 124 86 114 74" fill="none" stroke="#FCFBF7" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M 140 118 C 148 104 158 96 166 86" fill="none" stroke="#FCFBF7" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M 140 128 C 136 118 130 112 122 108" fill="none" stroke="#FCFBF7" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="32" height="32" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M 58 168 C 58 146 57 122 58 96" fill="none" stroke="#2C4A38" stroke-width="13" stroke-linecap="round"/>
+        <path d="M 58 100 C 48 76 34 60 20 42" fill="none" stroke="#2C4A38" stroke-width="12" stroke-linecap="round"/>
+        <path d="M 58 108 C 70 86 84 72 100 54" fill="none" stroke="#3F7D57" stroke-width="12" stroke-linecap="round"/>
+        <rect x="118" y="46" width="70" height="126" rx="4" fill="#2C4A38"/>
+        <path d="M 152 168 C 152 146 151 122 152 96" fill="none" stroke="#FCFBF7" stroke-width="13" stroke-linecap="round"/>
+        <path d="M 152 100 C 142 76 128 60 114 42" fill="none" stroke="#FCFBF7" stroke-width="12" stroke-linecap="round"/>
+        <path d="M 152 108 C 164 86 178 72 190 58" fill="none" stroke="#FCFBF7" stroke-width="12" stroke-linecap="round"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">2</span><span class="name">forking sapling, carved-negative</span></div>
+      <div class="says">a small forking tree solid, beside its silhouette carved from a moss block — figure-ground as the b4 treatment, as a tree.</div>
+      <div class="test">reads at 32px: <span class="yes">yes</span> — solid sapling + cut-out block both hold</div>
+    </div>
+  </div>
+
+  <!-- 3 — the tree + its shadow -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the tree and its shadow">
+        <!-- ground line -->
+        <line x1="34" y1="158" x2="172" y2="158" stroke="#C9BE9F" stroke-width="1.5"/>
+        <!-- SHADOW: the same tree laid down to the right, branching DIFFERENTLY (un-chosen path) -->
+        <g transform="translate(96 158) matrix(1 0 1.25 -0.4 0 0) translate(-96 -158)" opacity="0.4">
+          <path d="M 96 158 C 96 138 96 118 96 96" fill="none" stroke="#8AA88B" stroke-width="5"/>
+          <path d="M 96 112 C 84 100 76 86 72 70" fill="none" stroke="#8AA88B" stroke-width="4"/>
+          <path d="M 96 100 C 106 88 116 78 118 62" fill="none" stroke="#8AA88B" stroke-width="4"/>
+          <path d="M 84 100 C 78 90 70 86 60 84" fill="none" stroke="#8AA88B" stroke-width="3"/>
+        </g>
+        <!-- OBJECT: the living tree, upright -->
+        <path d="M 96 158 C 96 138 96 118 96 96" fill="none" stroke="#2C4A38" stroke-width="5.5" stroke-linecap="round"/>
+        <path d="M 96 110 C 82 98 74 84 70 68" fill="none" stroke="#2C4A38" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M 96 98 C 108 86 118 78 122 64" fill="none" stroke="#3F7D57" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M 82 90 C 76 82 68 78 58 76" fill="none" stroke="#3F7D57" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M 112 82 C 120 76 128 74 136 74" fill="none" stroke="#3F7D57" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="96" cy="92" r="4.5" fill="#C4602F"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="32" height="32" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="24" y1="162" x2="180" y2="162" stroke="#C9BE9F" stroke-width="4"/>
+        <g transform="translate(96 162) matrix(1 0 1.3 -0.42 0 0) translate(-96 -162)" opacity="0.42">
+          <path d="M 96 162 C 96 134 96 104 96 74" fill="none" stroke="#8AA88B" stroke-width="12"/>
+          <path d="M 96 96 C 82 78 72 60 66 42" fill="none" stroke="#8AA88B" stroke-width="10"/>
+          <path d="M 96 84 C 110 66 122 52 126 34" fill="none" stroke="#8AA88B" stroke-width="10"/>
+        </g>
+        <path d="M 96 162 C 96 134 96 104 96 74" fill="none" stroke="#2C4A38" stroke-width="13" stroke-linecap="round"/>
+        <path d="M 96 94 C 80 74 70 56 64 38" fill="none" stroke="#2C4A38" stroke-width="12" stroke-linecap="round"/>
+        <path d="M 96 84 C 112 64 124 50 130 32" fill="none" stroke="#3F7D57" stroke-width="12" stroke-linecap="round"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">3</span><span class="name">the tree + its shadow</span></div>
+      <div class="says">the tree is the move; its cast shadow branches slightly differently — the path it never grew. (b2 treatment, as a tree.)</div>
+      <div class="test">reads at 32px: <span class="tight">tight</span> — tree holds; the divergent shadow softens</div>
+    </div>
+  </div>
+
+  <!-- 4 — bare winter tree -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="bare winter tree">
+        <!-- ground line -->
+        <line x1="52" y1="168" x2="148" y2="168" stroke="#C9BE9F" stroke-width="1.5"/>
+        <!-- bold branching silhouette, no leaves -->
+        <path d="M 100 168 C 100 148 99 128 100 106" fill="none" stroke="#2C4A38" stroke-width="8" stroke-linecap="round"/>
+        <path d="M 100 108 C 90 92 78 80 66 66" fill="none" stroke="#2C4A38" stroke-width="6" stroke-linecap="round"/>
+        <path d="M 100 106 C 112 90 126 78 138 64" fill="none" stroke="#2C4A38" stroke-width="6" stroke-linecap="round"/>
+        <path d="M 100 118 C 94 106 86 100 76 96" fill="none" stroke="#2C4A38" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M 100 116 C 108 106 116 100 126 98" fill="none" stroke="#2C4A38" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M 78 78 C 72 70 64 66 54 64" fill="none" stroke="#3F7D57" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M 124 78 C 130 70 138 66 148 66" fill="none" stroke="#3F7D57" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M 66 66 C 62 58 58 54 52 50" fill="none" stroke="#3F7D57" stroke-width="3" stroke-linecap="round"/>
+        <path d="M 138 64 C 142 56 146 52 152 48" fill="none" stroke="#3F7D57" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="32" height="32" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M 100 172 C 100 148 99 122 100 96" fill="none" stroke="#2C4A38" stroke-width="17" stroke-linecap="round"/>
+        <path d="M 100 100 C 86 76 68 56 50 34" fill="none" stroke="#2C4A38" stroke-width="14" stroke-linecap="round"/>
+        <path d="M 100 96 C 116 72 136 52 156 32" fill="none" stroke="#2C4A38" stroke-width="14" stroke-linecap="round"/>
+        <path d="M 100 118 C 90 100 78 90 64 82" fill="none" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/>
+        <path d="M 100 114 C 112 96 124 86 138 80" fill="none" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">4</span><span class="name">bare winter tree</span></div>
+      <div class="says">a bold leafless branching silhouette; branch and negative space are the whole mark — no accent needed.</div>
+      <div class="test">reads at 32px: <span class="yes">yes</span> — heavy trunk + primary forks survive cleanly</div>
+    </div>
+  </div>
+
+  <!-- 5 — split tree (half solid / half negative) -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="split tree, half solid half negative">
+        <!-- ground line -->
+        <line x1="46" y1="166" x2="154" y2="166" stroke="#C9BE9F" stroke-width="1.5"/>
+        <!-- RIGHT half: moss field the negative carves from -->
+        <rect x="100" y="42" width="72" height="124" fill="#2C4A38"/>
+        <!-- LEFT half of tree: solid branches on the paper -->
+        <path d="M 100 166 C 100 146 99 122 100 100" fill="none" stroke="#2C4A38" stroke-width="7" stroke-linecap="round"/>
+        <path d="M 100 104 C 88 88 76 78 62 66" fill="none" stroke="#2C4A38" stroke-width="5.5" stroke-linecap="round"/>
+        <path d="M 100 122 C 92 110 82 104 70 100" fill="none" stroke="#2C4A38" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M 74 74 C 68 66 60 62 50 60" fill="none" stroke="#3F7D57" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- RIGHT half of tree: carved OUT of the moss field (paper-color strokes) -->
+        <path d="M 100 166 C 100 146 101 122 100 100" fill="none" stroke="#FCFBF7" stroke-width="7" stroke-linecap="round"/>
+        <path d="M 100 104 C 112 88 124 78 138 66" fill="none" stroke="#FCFBF7" stroke-width="5.5" stroke-linecap="round"/>
+        <path d="M 100 122 C 108 110 118 104 130 100" fill="none" stroke="#FCFBF7" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M 126 74 C 132 66 140 62 150 60" fill="none" stroke="#FCFBF7" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="100" cy="96" r="5.5" fill="#C4602F"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="32" height="32" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="100" y="26" width="80" height="150" fill="#2C4A38"/>
+        <path d="M 100 176 C 100 150 99 120 100 90" fill="none" stroke="#2C4A38" stroke-width="15" stroke-linecap="round"/>
+        <path d="M 100 96 C 84 72 66 52 48 32" fill="none" stroke="#2C4A38" stroke-width="12" stroke-linecap="round"/>
+        <path d="M 100 176 C 100 150 101 120 100 90" fill="none" stroke="#FCFBF7" stroke-width="15" stroke-linecap="round"/>
+        <path d="M 100 96 C 116 72 134 52 152 32" fill="none" stroke="#FCFBF7" stroke-width="12" stroke-linecap="round"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">5</span><span class="name">split tree (half solid / half negative)</span></div>
+      <div class="says">one tree: the left half solid branches, the right half the same tree carved out of a moss field — figure-ground down the middle.</div>
+      <div class="test">reads at 32px: <span class="yes">yes</span> — the split silhouette reads as one bold tree</div>
+    </div>
+  </div>
+
+  <!-- 6 — rounded-canopy tree -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="rounded canopy tree, object and negative">
+        <!-- ground line -->
+        <line x1="34" y1="166" x2="170" y2="166" stroke="#C9BE9F" stroke-width="1.5"/>
+        <!-- OBJECT: solid trunk + round-ish leafy mass -->
+        <path d="M 66 166 C 66 150 66 138 66 120" fill="none" stroke="#2C4A38" stroke-width="6" stroke-linecap="round"/>
+        <path d="M 66 60 C 44 60 34 78 40 96 C 30 108 40 128 58 126 C 66 138 86 138 92 126 C 108 128 116 108 106 96 C 112 78 100 60 82 62 C 78 52 70 52 66 60 Z" fill="#2C4A38"/>
+        <path d="M 66 122 C 66 110 66 100 66 86" fill="none" stroke="#3F7D57" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M 66 104 C 58 96 54 92 50 88" fill="none" stroke="#3F7D57" stroke-width="3" stroke-linecap="round"/>
+        <path d="M 66 98 C 74 92 78 88 84 84" fill="none" stroke="#3F7D57" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="82" cy="72" r="5" fill="#C4602F"/>
+        <!-- MOSS FIELD with same canopy carved OUT -->
+        <rect x="112" y="52" width="58" height="114" rx="3" fill="#2C4A38"/>
+        <path d="M 140 166 C 140 150 140 138 140 120" fill="none" stroke="#FCFBF7" stroke-width="6" stroke-linecap="round"/>
+        <path d="M 140 60 C 118 60 108 78 114 96 C 104 108 114 128 132 126 C 140 138 160 138 166 126 C 168 126 168 126 168 124 L 168 68 C 166 62 160 60 156 62 C 152 52 144 52 140 60 Z" fill="#FCFBF7"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="32" height="32" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M 62 176 C 62 154 62 138 62 112" fill="none" stroke="#2C4A38" stroke-width="14" stroke-linecap="round"/>
+        <path d="M 62 42 C 30 42 16 68 26 92 C 12 110 26 138 52 134 C 62 152 92 152 100 134 C 126 138 138 108 122 88 C 130 62 108 40 82 44 C 76 30 68 30 62 42 Z" fill="#2C4A38"/>
+        <rect x="124" y="40" width="66" height="138" rx="4" fill="#2C4A38"/>
+        <path d="M 156 176 C 156 154 156 138 156 112" fill="none" stroke="#FCFBF7" stroke-width="14" stroke-linecap="round"/>
+        <path d="M 156 42 C 128 42 116 66 124 88 C 112 108 126 138 150 134 C 158 150 184 150 190 136 L 190 62 C 182 44 176 44 176 44 C 170 32 162 32 156 42 Z" fill="#FCFBF7"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">6</span><span class="name">rounded-canopy tree</span></div>
+      <div class="says">a fuller tree — trunk plus a round leafy mass — object then carved negative; softer and warmer than the bare forms.</div>
+      <div class="test">reads at 32px: <span class="yes">yes</span> — canopy blob + cut-out both hold; interior detail drops</div>
+    </div>
+  </div>
+
+  <!-- 7 — the growing tree -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the growing tree">
+        <!-- ground line -->
+        <line x1="60" y1="166" x2="140" y2="166" stroke="#C9BE9F" stroke-width="1.5"/>
+        <!-- sequence: trunk -> branch -> branch -> bud, drawn as a rising organic run -->
+        <path d="M 96 166 C 96 152 95 140 96 128" fill="none" stroke="#2C4A38" stroke-width="7" stroke-linecap="round"/>
+        <path d="M 96 128 C 98 114 106 104 116 96" fill="none" stroke="#2C4A38" stroke-width="5.5" stroke-linecap="round"/>
+        <path d="M 116 96 C 110 84 108 72 112 60" fill="none" stroke="#3F7D57" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M 112 60 C 116 52 122 48 128 44" fill="none" stroke="#3F7D57" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- side buds along the run (green) -->
+        <path d="M 96 128 C 88 122 82 120 74 120" fill="none" stroke="#3F7D57" stroke-width="3" stroke-linecap="round"/>
+        <path d="M 116 96 C 124 92 130 92 138 94" fill="none" stroke="#3F7D57" stroke-width="3" stroke-linecap="round"/>
+        <!-- single terracotta bud at the tip -->
+        <circle cx="131" cy="41" r="6" fill="#C4602F"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="32" height="32" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M 90 174 C 90 156 89 140 90 122" fill="none" stroke="#2C4A38" stroke-width="15" stroke-linecap="round"/>
+        <path d="M 90 122 C 94 100 108 84 124 70" fill="none" stroke="#2C4A38" stroke-width="13" stroke-linecap="round"/>
+        <path d="M 124 70 C 116 52 114 34 122 18" fill="none" stroke="#3F7D57" stroke-width="12" stroke-linecap="round"/>
+        <circle cx="126" cy="18" r="15" fill="#C4602F"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">7</span><span class="name">the growing tree</span></div>
+      <div class="says">a tree drawn as a sequence — trunk, branch, branch, a single bud at the tip. the growth the chain carried, now organic and neutral.</div>
+      <div class="test">reads at 32px: <span class="tight">tight</span> — the rising run + bud hold; the sequence reads best large</div>
+    </div>
+  </div>
+
+  <!-- 8 — the seed-and-tree -->
+  <div class="cell">
+    <div class="art">
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the seed and tree">
+        <!-- ground line -->
+        <line x1="34" y1="166" x2="170" y2="166" stroke="#C9BE9F" stroke-width="1.5"/>
+        <!-- OBJECT: seed at base, tree rising from it -->
+        <ellipse cx="66" cy="160" rx="8" ry="6" fill="#C4602F"/>
+        <path d="M 66 156 C 66 138 65 118 66 100" fill="none" stroke="#2C4A38" stroke-width="5.5" stroke-linecap="round"/>
+        <path d="M 66 104 C 56 90 46 82 36 72" fill="none" stroke="#2C4A38" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M 66 100 C 76 86 86 78 96 68" fill="none" stroke="#3F7D57" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M 66 118 C 60 108 54 104 46 102" fill="none" stroke="#3F7D57" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- MOSS FIELD with same seed+tree carved OUT -->
+        <rect x="112" y="60" width="56" height="106" rx="3" fill="#2C4A38"/>
+        <ellipse cx="140" cy="160" rx="8" ry="6" fill="#FCFBF7"/>
+        <path d="M 140 156 C 140 138 139 118 140 100" fill="none" stroke="#FCFBF7" stroke-width="5.5" stroke-linecap="round"/>
+        <path d="M 140 104 C 130 90 120 82 118 78" fill="none" stroke="#FCFBF7" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M 140 100 C 150 86 160 78 166 72" fill="none" stroke="#FCFBF7" stroke-width="4.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="favrow">
+      <svg width="32" height="32" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <ellipse cx="58" cy="170" rx="16" ry="12" fill="#C4602F"/>
+        <path d="M 58 162 C 58 138 57 110 58 82" fill="none" stroke="#2C4A38" stroke-width="14" stroke-linecap="round"/>
+        <path d="M 58 88 C 44 66 28 48 12 30" fill="none" stroke="#2C4A38" stroke-width="12" stroke-linecap="round"/>
+        <path d="M 58 82 C 74 60 92 42 108 24" fill="none" stroke="#3F7D57" stroke-width="12" stroke-linecap="round"/>
+        <rect x="126" y="48" width="64" height="130" rx="4" fill="#2C4A38"/>
+        <ellipse cx="158" cy="170" rx="16" ry="12" fill="#FCFBF7"/>
+        <path d="M 158 162 C 158 138 157 110 158 82" fill="none" stroke="#FCFBF7" stroke-width="14" stroke-linecap="round"/>
+        <path d="M 158 88 C 144 66 128 48 116 34" fill="none" stroke="#FCFBF7" stroke-width="12" stroke-linecap="round"/>
+      </svg>
+      <span class="fav-label">@32px</span>
+    </div>
+    <div class="meta">
+      <div><span class="num">8</span><span class="name">the seed-and-tree</span></div>
+      <div class="says">a seed at the base, the tree rising from it — growth from a point; object plus carved negative.</div>
+      <div class="test">reads at 32px: <span class="tight">tight</span> — tree + cut-out hold; the small seed nearly merges with the trunk</div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="sheet">
+  method · tree master-mark exploration · 8 organic branching forms · object + its negative carried from b4 (carved-negative) and b2 (cast shadow) · house palette + hairline weight + botanical restraint · tradition-neutral: not the Sefirot lattice, not a Bodhi leaf, not a dome / arch / crescent, not the zig-zag chain · one terracotta accent max per mark · each rendered ~200×200 and shrunk to 32px for the favicon-legibility read · house tokens only, no near-black / pure black · Newsreader + Inter + IBM Plex Mono · staging exploration, not deployed
+</footer>
+
+</body>
+</html>
