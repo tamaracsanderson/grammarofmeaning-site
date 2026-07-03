@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Howard Thurman spin — look &amp; feel lookbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FCFBF7; --card:#FFFFFF; --hair:#C9BE9F;
+    --moss:#2C4A38; --fern:#3F7D57; --sage:#8AA88B; --olive:#6E7B3A;
+    --terra:#C4602F; --honey:#E0A93B; --gold:#C9A227;
+    --ink:#24302A; --ink-soft:#5A665C; --ink-mute:#8A8578;
+    --serif:'Newsreader',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--serif); line-height:1.55; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:940px; margin:0 auto; padding:46px 26px 72px;}
+  .brand{display:flex; align-items:center; gap:9px; margin-bottom:24px;}
+  .brand .name{font-family:var(--sans); font-size:14px; font-weight:500; letter-spacing:.02em; color:var(--moss);}
+  .eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--olive); margin:0 0 12px;}
+  h1{font-family:var(--serif); font-weight:500; font-size:34px; line-height:1.12; letter-spacing:-.01em; margin:0 0 14px;}
+  .deck{font-size:17px; line-height:1.5; color:var(--ink-soft); margin:0 0 18px; max-width:64ch;}
+  .constant{font-size:13.5px; line-height:1.55; color:var(--ink-soft); margin:0; padding:12px 16px; border:1px solid var(--hair); border-radius:6px; background:#FFFDF8; max-width:64ch;}
+  .constant b{font-weight:500; color:var(--moss);}
+  .rule{height:1px; background:var(--hair); border:0; margin:34px 0;}
+
+  .dir{display:grid; grid-template-columns:1.05fr .95fr; gap:26px; align-items:stretch; margin:0 0 40px;}
+  .tile{position:relative; border:1px solid var(--hair); border-radius:8px; overflow:hidden; min-height:320px; display:flex; flex-direction:column; justify-content:center; padding:34px 32px;}
+  .tile .t-kick{font-family:var(--mono); font-size:10.5px; letter-spacing:.24em; text-transform:uppercase; margin-bottom:18px;}
+  .tile .t-title{font-family:var(--serif); font-weight:500; font-size:30px; line-height:1.16; margin:0 0 14px;}
+  .tile .t-quote{font-family:var(--serif); font-style:italic; font-size:15.5px; line-height:1.55; margin:0; max-width:30ch;}
+  .tile .t-hair{width:38px; height:1px; margin:0 0 18px;}
+
+  .meta{display:flex; flex-direction:column; padding:4px 0;}
+  .dir-no{font-family:var(--mono); font-size:12px; letter-spacing:.1em; color:var(--fern); margin-bottom:4px;}
+  .meta h2{font-family:var(--serif); font-weight:500; font-size:23px; margin:0 0 5px; color:var(--ink);}
+  .poet{font-size:14.5px; line-height:1.5; color:var(--ink-soft); font-style:italic; margin:0 0 14px; max-width:38ch;}
+  .kw{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--olive); margin:0 0 16px;}
+  .pal{display:flex; gap:0; margin:0 0 18px; border:1px solid var(--hair); border-radius:4px; overflow:hidden; width:fit-content;}
+  .pal span{width:30px; height:26px; display:block;}
+  dl.notes{margin:0 0 16px; display:grid; grid-template-columns:auto 1fr; gap:5px 12px;}
+  dl.notes dt{font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-mute); padding-top:2px;}
+  dl.notes dd{margin:0; font-size:13.5px; line-height:1.45; color:var(--ink);}
+  .spin{font-size:13.5px; line-height:1.5; color:var(--ink-soft); margin:auto 0 0; padding-left:12px; border-left:2px solid var(--sage);}
+  .spin b{font-weight:500; color:var(--moss); font-style:normal;}
+
+  .foot{margin-top:20px; padding-top:22px; border-top:1px solid var(--hair); font-size:13px; line-height:1.6; color:var(--ink-soft); max-width:70ch;}
+  .foot .tag{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--olive); display:block; margin-bottom:8px;}
+  .foot b{font-weight:500; color:var(--moss);}
+
+  @media(max-width:720px){
+    .dir{grid-template-columns:1fr; gap:16px;}
+    h1{font-size:28px;}
+    .tile{min-height:260px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand" aria-label="Grammar of Meaning">
+    <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M13 24 C13 16 13 11 13 6" fill="none" stroke="#2C4A38" stroke-width="1.5" stroke-linecap="round"/><path d="M13 13 C10 12 7.5 10 6.5 6.5 C10 7 12 9 13 12.5" fill="#3F7D57"/><path d="M13 10.5 C16 9.5 18.5 7.5 19.5 4 C16 4.6 14 6.6 13 10" fill="#8AA88B"/><path d="M13 17 C10.6 16.2 8.6 14.6 7.8 11.8 C10.6 12.3 12.2 13.9 13 16.2" fill="#3F7D57"/></svg>
+    <span class="name">Grammar of Meaning</span>
+  </div>
+
+  <p class="eyebrow">Voice garden · Howard Thurman · look &amp; feel</p>
+  <h1>Five feels — before the skin</h1>
+  <p class="deck">A lookbook, not a build. Every direction keeps the Grammar of Meaning spine — warm ground, Newsreader, hairline restraint — but each proposes what's <em>new</em> for this particular medium: a random, contemplative encounter with Thurman's own recorded voice. Pick a feel; we develop it from here.</p>
+  <p class="constant"><b>The constant across all five:</b> spin → decelerate → land on a real Thurman sermon → read the excerpt, hear the recording. What changes below is the <b>feel</b>, never the mechanic.</p>
+
+  <hr class="rule">
+
+  <!-- 01 · LUMINOUS FIELD -->
+  <section class="dir">
+    <div class="tile" style="background:radial-gradient(125% 90% at 50% 116%, #37306A 0%, #1B1B3C 40%, #0B0D1A 100%);">
+      <div style="position:absolute; inset:0; background:radial-gradient(closest-side at 50% 74%, rgba(231,201,122,.30), rgba(231,201,122,0) 70%); pointer-events:none;"></div>
+      <div style="position:relative;">
+        <div class="t-kick" style="color:#E7C97A;">the luminous darkness</div>
+        <div class="t-hair" style="background:#C9A227;"></div>
+        <div class="t-title" style="color:#F0E9DA;">The Sound of the Genuine</div>
+        <p class="t-quote" style="color:rgba(240,233,218,.72);">light does not banish the dark here — it lives inside it.</p>
+      </div>
+    </div>
+    <div class="meta">
+      <div class="dir-no">01</div>
+      <h2>Luminous Field</h2>
+      <p class="poet">A gilded panel, not a night sky. Light gathered out of deep dark — the mystic dark that shines.</p>
+      <div class="kw">luminous · interior · reverent · gilded · held</div>
+      <div class="pal" aria-label="palette"><span style="background:#0B0D1A" title="#0B0D1A"></span><span style="background:#1B1B3C" title="#1B1B3C"></span><span style="background:#C9A227" title="#C9A227"></span><span style="background:#E7C97A" title="#E7C97A"></span><span style="background:#F0E9DA" title="#F0E9DA"></span></div>
+      <dl class="notes">
+        <dt>Type</dt><dd>Newsreader large in bone; gold letterspaced labels.</dd>
+        <dt>Motion</dt><dd>Light gathers out of the dark and stills on the sermon.</dd>
+        <dt>GoM spine</dt><dd>The serif, the restraint, the warm gold.</dd>
+        <dt>New</dt><dd>A dark ground — GoM inverted into an illuminated manuscript.</dd>
+        <dt>Rooted in</dt><dd><i>The Luminous Darkness</i> (1965) · Byzantine gold-ground icons · the Rothko Chapel.</dd>
+      </dl>
+      <p class="spin"><b>The spin —</b> points of light drift and brighten, then coalesce into stillness as the sermon settles.</p>
+    </div>
+  </section>
+
+  <!-- 02 · DEEP WATER -->
+  <section class="dir">
+    <div class="tile" style="background:linear-gradient(179deg, #0E5B66 0%, #083E47 52%, #04191E 100%);">
+      <div style="position:absolute; left:0; right:0; top:34%; height:34px; background:linear-gradient(180deg, rgba(191,230,223,.34), rgba(191,230,223,0)); filter:blur(5px); pointer-events:none;"></div>
+      <div style="position:absolute; inset:0; pointer-events:none; opacity:.5; background:
+        radial-gradient(2px 2px at 22% 58%, rgba(240,230,210,.7), transparent),
+        radial-gradient(1.5px 1.5px at 70% 44%, rgba(240,230,210,.6), transparent),
+        radial-gradient(1.5px 1.5px at 46% 72%, rgba(240,230,210,.5), transparent);"></div>
+      <div style="position:relative;">
+        <div class="t-kick" style="color:#8FC6C6;">deep river</div>
+        <div class="t-hair" style="background:#8FC6C6;"></div>
+        <div class="t-title" style="color:#F0E6D2;">Deep River</div>
+        <p class="t-quote" style="color:rgba(240,230,210,.74);">the sermon rises, unhurried, from the deep.</p>
+      </div>
+    </div>
+    <div class="meta">
+      <div class="dir-no">02</div>
+      <h2>Deep Water</h2>
+      <p class="poet">Depth, not decoration. A slow tide and a far horizon — the thing surfaces in its own time.</p>
+      <div class="kw">deep · tidal · submerged · patient · vast</div>
+      <div class="pal" aria-label="palette"><span style="background:#04191E" title="#04191E"></span><span style="background:#083E47" title="#083E47"></span><span style="background:#0E5B66" title="#0E5B66"></span><span style="background:#8FC6C6" title="#8FC6C6"></span><span style="background:#F0E6D2" title="#F0E6D2"></span></div>
+      <dl class="notes">
+        <dt>Type</dt><dd>Newsreader in warm cream; wide, quiet spacing.</dd>
+        <dt>Motion</dt><dd>A slow tide — it swells, then settles; the sermon surfaces.</dd>
+        <dt>GoM spine</dt><dd>Serif calm; hairline horizon instead of hairline rule.</dd>
+        <dt>New</dt><dd>Immersive depth + a sense of water pressure and stillness.</dd>
+        <dt>Rooted in</dt><dd><i>Deep River</i> · his ocean childhood · Sugimoto's seascapes.</dd>
+      </dl>
+      <p class="spin"><b>The spin —</b> the surface stirs, ripples spread; on landing it calms and the sermon rises up.</p>
+    </div>
+  </section>
+
+  <!-- 03 · FIELD NOTES -->
+  <section class="dir">
+    <div class="tile" style="background:
+        repeating-linear-gradient(0deg, rgba(201,190,159,.10) 0, rgba(201,190,159,.10) 1px, transparent 1px, transparent 26px),
+        #FCFBF7;">
+      <div style="position:absolute; left:20px; right:20px; top:20px; height:1px; background:#C9BE9F;"></div>
+      <div style="position:absolute; left:20px; right:20px; bottom:20px; height:1px; background:#C9BE9F;"></div>
+      <div style="position:absolute; top:26px; left:26px; font-family:var(--mono); font-size:10px; letter-spacing:.16em; color:#8A8578;">N&deg; 07 &mdash; ABR&#8209;CHR&#8209;BLK</div>
+      <span style="position:absolute; top:26px; right:26px; width:9px; height:9px; border-radius:50%; background:#C4602F;"></span>
+      <div style="position:relative;">
+        <div class="t-kick" style="color:#6E7B3A;">from the catalogue</div>
+        <div class="t-hair" style="background:#2C4A38;"></div>
+        <div class="t-title" style="color:#24302A;">Disciplines of the Spirit</div>
+        <p class="t-quote" style="color:#5A665C;">a recorded sermon, dealt from the archive like a card.</p>
+      </div>
+    </div>
+    <div class="meta">
+      <div class="dir-no">03</div>
+      <h2>Field Notes</h2>
+      <p class="poet">The GoM core, matured. Warm paper, letterpress rules, the sermon as a printed catalogue card — the archive as an object in the hand.</p>
+      <div class="kw">printed · catalogued · tactile · plain · exact</div>
+      <div class="pal" aria-label="palette"><span style="background:#FCFBF7; box-shadow:inset 0 0 0 1px #E7E0CE" title="#FCFBF7"></span><span style="background:#C9BE9F" title="#C9BE9F"></span><span style="background:#6E7B3A" title="#6E7B3A"></span><span style="background:#2C4A38" title="#2C4A38"></span><span style="background:#C4602F" title="#C4602F"></span></div>
+      <dl class="notes">
+        <dt>Type</dt><dd>The star — Newsreader display + IBM Plex Mono index labels.</dd>
+        <dt>Motion</dt><dd>A papery shuffle; cards riffle and one is dealt, settling square.</dd>
+        <dt>GoM spine</dt><dd>This <i>is</i> the house — Whole Earth / Field Notes lineage.</dd>
+        <dt>New</dt><dd>The spin as a physical catalogue mechanism, not a screen effect.</dd>
+        <dt>Rooted in</dt><dd>Whole Earth Catalog · letterpress broadsides · library card drawers.</dd>
+      </dl>
+      <p class="spin"><b>The spin —</b> titles riffle past like flipped cards; one lands and squares itself on the ledger line.</p>
+    </div>
+  </section>
+
+  <!-- 04 · RESONANCE -->
+  <section class="dir">
+    <div class="tile" style="background:#F2ECDE; align-items:center; text-align:center;">
+      <svg viewBox="0 0 320 320" width="220" height="220" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); opacity:.9;" aria-hidden="true">
+        <g fill="none" stroke-linecap="round">
+          <circle cx="160" cy="160" r="150" stroke="#24302A" stroke-width="1" opacity=".08"/>
+          <circle cx="160" cy="160" r="122" stroke="#24302A" stroke-width="1" opacity=".13"/>
+          <circle cx="160" cy="160" r="96" stroke="#C9A227" stroke-width="1.1" opacity=".38"/>
+          <circle cx="160" cy="160" r="72" stroke="#24302A" stroke-width="1" opacity=".22"/>
+          <circle cx="160" cy="160" r="50" stroke="#C9A227" stroke-width="1.2" opacity=".55"/>
+          <circle cx="160" cy="160" r="30" stroke="#24302A" stroke-width="1.1" opacity=".4"/>
+        </g>
+        <circle cx="160" cy="160" r="5" fill="#C4602F"/>
+      </svg>
+      <div style="position:relative;">
+        <div class="t-kick" style="color:#B77A2C;">the sound of the genuine</div>
+        <div class="t-title" style="color:#24302A; margin-top:6px;">A Moment of Crisis</div>
+      </div>
+    </div>
+    <div class="meta">
+      <div class="dir-no">04</div>
+      <h2>Resonance</h2>
+      <p class="poet">Sound made visible — a single struck note radiating outward and decaying to stillness. Your heartbeat-on-water idea, matured into acoustics.</p>
+      <div class="kw">struck · radiating · decaying · resonant · still</div>
+      <div class="pal" aria-label="palette"><span style="background:#F2ECDE" title="#F2ECDE"></span><span style="background:#E4CF8F" title="#E4CF8F"></span><span style="background:#C9A227" title="#C9A227"></span><span style="background:#C4602F" title="#C4602F"></span><span style="background:#24302A" title="#24302A"></span></div>
+      <dl class="notes">
+        <dt>Type</dt><dd>Centred, minimal; Newsreader over a fine ring notation.</dd>
+        <dt>Motion</dt><dd>A single strike radiates and decays — or beats, slow, like a heart.</dd>
+        <dt>GoM spine</dt><dd>Warm bone ground, hairline linework, mono labels.</dd>
+        <dt>New</dt><dd>The visual <i>is</i> the sound — resonance as the whole image.</dd>
+        <dt>Rooted in</dt><dd><i>The Sound of the Genuine</i> · singing-bowl acoustics · Cage notation.</dd>
+      </dl>
+      <p class="spin"><b>The spin —</b> rings pulse faster and brighter, then slow to a single resonant beat as the sermon lands.</p>
+    </div>
+  </section>
+
+  <!-- 05 · THE LIVING EDGE -->
+  <section class="dir">
+    <div class="tile" style="background:linear-gradient(158deg, #FBF8EE 0%, #F1EBD9 100%);">
+      <svg viewBox="0 0 220 320" width="140" height="300" style="position:absolute; right:14px; bottom:0; opacity:.9;" aria-hidden="true">
+        <path d="M150 320 C150 250 148 190 138 150 C130 116 116 92 100 74" fill="none" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/>
+        <path d="M138 176 C120 172 104 160 98 140 C120 142 134 154 140 172 Z" fill="#3F7D57" opacity=".9"/>
+        <path d="M132 210 C150 204 166 190 170 170 C150 174 138 188 132 206 Z" fill="#8AA88B" opacity=".9"/>
+        <path d="M128 250 C110 246 96 234 92 216 C110 218 122 230 128 246 Z" fill="#3F7D57" opacity=".85"/>
+        <g transform="translate(100 74)">
+          <circle r="9" fill="#E0A93B"/>
+          <g fill="#C97E7E"><ellipse cx="0" cy="-13" rx="4.5" ry="8"/><ellipse cx="12" cy="-5" rx="8" ry="4.5"/><ellipse cx="8" cy="10" rx="6" ry="7"/><ellipse cx="-8" cy="10" rx="6" ry="7"/><ellipse cx="-12" cy="-5" rx="8" ry="4.5"/></g>
+          <circle r="5.5" fill="#E0A93B"/>
+        </g>
+      </svg>
+      <div style="position:relative;">
+        <div class="t-kick" style="color:#2C4A38;">the growing edge</div>
+        <div class="t-hair" style="background:#3F7D57;"></div>
+        <div class="t-title" style="color:#24302A;">The Growing Edge</div>
+        <p class="t-quote" style="color:#5A665C;">look well to the growing edge — where it opens, it blooms.</p>
+      </div>
+    </div>
+    <div class="meta">
+      <div class="dir-no">05</div>
+      <h2>The Living Edge</h2>
+      <p class="poet">The Garden lineage, grown up. Not a cartoon vine — a pressed-botanical restraint, herbarium-precise, warm and alive.</p>
+      <div class="kw">living · pressed · verdant · rooted · tender</div>
+      <div class="pal" aria-label="palette"><span style="background:#FBF8EE; box-shadow:inset 0 0 0 1px #E7E0CE" title="#FBF8EE"></span><span style="background:#8AA88B" title="#8AA88B"></span><span style="background:#3F7D57" title="#3F7D57"></span><span style="background:#2C4A38" title="#2C4A38"></span><span style="background:#E0A93B" title="#E0A93B"></span></div>
+      <dl class="notes">
+        <dt>Type</dt><dd>Newsreader in ink + moss; botanical-plate captions.</dd>
+        <dt>Motion</dt><dd>An unhurried growth that opens and settles — a bloom on landing.</dd>
+        <dt>GoM spine</dt><dd>The Living Garden skin at its source — greens, warm paper.</dd>
+        <dt>New</dt><dd>Specimen restraint — a single pressed form, not a busy scene.</dd>
+        <dt>Rooted in</dt><dd><i>The Growing Edge</i> · his Daytona oak · herbarium plates.</dd>
+      </dl>
+      <p class="spin"><b>The spin —</b> the edge extends and branches; on landing a single bloom opens at the tip.</p>
+    </div>
+  </section>
+
+  <div class="foot">
+    <span class="tag">How to read this</span>
+    <b>These are directions, not builds.</b> Each is a feel we can develop into the real spinning experience — some are close cousins (01 and 04 both work in the dark; 03 and 05 both lean on the paper house), some are far apart. Pick one to take forward, or a pairing to hybridise (e.g. <i>Field Notes structure</i> + <i>Resonance motion</i>). Then — and only then — we build the skin. <b>GoM spine kept throughout; Thurman-only; Stage 6 = 0 — sample titles are catalogued, sample lines are real Thurman phrases to be §13-verified before any publish.</b>
+  </div>
+
+</div>
+<!--
+  HOW PRODUCED: design-SB, 2026-07-03 (S133). A look-&-feel LOOKBOOK (not a working skin) for the Howard
+    Thurman "sermon roulette", made after the first 5-skin bakeoff read too literal/cheesy — stepping back to
+    moodboard-level direction-setting (as with the garden site's look & feel). Five feels: Luminous Field /
+    Deep Water / Field Notes / Resonance / The Living Edge. Each keeps the GoM spine (warm ground, Newsreader,
+    hairline restraint) and proposes what is new for the spinning medium (palette, type, material, motion
+    character, lineage). Self-contained HTML/CSS/SVG, no JS, fonts via one Google Fonts link.
+  SCHOLARLY SOURCES: Howard Thurman's works (The Luminous Darkness 1965; Deep River; The Growing Edge;
+    The Sound of the Genuine 1980; Disciplines of the Spirit; Meditations of the Heart); the GoM house
+    (Field Notes skeleton × Living Garden skin); design references named per tile (Byzantine gold-ground icons,
+    Rothko Chapel, Sugimoto seascapes, Whole Earth Catalog, singing-bowl/Cage notation, herbarium plates);
+    CLAUDE.md §2.1 faithful representation, §13 no fabricated quotes.
+  WHAT NEEDS VERIFICATION: (1) sample sermon titles are catalogued in the corpus; sample italic lines are real
+    Thurman phrases but must be §13-verified (exact wording/attribution) before any public use. (2) direction to
+    be chosen by researcher (or a hybrid), THEN built into the real spin experience with real excerpt + audio.
+    (3) Thurman-only; other voices get their own look & feel. (4) Stage 6 = 0.
+-->
+</body>
+</html>
