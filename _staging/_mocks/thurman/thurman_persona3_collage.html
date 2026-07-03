@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep River — an archive of hearts (torn collage)</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --p3-ground:#12100C;
+    --p3-ground2:#0C0B07;
+    --p3-paper-a:#E8DCC0;
+    --p3-paper-b:#D8C8A8;
+    --p3-paper-c:#C4B48C;
+    --p3-paper-dark:#5A4E38;
+    --p3-paper-darker:#3A3222;
+    --p3-ink:#2A2418;
+    --p3-ink-faint:#6B5F45;
+    --p3-tape:#D9CBA0;
+    --p3-ember:#C97B4A;
+    --p3-glow:#E4C88A;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    background:var(--p3-ground);
+    color:var(--p3-paper-a);
+    font-family:"Inter",system-ui,sans-serif;
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  #p3-stage{
+    position:fixed;inset:0;
+    background:
+      radial-gradient(120% 90% at 50% 42%, rgba(60,50,30,0.30), rgba(18,16,12,0) 62%),
+      radial-gradient(140% 110% at 50% 120%, rgba(0,0,0,0.55), rgba(18,16,12,0) 55%),
+      var(--p3-ground);
+    overflow:hidden;
+  }
+  /* film grain overlay */
+  #p3-grain{
+    position:absolute;inset:-2%;pointer-events:none;z-index:40;
+    opacity:0.06;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  #p3-vignette{
+    position:absolute;inset:0;pointer-events:none;z-index:38;
+    box-shadow:inset 0 0 240px 60px rgba(0,0,0,0.72);
+  }
+
+  /* ---- the MANY : field of torn fragments ---- */
+  #p3-field{position:absolute;inset:0;z-index:10;}
+  .p3-scrap{
+    position:absolute;
+    filter:drop-shadow(2px 4px 5px rgba(0,0,0,0.55));
+    transition:transform 0.6s cubic-bezier(.22,.61,.36,1), opacity 0.6s ease;
+    will-change:transform,opacity;
+  }
+  .p3-scrap svg{display:block;}
+  .p3-scraptext{
+    font-family:"Newsreader",serif;
+    fill:var(--p3-ink-faint);
+  }
+  .p3-hand{ font-family:"Newsreader",serif; font-style:italic; fill:var(--p3-ink); opacity:0.5;}
+  .p3-ledger{ stroke:var(--p3-ink-faint); stroke-width:0.7; opacity:0.35;}
+
+  /* ---- draw-state cycling titles ---- */
+  #p3-cycle{
+    position:absolute;left:0;right:0;top:50%;z-index:30;
+    transform:translateY(-50%);
+    text-align:center;
+    font-family:"Newsreader",serif;
+    font-size:clamp(28px,6vw,72px);
+    line-height:1.05;
+    color:var(--p3-glow);
+    padding:0 6vw;
+    pointer-events:none;
+    opacity:0;
+    text-shadow:0 2px 22px rgba(0,0,0,0.8);
+    letter-spacing:0.01em;
+  }
+  #p3-cycle.p3-on{opacity:1;}
+  #p3-cyclescrap{
+    display:inline-block;
+    background:linear-gradient(178deg,var(--p3-paper-a),var(--p3-paper-c));
+    color:var(--p3-ink);
+    padding:0.5em 0.9em 0.6em;
+    transform:rotate(-1.2deg);
+    box-shadow:4px 8px 18px rgba(0,0,0,0.6);
+  }
+
+  /* ---- the ONE : composed collage piece ---- */
+  #p3-piece{
+    position:absolute;inset:0;z-index:35;
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;pointer-events:none;
+    transition:opacity 1.4s ease;
+  }
+  #p3-piece.p3-on{opacity:1;pointer-events:auto;}
+  .p3-composition{
+    position:relative;
+    width:min(640px,90vw);
+    padding:8px;
+  }
+  /* torn paper base for a scrap */
+  .p3-torn{
+    position:relative;
+    background:linear-gradient(172deg,var(--p3-paper-a) 0%,var(--p3-paper-b) 55%,var(--p3-paper-c) 100%);
+    color:var(--p3-ink);
+    filter:drop-shadow(3px 8px 12px rgba(0,0,0,0.6));
+  }
+  .p3-torn::before{
+    /* aged mottling */
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(120% 80% at 20% 10%, rgba(120,90,40,0.10), transparent 60%),
+              radial-gradient(90% 70% at 90% 90%, rgba(80,60,20,0.14), transparent 55%);
+    pointer-events:none;mix-blend-mode:multiply;
+  }
+  .p3-tape{
+    position:absolute;z-index:6;
+    width:96px;height:26px;
+    background:linear-gradient(100deg,rgba(217,203,160,0.30),rgba(217,203,160,0.62),rgba(217,203,160,0.30));
+    border-left:1px dashed rgba(255,255,255,0.25);
+    border-right:1px dashed rgba(120,100,60,0.35);
+    box-shadow:0 2px 5px rgba(0,0,0,0.35);
+    mix-blend-mode:screen;
+    opacity:0.9;
+  }
+  #p3-photo{
+    position:absolute;left:-3%;top:8%;
+    width:46%;height:64%;z-index:1;
+    transform:rotate(-3.5deg);
+    background:
+      linear-gradient(150deg, rgba(30,26,18,0.9), rgba(70,58,36,0.75)),
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.10) 0 2px, transparent 2px 4px);
+    border:6px solid #EDE4CE;
+    box-shadow:4px 10px 16px rgba(0,0,0,0.6);
+    filter:sepia(0.5) contrast(0.9) brightness(0.8);
+  }
+  #p3-photo .p3-figure{
+    position:absolute;inset:14% 22% 8% 22%;
+    background:radial-gradient(60% 55% at 50% 34%, rgba(232,220,192,0.42), rgba(60,50,30,0) 70%);
+    border-radius:44% 44% 40% 40%;
+  }
+  #p3-ledgerscrap{
+    position:absolute;right:-2%;bottom:6%;
+    width:52%;height:30%;z-index:1;
+    transform:rotate(2.2deg);
+    background:linear-gradient(180deg,var(--p3-paper-b),var(--p3-paper-c));
+    box-shadow:3px 7px 12px rgba(0,0,0,0.5);
+    overflow:hidden;
+    opacity:0.92;
+  }
+  #p3-ledgerscrap .p3-lines{
+    position:absolute;inset:0;
+    background-image:repeating-linear-gradient(0deg, transparent 0 15px, rgba(90,78,56,0.35) 15px 16px);
+    mix-blend-mode:multiply;
+  }
+  #p3-titlescrap{
+    position:relative;z-index:4;
+    margin:2% 0 0 8%;
+    width:80%;
+    padding:26px 30px 30px;
+    transform:rotate(-1deg);
+  }
+  #p3-kicker-piece{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--p3-ink-faint);
+    margin-bottom:10px;
+  }
+  #p3-title{
+    font-family:"Newsreader",serif;
+    font-weight:500;
+    font-size:clamp(26px,5vw,44px);
+    line-height:1.02;
+    color:var(--p3-ink);
+    margin:0;
+  }
+  #p3-excerptscrap{
+    position:relative;z-index:5;
+    margin:-8px 6% 0 22%;
+    width:70%;
+    padding:16px 22px 20px;
+    transform:rotate(1.4deg);
+    background:linear-gradient(176deg,#EFE6CE,#DED0AE);
+  }
+  #p3-excerpt{
+    font-family:"Newsreader",serif;
+    font-style:italic;
+    font-size:clamp(15px,2.4vw,20px);
+    line-height:1.5;
+    color:var(--p3-ink);
+    margin:0;
+  }
+  #p3-source{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11px;letter-spacing:0.12em;
+    color:var(--p3-ink-faint);
+    margin-top:10px;
+    text-transform:lowercase;
+  }
+
+  /* the pulsing heart-scrap / stamp */
+  #p3-heart{
+    position:absolute;z-index:7;
+    right:4%;top:-4%;
+    width:66px;height:66px;
+    transform:rotate(-8deg);
+    will-change:transform,filter;
+  }
+  #p3-heart svg{display:block;overflow:visible;}
+  .p3-stamp-ring{fill:none;stroke:var(--p3-ember);stroke-width:2;opacity:0.75;}
+  .p3-heartshape{fill:var(--p3-ember);opacity:0.9;}
+  .p3-stamp-text{font-family:"IBM Plex Mono",monospace;font-size:6px;fill:var(--p3-paper-a);letter-spacing:0.1em;}
+
+  /* two layered strips : song beneath, voice above */
+  #p3-audio{
+    position:relative;z-index:5;
+    margin:22px 6% 0 6%;
+    width:88%;
+  }
+  .p3-strip{
+    position:relative;
+    padding:11px 14px 12px;
+    margin-bottom:8px;
+    display:flex;align-items:center;gap:12px;
+    filter:drop-shadow(2px 4px 7px rgba(0,0,0,0.5));
+  }
+  #p3-strip-song{
+    background:linear-gradient(90deg,#3A3222,#5A4E38);
+    color:var(--p3-paper-a);
+    transform:rotate(-0.6deg);
+    margin-left:4%;
+    width:82%;
+  }
+  #p3-strip-voice{
+    background:linear-gradient(90deg,var(--p3-paper-b),var(--p3-paper-c));
+    color:var(--p3-ink);
+    transform:rotate(0.7deg);
+    margin-left:14%;
+    width:82%;
+    margin-top:-4px;
+  }
+  .p3-playbtn{
+    flex:0 0 auto;
+    width:32px;height:32px;border-radius:50%;
+    border:1.5px solid currentColor;
+    background:transparent;color:inherit;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;opacity:0.55;
+    transition:opacity 0.3s;
+  }
+  .p3-playbtn:hover{opacity:0.85;}
+  .p3-playbtn svg{width:11px;height:11px;fill:currentColor;}
+  .p3-striplabel{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11px;letter-spacing:0.06em;
+    line-height:1.4;
+  }
+  .p3-striplabel b{font-weight:500;}
+  .p3-wave{
+    flex:1;height:14px;opacity:0.4;
+  }
+  .p3-wave rect{fill:currentColor;}
+  #p3-audionote{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:10px;letter-spacing:0.05em;
+    color:var(--p3-ink-faint);
+    margin-top:4px;margin-left:6%;
+    font-style:normal;opacity:0.8;
+  }
+
+  /* ---- rest-state kicker + control ---- */
+  #p3-kicker{
+    position:absolute;left:0;right:0;top:7%;z-index:32;
+    text-align:center;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12px;letter-spacing:0.24em;
+    color:var(--p3-paper-c);
+    opacity:0.6;text-transform:lowercase;
+    transition:opacity 0.8s ease;
+    pointer-events:none;
+    padding:0 8vw;
+  }
+  #p3-kicker.p3-dim{opacity:0;}
+
+  #p3-controlwrap{
+    position:absolute;left:0;right:0;bottom:6.5%;z-index:36;
+    text-align:center;
+  }
+  #p3-control{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:14px;letter-spacing:0.14em;
+    color:var(--p3-glow);
+    background:rgba(30,26,18,0.55);
+    border:1px solid rgba(228,200,138,0.4);
+    padding:14px 26px;
+    cursor:pointer;
+    text-transform:lowercase;
+    backdrop-filter:blur(2px);
+    transition:background 0.4s, border-color 0.4s, transform 0.15s;
+    box-shadow:2px 4px 14px rgba(0,0,0,0.5);
+  }
+  #p3-control:hover{background:rgba(50,42,26,0.7);border-color:rgba(228,200,138,0.75);}
+  #p3-control:active{transform:translateY(1px);}
+  #p3-control[disabled]{opacity:0.4;cursor:default;}
+
+  @media (max-width:560px){
+    #p3-photo{width:52%;left:-6%;}
+    #p3-titlescrap{width:88%;margin-left:4%;}
+    #p3-excerptscrap{width:80%;margin-left:14%;}
+    .p3-strip{gap:8px;}
+    #p3-strip-song,#p3-strip-voice{width:90%;margin-left:2%;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .p3-scrap{transition:opacity 0.4s ease;}
+    #p3-heart{animation:none !important;}
+  }
+</style>
+</head>
+<body>
+<div id="p3-stage">
+  <div id="p3-field" aria-hidden="true"></div>
+
+  <div id="p3-kicker">les archives — a voice, drawn at random</div>
+
+  <div id="p3-cycle"><span id="p3-cyclescrap"></span></div>
+
+  <div id="p3-piece" aria-live="polite">
+    <div class="p3-composition">
+      <div id="p3-photo"><div class="p3-figure"></div></div>
+      <div id="p3-ledgerscrap"><div class="p3-lines"></div></div>
+
+      <div id="p3-titlescrap" class="p3-torn">
+        <div class="p3-tape" style="top:-13px;left:12%;transform:rotate(-6deg);"></div>
+        <div class="p3-tape" style="bottom:-12px;right:8%;transform:rotate(4deg);width:78px;"></div>
+        <div id="p3-kicker-piece">a voice, drawn from the archive</div>
+        <h1 id="p3-title"></h1>
+        <div id="p3-heart">
+          <svg viewBox="0 0 66 66">
+            <circle class="p3-stamp-ring" cx="33" cy="33" r="30"/>
+            <path class="p3-heartshape" d="M33 48 C 20 38, 14 30, 20 23 C 24 18, 31 20, 33 26 C 35 20, 42 18, 46 23 C 52 30, 46 38, 33 48 Z"/>
+          </svg>
+        </div>
+      </div>
+
+      <div id="p3-excerptscrap" class="p3-torn">
+        <div class="p3-tape" style="top:-11px;left:40%;transform:rotate(3deg);width:70px;"></div>
+        <p id="p3-excerpt"></p>
+        <div id="p3-source"></div>
+      </div>
+
+      <div id="p3-audio">
+        <div class="p3-strip" id="p3-strip-song">
+          <button class="p3-playbtn" aria-label="play (placeholder)"><svg viewBox="0 0 10 10"><path d="M1 0 L9 5 L1 10 Z"/></svg></button>
+          <svg class="p3-wave" viewBox="0 0 120 14" preserveAspectRatio="none"><g></g></svg>
+          <div class="p3-striplabel"><b>Deep River</b> — spiritual · from the archive</div>
+        </div>
+        <div class="p3-strip" id="p3-strip-voice">
+          <button class="p3-playbtn" aria-label="play (placeholder)"><svg viewBox="0 0 10 10"><path d="M1 0 L9 5 L1 10 Z"/></svg></button>
+          <svg class="p3-wave" viewBox="0 0 120 14" preserveAspectRatio="none"><g></g></svg>
+          <div class="p3-striplabel"><b>Howard Thurman</b> — the voice</div>
+        </div>
+        <div id="p3-audionote">audio binds when the recording is cleared.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="p3-vignette"></div>
+  <div id="p3-grain"></div>
+
+  <div id="p3-controlwrap">
+    <button id="p3-control">◦ draw a voice</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var SERMONS = [
+    ["The Sound of the Genuine","there is a sound of the genuine in you","commencement meditation"],
+    ["The Growing Edge","look well to the growing edge","meditation"],
+    ["Jesus and the Disinherited","to those with their backs against the wall","the sermon series"],
+    ["Freedom and Suffering","the fourth and final sermon","sermon series"],
+    ["A Moment of Crisis","bending the will","recorded sermon"],
+    ["Disciplines of the Spirit","commitment · suffering · prayer · reconciliation","1963"],
+    ["Quests for the Human","the introductory lecture","lecture series"],
+    ["Horn of the Wild Oxen","a recorded sermon","from the archive"],
+    ["An Easter Message","his eighth talk","recorded sermon"],
+    ["Prayers","Thurman reading his prayers aloud","recording"],
+    ["Eulogy for Mordecai Wyatt Johnson","for his teacher","recorded"],
+    ["On Religious Experience","religion as a deeply personal encounter","meditation"]
+  ];
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var DECEL = [90,110,130,160,200,260,340,440,580,760];
+
+  var field   = document.getElementById("p3-field");
+  var kicker  = document.getElementById("p3-kicker");
+  var cycle   = document.getElementById("p3-cycle");
+  var cycleScrap = document.getElementById("p3-cyclescrap");
+  var piece   = document.getElementById("p3-piece");
+  var control = document.getElementById("p3-control");
+  var elTitle = document.getElementById("p3-title");
+  var elExcerpt = document.getElementById("p3-excerpt");
+  var elSource = document.getElementById("p3-source");
+  var heart   = document.getElementById("p3-heart");
+
+  // ---- build torn-paper fragment field (the MANY) ----
+  var PAPERS = ["#E8DCC0","#D8C8A8","#C4B48C","#5A4E38","#8A7A54","#3A3222"];
+  var WORDS = ["archive","voice","river","deep","spirit","genuine","the","edge",
+               "sound","prayer","crisis","freedom","suffering","reconcile","home",
+               "1963","meditation","recorded","talk","eighth","fourth","quest"];
+  var scraps = [];
+
+  function jaggedPath(w,h){
+    // irregular torn quad with jitter along each edge
+    var pts=[], n=6, i, x, y;
+    // top
+    for(i=0;i<=n;i++){ x=(w/n)*i; y=rand(0,h*0.12); pts.push([x,y]); }
+    // right
+    for(i=1;i<=n;i++){ x=w-rand(0,w*0.10); y=(h/n)*i; pts.push([x,y]); }
+    // bottom
+    for(i=n-1;i>=0;i--){ x=(w/n)*i; y=h-rand(0,h*0.12); pts.push([x,y]); }
+    // left
+    for(i=n-1;i>=1;i--){ x=rand(0,w*0.10); y=(h/n)*i; pts.push([x,y]); }
+    return "M"+pts.map(function(p){return p[0].toFixed(1)+" "+p[1].toFixed(1);}).join(" L")+" Z";
+  }
+  function rand(a,b){return a+Math.random()*(b-a);}
+  function pick(a){return a[Math.floor(Math.random()*a.length)];}
+
+  function buildField(){
+    var count = window.innerWidth < 620 ? 26 : 44;
+    for(var i=0;i<count;i++){
+      var w = rand(70,190), h = rand(46,120);
+      var col = pick(PAPERS);
+      var dark = (col==="#5A4E38"||col==="#3A3222"||col==="#8A7A54");
+      var wrap = document.createElement("div");
+      wrap.className="p3-scrap";
+      var svgns="http://www.w3.org/2000/svg";
+      var svg=document.createElementNS(svgns,"svg");
+      svg.setAttribute("width",w); svg.setAttribute("height",h);
+      svg.setAttribute("viewBox","0 0 "+w+" "+h);
+      var p=document.createElementNS(svgns,"path");
+      p.setAttribute("d",jaggedPath(w,h));
+      p.setAttribute("fill",col);
+      p.setAttribute("opacity","0.9");
+      svg.appendChild(p);
+
+      var kind=Math.random();
+      if(kind<0.34){
+        // ledger lines
+        for(var l=0;l<Math.floor(rand(2,5));l++){
+          var line=document.createElementNS(svgns,"line");
+          var yy=h*0.3+l*rand(9,16);
+          line.setAttribute("x1",w*0.12);line.setAttribute("x2",w*0.88);
+          line.setAttribute("y1",yy);line.setAttribute("y2",yy);
+          line.setAttribute("class","p3-ledger");
+          svg.appendChild(line);
+        }
+      } else if(kind<0.68){
+        // half-legible word
+        var t=document.createElementNS(svgns,"text");
+        t.setAttribute("x",w*0.5);t.setAttribute("y",h*0.62);
+        t.setAttribute("text-anchor","middle");
+        t.setAttribute("class",dark?"p3-hand":"p3-scraptext");
+        if(dark) t.setAttribute("fill","#C4B48C");
+        t.setAttribute("font-size",Math.min(h*0.5,26));
+        t.setAttribute("opacity","0.55");
+        t.textContent=pick(WORDS);
+        svg.appendChild(t);
+      } else {
+        // faint handwriting scribble (paths)
+        var hw=document.createElementNS(svgns,"path");
+        var d="M"+(w*0.14)+" "+(h*0.6);
+        for(var s=0;s<5;s++){ d+=" q"+rand(6,16)+" "+rand(-14,4)+" "+rand(14,26)+" "+rand(-2,4); }
+        hw.setAttribute("d",d);
+        hw.setAttribute("class","p3-hand");
+        hw.setAttribute("fill","none");
+        hw.setAttribute("stroke",dark?"#C4B48C":"#3A3222");
+        hw.setAttribute("stroke-width","1.2");
+        hw.setAttribute("opacity","0.4");
+        svg.appendChild(hw);
+      }
+
+      // tape strip on some
+      if(Math.random()<0.35){
+        var tp=document.createElementNS(svgns,"rect");
+        tp.setAttribute("x",rand(0,w*0.5));tp.setAttribute("y",rand(-4,2));
+        tp.setAttribute("width",rand(28,60));tp.setAttribute("height",rand(10,16));
+        tp.setAttribute("fill","#D9CBA0");tp.setAttribute("opacity","0.28");
+        tp.setAttribute("transform","rotate("+rand(-8,8)+" "+(w*0.3)+" "+h*0.1+")");
+        svg.appendChild(tp);
+      }
+
+      wrap.appendChild(svg);
+      field.appendChild(wrap);
+
+      var base = {
+        x: rand(-4, 96), y: rand(-4, 96),
+        rot: rand(-16,16),
+        op: rand(0.30,0.78)
+      };
+      wrap._base = base;
+      placeScrap(wrap, base, 0);
+      scraps.push(wrap);
+    }
+  }
+
+  function placeScrap(el, b, extraRot){
+    el.style.left = b.x + "vw";
+    el.style.top  = b.y + "vh";
+    el.style.opacity = b.op;
+    el.style.transform = "rotate("+(b.rot+extraRot)+"deg)";
+  }
+
+  buildField();
+
+  // gentle idle drift on the field (rest state), paused offscreen
+  var idleRAF=null, running=true, state="rest";
+  function idleTick(){
+    if(!running){ idleRAF=null; return; }
+    if(state==="rest" && !reduceMotion){
+      var t = performance.now()*0.0002;
+      for(var i=0;i<scraps.length;i++){
+        var b=scraps[i]._base;
+        var dx=Math.sin(t+i*0.7)*0.4, dy=Math.cos(t*0.8+i)*0.35;
+        scraps[i].style.transform="rotate("+(b.rot)+"deg) translate("+dx+"px,"+dy+"px)";
+      }
+    }
+    idleRAF=requestAnimationFrame(idleTick);
+  }
+  if(!reduceMotion) idleRAF=requestAnimationFrame(idleTick);
+
+  document.addEventListener("visibilitychange", function(){
+    running = !document.hidden;
+    if(running && !reduceMotion && !idleRAF) idleRAF=requestAnimationFrame(idleTick);
+  });
+
+  // ---- build waveform bars ----
+  function fillWave(g){
+    var svgns="http://www.w3.org/2000/svg";
+    for(var i=0;i<40;i++){
+      var r=document.createElementNS(svgns,"rect");
+      var hh=2+Math.abs(Math.sin(i*0.9))*10+Math.random()*3;
+      r.setAttribute("x",i*3);
+      r.setAttribute("y",(14-hh)/2);
+      r.setAttribute("width",1.6);
+      r.setAttribute("height",hh);
+      g.appendChild(r);
+    }
+  }
+  document.querySelectorAll(".p3-wave g").forEach(fillWave);
+
+  // ---- heart pulse (lub-dub ~58 bpm) ----
+  // period ~1034ms; two beats: strong then soft
+  var heartRAF=null;
+  function startPulse(){
+    if(reduceMotion){ heart.style.filter="drop-shadow(0 0 6px rgba(201,123,74,0.6))"; return; }
+    var t0=performance.now();
+    function beat(now){
+      var period=1034; // ~58 bpm
+      var p=((now-t0)%period)/period;
+      // lub (0.0) + dub (0.30), each a quick swell
+      var s = env(p,0.00)*1.0 + env(p,0.30)*0.62;
+      var scale = 1 + s*0.16;
+      var glow = 4 + s*14;
+      heart.style.transform = "rotate(-8deg) scale("+scale.toFixed(3)+")";
+      heart.style.filter = "drop-shadow(0 0 "+glow.toFixed(1)+"px rgba(201,123,74,"+(0.4+s*0.5).toFixed(2)+"))";
+      heartRAF=requestAnimationFrame(beat);
+    }
+    heartRAF=requestAnimationFrame(beat);
+  }
+  function env(p, at){
+    var d=p-at; if(d<0) d+=1;
+    if(d>0.18) return 0;
+    var x=d/0.18;
+    return Math.sin(x*Math.PI); // quick swell-and-fall
+  }
+  function stopPulse(){ if(heartRAF){cancelAnimationFrame(heartRAF);heartRAF=null;} }
+
+  // ---- the DRAW sequence ----
+  var busy=false;
+  function draw(){
+    if(busy) return;
+    busy=true;
+    control.setAttribute("disabled","disabled");
+    state="draw";
+    stopPulse();
+
+    // hide the landed piece, dim kicker
+    piece.classList.remove("p3-on");
+    kicker.classList.add("p3-dim");
+
+    // scatter/shuffle the field: fragments slide & flip
+    shuffleField();
+
+    // reveal cycle
+    cycle.classList.add("p3-on");
+
+    var chosen = Math.floor(Math.random()*SERMONS.length);
+    var seq = buildCycleOrder(chosen);
+
+    if(reduceMotion){
+      cycleScrap.textContent = SERMONS[chosen][0];
+      setTimeout(function(){ land(chosen); }, 500);
+      return;
+    }
+
+    var idx=0;
+    function step(){
+      cycleScrap.textContent = SERMONS[seq[idx]][0];
+      cycleScrap.style.transform = "rotate("+rand(-2.4,2.4)+"deg)";
+      // re-jitter field on each tick during draw
+      jitterField();
+      if(idx < DECEL.length-1){
+        var d = DECEL[idx];
+        idx++;
+        setTimeout(step, d);
+      } else {
+        // final title = chosen, then land
+        setTimeout(function(){ land(chosen); }, DECEL[DECEL.length-1]+120);
+      }
+    }
+    step();
+  }
+
+  function buildCycleOrder(chosen){
+    // a shuffled walk ending on chosen
+    var order=[];
+    for(var i=0;i<DECEL.length-1;i++){ order.push(Math.floor(Math.random()*SERMONS.length)); }
+    order.push(chosen);
+    return order;
+  }
+
+  function shuffleField(){
+    for(var i=0;i<scraps.length;i++){
+      var b=scraps[i]._base;
+      b.x = rand(-6,98); b.y = rand(-6,98);
+      b.rot = rand(-24,24);
+      scraps[i].style.transition="transform 0.55s cubic-bezier(.22,.61,.36,1), opacity 0.55s ease";
+      scraps[i].style.opacity = rand(0.20,0.55);
+      scraps[i].style.transform = "rotate("+b.rot+"deg) scale("+rand(0.9,1.15)+")";
+      scraps[i].style.left=b.x+"vw"; scraps[i].style.top=b.y+"vh";
+    }
+  }
+  function jitterField(){
+    for(var i=0;i<scraps.length;i++){
+      if(Math.random()<0.5) continue;
+      var b=scraps[i]._base;
+      b.rot += rand(-6,6);
+      scraps[i].style.transform="rotate("+b.rot+"deg) scale("+rand(0.9,1.12)+")";
+    }
+  }
+
+  // ---- the LAND ----
+  function land(idx){
+    state="land";
+    cycle.classList.remove("p3-on");
+
+    // settle field back to a dim, quiet arrangement
+    for(var i=0;i<scraps.length;i++){
+      var b=scraps[i]._base;
+      scraps[i].style.opacity = rand(0.10,0.30);
+    }
+
+    var s = SERMONS[idx];
+    elTitle.textContent = s[0];
+    elExcerpt.textContent = "“" + s[1] + "”";
+    elSource.textContent = s[2];
+
+    // slow fade in of composed piece
+    setTimeout(function(){
+      piece.classList.add("p3-on");
+      startPulse();
+      control.textContent = "◦ draw another";
+      control.removeAttribute("disabled");
+      busy=false;
+      state="landed";
+    }, 260);
+  }
+
+  control.addEventListener("click", draw);
+
+  // audio placeholders are silent by design
+  document.querySelectorAll(".p3-playbtn").forEach(function(b){
+    b.addEventListener("click", function(e){ e.preventDefault(); });
+  });
+
+})();
+</script>
+
+<!--
+  METHODOLOGY FOOTER — Grammar of Meaning · Thurman interactive · PERSONA 3 (the collage-weaver)
+  ─────────────────────────────────────────────────────────────────────────────
+  HOW PRODUCED
+    One of six artist-persona takes on the Howard Thurman "draw a voice from the
+    archive" interactive. Persona 3 = THE COLLAGE-WEAVER (lineage: Rashin Fahandej,
+    "A Father's Lullaby"; Boltanski's archive-of-fragments). Medium is TORN-PAPER /
+    PHOTO COLLAGE where the seams show: irregular SVG torn edges, aged-paper tones
+    (#E8DCC0/#D8C8A8/#C4B48C) on warm near-black (#12100C), tape strips, ledger
+    lines, half-legible handwriting, film grain. Three states: (1) the MANY — a
+    field of ~26-44 layered torn fragments at rest (the archive as a heap);
+    (2) the DRAW — fragments shuffle/slide/re-jitter while titles cycle and
+    DECELERATE over [90,110,130,160,200,260,340,440,580,760]ms; (3) the LAND —
+    resolves to THE ONE composed as a torn-collage piece (title on a taped scrap
+    over a dim photo-fragment + ledger line; excerpt on a second scrap; a
+    heart-stamp PULSES lub-dub ~58 bpm; song-beneath / voice-above as two layered
+    strips). Reframe language throughout: "draw a voice from the archive," never
+    "spin." Namespace p3-. Vanilla JS + DOM/CSS/SVG; one Google Fonts link
+    (Newsreader / Inter / IBM Plex Mono). Honors prefers-reduced-motion; pauses
+    idle drift when the tab is hidden.
+
+  SCHOLARLY / DESIGN SOURCES
+    - Reframe: Boltanski (archive-of-fragments / memorial), Fahandej ("A Father's
+      Lullaby" — patchwork of song + spoken voice + image). We borrow the FORM
+      only, never the subject.
+    - Content: African-American spiritual "Deep River" (public domain) beneath
+      Howard Thurman's spoken voice.
+    - GoM type-at-candlelight register (Newsreader / Inter / IBM Plex Mono).
+
+  CARE / FAITHFUL-REPRESENTATION NOTE
+    Fahandej's subject (Black fathers / incarceration in "A Father's Lullaby") is
+    that work's content, NOT ours to appropriate — we borrow its collage FORM only,
+    dignity-first. Thurman's words are presented reverently as a memorial gesture,
+    not entertainment; "draw a voice" not "spin." Sermon titles/glosses are
+    faithful pointers into the archive, not paraphrased doctrine.
+
+  §13 RIGHTS
+    Howard Thurman voice recordings are Boston University / estate-held. NO real
+    audio is embedded — the player is a SILENT PLACEHOLDER UI ("audio binds when
+    the recording is cleared"). Degrades gracefully; binds only when rights are
+    cleared.
+
+  WHAT NEEDS VERIFICATION
+    - Stage 6 = 0 coded passages; sermon excerpts here are display glosses, NOT
+      coded observations (no first-cycle codes imported per §2.1).
+    - Placeholder audio: confirm BU/estate clearance path before any real binding.
+    - Cross-check each sermon title/gloss/tag against the archive record before
+      any public deploy.
+-->
+</body>
+</html>

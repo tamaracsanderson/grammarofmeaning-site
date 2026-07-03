@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les Archives du Cœur — a voice, drawn at random</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Inter:wght@300;400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#E7C97A; --pale:#F3E4BC; --bone:#F0E9DA; --ember:#C4602F;
+    --dim:rgba(240,233,218,.42); --faint:rgba(240,233,218,.22);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:#080604;overflow:hidden}
+  canvas{position:fixed;inset:0;z-index:0;display:block}
+  .stage{position:fixed;inset:0;z-index:1;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;
+    padding:6vmin;pointer-events:none}
+  .stage > *{pointer-events:auto}
+  .kicker{font-family:"IBM Plex Mono",monospace;font-weight:300;font-size:11px;
+    letter-spacing:.34em;text-transform:uppercase;color:var(--dim);margin-bottom:2.4rem}
+  .lede{font-family:"Newsreader",serif;font-weight:300;font-size:clamp(1.5rem,4.2vw,2.9rem);
+    line-height:1.32;letter-spacing:.01em;color:var(--bone);max-width:16em;
+    transition:opacity 2s ease}
+  .lede em{font-style:italic;color:var(--gold)}
+  .draw-title{font-family:"Newsreader",serif;font-weight:300;
+    font-size:clamp(1.7rem,5vw,3.4rem);line-height:1.24;color:var(--bone);
+    max-width:15em;min-height:1.3em}
+  .excerpt{font-family:"Newsreader",serif;font-style:italic;font-weight:300;
+    font-size:clamp(1rem,2.3vw,1.35rem);line-height:1.6;color:var(--dim);
+    max-width:22em;margin-top:1.9rem;opacity:0;transition:opacity 2.4s ease}
+  .excerpt.on{opacity:1}
+  .src{font-family:"IBM Plex Mono",monospace;font-weight:300;font-size:10.5px;
+    letter-spacing:.26em;text-transform:uppercase;color:var(--faint);
+    margin-top:1.7rem;opacity:0;transition:opacity 2.4s ease}
+  .src.on{opacity:1}
+  .audio{display:flex;align-items:center;gap:.85rem;margin-top:2.4rem;
+    opacity:0;transition:opacity 2.6s ease}
+  .audio.on{opacity:1}
+  .play{width:34px;height:34px;border-radius:50%;border:1px solid var(--faint);
+    background:transparent;color:var(--dim);font-size:11px;display:grid;
+    place-items:center;cursor:pointer;transition:.4s;flex:0 0 auto}
+  .play:hover{border-color:var(--dim);color:var(--bone)}
+  .prog{width:min(30vw,190px);height:1px;background:rgba(240,233,218,.16);position:relative}
+  .prog::after{content:"";position:absolute;left:0;top:0;height:1px;width:14%;
+    background:var(--gold);opacity:.5}
+  .alabels{text-align:left;font-family:"Inter",sans-serif;font-weight:300;
+    font-size:11px;line-height:1.7;color:var(--faint)}
+  .alabels b{font-weight:400;color:var(--dim)}
+  .anote{margin-top:1.9rem;font-family:"IBM Plex Mono",monospace;font-size:9.5px;
+    letter-spacing:.16em;color:rgba(240,233,218,.16);opacity:0;transition:opacity 2.6s ease}
+  .anote.on{opacity:1}
+  .controls{position:fixed;left:0;right:0;bottom:6.5vmin;z-index:2;
+    display:flex;flex-direction:column;align-items:center;gap:1.4rem}
+  .draw{pointer-events:auto;font-family:"Inter",sans-serif;font-weight:300;
+    font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--dim);background:rgba(231,201,122,.04);
+    border:1px solid rgba(231,201,122,.22);border-radius:40px;
+    padding:.85rem 2.2rem;cursor:pointer;backdrop-filter:blur(2px);
+    transition:.6s ease}
+  .draw:hover{color:var(--bone);border-color:rgba(231,201,122,.45);
+    background:rgba(231,201,122,.07)}
+  .draw:disabled{opacity:.3;cursor:default}
+  .wander{pointer-events:auto;font-family:"IBM Plex Mono",monospace;font-weight:300;
+    font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+    color:rgba(240,233,218,.16);background:none;border:none;cursor:default}
+  .fade-out{opacity:0}
+  @media (max-width:560px){ .kicker{margin-bottom:1.6rem} .controls{bottom:5vmin} }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div class="stage" id="stage">
+  <div class="kicker">les archives — a voice, drawn at random</div>
+  <div class="lede" id="lede">Draw a voice from<br>the <em>archive</em>.</div>
+
+  <div class="draw-title" id="dtitle" style="display:none"></div>
+  <div class="excerpt" id="excerpt"></div>
+  <div class="src" id="src"></div>
+
+  <div class="audio" id="audio">
+    <button class="play" aria-label="play">▶</button>
+    <div class="prog"></div>
+    <div class="alabels">
+      <div><b>Deep River</b> — spiritual · from the archive</div>
+      <div><b>Howard Thurman</b> — the voice</div>
+    </div>
+  </div>
+  <div class="anote" id="anote">audio binds when the recording is cleared</div>
+</div>
+
+<div class="controls">
+  <button class="draw" id="drawBtn">◦ Draw a voice</button>
+  <button class="wander" tabindex="-1">or wander the archive →</button>
+</div>
+
+<script>
+var SERMONS = [
+["The Sound of the Genuine","there is a sound of the genuine in you","commencement meditation"],
+["The Growing Edge","look well to the growing edge","meditation"],
+["Jesus and the Disinherited","to those with their backs against the wall","the sermon series"],
+["Freedom and Suffering","the fourth and final sermon","sermon series"],
+["A Moment of Crisis","bending the will","recorded sermon"],
+["Disciplines of the Spirit","commitment · suffering · prayer · reconciliation","1963"],
+["Quests for the Human","the introductory lecture","lecture series"],
+["Horn of the Wild Oxen","a recorded sermon","from the archive"],
+["An Easter Message","his eighth talk","recorded sermon"],
+["Prayers","Thurman reading his prayers aloud","recording"],
+["Eulogy for Mordecai Wyatt Johnson","for his teacher","recorded"],
+["On Religious Experience","religion as a deeply personal encounter","meditation"]
+];
+
+var cv=document.getElementById('c'),cx=cv.getContext('2d');
+var W=0,H=0,DPR=Math.min(devicePixelRatio||1,2);
+var reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var pts=[],cxp=0,cyp=0;
+var COLORS=[[231,201,122],[243,228,188],[240,233,218]];
+
+function resize(){
+  W=innerWidth;H=innerHeight;cxp=W/2;cyp=H/2;
+  cv.width=W*DPR;cv.height=H*DPR;cv.style.width=W+'px';cv.style.height=H+'px';
+  cx.setTransform(DPR,0,0,DPR,0,0);
+  var n=Math.round(Math.min(220,Math.max(90,(W*H)/6400)));
+  pts=[];
+  for(var i=0;i<n;i++){
+    var col=COLORS[(Math.random()*COLORS.length)|0];
+    pts.push({x:Math.random()*W,y:Math.random()*H,r:.6+Math.random()*1.8,
+      col:col,ph:Math.random()*6.283,sp:.25+Math.random()*.5,
+      hx:0,hy:0}); // hx,hy = home offset used on gather
+    pts[i].bx=pts[i].x;pts[i].by=pts[i].y;
+  }
+}
+addEventListener('resize',resize);resize();
+
+// state machine: 'rest' | 'draw' | 'land'
+var state='rest',t=0,drawT=0,landT=0,wavePos=0,pulseT=0,landX=0,landY=0;
+var last=0,paused=false;
+document.addEventListener('visibilitychange',function(){paused=document.hidden;if(!paused){last=0;requestAnimationFrame(loop);}});
+
+function frame(dt){
+  t+=dt;
+  cx.clearRect(0,0,W,H);
+  // warm radial ground
+  var g=cx.createRadialGradient(cxp,cyp*.86,0,cxp,cyp,Math.max(W,H)*.72);
+  g.addColorStop(0,'#1A130C');g.addColorStop(1,'#080604');
+  cx.fillStyle=g;cx.fillRect(0,0,W,H);
+
+  var gather=0;
+  if(state==='land'){landT+=dt;gather=Math.min(1,landT/2.6);}
+  if(state==='draw'){drawT+=dt;wavePos=(drawT/2.9);} // 0..1 sweep across
+
+  cx.globalCompositeOperation='lighter';
+  for(var i=0;i<pts.length;i++){
+    var p=pts[i];
+    var tw=reduced?.85:(.55+.45*Math.sin(t*p.sp+p.ph));
+    var x=p.bx,y=p.by,rr=p.r,a=tw;
+    // draw: traveling smooth swell in x
+    if(state==='draw'){
+      var band=1-Math.min(1,Math.abs(p.bx/W - wavePos)*4.5); // proximity to wave crest
+      band=band<0?0:band*band;
+      var lift=Math.sin((p.by/H)*3.14159)*18*band; // smooth vertical swell
+      y=p.by - lift - band*22;
+      a=tw+band*1.3; rr=p.r*(1+band*1.1);
+    }
+    // land: dim field + gather toward center point
+    if(state==='land'){
+      var e=gather*gather*(3-2*gather); // smoothstep
+      x=p.bx+(landX-p.bx)*e*.85;
+      y=p.by+(landY-p.by)*e*.85;
+      a=tw*(1-gather*.9);
+    }
+    var c=p.col;
+    // soft glow
+    var rg=cx.createRadialGradient(x,y,0,x,y,rr*6);
+    rg.addColorStop(0,'rgba('+c[0]+','+c[1]+','+c[2]+','+(a*.5)+')');
+    rg.addColorStop(1,'rgba('+c[0]+','+c[1]+','+c[2]+',0)');
+    cx.fillStyle=rg;cx.beginPath();cx.arc(x,y,rr*6,0,6.283);cx.fill();
+    cx.fillStyle='rgba('+c[0]+','+c[1]+','+c[2]+','+Math.min(1,a)+')';
+    cx.beginPath();cx.arc(x,y,rr,0,6.283);cx.fill();
+  }
+
+  // land: single central pulse (~58bpm lub-dub)
+  if(state==='land'){
+    pulseT+=dt;
+    var bpm=58,per=60/bpm; // seconds per beat
+    var ph=(pulseT%per)/per;
+    // lub-dub envelope: two quick swells early in the period
+    var beat=Math.exp(-Math.pow((ph-0.06)/0.05,2))+0.7*Math.exp(-Math.pow((ph-0.22)/0.055,2));
+    var base=18+gather*46;
+    var R=base*(1+beat*.42);
+    var pr=cx.createRadialGradient(landX,landY,0,landX,landY,R*3.2);
+    var alp=(.5+beat*.5)*Math.min(1,gather*1.4);
+    pr.addColorStop(0,'rgba(243,228,188,'+alp+')');
+    pr.addColorStop(.4,'rgba(231,201,122,'+(alp*.5)+')');
+    pr.addColorStop(1,'rgba(196,96,47,0)');
+    cx.fillStyle=pr;cx.beginPath();cx.arc(landX,landY,R*3.2,0,6.283);cx.fill();
+    cx.fillStyle='rgba(243,228,188,'+Math.min(1,gather)+')';
+    cx.beginPath();cx.arc(landX,landY,3.4+beat*1.6,0,6.283);cx.fill();
+  }
+  cx.globalCompositeOperation='source-over';
+}
+
+function loop(ts){
+  if(paused)return;
+  if(!last)last=ts;
+  var dt=Math.min(.05,(ts-last)/1000);last=ts;
+  frame(dt);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+// --- interaction ---
+var lede=document.getElementById('lede'),dtitle=document.getElementById('dtitle'),
+    excerpt=document.getElementById('excerpt'),src=document.getElementById('src'),
+    audio=document.getElementById('audio'),anote=document.getElementById('anote'),
+    drawBtn=document.getElementById('drawBtn');
+var DELAYS=[90,90,110,130,160,200,260,340,440,580,760];
+
+function reveal(s){
+  dtitle.textContent=s[0];
+  excerpt.textContent='“'+s[1]+'”';
+  src.textContent=s[2];
+  requestAnimationFrame(function(){
+    excerpt.classList.add('on');src.classList.add('on');
+    audio.classList.add('on');anote.classList.add('on');
+  });
+  drawBtn.textContent='◦ Draw another';drawBtn.disabled=false;
+}
+
+function draw(){
+  drawBtn.disabled=true;
+  ['on'].forEach(function(){});
+  excerpt.classList.remove('on');src.classList.remove('on');
+  audio.classList.remove('on');anote.classList.remove('on');
+  lede.classList.add('fade-out');
+  var pick=SERMONS[(Math.random()*SERMONS.length)|0];
+  dtitle.style.display='';lede.style.display='none';
+
+  if(reduced){
+    // short 3-step cycle, then land
+    var seq=[SERMONS[(Math.random()*12)|0][0],SERMONS[(Math.random()*12)|0][0],pick[0]];
+    var i=0;dtitle.style.opacity=1;
+    (function step(){
+      dtitle.textContent=seq[i];
+      if(i++<seq.length-1){setTimeout(step,340);}
+      else{landX=cxp;landY=cyp;state='land';landT=0;pulseT=0;reveal(pick);}
+    })();
+    return;
+  }
+
+  state='draw';drawT=0;
+  // cycling titles, decelerating
+  var idx=0,step=0;
+  dtitle.style.transition='opacity .18s ease';dtitle.style.opacity=1;
+  function cycle(){
+    dtitle.textContent=SERMONS[(Math.random()*SERMONS.length)|0][0];
+    if(step<DELAYS.length){
+      setTimeout(cycle,DELAYS[step++]);
+    }else{
+      // ease into land
+      landX=cxp;landY=cyp;
+      dtitle.textContent=pick[0];
+      state='land';landT=0;pulseT=0;
+      reveal(pick);
+    }
+  }
+  cycle();
+}
+drawBtn.addEventListener('click',draw);
+</script>
+
+<!--
+METHODOLOGY FOOTER
+
+HOW PRODUCED
+  Single self-contained HTML prototype for the Grammar of Meaning project (the
+  Luminous Archive / garden interface lineage). Concept: "Les Archives du Cœur,
+  but for a voice" — an archive of intimate living signals from which one DRAWS a
+  single voice, reverently. Built vanilla JS + one <canvas> full-viewport, one
+  requestAnimationFrame loop, three states (archive-at-rest → draw-wave →
+  land-pulse). Point count scales to viewport (cap 220), DPR capped at 2, rAF
+  paused on hidden tab, prefers-reduced-motion path (no traveling wave / twinkle;
+  short 3-step title cycle → gentle single pulse). Warm incandescent near-black
+  ground; ~140-220 breathing light-points as "the many voices"; a traveling
+  smooth swell during the draw; a collapse to one central ~58bpm lub-dub pulse on
+  land. Design bar: SLOW / WARM / RESTRAINED / REVERENT — a dark museum room, not
+  a slot machine / screensaver / spa app.
+
+SCHOLARLY / ARTISTIC SOURCES
+  - Christian Boltanski, Les Archives du Cœur (Teshima) — the archive-as-memorial;
+    a light pulsing to one randomly-drawn heartbeat. Core reframe: DRAW, not spin.
+  - Rafael Lozano-Hemmer, Pulse Room — warm incandescent bulbs each beating a
+    recorded pulse (the single central beat on land).
+  - Clifford Ross, Digital Waves / Deep River — waves rebuilt from thousands of
+    light-points; immersive scale (the traveling swell of points during the draw).
+  - Rashin Fahandej, A Father's Lullaby — FORM ONLY: song bed + spoken voice +
+    generative light, dignity-first. Subject NOT borrowed.
+  - Howard Thurman works (titles/glosses embedded): The Sound of the Genuine;
+    The Growing Edge; Jesus and the Disinherited; Disciplines of the Spirit; et al.
+
+WHAT NEEDS VERIFICATION
+  - Stage 6 = 0 coded passages; this is an interface prototype, not corpus output.
+  - Audio is PLACEHOLDER: no real audio wired. UI reads intent only ("audio binds
+    when the recording is cleared"). Thurman voice recordings are rights-held by
+    Boston University / the Thurman estate — hence placeholder, not embedded.
+  - §13 ghost-protection: excerpt glosses are drawn from real Thurman phrasing but
+    MUST be verified against primary sources before any publish; no invented lines.
+  - CARE / posture: the spiritual ("Deep River") is heard from its own horizon,
+    not decoration; Father's Lullaby FORM borrowed, not its trauma subject.
+-->
+</body>
+</html>

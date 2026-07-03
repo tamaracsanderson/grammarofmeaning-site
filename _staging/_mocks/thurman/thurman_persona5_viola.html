@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deep River — a voice, drawn from the archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --p5-depth0:#0C0A08;
+    --p5-depth1:#0A1512;
+    --p5-gold:#E7C97A;
+    --p5-bone:#F0E9DA;
+    --p5-dim:rgba(240,233,218,0.44);
+    --p5-faint:rgba(240,233,218,0.26);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--p5-depth0);
+    color:var(--p5-bone);
+    font-family:"Inter",system-ui,sans-serif;
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  .p5-stage{position:fixed;inset:0;overflow:hidden}
+  .p5-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+  /* top kicker */
+  .p5-kicker{
+    position:absolute;top:clamp(20px,4vh,44px);left:0;right:0;
+    text-align:center;
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:300;
+    font-size:clamp(10px,1.5vw,13px);
+    letter-spacing:0.28em;
+    text-transform:lowercase;
+    color:var(--p5-faint);
+    z-index:5;
+    pointer-events:none;
+    transition:opacity 2s ease;
+  }
+
+  /* control */
+  .p5-control-wrap{
+    position:absolute;left:0;right:0;bottom:clamp(28px,7vh,64px);
+    display:flex;justify-content:center;z-index:6;
+  }
+  .p5-control{
+    background:transparent;
+    border:1px solid rgba(231,201,122,0.32);
+    color:var(--p5-bone);
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:300;
+    font-size:clamp(12px,1.6vw,15px);
+    letter-spacing:0.16em;
+    padding:0.85em 1.8em;
+    border-radius:999px;
+    cursor:pointer;
+    backdrop-filter:blur(2px);
+    transition:border-color 1.2s ease,color 1.2s ease,background 1.2s ease,opacity 1.4s ease;
+  }
+  .p5-control:hover{
+    border-color:rgba(231,201,122,0.7);
+    color:var(--p5-gold);
+    background:rgba(231,201,122,0.04);
+  }
+  .p5-control:disabled{opacity:0.28;cursor:default}
+
+  /* sermon panel */
+  .p5-sermon{
+    position:absolute;left:50%;top:50%;
+    transform:translate(-50%,-50%);
+    width:min(88vw,640px);
+    text-align:center;
+    z-index:4;
+    opacity:0;
+    transition:opacity 1.5s ease;
+    pointer-events:none;
+    padding:0 8px;
+  }
+  .p5-sermon.p5-show{opacity:1;pointer-events:auto}
+  .p5-title{
+    font-family:"Newsreader",Georgia,serif;
+    font-weight:300;
+    font-size:clamp(30px,6.4vw,58px);
+    line-height:1.08;
+    color:var(--p5-bone);
+    text-shadow:0 0 34px rgba(231,201,122,0.16);
+  }
+  .p5-excerpt{
+    font-family:"Newsreader",Georgia,serif;
+    font-style:italic;
+    font-weight:300;
+    font-size:clamp(15px,2.5vw,21px);
+    line-height:1.5;
+    color:var(--p5-dim);
+    margin-top:1.1em;
+  }
+  .p5-tag{
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:300;
+    font-size:clamp(10px,1.4vw,12px);
+    letter-spacing:0.22em;
+    text-transform:lowercase;
+    color:var(--p5-faint);
+    margin-top:1.7em;
+  }
+
+  /* audio affordance */
+  .p5-audio{
+    margin-top:2.4em;
+    display:flex;flex-direction:column;align-items:center;gap:0.75em;
+    opacity:0.92;
+  }
+  .p5-audio-row{
+    display:flex;align-items:center;gap:0.8em;
+  }
+  .p5-play{
+    width:34px;height:34px;border-radius:50%;
+    border:1px solid rgba(231,201,122,0.34);
+    background:transparent;
+    display:flex;align-items:center;justify-content:center;
+    cursor:default;
+  }
+  .p5-play svg{display:block}
+  .p5-track{
+    text-align:left;
+  }
+  .p5-track-line{
+    font-family:"Inter",sans-serif;font-weight:400;
+    font-size:clamp(11px,1.5vw,13px);
+    color:var(--p5-dim);letter-spacing:0.02em;line-height:1.5;
+  }
+  .p5-track-line span{color:var(--p5-faint)}
+  .p5-audio-note{
+    font-family:"IBM Plex Mono",monospace;font-weight:300;
+    font-size:clamp(9px,1.25vw,11px);
+    letter-spacing:0.14em;
+    color:rgba(240,233,218,0.2);
+    text-transform:lowercase;
+    max-width:34ch;line-height:1.7;
+  }
+  @media (max-width:520px){
+    .p5-sermon{width:92vw}
+  }
+</style>
+</head>
+<body>
+<div class="p5-stage" id="p5-stage">
+  <canvas class="p5-canvas" id="p5-canvas"></canvas>
+
+  <div class="p5-kicker" id="p5-kicker">les archives — a voice, drawn at random</div>
+
+  <div class="p5-sermon" id="p5-sermon" aria-live="polite">
+    <div class="p5-title" id="p5-title"></div>
+    <div class="p5-excerpt" id="p5-excerpt"></div>
+    <div class="p5-tag" id="p5-tag"></div>
+    <div class="p5-audio">
+      <div class="p5-audio-row">
+        <div class="p5-play" aria-hidden="true">
+          <svg width="11" height="12" viewBox="0 0 11 12"><path d="M0 0 L11 6 L0 12 Z" fill="rgba(231,201,122,0.6)"/></svg>
+        </div>
+        <div class="p5-track">
+          <div class="p5-track-line">Deep River <span>— spiritual · from the archive</span></div>
+          <div class="p5-track-line">Howard Thurman <span>— the voice</span></div>
+        </div>
+      </div>
+      <div class="p5-audio-note">audio binds when the recording is cleared.</div>
+    </div>
+  </div>
+
+  <div class="p5-control-wrap">
+    <button class="p5-control" id="p5-control">◦ Draw a voice</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var SERMONS = [
+    ["The Sound of the Genuine","there is a sound of the genuine in you","commencement meditation"],
+    ["The Growing Edge","look well to the growing edge","meditation"],
+    ["Jesus and the Disinherited","to those with their backs against the wall","the sermon series"],
+    ["Freedom and Suffering","the fourth and final sermon","sermon series"],
+    ["A Moment of Crisis","bending the will","recorded sermon"],
+    ["Disciplines of the Spirit","commitment · suffering · prayer · reconciliation","1963"],
+    ["Quests for the Human","the introductory lecture","lecture series"],
+    ["Horn of the Wild Oxen","a recorded sermon","from the archive"],
+    ["An Easter Message","his eighth talk","recorded sermon"],
+    ["Prayers","Thurman reading his prayers aloud","recording"],
+    ["Eulogy for Mordecai Wyatt Johnson","for his teacher","recorded"],
+    ["On Religious Experience","religion as a deeply personal encounter","meditation"]
+  ];
+
+  // deceleration schedule — the SLOWEST of the six takes
+  var DECEL = [140,170,210,260,330,420,540,700,900,1180];
+
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var stage = document.getElementById("p5-stage");
+  var canvas = document.getElementById("p5-canvas");
+  var ctx = canvas.getContext("2d");
+  var kicker = document.getElementById("p5-kicker");
+  var sermonEl = document.getElementById("p5-sermon");
+  var titleEl = document.getElementById("p5-title");
+  var excerptEl = document.getElementById("p5-excerpt");
+  var tagEl = document.getElementById("p5-tag");
+  var control = document.getElementById("p5-control");
+
+  var W=0,H=0,DPR=1;
+  function resize(){
+    DPR = Math.min(window.devicePixelRatio||1, 2);
+    W = stage.clientWidth; H = stage.clientHeight;
+    canvas.width = Math.max(1,Math.floor(W*DPR));
+    canvas.height = Math.max(1,Math.floor(H*DPR));
+    canvas.style.width=W+"px"; canvas.style.height=H+"px";
+    ctx.setTransform(DPR,0,0,DPR,1);
+    buildMotes();
+  }
+
+  // ---- the many: suspended luminous motes in the deep ----
+  var motes=[];
+  function buildMotes(){
+    motes=[];
+    var area = W*H;
+    var n = Math.max(46, Math.min(150, Math.round(area/12000)));
+    for(var i=0;i<n;i++){
+      motes.push({
+        x: Math.random()*W,
+        y: Math.random()*H,
+        depth: 0.25 + Math.random()*0.75,     // 0..1 deeper = dimmer/slower
+        r: 0.6 + Math.random()*2.2,
+        phase: Math.random()*Math.PI*2,
+        drift: (Math.random()-0.5)*0.06,       // horizontal micro-drift
+        baseA: 0.10 + Math.random()*0.4
+      });
+    }
+  }
+
+  // ---- states ----
+  // 0 rest, 1 draw, 2 land
+  var state=0;
+  var t0=performance.now();
+
+  // draw cycling
+  var cycleIdx=0, cycleStep=0, cycleTimer=0, cycleNext=0;
+  var chosen=0;
+
+  // tide (very slow vertical light) — 0..1 amplitude of "rising"
+  var tide=0, tideTarget=0;
+
+  // land form
+  var formRise=0;   // 0 rest .. 1 fully surfaced & held
+  var formSeedX=0.5, // fractional center
+      formSeedY=0.5;
+
+  var lastVisible=true;
+
+  function setKicker(txt,show){
+    kicker.textContent = txt;
+    kicker.style.opacity = show?"1":"0";
+  }
+
+  function startDraw(){
+    if(state===1) return;
+    // reset presentation
+    sermonEl.classList.remove("p5-show");
+    control.disabled=true;
+    setKicker("drawing a voice — from the archive of hearts", true);
+
+    chosen = Math.floor(Math.random()*SERMONS.length);
+    formSeedX = 0.5;
+    formSeedY = 0.5;
+
+    if(reduce){
+      // reduced motion: skip the cycle theatre; slow-land only
+      state=2;
+      tideTarget=1;
+      formRise=0;
+      landAt = performance.now();
+      revealSermon();
+      return;
+    }
+
+    state=1;
+    tideTarget=1;                 // slow tide rises through the draw
+    cycleIdx = Math.floor(Math.random()*SERMONS.length);
+    cycleStep=0;
+    cycleTimer=0;
+    cycleNext=DECEL[0];
+    // faint title overlay handled by canvas text during draw
+  }
+
+  var landAt=0;
+  function toLand(){
+    state=2;
+    formRise=0;
+    landAt=performance.now();
+    revealSermon();
+  }
+
+  function revealSermon(){
+    var s=SERMONS[chosen];
+    titleEl.textContent=s[0];
+    excerptEl.textContent="“"+s[1]+"”";
+    tagEl.textContent=s[2];
+    setKicker("les archives — the voice, drawn", true);
+    // slow fade (~1.5s) via CSS opacity transition; delay slightly so form begins to surface first
+    setTimeout(function(){
+      sermonEl.classList.add("p5-show");
+      control.textContent="◦ Draw another";
+      control.disabled=false;
+    }, reduce?300:900);
+  }
+
+  // draw-phase cycling title (canvas-drawn, submerged)
+  var curCycleTitle="";
+
+  function updateDraw(dt){
+    // advance decel cycle
+    cycleTimer += dt;
+    if(cycleTimer >= cycleNext){
+      cycleTimer=0;
+      cycleStep++;
+      cycleIdx=(cycleIdx+1)%SERMONS.length;
+      if(cycleStep < DECEL.length){
+        cycleNext=DECEL[cycleStep];
+      } else {
+        // settle on chosen, then land
+        cycleIdx=chosen;
+        curCycleTitle=SERMONS[chosen][0];
+        toLand();
+        return;
+      }
+    }
+    curCycleTitle=SERMONS[cycleIdx][0];
+  }
+
+  // ---------- render ----------
+  function bgGradient(){
+    var g=ctx.createLinearGradient(0,0,0,H);
+    g.addColorStop(0,"#0C0A08");
+    g.addColorStop(0.55,"#0A1210");
+    g.addColorStop(1,"#0A1512");
+    ctx.fillStyle=g;
+    ctx.fillRect(0,0,W,H);
+  }
+
+  function drawTideLight(now){
+    // a very slow vertical tide of dim light rising and receding over many seconds
+    // baseline slow oscillation + draw-boost via `tide`
+    var slow = 0.5 + 0.5*Math.sin(now*0.00013);   // ~48s period
+    var amp = 0.10 + 0.28*tide + 0.06*slow;
+    // rising band of warmth from the depths
+    var cy = H*(0.98 - 0.55*(0.35+0.65*tide) - 0.05*slow);
+    var rad = Math.max(W,H)*(0.6+0.4*tide);
+    var g=ctx.createRadialGradient(W*0.5, cy, 0, W*0.5, cy, rad);
+    g.addColorStop(0,"rgba(231,201,122,"+(0.10*amp).toFixed(3)+")");
+    g.addColorStop(0.4,"rgba(197,163,104,"+(0.05*amp).toFixed(3)+")");
+    g.addColorStop(1,"rgba(10,21,18,0)");
+    ctx.globalCompositeOperation="lighter";
+    ctx.fillStyle=g;
+    ctx.fillRect(0,0,W,H);
+    ctx.globalCompositeOperation="source-over";
+  }
+
+  function drawMotes(now){
+    ctx.globalCompositeOperation="lighter";
+    var stir = 0.4 + 1.6*tide;      // field stirs slowly during draw
+    for(var i=0;i<motes.length;i++){
+      var m=motes[i];
+      // almost imperceptible drift; deeper motes move slower
+      var sp = (0.006 + 0.010*(1-m.depth)) * (1+stir*0.5);
+      m.phase += sp*dtGlobal*0.06;
+      var sway = Math.sin(m.phase)*(1.2+2.0*(1-m.depth))*(1+stir);
+      var bob = Math.cos(m.phase*0.7)*(0.8+1.4*(1-m.depth))*(1+stir);
+      m.x += m.drift*(1+stir*0.3);
+      if(m.x<-10)m.x=W+10; if(m.x>W+10)m.x=-10;
+      var x = m.x + sway;
+      var y = m.y + bob - (tide* (30+60*(1-m.depth)));  // motes lift with tide
+      var yy = ((y%H)+H)%H;
+      var tw = 0.55 + 0.45*Math.sin(now*0.0009 + m.phase);
+      var a = m.baseA * (0.35+0.65*m.depth) * tw * (0.6+0.8*(1-0.3*tide));
+      var r = m.r*(0.8+0.5*m.depth);
+      var g=ctx.createRadialGradient(x,yy,0,x,yy,r*5);
+      g.addColorStop(0,"rgba(240,233,218,"+(a).toFixed(3)+")");
+      g.addColorStop(0.5,"rgba(231,201,122,"+(a*0.5).toFixed(3)+")");
+      g.addColorStop(1,"rgba(231,201,122,0)");
+      ctx.fillStyle=g;
+      ctx.beginPath();
+      ctx.arc(x,yy,r*5,0,Math.PI*2);
+      ctx.fill();
+    }
+    ctx.globalCompositeOperation="source-over";
+  }
+
+  function drawCycleTitle(now){
+    if(state!==1 || !curCycleTitle) return;
+    // submerged faint title, drawn low-contrast in the deep
+    ctx.save();
+    ctx.globalAlpha = 0.16 + 0.12*Math.sin(now*0.002);
+    ctx.fillStyle="rgba(240,233,218,1)";
+    ctx.textAlign="center";
+    ctx.textBaseline="middle";
+    var fs=Math.min(W*0.06, 44);
+    ctx.font="300 "+fs+"px Newsreader, Georgia, serif";
+    ctx.fillText(curCycleTitle, W*0.5, H*0.5);
+    ctx.restore();
+  }
+
+  function drawForm(now){
+    if(state!==2) return;
+    // single luminous FORM emerges from the dark depths, rises, holds, PULSES ~54bpm
+    var t = (now-landAt)/1000;
+    // rise ease: slow surfacing over ~3.2s
+    var riseDur = 3.2;
+    formRise = Math.min(1, t/riseDur);
+    var eased = 1 - Math.pow(1-formRise, 3);   // easeOutCubic
+
+    var cx = W*formSeedX;
+    // starts deep (below), rises to center-ish
+    var startY = H*1.02;
+    var holdY = H*0.5;
+    var cy = startY + (holdY-startY)*eased;
+
+    // slow pulse — 54 bpm = 0.9 Hz beat interval -> breath-like
+    var bpm=54;
+    var puls = Math.sin(now*0.001*(bpm/60)*Math.PI*2); // -1..1
+    var pulse = 0.5+0.5*puls;                          // 0..1
+    var breath = 0.85 + 0.15*pulse;
+
+    var baseR = Math.min(W,H)*0.16;
+    var r = baseR*(0.5 + 0.5*eased)*breath;
+
+    // core intensity grows with rise, softly modulated by pulse
+    var coreA = (0.16 + 0.5*eased) * (0.82+0.18*pulse);
+
+    ctx.globalCompositeOperation="lighter";
+
+    // outer aura
+    var g2=ctx.createRadialGradient(cx,cy,0,cx,cy,r*3.4);
+    g2.addColorStop(0,"rgba(231,201,122,"+(coreA*0.5).toFixed(3)+")");
+    g2.addColorStop(0.35,"rgba(197,163,104,"+(coreA*0.22).toFixed(3)+")");
+    g2.addColorStop(1,"rgba(10,21,18,0)");
+    ctx.fillStyle=g2;
+    ctx.beginPath();ctx.arc(cx,cy,r*3.4,0,Math.PI*2);ctx.fill();
+
+    // luminous core
+    var g1=ctx.createRadialGradient(cx,cy - r*0.1, 0, cx,cy, r);
+    g1.addColorStop(0,"rgba(240,233,218,"+(coreA).toFixed(3)+")");
+    g1.addColorStop(0.4,"rgba(231,201,122,"+(coreA*0.62).toFixed(3)+")");
+    g1.addColorStop(1,"rgba(231,201,122,0)");
+    ctx.fillStyle=g1;
+    ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill();
+
+    // trailing rise column — faint light beneath the form (surfacing wake)
+    var colTop=cy, colBot=startY;
+    var lg=ctx.createLinearGradient(0,colTop,0,colBot);
+    lg.addColorStop(0,"rgba(231,201,122,"+(coreA*0.16*(1-eased*0.4)).toFixed(3)+")");
+    lg.addColorStop(1,"rgba(231,201,122,0)");
+    ctx.fillStyle=lg;
+    ctx.beginPath();
+    ctx.ellipse(cx, (colTop+colBot)/2, r*0.55, (colBot-colTop)/2, 0, 0, Math.PI*2);
+    ctx.fill();
+
+    ctx.globalCompositeOperation="source-over";
+  }
+
+  // ---------- main loop ----------
+  var last=performance.now();
+  var dtGlobal=16;
+  var rafId=null;
+
+  function frame(now){
+    rafId=requestAnimationFrame(frame);
+    var dt = now-last; last=now;
+    if(dt>120)dt=120;
+    dtGlobal=dt;
+
+    // ease tide toward target very slowly
+    var tideSpeed = (tideTarget>tide?0.00028:0.0002);
+    tide += (tideTarget-tide)*Math.min(1, dt*tideSpeed*4);
+
+    if(state===1) updateDraw(dt);
+
+    bgGradient();
+    drawTideLight(now);
+    drawMotes(now);
+    drawCycleTitle(now);
+    drawForm(now);
+  }
+
+  function startLoop(){ if(!rafId) { last=performance.now(); rafId=requestAnimationFrame(frame);} }
+  function stopLoop(){ if(rafId){cancelAnimationFrame(rafId); rafId=null;} }
+
+  // reduced-motion: draw a single static frame + allow slow land
+  function staticFrame(){
+    bgGradient();
+    // gentle static tide
+    tide=0.35;
+    drawTideLight(performance.now());
+    drawMotes(performance.now());
+  }
+
+  // ---- control ----
+  control.addEventListener("click", function(){
+    if(state===2 || state===0){
+      // reset to rest visuals briefly then draw
+      sermonEl.classList.remove("p5-show");
+      tideTarget=0;
+      state=0;
+      setKicker("les archives — a voice, drawn at random", true);
+      // brief settle, then draw
+      setTimeout(startDraw, 700);
+    }
+  });
+
+  // visibility / offscreen pause
+  document.addEventListener("visibilitychange", function(){
+    if(document.hidden) stopLoop();
+    else { if(!reduce) startLoop(); else staticFrame(); }
+  });
+
+  window.addEventListener("resize", function(){
+    resize();
+    if(reduce) staticFrame();
+  });
+
+  // init
+  resize();
+  if(reduce){
+    staticFrame();
+  } else {
+    startLoop();
+  }
+  setKicker("les archives — a voice, drawn at random", true);
+
+})();
+</script>
+
+<!--
+=====================================================================
+METHODOLOGY FOOTER — Grammar of Meaning · Thurman interactive
+Persona 5 of 6 — THE MOVING-IMAGE ARTIST (lineage: Bill Viola)
+=====================================================================
+
+MEDIUM COMMITMENT
+  Slow, immersive generative moving-image where TIME ITSELF is the medium:
+  extreme slowness + submersion + emergence. Deliberately the SLOWEST of the
+  six takes. Deep River register (deep, dark-luminous submerged current — NOT
+  ocean surf). "The many" = faint suspended luminous motes hanging in the dark
+  depths (the archive of souls), drifting almost imperceptibly under a very slow
+  vertical tide of dim light. The draw: tide rises slowly, the field stirs
+  patiently while titles cycle + DECELERATE ([140..1180]ms). The land: a single
+  luminous FORM surfaces slowly from the depths, rises, HOLDS at center, and
+  pulses ~54 bpm (breath/heart); sermon fades in over ~1.5s (Viola's
+  emergence/baptismal motif — a presence surfacing from dark water).
+
+REFRAME (shared spine)
+  NOT a roulette. Drawing a voice, at random, from an archive of hearts
+  (Boltanski; Fahandej). MANY = the archive; ONE = the voice drawn; landing =
+  MANY -> ONE. Language: "draw a voice from the archive," never "spin."
+
+STAGE 6 = 0 (§2.1)
+  Sermon titles/glosses are descriptive placeholders for interface design, NOT
+  coded first-cycle observations. Zero coded passages exist; nothing here is a
+  finding. No V-codes, no convergence claims.
+
+AUDIO PLACEHOLDER (§13 rights / graceful degradation)
+  No real audio ships. Deep River = PD spiritual corpus (audible-lived register).
+  Howard Thurman voice recordings are BU/estate-held; the player is a silent
+  affordance — "audio binds when the recording is cleared." No footage/video
+  files: the moving-image is fully GENERATIVE in code (no rights encumbrance).
+
+TECH
+  Self-contained HTML; one Google Fonts link (Newsreader / Inter / IBM Plex
+  Mono); vanilla JS + single 2D <canvas>; one rAF loop; DPR<=2; pauses when
+  hidden; honors prefers-reduced-motion (static frame + slow land, no cycle
+  theatre). Namespace "p5-". Full-viewport, mobile-responsive.
+
+WHAT NEEDS VERIFICATION
+  - Bind real cleared Thurman recording when rights resolve; align pulse/fade.
+  - Confirm sermon metadata against BU Thurman archive finding aids.
+  - Field-test slowness on low-end mobile (mote count auto-scales by area).
+=====================================================================
+-->
+</body>
+</html>

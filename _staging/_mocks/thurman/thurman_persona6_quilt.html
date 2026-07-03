@@ -1,0 +1,491 @@
+<!-- persona 6 — the quilt / textile artist. Grammar of Meaning: Howard Thurman, a voice drawn from the archive. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  /* candlelit ground */
+  --p6-dark:#140f0a;
+  --p6-dark2:#1e160e;
+  --p6-glow:#3a2a18;
+  --p6-cream:#e7dcc4;
+  --p6-cream-dim:#b6a988;
+  --p6-mono:#9a8a6a;
+  --p6-line:rgba(231,220,196,.18);
+  /* Gee's Bend hand-dyed, sun-faded, candle-dimmed palette */
+  --p6-indigo:#3a4a5c;
+  --p6-denim:#54687d;
+  --p6-brick:#8f4536;
+  --p6-brick2:#a85a44;
+  --p6-ochre:#b78a3f;
+  --p6-mustard:#9c7e34;
+  --p6-muslin:#c9b995;
+  --p6-cordu:#5f4630;
+  --p6-pink:#a86e64;
+  --p6-washpink:#b98f84;
+  --p6-rust:#7a3d2c;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--p6-dark);color:var(--p6-cream);
+  font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
+#p6-stage{position:fixed;inset:0;overflow:hidden;
+  background:
+    radial-gradient(140% 120% at 50% 42%, rgba(58,42,24,.62) 0%, rgba(20,15,10,.4) 46%, rgba(12,9,6,.92) 100%),
+    var(--p6-dark);}
+
+/* ---- the quilt ---- */
+#p6-quiltwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+#p6-quilt{position:relative;width:min(94vmin,1000px);height:min(94vmin,1000px);
+  filter:drop-shadow(0 18px 60px rgba(0,0,0,.55));}
+#p6-svg{width:100%;height:100%;display:block;border-radius:2px;}
+.p6-patch{transition:opacity .5s ease;}
+.p6-seam{stroke:rgba(20,14,8,.55);stroke-width:1.4;fill:none;stroke-linejoin:round;}
+.p6-stitch{stroke:rgba(231,220,196,.34);stroke-width:1;stroke-dasharray:3 4.5;fill:none;stroke-linecap:round;}
+/* faint textile shimmer at rest */
+@keyframes p6-breathe{0%,100%{opacity:.9}50%{opacity:1}}
+#p6-quilt.p6-rest .p6-patchfill{animation:p6-breathe var(--bd,7s) ease-in-out infinite;animation-delay:var(--bdel,0s)}
+/* re-piecing ripple during draw */
+@keyframes p6-repiece{0%{transform:translate(0,0) rotate(0)}
+  30%{transform:translate(var(--rx,3px),var(--ry,-2px)) rotate(var(--rr,.4deg))}
+  70%{transform:translate(calc(var(--rx,3px)*-.7),calc(var(--ry,-2px)*.8)) rotate(calc(var(--rr,.4deg)*-1))}
+  100%{transform:translate(0,0) rotate(0)}}
+#p6-quilt.p6-drawing .p6-patch{transform-box:fill-box;transform-origin:center;
+  animation:p6-repiece var(--rd,.5s) ease-in-out infinite;animation-delay:var(--rdel,0s)}
+
+/* candle vignette on top */
+#p6-vignette{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 100% at 50% 44%, transparent 40%, rgba(10,7,4,.5) 78%, rgba(8,5,3,.86) 100%);}
+
+/* ---- kicker + control ---- */
+#p6-kicker{position:absolute;top:5.2vh;left:0;right:0;text-align:center;z-index:6;
+  font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.16em;
+  color:var(--p6-mono);text-transform:lowercase;opacity:.92;padding:0 20px;}
+#p6-control-wrap{position:absolute;bottom:5vh;left:0;right:0;display:flex;justify-content:center;z-index:8;}
+#p6-control{appearance:none;border:1px solid var(--p6-line);background:rgba(30,22,14,.5);
+  backdrop-filter:blur(3px);color:var(--p6-cream);font-family:'IBM Plex Mono',monospace;
+  font-size:14px;letter-spacing:.06em;padding:12px 24px;border-radius:999px;cursor:pointer;
+  transition:background .3s,border-color .3s,color .3s,transform .3s;}
+#p6-control:hover{background:rgba(58,42,24,.6);border-color:rgba(231,220,196,.4);transform:translateY(-1px)}
+#p6-control:active{transform:translateY(0)}
+#p6-control:focus-visible{outline:2px solid var(--p6-ochre);outline-offset:3px}
+
+/* cycling title during draw */
+#p6-cycler{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);z-index:7;
+  text-align:center;pointer-events:none;opacity:0;transition:opacity .4s;padding:0 8vw;}
+#p6-cycler.on{opacity:1}
+#p6-cycler .t{font-family:'Newsreader',serif;font-size:clamp(26px,5.2vw,54px);
+  font-weight:500;color:var(--p6-cream);text-shadow:0 2px 26px rgba(0,0,0,.7);}
+
+/* ---- the landed sermon ---- */
+#p6-sermon{position:absolute;inset:0;z-index:9;display:flex;align-items:center;justify-content:center;
+  pointer-events:none;padding:6vw;}
+#p6-card{max-width:640px;text-align:center;opacity:0;transition:opacity 1.8s ease;pointer-events:auto;}
+#p6-card.on{opacity:1}
+#p6-title{font-family:'Newsreader',serif;font-weight:500;line-height:1.08;
+  font-size:clamp(34px,6.4vw,68px);color:var(--p6-cream);margin:0 0 18px;
+  text-shadow:0 3px 34px rgba(0,0,0,.66);}
+#p6-excerpt{font-family:'Newsreader',serif;font-style:italic;font-weight:400;
+  font-size:clamp(17px,2.7vw,23px);line-height:1.5;color:var(--p6-cream-dim);margin:0 auto 22px;max-width:30ch;}
+#p6-tag{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;
+  color:var(--p6-mono);text-transform:lowercase;margin-bottom:30px;}
+
+/* audio affordance */
+#p6-audio{display:inline-flex;flex-direction:column;align-items:center;gap:11px;
+  border:1px solid var(--p6-line);border-radius:14px;padding:16px 22px;
+  background:rgba(20,14,8,.4);backdrop-filter:blur(2px);}
+#p6-audio .row{display:flex;align-items:center;gap:13px}
+#p6-play{width:34px;height:34px;border-radius:50%;border:1px solid rgba(231,220,196,.34);
+  background:transparent;color:var(--p6-cream);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;flex:none;transition:background .25s,border-color .25s}
+#p6-play:hover{background:rgba(58,42,24,.5);border-color:rgba(231,220,196,.5)}
+#p6-play svg{margin-left:2px}
+#p6-track{width:150px;height:2px;background:rgba(231,220,196,.16);border-radius:2px;position:relative;overflow:hidden}
+#p6-track::after{content:"";position:absolute;left:0;top:0;height:100%;width:22%;
+  background:linear-gradient(90deg,var(--p6-ochre),var(--p6-brick2));opacity:.55}
+.p6-alabel{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.09em;
+  color:var(--p6-mono);text-align:left;line-height:1.65}
+.p6-alabel b{color:var(--p6-cream-dim);font-weight:500}
+#p6-anote{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.05em;
+  color:var(--p6-mono);opacity:.72;margin-top:10px;font-style:normal}
+
+/* homage in-take note */
+#p6-homage{position:absolute;bottom:5vh;left:0;right:0;text-align:center;z-index:6;
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;
+  color:var(--p6-mono);opacity:.7;padding:0 8vw;line-height:1.6;pointer-events:none;
+  transition:opacity .6s;}
+#p6-homage.dim{opacity:.34}
+
+@media (max-width:560px){
+  #p6-quilt{width:96vmin;height:96vmin}
+  #p6-kicker{top:3.4vh;font-size:11px}
+  #p6-homage{font-size:9.5px}
+}
+@media (prefers-reduced-motion:reduce){
+  #p6-quilt.p6-rest .p6-patchfill,#p6-quilt.p6-drawing .p6-patch{animation:none!important}
+  #p6-card{transition:opacity .6s}
+}
+</style>
+
+<div id="p6-stage" aria-label="Grammar of Meaning — Howard Thurman, a voice drawn from the archive">
+  <div id="p6-quiltwrap">
+    <div id="p6-quilt" class="p6-rest">
+      <svg id="p6-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+    </div>
+  </div>
+  <div id="p6-vignette"></div>
+
+  <div id="p6-kicker">les archives — a voice, drawn at random</div>
+
+  <div id="p6-cycler" aria-hidden="true"><div class="t"></div></div>
+
+  <div id="p6-sermon">
+    <div id="p6-card">
+      <h1 id="p6-title"></h1>
+      <p id="p6-excerpt"></p>
+      <div id="p6-tag"></div>
+      <div id="p6-audio">
+        <div class="row">
+          <button id="p6-play" aria-label="audio placeholder — silent">
+            <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor"><path d="M0 0l12 7-12 7z"/></svg>
+          </button>
+          <div class="p6-alabel">
+            <div><b>Deep River</b> — spiritual · from the archive</div>
+            <div><b>Howard Thurman</b> — the voice</div>
+          </div>
+          <div id="p6-track"></div>
+        </div>
+        <div id="p6-anote">audio binds when the recording is cleared.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="p6-control-wrap"><button id="p6-control">◦ Draw a voice</button></div>
+
+  <div id="p6-homage">
+    pieced in homage to the quilters of Gee&rsquo;s Bend and the Black sacred-craft tradition —<br>
+    improvisation as prayer, kin to the spirituals and to Thurman&rsquo;s Black-church world.
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var SERMONS = [
+    ["The Sound of the Genuine","there is a sound of the genuine in you","commencement meditation"],
+    ["The Growing Edge","look well to the growing edge","meditation"],
+    ["Jesus and the Disinherited","to those with their backs against the wall","the sermon series"],
+    ["Freedom and Suffering","the fourth and final sermon","sermon series"],
+    ["A Moment of Crisis","bending the will","recorded sermon"],
+    ["Disciplines of the Spirit","commitment · suffering · prayer · reconciliation","1963"],
+    ["Quests for the Human","the introductory lecture","lecture series"],
+    ["Horn of the Wild Oxen","a recorded sermon","from the archive"],
+    ["An Easter Message","his eighth talk","recorded sermon"],
+    ["Prayers","Thurman reading his prayers aloud","recording"],
+    ["Eulogy for Mordecai Wyatt Johnson","for his teacher","recorded"],
+    ["On Religious Experience","religion as a deeply personal encounter","meditation"]
+  ];
+  var DECEL = [90,110,130,160,200,260,340,440,580,760];
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var svg = document.getElementById('p6-svg');
+  var quilt = document.getElementById('p6-quilt');
+  var cycler = document.getElementById('p6-cycler');
+  var cyclerT = cycler.querySelector('.t');
+  var card = document.getElementById('p6-card');
+  var sermonWrap = document.getElementById('p6-sermon');
+  var elTitle = document.getElementById('p6-title');
+  var elExc = document.getElementById('p6-excerpt');
+  var elTag = document.getElementById('p6-tag');
+  var control = document.getElementById('p6-control');
+  var kicker = document.getElementById('p6-kicker');
+  var homage = document.getElementById('p6-homage');
+  var play = document.getElementById('p6-play');
+  var NS = 'http://www.w3.org/2000/svg';
+
+  var palette = ['--p6-indigo','--p6-denim','--p6-brick','--p6-brick2','--p6-ochre',
+    '--p6-mustard','--p6-muslin','--p6-cordu','--p6-pink','--p6-washpink','--p6-rust'];
+  function col(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+
+  // -------- improvisational strip-piecing geometry --------
+  // Build the quilt as a stack of horizontal STRIPS (Gee's Bend "my way" strip-piecing),
+  // each strip cut into uneven, offset vertical BLOCKS. Rows are uneven heights; within a
+  // row, blocks are uneven widths, some rotated/wonky. Off-grid on purpose.
+  var patches = []; // {rect, fill, node, group}
+  var rng = mulberry;
+  function mulberry(){ // deterministic-ish but seeded from time so each load differs
+    var s = (Date.now() % 100000) + 1;
+    return function(){ s |= 0; s = (s + 0x6D2B79F5) | 0;
+      var t = Math.imul(s ^ (s>>>15), 1|s);
+      t = (t + Math.imul(t ^ (t>>>7), 61|t)) ^ t;
+      return ((t ^ (t>>>14)) >>> 0) / 4294967296; };
+  }
+  var rand = mulberry();
+  function ri(a,b){ return a + rand()*(b-a); }
+  function pick(arr){ return arr[Math.floor(rand()*arr.length)]; }
+
+  function buildQuilt(){
+    svg.innerHTML='';
+    patches.length=0;
+    var W=1000,H=1000;
+    // outer muslin border (hand-cut, slightly uneven)
+    var bg = document.createElementNS(NS,'rect');
+    bg.setAttribute('x',0);bg.setAttribute('y',0);bg.setAttribute('width',W);bg.setAttribute('height',H);
+    bg.setAttribute('fill', col('--p6-cordu')); bg.setAttribute('opacity','.85');
+    svg.appendChild(bg);
+
+    var y = ri(6,16);
+    var prevCol = null;
+    var patchIndex = 0;
+    while(y < H-18){
+      // uneven strip height
+      var rh = ri(74,150);
+      if(y+rh > H-8) rh = H-8-y;
+      if(rh < 40) break;
+      // this row of uneven offset blocks
+      var x = ri(4,20);
+      // occasional slight vertical shift for the whole strip's baseline (wonky seam)
+      var rowSkew = (rand()<.5 ? ri(-8,8) : 0);
+      while(x < W-14){
+        var bw = ri(66,205);
+        if(x+bw > W-6) bw = W-6-x;
+        if(bw < 34) break;
+        // wonky quad instead of a neat rect: each corner nudged
+        var jx = 5, jy = 8;
+        var x0=x+ri(-jx,jx),           y0=y+rowSkew+ri(-jy,jy);
+        var x1=x+bw+ri(-jx,jx),        y1=y+rowSkew+ri(-jy,jy);
+        var x2=x+bw+ri(-jx,jx),        y2=y+rh+rowSkew+ri(-jy,jy);
+        var x3=x+ri(-jx,jx),           y3=y+rh+rowSkew+ri(-jy,jy);
+
+        var c = pick(palette);
+        while(c===prevCol && rand()<.7) c = pick(palette); // avoid same-as-left too often
+        prevCol = c;
+        var fill = col(c);
+
+        var g = document.createElementNS(NS,'g');
+        g.setAttribute('class','p6-patch');
+        // per-patch re-piecing vars
+        g.style.setProperty('--rx', ri(2,6).toFixed(1)+'px');
+        g.style.setProperty('--ry', ri(-4,4).toFixed(1)+'px');
+        g.style.setProperty('--rr', ri(-.9,.9).toFixed(2)+'deg');
+        g.style.setProperty('--rd', ri(.42,.62).toFixed(2)+'s');
+        g.style.setProperty('--rdel', (rand()*.35).toFixed(2)+'s');
+
+        var poly = document.createElementNS(NS,'polygon');
+        var pts = x0+','+y0+' '+x1+','+y1+' '+x2+','+y2+' '+x3+','+y3;
+        poly.setAttribute('points', pts);
+        poly.setAttribute('fill', fill);
+        poly.setAttribute('class','p6-patchfill');
+        // faded/hand-dyed unevenness: slight opacity + a soft inner value shift
+        poly.setAttribute('opacity', (0.86 + rand()*0.14).toFixed(2));
+        poly.style.setProperty('--bd', (6+rand()*4).toFixed(1)+'s');
+        poly.style.setProperty('--bdel', (rand()*4).toFixed(1)+'s');
+        g.appendChild(poly);
+
+        // seam outline (pieced edge)
+        var seam = document.createElementNS(NS,'polygon');
+        seam.setAttribute('points', pts);
+        seam.setAttribute('class','p6-seam');
+        g.appendChild(seam);
+
+        // running-stitch line across some patches (visible hand)
+        if(rand()<.55){
+          var midY = (y0+y3)/2 + ri(-rh*.18,rh*.18);
+          var st = document.createElementNS(NS,'line');
+          st.setAttribute('x1', x0+ri(4,12)); st.setAttribute('y1', midY+ri(-3,3));
+          st.setAttribute('x2', x1-ri(4,12)); st.setAttribute('y2', midY+ri(-3,3));
+          st.setAttribute('class','p6-stitch');
+          g.appendChild(st);
+        }
+        // occasional narrow accent strip inside a block ("Bricklayer" feel)
+        if(bw>120 && rand()<.4){
+          var aw = ri(10,26);
+          var ax = x+ri(10, bw-aw-10);
+          var acc = document.createElementNS(NS,'rect');
+          acc.setAttribute('x',ax); acc.setAttribute('y', y+rowSkew+ri(4,10));
+          acc.setAttribute('width',aw); acc.setAttribute('height', rh-ri(8,16));
+          acc.setAttribute('fill', col(pick(palette)));
+          acc.setAttribute('opacity',(0.7+rand()*0.2).toFixed(2));
+          acc.setAttribute('transform','rotate('+ri(-2,2).toFixed(2)+' '+(ax+aw/2)+' '+(y+rh/2)+')');
+          g.appendChild(acc);
+        }
+
+        svg.appendChild(g);
+        patches.push({node:g, fill:fill, cx:x+bw/2, cy:y+rh/2,
+          x:x0, y:y0, w:bw, h:rh, poly:poly, idx:patchIndex++});
+        x += bw + ri(-3,4); // seams touch / slight overlap — no gutters
+      }
+      y += rh + ri(-4,3);
+    }
+  }
+
+  // -------- draw / land --------
+  var state='rest';
+  var raf=null, running=true, drawTimer=null;
+
+  function setKick(txt){ kicker.textContent = txt; }
+
+  function startDraw(){
+    if(state==='drawing') return;
+    // clear any landed card
+    card.classList.remove('on');
+    document.querySelectorAll('.p6-landed').forEach(function(p){
+      p.classList.remove('p6-landed'); p.style.filter=''; p.style.opacity='';
+    });
+    // re-piece the quilt (a fresh shuffle of the field)
+    buildQuilt();
+
+    state='drawing';
+    quilt.classList.remove('p6-rest');
+    quilt.classList.add('p6-drawing');
+    control.disabled=true; control.style.opacity=.55;
+    homage.classList.add('dim');
+    setKick('re-piecing the field · drawing');
+    cycler.classList.add('on');
+
+    var chosen = Math.floor(rand()*SERMONS.length);
+    var i=0;
+    if(reduce){
+      cyclerT.textContent = SERMONS[chosen][0];
+      setTimeout(function(){ land(chosen); }, 500);
+      return;
+    }
+    // fast pre-roll, then decelerate through DECEL
+    var fast = 12, fi=0;
+    function fastStep(){
+      cyclerT.textContent = SERMONS[Math.floor(rand()*SERMONS.length)][0];
+      fi++;
+      if(fi<fast){ drawTimer=setTimeout(fastStep, 60+fi*3); }
+      else { decelStep(0); }
+    }
+    function decelStep(k){
+      if(k>=DECEL.length){ land(chosen); return; }
+      // as we slow, bias last frames toward the chosen title
+      var showIdx;
+      if(k>=DECEL.length-2) showIdx=chosen;
+      else showIdx=Math.floor(rand()*SERMONS.length);
+      cyclerT.textContent = SERMONS[showIdx][0];
+      drawTimer=setTimeout(function(){ decelStep(k+1); }, DECEL[k]);
+    }
+    fastStep();
+  }
+
+  function land(chosen){
+    state='landing';
+    if(drawTimer){ clearTimeout(drawTimer); drawTimer=null; }
+    quilt.classList.remove('p6-drawing');
+    cycler.classList.remove('on');
+    setKick('a voice, drawn');
+
+    // choose the patch that comes forward (the drawn voice)
+    var lit = patches[Math.floor(rand()*patches.length)];
+    // dim all others toward the candle-dark; warm/light the one
+    patches.forEach(function(p){
+      if(p===lit){
+        p.node.classList.add('p6-landed');
+        p.poly.setAttribute('opacity','1');
+        p.node.style.filter='brightness(1.28) saturate(1.12) drop-shadow(0 0 26px rgba(183,138,63,.5))';
+        stitchPulse(p);
+      } else {
+        p.node.style.transition='opacity .9s ease, filter .9s ease';
+        p.poly.setAttribute('opacity','0.34');
+        p.node.style.filter='brightness(.7)';
+      }
+    });
+
+    // fill + fade the sermon
+    var s = SERMONS[chosen];
+    elTitle.textContent = s[0];
+    elExc.textContent = s[1];
+    elTag.textContent = s[2];
+    // wait for the field to settle, then slow-fade the card in
+    setTimeout(function(){
+      state='landed';
+      card.classList.add('on');
+      control.disabled=false; control.style.opacity=1;
+      control.textContent='◦ Draw another';
+    }, reduce?400:900);
+  }
+
+  // stitched heartbeat — lub-dub ~58bpm on the running-stitch of the landed patch
+  var pulseRAF=null;
+  function stitchPulse(p){
+    if(pulseRAF) cancelAnimationFrame(pulseRAF);
+    if(reduce){ return; }
+    var poly = p.poly;
+    var period = 60000/58; // ms per beat
+    var t0 = performance.now();
+    function frame(now){
+      if(!p.node.classList.contains('p6-landed')){ pulseRAF=null; return; }
+      var t = ((now - t0) % period) / period; // 0..1
+      // lub-dub envelope: two quick swells early in the cycle
+      var lub = Math.exp(-Math.pow((t-0.06)/0.045,2));
+      var dub = 0.62*Math.exp(-Math.pow((t-0.20)/0.05,2));
+      var e = lub + dub; // 0..~1
+      var b = 1.18 + e*0.34;                 // brightness swell
+      var g = 20 + e*30;                     // glow radius
+      p.node.style.filter='brightness('+b.toFixed(3)+') saturate(1.12) drop-shadow(0 0 '+g.toFixed(0)+'px rgba(183,138,63,'+(0.4+e*0.35).toFixed(2)+'))';
+      if(running) pulseRAF=requestAnimationFrame(frame);
+      else pulseRAF=null;
+    }
+    pulseRAF=requestAnimationFrame(frame);
+  }
+
+  // -------- controls / lifecycle --------
+  control.addEventListener('click', function(){
+    if(state==='drawing'||state==='landing') return;
+    startDraw();
+  });
+  play.addEventListener('click', function(e){
+    e.preventDefault(); // placeholder — silent
+  });
+
+  // pause animations offscreen (perf + reduced churn)
+  document.addEventListener('visibilitychange', function(){
+    running = !document.hidden;
+    if(running && state==='landed'){
+      var lit = document.querySelector('.p6-landed');
+      if(lit){ patches.forEach(function(p){ if(p.node===lit) stitchPulse(p); }); }
+    }
+  });
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(en){ running = en.isIntersecting; });
+    });
+    io.observe(quilt);
+  }
+
+  // init
+  buildQuilt();
+  setKick('les archives — a voice, drawn at random');
+})();
+</script>
+
+<!--
+  METHODOLOGY FOOTER — persona 6 / the quilt (Grammar of Meaning · Howard Thurman)
+  HOW PRODUCED: One of a set of artist-persona takes on the Thurman "draw a voice from the
+    archive" interactive. Persona 6 = the quilt / textile artist, in the lineage of the Gee's
+    Bend quilters and the Black sacred-craft / spiritual tradition. Medium: improvisational
+    strip-piecing rendered as off-grid, asymmetric, wonky DOM/SVG patches (uneven strip rows,
+    offset uneven blocks, nudged corners = hand-cut seams, running-stitch lines, accent strips).
+    Three states: (1) archive at rest — the whole quilt, "the many," breathing faintly under
+    candlelight; (2) draw — a re-piecing ripple crosses the field while titles cycle and
+    DECELERATE [90,110,130,160,200,260,340,440,580,760]ms; (3) land — one patch comes forward,
+    warms/lights, MANY->ONE; a stitched heartbeat pulses ~58 bpm (lub-dub), and the sermon
+    (title/excerpt/tag/audio) slow-fades in.
+  SCHOLARLY SOURCES: reframe per Boltanski (archive of hearts) + Fahandej — reverent "draw a
+    voice," never "spin." "Deep River" is public-domain spiritual corpus. GoM type stack
+    (Newsreader / Inter / IBM Plex Mono).
+  AUDIO PLACEHOLDER: no real audio embedded; player UI is silent. Voice recordings are
+    Boston University / estate-held; "audio binds when the recording is cleared."
+  §13 RIGHTS: no third-party audio/text beyond PD spiritual + short public sermon titles/glosses;
+    placeholder only; no scraping; Stage 6 = 0 coded passages (this is an interface sketch, not
+    corpus coding).
+  FAITHFUL-REPRESENTATION NOTE: the Gee's Bend / Black sacred-craft aesthetic is rendered FROM
+    the tradition as homage — improvisation as prayer, kin to the spirituals and to Thurman's
+    Black-church world — NOT as a symmetric decorative "ethnic pattern" or appropriation. The
+    dignity is carried by depth + irregularity: real off-grid strip-piecing geometry, hand-dyed
+    sun-faded palette, uneven seams as the beauty. The in-take note credits the quilters
+    explicitly. If any element reads as decoration rather than homage, it should be revised.
+  WHAT NEEDS VERIFICATION: sermon titles/glosses are placeholders pending archive verification;
+    audio rights clearance pending; palette/geometry are an artist interpretation, not a
+    reproduction of any specific quilt.
+-->

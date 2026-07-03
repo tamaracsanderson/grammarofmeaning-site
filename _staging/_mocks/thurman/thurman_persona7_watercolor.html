@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deep River — a voice, drawn from the archive</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --p7-paper:#F3EEE0;
+    --p7-paper-dark:#E7DFCB;
+    --p7-indigo:#33506B;
+    --p7-teal:#2E6B6B;
+    --p7-slate:#46586A;
+    --p7-sienna:#B8794A;
+    --p7-ink:#26313B;
+    --p7-ink-soft:rgba(38,49,59,.62);
+    --p7-line:rgba(38,49,59,.20);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%;background:var(--p7-paper);color:var(--p7-ink);overflow:hidden}
+  body{
+    font-family:"Inter",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .p7-stage{position:fixed;inset:0;overflow:hidden}
+  /* the painting layers */
+  #p7-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  /* paper grain + granulation overlay via SVG-driven divs */
+  .p7-grain{
+    position:absolute;inset:-8%;pointer-events:none;
+    background:var(--p7-grain-url);
+    mix-blend-mode:multiply;opacity:.5;
+  }
+  .p7-tooth{
+    position:absolute;inset:-8%;pointer-events:none;
+    background:var(--p7-tooth-url);
+    mix-blend-mode:multiply;opacity:.28;
+  }
+  .p7-vignette{
+    position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 100% at 50% 42%, rgba(38,49,59,0) 46%, rgba(38,49,59,.12) 78%, rgba(20,28,36,.30) 100%);
+  }
+
+  /* ---- overlay content ---- */
+  .p7-ui{position:absolute;inset:0;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between}
+  .p7-top{padding:clamp(20px,4vw,44px);pointer-events:none}
+  .p7-kicker{
+    font-family:"IBM Plex Mono",monospace;font-weight:300;
+    font-size:clamp(10px,1.5vw,12.5px);letter-spacing:.14em;
+    color:var(--p7-ink-soft);text-transform:lowercase;
+    transition:opacity 1.1s ease;
+  }
+
+  /* the cycling titles + landed sermon share the center */
+  .p7-center{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;
+    padding:clamp(24px,6vw,80px);pointer-events:none;
+  }
+  .p7-cycler{
+    font-family:"Newsreader",Georgia,serif;font-weight:400;
+    font-size:clamp(26px,6vw,58px);line-height:1.06;
+    color:var(--p7-ink);letter-spacing:.005em;
+    max-width:16ch;opacity:0;transition:opacity .3s ease;
+    text-shadow:0 1px 0 rgba(243,238,224,.5);
+  }
+  .p7-cycler.p7-on{opacity:.92}
+
+  .p7-sermon{
+    max-width:26ch;opacity:0;transform:translateY(10px);
+    transition:opacity 1.6s ease,transform 1.6s ease;
+  }
+  .p7-sermon.p7-show{opacity:1;transform:none}
+  .p7-title{
+    font-family:"Newsreader",Georgia,serif;font-weight:400;
+    font-size:clamp(30px,6.6vw,64px);line-height:1.04;
+    letter-spacing:.004em;color:var(--p7-ink);
+    margin:0 0 .5em;text-shadow:0 1px 0 rgba(243,238,224,.55);
+  }
+  .p7-excerpt{
+    font-family:"Newsreader",Georgia,serif;font-style:italic;font-weight:300;
+    font-size:clamp(15px,2.5vw,21px);line-height:1.5;
+    color:var(--p7-slate);margin:0 auto 1.35em;max-width:24ch;
+  }
+  .p7-source{
+    font-family:"IBM Plex Mono",monospace;font-weight:300;
+    font-size:clamp(10px,1.5vw,12px);letter-spacing:.13em;
+    text-transform:lowercase;color:var(--p7-ink-soft);
+    display:inline-block;padding-top:.2em;
+    border-top:1px solid var(--p7-line);
+  }
+
+  /* audio affordance */
+  .p7-audio{
+    margin:clamp(22px,3.6vw,38px) auto 0;max-width:340px;width:86vw;
+    opacity:0;transform:translateY(8px);
+    transition:opacity 1.6s ease .5s,transform 1.6s ease .5s;
+    pointer-events:none;
+  }
+  .p7-sermon.p7-show + .p7-audio{opacity:1;transform:none;pointer-events:auto}
+  .p7-audio-row{
+    display:flex;align-items:center;gap:12px;
+    padding:11px 15px;border:1px solid var(--p7-line);
+    border-radius:2px;background:rgba(243,238,224,.42);
+    backdrop-filter:blur(2px);
+  }
+  .p7-play{
+    flex:0 0 auto;width:34px;height:34px;border-radius:50%;
+    border:1px solid var(--p7-line);background:transparent;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;color:var(--p7-indigo);
+  }
+  .p7-play svg{width:12px;height:12px;margin-left:1px}
+  .p7-audio-meta{flex:1 1 auto;text-align:left;min-width:0}
+  .p7-track{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:400;
+    letter-spacing:.05em;color:var(--p7-ink);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .p7-track.p7-sub{color:var(--p7-ink-soft);font-weight:300;margin-top:2px}
+  .p7-seek{
+    height:2px;margin-top:9px;background:var(--p7-line);position:relative;border-radius:2px;
+  }
+  .p7-seek::after{content:"";position:absolute;left:0;top:0;height:100%;width:0%;background:var(--p7-indigo);opacity:.5}
+  .p7-audio-note{
+    font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:300;
+    letter-spacing:.09em;color:var(--p7-ink-soft);
+    text-align:center;margin-top:9px;text-transform:lowercase;line-height:1.5;
+  }
+
+  /* control */
+  .p7-controls{
+    position:relative;z-index:5;
+    display:flex;justify-content:center;
+    padding:clamp(22px,4vw,48px);pointer-events:none;
+  }
+  .p7-draw{
+    pointer-events:auto;cursor:pointer;
+    font-family:"IBM Plex Mono",monospace;font-weight:400;
+    font-size:clamp(12px,1.8vw,14px);letter-spacing:.16em;
+    text-transform:lowercase;color:var(--p7-ink);
+    background:rgba(243,238,224,.34);
+    border:1px solid var(--p7-line);border-radius:2px;
+    padding:13px 26px;backdrop-filter:blur(3px);
+    transition:background .5s ease,border-color .5s ease,color .5s ease,opacity .6s ease;
+  }
+  .p7-draw:hover{background:rgba(243,238,224,.62);border-color:var(--p7-slate)}
+  .p7-draw:disabled{opacity:.35;cursor:default}
+  .p7-draw .p7-dot{color:var(--p7-sienna);margin-right:.6em}
+
+  .p7-svgdefs{position:absolute;width:0;height:0;overflow:hidden}
+
+  @media (max-width:520px){
+    .p7-cycler{font-size:clamp(24px,8vw,40px)}
+  }
+</style>
+</head>
+<body>
+<div class="p7-stage" id="p7-stage">
+  <canvas id="p7-canvas" aria-hidden="true"></canvas>
+  <div class="p7-tooth" aria-hidden="true"></div>
+  <div class="p7-grain" aria-hidden="true"></div>
+  <div class="p7-vignette" aria-hidden="true"></div>
+
+  <div class="p7-ui">
+    <div class="p7-top">
+      <div class="p7-kicker" id="p7-kicker">les archives — a voice, drawn at random</div>
+    </div>
+
+    <div class="p7-center">
+      <div class="p7-cycler" id="p7-cycler"></div>
+
+      <div class="p7-sermon" id="p7-sermon" aria-live="polite">
+        <h1 class="p7-title" id="p7-title"></h1>
+        <p class="p7-excerpt" id="p7-excerpt"></p>
+        <span class="p7-source" id="p7-source"></span>
+      </div>
+
+      <div class="p7-audio" id="p7-audio">
+        <div class="p7-audio-row">
+          <button class="p7-play" id="p7-play" aria-label="play (audio pending)">
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1 L11 6 L2 11 Z" fill="currentColor"/></svg>
+          </button>
+          <div class="p7-audio-meta">
+            <div class="p7-track">Deep River — spiritual · from the archive</div>
+            <div class="p7-track p7-sub">Howard Thurman — the voice</div>
+            <div class="p7-seek" aria-hidden="true"></div>
+          </div>
+        </div>
+        <div class="p7-audio-note">audio binds when the recording is cleared</div>
+      </div>
+    </div>
+
+    <div class="p7-controls">
+      <button class="p7-draw" id="p7-draw"><span class="p7-dot">◦</span><span id="p7-drawlabel">Draw a voice</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- SVG filters: granulation (feTurbulence) + paper tooth -->
+<svg class="p7-svgdefs" aria-hidden="true">
+  <defs>
+    <filter id="p7-granul" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.2 1"/>
+    </filter>
+    <filter id="p7-tooth-f" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045 0.055" numOctaves="4" seed="21" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.9 0.9"/>
+    </filter>
+  </defs>
+</svg>
+
+<script>
+(function(){
+  "use strict";
+
+  var SERMONS = [
+    ["The Sound of the Genuine","there is a sound of the genuine in you","commencement meditation"],
+    ["The Growing Edge","look well to the growing edge","meditation"],
+    ["Jesus and the Disinherited","to those with their backs against the wall","the sermon series"],
+    ["Freedom and Suffering","the fourth and final sermon","sermon series"],
+    ["A Moment of Crisis","bending the will","recorded sermon"],
+    ["Disciplines of the Spirit","commitment · suffering · prayer · reconciliation","1963"],
+    ["Quests for the Human","the introductory lecture","lecture series"],
+    ["Horn of the Wild Oxen","a recorded sermon","from the archive"],
+    ["An Easter Message","his eighth talk","recorded sermon"],
+    ["Prayers","Thurman reading his prayers aloud","recording"],
+    ["Eulogy for Mordecai Wyatt Johnson","for his teacher","recorded"],
+    ["On Religious Experience","religion as a deeply personal encounter","meditation"]
+  ];
+
+  var DECEL = [100,120,150,190,240,310,400,520,680,880];
+
+  var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ---- paint the granulation/tooth textures into CSS vars (data URIs) ----
+  function svgURI(filterId, w, h){
+    var s = '<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'">'
+          + '<rect width="100%" height="100%" filter="url(#f)"/>'
+          + '<filter id="f" x="0" y="0" width="100%" height="100%">';
+    return s;
+  }
+  // Build inline SVG strings with feTurbulence baked as data URIs (multiply overlays)
+  var grainSVG = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220">'
+    + '<filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch"/>'
+    + '<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.1 0.95"/></filter>'
+    + '<rect width="100%" height="100%" filter="url(#g)"/></svg>'
+  );
+  var toothSVG = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360">'
+    + '<filter id="t"><feTurbulence type="fractalNoise" baseFrequency="0.042 0.052" numOctaves="4" seed="21" stitchTiles="stitch"/>'
+    + '<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.85 0.85"/></filter>'
+    + '<rect width="100%" height="100%" filter="url(#t)"/></svg>'
+  );
+  document.documentElement.style.setProperty('--p7-grain-url', 'url("'+grainSVG+'")');
+  document.documentElement.style.setProperty('--p7-tooth-url', 'url("'+toothSVG+'")');
+
+  // ============ CANVAS WATERCOLOR ENGINE ============
+  var canvas = document.getElementById('p7-canvas');
+  var ctx = canvas.getContext('2d', {alpha:false});
+  var DPR = Math.min(window.devicePixelRatio||1, 2);
+  var W=0, H=0, CW=0, CH=0;
+
+  // deep-river watercolor palette
+  var PIGMENTS = [
+    {r:0x33,g:0x50,b:0x6B},  // indigo
+    {r:0x2E,g:0x6B,b:0x6B},  // teal
+    {r:0x46,g:0x58,b:0x6A},  // slate
+    {r:0x24,g:0x3A,b:0x50},  // dark wash
+    {r:0xB8,g:0x79,b:0x4A}   // sienna accent (used sparingly)
+  ];
+  var PAPER = {r:0xF3,g:0xEE,b:0xE0};
+
+  // A "wash" is a layered soft-edged pooling blob that drifts + can bloom.
+  function Wash(seedIndex){
+    this.reset(seedIndex);
+  }
+  Wash.prototype.reset = function(){
+    this.px = Math.random();          // pos in [0,1]
+    this.py = Math.random();
+    this.baseR = 0.18 + Math.random()*0.34;   // radius fraction of min-dim
+    this.r = this.baseR;
+    var pw = Math.random();
+    // bias toward indigo/teal/slate; sienna rare
+    this.pig = (pw<0.30)?PIGMENTS[0] : (pw<0.55)?PIGMENTS[1] : (pw<0.78)?PIGMENTS[2] : (pw<0.93)?PIGMENTS[3] : PIGMENTS[4];
+    this.alpha = 0.10 + Math.random()*0.16;    // translucent glaze
+    this.driftA = Math.random()*Math.PI*2;
+    this.driftSpd = 0.00006 + Math.random()*0.00010;
+    this.phase = Math.random()*Math.PI*2;
+    this.wobF = 0.4 + Math.random()*0.7;
+    this.bloom = 0;                   // 0..1 transient bloom energy
+    this.grain = 0.5 + Math.random()*0.5;
+    // shape lobes for irregular pooling edge
+    this.lobes = 3 + Math.floor(Math.random()*4);
+    this.lobeAmp = 0.12 + Math.random()*0.22;
+    this.lobeOff = Math.random()*Math.PI*2;
+  };
+
+  var washes = [];
+  function buildWashes(){
+    washes = [];
+    // horizontal river-band bias: many washes tilt toward mid-band, layered
+    var n = (window.innerWidth<600) ? 16 : 26;
+    for(var i=0;i<n;i++){
+      var w = new Wash(i);
+      // river band: pull vertical positions toward horizontal strata
+      w.py = 0.14 + Math.random()*0.72;
+      washes.push(w);
+    }
+  }
+
+  // scattered pigment-blooms ("the many hearts")
+  var hearts = [];
+  function buildHearts(){
+    hearts = [];
+    var n = (window.innerWidth<600)?18:30;
+    for(var i=0;i<n;i++){
+      hearts.push({
+        px:Math.random(), py:0.10+Math.random()*0.80,
+        r:(0.008+Math.random()*0.03),
+        pig:PIGMENTS[Math.floor(Math.random()*4)],
+        a:0.10+Math.random()*0.22,
+        ph:Math.random()*Math.PI*2,
+        spd:0.0003+Math.random()*0.0006
+      });
+    }
+  }
+
+  // draw one soft, feathered, pooling wash using layered radial glazes
+  function paintWash(w, t, minDim, cx, cy, sc){
+    var x = w.px*CW, y = w.py*CH;
+    var R = (w.r*minDim) * sc;
+    var pig = w.pig;
+    // pooling darker rim: watercolour dries darker at the edge (backrun/edge-dark)
+    // We build it with 3 stacked radial gradients: soft core, feathered mid, granulating rim.
+    var wob = 1 + Math.sin(t*0.0007*w.wobF + w.phase)*0.05;
+    R *= wob;
+
+    // core glaze (translucent, feathered)
+    var g = ctx.createRadialGradient(x,y,R*0.02, x,y,R);
+    var a = w.alpha * (1 + w.bloom*0.8);
+    g.addColorStop(0.0, rgba(pig, a*0.85));
+    g.addColorStop(0.45, rgba(pig, a*0.55));
+    g.addColorStop(0.80, rgba(pig, a*0.22));
+    g.addColorStop(1.0, rgba(pig, 0));
+    // irregular pooling shape via clip path
+    ctx.save();
+    ctx.beginPath();
+    lobePath(x,y,R,w);
+    ctx.clip();
+    ctx.fillStyle = g;
+    ctx.fillRect(x-R*1.3, y-R*1.3, R*2.6, R*2.6);
+
+    // edge-dark rim (the signature watercolour tell): a thin darker ring near boundary
+    var rim = ctx.createRadialGradient(x,y,R*0.72, x,y,R*1.0);
+    rim.addColorStop(0.0, rgba(pig,0));
+    rim.addColorStop(0.72, rgba(pig,0));
+    rim.addColorStop(0.90, rgba(pig, a*0.55));
+    rim.addColorStop(1.0, rgba(pig, 0));
+    ctx.fillStyle = rim;
+    ctx.fillRect(x-R*1.3, y-R*1.3, R*2.6, R*2.6);
+    ctx.restore();
+  }
+
+  // an irregular, wobbling pooling contour
+  function lobePath(x,y,R,w){
+    var steps = 44;
+    for(var i=0;i<=steps;i++){
+      var ang = (i/steps)*Math.PI*2;
+      var lob = 1 + Math.sin(ang*w.lobes + w.lobeOff)*w.lobeAmp
+                  + Math.sin(ang*(w.lobes*2)+w.phase)*w.lobeAmp*0.4;
+      var rr = R*lob;
+      var px = x + Math.cos(ang)*rr;
+      var py = y + Math.sin(ang)*rr*0.86; // slight vertical squash = river strata
+      if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+    }
+    ctx.closePath();
+  }
+
+  function paintHeart(hh, t, minDim){
+    var x = hh.px*CW, y=hh.py*CH;
+    var pr = hh.r*minDim*(1+Math.sin(t*hh.spd+hh.ph)*0.18);
+    var g = ctx.createRadialGradient(x,y,0, x,y,pr);
+    g.addColorStop(0, rgba(hh.pig, hh.a));
+    g.addColorStop(0.6, rgba(hh.pig, hh.a*0.4));
+    g.addColorStop(1, rgba(hh.pig,0));
+    ctx.fillStyle=g;
+    ctx.beginPath();ctx.arc(x,y,pr,0,Math.PI*2);ctx.fill();
+  }
+
+  function rgba(p,a){ return 'rgba('+p.r+','+p.g+','+p.b+','+a.toFixed(3)+')'; }
+
+  // ---- the LANDED wash (the drawn voice) ----
+  var landed = null; // {px,py, pig, targetR, r, born}
+
+  function resize(){
+    W = window.innerWidth; H = window.innerHeight;
+    CW = Math.floor(W*DPR); CH = Math.floor(H*DPR);
+    canvas.width = CW; canvas.height = CH;
+    canvas.style.width = W+'px'; canvas.style.height = H+'px';
+  }
+
+  // paint whole frame
+  function paint(t){
+    // paper base
+    ctx.fillStyle = 'rgb('+PAPER.r+','+PAPER.g+','+PAPER.b+')';
+    ctx.fillRect(0,0,CW,CH);
+
+    var minDim = Math.min(CW,CH);
+
+    // multiply-ish layering: use source-over with translucent glazes,
+    // but bias toward multiply by drawing washes with 'multiply' blend on paper.
+    ctx.globalCompositeOperation = 'multiply';
+
+    // drift the many washes
+    for(var i=0;i<washes.length;i++){
+      var w=washes[i];
+      // slow drift
+      w.px += Math.cos(w.driftA)*w.driftSpd * driftScale;
+      w.py += Math.sin(w.driftA)*w.driftSpd*0.5 * driftScale;
+      if(w.px<-0.2)w.px=1.2; if(w.px>1.2)w.px=-0.2;
+      if(w.py<-0.1)w.py=1.1; if(w.py>1.1)w.py=-0.1;
+      // bloom decay
+      if(w.bloom>0) w.bloom *= 0.965;
+      paintWash(w, t, minDim, CW*0.5, CH*0.5, 1);
+    }
+
+    // scattered hearts
+    for(var h=0;h<hearts.length;h++){ paintHeart(hearts[h], t, minDim); }
+
+    // the landed voice crystallizing/pulsing at center
+    if(landed){
+      var age = t - landed.born;
+      var grow = Math.min(1, age/1400);
+      var ease = 1-Math.pow(1-grow,3);
+      landed.r = landed.targetR * ease;
+      // heartbeat lub-dub ~56 bpm
+      var pulse = heartbeat((t)/1000, 56/60);
+      var x=CW*0.5, y=CH*0.5;
+      var R = landed.r*minDim*(1 + pulse*0.055);
+      var pig = landed.pig;
+
+      // luminous glow (screen-ish): draw a lighten pass
+      ctx.globalCompositeOperation='lighter';
+      var glow = ctx.createRadialGradient(x,y,0, x,y,R*1.5);
+      var ga = (0.05 + pulse*0.12)*ease;
+      glow.addColorStop(0, rgba(pig, ga));
+      glow.addColorStop(0.5, rgba(pig, ga*0.4));
+      glow.addColorStop(1, rgba(pig,0));
+      ctx.fillStyle=glow;
+      ctx.beginPath();ctx.arc(x,y,R*1.5,0,Math.PI*2);ctx.fill();
+
+      // then the pooled body in multiply
+      ctx.globalCompositeOperation='multiply';
+      var body = {px:0.5,py:0.5,pig:pig,alpha:0.30,phase:landed.phase,lobes:landed.lobes,lobeAmp:landed.lobeAmp,lobeOff:landed.lobeOff,wobF:0.5,bloom:0,r:landed.r};
+      // build a temp wash-like paint
+      (function(){
+        var g = ctx.createRadialGradient(x,y,R*0.02, x,y,R);
+        var a=(0.30)*ease*(1+pulse*0.3);
+        g.addColorStop(0, rgba(pig, a*0.9));
+        g.addColorStop(0.5, rgba(pig, a*0.55));
+        g.addColorStop(0.82, rgba(pig, a*0.25));
+        g.addColorStop(1, rgba(pig,0));
+        ctx.save();
+        ctx.beginPath();
+        lobePath(x,y,R,body);
+        ctx.clip();
+        ctx.fillStyle=g;
+        ctx.fillRect(x-R*1.4,y-R*1.4,R*2.8,R*2.8);
+        // edge-dark rim
+        var rim=ctx.createRadialGradient(x,y,R*0.7,x,y,R);
+        rim.addColorStop(0,rgba(pig,0));
+        rim.addColorStop(0.85,rgba(pig,0));
+        rim.addColorStop(0.94,rgba(pig,a*0.5));
+        rim.addColorStop(1,rgba(pig,0));
+        ctx.fillStyle=rim;
+        ctx.fillRect(x-R*1.4,y-R*1.4,R*2.8,R*2.8);
+        ctx.restore();
+      })();
+    }
+
+    ctx.globalCompositeOperation='source-over';
+  }
+
+  // lub-dub heartbeat curve in [0,1], f in beats/sec
+  function heartbeat(tsec, f){
+    var p = (tsec*f) % 1;
+    // two bumps (lub then dub), then rest
+    var lub = Math.exp(-Math.pow((p-0.06)/0.045,2));
+    var dub = Math.exp(-Math.pow((p-0.20)/0.055,2))*0.7;
+    return Math.min(1, lub+dub);
+  }
+
+  var driftScale = 1;   // scaled up during a draw for blooming/flow
+
+  // ============ STATE MACHINE ============
+  var stage = document.getElementById('p7-stage');
+  var cyclerEl = document.getElementById('p7-cycler');
+  var sermonEl = document.getElementById('p7-sermon');
+  var titleEl = document.getElementById('p7-title');
+  var excerptEl = document.getElementById('p7-excerpt');
+  var sourceEl = document.getElementById('p7-source');
+  var kickerEl = document.getElementById('p7-kicker');
+  var drawBtn = document.getElementById('p7-draw');
+  var drawLabel = document.getElementById('p7-drawlabel');
+  var playBtn = document.getElementById('p7-play');
+
+  var STATE = 'rest'; // rest | draw | land
+  var drawTimer = null;
+
+  function trigger(bloomN){
+    // splash new blooming washes to make wet-on-wet flow
+    var count = bloomN || 6;
+    for(var i=0;i<count;i++){
+      var idx = Math.floor(Math.random()*washes.length);
+      var w = washes[idx];
+      w.px = 0.2 + Math.random()*0.6;
+      w.py = 0.2 + Math.random()*0.6;
+      w.bloom = 1;
+      w.r = w.baseR * (1.2 + Math.random()*0.6);
+    }
+  }
+
+  function startDraw(){
+    if(STATE==='draw') return;
+    STATE='draw';
+    landed=null;
+    drawBtn.disabled=true;
+    drawLabel.textContent = (drawLabel.textContent==='Draw a voice') ? 'Drawing…' : 'Drawing…';
+    // fade sermon/audio out
+    sermonEl.classList.remove('p7-show');
+    kickerEl.style.opacity = 0;
+
+    if(reduced){
+      // quick land — no long cycle
+      cyclerEl.classList.remove('p7-on');
+      setTimeout(landVoice, 260);
+      return;
+    }
+
+    driftScale = 5.5; // liquid, flowing
+    trigger(8);
+
+    var i=0;
+    function step(){
+      if(i>=DECEL.length){ landVoice(); return; }
+      // pick a title to show
+      var s = SERMONS[Math.floor(Math.random()*SERMONS.length)];
+      cyclerEl.textContent = s[0];
+      cyclerEl.classList.add('p7-on');
+      // fresh bloom on each tick, easing off as it decelerates
+      if(i%2===0) trigger(3);
+      driftScale = 5.5 - (i/DECEL.length)*4.2; // settle the flow
+      var d = DECEL[i];
+      i++;
+      drawTimer = setTimeout(function(){
+        cyclerEl.classList.remove('p7-on');
+        setTimeout(step, 70);
+      }, d);
+    }
+    step();
+  }
+
+  function landVoice(){
+    STATE='land';
+    driftScale = 1;
+    cyclerEl.classList.remove('p7-on');
+    cyclerEl.textContent='';
+
+    var s = SERMONS[Math.floor(Math.random()*SERMONS.length)];
+
+    // crystallize one pooled bloom at center
+    var pig = PIGMENTS[[0,1,2,3][Math.floor(Math.random()*4)]];
+    landed = {
+      px:0.5, py:0.5, pig:pig,
+      targetR: 0.24, r:0.02, born: performance.now(),
+      phase: Math.random()*Math.PI*2,
+      lobes: 3+Math.floor(Math.random()*3),
+      lobeAmp: 0.10+Math.random()*0.14,
+      lobeOff: Math.random()*Math.PI*2
+    };
+    // one final settling bloom
+    trigger(4);
+
+    // reveal sermon (slow fade) after the bloom crystallizes
+    var reveal = reduced ? 120 : 780;
+    setTimeout(function(){
+      titleEl.textContent = s[0];
+      excerptEl.textContent = '“'+s[1]+'”';
+      sourceEl.textContent = s[2];
+      sermonEl.classList.add('p7-show');
+      drawBtn.disabled=false;
+      drawLabel.textContent='Draw another';
+    }, reveal);
+  }
+
+  drawBtn.addEventListener('click', startDraw);
+  playBtn.addEventListener('click', function(){
+    // placeholder — no audio bound yet
+    playBtn.setAttribute('aria-label','audio pending — binds when the recording is cleared');
+    playBtn.animate([{opacity:1},{opacity:.35},{opacity:1}],{duration:520});
+  });
+
+  // ============ rAF LOOP ============
+  var running=true;
+  var visible=true;
+  function loop(t){
+    if(running && visible){ paint(t); }
+    rafId = requestAnimationFrame(loop);
+  }
+  var rafId=null;
+
+  document.addEventListener('visibilitychange', function(){
+    visible = !document.hidden;
+  });
+  // pause when off-screen
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      visible = es[0].isIntersecting;
+    },{threshold:0.01});
+    io.observe(stage);
+  }
+
+  function init(){
+    resize();
+    buildWashes();
+    buildHearts();
+    if(reduced){
+      // static painting; render one frame with drift frozen
+      driftScale = 0;
+      paint(performance.now());
+      running = true; // still allow heartbeat when landed (light)
+    }
+    rafId = requestAnimationFrame(loop);
+  }
+  window.addEventListener('resize', function(){
+    resize(); buildWashes(); buildHearts();
+  });
+
+  init();
+})();
+</script>
+
+<!--
+================================================================================
+METHODOLOGY FOOTER — Grammar of Meaning · Thurman interactive · Persona 7 (Watercolor)
+================================================================================
+HOW PRODUCED
+  Artist-persona take (7 of a set): THE WATERCOLOR PAINTER — wet-on-wet washes,
+  soft bleeding edges, pooling pigment, granulation, paper tooth, layered
+  translucent glazes. Lineage: watercolor / wash painting (David Whyte's
+  contemplative water). Anti-kitsch commitment: REAL watercolour behaviour
+  (blooms, backruns, edge-dark rims, granulation, feathered/lobed pooling
+  contours, visible paper grain) built from layered soft-edged radial glazes on
+  a canvas set to 'multiply', PLUS SVG feTurbulence paper-grain + tooth overlays.
+  NOT a smooth CSS/canvas gradient. Register: DEEP RIVER — deep, slow, dark-
+  luminous water; contemplative, poetic, reverent.
+
+  SHARED SPINE (content only; medium is this persona's): reframe is NOT a
+  roulette — it is DRAWING A VOICE, AT RANDOM, FROM AN ARCHIVE OF HEARTS
+  (Boltanski; Fahandej). Morph: MANY (the archive of washes / pigment-blooms) →
+  ONE (the single pooled bloom that crystallizes + pulses = the drawn voice).
+  Content: the spiritual "Deep River" (public-domain corpus) beneath Howard
+  Thurman's spoken voice.
+
+  THREE STATES: (1) archive at rest — full-viewport field of layered deep-river
+  washes drifting as if still settling; kicker "les archives — a voice, drawn at
+  random"; control "◦ Draw a voice". (2) draw — washes BLOOM and FLOW wet-on-wet
+  while titles cycle + DECELERATE [100,120,150,190,240,310,400,520,680,880] ms.
+  (3) land — flow settles; ONE pooled bloom crystallizes at centre, glows, and
+  PULSES lub-dub (~56 bpm); sermon fades in slowly (Newsreader title, italic
+  gloss excerpt, mono source tag) + minimal audio affordance; control → "◦ Draw
+  another".
+
+  TECH: self-contained HTML; ONE Google Fonts link (Newsreader / Inter / IBM
+  Plex Mono); vanilla JS + one 2D <canvas> + SVG feTurbulence (granulation +
+  tooth). ONE rAF loop; DPR capped ≤2; paused when hidden/off-screen
+  (visibilitychange + IntersectionObserver); honors prefers-reduced-motion
+  (static painting + quick land, no long cycle). Full-viewport, mobile-
+  responsive. CSS/JS namespaced "p7-".
+
+SCHOLARLY SOURCES
+  - Christian Boltanski, "Les Archives du Cœur" (archive of recorded heartbeats)
+    — the reverent draw-a-voice-from-an-archive frame.
+  - Morehshin / Reza-style archival-voice installation lineage (Fahandej) — the
+    community-voice archive as sacred object.
+  - "Deep River" — African-American spiritual, public domain; the water/Jordan
+    imagery motivating the deep-river palette (indigo #33506B / teal #2E6B6B /
+    slate #46586A / dark washes / sienna #B8794A on warm paper #F3EEE0).
+  - David Whyte — contemplative-poet water register (reference, not quoted).
+  - GoM type system (Newsreader / Inter / IBM Plex Mono) per project voice guide.
+
+WHAT NEEDS VERIFICATION
+  - AUDIO IS A PLACEHOLDER. No recording is bound. Player UI is silent by
+    design; label reads "audio binds when the recording is cleared." Howard
+    Thurman voice recordings are BU/estate-held — rights clearance REQUIRED
+    before any real audio ships (§13 rights posture).
+  - Stage 6 CODE = 0 coded passages. Sermon [title/gloss/tag] entries are
+    display metadata for the interactive, NOT coded corpus rows. No convergence
+    or coding claim is made or implied by this artifact.
+  - §2.1: nothing here imports V-codes or asserts findings; this is an interface
+    prototype (Phase 3 Luminous Archive lineage), not analysis.
+  - Watercolour physics are stylized approximations (layered glazes + feathered
+    lobed contours + edge-dark rims + turbulence grain), not a fluid simulation;
+    verify visual read on low-DPR + reduced-motion + small-viewport devices.
+================================================================================
+-->
+</body>
+</html>
