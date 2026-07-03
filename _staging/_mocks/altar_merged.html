@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Christian altar — how salvation gets weighted</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FCFBF7; --card:#FFFFFF; --hair:#C9BE9F;
+    --moss:#2C4A38; --fern:#3F7D57; --sage:#8AA88B; --olive:#6E7B3A;
+    --ink:#24302A; --ink-soft:#5A665C;
+    --gold:#C9A227; --gold-soft:#E4CF8F; --red:#9C2B2B;
+    --serif:'Newsreader',Georgia,serif;
+    --sans:'Inter',system-ui,sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--serif); -webkit-font-smoothing:antialiased;
+    line-height:1.55;
+  }
+  .wrap{max-width:860px; margin:0 auto; padding:48px 32px 64px;}
+
+  /* ---------- header chrome ---------- */
+  .brand{display:flex; align-items:center; gap:9px; margin-bottom:30px;}
+  .brand .name{font-family:var(--sans); font-size:14px; font-weight:500; letter-spacing:.02em; color:var(--moss);}
+  .eyebrow{
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--olive); margin:0 0 14px;
+  }
+  h1{
+    font-family:var(--serif); font-weight:500; font-size:38px; line-height:1.12;
+    letter-spacing:-.01em; margin:0 0 16px; color:var(--ink); max-width:20ch;
+  }
+  .deck{
+    font-size:19px; line-height:1.5; color:var(--ink-soft); margin:0; max-width:56ch;
+    font-family:var(--serif); font-weight:400;
+  }
+  .rule{height:1px; background:var(--hair); border:0; margin:34px 0;}
+
+  /* ---------- section headings ---------- */
+  .sec-num{
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--fern); margin:0 0 6px;
+  }
+  .sec-title{
+    font-family:var(--serif); font-weight:500; font-size:24px; margin:0 0 6px; color:var(--ink);
+  }
+  .sec-lede{font-size:16px; color:var(--ink-soft); margin:0 0 26px; max-width:60ch;}
+
+  /* ---------- altar scene ---------- */
+  .altar-panel{
+    background:var(--card); border:1px solid var(--hair); border-radius:4px;
+    padding:14px 20px 26px; position:relative;
+  }
+  .icon-row{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:0;
+  }
+  .icon-cell{
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    padding:14px 12px 0;
+  }
+  .icon-cell + .icon-cell{border-left:1px solid #EDE6D2;}
+  .icon-cell svg{display:block;}
+  .icon-name{
+    font-family:var(--serif); font-weight:500; font-size:18px; margin:12px 0 3px; color:var(--ink);
+  }
+  .icon-form{
+    font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--olive); margin:0 0 6px;
+  }
+  .icon-read{font-size:14px; line-height:1.45; color:var(--ink-soft); margin:0; max-width:26ch;}
+
+  .caption{
+    font-size:14.5px; line-height:1.55; color:var(--ink-soft);
+    margin:18px 0 0; padding-left:14px; border-left:2px solid var(--sage);
+    max-width:70ch;
+  }
+  .caption b{font-weight:500; color:var(--moss);}
+
+  /* ---------- liberation options ---------- */
+  .opt-grid{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:6px;
+  }
+  .opt-card{
+    background:var(--card); border:1px solid var(--hair); border-radius:4px;
+    padding:16px 18px; display:flex; gap:16px; align-items:flex-start;
+    position:relative;
+  }
+  .opt-card.pick{border-color:var(--fern); box-shadow:inset 0 0 0 1px var(--fern);}
+  .opt-badge{
+    position:absolute; top:-9px; right:14px; background:var(--fern); color:#fff;
+    font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase;
+    padding:3px 9px; border-radius:2px;
+  }
+  .opt-glyphs{display:flex; flex-direction:column; align-items:center; gap:6px; flex-shrink:0;}
+  .opt-sil{opacity:.9;}
+  .opt-body{padding-top:2px;}
+  .opt-title{font-family:var(--serif); font-weight:500; font-size:17px; margin:0 0 3px; color:var(--ink);}
+  .opt-idx{font-family:var(--mono); color:var(--olive); font-size:13px; margin-right:5px;}
+  .opt-read{font-size:14px; line-height:1.45; color:var(--ink-soft); margin:0;}
+
+  .pick-note{
+    font-size:14.5px; line-height:1.55; color:var(--ink-soft);
+    margin:20px 0 0; padding-left:14px; border-left:2px solid var(--gold);
+    max-width:70ch;
+  }
+  .pick-note b{font-weight:500; color:var(--moss);}
+
+  /* ---------- footer ---------- */
+  .foot{
+    margin-top:44px; padding-top:22px; border-top:1px solid var(--hair);
+    font-size:13.5px; line-height:1.6; color:var(--ink-soft); max-width:72ch;
+  }
+  .foot .tag{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--olive); display:block; margin-bottom:8px;
+  }
+  .foot b{font-weight:500; color:var(--moss);}
+
+  @media (max-width:640px){
+    h1{font-size:30px;} .wrap{padding:36px 20px 48px;}
+    .icon-row{grid-template-columns:1fr;}
+    .icon-cell + .icon-cell{border-left:0; border-top:1px solid #EDE6D2;}
+    .opt-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER CHROME (loud "this is GoM") ============ -->
+  <div class="brand" aria-label="Grammar of Meaning">
+    <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+      <path d="M13 24 C13 16 13 11 13 6" fill="none" stroke="#2C4A38" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M13 13 C10 12 7.5 10 6.5 6.5 C10 7 12 9 13 12.5" fill="#3F7D57"/>
+      <path d="M13 10.5 C16 9.5 18.5 7.5 19.5 4 C16 4.6 14 6.6 13 10" fill="#8AA88B"/>
+      <path d="M13 17 C10.6 16.2 8.6 14.6 7.8 11.8 C10.6 12.3 12.2 13.9 13 16.2" fill="#3F7D57"/>
+    </svg>
+    <span class="name">Grammar of Meaning</span>
+  </div>
+
+  <p class="eyebrow">The soteriology altar · one tradition</p>
+  <h1>A Christian altar — how salvation gets weighted</h1>
+  <p class="deck">Every tradition sets down a handful of sacred objects and gives each one weight. Here is the Christian ledge, drawn in the house language — with a devotional nod to its own inheritance.</p>
+
+  <hr class="rule">
+
+  <!-- ============ 1 · THE ALTAR SCENE ============ -->
+  <p class="sec-num">Section 01 · the ledge</p>
+  <h2 class="sec-title">Three objects on the altar</h2>
+  <p class="sec-lede">Foreground pieces in the merged register — the house's clean line and warm ground carrying the tradition's own forms.</p>
+
+  <div class="altar-panel">
+    <div class="icon-row">
+
+      <!-- ATONEMENT · Agnus Dei -->
+      <div class="icon-cell">
+        <svg width="150" height="150" viewBox="0 0 150 150" role="img" aria-label="A lamb with a gold halo, standing with a cross-staff and a red banner">
+          <!-- gilded ground disc -->
+          <circle cx="75" cy="74" r="58" fill="#FBF4DC"/>
+          <circle cx="75" cy="74" r="58" fill="none" stroke="#E4CF8F" stroke-width="1"/>
+          <!-- halo -->
+          <circle cx="75" cy="52" r="20" fill="none" stroke="#C9A227" stroke-width="2.5"/>
+          <!-- cross-staff -->
+          <line x1="103" y1="30" x2="88" y2="96" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/>
+          <line x1="97" y1="41" x2="111" y2="44" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/>
+          <!-- liturgical-red banner -->
+          <path d="M100 34 L124 39 L119 49 L124 59 L100 54 Z" fill="#9C2B2B"/>
+          <line x1="112" y1="45" x2="118" y2="46.5" stroke="#F4D9D9" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="110.5" y1="49" x2="115.5" y2="50" stroke="#F4D9D9" stroke-width="1.4" stroke-linecap="round"/>
+          <!-- lamb body, house clean line -->
+          <path d="M45 88 C40 78 46 68 57 67 C60 58 72 56 78 63 C90 60 100 68 97 80 C101 88 96 98 86 98 L52 98 C46 98 45 92 45 88 Z" fill="#FFFFFF" stroke="#2C4A38" stroke-width="2" stroke-linejoin="round"/>
+          <!-- fleece curls -->
+          <path d="M55 71 a4 4 0 1 0 .1 0 M66 65 a4 4 0 1 0 .1 0 M80 66 a4 4 0 1 0 .1 0 M90 74 a4 4 0 1 0 .1 0" fill="none" stroke="#8AA88B" stroke-width="1.3"/>
+          <!-- head -->
+          <path d="M52 84 C46 84 44 90 48 94 C50 96 55 96 57 92 C58 89 56 84 52 84 Z" fill="#FFFFFF" stroke="#2C4A38" stroke-width="2" stroke-linejoin="round"/>
+          <circle cx="50" cy="88" r="1.4" fill="#24302A"/>
+          <!-- legs -->
+          <line x1="60" y1="98" x2="60" y2="112" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/>
+          <line x1="72" y1="98" x2="72" y2="112" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/>
+          <line x1="84" y1="98" x2="84" y2="112" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <p class="icon-name">Atonement</p>
+        <p class="icon-form">Agnus Dei · the Lamb</p>
+        <p class="icon-read">The one who takes on the weight — slain, yet standing in victory.</p>
+      </div>
+
+      <!-- GRACE · descending dove -->
+      <div class="icon-cell">
+        <svg width="150" height="150" viewBox="0 0 150 150" role="img" aria-label="A white dove descending, with gold rays fanning down">
+          <circle cx="75" cy="74" r="58" fill="#FBF4DC"/>
+          <circle cx="75" cy="74" r="58" fill="none" stroke="#E4CF8F" stroke-width="1"/>
+          <!-- gold rays fanning down -->
+          <g stroke="#C9A227" stroke-width="1.6" stroke-linecap="round">
+            <line x1="75" y1="92" x2="75" y2="120"/>
+            <line x1="75" y1="92" x2="60" y2="116"/>
+            <line x1="75" y1="92" x2="90" y2="116"/>
+            <line x1="75" y1="92" x2="48" y2="108"/>
+            <line x1="75" y1="92" x2="102" y2="108"/>
+          </g>
+          <!-- dove, descending, house clean line -->
+          <path d="M75 40 C70 44 68 50 71 56 L60 52 C50 50 44 56 48 62 C52 66 60 65 66 62 C64 70 66 80 75 86 C84 80 86 70 84 62 C90 65 98 66 102 62 C106 56 100 50 90 52 L79 56 C82 50 80 44 75 40 Z"
+                fill="#FFFFFF" stroke="#2C4A38" stroke-width="2" stroke-linejoin="round"/>
+          <!-- head + halo dot -->
+          <circle cx="75" cy="46" r="4.6" fill="#FFFFFF" stroke="#2C4A38" stroke-width="2"/>
+          <circle cx="75" cy="34" r="6" fill="none" stroke="#C9A227" stroke-width="1.6"/>
+          <!-- beak toward earth · liturgical-red -->
+          <path d="M75 50 l0 5 l2.5 -2.5 Z" fill="#9C2B2B"/>
+          <!-- wing hairlines -->
+          <path d="M60 56 q7 3 12 5 M90 56 q-7 3 -12 5" fill="none" stroke="#8AA88B" stroke-width="1.2"/>
+        </svg>
+        <p class="icon-name">Grace</p>
+        <p class="icon-form">The descending dove</p>
+        <p class="icon-read">Gift, not earnings — the Spirit poured down before it is asked for.</p>
+      </div>
+
+      <!-- COMMUNION · chalice + open table -->
+      <div class="icon-cell">
+        <svg width="150" height="150" viewBox="0 0 150 150" role="img" aria-label="A gold chalice on an open table, with bread and a red wine line">
+          <circle cx="75" cy="74" r="58" fill="#FBF4DC"/>
+          <circle cx="75" cy="74" r="58" fill="none" stroke="#E4CF8F" stroke-width="1"/>
+          <!-- open table ledge -->
+          <line x1="38" y1="108" x2="112" y2="108" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/>
+          <line x1="47" y1="108" x2="47" y2="122" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/>
+          <line x1="103" y1="108" x2="103" y2="122" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/>
+          <!-- bread (broken loaf) -->
+          <path d="M40 100 a10 6 0 0 1 20 0 Z" fill="#FFFFFF" stroke="#2C4A38" stroke-width="2" stroke-linejoin="round"/>
+          <line x1="50" y1="94" x2="50" y2="100" stroke="#8AA88B" stroke-width="1.3"/>
+          <!-- chalice, gold -->
+          <path d="M66 58 L92 58 C92 74 84 84 79 86 L79 96 L86 100 L72 100 L79 96 L79 86 C74 84 66 74 66 58 Z"
+                fill="#FBEFC7" stroke="#C9A227" stroke-width="2.2" stroke-linejoin="round"/>
+          <!-- rim highlight -->
+          <line x1="66" y1="58" x2="92" y2="58" stroke="#C9A227" stroke-width="2.4" stroke-linecap="round"/>
+          <!-- liturgical-red wine -->
+          <path d="M69 60 L89 60 C88.5 66 86 70 79 71.5 C72 70 69.5 66 69 60 Z" fill="#9C2B2B"/>
+        </svg>
+        <p class="icon-name">Communion</p>
+        <p class="icon-form">Chalice · the open table</p>
+        <p class="icon-read">The meal that re-members — bread broken, cup shared, all welcomed.</p>
+      </div>
+
+    </div>
+
+    <p class="caption"><b>The merger.</b> Same house language — warm ground, green line, hairline rules — with a devotional nod: gold-leaf, liturgical red, and the tradition's own sacred forms. The greens carry the structure; the gold and red are the only additions, and they only touch what the tradition holds most sacred.</p>
+  </div>
+
+  <hr class="rule">
+
+  <!-- ============ 2 · LIBERATION OPTIONS ============ -->
+  <p class="sec-num">Section 02 · one object, four drafts</p>
+  <h2 class="sec-title">Liberation — options</h2>
+  <p class="sec-lede">The freed-from-bondage motive. Four candidate forms in the merged register — each with a foreground icon and a bold silhouette read.</p>
+
+  <div class="opt-grid">
+
+    <!-- 1 · broken chains -->
+    <div class="opt-card">
+      <div class="opt-glyphs">
+        <svg width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="A snapped chain, two links broken apart">
+          <ellipse cx="20" cy="20" rx="8" ry="11" fill="none" stroke="#2C4A38" stroke-width="3" transform="rotate(-30 20 20)"/>
+          <ellipse cx="34" cy="32" rx="7" ry="10" fill="none" stroke="#2C4A38" stroke-width="3" transform="rotate(-30 34 32)"/>
+          <ellipse cx="49" cy="45" rx="8" ry="11" fill="none" stroke="#2C4A38" stroke-width="3" transform="rotate(-30 49 45)"/>
+          <!-- break gap + red spark -->
+          <line x1="27" y1="24" x2="30" y2="28" stroke="#FCFBF7" stroke-width="5"/>
+          <path d="M28 22 l4 4 l-2 .5 l3 4" fill="none" stroke="#9C2B2B" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <svg class="opt-sil" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+          <ellipse cx="10" cy="11" rx="4.5" ry="6" fill="#24302A" transform="rotate(-30 10 11)"/>
+          <ellipse cx="22" cy="21" rx="4.5" ry="6" fill="#24302A" transform="rotate(-30 22 21)"/>
+        </svg>
+      </div>
+      <div class="opt-body">
+        <p class="opt-title"><span class="opt-idx">1</span>Broken chains</p>
+        <p class="opt-read">Bondage snapped. The plainest, boldest silhouette — reads instantly at any size.</p>
+      </div>
+    </div>
+
+    <!-- 2 · freed hands -->
+    <div class="opt-card pick">
+      <span class="opt-badge">Recommended</span>
+      <div class="opt-glyphs">
+        <svg width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Two hands rising with broken cuffs at the wrists">
+          <!-- gold rays behind -->
+          <g stroke="#E4CF8F" stroke-width="1.5" stroke-linecap="round">
+            <line x1="32" y1="20" x2="32" y2="8"/><line x1="24" y1="22" x2="20" y2="11"/><line x1="40" y1="22" x2="44" y2="11"/>
+          </g>
+          <!-- left hand -->
+          <path d="M22 56 L22 34 C22 30 27 30 27 34 L27 44 M27 44 L27 30 C27 26 31 26 31 30 L31 44" fill="none" stroke="#2C4A38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- right hand -->
+          <path d="M42 56 L42 34 C42 30 37 30 37 34 L37 44 M37 44 L37 30 C37 26 33 26 33 30 L33 44" fill="none" stroke="#2C4A38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- broken cuffs -->
+          <path d="M18 50 a6 4 0 0 1 8 0" fill="none" stroke="#9C2B2B" stroke-width="2.6"/>
+          <path d="M38 50 a6 4 0 0 1 8 0" fill="none" stroke="#9C2B2B" stroke-width="2.6"/>
+          <line x1="26" y1="49" x2="30" y2="52" stroke="#FCFBF7" stroke-width="3"/>
+          <line x1="38" y1="52" x2="42" y2="49" stroke="#FCFBF7" stroke-width="3"/>
+        </svg>
+        <svg class="opt-sil" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M11 30 L11 15 L13 15 L13 26 L15 26 L15 13 L17 13 L17 26 L19 26 L19 15 L21 15 L21 30 Z" fill="#24302A"/>
+        </svg>
+      </div>
+      <div class="opt-body">
+        <p class="opt-title"><span class="opt-idx">2</span>The freed hands</p>
+        <p class="opt-read">Two hands rising, cuffs split at the wrists. Freedom plus a human body — warmer than a bare object.</p>
+      </div>
+    </div>
+
+    <!-- 3 · opened manacle -->
+    <div class="opt-card">
+      <div class="opt-glyphs">
+        <svg width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="A single open shackle, the lock sprung">
+          <!-- shackle body -->
+          <path d="M22 36 a10 10 0 0 1 20 0 L42 34 a8 8 0 0 0 -16 0 L26 42" fill="none" stroke="#2C4A38" stroke-width="3.4" stroke-linecap="round"/>
+          <!-- lock body gold -->
+          <rect x="20" y="36" width="24" height="20" rx="3" fill="#FBEFC7" stroke="#C9A227" stroke-width="2.4"/>
+          <!-- keyhole -->
+          <circle cx="32" cy="44" r="2.6" fill="#9C2B2B"/>
+          <line x1="32" y1="46" x2="32" y2="51" stroke="#9C2B2B" stroke-width="2.2" stroke-linecap="round"/>
+          <!-- sprung -->
+          <line x1="42" y1="34" x2="48" y2="28" stroke="#2C4A38" stroke-width="3.4" stroke-linecap="round"/>
+        </svg>
+        <svg class="opt-sil" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M11 17 a5 5 0 0 1 10 0 L21 16 a3 3 0 0 0 -6 0 L15 21" fill="none" stroke="#24302A" stroke-width="2.4" stroke-linecap="round"/>
+          <rect x="10" y="17" width="12" height="10" rx="2" fill="#24302A"/>
+        </svg>
+      </div>
+      <div class="opt-body">
+        <p class="opt-title"><span class="opt-idx">3</span>The opened manacle</p>
+        <p class="opt-read">A single shackle, sprung open. Quiet and precise — but reads less obviously than a break.</p>
+      </div>
+    </div>
+
+    <!-- 4 · Anastasis simplified -->
+    <div class="opt-card">
+      <div class="opt-glyphs">
+        <svg width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="One hand pulling another up out of a line, the Anastasis abstracted">
+          <!-- grave line -->
+          <line x1="12" y1="50" x2="52" y2="50" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/>
+          <!-- gold arc above (mandorla hint) -->
+          <path d="M18 46 a20 20 0 0 1 28 0" fill="none" stroke="#E4CF8F" stroke-width="1.6"/>
+          <!-- upper hand reaching down -->
+          <path d="M38 14 L34 26 L28 30" fill="none" stroke="#2C4A38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="26" cy="31" r="3.4" fill="#FFFFFF" stroke="#2C4A38" stroke-width="2.4"/>
+          <!-- lower hand rising from the line -->
+          <path d="M22 50 L24 40 L27 34" fill="none" stroke="#2C4A38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="28" cy="33" r="3.4" fill="#9C2B2B"/>
+          <!-- clasp spark -->
+          <line x1="24" y1="31" x2="30" y2="33" stroke="#C9A227" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <svg class="opt-sil" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+          <line x1="5" y1="25" x2="27" y2="25" stroke="#24302A" stroke-width="1.6"/>
+          <path d="M20 6 L17 14 L13 16" fill="none" stroke="#24302A" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M10 25 L12 18 L14 15" fill="none" stroke="#24302A" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="13" cy="16" r="2.2" fill="#24302A"/>
+        </svg>
+      </div>
+      <div class="opt-body">
+        <p class="opt-title"><span class="opt-idx">4</span>The Anastasis, simplified</p>
+        <p class="opt-read">One hand pulling another up out of the grave-line — the icon's core gesture, stripped of its figures.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="pick-note"><b>Recommended: the freed hands (option 2).</b> It keeps the human body in the frame — the whole altar is about a person being weighed and released — without the theological freight of the full Anastasis, which you have mixed feelings on. Broken chains (1) is the safest bold silhouette if you want maximum legibility; the simplified Anastasis (4) is the most doctrinally specific but the hardest to read at 32px.</p>
+
+  <!-- ============ FOOTER ============ -->
+  <div class="foot">
+    <span class="tag">On this altar</span>
+    <b>This is the Christian altar only.</b> The devotional forms here — Lamb, dove, chalice, chains — are Christianity's own inheritance, drawn in its own accent. The merger rule is fixed: <b>one common house language</b> (warm ground, green line, hairline rules, house type) <b>plus a per-tradition nod</b> (each tradition later gets its own sacred forms and its own accent, on the same house ground). Schematic and provisional — the weighting shown is illustrative, not yet coded.
+  </div>
+
+</div>
+</body>
+</html>
