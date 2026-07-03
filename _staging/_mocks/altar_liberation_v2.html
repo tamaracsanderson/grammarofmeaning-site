@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Liberation — a few more</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FCFBF7; --card:#FFFFFF; --hair:#C9BE9F;
+    --moss:#2C4A38; --fern:#3F7D57; --sage:#8AA88B; --olive:#6E7B3A;
+    --ink:#24302A; --ink-soft:#5A665C;
+    --gold:#C9A227; --gold-soft:#E4CF8F; --red:#9C2B2B;
+    --serif:'Newsreader',Georgia,serif;
+    --sans:'Inter',system-ui,sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--serif); -webkit-font-smoothing:antialiased;
+    line-height:1.55;
+  }
+  .wrap{max-width:860px; margin:0 auto; padding:48px 32px 64px;}
+
+  /* ---------- header chrome ---------- */
+  .brand{display:flex; align-items:center; gap:9px; margin-bottom:30px;}
+  .brand .name{font-family:var(--sans); font-size:14px; font-weight:500; letter-spacing:.02em; color:var(--moss);}
+  .eyebrow{
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--olive); margin:0 0 14px;
+  }
+  h1{
+    font-family:var(--serif); font-weight:500; font-size:38px; line-height:1.12;
+    letter-spacing:-.01em; margin:0 0 16px; color:var(--ink); max-width:20ch;
+  }
+  .deck{
+    font-size:19px; line-height:1.5; color:var(--ink-soft); margin:0; max-width:58ch;
+    font-family:var(--serif); font-weight:400;
+  }
+  .rule{height:1px; background:var(--hair); border:0; margin:34px 0;}
+
+  /* ---------- liberation options ---------- */
+  .opt-grid{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:6px;
+  }
+  .opt-card{
+    background:var(--card); border:1px solid var(--hair); border-radius:4px;
+    padding:20px 20px 22px; display:flex; gap:18px; align-items:flex-start;
+    position:relative;
+  }
+  .opt-card.pick{border-color:var(--fern); box-shadow:inset 0 0 0 1px var(--fern);}
+  .opt-badge{
+    position:absolute; top:-9px; right:14px; background:var(--fern); color:#fff;
+    font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase;
+    padding:3px 9px; border-radius:2px;
+  }
+  .opt-glyphs{display:flex; flex-direction:column; align-items:center; gap:8px; flex-shrink:0;}
+  .opt-sil{opacity:.9;}
+  .opt-body{padding-top:2px;}
+  .opt-title{font-family:var(--serif); font-weight:500; font-size:17px; margin:0 0 4px; color:var(--ink);}
+  .opt-idx{font-family:var(--mono); color:var(--olive); font-size:13px; margin-right:5px;}
+  .opt-read{font-size:14px; line-height:1.45; color:var(--ink-soft); margin:0;}
+
+  .pick-note{
+    font-size:14.5px; line-height:1.55; color:var(--ink-soft);
+    margin:24px 0 0; padding-left:14px; border-left:2px solid var(--gold);
+    max-width:72ch;
+  }
+  .pick-note b{font-weight:500; color:var(--moss);}
+
+  /* ---------- footer ---------- */
+  .foot{
+    margin-top:44px; padding-top:22px; border-top:1px solid var(--hair);
+    font-size:13.5px; line-height:1.6; color:var(--ink-soft); max-width:72ch;
+  }
+  .foot .tag{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--olive); display:block; margin-bottom:8px;
+  }
+  .foot b{font-weight:500; color:var(--moss);}
+
+  @media (max-width:640px){
+    h1{font-size:30px;} .wrap{padding:36px 20px 48px;}
+    .opt-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER CHROME ============ -->
+  <div class="brand" aria-label="Grammar of Meaning">
+    <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+      <path d="M13 24 C13 16 13 11 13 6" fill="none" stroke="#2C4A38" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M13 13 C10 12 7.5 10 6.5 6.5 C10 7 12 9 13 12.5" fill="#3F7D57"/>
+      <path d="M13 10.5 C16 9.5 18.5 7.5 19.5 4 C16 4.6 14 6.6 13 10" fill="#8AA88B"/>
+      <path d="M13 17 C10.6 16.2 8.6 14.6 7.8 11.8 C10.6 12.3 12.2 13.9 13 16.2" fill="#3F7D57"/>
+    </svg>
+    <span class="name">Grammar of Meaning</span>
+  </div>
+
+  <p class="eyebrow">The soteriology altar · Liberation · a few more drafts</p>
+  <h1>Liberation — a few more</h1>
+  <p class="deck">New options in the merged register, from your own ideas: the open birdcage · the redrawn broken chains · open hands offering a heart · open hands releasing a bird.</p>
+
+  <hr class="rule">
+
+  <!-- ============ LIBERATION OPTIONS ============ -->
+  <div class="opt-grid">
+
+    <!-- 1 · the open birdcage -->
+    <div class="opt-card">
+      <div class="opt-glyphs">
+        <svg width="110" height="110" viewBox="0 0 110 110" role="img" aria-label="An open birdcage with the door swung wide and a songbird flying up and out">
+          <!-- gilded ground disc -->
+          <circle cx="55" cy="54" r="46" fill="#FBF4DC"/>
+          <circle cx="55" cy="54" r="46" fill="none" stroke="#E4CF8F" stroke-width="1"/>
+
+          <!-- cage: dome top with hanging ring -->
+          <circle cx="47" cy="24" r="3.4" fill="none" stroke="#2C4A38" stroke-width="2"/>
+          <path d="M47 27 C42 30 40 34 40 40" fill="none" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/>
+          <path d="M40 40 C40 34 54 32 54 32 C54 32 68 34 68 40" fill="none" stroke="#2C4A38" stroke-width="2" stroke-linejoin="round"/>
+          <!-- cage body: two upright sides + base -->
+          <line x1="40" y1="40" x2="40" y2="86" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/>
+          <line x1="68" y1="40" x2="68" y2="86" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/>
+          <line x1="36" y1="86" x2="72" y2="86" stroke="#2C4A38" stroke-width="2.4" stroke-linecap="round"/>
+          <line x1="40" y1="44" x2="68" y2="44" stroke="#2C4A38" stroke-width="1.6" stroke-linecap="round"/>
+          <!-- interior bars (sage hairline) -->
+          <line x1="48" y1="44" x2="48" y2="86" stroke="#8AA88B" stroke-width="1.2"/>
+          <line x1="60" y1="44" x2="60" y2="86" stroke="#8AA88B" stroke-width="1.2"/>
+          <!-- the swung-open door (liturgical red) -->
+          <path d="M40 56 L28 50 L28 78 L40 74" fill="none" stroke="#9C2B2B" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+          <line x1="34" y1="52" x2="34" y2="76" stroke="#9C2B2B" stroke-width="1.3"/>
+          <!-- hinge gap -->
+          <line x1="40" y1="55" x2="40" y2="75" stroke="#FCFBF7" stroke-width="2.6"/>
+
+          <!-- escaping songbird: small, thin body, forked/upright tail, flying up-out -->
+          <path d="M74 30 C70 33 68 36 69 40 C71 38 74 37 77 37 C74 40 73 44 75 48 C79 44 82 39 80 34 C84 35 88 34 89 31 C86 28 81 29 78 32 C79 29 78 27 76 27 C74 27 73 29 74 30 Z"
+                fill="#FFFFFF" stroke="#2C4A38" stroke-width="2" stroke-linejoin="round"/>
+          <!-- forked tail -->
+          <path d="M75 48 L71 55 M75 48 L78 55" fill="none" stroke="#2C4A38" stroke-width="1.8" stroke-linecap="round"/>
+          <!-- head + red breast touch -->
+          <circle cx="88" cy="30.5" r="2.4" fill="#FFFFFF" stroke="#2C4A38" stroke-width="1.8"/>
+          <path d="M77 40 a2.6 2.6 0 0 0 3.5 1.5" fill="none" stroke="#9C2B2B" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+        <svg class="opt-sil" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+          <!-- cage mass dominant -->
+          <path d="M11 11 C11 8 16 7 16 7 C16 7 21 8 21 11" fill="none" stroke="#24302A" stroke-width="1.8"/>
+          <line x1="11" y1="11" x2="11" y2="26" stroke="#24302A" stroke-width="1.8"/>
+          <line x1="21" y1="11" x2="21" y2="26" stroke="#24302A" stroke-width="1.8"/>
+          <line x1="9" y1="26" x2="23" y2="26" stroke="#24302A" stroke-width="2.2"/>
+          <line x1="16" y1="12" x2="16" y2="26" stroke="#24302A" stroke-width="1.4"/>
+          <!-- open door -->
+          <path d="M11 16 L5 13 L5 24 L11 22" fill="none" stroke="#24302A" stroke-width="1.6" stroke-linejoin="round"/>
+          <!-- tiny escaping bird -->
+          <path d="M24 9 C22 10 22 12 23 13 C24 11 26 11 27 12 C25 10 25 9 24 9 Z" fill="#24302A"/>
+        </svg>
+      </div>
+      <div class="opt-body">
+        <p class="opt-title"><span class="opt-idx">1</span>The open birdcage</p>
+        <p class="opt-read">The door swung wide, the songbird gone up and out. The empty cage carries the read — release from bondage, not a spirit descending.</p>
+      </div>
+    </div>
+
+    <!-- 2 · the broken chains, redrawn -->
+    <div class="opt-card pick">
+      <span class="opt-badge">Recommended</span>
+      <div class="opt-glyphs">
+        <svg width="110" height="110" viewBox="0 0 110 110" role="img" aria-label="Two or three chunky chain links snapped apart in the middle, with a spark at the break">
+          <circle cx="55" cy="54" r="46" fill="#FBF4DC"/>
+          <circle cx="55" cy="54" r="46" fill="none" stroke="#E4CF8F" stroke-width="1"/>
+
+          <!-- left half of chain, pulling away -->
+          <ellipse cx="30" cy="70" rx="9.5" ry="14" fill="none" stroke="#2C4A38" stroke-width="5" transform="rotate(-32 30 70)"/>
+          <ellipse cx="44" cy="58" rx="8.5" ry="12.5" fill="none" stroke="#2C4A38" stroke-width="5" transform="rotate(-32 44 58)"/>
+          <!-- half-link at the break, snapped open -->
+          <path d="M53 50 a8 12 0 0 1 6 -6" fill="none" stroke="#2C4A38" stroke-width="5" stroke-linecap="round" transform="rotate(-32 55 47)"/>
+
+          <!-- right half, pulling the other way -->
+          <ellipse cx="80" cy="38" rx="9.5" ry="14" fill="none" stroke="#2C4A38" stroke-width="5" transform="rotate(-32 80 38)"/>
+          <ellipse cx="66" cy="50" rx="8.5" ry="12.5" fill="none" stroke="#2C4A38" stroke-width="5" transform="rotate(-32 66 50)"/>
+          <path d="M57 58 a8 12 0 0 0 -6 6" fill="none" stroke="#2C4A38" stroke-width="5" stroke-linecap="round" transform="rotate(-32 55 61)"/>
+
+          <!-- the clean break gap -->
+          <line x1="49" y1="61" x2="61" y2="47" stroke="#FCFBF7" stroke-width="7"/>
+
+          <!-- impact / spark lines at the break -->
+          <g stroke="#2C4A38" stroke-width="1.8" stroke-linecap="round">
+            <line x1="63" y1="60" x2="70" y2="63"/>
+            <line x1="47" y1="48" x2="40" y2="45"/>
+            <line x1="60" y1="66" x2="65" y2="72"/>
+          </g>
+          <!-- one liturgical-red spark at the break -->
+          <path d="M55 54 l6 -3 l-3 5 l6 1" fill="none" stroke="#9C2B2B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <svg class="opt-sil" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+          <ellipse cx="9" cy="21" rx="4.6" ry="6.4" fill="none" stroke="#24302A" stroke-width="3" transform="rotate(-32 9 21)"/>
+          <ellipse cx="15" cy="16" rx="4.2" ry="5.8" fill="none" stroke="#24302A" stroke-width="3" transform="rotate(-32 15 16)"/>
+          <ellipse cx="24" cy="10" rx="4.6" ry="6.4" fill="none" stroke="#24302A" stroke-width="3" transform="rotate(-32 24 10)"/>
+          <line x1="16" y1="19" x2="21" y2="13" stroke="#FCFBF7" stroke-width="3.4"/>
+        </svg>
+      </div>
+      <div class="opt-body">
+        <p class="opt-title"><span class="opt-idx">2</span>The broken chains, redrawn</p>
+        <p class="opt-read">Chunky links with a real snap in the middle — the two halves pulling apart, sparks at the break. Heavy strokes make the boldest silhouette of the four.</p>
+      </div>
+    </div>
+
+    <!-- 3 · open hands + a heart -->
+    <div class="opt-card">
+      <div class="opt-glyphs">
+        <svg width="110" height="110" viewBox="0 0 110 110" role="img" aria-label="Two open upturned hands releasing a heart that rises from them">
+          <circle cx="55" cy="54" r="46" fill="#FBF4DC"/>
+          <circle cx="55" cy="54" r="46" fill="none" stroke="#E4CF8F" stroke-width="1"/>
+
+          <!-- gold rays behind the rising heart -->
+          <g stroke="#E4CF8F" stroke-width="1.6" stroke-linecap="round">
+            <line x1="55" y1="34" x2="55" y2="22"/>
+            <line x1="45" y1="37" x2="40" y2="27"/>
+            <line x1="65" y1="37" x2="70" y2="27"/>
+          </g>
+
+          <!-- the rising heart: liturgical red with a warm center -->
+          <path d="M55 52 C50 44 40 46 40 54 C40 62 55 70 55 70 C55 70 70 62 70 54 C70 46 60 44 55 52 Z"
+                fill="#9C2B2B" stroke="#9C2B2B" stroke-width="1"/>
+          <path d="M55 55 C52.5 51 48 52 48 56 C48 60 55 64 55 64 C55 64 62 60 62 56 C62 52 57.5 51 55 55 Z"
+                fill="#FBEFC7" opacity="0.85"/>
+
+          <!-- left open cupped hand -->
+          <path d="M30 92 C30 84 32 80 34 78
+                   L38 70 C39 68 41 69 40 71 L37 78
+                   M40 71 L42 65 C43 63 45 64 44 66 L41 76
+                   M44 66 L47 62 C48 60 50 61 49 63 L45 74
+                   M49 63 L52 61 C53.5 60 55 61 53.5 63 L49 76"
+                fill="none" stroke="#2C4A38" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M30 92 C30 84 33 79 40 76" fill="none" stroke="#2C4A38" stroke-width="2.4" stroke-linecap="round"/>
+
+          <!-- right open cupped hand (mirror) -->
+          <path d="M80 92 C80 84 78 80 76 78
+                   L72 70 C71 68 69 69 70 71 L73 78
+                   M70 71 L68 65 C67 63 65 64 66 66 L69 76
+                   M66 66 L63 62 C62 60 60 61 61 63 L65 74
+                   M61 63 L58 61 C56.5 60 55 61 56.5 63 L61 76"
+                fill="none" stroke="#2C4A38" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M80 92 C80 84 77 79 70 76" fill="none" stroke="#2C4A38" stroke-width="2.4" stroke-linecap="round"/>
+
+          <!-- sage hairline: the open palm crease -->
+          <path d="M44 80 q11 4 22 0" fill="none" stroke="#8AA88B" stroke-width="1.3"/>
+        </svg>
+        <svg class="opt-sil" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+          <!-- heart above -->
+          <path d="M16 12 C14 9 10 10 10 13 C10 16 16 20 16 20 C16 20 22 16 22 13 C22 10 18 9 16 12 Z" fill="#24302A"/>
+          <!-- cupped-hands mass below -->
+          <path d="M6 30 C6 24 10 21 16 21 C22 21 26 24 26 30 L23 30 C23 25 20 23 16 23 C12 23 9 25 9 30 Z" fill="#24302A"/>
+        </svg>
+      </div>
+      <div class="opt-body">
+        <p class="opt-title"><span class="opt-idx">3</span>Open hands + a heart</p>
+        <p class="opt-read">Two open, upturned palms releasing a heart that rises from them. Generous and releasing — the giving-away, not the grip.</p>
+      </div>
+    </div>
+
+    <!-- 4 · open hands + a bird -->
+    <div class="opt-card">
+      <div class="opt-glyphs">
+        <svg width="110" height="110" viewBox="0 0 110 110" role="img" aria-label="Two open upturned hands releasing a small songbird flying up from them">
+          <circle cx="55" cy="54" r="46" fill="#FBF4DC"/>
+          <circle cx="55" cy="54" r="46" fill="none" stroke="#E4CF8F" stroke-width="1"/>
+
+          <!-- gold rays behind the rising bird -->
+          <g stroke="#E4CF8F" stroke-width="1.6" stroke-linecap="round">
+            <line x1="55" y1="32" x2="55" y2="21"/>
+            <line x1="45" y1="35" x2="41" y2="26"/>
+            <line x1="65" y1="35" x2="69" y2="26"/>
+          </g>
+
+          <!-- rising songbird: small, thin body, forked/upright tail, up-and-out -->
+          <path d="M50 56 C46 52 44 55 45 59 C47 57 50 56 53 56 C50 59 49 63 51 66 C55 62 58 57 56 52 C60 53 64 52 65 49 C62 46 57 47 54 50 C55 47 54 45 52 45 C50 45 49 47 50 48 Z"
+                fill="#FFFFFF" stroke="#2C4A38" stroke-width="2" stroke-linejoin="round" transform="translate(-2 -6)"/>
+          <!-- forked tail -->
+          <path d="M49 60 L45 67 M49 60 L52 67" fill="none" stroke="#2C4A38" stroke-width="1.8" stroke-linecap="round" transform="translate(-2 -6)"/>
+          <!-- head + red breast touch -->
+          <circle cx="62" cy="43" r="2.4" fill="#FFFFFF" stroke="#2C4A38" stroke-width="1.8"/>
+          <path d="M50 49 a2.6 2.6 0 0 0 3.4 1.4" fill="none" stroke="#9C2B2B" stroke-width="2.2" stroke-linecap="round"/>
+
+          <!-- left open cupped hand -->
+          <path d="M30 92 C30 84 32 80 34 78
+                   L38 70 C39 68 41 69 40 71 L37 78
+                   M40 71 L42 65 C43 63 45 64 44 66 L41 76
+                   M44 66 L47 62 C48 60 50 61 49 63 L45 74
+                   M49 63 L52 61 C53.5 60 55 61 53.5 63 L49 76"
+                fill="none" stroke="#2C4A38" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M30 92 C30 84 33 79 40 76" fill="none" stroke="#2C4A38" stroke-width="2.4" stroke-linecap="round"/>
+
+          <!-- right open cupped hand (mirror) -->
+          <path d="M80 92 C80 84 78 80 76 78
+                   L72 70 C71 68 69 69 70 71 L73 78
+                   M70 71 L68 65 C67 63 65 64 66 66 L69 76
+                   M66 66 L63 62 C62 60 60 61 61 63 L65 74
+                   M61 63 L58 61 C56.5 60 55 61 56.5 63 L61 76"
+                fill="none" stroke="#2C4A38" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M80 92 C80 84 77 79 70 76" fill="none" stroke="#2C4A38" stroke-width="2.4" stroke-linecap="round"/>
+
+          <!-- sage hairline: the open palm crease -->
+          <path d="M44 80 q11 4 22 0" fill="none" stroke="#8AA88B" stroke-width="1.3"/>
+        </svg>
+        <svg class="opt-sil" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+          <!-- small bird above -->
+          <path d="M14 9 C12 8 12 11 13 12 C14 10 16 10 17 11 C15 9 16 8 15 8 Z" fill="#24302A"/>
+          <path d="M13 12 L11 16 M13 12 L14 16" fill="none" stroke="#24302A" stroke-width="1.4" stroke-linecap="round"/>
+          <!-- cupped-hands mass below -->
+          <path d="M6 30 C6 24 10 21 16 21 C22 21 26 24 26 30 L23 30 C23 25 20 23 16 23 C12 23 9 25 9 30 Z" fill="#24302A"/>
+        </svg>
+      </div>
+      <div class="opt-body">
+        <p class="opt-title"><span class="opt-idx">4</span>Open hands + a bird</p>
+        <p class="opt-read">The same open palms, now letting a small songbird take flight. Freedom given wings — a bird kept thin and forked so it never reads as the descending dove.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="pick-note"><b>Recommended: the broken chains, redrawn (option 2).</b> It survives shrinking to 32px better than any of the others — the chunky links plus the clean snap give the strongest, most instantly-legible silhouette, which is what an altar-icon most needs. The open birdcage (1) is the most poetic and the most clearly <i>not</i> Grace; open-hands-with-a-heart (3) is the warmest but softest at small sizes. If you want the human body in the frame, pick 1 or 3 over the two bird options only where the bird risks reading dove-ish at a glance.</p>
+
+  <!-- ============ FOOTER ============ -->
+  <div class="foot">
+    <span class="tag">On this altar</span>
+    <b>This is the Christian altar only.</b> These Liberation forms — cage, chains, open hands — are drawn in the house language, with the devotional nod kept sparing: a gilded ground-disc behind each icon and a single liturgical-red accent. The merger rule is fixed: <b>one common house language</b> (warm ground, green line, hairline rules, house type) <b>plus a per-tradition nod</b> (each tradition later gets its own sacred forms and its own accent, on the same house ground). Schematic and provisional — the weighting shown is illustrative, not yet coded.
+  </div>
+
+</div>
+</body>
+</html>
