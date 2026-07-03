@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The Library — State of the Library &amp; Engine · Grammar of Meaning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/gom.css">
+<style>
+  /* ---- page-specific tweaks (Library) ---- */
+  .wrap{max-width:1080px}
+
+  /* hero sub for this page */
+  .hero .lede{max-width:620px}
+
+  /* a live-snapshot chip that rides above the hero title */
+  .snap-chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;
+    font-weight:500;letter-spacing:0.04em;color:var(--ink-2);background:var(--paper-3);
+    border:1px solid var(--rule);border-radius:999px;padding:5px 13px;margin-bottom:20px}
+  .snap-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--fern);flex:0 0 auto;
+    box-shadow:0 0 0 3px rgba(63,125,87,.16)}
+
+  /* section lede paragraph */
+  .lead-p{font-size:16px;color:var(--ink-2);line-height:1.66;max-width:66ch;margin:0 0 8px}
+  .lead-p b{color:var(--ink)}
+  .lead-p i{color:var(--fern);font-style:italic}
+  .lead-p + .lead-p{margin-top:18px}
+
+  /* the corpus tracker — house container (same overrides as the hub) */
+  .tracker{background:var(--paper-2)!important;border:1px solid var(--rule)!important;
+    border-radius:14px!important;padding:26px 28px!important;margin:0!important}
+  .tracker [style*="color:#3f5a39"]{color:var(--moss)!important}
+  .tracker a[style*="color:#3f5a39"]{color:var(--fern)!important}
+  .tracker [style*="color:#8a7d63"]{color:var(--ink-3)!important}
+  .tracker [style*="color:#221c14"]{color:var(--ink)!important}
+  .tracker [style*="color:#4a4133"]{color:var(--ink)!important}
+  .tracker [style*="border-bottom:1px solid #e3dac6"]{border-bottom-color:var(--rule)!important}
+  .tracker [style*="border:1px solid #e3dac6"]{border-color:var(--rule)!important}
+  .tracker .tk-eyebrow{font-family:var(--sans)!important;font-weight:700;font-size:13px;
+    letter-spacing:0.035em;text-transform:none!important;color:var(--terracotta)!important}
+  .tracker [style*="font-family:Iowan Old Style"]{font-family:var(--serif)!important}
+  .tracker [style*="-apple-system"]{font-family:var(--sans)!important}
+
+  /* ---- the ENGINE diagram (4 stages, house colors on white) ---- */
+  .engine-frame{border:1px solid var(--rule);border-radius:16px;background:
+    radial-gradient(100% 120% at 0% 0%, rgba(224,169,59,.06), transparent 55%),var(--paper-3);
+    padding:28px 26px 22px;margin-top:6px}
+  .engine-frame .dtitle{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+  .engine-frame .dtitle h3{font-family:var(--serif);font-size:22px;color:var(--moss);font-weight:600;margin:0}
+  .engine-frame .dtag{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+  .engine-frame .dsub{font-family:var(--serif);font-style:italic;color:var(--ink-2);font-size:15.5px;margin:4px 0 20px}
+  .engine-frame svg{display:block;width:100%;height:auto}
+  .engine-caption{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:16px;line-height:1.55;
+    border-top:1px solid var(--rule);padding-top:14px}
+  .engine-caption b{color:var(--terracotta)}
+  .engine-caption a{color:var(--fern);font-weight:600}
+
+  /* the four stage-cards under the diagram — one per move, with a state flag */
+  .stagecards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+  @media(max-width:900px){.stagecards{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.stagecards{grid-template-columns:1fr}}
+  .stagecard{border:1px solid var(--rule);border-radius:12px;background:var(--paper-3);padding:16px 17px 15px;
+    display:flex;flex-direction:column}
+  .stagecard .sc-top{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+  .stagecard .sc-dot{width:11px;height:11px;border-radius:3px;flex:none}
+  .stagecard .sc-n{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink-3)}
+  .stagecard h4{font-family:var(--sans);font-weight:700;font-size:16px;color:var(--moss);margin:0}
+  .stagecard p{font-size:13px;color:var(--ink-2);line-height:1.5;margin:0 0 12px}
+  .stagecard p b{color:var(--ink)}
+  .stagecard .state{margin-top:auto;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.02em;
+    border-top:1px dashed var(--rule);padding-top:10px;display:flex;align-items:baseline;gap:7px}
+  .state .lbl{color:var(--ink-3);font-weight:500}
+  .state.done .val{color:var(--fern)}
+  .state.prog .val{color:var(--honey)}
+  .state.arch .val{color:var(--terracotta)}
+  .state.front .val{color:var(--rose)}
+
+  /* the honest funnel strip */
+  .funnel{display:flex;align-items:stretch;gap:0;margin-top:22px;border:1px solid var(--rule);
+    border-radius:12px;overflow:hidden;background:var(--paper-3)}
+  @media(max-width:640px){.funnel{flex-direction:column}}
+  .funnel .fstep{flex:1;padding:15px 18px;border-right:1px solid var(--rule)}
+  @media(max-width:640px){.funnel .fstep{border-right:none;border-bottom:1px solid var(--rule)}}
+  .funnel .fstep:last-child{border-right:none;border-bottom:none}
+  .funnel .fstep .fn{font-family:var(--serif);font-size:26px;font-weight:600;color:var(--moss);line-height:1.05}
+  .funnel .fstep .fl{font-family:var(--sans);font-size:12px;color:var(--ink-2);margin-top:5px;line-height:1.4}
+  .funnel .fstep .fl b{color:var(--ink)}
+  .funnel .fstep.dim .fn{color:var(--ink-3)}
+
+  /* two-up "why each" hp-cards */
+  .why-two{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:26px}
+  @media(max-width:640px){.why-two{grid-template-columns:1fr}}
+
+  /* lineage row */
+  .lineage{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:24px}
+  @media(max-width:820px){.lineage{grid-template-columns:1fr 1fr}}
+  @media(max-width:480px){.lineage{grid-template-columns:1fr}}
+  .lin{border:1px solid var(--rule);border-radius:11px;background:var(--paper-3);padding:14px 15px}
+  .lin .who{font-family:var(--serif);font-weight:600;font-size:16px;color:var(--moss)}
+  .lin .what{font-size:12px;color:var(--ink-2);margin-top:5px;line-height:1.45}
+
+  /* frontier callout — a designed panel, not an apology */
+  .frontier{border:1px solid var(--rule);border-left:4px solid var(--terracotta);border-radius:0 14px 14px 0;
+    background:radial-gradient(120% 140% at 0% 0%, rgba(196,96,47,.06), transparent 60%),var(--paper-3);
+    padding:26px 30px;margin-top:8px}
+  .frontier .fk{font-family:var(--mono);font-size:11.5px;letter-spacing:0.06em;color:var(--terracotta);font-weight:600}
+  .frontier h3{font-family:var(--serif);font-size:26px;color:var(--moss);font-weight:600;margin:8px 0 12px;line-height:1.15;max-width:22ch}
+  .frontier p{font-size:15.5px;color:var(--ink-2);line-height:1.62;max-width:64ch;margin:0 0 12px}
+  .frontier p b{color:var(--ink)}
+  .frontier p i{color:var(--fern);font-style:italic}
+  .frontier .zero-row{display:flex;align-items:center;gap:20px;margin:20px 0 4px;flex-wrap:wrap}
+  .frontier .zero{font-family:var(--serif);font-size:52px;font-weight:600;color:var(--terracotta);line-height:1}
+  .frontier .zero-lbl{font-family:var(--sans);font-size:13.5px;color:var(--ink-2);line-height:1.5;max-width:40ch}
+  .frontier .zero-lbl b{color:var(--ink)}
+
+  .foot-close{font-family:var(--sans);font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--rule);
+    margin-top:34px;padding-top:16px;line-height:1.65}
+  .foot-close em{font-style:italic;color:var(--ink-2)}
+</style>
+</head>
+<body>
+
+<!-- reusable botanical symbols -->
+<svg style="display:none" aria-hidden="true"><defs>
+  <symbol id="sprig" viewBox="0 0 150 34">
+    <path d="M5 17 H145" stroke="#6E7B3A" stroke-width="1" fill="none"/>
+    <g fill="none" stroke="#3F7D57" stroke-width="1.3">
+      <path d="M60 17 q-9 -11 -20 -9 q7 8 20 9"/>
+      <path d="M90 17 q9 -11 20 -9 q-7 8 -20 9"/>
+      <path d="M68 17 q-6 9 -15 9 q5 -7 15 -9"/>
+      <path d="M82 17 q6 9 15 9 q-5 -7 -15 -9"/>
+    </g>
+    <circle cx="75" cy="17" r="3.2" fill="#E0A93B"/>
+    <circle cx="75" cy="17" r="6" fill="none" stroke="#C4602F" stroke-width="1"/>
+  </symbol>
+</defs></svg>
+
+<!-- NAV -->
+<div class="topbar">
+  <div class="wrap">
+    <a class="brandmark" href="index.html" style="color:var(--moss)">
+      <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 22 V9" stroke="#6E7B3A" stroke-width="1.6"/>
+        <path d="M12 13 q-7 -2 -8 -9 q7 1 8 9" fill="#8AA88B" stroke="#3F7D57" stroke-width="1"/>
+        <path d="M12 10 q7 -3 8 -9 q-7 1 -8 9" fill="#3F7D57" stroke="#2C4A38" stroke-width="1"/>
+        <circle cx="12" cy="6" r="2.4" fill="#E0A93B" stroke="#C4602F" stroke-width="1"/>
+      </svg>
+      Grammar&nbsp;of&nbsp;Meaning
+    </a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="subtraditions.html" class="active">Library</a>
+      <a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener">Essays&nbsp;&#8599;</a>
+      <a href="garden.html">Garden</a>
+      <a href="grammar.html">Method</a>
+      <a href="glossary.html">Reference</a>
+    </nav>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <svg class="watermark" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+    <path d="M100 195 V70" stroke="#3F7D57" stroke-width="1.4"/>
+    <g stroke="#3F7D57" stroke-width="1.2" fill="none">
+      <path d="M100 150 q-46 -10 -58 -55 q46 6 58 55"/>
+      <path d="M100 120 q46 -12 58 -58 q-46 6 -58 58"/>
+      <path d="M100 96 q-38 -8 -48 -46 q38 5 48 46"/>
+      <path d="M100 78 q40 -10 50 -48 q-40 5 -50 48"/>
+    </g>
+    <circle cx="100" cy="62" r="7" fill="#E0A93B"/>
+  </svg>
+  <div class="wrap">
+    <div class="snap-chip"><span class="dot"></span>A live snapshot from the corpus · as of July 1, 2026</div>
+    <div class="kicker">The Library · <b>state of the library &amp; engine</b></div>
+    <h1>The Library</h1>
+    <div class="sub">What's been gathered, how it's built, and what hasn't happened yet.</div>
+    <p class="lede">The panel gives the numbers. This page gives the <b>why</b> — why the study is built from the sources up, how the four moves of the engine feed each other, and why the <i>infrastructure</i>, not a quick result, is the point.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- 01 · THE PREMISE -->
+<section id="premise">
+  <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">The premise — built from the sources up, on purpose</span><span class="sec-line"></span></div>
+
+  <p class="lead-p">The obvious way to build a "grammar of meaning across traditions" is to ask a large language model what the world's traditions say. That path is fast — and quietly broken. An LLM's picture of religion is its <b>training data's</b> picture: overwhelmingly Western, Anglophone, and recent, weighted toward whatever is most abundant online. Ask it about "the self across traditions" and you get a confident synthesis shaped by that lean — with the gaps <i>invisible</i>.</p>
+
+  <p class="lead-p">So this project does the slow thing instead. It builds <b>bottom-up, from primary sources</b> — harvesting the actual texts from each tradition's own archives and scholarship (including the non-Western, non-Anglophone ones most tools never reach), coding them first in each tradition's <i>own</i> vocabulary, and letting patterns emerge from the texts rather than from a model's prior.</p>
+
+  <blockquote class="pull" style="margin-top:32px">
+    <p>The corpus is not an illustration of a thesis; it is the <i>evidence</i>, gathered before the argument.</p>
+    <div class="attr">— <b>Grammar of Meaning</b> · on why it's built this way</div>
+  </blockquote>
+
+  <p class="lead-p" style="margin-top:32px">This is the whole reason the infrastructure exists. The acquisition engine is built to reach <i>past</i> the easy, English, already-digitized sources — to route a question about (say) St. Paul to African, Latin American, and Japanese scholarship with the same priority as a Princeton journal. The bias-visible tagging is built so the corpus's real skew is <b>shown</b>, not smoothed over. The ground-up coding is built so no imported category pre-decides what a tradition "must" be saying. Take the infrastructure away, and you are back to the model's lean.</p>
+</section>
+
+<!-- 02 · THE LIBRARY -->
+<section id="library">
+  <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">The Library — what's gathered, and its honest skew</span><span class="sec-line"></span></div>
+
+  <p class="lead-p">A live snapshot from the corpus — what's been gathered so far, and how it's distributed across families. Breadth here is not a vanity metric: a cross-tradition pattern can only be trusted if the traditions were gathered <i>independently, in their own terms</i>. The skew is real and <b>named, not hidden</b>.</p>
+
+<!-- TRACKER:START (generated by scripts/site/build_tracker.py — re-run to refresh; live-data markup preserved verbatim from the hub) -->
+<div class="tracker" style="margin:28px 0 8px;padding:24px 26px;background:#FBFAF5;border:1px solid #E7E0CE;border-radius:14px">
+  <div class="tk-eyebrow" style="font:700 13px/1 -apple-system,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#8a7d63;margin-bottom:4px">State of the library</div>
+  <div style="font-size:13px;color:#8a7d63;font-family:-apple-system,sans-serif;margin-bottom:18px">A snapshot from the corpus · as of July 1, 2026</div>
+  <div style="display:flex;gap:26px;flex-wrap:wrap;justify-content:space-between;margin-bottom:22px">
+    <div style="text-align:center"><div style="font-size:30px;font-weight:700;color:#3f5a39;line-height:1.1;font-family:Iowan Old Style,Palatino,Georgia,serif">545</div><div style="font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif">traditions</div></div><div style="text-align:center"><div style="font-size:30px;font-weight:700;color:#3f5a39;line-height:1.1;font-family:Iowan Old Style,Palatino,Georgia,serif">9</div><div style="font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif">families</div></div><div style="text-align:center"><div style="font-size:30px;font-weight:700;color:#3f5a39;line-height:1.1;font-family:Iowan Old Style,Palatino,Georgia,serif">347K</div><div style="font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif">sources gathered</div></div><div style="text-align:center"><div style="font-size:30px;font-weight:700;color:#3f5a39;line-height:1.1;font-family:Iowan Old Style,Palatino,Georgia,serif">9.8M</div><div style="font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif">quotable passages</div></div><div style="text-align:center"><div style="font-size:30px;font-weight:700;color:#3f5a39;line-height:1.1;font-family:Iowan Old Style,Palatino,Georgia,serif">4,745</div><div style="font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif">archives catalogued</div></div>
+  </div>
+  <div style="font:700 12px/1 -apple-system,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8a7d63;margin:6px 0 8px">The corpus by family</div>
+  <div style="display:flex;width:100%;border-radius:8px;overflow:hidden;border:1px solid #e3dac6;font-size:0"><span title="Abrahamic: 191,738 (55.2%)" style="position:relative;height:38px;width:55.199117910391905%;background:#b8893a;display:inline-block"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35);white-space:nowrap">Abrahamic 55%</span></span><span title="Dharmic: 28,247 (8.1%)" style="position:relative;height:38px;width:8.131979490840834%;background:#3f5a39;display:inline-block"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35);white-space:nowrap">Dharmic 8%</span></span><span title="Philosophical: 26,193 (7.5%)" style="position:relative;height:38px;width:7.540657018571671%;background:#5a6a9a;display:inline-block"></span><span title="Psychological: 22,152 (6.4%)" style="position:relative;height:38px;width:6.377300587004149%;background:#7a5a8a;display:inline-block"></span><span title="Modern Spiritual: 12,934 (3.7%)" style="position:relative;height:38px;width:3.7235466681253007%;background:#4a7c9c;display:inline-block"></span><span title="Indigenous &amp; traditional: 12,688 (3.7%)" style="position:relative;height:38px;width:3.6527261578145827%;background:#8a7a32;display:inline-block"></span><span title="East Asian: 10,432 (3.0%)" style="position:relative;height:38px;width:3.0032502583797074%;background:#4f8a78;display:inline-block"></span><span title="Ancient: 9,005 (2.6%)" style="position:relative;height:38px;width:2.592433720926885%;background:#a8623a;display:inline-block"></span><span title="Secular: 6,535 (1.9%)" style="position:relative;height:38px;width:1.8813497352867512%;background:#6f8a72;display:inline-block"></span><span title="Pending review: 21,211 (6.1%)" style="position:relative;height:38px;width:6.106397740652988%;background:#c79a5a;display:inline-block"></span><span title="Other / uncategorized: 6,222 (1.8%)" style="position:relative;height:38px;width:1.7912407120052278%;background:#c8bfa8;display:inline-block"></span></div>
+  <div style="display:flex;flex-wrap:wrap;gap:12px 18px;margin-top:14px">
+    <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif"><span style="width:11px;height:11px;border-radius:3px;background:#b8893a;flex:none"></span><b style="color:#221c14">Abrahamic</b> · 55%</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif"><span style="width:11px;height:11px;border-radius:3px;background:#3f5a39;flex:none"></span><b style="color:#221c14">Dharmic</b> · 8%</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif"><span style="width:11px;height:11px;border-radius:3px;background:#5a6a9a;flex:none"></span><b style="color:#221c14">Philosophical</b> · 8%</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif"><span style="width:11px;height:11px;border-radius:3px;background:#7a5a8a;flex:none"></span><b style="color:#221c14">Psychological</b> · 6%</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif"><span style="width:11px;height:11px;border-radius:3px;background:#4a7c9c;flex:none"></span><b style="color:#221c14">Modern Spiritual</b> · 4%</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif"><span style="width:11px;height:11px;border-radius:3px;background:#8a7a32;flex:none"></span><b style="color:#221c14">Indigenous &amp; traditional</b> · 4%</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif"><span style="width:11px;height:11px;border-radius:3px;background:#4f8a78;flex:none"></span><b style="color:#221c14">East Asian</b> · 3%</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif"><span style="width:11px;height:11px;border-radius:3px;background:#a8623a;flex:none"></span><b style="color:#221c14">Ancient</b> · 3%</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif"><span style="width:11px;height:11px;border-radius:3px;background:#6f8a72;flex:none"></span><b style="color:#221c14">Secular</b> · 2%</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif"><span style="width:11px;height:11px;border-radius:3px;background:#c79a5a;flex:none"></span><b style="color:#221c14">Pending review</b> · 6%</span>
+    <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:#8a7d63;font-family:-apple-system,sans-serif"><span style="width:11px;height:11px;border-radius:3px;background:#c8bfa8;flex:none"></span><b style="color:#221c14">Other / uncategorized</b> · 2%</span>
+  </div>
+  <div style="font-size:12.5px;color:#8a7d63;font-family:-apple-system,sans-serif;margin-top:16px;line-height:1.5">The corpus skews toward <b style="color:#221c14">Christianity</b> and the Abrahamic traditions — a real bias from centuries of uneven text-production and digitization, <b style="color:#221c14">not a choice to foreground Christianity</b>. <b style="color:#221c14">Islam, Judaism, Buddhism, Hinduism and 540+ other traditions</b> are all included; we <b style="color:#221c14">document the skew rather than hide it</b>. ("Pending review" = 21,211 rows from the academic-metadata harvest, flagged for a human pass and kept visible — per our CARE discipline we tag rather than force-sort or hide them; "Other / uncategorized" = the small remaining residual.)</div>
+  <div style="font-size:12.5px;color:#8a7d63;font-family:-apple-system,sans-serif;margin-top:8px">Coding is the current frontier. · <a href="subtraditions.html" style="color:#3f5a39;font-weight:600">Browse all 545 traditions →</a></div>
+</div>
+<!-- TRACKER:END -->
+
+  <p class="lead-p" style="margin-top:24px">The load-bearing methodological move is to <b>document the skew rather than hide it.</b> Pre-filtering to "balance" the corpus would bury the bias behind a curatorial decision; showing it — and then working deliberately to reach the under-represented archives — is both more honest and more <i>correctable</i>. The "Pending review" and "Other" buckets belong to the same discipline: rows are tagged and kept visible, never force-sorted or dropped. It is the project's CARE commitment made concrete.</p>
+</section>
+
+<!-- 03 · THE ENGINE -->
+<section id="engine">
+  <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">The Engine — four moves, and why each</span><span class="sec-line"></span></div>
+
+  <p class="lead-p">The engine turns scattered archives into a corpus you can actually put questions to. Four moves feed each other in order: <b>Acquire → Store → Index → Code</b>. Three of them moved this week; the fourth is still ahead.</p>
+
+  <div class="engine-frame">
+    <div class="dtitle"><h3>The engine, in four moves</h3><span class="dtag">substrate for the study · not findings</span></div>
+    <div class="dsub">Scattered archives on the left; an analyzable corpus on the right. Each move is at a clear, honestly-nameable stage.</div>
+
+    <svg viewBox="0 0 940 250" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" role="img" aria-label="Four-stage engine diagram: Acquire, Store, Index, Code">
+      <defs>
+        <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#6E7B3A"/>
+        </marker>
+      </defs>
+
+      <!-- the growing stem underneath -->
+      <line x1="70" y1="125" x2="880" y2="125" stroke="#6E7B3A" stroke-width="1.4" opacity=".5"/>
+
+      <!-- connectors -->
+      <line x1="222" y1="125" x2="268" y2="125" stroke="#6E7B3A" stroke-width="1.6" marker-end="url(#arw)"/>
+      <line x1="432" y1="125" x2="478" y2="125" stroke="#6E7B3A" stroke-width="1.6" marker-end="url(#arw)"/>
+      <line x1="642" y1="125" x2="688" y2="125" stroke="#6E7B3A" stroke-width="1.6" marker-end="url(#arw)"/>
+
+      <!-- 1 ACQUIRE (fern) -->
+      <g>
+        <rect x="70" y="86" width="152" height="78" rx="12" fill="#F4F8F3" stroke="#3F7D57" stroke-width="1.6"/>
+        <circle cx="90" cy="106" r="4.5" fill="#3F7D57"/>
+        <text x="104" y="110" font-size="14.5" font-weight="700" fill="#2C4A38">Acquire</text>
+        <text x="86" y="132" font-size="11" fill="#52605A">find &amp; fetch primary</text>
+        <text x="86" y="147" font-size="11" fill="#52605A">sources past the</text>
+        <text x="86" y="162" font-size="11" fill="#52605A">Anglophone default</text>
+        <text x="86" y="184" font-size="10" font-weight="600" fill="#C4602F" font-family="'IBM Plex Mono',monospace">architecturally complete</text>
+        <text x="86" y="198" font-size="10" font-weight="600" fill="#C4602F" font-family="'IBM Plex Mono',monospace">453 / 457 tests</text>
+      </g>
+
+      <!-- 2 STORE (fern → done) -->
+      <g>
+        <rect x="280" y="86" width="152" height="78" rx="12" fill="#F4F8F3" stroke="#3F7D57" stroke-width="1.6"/>
+        <circle cx="300" cy="106" r="4.5" fill="#3F7D57"/>
+        <text x="314" y="110" font-size="14.5" font-weight="700" fill="#2C4A38">Store</text>
+        <text x="296" y="132" font-size="11" fill="#52605A">hold ~9.8M passages</text>
+        <text x="296" y="147" font-size="11" fill="#52605A">durably — off a laptop,</text>
+        <text x="296" y="162" font-size="11" fill="#52605A">into cloud Postgres</text>
+        <text x="296" y="188" font-size="10" font-weight="600" fill="#3F7D57" font-family="'IBM Plex Mono',monospace">done · 0-drift parity</text>
+      </g>
+
+      <!-- 3 INDEX (honey → in progress) -->
+      <g>
+        <rect x="490" y="86" width="152" height="78" rx="12" fill="#FDF7EA" stroke="#E0A93B" stroke-width="1.8"/>
+        <circle cx="510" cy="106" r="4.5" fill="#E0A93B"/>
+        <text x="524" y="110" font-size="14.5" font-weight="700" fill="#2C4A38">Index</text>
+        <text x="506" y="132" font-size="11" fill="#52605A">embed by meaning —</text>
+        <text x="506" y="147" font-size="11" fill="#52605A">overlooked material</text>
+        <text x="506" y="162" font-size="11" fill="#52605A">indexed first</text>
+        <text x="506" y="188" font-size="10" font-weight="600" fill="#B58521" font-family="'IBM Plex Mono',monospace">in progress · ~324K</text>
+      </g>
+
+      <!-- 4 CODE (terracotta dashed → the frontier) -->
+      <g>
+        <rect x="700" y="86" width="152" height="78" rx="12" fill="#FBF1EC" stroke="#C4602F" stroke-width="1.8" stroke-dasharray="6 4"/>
+        <circle cx="720" cy="106" r="4.5" fill="#C4602F"/>
+        <text x="734" y="110" font-size="14.5" font-weight="700" fill="#2C4A38">Code</text>
+        <text x="716" y="132" font-size="11" fill="#52605A">name what each</text>
+        <text x="716" y="147" font-size="11" fill="#52605A">passage is doing, in</text>
+        <text x="716" y="162" font-size="11" fill="#52605A">its own vocabulary</text>
+        <text x="716" y="188" font-size="10" font-weight="700" fill="#B0552B" font-family="'IBM Plex Mono',monospace">the frontier · not begun</text>
+      </g>
+
+      <!-- seed → bloom endpoints -->
+      <circle cx="52" cy="125" r="6" fill="#E0A93B" stroke="#C4602F" stroke-width="1"/>
+      <text x="52" y="150" font-size="9.5" fill="#7C8478" text-anchor="middle" font-family="'IBM Plex Mono',monospace">archives</text>
+      <circle cx="890" cy="125" r="6" fill="#F4F8F3" stroke="#C4602F" stroke-width="1.4"/>
+      <text x="890" y="150" font-size="9.5" fill="#7C8478" text-anchor="middle" font-family="'IBM Plex Mono',monospace">observations</text>
+    </svg>
+
+    <p class="engine-caption"><b>Reading:</b> the four moves are not equal in maturity, and the diagram says so — <span style="color:#3F7D57;font-weight:600">fern</span> = built &amp; verified, <span style="color:#B58521;font-weight:600">honey</span> = underway, <span style="color:#B0552B;font-weight:600">dashed terracotta</span> = the frontier, not yet begun. Everything to the left of <b>Code</b> is the substrate that makes honest coding possible. · Want to watch one idea travel the whole engine? <a href="engine.html">See one idea join the library →</a> (the Tengri walkthrough).</p>
+  </div>
+
+  <!-- the four stage cards, with WHY each -->
+  <div class="stagecards">
+    <div class="stagecard">
+      <div class="sc-top"><span class="sc-dot" style="background:#3F7D57"></span><span class="sc-n">move 1</span></div>
+      <h4>Acquire</h4>
+      <p>Find and fetch primary sources across ~4,700 catalogued archives, reaching deliberately past the Anglophone default — the <b>Parity Principle</b>: an African journal on a topic fires with the same priority as an American one.</p>
+      <div class="state arch"><span class="lbl">state</span><span class="val">architecturally complete · 453 / 457 core tests pass</span></div>
+    </div>
+    <div class="stagecard">
+      <div class="sc-top"><span class="sc-dot" style="background:#3F7D57"></span><span class="sc-n">move 2</span></div>
+      <h4>Store</h4>
+      <p>Hold ~9.8M passages durably. This week the corpus <b>moved off a single laptop file into cloud infrastructure</b> — the shift from a personal database to the shared, durable store a decade-scale project needs.</p>
+      <div class="state done"><span class="lbl">state</span><span class="val">done · verified in 0-drift parity</span></div>
+    </div>
+    <div class="stagecard">
+      <div class="sc-top"><span class="sc-dot" style="background:#E0A93B"></span><span class="sc-n">move 3</span></div>
+      <h4>Index</h4>
+      <p>Embed passages so the corpus is searchable by <b>meaning</b>, not just keyword — and, deliberately, index the <b>most-easily-overlooked material first</b>, so marginalized readings are findable rather than buried.</p>
+      <div class="state prog"><span class="lbl">state</span><span class="val">in progress · ~324K embedded · overlooked slice finishing this weekend</span></div>
+    </div>
+    <div class="stagecard">
+      <div class="sc-top"><span class="sc-dot" style="background:#C4602F"></span><span class="sc-n">move 4</span></div>
+      <h4>Code</h4>
+      <p>Read each passage and name what it is <b>doing</b>, in the tradition's own vocabulary. This is where scattered texts become analyzable observations — and no cross-tradition patterns have been drawn.</p>
+      <div class="state front"><span class="lbl">state</span><span class="val">the current frontier · not yet begun at scale</span></div>
+    </div>
+  </div>
+
+  <p class="lead-p" style="margin-top:26px">Why are the tests <b>453 of 457</b>, not all green? Because that is the honest part of the story. Running the <i>full</i> suite — rather than a convenient subset — caught a real production bug: after the cloud cutover, the acquisition cart's database write was broken by a SQL-dialect difference. We found it and <b>fixed it</b>. The four remaining reds are a separate, tracked follow-up (integration tests need isolating from the live database). "Tests pass" is not the same as "fully running," and the funnel below says exactly how far the machine actually reaches today.</p>
+
+  <div class="funnel">
+    <div class="fstep"><div class="fn">4,745</div><div class="fl"><b>catalogued</b> — archives the engine knows about</div></div>
+    <div class="fstep"><div class="fn">3,331</div><div class="fl"><b>built</b> — turned into a working harvester</div></div>
+    <div class="fstep dim"><div class="fn">~2,891</div><div class="fl"><b>ever yielded</b> — have actually returned a source</div></div>
+  </div>
+  <p class="lead-p" style="margin-top:18px;font-size:14.5px;color:var(--ink-3)">The remaining work is <i>operational, not architectural</i> — fire the endpoints that have never run, tag the ones not yet buildable, build the handful of spec'd-not-built scripture archives (a bias-visibility win: MENA and East-Asian scripture). That is throughput, not invention.</p>
+</section>
+
+<!-- 04 · WHY THE INFRASTRUCTURE MATTERS -->
+<section id="why">
+  <div class="sec-head"><span class="sec-num">04</span><span class="sec-title">Why the infrastructure matters</span><span class="sec-line"></span></div>
+
+  <blockquote class="pull" style="margin-bottom:8px">
+    <p>The <i>infrastructure</i> is the argument.</p>
+    <div class="attr">— <b>Grammar of Meaning</b> · the longevity case</div>
+  </blockquote>
+
+  <p class="lead-p" style="margin-top:26px">This is a decade-scale project, not a demo, and the engine is built accordingly. The point is not a clever result next month; it is <b>durability and extensibility</b> — a corpus and a method built to outlast any single thesis, published openly so others can audit, extend, and contest them.</p>
+
+  <p class="lead-p">It sits in a deliberate lineage — but adds the thing those forebears mostly withheld: <b>the open methodology and tooling</b>. The <i>how</i> travels, not just the <i>what</i>.</p>
+
+  <div class="lineage">
+    <div class="lin"><div class="who">Brand</div><div class="what">access — the <i>Whole Earth</i> catalogue of tools</div></div>
+    <div class="lin"><div class="who">Diderot</div><div class="what">encyclopedic ambition</div></div>
+    <div class="lin"><div class="who">Alexander</div><div class="what">cross-context patterns</div></div>
+    <div class="lin"><div class="who">Meadows</div><div class="what">cross-domain archetypes</div></div>
+    <div class="lin"><div class="who">Smil</div><div class="what">empirical breadth</div></div>
+  </div>
+
+  <div class="why-two">
+    <div class="hp-card">
+      <div class="t g">Durable + extensible</div>
+      <p>Moving to durable storage, hardening the pipeline with tests, documenting every decision, building the bias-visibility and CARE disciplines in from the start — <b>none of it produces a headline</b>. All of it is what lets the project still be trustworthy and extensible in ten years.</p>
+    </div>
+    <div class="hp-card">
+      <div class="t">Open, on purpose</div>
+      <p>The corpus and the method are published so others can build on them. That is the deliberate trade: <b>infrastructure now, so the findings, when they come, rest on something that holds.</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 · THE HONEST FRONTIER -->
+<section id="frontier">
+  <div class="sec-head"><span class="sec-num">05</span><span class="sec-title">The honest frontier</span><span class="sec-line"></span></div>
+
+  <div class="frontier">
+    <div class="fk">WHAT HASN'T HAPPENED YET</div>
+    <h3>Coding is the current frontier.</h3>
+    <div class="zero-row">
+      <div class="zero">0</div>
+      <div class="zero-lbl"><b>passages coded.</b> The library is gathered and being indexed. The engine is built — and, this week, more durable and more tested than it has ever been. What has <b>not</b> happened yet is the coding: turning passages into observations. No cross-tradition patterns have been drawn.</div>
+    </div>
+    <p>This is a designed callout, not an apology. The whole method is arranged so that when coding does begin, it begins on honest ground: primary sources, read in each tradition's own vocabulary, with the corpus's skew visible rather than smoothed away.</p>
+    <p>And the question that coding is built to answer is a <b>rhyme</b>: not whether traditions agree, but whether they make the same <i>move</i> underneath their different answers. <b>A rhyme is the same move made in a different voice.</b> That is the frontier — and this page will keep saying exactly that until it is crossed.</p>
+  </div>
+
+  <svg class="sprig" style="margin-top:40px"><use href="#sprig"/></svg>
+
+  <div class="foot-close">
+    Numbers on this page are a <em>live snapshot from the corpus</em>, as of July 1, 2026 — not a fixed boast; they move as the work moves. Everything above the coding frontier is <em>substrate</em>: the machinery that will make coding, and the eventual Garden, possible. <em>Grammar of Meaning</em> · a working house, unlisted.
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="flabel">Grammar of Meaning</div>
+    <h3>How meaning gets made — read each tradition in its own vocabulary first.</h3>
+    <div class="pickgrid">
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">The work</div>
+        <div class="picklist">
+          <div><a href="subtraditions.html" style="color:#fff">The Library</a> <span class="k">— the world's traditions, gathered</span></div>
+          <div><a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" style="color:#fff">The Essays ↗</a> <span class="k">— meaning-making in public</span></div>
+          <div><a href="garden.html" style="color:#fff">The Garden</a> <span class="k">— a pilgrimage you walk</span></div>
+          <div><a href="grammar.html" style="color:#fff">The Method</a> <span class="k">— the open method behind it all</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">Reference</div>
+        <div class="picklist">
+          <div><a href="glossary.html" style="color:#fff">Glossary</a></div>
+          <div><a href="principles.html" style="color:#fff">Principles</a></div>
+          <div><a href="scholars.html" style="color:#fff">Scholars</a></div>
+          <div><a href="bibliography.html" style="color:#fff">Bibliography</a></div>
+        </div>
+        <div class="label-mute" style="color:var(--sage);margin:22px 0 10px">Start here</div>
+        <div class="picklist">
+          <div><a href="mission.html" style="color:#fff">What this is →</a></div>
+        </div>
+      </div>
+    </div>
+    <p class="foot-note">A working house, unlisted · <em>Grammar of Meaning</em> · Tamara Sanderson · 2026 · content draft, not deployed</p>
+  </div>
+</footer>
+
+</body>
+</html>
