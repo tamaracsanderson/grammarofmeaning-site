@@ -4,34 +4,62 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>How a move gets coded — Grammar of Meaning</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/gom.css">
 <style>
 :root{
-  --bg:#0d0f1a; --bg2:#141832; --ink:#eef0fb; --dim:#9aa0c4; --faint:#5a6090;
-  --gold:#f3c969; --teal:#5fd6c4; --rose:#e6809a; --indigo:#8a8ff0;
-  --line:rgba(255,255,255,.12); --card:rgba(255,255,255,.045);
-  --grid:rgba(255,255,255,.06);
-  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  /* ── re-themed dark→house LIGHT: night-sky skin retired, Living Garden ground ── */
+  --bg:#FCFBF7;          /* was #0d0f1a — warm rag-paper ground */
+  --bg2:#FFFFFF;         /* was #141832 — raised plate */
+  --ink:#24302A;         /* was #eef0fb — deep pine ink (no near-black) */
+  --dim:#52605A;         /* was #9aa0c4 — secondary text */
+  --faint:#7C8478;       /* was #5a6090 — captions / metadata */
+  --gold:#C4602F;        /* was #f3c969 — terracotta: the house SIGNAL (accents, operation, rhyme edge) */
+  --honey:#E0A93B;       /* seed / bloom node-fill (house) */
+  --teal:#3F7D57;        /* was #5fd6c4 — fern: the move/spine secondary */
+  --moss:#2C4A38;        /* headline green (house) */
+  --olive:#6E7B3A;       /* botanical linework / diagram spine */
+  --rose:#B0552B;        /* was #e6809a — deep terracotta: honesty flags, kept legible + distinct */
+  --indigo:#6E7B3A;      /* was #8a8ff0 — olive: paradigm / move-node linework */
+  --line:#C9BE9F;        /* hairline rules on paper */
+  --card:#FFFFFF;        /* raised card ground */
+  --grid:rgba(110,123,58,.10);   /* soft olive graph grid */
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --serif:'Newsreader',Georgia,serif;
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
   --maxw:780px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+/* gom.css sets a global svg{width:100%} for its own diagrams; this page's inline SVGs
+   size themselves via width/viewBox attrs, so neutralize the global rule here. */
+svg{width:auto;height:auto}
+.sunwrap svg,#stage svg,figure svg,#iv-rhymeSvg,.brandmark .mark,.sprig,.hero-cta svg{width:revert}
 body{margin:0;background:var(--bg);color:var(--ink);
-  font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-serif;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+  font:17px/1.62 var(--sans);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  background-image:
+    radial-gradient(circle at 16% 10%, rgba(224,169,59,.05), transparent 42%),
+    radial-gradient(circle at 84% 82%, rgba(63,125,87,.055), transparent 46%),
+    repeating-linear-gradient(0deg, rgba(110,123,58,.014) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(90deg, rgba(196,96,47,.011) 0 3px, transparent 3px 7px);
+  background-attachment:fixed}
 a{color:var(--teal)}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
 
-#sky{position:fixed;inset:0;z-index:-2;background:
-  radial-gradient(1200px 700px at 70% -10%, #1f2550 0%, transparent 60%),
-  radial-gradient(900px 600px at 10% 110%, #161a38 0%, transparent 55%), var(--bg)}
+/* the night-sky + stars are retired for the light house system (kept as no-op grounds) */
+#sky{position:fixed;inset:0;z-index:-2;background:var(--bg)}
 #stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
-.star{position:absolute;border-radius:50%;background:#fff;opacity:0;transition:opacity 1.4s}
+.star{position:absolute;border-radius:50%;background:var(--honey);opacity:0;transition:opacity 1.4s}
 
 /* hero */
 .hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:80px 22px 40px}
-.kicker{color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-size:12.5px;font-weight:700}
-.hero h1{font-size:clamp(30px,6vw,52px);line-height:1.08;margin:14px auto 16px;max-width:16ch;font-weight:800}
+.kicker{font-family:var(--mono);color:var(--gold);letter-spacing:.06em;text-transform:none;font-size:12.5px;font-weight:600}
+.hero h1{font-family:var(--serif);font-size:clamp(30px,6vw,52px);line-height:1.06;margin:14px auto 16px;max-width:16ch;font-weight:600;letter-spacing:-0.02em;color:var(--moss)}
 .hero h1 em{font-style:normal;color:var(--gold)}
 .hero .story{color:var(--dim);max-width:52ch;margin:0 auto;font-size:18px;text-align:left}
 .hero .story b{color:var(--ink);font-weight:600}
@@ -40,19 +68,19 @@ a{color:var(--teal)}
 .scrollcue{margin-top:32px;color:var(--faint);font-size:13px;letter-spacing:1px;animation:bob 2.4s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(7px);opacity:1}}
 
-.provis{display:inline-block;margin:18px auto 0;font-size:12.5px;color:var(--rose);
-  border:1px solid rgba(230,128,154,.4);border-radius:20px;padding:5px 14px;background:rgba(230,128,154,.06)}
+.provis{display:inline-block;margin:18px auto 0;font-family:var(--mono);font-size:12px;color:var(--rose);
+  border:1px solid rgba(176,85,43,.4);border-radius:20px;padding:5px 14px;background:rgba(176,85,43,.06)}
 
 /* PINNED STAGE — transforms as you scroll (the engine's pinned-token analogue) */
 #stage{position:fixed;right:20px;bottom:18px;z-index:40;
   width:min(92vw,460px);
-  background:rgba(13,16,30,.92);backdrop-filter:blur(10px);
-  border:1px solid rgba(243,201,105,.35);border-radius:16px;
-  box-shadow:0 8px 34px rgba(0,0,0,.55);
+  background:rgba(255,255,255,.94);backdrop-filter:blur(10px);
+  border:1px solid var(--rose,#C4602F);border-color:rgba(196,96,47,.4);border-radius:16px;
+  box-shadow:0 8px 30px rgba(44,74,56,.16);
   opacity:0;pointer-events:none;transition:opacity .5s;overflow:hidden}
 #stage.show{opacity:1}
 #stagehead{display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--line);
-  font-size:11.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);font-weight:700}
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.02em;text-transform:none;color:var(--faint);font-weight:600}
 #stagehead .tg{color:var(--gold);font-size:14px}
 #stagehead .now{margin-left:auto;color:var(--gold);font-weight:700;text-transform:none;letter-spacing:0;font-size:12px}
 #stagebody{padding:11px 14px 13px;position:relative;min-height:108px}
@@ -61,17 +89,17 @@ a{color:var(--teal)}
 .sg-sitz{font-size:11px;color:var(--faint);transition:opacity .5s,color .5s;opacity:.3;margin-bottom:6px;line-height:1.4}
 .sg-sitz.on{opacity:1;color:var(--dim)}
 .sg-sitz b{color:var(--teal)}
-.sg-paradigm{display:inline-block;font-size:10.5px;color:var(--faint);border:1px dashed var(--line);
+.sg-paradigm{display:inline-block;font-family:var(--mono);font-size:10.5px;color:var(--faint);border:1px dashed var(--line);
   border-radius:14px;padding:1px 9px;margin-bottom:8px;opacity:.3;transition:opacity .5s}
-.sg-paradigm.on{opacity:1;color:var(--indigo);border-color:rgba(138,143,240,.5)}
+.sg-paradigm.on{opacity:1;color:var(--indigo);border-color:rgba(110,123,58,.55)}
 
 /* the move spine — agent→substrate→operation→outcome */
 .sg-spine{display:flex;align-items:stretch;gap:5px;margin:4px 0 2px}
 .sg-node{flex:1;border:1px solid var(--line);border-radius:8px;padding:6px 5px;text-align:center;
-  background:rgba(0,0,0,.22);opacity:.18;transform:translateY(6px);transition:all .5s}
+  background:var(--bg);opacity:.18;transform:translateY(6px);transition:all .5s}
 .sg-node.on{opacity:1;transform:none}
-.sg-node.op{border-color:rgba(243,201,105,.55);background:rgba(243,201,105,.08)}
-.sg-node .r{font-size:8.5px;letter-spacing:.4px;text-transform:uppercase;color:var(--faint);font-weight:700}
+.sg-node.op{border-color:rgba(196,96,47,.55);background:rgba(196,96,47,.07)}
+.sg-node .r{font-family:var(--mono);font-size:8.5px;letter-spacing:.02em;text-transform:none;color:var(--faint);font-weight:600}
 .sg-node .v{font-size:12.5px;color:var(--ink);font-weight:600;margin-top:2px;line-height:1.2}
 .sg-node.op .v{color:var(--gold)}
 .sg-arrow{align-self:center;color:var(--faint);font-size:11px;opacity:.18;transition:opacity .5s}
@@ -79,9 +107,9 @@ a{color:var(--teal)}
 
 /* qualifier chips inside the stage */
 .sg-quals{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
-.sg-q{font-size:10px;border:1px solid var(--line);border-radius:12px;padding:2px 8px;color:var(--faint);
+.sg-q{font-family:var(--mono);font-size:10px;border:1px solid var(--line);border-radius:12px;padding:2px 8px;color:var(--faint);
   opacity:.2;transform:scale(.92);transition:all .45s;white-space:nowrap}
-.sg-q.on{opacity:1;transform:none;color:var(--teal);border-color:rgba(95,214,196,.45)}
+.sg-q.on{opacity:1;transform:none;color:var(--teal);border-color:rgba(63,125,87,.5)}
 .sg-q b{color:var(--ink)}
 
 /* the rhyme / constellation mini inside stage */
@@ -89,45 +117,46 @@ a{color:var(--teal)}
 .sg-graph.on{opacity:1}
 
 #rail{position:fixed;left:0;right:0;top:0;height:3px;z-index:41}
-#railfill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--teal))}
+#railfill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--gold))}
 
 /* steps */
 .step{padding:16vh 0;position:relative}
 .step.intro{padding-top:7vh}
 .num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;
-  border:1px solid var(--line);color:var(--gold);font-weight:800;font-size:15px;background:var(--bg2);margin-bottom:14px}
-.num.star{border-color:rgba(243,201,105,.5)}
-.eyebrow{color:var(--faint);letter-spacing:2px;text-transform:uppercase;font-size:11.5px;font-weight:700;margin-bottom:8px}
-.step h2{font-size:clamp(21px,3.2vw,28px);line-height:1.2;margin:0 0 12px;font-weight:800}
+  border:1px solid var(--line);color:var(--gold);font-family:var(--mono);font-weight:600;font-size:15px;background:var(--bg2);margin-bottom:14px}
+.num.star{border-color:rgba(196,96,47,.5)}
+.eyebrow{font-family:var(--sans);color:var(--faint);letter-spacing:.035em;text-transform:none;font-size:12px;font-weight:600;margin-bottom:8px}
+.step h2{font-family:var(--serif);font-size:clamp(21px,3.2vw,28px);line-height:1.15;margin:0 0 12px;font-weight:600;letter-spacing:-0.01em;color:var(--moss)}
 .step h2 .q{color:var(--gold)}
 .lede{color:var(--dim);font-size:18px;margin:0 0 16px}
 .card{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:18px 20px;margin:14px 0}
 .muted{color:var(--dim);font-size:15px}
-.passage{font-family:Georgia,serif;font-size:17px;line-height:1.7;border-left:3px solid var(--gold);
-  padding:6px 0 6px 16px;color:#f4ecd8;font-style:italic;margin:6px 0 12px}
+.passage{font-family:var(--serif);font-size:18px;line-height:1.7;border-left:3px solid var(--gold);
+  padding:6px 0 6px 16px;color:var(--ink);font-style:italic;margin:6px 0 12px}
 .passage .hl{color:var(--gold);font-style:normal;font-weight:600}
 
 /* the "so what" takeaway box */
 .sowhat{display:flex;gap:10px;align-items:flex-start;margin:14px 0 0;padding:12px 16px;
-  border-left:3px solid var(--gold);background:rgba(243,201,105,.06);border-radius:0 10px 10px 0;font-size:15px}
+  border-left:3px solid var(--gold);background:rgba(196,96,47,.055);border-radius:0 10px 10px 0;font-size:15px}
 .sowhat .ar{color:var(--gold);font-weight:800;flex:none}
 .sowhat b{color:var(--ink)}
 
 /* for the curious */
-details.curious{margin:12px 0 0;border:1px solid var(--line);border-radius:10px;background:rgba(0,0,0,.18)}
+details.curious{margin:12px 0 0;border:1px solid var(--line);border-radius:10px;background:var(--paper-2,#EFE7D3)}
 details.curious summary{cursor:pointer;list-style:none;padding:10px 14px;font-size:13px;color:var(--teal);font-weight:600}
 details.curious summary::-webkit-details-marker{display:none}
 details.curious summary::before{content:"▸ ";color:var(--teal)}
 details.curious[open] summary::before{content:"▾ "}
 details.curious .body{padding:2px 16px 14px;font-size:13.5px;color:var(--dim);line-height:1.55}
 details.curious .body b{color:var(--ink)}
-details.curious code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--gold);background:rgba(0,0,0,.3);border-radius:4px;padding:1px 5px}
+details.curious code{font-family:var(--mono);font-size:12.5px;color:var(--gold);background:rgba(196,96,47,.10);border-radius:4px;padding:1px 5px}
+details.curious table{background:var(--bg2);border:1px solid var(--line);border-radius:8px;overflow:hidden}
 
 /* the verbatim subtables (lifted from the codebook) */
 table{border-collapse:collapse;width:100%;font-size:12.5px;margin:10px 0 4px}
 caption{text-align:left;font-size:11.5px;color:var(--dim);font-weight:600;padding:4px 0 4px}
-th{text-align:left;font-weight:700;font-size:9.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.04em;
-  padding:7px 9px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--line)}
+th{text-align:left;font-family:var(--sans);font-weight:700;font-size:9.5px;color:var(--faint);text-transform:none;letter-spacing:.02em;
+  padding:7px 9px;background:var(--paper-2,#EFE7D3);border-bottom:1px solid var(--line)}
 td{padding:8px 9px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink);line-height:1.45}
 td.term{font-weight:600;white-space:nowrap;color:var(--gold)}
 td.test{font-style:italic;color:var(--dim)}
@@ -138,30 +167,31 @@ tr:last-child td{border-bottom:none}
 
 /* illustrative + honesty flags */
 .illus{font-size:11.5px;color:var(--faint);font-style:italic;margin-top:8px}
-.flag{display:inline-block;font-size:11px;color:var(--rose);border:1px solid rgba(230,128,154,.4);
-  border-radius:6px;padding:1px 8px;background:rgba(230,128,154,.06);margin:6px 4px 0 0}
+.flag{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--rose);border:1px solid rgba(176,85,43,.45);
+  border-radius:6px;padding:1px 8px;background:rgba(176,85,43,.07);margin:6px 4px 0 0}
 
 /* graph SVG cards */
 figure{margin:14px 0 0}
 .svgcap{font-size:13px;color:var(--dim);text-align:center;margin-top:6px}
 
 /* gate panel */
-.gate{border:1px solid rgba(230,128,154,.3);background:rgba(230,128,154,.05);border-radius:14px;padding:16px 20px;margin:14px 0}
-.gate h3{margin:0 0 8px;font-size:15px;color:var(--rose);font-weight:700}
+.gate{border:1px solid rgba(176,85,43,.35);background:rgba(176,85,43,.05);border-radius:14px;padding:16px 20px;margin:14px 0}
+.gate h3{margin:0 0 8px;font-family:var(--serif);font-size:16px;color:var(--rose);font-weight:600}
 .gate ol{margin:6px 0 0;padding-left:20px;color:var(--dim);font-size:14.5px;line-height:1.6}
 .gate ol b{color:var(--ink)}
 
-.next{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);padding:16px 20px;margin:18px 0;font-size:15px;color:var(--dim)}
+.next{border:1px solid var(--line);border-radius:14px;background:var(--paper-2,#EFE7D3);padding:16px 20px;margin:18px 0;font-size:15px;color:var(--dim)}
 .next b{color:var(--ink)}
-.btn{background:var(--gold);color:#1a1505;border:none;border-radius:10px;padding:11px 18px;font:inherit;font-weight:700;font-size:15px;cursor:pointer}
-.btn.ghost{background:transparent;color:var(--dim);border:1px solid var(--line);font-weight:600}
-.btn:hover{filter:brightness(1.06)}
+.btn{background:var(--gold);color:#FFF7EE;border:none;border-radius:10px;padding:11px 18px;font-family:var(--sans);font-weight:600;font-size:15px;cursor:pointer}
+.btn.ghost{background:rgba(255,255,255,.5);color:var(--dim);border:1px solid var(--line);font-weight:600}
+.btn.ghost:hover{border-color:var(--teal);color:var(--teal)}
+.btn:hover{filter:brightness(1.04)}
 
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:none}
 
-footer{padding:46px 22px 130px;text-align:center;color:var(--faint);font-size:13px;border-top:1px solid var(--line);margin-top:36px}
-footer b{color:var(--dim)}
+.pagenote{max-width:var(--maxw);margin:36px auto 0;padding:34px 22px 10px;text-align:center;color:var(--faint);font-size:13px;line-height:1.6;border-top:1px solid var(--line)}
+.pagenote b{color:var(--dim)}
 @media(max-width:560px){.sg-spine{gap:3px}.sg-node{padding:5px 3px}.sg-node .v{font-size:11px}#stagebody{min-height:120px}}
 /* on narrow screens there's no side margin to use — re-center the specimen at the bottom */
 @media(max-width:820px){#stage{right:50%;transform:translateX(50%);width:min(94vw,460px)}}
@@ -180,8 +210,8 @@ footer b{color:var(--dim)}
 .iv-deep{max-width:1080px;margin:0 auto;padding:0 26px}
 .iv-divider{border-top:1px solid var(--line);margin:60px auto 0;max-width:1080px}
 .iv-sectlead{max-width:1080px;margin:48px auto 0;padding:0 26px}
-.iv-sectlead .iv-kicker{color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-size:11.5px;font-weight:700}
-.iv-sectlead h2{font-size:clamp(24px,4vw,34px);line-height:1.1;margin:12px 0 10px;font-weight:800;max-width:24ch}
+.iv-sectlead .iv-kicker{font-family:var(--mono);color:var(--gold);letter-spacing:.06em;text-transform:none;font-size:12px;font-weight:600}
+.iv-sectlead h2{font-family:var(--serif);font-size:clamp(24px,4vw,34px);line-height:1.08;margin:12px 0 10px;font-weight:600;letter-spacing:-0.02em;max-width:24ch;color:var(--moss)}
 .iv-sectlead h2 em{font-style:normal;color:var(--gold)}
 .iv-sectlead .iv-sub{color:var(--dim);font-size:17px;max-width:64ch}
 .iv-sectlead .iv-sub b{color:var(--ink);font-weight:600}
@@ -191,15 +221,15 @@ footer b{color:var(--dim)}
 .iv-lg{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--dim);
   border:1px solid var(--line);border-radius:9px;padding:8px 13px;background:var(--card)}
 .iv-lg .iv-sw{width:13px;height:13px;border-radius:3px;flex:none}
-.iv-lg.iv-prov{border-color:rgba(243,201,105,.4)}
-.iv-lg.iv-illus{border-color:rgba(230,128,154,.45);background:rgba(230,128,154,.05)}
+.iv-lg.iv-prov{border-color:rgba(196,96,47,.45)}
+.iv-lg.iv-illus{border-color:rgba(176,85,43,.45);background:rgba(176,85,43,.05)}
 .iv-lg b{color:var(--ink);font-weight:600}
 
 .iv-section{max-width:1080px;margin:0 auto;padding:40px 26px 8px}
-.iv-axis{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;
+.iv-axis{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:none;color:var(--gold);font-weight:600;
   border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:baseline}
-.iv-axis .iv-n{color:var(--faint);font-weight:700}
-.iv-section h3{font-size:clamp(20px,2.8vw,26px);margin:14px 0 6px;font-weight:800}
+.iv-axis .iv-n{color:var(--faint);font-weight:500}
+.iv-section h3{font-family:var(--serif);font-size:clamp(20px,2.8vw,26px);margin:14px 0 6px;font-weight:600;letter-spacing:-0.01em;color:var(--moss)}
 .iv-section h3 .iv-q{color:var(--gold)}
 .iv-lede{color:var(--dim);font-size:16px;margin:0 0 8px;max-width:70ch}
 .iv-section .iv-lede b{color:var(--ink);font-weight:600}
@@ -208,11 +238,12 @@ footer b{color:var(--dim)}
 
 /* the schema: two-tier nested frame */
 .iv-schema{display:grid;grid-template-columns:1fr;gap:0;margin:18px 0 4px;
-  border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02);overflow:hidden}
+  border:1px solid var(--line);border-radius:16px;background:var(--bg2);overflow:hidden}
 .iv-tier{padding:16px 18px;border-bottom:1px solid var(--line)}
 .iv-tier:last-child{border-bottom:none}
+.iv-tier.iv-setting{background:var(--paper-2,#EFE7D3)}
 .iv-tierhead{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
-.iv-tierhead .iv-lab{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700}
+.iv-tierhead .iv-lab{font-family:var(--sans);font-size:11px;letter-spacing:.04em;text-transform:none;font-weight:700}
 .iv-tierhead .iv-lab.iv-setting{color:var(--indigo)}
 .iv-tierhead .iv-lab.iv-spine{color:var(--teal)}
 .iv-tierhead .iv-lab.iv-qual{color:var(--gold)}
@@ -223,45 +254,45 @@ footer b{color:var(--dim)}
 .iv-setting .iv-fieldgrid{grid-template-columns:repeat(3,1fr)}
 
 /* a field cell — the clickable schema atom */
-.iv-fcell{border:1px solid var(--line);border-radius:11px;padding:11px 12px;background:rgba(0,0,0,.18);
+.iv-fcell{border:1px solid var(--line);border-radius:11px;padding:11px 12px;background:var(--bg);
   cursor:pointer;transition:border-color .18s,background .18s,transform .18s;position:relative;text-align:left;color:inherit;font:inherit;display:block;width:100%}
-.iv-fcell:hover{border-color:var(--gold);background:rgba(243,201,105,.05);transform:translateY(-1px)}
-.iv-fcell.iv-active{border-color:var(--gold);background:rgba(243,201,105,.08)}
+.iv-fcell:hover{border-color:var(--gold);background:rgba(196,96,47,.05);transform:translateY(-1px)}
+.iv-fcell.iv-active{border-color:var(--gold);background:rgba(196,96,47,.07)}
 .iv-fcell .iv-fn{display:flex;align-items:center;gap:8px}
 .iv-fcell .iv-fnum{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;
-  background:rgba(255,255,255,.07);color:var(--dim);font-size:11px;font-weight:700;flex:none;font-family:var(--mono)}
-.iv-fcell .iv-name{font-weight:700;font-size:14.5px}
+  background:var(--paper-2,#EFE7D3);color:var(--dim);font-size:11px;font-weight:600;flex:none;font-family:var(--mono)}
+.iv-fcell .iv-name{font-family:var(--sans);font-weight:700;font-size:14.5px;color:var(--ink)}
 .iv-fcell .iv-def{font-size:12px;color:var(--dim);margin-top:5px;line-height:1.4}
-.iv-fcell .iv-badge{position:absolute;top:9px;right:10px;font-size:9.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+.iv-fcell .iv-badge{position:absolute;top:9px;right:10px;font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.02em;text-transform:none}
 .iv-fcell .iv-badge.iv-built{color:var(--teal)}
 .iv-fcell .iv-badge.iv-open{color:var(--faint)}
 .iv-fcell .iv-badge.iv-prov{color:var(--rose)}
 .iv-spine .iv-fcell .iv-name,.iv-spine .iv-fcell .iv-fnum{color:var(--teal)}
-.iv-spine .iv-fcell:hover,.iv-spine .iv-fcell.iv-active{border-color:var(--teal);background:rgba(95,214,196,.06)}
+.iv-spine .iv-fcell:hover,.iv-spine .iv-fcell.iv-active{border-color:var(--teal);background:rgba(63,125,87,.06)}
 
 /* the spine arrow flow on the spine row */
 .iv-spineflow{display:flex;align-items:center;gap:6px;margin-bottom:10px;font-size:11.5px;color:var(--faint);font-family:var(--mono)}
 .iv-spineflow .iv-ar{color:var(--teal)}
 
 /* the inspector drawer (field detail = the verbatim subtable) */
-.iv-inspector{margin:14px 0 4px;border:1px solid var(--gold);border-radius:14px;background:rgba(243,201,105,.04);overflow:hidden;display:none}
+.iv-inspector{margin:14px 0 4px;border:1px solid var(--gold);border-radius:14px;background:rgba(196,96,47,.04);overflow:hidden;display:none}
 .iv-inspector.iv-on{display:block;animation:ivfade .35s ease}
 @keyframes ivfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .iv-insphead{display:flex;align-items:baseline;gap:12px;padding:14px 18px 6px;flex-wrap:wrap}
-.iv-insphead .iv-title{font-size:18px;font-weight:800;color:var(--gold)}
+.iv-insphead .iv-title{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--gold)}
 .iv-insphead .iv-one{font-size:13.5px;color:var(--dim)}
-.iv-insphead .iv-stat{margin-left:auto;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.iv-insphead .iv-stat{margin-left:auto;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:none}
 .iv-insphead .iv-stat.iv-built{color:var(--teal)}.iv-insphead .iv-stat.iv-open{color:var(--faint)}.iv-insphead .iv-stat.iv-prov{color:var(--rose)}
 .iv-inspbody{padding:4px 18px 18px}
 .iv-whatis{font-size:13.5px;color:var(--dim);line-height:1.55;margin:6px 0 8px}
 .iv-whatis b{color:var(--ink)}
-.iv-whatis em.iv-kw{font-style:normal;background:rgba(255,255,255,.07);border-radius:4px;padding:0 5px;color:var(--ink)}
+.iv-whatis em.iv-kw{font-style:normal;background:var(--paper-2,#EFE7D3);border-radius:4px;padding:0 5px;color:var(--ink)}
 
 /* verbatim subtables (inside inspector) */
 .iv-cap{font-size:12px;color:var(--dim);font-weight:700;margin:14px 0 4px}
-table.iv-subt{border-collapse:collapse;width:100%;font-size:13px;margin:2px 0 4px}
-table.iv-subt th{text-align:left;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);font-weight:700;
-  padding:7px 10px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--line)}
+table.iv-subt{border-collapse:collapse;width:100%;font-size:13px;margin:2px 0 4px;background:var(--bg2);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+table.iv-subt th{text-align:left;font-family:var(--sans);font-size:10px;letter-spacing:.03em;text-transform:none;color:var(--faint);font-weight:700;
+  padding:7px 10px;background:var(--paper-2,#EFE7D3);border-bottom:1px solid var(--line)}
 table.iv-subt td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45;color:var(--ink)}
 table.iv-subt td.term{font-weight:700;white-space:nowrap;color:var(--gold)}
 table.iv-subt td.test{font-style:italic;color:var(--dim)}
@@ -270,32 +301,33 @@ table.iv-subt tr:last-child td{border-bottom:none}
 table.iv-subt i{font-style:italic}
 .iv-subnote{font-size:12px;color:var(--faint);font-style:italic;margin-top:8px;line-height:1.5}
 .iv-subnote b{color:var(--dim);font-style:normal}
-.iv-inspbody code{font-family:var(--mono);font-size:12px;background:rgba(0,0,0,.4);border:1px solid var(--line);border-radius:5px;padding:1px 5px;color:#cdd2f0}
+.iv-inspbody code{font-family:var(--mono);font-size:12px;background:rgba(196,96,47,.10);border:1px solid rgba(196,96,47,.25);border-radius:5px;padding:1px 5px;color:var(--gold)}
 
 /* compositional-logic note */
 .iv-compnote{font-size:13px;color:var(--faint);font-style:italic;max-width:74ch;margin:14px 0}
 .iv-compnote b{color:var(--dim);font-style:normal}
-.iv-compnote code{font-family:var(--mono);font-size:12px;background:rgba(0,0,0,.4);border:1px solid var(--line);border-radius:5px;padding:1px 5px;color:#cdd2f0;font-style:normal}
+.iv-compnote code{font-family:var(--mono);font-size:12px;background:rgba(196,96,47,.10);border:1px solid rgba(196,96,47,.25);border-radius:5px;padding:1px 5px;color:var(--gold);font-style:normal}
 
 /* the rhyme graph */
-.iv-graphwrap{margin:18px 0 4px;border:1px solid var(--line);border-radius:16px;background:rgba(0,0,0,.22);overflow:hidden}
+.iv-graphwrap{margin:18px 0 4px;border:1px solid var(--line);border-radius:16px;background:var(--bg2);overflow:hidden}
 .iv-graphtop{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding:13px 18px;border-bottom:1px solid var(--line)}
 .iv-graphtop .iv-lt{font-size:13px;color:var(--dim)}
 .iv-graphtop .iv-lt b{color:var(--ink)}
-.iv-gkey{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--dim)}
+.iv-gkey{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--dim)}
 .iv-gkey span{display:flex;align-items:center;gap:6px}
 .iv-gkey .iv-dot{width:11px;height:11px;border-radius:50%}
 .iv-gkey .iv-gedge{width:18px;height:0;border-top:3px solid var(--gold)}
 .iv-gkey .iv-gedgesh{width:18px;height:0;border-top:1.5px solid var(--faint)}
 .iv-graphstage{position:relative}
 #iv-rhymeSvg{width:100%;display:block;background:
+  radial-gradient(120% 120% at 0% 0%, rgba(224,169,59,.05), transparent 55%),
   repeating-linear-gradient(0deg,transparent 0 39px,var(--grid) 39px 40px),
   repeating-linear-gradient(90deg,transparent 0 39px,var(--grid) 39px 40px)}
 .iv-gnode-move{cursor:pointer}
 .iv-gnode-move:hover circle{stroke-width:3}
 .iv-ginfo{padding:13px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--dim);min-height:46px}
 .iv-ginfo b{color:var(--ink)}
-.iv-illuslabel{font-size:11.5px;color:var(--rose);font-style:italic;padding:10px 18px;background:rgba(230,128,154,.05);border-top:1px solid rgba(230,128,154,.25)}
+.iv-illuslabel{font-size:11.5px;color:var(--rose);font-style:italic;padding:10px 18px;background:rgba(176,85,43,.05);border-top:1px solid rgba(176,85,43,.28)}
 .iv-illuslabel b{color:var(--rose);font-style:normal}
 
 @media(max-width:820px){
@@ -307,7 +339,43 @@ table.iv-subt i{font-style:italic}
 </style>
 </head>
 <body>
-<a href="index.html" class="gom-home">← Grammar of Meaning</a>
+
+<!-- reusable botanical symbol (house sprig) -->
+<svg style="display:none" aria-hidden="true"><defs>
+  <symbol id="sprig" viewBox="0 0 150 34">
+    <path d="M5 17 H145" stroke="#6E7B3A" stroke-width="1" fill="none"/>
+    <g fill="none" stroke="#3F7D57" stroke-width="1.3">
+      <path d="M60 17 q-9 -11 -20 -9 q7 8 20 9"/>
+      <path d="M90 17 q9 -11 20 -9 q-7 8 -20 9"/>
+      <path d="M68 17 q-6 9 -15 9 q5 -7 15 -9"/>
+      <path d="M82 17 q6 9 15 9 q-5 -7 -15 -9"/>
+    </g>
+    <circle cx="75" cy="17" r="3.2" fill="#E0A93B"/>
+    <circle cx="75" cy="17" r="6" fill="none" stroke="#C4602F" stroke-width="1"/>
+  </symbol>
+</defs></svg>
+
+<!-- HOUSE TOPBAR / NAV (Method active) -->
+<div class="topbar">
+  <div class="wrap" style="max-width:1120px">
+    <a class="brandmark" href="index.html" style="color:var(--moss)">
+      <svg class="mark" viewBox="0 0 200 200" fill="none" aria-hidden="true"><path d="M100 30 C74 52 58 92 62 126 C64 152 82 168 100 176 L100 30 Z" fill="#2C4A38"/><path d="M100 30 C126 52 142 92 138 126 C136 152 118 168 100 176 L100 30 Z" fill="#8AA88B"/><line x1="100" y1="34" x2="100" y2="174" stroke="#FCFBF7" stroke-width="3"/><line x1="100" y1="176" x2="100" y2="194" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/></svg>
+      Grammar&nbsp;of&nbsp;Meaning
+    </a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="mission.html">About</a>
+      <a href="library.html">Library</a>
+      <a href="essays.html">Essays</a>
+      <a href="garden.html">Garden</a>
+      <a href="method.html" class="active">Method</a>
+      <a href="glossary.html">Reference</a>
+    
+      <a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a>
+    </nav>
+  </div>
+</div>
+
 <div id="sky"></div>
 <div id="stars"></div>
 <div id="rail"><div id="railfill"></div></div>
@@ -335,16 +403,16 @@ table.iv-subt i{font-style:italic}
       <span class="sg-q" data-q="telos">telos · <b>union</b></span>
     </div>
     <div class="sg-graph" id="sgGraph">
-      <svg viewBox="0 0 512 78" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
-        <line id="sgEdge" x1="118" y1="39" x2="394" y2="39" stroke="#d97706" stroke-width="3" opacity="0"/>
-        <rect id="sgEdgeLab" x="206" y="29" width="100" height="18" rx="5" fill="#0d0f1a" stroke="#d97706" stroke-width=".5" opacity="0"/>
-        <text id="sgEdgeTxt" x="256" y="42" text-anchor="middle" font-size="10" fill="#d97706" opacity="0">RHYME</text>
-        <circle cx="78" cy="39" r="30" fill="rgba(243,201,105,.12)" stroke="#f3c969" stroke-width="2"/>
-        <text x="78" y="36" text-anchor="middle" font-size="11.5" font-weight="700" fill="#eef0fb">predestined</text>
-        <text x="78" y="50" text-anchor="middle" font-size="8.5" fill="#9aa0c4">(Pauline)</text>
-        <circle id="sgN2" cx="434" cy="39" r="27" fill="rgba(95,214,196,.12)" stroke="#5fd6c4" stroke-width="2" opacity="0"/>
-        <text id="sgN2a" x="434" y="36" text-anchor="middle" font-size="11.5" font-weight="700" fill="#eef0fb" opacity="0">tariki</text>
-        <text id="sgN2b" x="434" y="50" text-anchor="middle" font-size="8.5" fill="#9aa0c4" opacity="0">(Pure Land)</text>
+      <svg viewBox="0 0 512 78" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+        <line id="sgEdge" x1="118" y1="39" x2="394" y2="39" stroke="#C4602F" stroke-width="3" opacity="0"/>
+        <rect id="sgEdgeLab" x="206" y="29" width="100" height="18" rx="5" fill="#FFFFFF" stroke="#C4602F" stroke-width=".5" opacity="0"/>
+        <text id="sgEdgeTxt" x="256" y="42" text-anchor="middle" font-size="10" fill="#C4602F" opacity="0">rhyme</text>
+        <circle cx="78" cy="39" r="30" fill="rgba(224,169,59,.20)" stroke="#C4602F" stroke-width="2"/>
+        <text x="78" y="36" text-anchor="middle" font-size="11.5" font-weight="700" fill="#24302A">predestined</text>
+        <text x="78" y="50" text-anchor="middle" font-size="8.5" fill="#7C8478">(Pauline)</text>
+        <circle id="sgN2" cx="434" cy="39" r="27" fill="rgba(63,125,87,.14)" stroke="#3F7D57" stroke-width="2" opacity="0"/>
+        <text id="sgN2a" x="434" y="36" text-anchor="middle" font-size="11.5" font-weight="700" fill="#24302A" opacity="0">tariki</text>
+        <text id="sgN2b" x="434" y="50" text-anchor="middle" font-size="8.5" fill="#7C8478" opacity="0">(Pure Land)</text>
       </svg>
     </div>
   </div>
@@ -354,9 +422,9 @@ table.iv-subt i{font-style:italic}
 <section class="hero">
   <div class="sunwrap">
     <svg width="78" height="78" viewBox="0 0 78 78" aria-hidden="true">
-      <circle cx="39" cy="39" r="13" fill="none" stroke="#f3c969" stroke-width="2.2"/>
-      <circle cx="39" cy="39" r="5" fill="#f3c969"/>
-      <g stroke="#f3c969" stroke-width="2.2" stroke-linecap="round">
+      <circle cx="39" cy="39" r="13" fill="none" stroke="#C4602F" stroke-width="2.2"/>
+      <circle cx="39" cy="39" r="5" fill="#E0A93B"/>
+      <g stroke="#3F7D57" stroke-width="2.2" stroke-linecap="round">
         <line x1="39" y1="6" x2="39" y2="17"/><line x1="39" y1="61" x2="39" y2="72"/>
         <line x1="6" y1="39" x2="17" y2="39"/><line x1="61" y1="39" x2="72" y2="39"/>
         <line x1="15" y1="15" x2="23" y2="23"/><line x1="55" y1="55" x2="63" y2="63"/>
@@ -492,7 +560,7 @@ table.iv-subt i{font-style:italic}
           <tr><td class="term">by cultivation</td><td>the path/way · habituation · meditation · working-through</td><td class="ex">eightfold path · <i>hexis</i> · <i>bhāvanā</i> · therapy</td></tr>
           <tr><td class="term">by participation</td><td>contemplation · presence · devotion · encounter</td><td class="ex"><i>theoria</i> · <i>sati</i> · <i>bhakti</i> / <i>ishq</i> · the metaxy</td></tr>
         </table>
-        <div class="tnote">The shared sub-mechanism column <b>is</b> the rhyme substrate — <i>fasting</i> across Islam/Christianity/Judaism/Buddhism is a convergence candidate. · uptake (felicity) is a sub-field of <i>by-utterance</i>. · Grows bottom-up; the in-vivo term is always recorded underneath.</div>
+        <div class="tnote">The shared sub-mechanism column <b>is</b> the rhyme substrate — <i>fasting</i> across Islam/Christianity/Judaism/Buddhism is a rhyme candidate. · uptake (felicity) is a sub-field of <i>by-utterance</i>. · Grows bottom-up; the in-vivo term is always recorded underneath.</div>
 
         <table style="margin-top:16px">
           <caption><b style="color:var(--gold)">basis</b> — on what basis it's justified ("how do you know?") · <span class="flag">predestined = revelation</span></caption>
@@ -538,29 +606,153 @@ table.iv-subt i{font-style:italic}
     <p class="lede">Romans 8:28–30 isn't one move; it's five, linked end to end. The substrate of one becomes the substrate of the next — a flow edge through the passage.</p>
     <div class="card">
       <figure>
-        <svg viewBox="0 0 700 110" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
-          <defs><marker id="gc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#f3c969"/></marker></defs>
+        <svg viewBox="0 0 700 110" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+          <defs><marker id="gc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6E7B3A"/></marker></defs>
           <g text-anchor="middle">
-            <rect x="8" y="36" width="116" height="40" rx="9" fill="rgba(243,201,105,.07)" stroke="#f3c969" stroke-width="1.5"/>
-            <text x="66" y="61" font-size="13" font-weight="700" fill="#eef0fb">foreknew</text>
-            <rect x="152" y="36" width="124" height="40" rx="9" fill="rgba(243,201,105,.14)" stroke="#f3c969" stroke-width="2"/>
-            <text x="214" y="61" font-size="13" font-weight="700" fill="#f3c969">predestined</text>
-            <rect x="304" y="36" width="92" height="40" rx="9" fill="rgba(243,201,105,.07)" stroke="#f3c969" stroke-width="1.5"/>
-            <text x="350" y="61" font-size="13" font-weight="700" fill="#eef0fb">called</text>
-            <rect x="424" y="36" width="108" height="40" rx="9" fill="rgba(243,201,105,.07)" stroke="#f3c969" stroke-width="1.5"/>
-            <text x="478" y="61" font-size="13" font-weight="700" fill="#eef0fb">justified</text>
-            <rect x="560" y="36" width="116" height="40" rx="9" fill="rgba(243,201,105,.07)" stroke="#f3c969" stroke-width="1.5"/>
-            <text x="618" y="61" font-size="13" font-weight="700" fill="#eef0fb">glorified</text>
-            <g stroke="#f3c969" stroke-width="1.8" fill="none">
+            <rect x="8" y="36" width="116" height="40" rx="9" fill="rgba(224,169,59,.10)" stroke="#E0A93B" stroke-width="1.5"/>
+            <text x="66" y="61" font-size="13" font-weight="700" fill="#24302A">foreknew</text>
+            <rect x="152" y="36" width="124" height="40" rx="9" fill="rgba(196,96,47,.12)" stroke="#C4602F" stroke-width="2"/>
+            <text x="214" y="61" font-size="13" font-weight="700" fill="#C4602F">predestined</text>
+            <rect x="304" y="36" width="92" height="40" rx="9" fill="rgba(224,169,59,.10)" stroke="#E0A93B" stroke-width="1.5"/>
+            <text x="350" y="61" font-size="13" font-weight="700" fill="#24302A">called</text>
+            <rect x="424" y="36" width="108" height="40" rx="9" fill="rgba(224,169,59,.10)" stroke="#E0A93B" stroke-width="1.5"/>
+            <text x="478" y="61" font-size="13" font-weight="700" fill="#24302A">justified</text>
+            <rect x="560" y="36" width="116" height="40" rx="9" fill="rgba(224,169,59,.10)" stroke="#E0A93B" stroke-width="1.5"/>
+            <text x="618" y="61" font-size="13" font-weight="700" fill="#24302A">glorified</text>
+            <g stroke="#6E7B3A" stroke-width="1.8" fill="none">
               <path d="M124 56 H150" marker-end="url(#gc)"/><path d="M276 56 H302" marker-end="url(#gc)"/>
               <path d="M396 56 H422" marker-end="url(#gc)"/><path d="M532 56 H558" marker-end="url(#gc)"/>
             </g>
-            <text x="350" y="22" font-size="11.5" fill="#9aa0c4">the golden chain — five linked moves, one flow</text>
-            <text x="350" y="98" font-size="11" fill="#5a6090">the consequence: assurance — "who shall separate us?" (8:31–39)</text>
+            <text x="350" y="22" font-size="11.5" fill="#7C8478">the golden chain — five linked moves, one flow</text>
+            <text x="350" y="98" font-size="11" fill="#7C8478">the consequence: assurance — "who shall separate us?" (8:31–39)</text>
           </g>
         </svg>
       </figure>
       <div class="sowhat"><span class="ar">→</span><span>The <b>flow</b> is the within-passage edge. The <b>rhyme</b> (next) is the across-tradition edge — the only one that crosses traditions.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4.5 · THE NEGATIVE SPACE (the shadow of the move) -->
+<section class="step" data-state="the move">
+  <div class="wrap reveal">
+    <span class="num star">◐</span>
+    <div class="eyebrow">The shadow · negative space</div>
+    <h2>The shadow — <span class="q">what the move withheld.</span></h2>
+    <p class="lede">The moment you can see the choices a text made, you can see the ones it didn't. This is the <b>negative space</b> — at each part of a coded move, the roads not taken.</p>
+    <div class="card">
+      <p class="muted" style="margin:0 0 8px">The shadow isn't guessed — it's read off the positive. Where a part of a move has a fixed set of options, <b style="color:var(--ink)">the dough is the whole set; the move stamps one; the shadow is the rest.</b></p>
+      <p class="muted" style="margin:0 0 4px">Not every silence counts. What we count is an <b style="color:var(--ink)">obligated absence</b> — a road the text itself raised, then sealed.</p>
+
+      <figure>
+        <svg viewBox="0 0 1040 590" width="100%" style="height:auto" xmlns="http://www.w3.org/2000/svg" font-family="'Inter',system-ui,sans-serif" role="img">
+          <title>The coded sentence and its shadow — Romans 8:29–30, tagged in the negative-space vocabulary</title>
+          <desc>The continuous verse with elisions marked, four negative-space roads hanging beneath, each tagged by register, source, and obligation. Illustrative; coding = 0.</desc>
+          <defs>
+            <marker id="ns-lock" viewBox="0 0 20 20" markerWidth="14" markerHeight="14" refX="10" refY="11">
+              <rect x="4" y="9" width="12" height="9" rx="1.4" fill="none" stroke="#C4602F" stroke-width="1.5"/>
+              <path d="M6.5 9 V6.6 a3.5 3.5 0 0 1 7 0 V9" fill="none" stroke="#C4602F" stroke-width="1.5"/>
+            </marker>
+          </defs>
+          <rect x="0" y="0" width="1040" height="590" fill="#FCFBF7"/>
+
+          <text x="40" y="42" font-family="'IBM Plex Mono',monospace" font-size="12.5" letter-spacing="1.5" fill="#C4602F">the move, in the grammar's own words</text>
+          <text x="40" y="78" font-family="'Newsreader',Georgia,serif" font-size="30" font-weight="600" fill="#2C4A38">The coded sentence, and its shadow</text>
+          <text x="40" y="105" font-family="'Newsreader',Georgia,serif" font-size="15" font-style="italic" fill="#52605A">the verse as it actually reads — elisions marked …; the shadow hangs beneath, tagged in our vocabulary.</text>
+          <line x1="40" y1="122" x2="1000" y2="122" stroke="#C9BE9F" stroke-width="1"/>
+
+          <text y="176" font-family="'Newsreader',Georgia,serif" font-size="22" fill="#24302A">
+            <tspan x="40">those he </tspan><tspan font-style="italic">foreknew</tspan><tspan> he </tspan><tspan font-weight="700">predestined</tspan><tspan> to be conformed to the image of his </tspan><tspan font-weight="600">Son</tspan><tspan fill="#7C8478"> … </tspan><tspan>called</tspan><tspan fill="#7C8478"> … </tspan><tspan>justified</tspan>
+          </text>
+          <text x="40" y="200" font-family="'IBM Plex Mono',monospace" font-size="10.5" fill="#7C8478">Romans 8:29–30 · … = text elided, not a coded boundary</text>
+
+          <g fill="#6E7B3A">
+            <circle cx="150" cy="188" r="3"/>
+            <circle cx="300" cy="188" r="3.4"/>
+            <circle cx="640" cy="188" r="3"/>
+            <circle cx="905" cy="188" r="3"/>
+          </g>
+
+          <g fill="none">
+            <path d="M150 191 C 150 240, 130 250, 130 300" stroke="#6E7B3A" stroke-width="1.4"/>
+            <path d="M300 191 C 300 245, 372 250, 372 300" stroke="#C4602F" stroke-width="3.4"/>
+            <path d="M640 191 C 640 245, 614 250, 614 300" stroke="#7C8478" stroke-width="1"/>
+            <path d="M905 191 C 905 245, 856 250, 856 300" stroke="#8AA88B" stroke-width="2.2"/>
+          </g>
+
+          <g>
+            <rect x="40" y="300" width="216" height="150" rx="7" fill="#FFFFFF" stroke="#C9BE9F"/>
+            <rect x="40" y="300" width="3" height="150" rx="1.5" fill="#6E7B3A"/>
+            <text x="58" y="322" font-family="'IBM Plex Mono',monospace" font-size="10.5" fill="#7C8478">substrate</text>
+            <text x="58" y="348" font-family="'Inter'" font-size="14.5" font-weight="600" fill="#24302A">which “these”?</text>
+            <text x="58" y="378" font-family="'Newsreader',serif" font-size="15" font-style="italic" fill="#6E7B3A">under-specified</text>
+            <text x="58" y="426" font-family="'IBM Plex Mono',monospace" font-size="10.5" fill="#7C8478">● text-raised · weight 0</text>
+          </g>
+
+          <g>
+            <rect x="286" y="300" width="216" height="150" rx="7" fill="#FFFFFF" stroke="#C4602F" stroke-width="1.4"/>
+            <rect x="286" y="300" width="9" height="150" rx="2" fill="#C4602F"/>
+            <text x="308" y="322" font-family="'IBM Plex Mono',monospace" font-size="10.5" fill="#C4602F">warrant</text>
+            <text x="308" y="346" font-family="'Inter'" font-size="14.5" font-weight="700" fill="#24302A">on what basis</text>
+            <text x="308" y="366" font-family="'Inter'" font-size="14.5" font-weight="700" fill="#24302A">these, not those?</text>
+            <text x="308" y="394" font-family="'Newsreader',serif" font-size="15" font-style="italic" fill="#C4602F">sealed</text>
+            <rect x="356" y="404" width="1" height="1" fill="none" marker-end="url(#ns-lock)"/>
+            <text x="308" y="430" font-family="'IBM Plex Mono',monospace" font-size="10" font-weight="600" fill="#C4602F">● text-raised · obligated · w3 · RESERVED</text>
+          </g>
+
+          <g>
+            <rect x="532" y="300" width="216" height="150" rx="7" fill="#FFFFFF" stroke="#C9BE9F"/>
+            <rect x="532" y="300" width="2.5" height="150" rx="1.5" fill="#7C8478"/>
+            <text x="550" y="322" font-family="'IBM Plex Mono',monospace" font-size="10.5" fill="#7C8478">agency</text>
+            <text x="550" y="348" font-family="'Inter'" font-size="14.5" font-weight="600" fill="#24302A">which — Father?</text>
+            <text x="550" y="368" font-family="'Inter'" font-size="14.5" font-weight="600" fill="#24302A">Son? Spirit?</text>
+            <text x="550" y="396" font-family="'Newsreader',serif" font-size="15" font-style="italic" fill="#7C8478">silent</text>
+            <text x="550" y="430" font-family="'IBM Plex Mono',monospace" font-size="10.5" fill="#7C8478">○ reader-raised · reception · w0</text>
+          </g>
+
+          <g>
+            <rect x="778" y="300" width="216" height="150" rx="7" fill="#FFFFFF" stroke="#C9BE9F"/>
+            <rect x="778" y="300" width="6" height="150" rx="2" fill="#8AA88B"/>
+            <text x="796" y="322" font-family="'IBM Plex Mono',monospace" font-size="10.5" fill="#7C8478">the un-chosen</text>
+            <text x="796" y="348" font-family="'Inter'" font-size="14.5" font-weight="600" fill="#24302A">and those not</text>
+            <text x="796" y="368" font-family="'Inter'" font-size="14.5" font-weight="600" fill="#24302A">foreknown?</text>
+            <text x="796" y="396" font-family="'Newsreader',serif" font-size="15" font-style="italic" fill="#5F7A63">raised-open</text>
+            <rect x="846" y="404" width="1" height="1" fill="none" marker-end="url(#ns-lock)"/>
+            <text x="796" y="430" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#7C8478">◐ text-implied · obligated · w2</text>
+          </g>
+
+          <line x1="40" y1="486" x2="1000" y2="486" stroke="#C9BE9F"/>
+          <text x="40" y="510" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1" fill="#7C8478">register (color)</text>
+          <g font-family="'Inter'" font-size="12" fill="#52605A">
+            <rect x="150" y="501" width="13" height="10" rx="2" fill="#3F7D57"/><text x="169" y="510">said</text>
+            <rect x="222" y="501" width="13" height="10" rx="2" fill="#6E7B3A"/><text x="241" y="510">under-specified</text>
+            <rect x="352" y="501" width="13" height="10" rx="2" fill="#8AA88B"/><text x="371" y="510">raised-open</text>
+            <rect x="462" y="501" width="13" height="10" rx="2" fill="#C4602F"/><text x="481" y="510">sealed</text>
+            <rect x="536" y="501" width="13" height="10" rx="2" fill="#7C8478"/><text x="555" y="510">silent</text>
+          </g>
+          <text x="40" y="544" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1" fill="#7C8478">source (glyph)</text>
+          <g font-family="'Inter'" font-size="12" fill="#52605A">
+            <text x="150" y="544" font-family="'IBM Plex Mono',monospace" font-size="13" fill="#24302A">●</text><text x="166" y="544">text-raised</text>
+            <text x="258" y="544" font-family="'IBM Plex Mono',monospace" font-size="13" fill="#24302A">◐</text><text x="274" y="544">text-implied</text>
+            <text x="372" y="544" font-family="'IBM Plex Mono',monospace" font-size="13" fill="#24302A">○</text><text x="388" y="544">reader-raised</text>
+            <text x="492" y="544" font-family="'IBM Plex Mono',monospace" font-size="13" fill="#24302A">◎</text><text x="508" y="544">reception</text>
+          </g>
+          <text x="620" y="544" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1" fill="#7C8478">weight = thickness</text>
+          <rect x="770" y="536" width="9" height="12" fill="#C4602F"/><text x="786" y="544" font-family="'Inter'" font-size="12" fill="#52605A">heavy = leans on it</text>
+          <rect x="915" y="537" width="1" height="1" fill="none" marker-end="url(#ns-lock)"/><text x="930" y="544" font-family="'Inter'" font-size="12" fill="#52605A">obligated</text>
+        </svg>
+        <div class="svgcap">The coded verse, and its shadow — each road hung from the part of the move it belongs to, tagged in the negative-space vocabulary.</div>
+      </figure>
+
+      <div class="tnote"><b>The tag vocabulary.</b> The coder tags each road on four axes — <b>register</b> (said · under-specified · raised-open · sealed · silent), <b>source</b> (text-raised ● · text-implied ◐ · reader-raised ○ · reception ◎), <b>obligated</b> (did it clear the gate?), and <b>weight</b> (how hard the text leans). Descriptive first, judgment second — and <i>null is valid</i>: an honest "no road here."</div>
+
+      <div class="tnote"><b>Generation is mechanical; obligation is interpretive; the line between them stays bright.</b> The engine casts the candidate roads deterministically off the positive move; whether a road is an <i>obligated</i> absence is the coder's call, tagged and visible — never fabricated to fill a slot.</div>
+
+      <div class="tnote">A tradition we've barely gathered will simply not fill the deeper slots — and that sparseness is <b>honest signal, not failure.</b> An empty shadow is a real reading of a thin corpus, not a defect to paper over.</div>
+
+      <div class="illus">Illustrative. No passages have been coded yet (coding = zero) — this shows the <i>design</i> of how a shadow is read off a coded move, not a result from data. Candidate, not finding.</div>
+
+      <div class="sowhat"><span class="ar">→</span><span>Read what the move <b>did</b>; now you can read what it <b>withheld.</b> The shadow is a candidate too — read off the positive, tagged, and kept honest.</span></div>
     </div>
   </div>
 </section>
@@ -575,42 +767,42 @@ table.iv-subt i{font-style:italic}
     <div class="card">
       <div class="muted">Pure Land Buddhism's <b style="color:var(--teal)">tariki</b> ("other-power") is a move with the same shape as Paul's <b style="color:var(--gold)">predestined</b>: both transform a substrate <b>by-grace</b>, the saving power coming from beyond the self. Same move-type, same mechanism sub-value — that shared node is what makes the rhyme <i>computable</i>, not just felt.</div>
       <figure>
-        <svg viewBox="0 0 700 320" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif">
-          <defs><marker id="a2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#5a6090"/></marker></defs>
-          <circle cx="150" cy="105" r="36" fill="rgba(243,201,105,.12)" stroke="#f3c969" stroke-width="2"/>
-          <text x="150" y="102" text-anchor="middle" font-size="13" font-weight="700" fill="#eef0fb">predestined</text>
-          <text x="150" y="118" text-anchor="middle" font-size="9.5" fill="#9aa0c4">(Pauline)</text>
-          <text x="150" y="158" text-anchor="middle" font-size="10" fill="#5a6090">type=transform · voice=active</text>
-          <circle cx="550" cy="105" r="32" fill="rgba(95,214,196,.12)" stroke="#5fd6c4" stroke-width="2"/>
-          <text x="550" y="102" text-anchor="middle" font-size="13" font-weight="700" fill="#eef0fb">tariki</text>
-          <text x="550" y="118" text-anchor="middle" font-size="9.5" fill="#9aa0c4">(Pure Land)</text>
-          <text x="550" y="154" text-anchor="middle" font-size="10" fill="#5a6090">type=transform · voice=middle</text>
-          <line x1="188" y1="105" x2="516" y2="105" stroke="#d97706" stroke-width="3"/>
-          <rect x="285" y="86" width="130" height="20" rx="5" fill="#0d0f1a" stroke="#d97706" stroke-width="0.5"/>
-          <text x="350" y="100" text-anchor="middle" font-size="10.5" fill="#d97706">RHYME (same move-type)</text>
-          <rect x="278" y="205" width="144" height="40" rx="8" fill="rgba(255,255,255,.04)" stroke="#9aa0c4" stroke-width="1.2"/>
-          <text x="350" y="222" text-anchor="middle" font-size="11" font-weight="700" fill="#eef0fb">mechanism: by-grace</text>
-          <text x="350" y="237" text-anchor="middle" font-size="9.5" fill="#9aa0c4">a SHARED node — both link here</text>
-          <line x1="165" y1="138" x2="308" y2="205" stroke="#5a6090" stroke-width="1.2" marker-end="url(#a2)"/>
-          <line x1="535" y1="134" x2="392" y2="205" stroke="#5a6090" stroke-width="1.2" marker-end="url(#a2)"/>
-          <rect x="55" y="278" width="160" height="32" rx="8" fill="rgba(243,201,105,.08)" stroke="#f3c969" stroke-width="0.8"/>
-          <text x="135" y="298" text-anchor="middle" font-size="10.5" fill="#eef0fb">telos: union / salvation</text>
-          <rect x="485" y="278" width="160" height="32" rx="8" fill="rgba(95,214,196,.08)" stroke="#5fd6c4" stroke-width="0.8"/>
-          <text x="565" y="298" text-anchor="middle" font-size="10.5" fill="#eef0fb">telos: Pure Land rebirth</text>
-          <text x="350" y="298" text-anchor="middle" font-size="10" fill="#9aa0c4">different telos = the finding</text>
+        <svg viewBox="0 0 700 320" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+          <defs><marker id="a2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#7C8478"/></marker></defs>
+          <circle cx="150" cy="105" r="36" fill="rgba(224,169,59,.20)" stroke="#C4602F" stroke-width="2"/>
+          <text x="150" y="102" text-anchor="middle" font-size="13" font-weight="700" fill="#24302A">predestined</text>
+          <text x="150" y="118" text-anchor="middle" font-size="9.5" fill="#7C8478">(Pauline)</text>
+          <text x="150" y="158" text-anchor="middle" font-size="10" fill="#52605A">type=transform · voice=active</text>
+          <circle cx="550" cy="105" r="32" fill="rgba(63,125,87,.14)" stroke="#3F7D57" stroke-width="2"/>
+          <text x="550" y="102" text-anchor="middle" font-size="13" font-weight="700" fill="#24302A">tariki</text>
+          <text x="550" y="118" text-anchor="middle" font-size="9.5" fill="#7C8478">(Pure Land)</text>
+          <text x="550" y="154" text-anchor="middle" font-size="10" fill="#52605A">type=transform · voice=middle</text>
+          <line x1="188" y1="105" x2="516" y2="105" stroke="#C4602F" stroke-width="3"/>
+          <rect x="285" y="86" width="130" height="20" rx="5" fill="#FFFFFF" stroke="#C4602F" stroke-width="0.5"/>
+          <text x="350" y="100" text-anchor="middle" font-size="10.5" fill="#C4602F">rhyme (same move-type)</text>
+          <rect x="278" y="205" width="144" height="40" rx="8" fill="rgba(110,123,58,.10)" stroke="#6E7B3A" stroke-width="1.2"/>
+          <text x="350" y="222" text-anchor="middle" font-size="11" font-weight="700" fill="#24302A">mechanism: by-grace</text>
+          <text x="350" y="237" text-anchor="middle" font-size="9.5" fill="#52605A">a shared node — both link here</text>
+          <line x1="165" y1="138" x2="308" y2="205" stroke="#7C8478" stroke-width="1.2" marker-end="url(#a2)"/>
+          <line x1="535" y1="134" x2="392" y2="205" stroke="#7C8478" stroke-width="1.2" marker-end="url(#a2)"/>
+          <rect x="55" y="278" width="160" height="32" rx="8" fill="rgba(224,169,59,.14)" stroke="#E0A93B" stroke-width="0.8"/>
+          <text x="135" y="298" text-anchor="middle" font-size="10.5" fill="#24302A">telos: union / salvation</text>
+          <rect x="485" y="278" width="160" height="32" rx="8" fill="rgba(63,125,87,.12)" stroke="#3F7D57" stroke-width="0.8"/>
+          <text x="565" y="298" text-anchor="middle" font-size="10.5" fill="#24302A">telos: Pure Land rebirth</text>
+          <text x="350" y="298" text-anchor="middle" font-size="10" fill="#52605A">different telos = the finding</text>
         </svg>
         <div class="svgcap">A rhyme is recorded <i>with</i> its differences — "the same move in a different voice."</div>
       </figure>
       <div class="illus">Illustrative. No passages have been coded yet (coding = zero) — this shows the <i>design</i> of how a rhyme is drawn, not a result from data.</div>
-      <div style="margin:16px 0 0;padding:14px 18px;border:1px solid rgba(230,128,154,.4);border-left:3px solid var(--rose);border-radius:0 12px 12px 0;background:rgba(230,128,154,.06);font-size:14.5px;line-height:1.6;color:var(--dim)">
-        <b style="color:var(--ink)">"Aren't you finding the rhyme you built in?"</b> A fair challenge: if we label two moves <code style="font-family:var(--mono);font-size:12.5px;color:var(--gold);background:rgba(0,0,0,.3);border-radius:4px;padding:1px 5px">by-grace</code> and then call them a rhyme, did the label make the rhyme? Three things keep it honest. <b style="color:var(--ink)">In-vivo first</b> — each move records the tradition's <i>own</i> term underneath (<i>charis</i>, <i>tariki</i>); the shared label is read off the bottom-up term, not imposed on it. <b style="color:var(--ink)">Independent coders</b> — a move only earns a label when separate coders, and a five-model panel, reach it without conferring. <b style="color:var(--ink)">Unseen traditions</b> — the grammar is frozen, then tested on traditions it has never seen, and reviewed by a typologist from outside the Western language family. A rhyme survives only if it survives all three. <span style="color:var(--faint);font-style:italic">(Until it does: candidate, not finding.)</span>
+      <div style="margin:16px 0 0;padding:14px 18px;border:1px solid rgba(176,85,43,.4);border-left:3px solid var(--rose);border-radius:0 12px 12px 0;background:rgba(176,85,43,.06);font-size:14.5px;line-height:1.6;color:var(--dim)">
+        <b style="color:var(--ink)">"Aren't you finding the rhyme you built in?"</b> A fair challenge: if we label two moves <code style="font-family:var(--mono);font-size:12.5px;color:var(--gold);background:rgba(196,96,47,.10);border:1px solid rgba(196,96,47,.25);border-radius:4px;padding:1px 5px">by-grace</code> and then call them a rhyme, did the label make the rhyme? Three things keep it honest. <b style="color:var(--ink)">In-vivo first</b> — each move records the tradition's <i>own</i> term underneath (<i>charis</i>, <i>tariki</i>); the shared label is read off the bottom-up term, not imposed on it. <b style="color:var(--ink)">Independent coders</b> — a move only earns a label when separate coders, and a five-model panel, reach it without conferring. <b style="color:var(--ink)">Unseen traditions</b> — the grammar is frozen, then tested on traditions it has never seen, and reviewed by a typologist from outside the Western language family. A rhyme survives only if it survives all three. <span style="color:var(--faint);font-style:italic">(Until it does: candidate, not finding.)</span>
       </div>
       <details class="curious">
         <summary>For the curious — why shared vocabularies make rhyme computable</summary>
         <div class="body">
-          Each grammar field <i>is</i> a graph element: a coded move → a <b>node</b>; substrate→operation→outcome → a <b>flow</b>; the qualifiers → node <b>attributes</b> + links to <b>shared value-nodes</b>; the shared sub-values (<i>fasting</i> · <i>by-grace</i> · <i>liberation</i>) → <b>shared nodes</b> many moves link to (the convergence substrate); a move-rhyme → an <b>edge</b>; convergence-degree → node <b>size</b>.<br><br>
-          The one idea that makes it computable: <b>the shared controlled-vocabularies.</b> Without shared labels, every move is an island — no computer can see two traditions line up. With them, <b>convergence becomes "many moves share a neighbor"</b> — exactly what network science computes (shared-neighbor analysis, community detection, graph embedding). "Use shared terms so rhymes are findable" wasn't a nicety; it was the computational substrate.<br><br>
-          <b>Two kinds of comparison:</b> a <b>move-rhyme</b> (the same move across traditions — the headline edge) and an <b>axis-convergence</b> (the same value on one field — both aim at <i>equanimity</i>, both use <i>fasting</i>, both in <i>diaspora</i>). The rhyme edge is the only one that crosses traditions — literally the cross-tradition question drawn as a line.
+          Each grammar field <i>is</i> a graph element: a coded move → a <b>node</b>; substrate→operation→outcome → a <b>flow</b>; the qualifiers → node <b>attributes</b> + links to <b>shared value-nodes</b>; the shared sub-values (<i>fasting</i> · <i>by-grace</i> · <i>liberation</i>) → <b>shared nodes</b> many moves link to (the rhyme substrate); a move-rhyme → an <b>edge</b>; rhyme-degree → node <b>size</b>.<br><br>
+          The one idea that makes it computable: <b>the shared controlled-vocabularies.</b> Without shared labels, every move is an island — no computer can see two traditions line up. With them, <b>a rhyme becomes "many moves share a neighbor"</b> — exactly what network science computes (shared-neighbor analysis, community detection, graph embedding). "Use shared terms so rhymes are findable" wasn't a nicety; it was the computational substrate.<br><br>
+          <b>Two kinds of comparison:</b> a <b>move-rhyme</b> (the same move across traditions — the headline edge) and an <b>axis-rhyme</b> (the same value on one field — both aim at <i>equanimity</i>, both use <i>fasting</i>, both in <i>diaspora</i>). The move-rhyme edge is the one that crosses traditions — literally the cross-tradition question drawn as a line.
         </div>
       </details>
       <div class="sowhat"><span class="ar">→</span><span>A shared label turns a felt resemblance into <b>an edge a computer can find.</b> That's the bridge from grammar to graph.</span></div>
@@ -687,7 +879,7 @@ table.iv-subt i{font-style:italic}
 <div class="iv-sectlead">
   <div class="iv-kicker">For the curious / the examiner</div>
   <h2>The full grammar — <em>click any field</em> to open its coding key.</h2>
-  <p class="iv-sub">The scroll above followed <b>one</b> move through the instrument. Here is the whole instrument at once: all <b>twelve fields</b> across two tiers, each opening to the verbatim codebook — <b>value · what it is · how to tell · example</b> — the operational definition two coders use to reach the same code.</p>
+  <p class="iv-sub">The scroll above followed <b>one</b> move through the instrument. Here is the whole instrument at once: the <b>seven-part core and its two frames</b>, expanded into their coded sub-fields, each opening to the verbatim codebook — <b>value · what it is · how to tell · example</b> — the operational definition two coders use to reach the same code.</p>
 </div>
 
 <!-- HONESTY LEGEND — always visible above the schema -->
@@ -700,8 +892,8 @@ table.iv-subt i{font-style:italic}
 
 <!-- §1 THE SCHEMA -->
 <section class="iv-section">
-  <div class="iv-axis"><span>§ The schema</span><span class="iv-n">12 fields · 2 tiers</span></div>
-  <h3>The twelve-field grammar — <span class="iv-q">click any field to open its coding key.</span></h3>
+  <div class="iv-axis"><span>§ The schema</span><span class="iv-n">7-part core + 2 frames · in 12 coded sub-fields</span></div>
+  <h3>The seven-part core and its two frames — <span class="iv-q">click any field to open its coding key.</span></h3>
   <p class="iv-lede">The <b style="color:var(--indigo)">setting</b> is a wrapper, filled once per passage; the <b style="color:var(--teal)">move</b> sits inside it, coded per operation. Each field's drawer below is the verbatim codebook — <i>value · what it is · how to tell (the test) · example</i> — the operational definition two coders use to reach the same code.</p>
 
   <div class="iv-schema">
@@ -751,22 +943,54 @@ table.iv-subt i{font-style:italic}
   <p class="iv-compnote"><b>The compositional logic:</b> a move = <code>operation-type × voice × target</code>. Named moves <i>fall out</i> — <i>declare</i> = constitute + active; <i>emerge</i> = constitute + stative; <i>reframe</i> = transform + (target: paradigm). No flat sub-types — the axes generate them.</p>
 </section>
 
-<footer>
+<div class="pagenote">
   How the coding instrument works, for someone meeting the project for the first time.<br>
   <b>Romans 8:28–30 · "predestined"</b> is the demonstration move; the <b>tariki</b> rhyme and the rhyme-graph are illustrative — coding is at zero, no passages coded yet. The grammar is <b>provisional-v1</b>: decided-so-far, not locked; the next gate is 14 held-out seeds + a human typologist. We speak of <b>moves, analogy, and rhyme</b> — "rhyme is computable" is a statement about the method, not a claim of measured convergence.<br><br>
   Grammar of Meaning · Library · Essays · the Garden · Method
-  <!-- HOW PRODUCED: design-SB / Claude, 2026-06-19 — FINAL grammar walkthrough produced by GRAFTING two bake-off candidates: grammar_bakeoff_scrolly.html (the spine — hero → world fills in → move builds → qualifiers light up → flow → second tradition + rhyme-edge → constellation; pinned "stage" card; verbatim subtables; both honesty guardrails) PLUS two components from grammar_bakeoff_infoviz.html: (1) the click-to-inspect 12-field schema (nested grammar diagram; clicking a field opens its verbatim coding-key inline) grafted as the deeper "for the curious / examiner" section AFTER the scroll spine; (2) the interactive rhyme-graph (sized nodes = rhyme-count, diamond value-nodes, dashed value-links, gold rhyme-edges, hover-to-explain info bar) which REPLACES the scrolly's static end constellation (framing copy kept, visual swapped). NAMESPACING: every grafted infoviz CSS class + element id is prefixed iv- (iv-schema / iv-fcell / iv-inspector / iv-rhymeSvg / iv-ginfo / etc.); the grafted JS runs in its own isolated IIFE referencing only iv- ids, so it does not collide with the scrolly page's existing IIFE (stars / rail / reveal IntersectionObserver / pinned-stage data-state machine). No duplicate ids, no shared globals. SCHOLARLY SOURCES: grammar_codebook_interactive_2026-06-18.html (the grammar + value-lists + tests — subtables lifted VERBATIM in BOTH the scroll spine and the inspector drawers), grammar_to_graph_2026-06-19.html (node/edge/size model), the engine.html dark skin + home pill + noindex, the handover spec. CLAUDE.md §2.1 (candidate; Stage 6 = 0 coded passages — "decided so far," never final), §2.6 (controlled-vocab convergence substrate), §2.12 (built in the design-SB worktree). WHAT NEEDS VERIFICATION: (1) BOTH honesty guardrails survive + are visible: (a) grammar = DECIDED-SO-FAR / provisional-v1 with the next gate rendered (hero provis pill; §6 gate panel "14 held-out seeds + a human typologist"; the iv- legend "provisional-v1" chip + next-gate chip; footer) — and (b) every populated rhyme/constellation example labelled illustrative, coding = 0 (the §5 .illus line; the §6 .iv-illuslabel "Stage 6 coding = 0 passages"; the iv- legend "illustrative graph — 0 passages coded yet" chip; footer). (2) subtables verbatim (lifted, not paraphrased) in both spine + inspector. (3) framing = moves / rhyme / analogy ONLY; the forbidden no-historical-contact phrasings are kept out of all page copy. (4) naming: "the Garden"; parts = Library · Essays · Garden · Method. (5) the two scripts do not clash (separate IIFEs, iv- namespace). -->
+  <!-- HOW PRODUCED: design-SB / Claude, 2026-06-19 — FINAL grammar walkthrough produced by GRAFTING two bake-off candidates: grammar_bakeoff_scrolly.html (the spine — hero → world fills in → move builds → qualifiers light up → flow → second tradition + rhyme-edge → constellation; pinned "stage" card; verbatim subtables; both honesty guardrails) PLUS two components from grammar_bakeoff_infoviz.html: (1) the click-to-inspect 12-field schema (nested grammar diagram; clicking a field opens its verbatim coding-key inline) grafted as the deeper "for the curious / examiner" section AFTER the scroll spine; (2) the interactive rhyme-graph (sized nodes = rhyme-count, diamond value-nodes, dashed value-links, gold rhyme-edges, hover-to-explain info bar) which REPLACES the scrolly's static end constellation (framing copy kept, visual swapped). NAMESPACING: every grafted infoviz CSS class + element id is prefixed iv- (iv-schema / iv-fcell / iv-inspector / iv-rhymeSvg / iv-ginfo / etc.); the grafted JS runs in its own isolated IIFE referencing only iv- ids, so it does not collide with the scrolly page's existing IIFE (stars / rail / reveal IntersectionObserver / pinned-stage data-state machine). No duplicate ids, no shared globals. SCHOLARLY SOURCES: grammar_codebook_interactive_2026-06-18.html (the grammar + value-lists + tests — subtables lifted VERBATIM in BOTH the scroll spine and the inspector drawers), grammar_to_graph_2026-06-19.html (node/edge/size model), the engine.html dark skin + home pill + noindex, the handover spec. CLAUDE.md §2.1 (candidate; Stage 6 = 0 coded passages — "decided so far," never final), §2.6 (controlled-vocab rhyme substrate), §2.12 (built in the design-SB worktree). WHAT NEEDS VERIFICATION: (1) BOTH honesty guardrails survive + are visible: (a) grammar = DECIDED-SO-FAR / provisional-v1 with the next gate rendered (hero provis pill; §6 gate panel "14 held-out seeds + a human typologist"; the iv- legend "provisional-v1" chip + next-gate chip; footer) — and (b) every populated rhyme/constellation example labelled illustrative, coding = 0 (the §5 .illus line; the §6 .iv-illuslabel "Stage 6 coding = 0 passages"; the iv- legend "illustrative graph — 0 passages coded yet" chip; footer). (2) subtables verbatim (lifted, not paraphrased) in both spine + inspector. (3) framing = moves / rhyme / analogy ONLY; the forbidden no-historical-contact phrasings are kept out of all page copy. (4) naming: "the Garden"; parts = Library · Essays · Garden · Method. (5) the two scripts do not clash (separate IIFEs, iv- namespace). -->
+</div>
+
+<!-- botanical sprig divider before the house footer -->
+<svg class="sprig" style="margin:20px auto 34px"><use href="#sprig"/></svg>
+
+<!-- HOUSE PICK-LIST FOOTER -->
+<footer>
+  <div class="wrap" style="max-width:1120px">
+    <div class="flabel">Grammar of Meaning</div>
+    <h3>How meaning gets made — read each tradition in its own vocabulary first.</h3>
+    <div class="pickgrid">
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">The work</div>
+        <div class="picklist">
+          <div><a href="library.html" style="color:#fff">The Library</a> <span class="k">— the world's traditions, gathered</span></div>
+          <div><a href="essays.html" style="color:#fff">The Essays</a> <span class="k">— meaning-making in public</span></div>
+          <div><a href="garden.html" style="color:#fff">The Garden</a> <span class="k">— a pilgrimage you walk</span></div>
+          <div><a href="method.html" style="color:#fff">The Method</a> <span class="k">— the open method behind it all</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">Reference</div>
+        <div class="picklist">
+          <div><a href="glossary.html" style="color:#fff">Glossary</a></div>
+          <div><a href="principles.html" style="color:#fff">Principles</a></div>
+          <div><a href="scholars.html" style="color:#fff">Scholars</a></div>
+          <div><a href="bibliography.html" style="color:#fff">Bibliography</a></div>
+        </div>
+        <div class="label-mute" style="color:var(--sage);margin:22px 0 10px">Start here</div>
+        <div class="picklist">
+          <div><a href="mission.html" style="color:#fff">What this is →</a></div>
+        </div>
+      </div>
+    </div>
+    <p class="foot-note">A working house, unlisted · <em>Grammar of Meaning</em> · Tamara Sanderson · 2026</p>
+  </div>
 </footer>
 
 <!-- ============ SCRIPT 1 — the scrolly spine (unchanged) ============ -->
 <script>
 (function(){
   "use strict";
-  /* stars */
-  var starsEl=document.getElementById('stars');
-  for(var i=0;i<80;i++){var s=document.createElement('div');s.className='star';var sz=Math.random()*2+1;
-    s.style.width=sz+'px';s.style.height=sz+'px';s.style.left=(Math.random()*100)+'%';s.style.top=(Math.random()*100)+'%';
-    starsEl.appendChild(s);(function(el,d){setTimeout(function(){el.style.opacity=(Math.random()*0.6+0.15).toFixed(2);},d);})(s,Math.random()*1800);}
+  /* stars — retired for the light house system (night-sky skin removed); loop left as a no-op */
 
   /* rail */
   var railfill=document.getElementById('railfill');
@@ -951,7 +1175,7 @@ table.iv-subt i{font-style:italic}
            ["by participation","contemplation · presence · devotion · encounter","<i>theoria</i> · <i>sati</i> · <i>bhakti</i> / <i>ishq</i> · the metaxy"]
          ],cls:["term","","ex"]}
       ],
-      note:'The shared sub-mechanism column <b>is</b> the rhyme substrate — <i>fasting</i> across Islam/Christianity/Judaism/Buddhism is a convergence candidate. · <b>uptake</b> (felicity) is a sub-field of <i>by-utterance</i>: none / audience / office / ritual-correctness / lineage / divine-sanction / divinatory / communal. · Grows bottom-up; the in-vivo term is always recorded underneath.'
+      note:'The shared sub-mechanism column <b>is</b> the rhyme substrate — <i>fasting</i> across Islam/Christianity/Judaism/Buddhism is a rhyme candidate. · <b>uptake</b> (felicity) is a sub-field of <i>by-utterance</i>: none / audience / office / ritual-correctness / lineage / divine-sanction / divinatory / communal. · Grows bottom-up; the in-vivo term is always recorded underneath.'
     },
 
     basis:{title:"basis",stat:["iv-built","✓ built · 11 values"],one:"on what basis it's justified — “how do you know?”",
@@ -1039,7 +1263,7 @@ table.iv-subt i{font-style:italic}
 
   /* ============================================================
      THE RHYME GRAPH — illustrative move-nodes, value-nodes, edges
-     node radius = rhyme-count (convergence-degree). NOT real data.
+     node radius = rhyme-count. NOT real data.
      ============================================================ */
   var moves=[
     {id:"surrender",  label:"surrender",   trad:"Christian", x:300, y:120, rc:5, type:"yield",  voice:"passive", val:["by-grace","union"],
@@ -1057,9 +1281,9 @@ table.iv-subt i{font-style:italic}
   ];
   var values=[
     {id:"by-grace",  label:"by-grace",   sub:"mechanism", x:500, y:215, kind:"mech",
-       note:"shared value-node <b>mechanism: by-grace</b> — surrender · fanāʾ · predestined · tariki · islām all link here. Five moves sharing one neighbour <i>is</i> the convergence substrate."},
+       note:"shared value-node <b>mechanism: by-grace</b> — surrender · fanāʾ · predestined · tariki · islām all link here. Five moves sharing one neighbour <i>is</i> the rhyme substrate."},
     {id:"union",     label:"union",      sub:"telos", x:520, y:430, kind:"telos",
-       note:"shared value-node <b>telos: union</b> — a telos-convergence (the broader axis-convergence layer)."},
+       note:"shared value-node <b>telos: union</b> — a telos-rhyme (the broader axis-rhyme layer)."},
     {id:"revelation",label:"revelation", sub:"basis", x:60,  y:330, kind:"basis",
        note:"shared value-node <b>basis: revelation</b> — predestined links here."},
     {id:"cosmic",    label:"cosmic-order",sub:"basis", x:760, y:380, kind:"basis",
@@ -1095,29 +1319,29 @@ table.iv-subt i{font-style:italic}
   moves.forEach(function(m){
     m.val.forEach(function(vid){
       var v=vById[vid]; if(!v) return;
-      var ln=el("line",{x1:m.x,y1:m.y,x2:v.x,y2:v.y,stroke:"#5a6090","stroke-width":1.3,"stroke-dasharray":"3 4",opacity:.55,"data-link":m.id+"|"+vid});
+      var ln=el("line",{x1:m.x,y1:m.y,x2:v.x,y2:v.y,stroke:"#7C8478","stroke-width":1.3,"stroke-dasharray":"3 4",opacity:.65,"data-link":m.id+"|"+vid});
       gEdges.appendChild(ln);
     });
   });
   // --- rhyme edges (thick gold) ---
   rhymes.forEach(function(pr){
     var a=mById[pr[0]],b=mById[pr[1]]; if(!a||!b) return;
-    var ln=el("line",{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:"#f3c969","stroke-width":2.6,opacity:.78,"data-rhyme":pr[0]+"|"+pr[1],"class":"iv-redge",style:"cursor:pointer"});
+    var ln=el("line",{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:"#C4602F","stroke-width":2.6,opacity:.82,"data-rhyme":pr[0]+"|"+pr[1],"class":"iv-redge",style:"cursor:pointer"});
     ln.addEventListener('mouseenter',function(){
       ln.setAttribute('stroke-width','4');
-      ginfo.innerHTML='<b style="color:var(--gold)">RHYME edge</b> · '+a.label+' ('+a.trad+') &harr; '+b.label+' ('+b.trad+') — drawn only when move-type + structure correspond, recorded <i>with</i> their differences on the qualifier axes. The rhyme edge is the only one that crosses traditions: it is the Q2 finding drawn as a line.';
+      ginfo.innerHTML='<b style="color:var(--gold)">RHYME edge</b> · '+a.label+' ('+a.trad+') &harr; '+b.label+' ('+b.trad+') — drawn only when move-type + structure correspond, recorded <i>with</i> their differences on the qualifier axes. The move-rhyme edge is the one that crosses traditions: it is the Q2 finding drawn as a line.';
     });
     ln.addEventListener('mouseleave',function(){ln.setAttribute('stroke-width','2.6');ginfo.innerHTML=defaultInfo;});
     gEdges.appendChild(ln);
   });
 
   // --- value nodes (diamonds) ---
-  var valColors={mech:"#f3c969",telos:"#5fd6c4",basis:"#9aa0ff"};
+  var valColors={mech:"#C4602F",telos:"#3F7D57",basis:"#6E7B3A"};
   values.forEach(function(v){
-    var c=valColors[v.kind]||"#f3c969";
+    var c=valColors[v.kind]||"#C4602F";
     var g=el("g",{transform:"translate("+v.x+","+v.y+")",style:"cursor:pointer"});
     g.appendChild(el("rect",{x:-9,y:-9,width:18,height:18,rx:3,transform:"rotate(45)",fill:c,opacity:.22,stroke:c,"stroke-width":1.6}));
-    var t=el("text",{y:26,"text-anchor":"middle","font-size":11,fill:"#9aa0c4","font-weight":600});t.textContent=v.label;
+    var t=el("text",{y:26,"text-anchor":"middle","font-size":11,fill:"#52605A","font-weight":600,"font-family":"'IBM Plex Mono',monospace"});t.textContent=v.label;
     g.appendChild(t);
     g.addEventListener('mouseenter',function(){ginfo.innerHTML=v.note;});
     g.addEventListener('mouseleave',function(){ginfo.innerHTML=defaultInfo;});
@@ -1128,13 +1352,13 @@ table.iv-subt i{font-style:italic}
   moves.forEach(function(m){
     var r=rad(m.rc);
     var g=el("g",{"class":"iv-gnode-move",transform:"translate("+m.x+","+m.y+")"});
-    g.appendChild(el("circle",{r:r,fill:"rgba(154,160,255,.16)",stroke:"#9aa0ff","stroke-width":2}));
-    var t1=el("text",{"text-anchor":"middle","font-size":(m.rc>=4?13:12),"font-weight":700,fill:"#eef0fb",y:1});t1.textContent=m.label;
+    g.appendChild(el("circle",{r:r,fill:"rgba(224,169,59,.22)",stroke:"#C4602F","stroke-width":2}));
+    var t1=el("text",{"text-anchor":"middle","font-size":(m.rc>=4?13:12),"font-weight":700,fill:"#24302A",y:1});t1.textContent=m.label;
     g.appendChild(t1);
-    var t2=el("text",{"text-anchor":"middle","font-size":9.5,fill:"#9aa0c4",y:r+13});t2.textContent="("+m.trad+")";
+    var t2=el("text",{"text-anchor":"middle","font-size":9.5,fill:"#7C8478",y:r+13,"font-family":"'IBM Plex Mono',monospace"});t2.textContent="("+m.trad+")";
     g.appendChild(t2);
     // rhyme-count badge
-    var badge=el("text",{"text-anchor":"middle","font-size":9,fill:"#f3c969","font-weight":700,y:14});badge.textContent="✨"+m.rc;
+    var badge=el("text",{"text-anchor":"middle","font-size":9,fill:"#C4602F","font-weight":700,y:14});badge.textContent="✦"+m.rc;
     g.appendChild(badge);
     g.addEventListener('mouseenter',function(){ginfo.innerHTML=m.note;});
     g.addEventListener('mouseleave',function(){ginfo.innerHTML=defaultInfo;});

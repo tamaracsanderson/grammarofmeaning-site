@@ -1,103 +1,146 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Scholars — Grammar of Meaning</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/gom.css">
 <style>
-:root{
-  --ink:#221c14; --parch:#fbf6ec; --line:#e3dac6; --mut:#8a7d63;
-  --moss:#3f5a39; --gold:#b8893a;
-  --card:#fffdf7;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0; background:var(--parch); color:var(--ink);
-  font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-  -webkit-font-smoothing:antialiased;
-  background-image:radial-gradient(circle at 12% 8%,rgba(184,137,58,.05),transparent 42%),radial-gradient(circle at 88% 92%,rgba(63,90,57,.05),transparent 40%);
-}
-.serif{font-family:"Iowan Old Style",Palatino,Georgia,serif}
-.wrap{max-width:880px;margin:0 auto;padding:78px 22px 110px}
+  /* ---- page-specific tweaks (Scholars / reference) ---- */
+  /* reading-column width — this is a dense reference list, not a directory grid */
+  .wrap{max-width:1000px}
 
-h1{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-weight:600;font-size:34px;line-height:1.15;margin:0 0 6px;letter-spacing:-.01em}
-.tag{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-style:italic;color:var(--moss);font-size:18px;margin:0 0 20px}
-.lede{font-size:16px;color:#4a4234;max-width:62ch;margin:0 0 14px}
-.wipnote{
-  display:inline-block;font-size:12.5px;color:#6b5a2f;
-  background:rgba(184,137,58,.10);border:1px solid #e6d4a8;border-radius:18px;
-  padding:5px 13px;margin:4px 0 30px;
-}
+  /* intro rationale under the hero */
+  .sch-lede{max-width:64ch;color:var(--ink-2);font-size:15.5px;line-height:1.62;margin:0 0 16px}
+  .sch-lede b{color:var(--ink)}
 
-.toc{
-  background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:16px 20px;margin:0 0 38px;font-size:14px;
-}
-.toc b{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-weight:600;color:var(--ink);display:block;margin-bottom:8px;font-size:14.5px}
-.toc ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px 18px}
-.toc a{color:var(--moss);text-decoration:none;border-bottom:1px dotted #b7c2b0}
-.toc a:hover{color:var(--gold);border-bottom-color:var(--gold)}
+  /* WIP note — house honey-ruled aside as a pill */
+  .wipnote{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12.5px;font-weight:500;
+    color:var(--ink-2);background:rgba(224,169,59,.10);border:1px solid var(--rule);border-radius:999px;
+    padding:5px 14px;margin:0 0 8px}
 
-section{margin:0 0 40px}
-.sec-h{
-  font-family:"Iowan Old Style",Palatino,Georgia,serif;font-weight:600;font-size:21px;
-  margin:34px 0 4px;padding-top:20px;border-top:2px solid var(--line);
-  display:flex;align-items:baseline;gap:10px;
-}
-.sec-h .num{font-size:13px;color:var(--gold);font-family:-apple-system,sans-serif;font-weight:700}
-.sec-note{font-size:13.5px;color:var(--mut);font-style:italic;margin:0 0 14px}
+  /* per-page TOC — house card, kept + restyled */
+  .toc{background:var(--paper-3);border:1px solid var(--rule);border-radius:12px;
+    padding:18px 22px;margin:26px 0 10px}
+  .toc b{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:0.035em;text-transform:none;
+    color:var(--ink-3);display:block;margin-bottom:11px}
+  .toc ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px 20px}
+  .toc a{font-family:var(--sans);font-size:13.5px;color:var(--fern);text-decoration:none;
+    border-bottom:1px dotted var(--rule)}
+  .toc a:hover{color:var(--terracotta);border-bottom-color:var(--terracotta);text-decoration:none}
 
-.rows{display:flex;flex-direction:column;gap:0}
-.row{
-  display:grid;grid-template-columns:172px 1fr;gap:14px;
-  padding:11px 2px;border-bottom:1px solid #efe7d4;align-items:start;
-}
-.row:last-child{border-bottom:none}
-.name{font-weight:600;color:var(--ink);font-size:15.5px}
-.name .yrs{font-weight:400;color:var(--mut);font-size:12.5px;display:block;margin-top:1px}
-.body{font-size:14.5px;color:#3c352a}
-.contrib{margin:0 0 5px}
-.tags{display:flex;flex-wrap:wrap;gap:5px}
-.pill{
-  font-size:11px;line-height:1;color:var(--moss);
-  background:rgba(63,90,57,.07);border:1px solid #cdd8c6;border-radius:12px;
-  padding:4px 9px;white-space:nowrap;
-}
-.pill.x{color:var(--gold);background:rgba(184,137,58,.08);border-color:#e6d4a8}
-.pill.contest{color:#94602f;background:rgba(184,137,58,.06);border-color:#e6d4a8;font-style:italic}
-.foil{color:#94602f;font-style:italic}
-.note-link{
-  display:inline-block;margin-top:6px;font-size:12.5px;
-  color:var(--moss);text-decoration:none;font-style:italic;
-  border-bottom:1px dotted #b7c2b0;
-}
-.note-link:hover{color:var(--gold);border-bottom-color:var(--gold)}
-.note-link::before{content:"↳ ";font-style:normal}
+  /* each contribution section — house Swiss section head */
+  .sch-sec{padding:0;border-top:none;margin:0 0 6px}
+  .sec-note{font-family:var(--serif);font-style:italic;font-size:14.5px;color:var(--ink-2);
+    line-height:1.55;margin:0 0 16px;max-width:70ch}
+  .sec-note em{font-style:normal}
 
-.foot{margin-top:54px;padding-top:18px;border-top:2px solid var(--line);font-size:13px;color:var(--mut)}
-.foot b{color:#5a4f3c}
+  /* rows — the scholar entries, kept verbatim, reskinned into house type */
+  .rows{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--rule)}
+  .row{display:grid;grid-template-columns:180px 1fr;gap:16px;
+    padding:14px 2px;border-bottom:1px solid var(--rule);align-items:start}
+  .row:last-child{border-bottom:none}
+  .name{font-family:var(--serif);font-weight:600;font-size:16.5px;color:var(--moss);line-height:1.2}
+  .name .yrs{font-family:var(--mono);font-weight:400;color:var(--ink-3);font-size:11.5px;display:block;margin-top:3px;letter-spacing:.01em}
+  .body{font-size:14.5px;color:var(--ink);line-height:1.6}
+  .contrib{margin:0 0 7px}
+  .contrib b{color:var(--moss);font-weight:600}
+  .contrib em{color:var(--ink-2)}
 
-@media(max-width:560px){
-  .row{grid-template-columns:1fr;gap:4px}
-  .name{font-size:16px}
-  .wrap{padding:70px 16px 90px}
-}
+  /* tag pills — house green pill; gold = load-bearing; contested/foil = terracotta italic */
+  .tags{display:flex;flex-wrap:wrap;gap:6px}
+  .pill{font-family:var(--sans);font-size:11px;font-weight:600;line-height:1;letter-spacing:0.01em;
+    color:var(--fern);background:rgba(63,125,87,.08);border:1px solid var(--rule);border-radius:999px;
+    padding:5px 10px;white-space:nowrap}
+  .pill.x{color:var(--terracotta);background:rgba(224,169,59,.10);border-color:var(--rule)}
+  .pill.contest{color:var(--terracotta);background:rgba(196,96,47,.06);border-color:var(--rule);font-style:italic;font-weight:500}
+  .foil{color:var(--terracotta);font-style:italic}
+  .note-link{display:inline-block;margin-top:7px;font-family:var(--sans);font-size:12.5px;
+    color:var(--fern);text-decoration:none;font-style:italic;border-bottom:1px dotted var(--rule)}
+  .note-link:hover{color:var(--terracotta);border-bottom-color:var(--terracotta);text-decoration:none}
+  .note-link::before{content:"↳ ";font-style:normal}
+
+  /* closing note — house quiet foot */
+  .foot{font-family:var(--sans);font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--rule);
+    margin-top:44px;padding-top:18px;line-height:1.65}
+  .foot b{color:var(--ink)}
+  .foot .pill{vertical-align:middle}
+
+  @media(max-width:560px){
+    .row{grid-template-columns:1fr;gap:5px}
+    .name{font-size:17px}
+  }
 </style>
-<style>/* site chrome: home link (matches grammarofmeaning.org) */.gom-home{position:fixed;top:14px;left:16px;z-index:9999;font:600 13px/1 -apple-system,Segoe UI,sans-serif;color:#3f5a39;text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px;box-shadow:0 1px 5px rgba(80,60,20,.10)}.gom-home:hover{background:#fff;border-color:#b8893a;color:#b8893a}@media print{.gom-home{display:none}}</style>
 </head>
 <body>
-<a href="index.html" class="gom-home">← Grammar of Meaning</a>
 
-<a href="index.html" style="position:fixed;top:14px;left:16px;z-index:999;font:600 13px/1 -apple-system,sans-serif;color:#3f5a39;text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px">← Grammar of Meaning</a>
+<!-- reusable botanical symbols -->
+<svg style="display:none" aria-hidden="true"><defs>
+  <symbol id="sprig" viewBox="0 0 150 34">
+    <path d="M5 17 H145" stroke="#6E7B3A" stroke-width="1" fill="none"/>
+    <g fill="none" stroke="#3F7D57" stroke-width="1.3">
+      <path d="M60 17 q-9 -11 -20 -9 q7 8 20 9"/>
+      <path d="M90 17 q9 -11 20 -9 q-7 8 -20 9"/>
+      <path d="M68 17 q-6 9 -15 9 q5 -7 15 -9"/>
+      <path d="M82 17 q6 9 15 9 q-5 -7 -15 -9"/>
+    </g>
+    <circle cx="75" cy="17" r="3.2" fill="#E0A93B"/>
+    <circle cx="75" cy="17" r="6" fill="none" stroke="#C4602F" stroke-width="1"/>
+  </symbol>
+</defs></svg>
+
+<!-- NAV -->
+<div class="topbar">
+  <div class="wrap">
+    <a class="brandmark" href="index.html" style="color:var(--moss)">
+      <svg class="mark" viewBox="0 0 200 200" fill="none" aria-hidden="true"><path d="M100 30 C74 52 58 92 62 126 C64 152 82 168 100 176 L100 30 Z" fill="#2C4A38"/><path d="M100 30 C126 52 142 92 138 126 C136 152 118 168 100 176 L100 30 Z" fill="#8AA88B"/><line x1="100" y1="34" x2="100" y2="174" stroke="#FCFBF7" stroke-width="3"/><line x1="100" y1="176" x2="100" y2="194" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/></svg>
+      Grammar&nbsp;of&nbsp;Meaning
+    </a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="mission.html">About</a>
+      <a href="library.html">Library</a>
+      <a href="essays.html">Essays</a>
+      <a href="garden.html">Garden</a>
+      <a href="method.html">Method</a>
+      <a href="glossary.html" class="active">Reference</a>
+    
+      <a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a>
+    </nav>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <svg class="watermark" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+    <path d="M100 195 V70" stroke="#3F7D57" stroke-width="1.4"/>
+    <g stroke="#3F7D57" stroke-width="1.2" fill="none">
+      <path d="M100 150 q-46 -10 -58 -55 q46 6 58 55"/>
+      <path d="M100 120 q46 -12 58 -58 q-46 6 -58 58"/>
+      <path d="M100 96 q-38 -8 -48 -46 q38 5 48 46"/>
+      <path d="M100 78 q40 -10 50 -48 q-40 5 -50 48"/>
+    </g>
+    <circle cx="100" cy="62" r="7" fill="#E0A93B"/>
+  </svg>
+  <div class="wrap">
+    <div class="kicker">Reference · <b>the shoulders this stands on</b></div>
+    <h1>Scholars</h1>
+    <div class="sub">The shoulders this stands on.</div>
+    <p class="lede">Whose work we build on — organized by <b>where their contribution sits in the project</b>, not by department. The work is interdisciplinary by design, so some scholars appear in more than one place. That overlap is the point: the method lives where philosophy, comparative religion, systems thinking, and the psychology of the self meet.</p>
+  </div>
+</header>
 
 <div class="wrap">
 
-  <h1>Scholars</h1>
-  <p class="tag">The shoulders this stands on.</p>
-
-  <p class="lede">Whose work we build on — organized by <b>where their contribution sits in the project</b>, not by department. The work is interdisciplinary by design, so some scholars appear in more than one place. That overlap is the point: the method lives where philosophy, comparative religion, systems thinking, and the psychology of the self meet.</p>
+<!-- SCHOLARS -->
+<section id="scholars">
+  <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">Whose work we build on</span><span class="sec-line"></span></div>
 
   <span class="wipnote">⚘ Living list — WIP &amp; additive. Not exhaustive; a working reference that grows as the thesis does.</span>
 
@@ -118,8 +161,8 @@ section{margin:0 0 40px}
   </nav>
 
   <!-- ===================== 1 — SPINE ===================== -->
-  <section id="spine">
-    <h2 class="sec-h"><span class="num">1</span> The method's spine — pragmatism &amp; consilience</h2>
+  <section class="sch-sec" id="spine">
+    <div class="sec-head" style="margin-top:38px"><span class="sec-num">1</span><span class="sec-title">The method's spine — pragmatism &amp; consilience</span><span class="sec-line"></span></div>
     <p class="sec-note">The epistemology that lets a comparative database make a claim at all: truth as a process that "happens" through testing, and convergence across independent streams as the warrant.</p>
     <div class="rows">
 
@@ -208,8 +251,8 @@ section{margin:0 0 40px}
   </section>
 
   <!-- ===================== 2 — THEORY OF RELIGION ===================== -->
-  <section id="theory">
-    <h2 class="sec-h"><span class="num">2</span> Theory of religion &amp; meaning</h2>
+  <section class="sch-sec" id="theory">
+    <div class="sec-head" style="margin-top:38px"><span class="sec-num">2</span><span class="sec-title">Theory of religion &amp; meaning</span><span class="sec-line"></span></div>
     <p class="sec-note">What it means to study "religion" comparatively at all — and the warnings against over-claiming a shared essence.</p>
     <div class="rows">
 
@@ -395,8 +438,8 @@ section{margin:0 0 40px}
   </section>
 
   <!-- ===================== 3 — MEANING-MAKING ===================== -->
-  <section id="meaning">
-    <h2 class="sec-h"><span class="num">3</span> Meaning-making &amp; sense-making</h2>
+  <section class="sch-sec" id="meaning">
+    <div class="sec-head" style="margin-top:38px"><span class="sec-num">3</span><span class="sec-title">Meaning-making &amp; sense-making</span><span class="sec-line"></span></div>
     <p class="sec-note">The empirical literature on <em>meaning</em> as a human capacity — how it is built, measured, lost, and rebuilt. The construct the project's whole question ("how does meaning get made?") rests on; drawn from the meaning-making capacity DR.</p>
     <div class="rows">
 
@@ -548,9 +591,9 @@ section{margin:0 0 40px}
   </section>
 
   <!-- ===================== 4 — SYSTEMS / LINEAGE ===================== -->
-  <section id="systems">
-    <h2 class="sec-h"><span class="num">4</span> Systems &amp; cross-domain pattern-finding — <span style="font-weight:400;font-style:italic;color:var(--moss)">the lineage</span></h2>
-    <p class="sec-note">The forebears the project explicitly places itself among: people who found portable patterns across domains, or built open access to a vast corpus. What this project adds to each: it <b>publishes the method</b>, not just the result.</p>
+  <section class="sch-sec" id="systems">
+    <div class="sec-head" style="margin-top:38px"><span class="sec-num">4</span><span class="sec-title">Systems &amp; cross-domain pattern-finding — the lineage</span><span class="sec-line"></span></div>
+    <p class="sec-note">The forebears the project explicitly places itself among: people who found portable patterns across domains, or built open access to a vast corpus. What this project adds to each: it <em>publishes the method</em>, not just the result.</p>
     <div class="rows">
 
       <div class="row">
@@ -629,8 +672,8 @@ section{margin:0 0 40px}
   </section>
 
   <!-- ===================== 5 — COMPARATIVE METHOD ===================== -->
-  <section id="comparative">
-    <h2 class="sec-h"><span class="num">5</span> Comparative method, classification &amp; reading</h2>
+  <section class="sch-sec" id="comparative">
+    <div class="sec-head" style="margin-top:38px"><span class="sec-num">5</span><span class="sec-title">Comparative method, classification &amp; reading</span><span class="sec-line"></span></div>
     <p class="sec-note">How to compare without flattening — and the structural / ritual / historical tools that make patterns legible.</p>
     <div class="rows">
 
@@ -720,8 +763,8 @@ section{margin:0 0 40px}
   </section>
 
   <!-- ===================== 6 — COGNITIVE SCIENCE OF RELIGION ===================== -->
-  <section id="csr">
-    <h2 class="sec-h"><span class="num">6</span> Cognitive science of religion</h2>
+  <section class="sch-sec" id="csr">
+    <div class="sec-head" style="margin-top:38px"><span class="sec-num">6</span><span class="sec-title">Cognitive science of religion</span><span class="sec-line"></span></div>
     <p class="sec-note">The comparative-<em>empirical</em> wing — studying religion as a cross-cultural cognitive and behavioural phenomenon. A near-neighbour to the project's method, with which it shares the move "sample widely, ask what recurs."</p>
     <div class="rows">
 
@@ -745,8 +788,8 @@ section{margin:0 0 40px}
   </section>
 
   <!-- ===================== 7 — PSYCHOLOGY OF SELF ===================== -->
-  <section id="self">
-    <h2 class="sec-h"><span class="num">7</span> Psychology of self, body &amp; consciousness</h2>
+  <section class="sch-sec" id="self">
+    <div class="sec-head" style="margin-top:38px"><span class="sec-num">7</span><span class="sec-title">Psychology of self, body &amp; consciousness</span><span class="sec-line"></span></div>
     <p class="sec-note">The Column-2 mechanics layer — what actually reorganizes in a person, told in a register the post-critical seeker can use.</p>
     <div class="rows">
 
@@ -825,9 +868,9 @@ section{margin:0 0 40px}
     </div>
   </section>
 
-  <!-- ===================== 6 — ROMANS TREE ===================== -->
-  <section id="romans">
-    <h2 class="sec-h"><span class="num">8</span> The Romans tree — a worked seed</h2>
+  <!-- ===================== 8 — ROMANS TREE ===================== -->
+  <section class="sch-sec" id="romans">
+    <div class="sec-head" style="margin-top:38px"><span class="sec-num">8</span><span class="sec-title">The Romans tree — a worked seed</span><span class="sec-line"></span></div>
     <p class="sec-note">A single passage (Romans 8) followed through its whole reception history — the project's method shown on one text. The grace / predestination debate, edition by edition. (These are primarily <em>read</em>, not framework-builders — they populate the corpus.)</p>
     <div class="rows">
 
@@ -874,9 +917,9 @@ section{margin:0 0 40px}
     </div>
   </section>
 
-  <!-- ===================== 7 — TRADITION-SPECIFIC ===================== -->
-  <section id="traditions">
-    <h2 class="sec-h"><span class="num">9</span> Tradition-specific voices</h2>
+  <!-- ===================== 9 — TRADITION-SPECIFIC ===================== -->
+  <section class="sch-sec" id="traditions">
+    <div class="sec-head" style="margin-top:38px"><span class="sec-num">9</span><span class="sec-title">Tradition-specific voices</span><span class="sec-line"></span></div>
     <p class="sec-note">Scholars and teachers cited for a specific tradition's framing — the people whose authority the comparativist defers to inside their own house.</p>
     <div class="rows">
 
@@ -939,9 +982,9 @@ section{margin:0 0 40px}
     </div>
   </section>
 
-  <!-- ===================== 8 — ADVISOR ===================== -->
-  <section id="advisor">
-    <h2 class="sec-h"><span class="num">10</span> Advisors</h2>
+  <!-- ===================== 10 — ADVISOR ===================== -->
+  <section class="sch-sec" id="advisor">
+    <div class="sec-head" style="margin-top:38px"><span class="sec-num">10</span><span class="sec-title">Advisors</span><span class="sec-line"></span></div>
     <div class="rows">
       <div class="row">
         <div class="name">David Lamberth<span class="yrs">HDS</span></div>
@@ -962,11 +1005,48 @@ section{margin:0 0 40px}
   </section>
 
   <div class="foot">
-    <p><b>How to read the tags.</b> Each <span class="pill" style="display:inline-block">moss pill</span> names what the project takes from a scholar; a <span class="pill x" style="display:inline-block">gold pill</span> marks a load-bearing or canonical position; an <span class="pill contest" style="display:inline-block">italic contested pill</span> and <span class="foil">italic "foil"</span> mark positions the project tracks but defines itself <em>against</em> (the perennialists, spiritual-intelligence, top-down convergence). Convergence between traditions is read as <em>moves that rhyme</em> — an empirical finding, never a shared essence assumed in advance. Where someone straddles two sections, they're placed by their strongest contribution and noted in the body. A few entries carry a <span style="color:var(--moss);font-style:italic">↳ synthesis note</span> link to the reading-week write-up behind them.</p>
+    <p><b>How to read the tags.</b> Each <span class="pill" style="display:inline-block">moss pill</span> names what the project takes from a scholar; a <span class="pill x" style="display:inline-block">gold pill</span> marks a load-bearing or canonical position; an <span class="pill contest" style="display:inline-block">italic contested pill</span> and <span class="foil">italic "foil"</span> mark positions the project tracks but defines itself <em>against</em> (the perennialists, spiritual-intelligence, top-down convergence). Convergence between traditions is read as <em>moves that rhyme</em> — an empirical finding, never a shared essence assumed in advance. Where someone straddles two sections, they're placed by their strongest contribution and noted in the body. A few entries carry a <span style="color:var(--fern);font-style:italic">↳ synthesis note</span> link to the reading-week write-up behind them.</p>
     <p style="margin-top:10px">Gathered from the Lamberth reading notes, the methodology chapter drafts, the <em>Grammar of Meaning</em> essays, the Romans-tree edition guide, and the project's stated lineage (Brand · Diderot · Alexander · Meadows · Smil). A living, additive reference — corrections and additions welcome.</p>
-    <p style="margin-top:10px;color:#a99c7f">scholars · v2 · 2026-06-19 · WIP</p>
+    <p style="margin-top:10px;color:var(--ink-3)">scholars · v2 · 2026-06-19 · WIP</p>
   </div>
 
-</div>
+  <svg class="sprig" style="margin-top:38px"><use href="#sprig"/></svg>
+</section>
+
+</div><!-- /wrap -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="flabel">Grammar of Meaning</div>
+    <h3>How meaning gets made — read each tradition in its own vocabulary first.</h3>
+    <div class="pickgrid">
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">The work</div>
+        <div class="picklist">
+          <div><a href="library.html" style="color:#fff">The Library</a> <span class="k">— the world's traditions, gathered</span></div>
+          <div><a href="essays.html" style="color:#fff">The Essays</a> <span class="k">— meaning-making in public</span></div>
+          <div><a href="garden.html" style="color:#fff">The Garden</a> <span class="k">— a pilgrimage you walk</span></div>
+          <div><a href="method.html" style="color:#fff">The Method</a> <span class="k">— the open method behind it all</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">Reference</div>
+        <div class="picklist">
+          <div><a href="glossary.html" style="color:#fff">Glossary</a></div>
+          <div><a href="principles.html" style="color:#fff">Principles</a></div>
+          <div><a href="scholars.html" style="color:#fff">Scholars</a></div>
+          <div><a href="bibliography.html" style="color:#fff">Bibliography</a></div>
+        </div>
+        <div class="label-mute" style="color:var(--sage);margin:22px 0 10px">Start here</div>
+        <div class="picklist">
+          <div><a href="mission.html" style="color:#fff">What this is →</a></div>
+        </div>
+      </div>
+    </div>
+    <p class="foot-note">A working house, unlisted · <em>Grammar of Meaning</em> · Tamara Sanderson · 2026</p>
+  </div>
+</footer>
+
 </body>
 </html>

@@ -4,95 +4,117 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How an essay gets made · Grammar of Meaning</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/gom.css">
 <style>
+  /* =========================================================
+     ESSAY-ENGINE — reskinned to the house pattern (Field Notes
+     skeleton × Living Garden skin). The old amber/steel/green
+     role palette is remapped onto house tokens:
+       --you  (the human, heavy)  → terracotta (soil / signal)
+       --eng  (the engine, light) → fern / olive on paper
+       --pub  (publish)           → moss / fern
+     Nothing in the JS or the worked-example content changed —
+     only the skin. Uses gom.css tokens throughout.
+     ========================================================= */
   :root{
-    --bg:#f7f3ec; --card:#fffdf9; --ink:#211d18; --muted:#6b6258; --line:#e6ded0; --line2:#d8cdb8;
-    /* you = human craft (heavy, warm amber). engine = light steel. publish = green. */
-    --you:#b45309; --you-bg:#fdf1df; --you-bd:#e6a64a; --you-deep:#7c3a06;
-    --eng:#5f7a92; --eng-bg:#eef3f7; --eng-bd:#bcd0de;
-    --pub:#15803d; --pub-bg:#e7f4ec; --pub-bd:#69bd8e;
-    --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
-    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    /* re-point the page's local role tokens onto the house palette */
+    --bg:var(--paper); --card:var(--paper-3); --line:var(--rule); --line2:var(--rule);
+    --muted:var(--ink-3);
+    /* you = human craft (heavy, terracotta soil) */
+    --you:var(--terracotta); --you-bg:#F7ECDD; --you-bd:#E0A93B; --you-deep:#9A4A22;
+    /* engine = light fern/olive on paper */
+    --eng:var(--fern); --eng-bg:#EEF2E9; --eng-bd:#B7CBB3;
+    /* publish = moss/fern green */
+    --pub:var(--moss); --pub-bg:#E4EFE7; --pub-bd:#8AA88B;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.62;
-    background-image:radial-gradient(circle at 12% -5%,rgba(180,83,9,.05),transparent 38%),radial-gradient(circle at 92% 8%,rgba(95,122,146,.06),transparent 40%)}
-  a{color:var(--you-deep)}
-  .gom-home{position:fixed;top:14px;left:16px;z-index:120;font:600 13px/1 var(--sans);color:#3f5a39;text-decoration:none;background:rgba(251,246,236,.95);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px;box-shadow:0 1px 5px rgba(80,60,20,.10)}
-  .gom-home:hover{background:#fff;border-color:#b8893a;color:#b8893a}
+  /* body ground + type come from gom.css; keep the soft radial wash, house-tinted */
+  body{
+    background-image:
+      radial-gradient(circle at 12% -5%,rgba(196,96,47,.045),transparent 40%),
+      radial-gradient(circle at 92% 8%,rgba(63,125,87,.05),transparent 42%),
+      radial-gradient(circle at 16% 10%, rgba(224,169,59,.05), transparent 42%),
+      radial-gradient(circle at 84% 82%, rgba(63,125,87,.055), transparent 46%);
+    background-attachment:fixed;
+  }
+  a{color:var(--fern)}
 
   /* ---------- progress rail (sticky top) ---------- */
-  #progwrap{position:fixed;top:0;left:0;right:0;z-index:110;background:rgba(247,243,236,.86);backdrop-filter:blur(8px);
-    border-bottom:1px solid var(--line);transform:translateY(-100%);transition:transform .25s ease}
+  #progwrap{position:fixed;top:0;left:0;right:0;z-index:110;background:rgba(252,251,247,.90);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--rule);transform:translateY(-100%);transition:transform .25s ease}
   #progwrap.show{transform:translateY(0)}
-  .progbar{height:3px;background:var(--line);}
-  .progfill{height:3px;width:0;background:linear-gradient(90deg,var(--you),var(--pub));transition:width .15s linear}
+  .progbar{height:3px;background:var(--rule);}
+  .progfill{height:3px;width:0;background:linear-gradient(90deg,var(--terracotta),var(--fern));transition:width .15s linear}
   .pwrap{max-width:1060px;margin:0 auto;padding:7px 18px;display:flex;align-items:center;gap:5px;overflow-x:auto;scrollbar-width:none}
   .pwrap::-webkit-scrollbar{display:none}
-  .pdot{flex:0 0 auto;display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);cursor:pointer;
+  .pdot{flex:0 0 auto;display:flex;align-items:center;gap:6px;font-family:var(--sans);font-size:11.5px;color:var(--ink-3);cursor:pointer;
     padding:3px 8px;border-radius:20px;white-space:nowrap;border:1px solid transparent;transition:.12s}
-  .pdot .d{width:8px;height:8px;border-radius:50%;background:var(--line2);flex:0 0 auto}
-  .pdot.you .d{background:var(--you-bd)} .pdot.eng .d{background:var(--eng-bd)} .pdot.pub .d{background:var(--pub-bd)}
-  .pdot.active{background:#fff;border-color:var(--line2);color:var(--ink);font-weight:600}
-  .pdot.active .d{box-shadow:0 0 0 3px rgba(180,83,9,.14)}
+  .pdot .d{width:8px;height:8px;border-radius:50%;background:var(--rule);flex:0 0 auto}
+  .pdot.you .d{background:var(--terracotta)} .pdot.eng .d{background:var(--fern)} .pdot.pub .d{background:var(--moss)}
+  .pdot.active{background:var(--paper-3);border-color:var(--rule);color:var(--ink);font-weight:600}
+  .pdot.active .d{box-shadow:0 0 0 3px rgba(196,96,47,.16)}
 
   /* ---------- hero ---------- */
-  .wrap{max-width:1060px;margin:0 auto;padding:0 22px}
-  .hero{padding:78px 0 26px;text-align:center}
-  .kicker{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
-  .kicker b{color:var(--you-deep)}
-  h1{font-family:var(--serif);font-size:clamp(30px,5.2vw,46px);font-weight:600;line-height:1.12;margin:0 auto 16px;max-width:14ch}
-  .lede{font-size:18px;color:var(--muted);max-width:30em;margin:0 auto 6px}
+  .e-wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+  .hero{padding:78px 0 26px;text-align:center;border-top:none;background:transparent}
+  .hero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:none;color:var(--ink-3);margin-bottom:16px;text-align:center}
+  .hero .kicker b{color:var(--terracotta);font-weight:600}
+  .hero h1{font-family:var(--serif);font-size:clamp(30px,5.2vw,46px);font-weight:600;line-height:1.12;margin:0 auto 16px;max-width:16ch;color:var(--moss);letter-spacing:-0.01em}
+  .lede{font-family:var(--serif);font-size:18px;color:var(--ink-2);max-width:32em;margin:0 auto 6px;line-height:1.55}
   .lede b{color:var(--ink)}
   .thesis{display:inline-block;margin-top:20px;font-family:var(--serif);font-size:19px;color:var(--ink);
-    background:var(--you-bg);border:1px solid var(--you-bd);border-radius:14px;padding:14px 22px;max-width:30em;line-height:1.5}
+    background:var(--you-bg);border:1px solid var(--you-bd);border-radius:14px;padding:14px 22px;max-width:32em;line-height:1.5}
   .thesis em{color:var(--you-deep);font-style:normal;font-weight:700}
 
   /* ---------- §1 the five pieces (meta-architecture) ---------- */
   .arch{max-width:980px;margin:44px auto 0;text-align:left}
-  .arch-h{font-family:var(--serif);font-size:clamp(21px,3vw,27px);font-weight:600;text-align:center;margin:0 0 6px}
-  .arch-sub{text-align:center;color:var(--muted);font-size:15px;max-width:46em;margin:0 auto 22px}
+  .arch-h{font-family:var(--serif);font-size:clamp(21px,3vw,27px);font-weight:600;text-align:center;margin:0 0 6px;color:var(--moss)}
+  .arch-sub{text-align:center;color:var(--ink-2);font-size:15px;max-width:46em;margin:0 auto 22px;font-family:var(--serif)}
   .archgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
   .archgrid .archcard:last-child{grid-column:1 / -1}
   @media(max-width:680px){.archgrid{grid-template-columns:1fr}.archgrid .archcard:last-child{grid-column:auto}}
-  .archcard{position:relative;border-radius:14px;padding:16px 18px 17px;background:linear-gradient(var(--eng-bg),#fff);
+  .archcard{position:relative;border-radius:14px;padding:16px 18px 17px;background:linear-gradient(var(--eng-bg),var(--paper-3));
     border:1px solid var(--eng-bd)}
-  .archcard.you{border-color:var(--you-bd);border-left-width:6px;border-left-color:var(--you);
-    background:linear-gradient(180deg,var(--you-bg),#fffdf9);box-shadow:0 6px 20px rgba(124,58,6,.10)}
-  .archcard.star-card{border-color:var(--eng);box-shadow:0 4px 16px rgba(95,122,146,.16)}
-  .ac-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  .archcard.you{border-color:var(--you-bd);border-left-width:6px;border-left-color:var(--terracotta);
+    background:linear-gradient(180deg,var(--you-bg),var(--paper-3));box-shadow:0 6px 20px rgba(154,74,34,.10)}
+  .archcard.star-card{border-color:var(--fern);box-shadow:0 4px 16px rgba(63,125,87,.16)}
+  .ac-tag{display:inline-block;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:none;
     padding:3px 9px;border-radius:20px;margin-bottom:9px}
-  .ac-tag.eng{background:#fff;color:var(--eng);border:1px solid var(--eng-bd)}
-  .ac-tag.you{background:var(--you);color:#fff}
-  .ac-n{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:5px}
+  .ac-tag.eng{background:var(--paper-3);color:var(--fern);border:1px solid var(--eng-bd)}
+  .ac-tag.you{background:var(--terracotta);color:#F7F3E7}
+  .ac-n{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:5px;color:var(--moss)}
   .archcard.you .ac-n{font-size:19px;color:var(--you-deep)}
-  .ac-d{font-size:13.5px;color:#4a443c;line-height:1.5}
-  .ac-d code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:#eef3f7;
-    border:1px solid var(--eng-bd);border-radius:5px;padding:1px 5px;color:var(--eng)}
+  .ac-d{font-size:13.5px;color:var(--ink-2);line-height:1.5}
+  .ac-d code{font-family:var(--mono);font-size:12.5px;background:var(--eng-bg);
+    border:1px solid var(--eng-bd);border-radius:5px;padding:1px 5px;color:var(--fern)}
   .archcard.you .ac-d{color:var(--ink)}
 
   /* toggle */
   .toggle-wrap{text-align:center;margin:40px 0 8px}
-  .toggle-label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  .toggle-label{font-family:var(--sans);font-size:12px;letter-spacing:.035em;text-transform:none;color:var(--ink-3);margin-bottom:10px}
   .toggle{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:8px}
-  .toggle button{border:1px solid var(--line2);background:var(--card);padding:9px 16px;font-size:13.5px;cursor:pointer;
-    font-family:var(--sans);color:var(--muted);border-radius:24px;transition:.15s}
+  .toggle button{border:1px solid var(--rule);background:var(--paper-3);padding:9px 16px;font-size:13.5px;cursor:pointer;
+    font-family:var(--sans);color:var(--ink-2);border-radius:24px;transition:.15s}
   .toggle button:hover{border-color:var(--you-bd);color:var(--ink)}
-  .toggle button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .toggle button .star{color:var(--you-bd)}
-  .toggle button.on .star{color:var(--you-bd)}
-  .extitle{text-align:center;font-family:var(--serif);font-size:20px;margin:18px 0 2px}
-  .exline{text-align:center;color:var(--muted);font-size:14.5px;margin-bottom:6px}
+  .toggle button.on{background:var(--moss);color:#F1EAD6;border-color:var(--moss)}
+  .toggle button .star{color:var(--honey)}
+  .toggle button.on .star{color:var(--honey)}
+  .extitle{text-align:center;font-family:var(--serif);font-size:20px;margin:18px 0 2px;color:var(--moss)}
+  .exline{text-align:center;color:var(--ink-2);font-size:14.5px;margin-bottom:6px;font-family:var(--serif);font-style:italic}
 
   /* legend */
-  .legend{text-align:center;font-size:13px;color:var(--muted);margin:18px 0 6px}
+  .legend{text-align:center;font-family:var(--sans);font-size:13px;color:var(--ink-2);margin:18px 0 6px}
   .sw{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:middle;margin:0 5px 0 16px}
-  .legend small{display:block;margin-top:6px;font-size:12px}
+  .legend small{display:block;margin-top:6px;font-size:12px;color:var(--ink-3)}
 
   /* scroll cue */
-  .cue{text-align:center;color:var(--muted);font-size:13px;margin:26px 0 6px;animation:bob 1.8s ease-in-out infinite}
+  .cue{text-align:center;font-family:var(--mono);color:var(--ink-3);font-size:13px;margin:26px 0 6px;animation:bob 1.8s ease-in-out infinite}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 
   /* ---------- stages ---------- */
@@ -102,121 +124,157 @@
   .stage.in{opacity:1;transform:none}
   /* connector line */
   .stage::before{content:"";position:absolute;left:50%;top:-46px;width:2px;height:46px;
-    background:linear-gradient(var(--line2),var(--line2));opacity:.6}
+    background:var(--rule);opacity:.7}
   .stage:first-child::before{display:none}
 
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;
-    box-shadow:0 1px 2px rgba(80,60,20,.04)}
-  /* role weighting: engine = lighter, smaller, dim; human = heavy, bold, big */
-  .stage.eng .card{border-color:var(--eng-bd);background:linear-gradient(var(--eng-bg),#fff);opacity:.96}
-  .stage.you .card{border-color:var(--you-bd);border-left-width:6px;border-left-color:var(--you);
-    background:linear-gradient(180deg,var(--you-bg),#fffdf9);box-shadow:0 6px 20px rgba(124,58,6,.10)}
-  .stage.pub .card{border-color:var(--pub-bd);border-left-width:6px;border-left-color:var(--pub);background:linear-gradient(180deg,var(--pub-bg),#fffdf9)}
+  .card{background:var(--paper-3);border:1px solid var(--rule);border-radius:16px;padding:20px 22px;
+    box-shadow:0 1px 2px rgba(44,74,56,.05)}
+  /* role weighting: engine = lighter, dim; human = heavy, warm */
+  .stage.eng .card{border-color:var(--eng-bd);background:linear-gradient(var(--eng-bg),var(--paper-3));opacity:.97}
+  .stage.you .card{border-color:var(--you-bd);border-left-width:6px;border-left-color:var(--terracotta);
+    background:linear-gradient(180deg,var(--you-bg),var(--paper-3));box-shadow:0 6px 20px rgba(154,74,34,.10)}
+  .stage.pub .card{border-color:var(--pub-bd);border-left-width:6px;border-left-color:var(--moss);background:linear-gradient(180deg,var(--pub-bg),var(--paper-3))}
 
   .shead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-  .num{font-family:var(--serif);font-size:13px;color:#fff;min-width:26px;height:26px;border-radius:50%;
-    display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;background:var(--eng)}
-  .stage.you .num{background:var(--you)} .stage.pub .num{background:var(--pub)}
-  .nm{font-family:var(--serif);font-weight:600;font-size:18px}
+  .num{font-family:var(--serif);font-size:13px;color:#F7F3E7;min-width:26px;height:26px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;background:var(--fern)}
+  .stage.you .num{background:var(--terracotta)} .stage.pub .num{background:var(--moss)}
+  .nm{font-family:var(--serif);font-weight:600;font-size:18px;color:var(--moss)}
   .stage.you .nm{font-size:23px}
-  .role-tag{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px;margin-left:auto}
-  .role-tag.you{background:var(--you);color:#fff} .role-tag.eng{background:#fff;color:var(--eng);border:1px solid var(--eng-bd)} .role-tag.pub{background:var(--pub);color:#fff}
-  .ol{font-size:13px;color:var(--muted);margin:2px 0 0 38px}
-  .blurb{font-size:15px;color:#4a443c;margin:13px 0 0 0}
+  .role-tag{font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:none;padding:3px 9px;border-radius:20px;margin-left:auto}
+  .role-tag.you{background:var(--terracotta);color:#F7F3E7} .role-tag.eng{background:var(--paper-3);color:var(--fern);border:1px solid var(--eng-bd)} .role-tag.pub{background:var(--moss);color:#F1EAD6}
+  .ol{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);margin:2px 0 0 38px}
+  .blurb{font-family:var(--serif);font-size:15px;color:var(--ink-2);margin:13px 0 0 0}
   .stage.you .blurb{font-size:15.5px;color:var(--ink)}
   .body-box{margin-top:14px}
 
   /* effort meter (right edge of each card head) */
-  .effort{display:flex;gap:3px;align-items:center;margin-left:38px;margin-top:8px;font-size:11px;color:var(--muted)}
+  .effort{display:flex;gap:3px;align-items:center;margin-left:38px;margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
   .effort .bars{display:inline-flex;gap:2px}
-  .effort .bar{width:5px;height:13px;border-radius:1px;background:var(--line2)}
-  .stage.eng .effort .bar.f{background:var(--eng-bd)}
-  .stage.you .effort .bar.f{background:var(--you-bd)}
-  .stage.pub .effort .bar.f{background:var(--pub-bd)}
+  .effort .bar{width:5px;height:13px;border-radius:1px;background:var(--rule)}
+  .stage.eng .effort .bar.f{background:var(--fern)}
+  .stage.you .effort .bar.f{background:var(--terracotta)}
+  .stage.pub .effort .bar.f{background:var(--moss)}
 
   /* shared content widgets reused from worked-example bodies */
-  .lab{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--eng);margin:14px 0 7px}
+  .lab{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:none;color:var(--fern);margin:14px 0 7px}
   .stage.you .lab{color:var(--you-deep)}
-  .out{background:#fff;border:1px solid var(--line);border-radius:10px;padding:13px 15px;font-size:14px}
-  .out .serif{font-family:var(--serif);font-style:italic}
-  .door{border-left:3px solid var(--eng-bd);padding:3px 0 3px 12px;margin:9px 0;font-size:13.5px}
-  .door b{font-family:var(--serif);font-style:normal}
+  .out{background:var(--paper-3);border:1px solid var(--rule);border-radius:10px;padding:13px 15px;font-family:var(--serif);font-size:14.5px;color:var(--ink);line-height:1.55}
+  .out .serif{font-family:var(--serif);font-style:italic;color:var(--moss)}
+  .door{border-left:3px solid var(--eng-bd);padding:3px 0 3px 12px;margin:9px 0;font-family:var(--serif);font-size:13.5px;color:var(--ink)}
+  .door b{font-family:var(--serif);font-style:normal;color:var(--moss)}
   .ba{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   @media(max-width:600px){.ba{grid-template-columns:1fr}}
-  .ba .col{background:#fff;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-size:13px}
-  .ba .col .h{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
-  .before .h{color:#a16207} .after .h{color:var(--pub)}
-  .picture{background:#2b2622;color:#f5ede0;border-radius:10px;padding:14px 16px;font-size:14.5px;line-height:1.5}
-  .picture b{color:var(--you-bd);font-family:var(--serif);font-style:normal}
+  .ba .col{background:var(--paper-3);border:1px solid var(--rule);border-radius:9px;padding:10px 12px;font-size:13px}
+  .ba .col .h{font-family:var(--sans);font-size:10.5px;font-weight:700;text-transform:none;letter-spacing:.04em;margin-bottom:5px}
+  .before .h{color:var(--terracotta)} .after .h{color:var(--moss)}
+  .picture{background:var(--moss);color:#EDE6D2;border-radius:10px;padding:14px 16px;font-family:var(--serif);font-size:14.5px;line-height:1.5}
+  .picture b{color:var(--honey);font-family:var(--sans);font-style:normal;font-weight:700;font-size:11px;letter-spacing:.04em}
 
   /* form repertoire chips */
   .flexrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-  .flex{flex:1 1 200px;background:#fff;border:1px solid var(--you-bd);border-radius:11px;padding:11px 13px}
+  .flex{flex:1 1 200px;background:var(--paper-3);border:1px solid var(--you-bd);border-radius:11px;padding:11px 13px}
   .flex .ft{font-family:var(--serif);font-weight:600;font-size:14.5px;color:var(--you-deep)}
-  .flex .fs{font-size:12.5px;color:var(--muted);margin-top:3px}
-  .chosen{margin-top:11px;font-size:13.5px;background:var(--you-bg);border:1px dashed var(--you-bd);border-radius:9px;padding:10px 13px}
+  .flex .fs{font-family:var(--sans);font-size:12.5px;color:var(--ink-3);margin-top:3px}
+  .chosen{margin-top:11px;font-family:var(--serif);font-size:13.5px;background:var(--you-bg);border:1px dashed var(--you-bd);border-radius:9px;padding:10px 13px;color:var(--ink)}
   .chosen b{color:var(--you-deep)}
 
   /* REVISION — the bulk. Pass strip. */
   .revwrap{margin-top:8px}
   .revcount{font-family:var(--serif);font-size:30px;color:var(--you-deep);line-height:1}
-  .revcount span{font-size:14px;color:var(--muted);font-family:var(--sans)}
+  .revcount span{font-family:var(--sans);font-size:14px;color:var(--ink-3)}
   .passes{display:flex;flex-wrap:wrap;gap:5px;margin:14px 0 4px}
-  .pass{width:13px;height:13px;border-radius:3px;background:var(--you-bd);opacity:0;
+  .pass{width:13px;height:13px;border-radius:3px;background:var(--terracotta);opacity:0;
     animation:popin .4s ease forwards}
   @keyframes popin{from{opacity:0;transform:scale(.4)}to{opacity:.85;transform:scale(1)}}
-  .pass.eng{background:var(--eng-bd);opacity:.5}
-  .passnote{font-size:12px;color:var(--muted);margin-top:8px}
-  .revlist{margin:14px 0 0;padding:0;list-style:none;font-size:13.5px}
-  .revlist li{padding:6px 0 6px 22px;border-bottom:1px dashed var(--line);position:relative}
+  .pass.eng{background:var(--fern);opacity:.5}
+  .passnote{font-family:var(--sans);font-size:12px;color:var(--ink-3);margin-top:8px}
+  .revlist{margin:14px 0 0;padding:0;list-style:none;font-family:var(--serif);font-size:13.5px;color:var(--ink)}
+  .revlist li{padding:6px 0 6px 22px;border-bottom:1px dashed var(--rule);position:relative}
   .revlist li:last-child{border-bottom:0}
-  .revlist li::before{content:"✎";position:absolute;left:0;color:var(--you);font-size:13px}
+  .revlist li::before{content:"✎";position:absolute;left:0;color:var(--terracotta);font-size:13px}
   .revlist li b{color:var(--you-deep)}
 
   /* footnotes / where it came from */
-  .fn{font-size:13.5px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 14px;margin-top:9px}
-  .fn b{font-family:var(--serif);font-style:normal}
-  .fn .src{color:var(--pub);font-weight:600}
-  .verify{margin-top:10px;font-size:12.5px;color:var(--muted);background:var(--you-bg);border-radius:8px;padding:9px 12px;border:1px solid var(--you-bd)}
+  .fn{font-family:var(--serif);font-size:13.5px;background:var(--paper-3);border:1px solid var(--rule);border-radius:9px;padding:11px 14px;margin-top:9px;color:var(--ink)}
+  .fn b{font-family:var(--serif);font-style:normal;color:var(--moss)}
+  .fn .src{color:var(--moss);font-weight:600}
+  .verify{margin-top:10px;font-family:var(--sans);font-size:12.5px;color:var(--ink-2);background:var(--you-bg);border-radius:8px;padding:9px 12px;border:1px solid var(--you-bd)}
   .verify b{color:var(--you-deep)}
 
   /* honesty rail */
-  .rail-item{display:flex;gap:9px;margin:8px 0;font-size:13.5px}
-  .rail-item .ico{flex:0 0 auto;color:var(--eng);font-weight:700}
+  .rail-item{display:flex;gap:9px;margin:8px 0;font-family:var(--serif);font-size:13.5px;color:var(--ink)}
+  .rail-item .ico{flex:0 0 auto;color:var(--fern);font-weight:700}
 
   /* tally / who-did-what */
-  .tally{max-width:780px;margin:64px auto 0;background:var(--card);border:1px solid var(--line2);border-radius:18px;padding:26px 26px 30px}
-  .tally h3{font-family:var(--serif);font-size:24px;margin:0 0 4px;text-align:center}
-  .tally p.s{text-align:center;color:var(--muted);font-size:14px;margin:0 0 22px}
-  .scale{display:flex;height:54px;border-radius:12px;overflow:hidden;border:1px solid var(--line);font-size:13px;font-weight:600}
-  .scale .seg{display:flex;align-items:center;justify-content:center;color:#fff;transition:flex-basis .8s ease;text-align:center;padding:0 4px}
-  .scale .seg.eng{background:var(--eng);flex:0 0 0%}
-  .scale .seg.you{background:var(--you);flex:0 0 0%}
-  .scalecap{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:8px}
-  .tallynote{margin-top:18px;font-size:14px;color:#4a443c;text-align:center;font-family:var(--serif);line-height:1.55}
+  .tally{max-width:780px;margin:64px auto 0;background:var(--paper-3);border:1px solid var(--rule);border-radius:18px;padding:26px 26px 30px}
+  .tally h3{font-family:var(--serif);font-size:24px;margin:0 0 4px;text-align:center;color:var(--moss)}
+  .tally p.s{text-align:center;color:var(--ink-2);font-family:var(--serif);font-size:14px;margin:0 0 22px;line-height:1.55}
+  .scale{display:flex;height:54px;border-radius:12px;overflow:hidden;border:1px solid var(--rule);font-family:var(--sans);font-size:13px;font-weight:600}
+  .scale .seg{display:flex;align-items:center;justify-content:center;color:#F7F3E7;transition:flex-basis .8s ease;text-align:center;padding:0 4px}
+  .scale .seg.eng{background:var(--fern);flex:0 0 0%}
+  .scale .seg.you{background:var(--terracotta);flex:0 0 0%}
+  .scalecap{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:8px}
+  .tallynote{margin-top:18px;font-family:var(--serif);font-size:14px;color:var(--ink-2);text-align:center;line-height:1.55}
   .tallynote b{color:var(--you-deep);font-style:normal}
 
   /* loop / publish footer */
-  .loop{max-width:780px;margin:30px auto 0;text-align:center;font-size:14px;color:var(--muted);
-    border-top:1px solid var(--line);padding-top:20px}
-  .loop b{color:var(--ink);font-family:var(--serif)}
+  .loop{max-width:780px;margin:30px auto 0;text-align:center;font-family:var(--serif);font-size:14px;color:var(--ink-2);
+    border-top:1px solid var(--rule);padding-top:20px}
+  .loop b{color:var(--moss);font-family:var(--serif)}
   .pubchip{display:inline-flex;align-items:center;gap:8px;background:var(--pub-bg);border:1px solid var(--pub-bd);
-    border-radius:24px;padding:7px 15px;font-size:13.5px;color:var(--pub);font-weight:600;margin-top:14px}
-  .pageend{text-align:center;color:var(--muted);font-size:12.5px;margin:44px 0 60px}
+    border-radius:24px;padding:7px 15px;font-family:var(--sans);font-size:13.5px;color:var(--moss);font-weight:600;margin-top:14px}
+  .pageend{text-align:center;font-family:var(--mono);color:var(--ink-3);font-size:12.5px;margin:44px 0 60px;line-height:1.6}
+  .pageend b{color:var(--ink-2)}
 
   @media(max-width:760px){.hero{padding:64px 0 18px}.stage.you .nm{font-size:20px}}
 </style>
-<style>/* site chrome: home link (matches grammarofmeaning.org) */.gom-home{position:fixed;top:14px;left:16px;z-index:9999;font:600 13px/1 -apple-system,Segoe UI,sans-serif;color:#3f5a39;text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px;box-shadow:0 1px 5px rgba(80,60,20,.10)}.gom-home:hover{background:#fff;border-color:#b8893a;color:#b8893a}@media print{.gom-home{display:none}}</style>
 </head>
 <body>
-<a href="index.html" class="gom-home">← Grammar of Meaning</a>
+
+<!-- reusable botanical symbols (house sprig + leaf toggle) -->
+<svg style="display:none" aria-hidden="true"><defs>
+  <symbol id="sprig" viewBox="0 0 150 34">
+    <path d="M5 17 H145" stroke="#6E7B3A" stroke-width="1" fill="none"/>
+    <g fill="none" stroke="#3F7D57" stroke-width="1.3">
+      <path d="M60 17 q-9 -11 -20 -9 q7 8 20 9"/>
+      <path d="M90 17 q9 -11 20 -9 q-7 8 -20 9"/>
+      <path d="M68 17 q-6 9 -15 9 q5 -7 15 -9"/>
+      <path d="M82 17 q6 9 15 9 q-5 -7 -15 -9"/>
+    </g>
+    <circle cx="75" cy="17" r="3.2" fill="#E0A93B"/>
+    <circle cx="75" cy="17" r="6" fill="none" stroke="#C4602F" stroke-width="1"/>
+  </symbol>
+</defs></svg>
+
+<!-- HOUSE NAV (topbar from the proven recipe) -->
+<div class="topbar">
+  <div class="wrap">
+    <a class="brandmark" href="index.html" style="color:var(--moss)">
+      <svg class="mark" viewBox="0 0 200 200" fill="none" aria-hidden="true"><path d="M100 30 C74 52 58 92 62 126 C64 152 82 168 100 176 L100 30 Z" fill="#2C4A38"/><path d="M100 30 C126 52 142 92 138 126 C136 152 118 168 100 176 L100 30 Z" fill="#8AA88B"/><line x1="100" y1="34" x2="100" y2="174" stroke="#FCFBF7" stroke-width="3"/><line x1="100" y1="176" x2="100" y2="194" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/></svg>
+      Grammar&nbsp;of&nbsp;Meaning
+    </a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="mission.html">About</a>
+      <a href="library.html">Library</a>
+      <a href="essays.html">Essays</a>
+      <a href="garden.html">Garden</a>
+      <a href="method.html">Method</a>
+      <a href="glossary.html">Reference</a>
+    
+      <a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a>
+    </nav>
+  </div>
+</div>
+
 <!-- progress rail -->
 <div id="progwrap">
   <div class="progbar"><div class="progfill" id="progfill"></div></div>
   <div class="pwrap" id="pwrap"></div>
 </div>
 
-<div class="wrap">
+<div class="e-wrap">
 
   <header class="hero">
     <div class="kicker">How an essay gets made &nbsp;·&nbsp; <b>five machines and a human</b></div>
@@ -269,10 +327,10 @@
     </div>
 
     <div class="legend">
-      <span class="sw" style="background:var(--you-bd)"></span>the human (heavy)
-      <span class="sw" style="background:var(--eng-bd)"></span>the engine (light)
-      <span class="sw" style="background:var(--pub-bd)"></span>publish
-      <small>Watch the cards change weight as you go: the amber ones are where the essay is actually made.</small>
+      <span class="sw" style="background:var(--terracotta)"></span>the human (heavy)
+      <span class="sw" style="background:var(--fern)"></span>the engine (light)
+      <span class="sw" style="background:var(--moss)"></span>publish
+      <small>Watch the cards change weight as you go: the terracotta ones are where the essay is actually made.</small>
     </div>
 
     <div class="cue">↓ scroll to build the essay</div>
@@ -303,7 +361,42 @@
     <br>The verbatim quotes here are pinned to the published essays; any citation still being confirmed (e.g. the 1928 prayer source) is shown as provisional, never as a locked fact.
   </div>
 
+  <svg class="sprig" style="margin:8px auto 0"><use href="#sprig"/></svg>
+
 </div>
+
+<!-- HOUSE FOOTER (pick-list, from the proven recipe) -->
+<footer>
+  <div class="wrap">
+    <div class="flabel">Grammar of Meaning</div>
+    <h3>How meaning gets made — read each tradition in its own vocabulary first.</h3>
+    <div class="pickgrid">
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">The work</div>
+        <div class="picklist">
+          <div><a href="library.html" style="color:#fff">The Library</a> <span class="k">— the world's traditions, gathered</span></div>
+          <div><a href="essays.html" style="color:#fff">The Essays</a> <span class="k">— meaning-making in public</span></div>
+          <div><a href="garden.html" style="color:#fff">The Garden</a> <span class="k">— a pilgrimage you walk</span></div>
+          <div><a href="method.html" style="color:#fff">The Method</a> <span class="k">— the open method behind it all</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">Reference</div>
+        <div class="picklist">
+          <div><a href="glossary.html" style="color:#fff">Glossary</a></div>
+          <div><a href="principles.html" style="color:#fff">Principles</a></div>
+          <div><a href="scholars.html" style="color:#fff">Scholars</a></div>
+          <div><a href="bibliography.html" style="color:#fff">Bibliography</a></div>
+        </div>
+        <div class="label-mute" style="color:var(--sage);margin:22px 0 10px">Start here</div>
+        <div class="picklist">
+          <div><a href="mission.html" style="color:#fff">What this is →</a></div>
+        </div>
+      </div>
+    </div>
+    <p class="foot-note">A working house, unlisted · <em>Grammar of Meaning</em> · Tamara Sanderson · 2026</p>
+  </div>
+</footer>
 
 <script>
 /* ============================================================
@@ -329,7 +422,7 @@ const EX = {
         <div class="out"><b>WHO</b> — Rabiʿa al-ʿAdawiyya (c.714–801), born into slavery, freed, became a teacher of pure love.<br>
         <b>WHERE</b> — 8th-c. Basra: canal-port, slave economy, the Muʿtazila theology debates in the air.<br>
         <b>WORD</b> — <i>ʿabd / ʿibada</i>: the worshipper is literally "slave of God" — the hinge the whole essay turns on.<br>
-        <b>LEGEND</b> — the torch-and-bucket story (via ʿAttar). <span style="color:var(--muted)">§13 flagged: this is what the tradition <i>tells</i>, not the record.</span></div>
+        <b>LEGEND</b> — the torch-and-bucket story (via ʿAttar). <span style="color:var(--ink-3)">§13 flagged: this is what the tradition <i>tells</i>, not the record.</span></div>
         <div class="picture" style="margin-top:11px"><b>★ PICTURE</b> — <span class="serif">"Someone stops a woman running through the streets of Basra with fire in one hand and water in the other. Where are you going, Rabiʿa? To set heaven ablaze…"</span></div>`},
 
       {n:3,role:HUMAN,nm:"Form",ol:"which shape — not just which words",eff:4,
@@ -351,7 +444,7 @@ const EX = {
         <div class="door"><b>A · the torch invocation</b> — opens inside the legend: fire in one hand, water in the other.</div>
         <div class="door"><b>B · the world-first open</b> — opens on the streets of Basra before she appears.</div>
         <div class="door"><b>C · the freed-slave hinge</b> — opens on <i>ʿabd</i>: the slave who refuses to be even God's slave-for-wages.</div>
-        <div class="out" style="margin-top:9px;color:var(--muted)">Doors are raw material. The author grafts; she does not choose.</div>`},
+        <div class="out" style="margin-top:9px;color:var(--ink-3)">Doors are raw material. The author grafts; she does not choose.</div>`},
 
       {n:5,role:ENG,nm:"Review (9-panel)",ol:"adversarial + honesty rail",eff:2,
        blurb:"A simulated nine-person panel reviews adversarially — to refute. Plus the §13 honesty rails that matter most for cross-tradition work: flag legend as legend; don't flatten a move across traditions.",
@@ -401,7 +494,7 @@ const EX = {
         <div class="out"><b>WHO</b> — Diogenes of Sinope (c.412–323 BCE), founder-figure of the Cynics; exiled over a coin-defacing scandal.<br>
         <b>WHERE</b> — not a "barrel" (a mistranslation) but a <i>pithos</i>, a large ceramic jar, in the agora.<br>
         <b>WHY</b> — <i>autarkeia</i>, self-sufficiency: <i>"anything you need, anyone who controls it controls you."</i><br>
-        <b>LEGEND</b> — Alexander offers a favor; Diogenes answers <i>"stand out of my sunlight."</i> <span style="color:var(--muted)">§13 flagged: the tradition <i>tells</i> this, not the record.</span></div>
+        <b>LEGEND</b> — Alexander offers a favor; Diogenes answers <i>"stand out of my sunlight."</i> <span style="color:var(--ink-3)">§13 flagged: the tradition <i>tells</i> this, not the record.</span></div>
         <div class="picture" style="margin-top:11px"><b>★ PICTURE</b> — a man in a clay jar throwing away his last cup, because he just watched a child drink from cupped hands.</div>`},
       {n:3,role:HUMAN,nm:"Form",ol:"which shape — not just which words",eff:4,
        blurb:"Choose the structural form, not just the opening. Diogenes wants the paradox-and-noticing shape, not a self-help checklist.",
@@ -475,7 +568,7 @@ const EX = {
         <div class="door"><b>A · the river-bank scene</b> — opens on Zhuang Zhou at the water with a fishing line.</div>
         <div class="door"><b>B · the carpenter's walk-past</b> — opens on the tree no one bothers to cut.</div>
         <div class="door"><b>C · the reveal-question</b> — opens straight on <i>"Which turtle could breathe?"</i></div>
-        <div class="out" style="margin-top:9px;color:var(--muted)">Doors are raw material. The author grafts; she does not choose.</div>`},
+        <div class="out" style="margin-top:9px;color:var(--ink-3)">Doors are raw material. The author grafts; she does not choose.</div>`},
       {n:5,role:ENG,nm:"Review (9-panel)",ol:"adversarial + honesty rail",eff:2,
        blurb:"The panel reviews to refute; the honesty rail keeps the cross-tradition claims clean.",
        body:`<div class="lab">What the rail caught</div>
@@ -536,7 +629,7 @@ function revisionBlock(rev){
   return `<div class="revwrap">
       <div class="revcount">${total} <span>line-level passes &nbsp;·&nbsp; ${rev.engPasses} drafted by the engine, ${total-rev.engPasses} by the human</span></div>
       <div class="passes">${squares}</div>
-      <div class="passnote">Each square is one revision pass. The light ones are the engine's first drafts; the amber ones are the human making the essay.</div>
+      <div class="passnote">Each square is one revision pass. The light ones are the engine's first drafts; the terracotta ones are the human making the essay.</div>
       <ul class="revlist">${items}</ul>
     </div>`;
 }

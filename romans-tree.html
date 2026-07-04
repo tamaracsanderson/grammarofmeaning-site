@@ -1,102 +1,124 @@
 <!doctype html><html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Romans 8:28–30 — the tree, v1 frame (T2 planted; rows fill together)</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
- :root{--ink:#1a1a2e;--accent:#5b5bd6;--line:#e0e0e8;--ground:#f6f7f9;
-   --flare:#8a3a4a; /* placeholder ABR-CHR tradition flare — wire to the per-tradition extracted palette */
-   --soilc:#7d6647}
+ /* ── re-themed to house-light (Living Garden on white); embedded frame — no top nav ── */
+ :root{
+   --serif:'Newsreader',Georgia,serif;
+   --sans:'Inter',system-ui,-apple-system,sans-serif;
+   --mono:'IBM Plex Mono',ui-monospace,monospace;
+   --ink:#24302A;             /* deep pine ink */
+   --ink-2:#52605A;
+   --ink-3:#7C8478;
+   --accent:#3F7D57;          /* fern — selection / accent (was indigo #5b5bd6) */
+   --moss:#2C4A38;            /* headline / dark grounds (was --ink #1a1a2e) */
+   --line:#C9BE9F;            /* hairline on paper */
+   --line-soft:#E4DCC6;
+   --ground:#FCFBF7;          /* warm rag-paper ground (was #f6f7f9) */
+   --paper-2:#EFE7D3;         /* recessed panel */
+   --paper-3:#FFFFFF;         /* raised plate */
+   --flare:#C4602F;           /* terracotta — placeholder ABR-CHR tradition flare (was #8a3a4a) */
+   --flare-soft:rgba(196,96,47,.13);
+   --honey:#E0A93B;
+   --olive:#6E7B3A;           /* botanical linework / soil */
+   --soilc:#6E7B3A}
  *{box-sizing:border-box}
- body{font:15px/1.6 -apple-system,Segoe UI,sans-serif;margin:0;background:var(--ground);color:var(--ink)}
- header{background:var(--ink);color:#fff;padding:20px 30px}
- header h1{margin:0 0 5px;font-size:20px}
- header .sub{opacity:.88;font-size:13px;max-width:900px}
+ body{font:15px/1.62 var(--sans);margin:0;background:var(--ground);color:var(--ink);
+   -webkit-font-smoothing:antialiased;
+   background-image:
+     radial-gradient(circle at 16% 10%, rgba(224,169,59,.05), transparent 42%),
+     radial-gradient(circle at 84% 82%, rgba(63,125,87,.055), transparent 46%),
+     repeating-linear-gradient(0deg, rgba(110,123,58,.014) 0 2px, transparent 2px 5px),
+     repeating-linear-gradient(90deg, rgba(196,96,47,.011) 0 3px, transparent 3px 7px);
+   background-attachment:fixed}
+ header{background:var(--moss);color:#F1EAD6;padding:20px 30px}
+ header h1{margin:0 0 5px;font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:-0.01em;color:#F7F3E7}
+ header .sub{opacity:.9;font-size:13px;max-width:900px;line-height:1.55}
+ header .sub b{color:#fff}
  main{max-width:1180px;margin:0 auto;padding:14px 26px 70px}
 
  /* ── the channel schema (the legend the whole design obeys) ── */
- .schema{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:12px 0}
- .schema b.h{font-size:13.5px}
+ .schema{background:var(--paper-3);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:12px 0}
+ .schema b.h{font-family:var(--sans);font-size:13.5px;color:var(--moss)}
  .schema table{border-collapse:collapse;width:100%;font-size:12px;margin-top:6px}
- .schema th,.schema td{border:1px solid #ececf2;padding:4px 10px;text-align:left}
- .schema th{background:#f7f7fb;font-weight:600;font-size:11px}
- .schema .one{color:#9a7a3a;font-size:11px;font-style:italic}
+ .schema th,.schema td{border:1px solid var(--line-soft);padding:4px 10px;text-align:left}
+ .schema th{background:var(--paper-2);font-weight:600;font-size:11px;color:var(--ink-2)}
+ .schema td{color:var(--ink)}
+ .schema .one{color:var(--terracotta,#C4602F);font-size:11px;font-style:italic;font-family:var(--serif)}
 
  /* ── layout: tree + orbit card side by side ── */
  .stage{display:grid;grid-template-columns:1fr 360px;gap:14px;align-items:start}
- .treewrap{background:#fff;border:1px solid var(--line);border-radius:12px;position:relative}
+ .treewrap{background:var(--paper-3);border:1px solid var(--line);border-radius:12px;position:relative}
  .treescroll{overflow-x:auto}
  .treearea{position:relative;width:760px;height:640px;margin:8px auto 0}
- .band{position:absolute;left:0;width:100%;border-top:1px solid #ececf2}
- .band .blab{position:absolute;left:6px;top:4px;font-size:11px;font-weight:800;color:#888}
- .band .blab i{font-weight:400;color:#bbb;font-style:normal;font-size:10px;display:block;line-height:1.2}
- .band .tofill{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:10.5px;color:#c8c8d4;
-   border:1.5px dashed #ddd;border-radius:14px;padding:2px 12px;background:#fcfcfe}
+ .band{position:absolute;left:0;width:100%;border-top:1px solid var(--line-soft)}
+ .band .blab{position:absolute;left:6px;top:4px;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink-3)}
+ .band .blab i{font-weight:400;color:var(--line);font-style:normal;font-size:10px;display:block;line-height:1.2;font-family:var(--serif)}
+ .band .tofill{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:10.5px;color:var(--ink-3);
+   border:1.5px dashed var(--line);border-radius:14px;padding:2px 12px;background:var(--paper-3)}
  .band.t1 .tofill{border-style:dotted}
- .band.t10band{background:repeating-linear-gradient(-45deg,#fdfdf6,#fdfdf6 12px,#f8f8ee 12px,#f8f8ee 24px)}
+ .band.t10band{background:repeating-linear-gradient(-45deg,#FDFCF6,#FDFCF6 12px,#F5F1E2 12px,#F5F1E2 24px)}
  svg.wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
- .axislab{position:absolute;left:-2px;top:-22px;font-size:10.5px;color:#999;font-weight:700}
+ .axislab{position:absolute;left:-2px;top:-22px;font-family:var(--mono);font-size:10.5px;color:var(--ink-3);font-weight:600}
 
  /* nodes: size=importance · hue=tradition flare · opacity=density */
- .node{position:absolute;border:2.5px solid var(--flare);border-radius:7px;background:rgba(138,58,74,.13);
+ .node{position:absolute;border:2.5px solid var(--flare);border-radius:7px;background:var(--flare-soft);
    padding:7px 11px;cursor:pointer;transition:all .35s ease;z-index:5}
- .node:hover{box-shadow:0 4px 16px rgba(26,26,46,.2);transform:translateY(-2px)}
- .node.canonical{border-width:3.5px;box-shadow:0 0 0 5px rgba(138,58,74,.08)}
- .node .ttl{font-weight:800;font-size:13px}
- .node .meta{font-size:10px;color:#777}
+ .node:hover{box-shadow:0 4px 16px rgba(44,74,56,.18);transform:translateY(-2px)}
+ .node.canonical{border-width:3.5px;box-shadow:0 0 0 5px rgba(196,96,47,.08)}
+ .node .ttl{font-family:var(--serif);font-weight:600;font-size:14px;color:var(--moss)}
+ .node .meta{font-family:var(--mono);font-size:10px;color:var(--ink-3)}
  .node.sel{outline:3px solid var(--accent);outline-offset:2px}
- .ghost{position:absolute;border:1.5px dotted #c8b8a8;border-radius:7px;padding:5px 10px;color:#b0a090;font-size:10.5px;background:#fdfcf8}
+ .ghost{position:absolute;border:1.5px dotted #C6B99A;border-radius:7px;padding:5px 10px;color:var(--ink-3);font-size:10.5px;font-style:italic;background:var(--paper-3)}
 
- /* ground / sitz / soil (kept from v0, compact) */
+ /* ground / sitz / soil */
  .groundline{height:4px;background:var(--soilc);margin:0}
- .sitzrow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px 12px;background:#faf7f0;font-size:11px}
- .sitzrow .q{border:1.5px solid #b8a888;border-radius:50px;padding:4px 13px;text-align:center;background:#fff}
- .sitzrow .q b{display:block;font-size:10.5px}
- .soil{background:linear-gradient(180deg,#cdb992,#8a6f47);padding:12px 0 16px;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:0 0 12px 12px}
- .stratum{background:rgba(255,253,248,.92);border:1px solid #8a6f4d;border-radius:7px;text-align:center;font-size:11px;font-weight:600;color:#4a3a26;padding:3px 0}
+ .sitzrow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px 12px;background:var(--paper-2);font-size:11px}
+ .sitzrow .q{border:1.5px solid var(--line);border-radius:50px;padding:4px 13px;text-align:center;background:var(--paper-3);color:var(--ink)}
+ .sitzrow .q b{display:block;font-size:10.5px;color:var(--fern,#3F7D57)}
+ .soil{background:linear-gradient(180deg,#CFC49E,#6E7B3A);padding:12px 0 16px;display:flex;flex-direction:column;align-items:center;gap:5px;border-radius:0 0 12px 12px}
+ .stratum{background:rgba(255,253,248,.94);border:1px solid #5C6730;border-radius:7px;text-align:center;font-size:11px;font-weight:600;color:var(--moss);padding:3px 0}
 
  /* the orbit card (Talmud page beside the tree — you never lose where you are) */
- .orbit{background:#fffdf8;border:1px solid #eee2cc;border-radius:12px;position:sticky;top:12px;overflow:hidden;
+ .orbit{background:var(--paper-3);border:1px solid var(--line);border-radius:12px;position:sticky;top:12px;overflow:hidden;
    transform-origin:left center;transition:transform .4s ease,opacity .4s ease}
- .orbit.empty{display:flex;align-items:center;justify-content:center;min-height:300px;color:#b0a890;font-size:12.5px;text-align:center;padding:20px}
- .orbit .thead{background:var(--ink);color:#fff;padding:10px 15px}
- .orbit .thead b{font-size:14px}
- .orbit .thead .lgd{font-size:10.5px;opacity:.85}
+ .orbit.empty{display:flex;align-items:center;justify-content:center;min-height:300px;color:var(--ink-3);font-size:12.5px;text-align:center;padding:20px;font-style:italic;font-family:var(--serif)}
+ .orbit .thead{background:var(--moss);color:#F1EAD6;padding:10px 15px}
+ .orbit .thead b{font-family:var(--serif);font-size:15px;color:#F7F3E7}
+ .orbit .thead .lgd{font-family:var(--mono);font-size:10.5px;opacity:.85}
  .orbit .tbody{padding:12px 15px;display:flex;flex-direction:column;gap:10px;max-height:74vh;overflow-y:auto}
-  .whowhy{display:flex;gap:8px;flex-wrap:wrap;font-size:11.5px;margin:6px 0;padding:6px 10px;background:#f6f4ef;border:1px solid #e8e0cc;border-radius:8px}
-  .whowhy .wf{color:#3a3a6a}.whowhy .wf b{color:#1a1a2e}
-  .etip{border-bottom:1px dotted #b08526;cursor:help}
- .breadcrumb{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12px;margin-bottom:8px;padding:6px 10px;background:#fff;border:1px solid #e8e0cc;border-radius:8px}
-  .breadcrumb .seg{color:#3a3a6a;font-weight:600}.breadcrumb .seg.cite{color:#b08526}
-  .breadcrumb .sep{color:#c8b896}
+  .whowhy{display:flex;gap:8px;flex-wrap:wrap;font-size:11.5px;margin:6px 0;padding:6px 10px;background:var(--paper-2);border:1px solid var(--line);border-radius:8px}
+  .whowhy .wf{color:var(--ink-2)}.whowhy .wf b{color:var(--moss)}
+  .etip{border-bottom:1px dotted var(--honey);cursor:help}
+ .breadcrumb{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;margin-bottom:8px;padding:6px 10px;background:var(--paper-3);border:1px solid var(--line);border-radius:8px}
+  .breadcrumb .seg{color:var(--ink-2);font-weight:600}.breadcrumb .seg.cite{color:var(--terracotta,#C4602F)}
+  .breadcrumb .sep{color:var(--line)}
   .breadcrumb.native .seg{cursor:pointer;text-decoration:underline dotted}
-  .breadcrumb .rail{font-size:10px;font-style:italic;color:#b06a4a;margin-left:6px}
-  .breadcrumb .badge{font-size:9.5px;font-weight:800;border-radius:4px;padding:0 6px;margin-left:auto}
-  .breadcrumb.native .badge{background:#e8f0e8;color:#2a6a3a}.breadcrumb.sequence .badge{background:#f4ece0;color:#9a7a3a}
- .verse{font-family:Georgia,serif;font-size:14.5px;line-height:1.65;font-style:italic;color:#2a2a3e;padding:11px 14px;background:#fff;border:1px solid #e8e0cc;border-radius:9px}
- .verse::first-letter{font-size:250%;float:left;line-height:.85;padding:2px 7px 0 0;font-style:normal;color:#b08526;font-family:Georgia,serif}
- .vnote{display:block;font-size:10px;color:#999;font-style:normal;margin-top:5px}
- .panel{background:#fff;border:1px solid #eee2cc;border-radius:8px;padding:8px 12px;font-size:12px;color:#444}
- .panel .ph{font-weight:800;font-size:10px;color:#9a7a3a;margin-bottom:3px}
+  .breadcrumb .rail{font-size:10px;font-style:italic;color:#B0552B;margin-left:6px;font-family:var(--serif)}
+  .breadcrumb .badge{font-size:9.5px;font-weight:700;border-radius:4px;padding:0 6px;margin-left:auto}
+  .breadcrumb.native .badge{background:rgba(63,125,87,.14);color:#2C4A38}.breadcrumb.sequence .badge{background:var(--paper-2);color:var(--olive)}
+ .verse{font-family:var(--serif);font-size:14.5px;line-height:1.65;font-style:italic;color:var(--ink);padding:11px 14px;background:var(--paper-3);border:1px solid var(--line);border-radius:9px}
+ .verse::first-letter{font-size:250%;float:left;line-height:.85;padding:2px 7px 0 0;font-style:normal;color:var(--terracotta,#C4602F);font-family:var(--serif)}
+ .vnote{display:block;font-family:var(--mono);font-size:10px;color:var(--ink-3);font-style:normal;margin-top:5px}
+ .panel{background:var(--paper-3);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--ink-2)}
+ .panel .ph{font-family:var(--sans);font-weight:700;font-size:10px;color:var(--terracotta,#C4602F);margin-bottom:3px;letter-spacing:.03em}
  .grow{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:11.5px}
- .grow span{border:1px solid #d8ccb0;border-radius:6px;padding:1px 8px;background:#fffdf8}
- .grow .ar{color:#b08526;font-weight:700;border:none;background:none;padding:0}
- .linksrow{font-size:11.5px;color:#555;border-top:1px dashed #d8ccb0;padding-top:7px}
+ .grow span{border:1px solid var(--line);border-radius:6px;padding:1px 8px;background:var(--paper-3);color:var(--ink)}
+ .grow .ar{color:var(--terracotta,#C4602F);font-weight:700;border:none;background:none;padding:0}
+ .linksrow{font-size:11.5px;color:var(--ink-2);border-top:1px dashed var(--line);padding-top:7px}
 
  /* controls */
  .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 14px;border-bottom:1px solid var(--line);font-size:12.5px}
- .controls button{font:inherit;font-size:12px;border:1px solid var(--line);background:#fff;border-radius:15px;padding:3px 13px;cursor:pointer}
- .controls button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
- .smallnote{font-size:11.5px;color:#999}
+ .controls button{font:inherit;font-family:var(--sans);font-size:12px;border:1px solid var(--line);background:var(--paper-3);color:var(--ink-2);border-radius:15px;padding:3px 13px;cursor:pointer}
+ .controls button.on{background:var(--moss);color:#F1EAD6;border-color:var(--moss)}
+ .smallnote{font-size:11.5px;color:var(--ink-3)}
  @media(max-width:980px){.stage{grid-template-columns:1fr}.orbit{position:static}}
-</style><style>/* --- site chrome: garden re-skin + home link (matches grammarofmeaning.org) --- */
-:root{--ink:#221c14;--accent:#3f5a39;--line:#e3dac6;--mut:#8a7d63;--soft:#fcfbf6}
-body{background:#fbf6ec}
-.gom-home{position:fixed;top:14px;left:16px;z-index:999;font:600 13px/1 -apple-system,Segoe UI,sans-serif;color:#3f5a39;text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px;box-shadow:0 1px 5px rgba(80,60,20,.10)}
-.gom-home:hover{background:#fff;border-color:#b8893a;color:#b8893a}
-@media print{.gom-home{display:none}}
 </style>
 </head><body>
-<a href="index.html" class="gom-home">← Grammar of Meaning</a>
-
 
 <header>
   <h1>Romans 8:28–30 — the tree, v1 frame</h1>
@@ -114,13 +136,13 @@ body{background:#fbf6ec}
     <tr><th>Channel</th><th>Encodes</th><th>Status in this frame</th></tr>
     <tr><td><b>Y</b> (vertical)</td><td>T-stage (T1 ground → T9 canopy; T10 set apart, orthogonal)</td><td>locked — the bands</td></tr>
     <tr><td><b>Size</b></td><td>importance / significance (canonical large → minor reception small)</td><td>live — the seed renders canonical-size</td></tr>
-    <tr><td><b>Hue</b></td><td>tradition flare — navigation, never meaning (per canon §C)</td><td>live — placeholder ABR-CHR red-wine; wire to the per-tradition extracted palette</td></tr>
+    <tr><td><b>Hue</b></td><td>tradition flare — navigation, never meaning (per canon §C)</td><td>live — placeholder ABR-CHR terracotta; wire to the per-tradition extracted palette</td></tr>
     <tr><td><b>Opacity</b></td><td>density (reception volume — faint → saturated)</td><td>live — channel reserved; demo at next rows</td></tr>
     <tr><td><b>Solid line</b></td><td>lineage (parent → child, the morph, within this tree) — quiet</td><td>frame ready</td></tr>
     <tr><td><b>Dashed thread</b></td><td>rhyme — leaves the tree toward another seed's tree (Q2 as a picture)</td><td>live — one real thread: → Brahma-Sūtra (5/5 validated)</td></tr>
     <tr><td><b>X</b></td><td>tree-shape (readable) ⇄ <b>Scale S0–S8</b> (analytic) — one space, two projections</td><td>toggle stubbed — switches the axis; nodes re-plot when scale-coded</td></tr>
   </table>
-  <div class="one">CARD UPGRADE (a) LIVE — author/who-why/date/where + docent + edge-type tooltips on the seed card. W22 breadcrumb LIVE on the seed card (native/citable state); prose nodes will render sequence/¶N + honesty-rail when they fill — same widget, two states (talmud_card_spec_2026-06-13.md). Discipline: density moved off color (canon §C: hue = which tradition you're in) → opacity. Importance moved off color → size. No channel carries two meanings.</div>
+  <div class="one">Card upgrade (a) live — author/who-why/date/where + docent + edge-type tooltips on the seed card. W22 breadcrumb live on the seed card (native/citable state); prose nodes will render sequence/¶N + honesty-rail when they fill — same widget, two states (talmud_card_spec_2026-06-13.md). Discipline: density moved off color (canon §C: hue = which tradition you're in) → opacity. Importance moved off color → size. No channel carries two meanings.</div>
 </div>
 
 <div class="stage">
@@ -148,17 +170,17 @@ body{background:#fbf6ec}
 
     <svg class="wires" viewBox="0 0 760 640">
       <!-- scale axis ticks (hidden in tree view) -->
-      <g id="scaleticks" style="display:none" font-size="9" fill="#aaa" font-family="-apple-system,sans-serif">
-        <line x1="40" y1="630" x2="730" y2="630" stroke="#ddd"/>
+      <g id="scaleticks" style="display:none" font-size="9" fill="#7C8478" font-family="'IBM Plex Mono',monospace">
+        <line x1="40" y1="630" x2="730" y2="630" stroke="#C9BE9F"/>
         <text x="40" y="622">S0</text><text x="124" y="622">S1</text><text x="208" y="622">S2</text>
         <text x="292" y="622">S3</text><text x="376" y="622">S4</text><text x="460" y="622">S5</text>
         <text x="544" y="622">S6</text><text x="628" y="622">S7</text><text x="712" y="622">S8</text>
       </g>
       <!-- the rhyme thread: leaves the tree (Q2 as a picture) -->
-      <path d="M462 548 C 600 540 680 520 758 500" stroke="#2a7a5a" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
-      <text x="560" y="528" font-size="10.5" fill="#2a7a5a" font-weight="700" font-family="-apple-system,sans-serif">rhyme → Brahma-Sūtra (leaves this tree · 5/5 validated)</text>
+      <path d="M462 548 C 600 540 680 520 758 500" stroke="#3F7D57" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+      <text x="560" y="528" font-size="10.5" fill="#3F7D57" font-weight="700" font-family="'IBM Plex Mono',monospace">rhyme → Brahma-Sūtra (leaves this tree · 5/5 validated)</text>
       <!-- T1 inference line: dotted up from the soil into the seed -->
-      <path d="M400 612 C 400 590 400 580 400 562" stroke="#b0a090" stroke-width="2" stroke-dasharray="2 4" fill="none"/>
+      <path d="M400 612 C 400 590 400 580 400 562" stroke="#B0A98C" stroke-width="2" stroke-dasharray="2 4" fill="none"/>
     </svg>
 
     <!-- T1 ghost: inferred only -->
@@ -255,20 +277,17 @@ function setX(mode){
 
 <!--
 METHODOLOGY FOOTER
-HOW PRODUCED. S116 design session (2026-06-12), design-SB worktree, at researcher direction following the main-Claude
-design feedback: build the FULL T1-T10 frame with the channel schema explicit, fill ONE ROW AT A TIME together —
-starting with T2 (the seed) only. Incorporates the feedback's decisions: one-channel-one-variable; hue = tradition
-flare per canon (density -> opacity; importance -> size); solid lineage vs dashed off-tree rhyme threads; X = tree-shape
-with a Scale-projection toggle (one space, two projections); ORBIT card beside the tree instead of flip-away (Talmud
-keeps its center text visible); T10 rendered as a set-apart orthogonal band; T1 as asymptotic ghost.
-SCHOLARLY SOURCES. the researcher's two sketches + the main-Claude channel-encoding feedback (this session); the
-canonical T-stage lock (S99+IRR97; T10 orthogonal; T1 asymptotic); design canon C (hue = navigation/flare, no universal
-color symbolism); the validated Romans<->Brahma-Sutra rhyme (the one real off-tree thread drawn); KJV public-domain seed
-text; v0 prototype (romans_tree_talmud_v0) as the all-rows reference draft.
-WHAT NEEDS VERIFICATION. (1) the ABR-CHR flare hue is a PLACEHOLDER — wire to the per-tradition extracted palette;
-(2) the seed's grammar chain on the card is an illustrative gloss — swap for coded values; (3) the Scale-toggle is a
-stub (axis + note render; the seed has no per-passage scale to plot yet); (4) Sitz circles = standard consensus pending
-corpus Sitz rows; (5) "density" channel definition leans reception-density per the feedback — researcher to ratify
-before T5 fills; (6) next-row content (T3: 6 sources) queried and ready in the v0 file.
+HOW PRODUCED. Reskinned 2026-07-02 (design-SB, S133 site re-scaffold): re-themed to the LOCKED house-light system
+(Living Garden on white — Newsreader/Inter/IBM Plex Mono; fern/moss/olive spine + terracotta/honey accents; hairline
+rules; de-capped labels). Palette remap: night/parchment grounds → white rag-paper; #8a3a4a flare → terracotta #C4602F;
+#5b5bd6 accent → fern #3F7D57; #1a1a2e ink → pine #24302A / moss #2C4A38. Top nav REMOVED (embedded frame). ALL content,
+the channel schema, the tree bands, the seed node, the orbit Talmud card, the W22 breadcrumb widget + both JS functions
+(openSeed / setX) preserved verbatim. Original build: S116 design session (2026-06-12) — full T1-T10 frame, one row at a
+time, T2 seed only; channel schema (one-channel-one-variable); orbit card beside the tree; T10 orthogonal; T1 asymptotic.
+SCHOLARLY SOURCES. web/site-deploy/assets/gom.css (house palette + type + de-cap conventions); the canonical T-stage lock
+(S99+IRR97); design canon C (hue = navigation/flare); the validated Romans<->Brahma-Sutra rhyme; KJV public-domain seed text.
+WHAT NEEDS VERIFICATION. (1) STAGING. (2) the ABR-CHR flare hue is a PLACEHOLDER — wire to the per-tradition extracted
+palette. (3) the seed's grammar chain is an illustrative gloss — swap for coded values. (4) Scale-toggle is a stub. (5) Sitz
+circles = standard consensus pending corpus Sitz rows. (6) next-row content (T3: 6 sources) ready in the v0 file.
 -->
 </body></html>

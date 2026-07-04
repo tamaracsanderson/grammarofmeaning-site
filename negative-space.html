@@ -5,82 +5,87 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>The negative space — Romans 8:28–30 (pilot) — Grammar of Meaning</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* ── re-themed dark night-sky → house-light (Living Garden on white); embedded frame — no top nav ── */
   :root{
-    --bg:#0d0f1a;            /* night-sky base */
-    --bg2:#0d1430;           /* panel */
-    --bg3:#111a3d;           /* raised card */
-    --ink:#eef0fb;           /* light text */
-    --muted:#9aa0c4;         /* dim text */
-    --faint:#5a6090;         /* fainter */
-    --line:#26305c;          /* hairline */
-    --gold:#f3c969;          /* the golden chain */
-    --gold-d:#b9933f;
+    --serif:'Newsreader',Georgia,serif;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+    --bg:#FCFBF7;            /* warm rag-paper ground (was #0d0f1a) */
+    --bg2:#FFFFFF;           /* raised plate (was #0d1430) */
+    --bg3:#FFFFFF;           /* raised card (was #111a3d) */
+    --ink:#24302A;           /* deep pine ink (was #eef0fb) */
+    --muted:#52605A;         /* secondary (was #9aa0c4) */
+    --faint:#7C8478;         /* fainter (was #5a6090) */
+    --line:#C9BE9F;          /* hairline (was #26305c) */
+    --gold:#C4602F;          /* the golden chain → terracotta signal (was #f3c969) */
+    --gold-d:#B0552B;        /* deeper terracotta (was #b9933f) */
     /* the two agent-types — the load-bearing accents */
-    --imp:#5fd6c4;           /* impersonal-collective — cool teal */
-    --imp-d:#2f8c87;
-    --pers:#f0944d;          /* personal / God — warm amber */
-    --pers-d:#c26a26;
-    --ghost:#3a4270;        /* the unchosen-reading ghost stroke */
+    --imp:#3F7D57;           /* impersonal-collective — fern (was cool teal #5fd6c4) */
+    --imp-d:#2C4A38;
+    --pers:#E0A93B;          /* personal / God — honey (was warm amber #f0944d) */
+    --pers-d:#B07A1E;
+    --ghost:#A9B08C;         /* the unchosen-reading ghost stroke (was #3a4270) */
   }
   *{box-sizing:border-box;}
   html,body{margin:0;}
   body{
     background:
-      radial-gradient(130% 80% at 50% -8%, rgba(232,199,102,.10), transparent 55%),
-      radial-gradient(90% 60% at 85% 12%, rgba(95,208,200,.07), transparent 60%),
+      radial-gradient(130% 80% at 50% -8%, rgba(224,169,59,.10), transparent 55%),
+      radial-gradient(90% 60% at 85% 12%, rgba(63,125,87,.06), transparent 60%),
       var(--bg);
     color:var(--ink);
-    font:15px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font:15px/1.62 var(--sans);
+    -webkit-font-smoothing:antialiased;
     min-height:100vh;
+    background-attachment:fixed;
   }
-  /* faint star field */
+  /* faint botanical grain (replaces the night star-field) */
   body::before{
     content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
     background-image:
-      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.5), transparent),
-      radial-gradient(1px 1px at 70% 18%, rgba(255,255,255,.35), transparent),
-      radial-gradient(1px 1px at 42% 62%, rgba(255,255,255,.3), transparent),
-      radial-gradient(1px 1px at 88% 70%, rgba(255,255,255,.4), transparent),
-      radial-gradient(1px 1px at 12% 80%, rgba(255,255,255,.3), transparent),
-      radial-gradient(1px 1px at 60% 90%, rgba(255,255,255,.25), transparent),
-      radial-gradient(1px 1px at 33% 8%, rgba(255,255,255,.3), transparent);
+      repeating-linear-gradient(0deg, rgba(110,123,58,.014) 0 2px, transparent 2px 5px),
+      repeating-linear-gradient(90deg, rgba(196,96,47,.011) 0 3px, transparent 3px 7px);
   }
   .page{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:30px 26px 80px;}
-  h1{font-size:26px;margin:0 0 4px;font-weight:600;letter-spacing:.01em;}
-  .tag{font-size:14.5px;color:var(--muted);margin-bottom:20px;}
+  h1{font-family:var(--serif);font-size:28px;margin:0 0 4px;font-weight:600;letter-spacing:-0.01em;color:var(--moss,#2C4A38);}
+  .tag{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--muted);margin-bottom:20px;}
 
   /* persistent honesty banner */
   .banner{
-    background:linear-gradient(180deg,rgba(232,199,102,.10),rgba(232,199,102,.04));
+    background:linear-gradient(180deg,rgba(196,96,47,.06),rgba(196,96,47,.03));
     border:1px solid var(--gold-d);border-radius:12px;
-    padding:14px 18px;margin-bottom:14px;font-size:13.5px;line-height:1.6;color:#f4e9c8;
+    padding:14px 18px;margin-bottom:14px;font-size:13.5px;line-height:1.62;color:var(--ink);
   }
   .banner b{color:var(--gold);}
-  .banner .src{display:block;margin-top:8px;font-size:12px;color:var(--muted);font-style:italic;}
+  .banner .src{display:block;margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--muted);font-style:normal;}
 
   .lede{font-size:15px;color:var(--muted);line-height:1.7;margin:18px 0 8px;}
   .lede b{color:var(--ink);}
   .lede .imp{color:var(--imp);font-weight:600;}
-  .lede .pers{color:var(--pers);font-weight:600;}
+  .lede .pers{color:var(--pers-d);font-weight:600;}
 
   section{margin-top:40px;}
-  .seclabel{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);font-weight:600;}
-  h2{font-size:20px;margin:5px 0 4px;font-weight:600;}
-  .sublede{font-size:14px;color:var(--muted);font-style:italic;margin:0 0 16px;}
+  .seclabel{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;color:var(--gold);font-weight:600;}
+  h2{font-family:var(--serif);font-size:22px;margin:5px 0 4px;font-weight:600;letter-spacing:-0.01em;color:var(--moss,#2C4A38);}
+  .sublede{font-family:var(--serif);font-size:15px;color:var(--muted);font-style:italic;margin:0 0 16px;}
 
   .viz{
     background:var(--bg2);border:1px solid var(--line);border-radius:14px;
-    padding:8px;box-shadow:0 8px 40px rgba(0,0,0,.35);overflow:hidden;
+    padding:8px;box-shadow:0 8px 28px rgba(44,74,56,.07);overflow:hidden;
   }
   svg{display:block;width:100%;height:auto;}
 
   /* per-visual honesty flag */
   .flag{
     font-size:12px;color:var(--muted);margin-top:10px;line-height:1.55;
-    border-left:3px solid var(--gold-d);padding:8px 14px;background:rgba(232,199,102,.05);border-radius:0 8px 8px 0;
+    border-left:3px solid var(--gold-d);padding:8px 14px;background:rgba(196,96,47,.05);border-radius:0 8px 8px 0;
   }
-  .flag b{color:#f4e9c8;}
+  .flag b{color:var(--ink);}
 
   .read{font-size:13.5px;color:var(--muted);line-height:1.7;margin-top:14px;}
   .read b{color:var(--ink);}
@@ -91,24 +96,14 @@
   .swatch{width:22px;height:10px;border-radius:3px;display:inline-block;}
   .dot{width:11px;height:11px;border-radius:50%;display:inline-block;}
 
-  footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--faint);line-height:1.65;}
+  footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.65;}
   footer b{color:var(--muted);}
 
-  /* fixed home pill */
-  .home{
-    position:fixed;top:14px;left:14px;z-index:10;
-    background:rgba(13,20,48,.85);border:1px solid var(--line);color:var(--ink);
-    text-decoration:none;font-size:12.5px;padding:7px 13px;border-radius:999px;
-    backdrop-filter:blur(6px);box-shadow:0 2px 12px rgba(0,0,0,.4);
-  }
-  .home:hover{border-color:var(--gold-d);color:var(--gold);}
-
   /* SVG text helpers (set via class to keep colors consistent) */
-  text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+  text{font-family:'Inter',system-ui,-apple-system,sans-serif;}
 </style>
 </head>
 <body>
-<a class="home" href="index.html">← Grammar of Meaning</a>
 
 <div class="page">
 
@@ -142,7 +137,7 @@
       <svg viewBox="0 0 880 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Nine editions of Romans 8:28-30 as parallel paths; at 8:28 seven braid into an impersonal-collective lane and two split into a personal-God lane; at 8:29-30 all converge into the stable golden chain.">
         <defs>
           <marker id="arrGold" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L6.5,3 L0,6 Z" fill="var(--gold)"/></marker>
-          <filter id="glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <filter id="glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         </defs>
 
         <!-- position columns -->
@@ -185,23 +180,23 @@
         </g>
         <!-- the impersonal-collective node at 8:28 -->
         <circle cx="150" cy="200" r="13" fill="var(--imp)" filter="url(#glow)"/>
-        <text x="150" y="204" text-anchor="middle" font-size="11" font-weight="700" fill="#06231f">7</text>
+        <text x="150" y="204" text-anchor="middle" font-size="11" font-weight="700" fill="#F7F3E7">7</text>
         <text x="150" y="240" text-anchor="middle" font-size="11" fill="var(--imp)" font-weight="600">impersonal-collective</text>
         <text x="150" y="255" text-anchor="middle" font-size="9.5" fill="var(--muted)">“all things” / πάντα is the agent</text>
 
         <!-- =============== the 2 personal / God editions split off =============== -->
-        <g font-size="10.5" fill="var(--pers)" text-anchor="end">
+        <g font-size="10.5" fill="var(--pers-d)" text-anchor="end">
           <text x="78" y="360">NIV</text>
           <text x="78" y="388">The Message</text>
         </g>
         <!-- they split DOWN to a separate personal lane at 8:28 (x=150,y=380) -->
-        <g fill="none" stroke="var(--pers)" stroke-width="2" opacity=".9">
+        <g fill="none" stroke="var(--pers)" stroke-width="2" opacity=".95">
           <path d="M84,356 C 120,356 120,380 148,380"/>
           <path d="M84,384 C 130,384 130,380 148,380"/>
         </g>
         <circle cx="150" cy="380" r="11" fill="var(--pers)" filter="url(#glow)"/>
-        <text x="150" y="384" text-anchor="middle" font-size="10.5" font-weight="700" fill="#2a1403">2</text>
-        <text x="150" y="412" text-anchor="middle" font-size="11" fill="var(--pers)" font-weight="600">personal / God</text>
+        <text x="150" y="384" text-anchor="middle" font-size="10.5" font-weight="700" fill="#3A2A08">2</text>
+        <text x="150" y="412" text-anchor="middle" font-size="11" fill="var(--pers-d)" font-weight="600">personal / God</text>
         <text x="150" y="427" text-anchor="middle" font-size="9.5" fill="var(--muted)">recast: “God works…” — the road taken here</text>
 
         <!-- THE SPLIT callout -->
@@ -211,7 +206,7 @@
         <!-- =============== 8:28 → 8:29 : both lanes flow toward convergence =============== -->
         <!-- from impersonal node (150,200) and personal node (150,380) both run to the 8:29 chain node (470,200) -->
         <path d="M163,200 C 300,200 330,200 456,200" fill="none" stroke="var(--imp)" stroke-width="2.4" opacity=".8" marker-end="url(#arrGold)"/>
-        <path d="M160,372 C 300,330 340,230 456,205" fill="none" stroke="var(--pers)" stroke-width="2.4" opacity=".85" marker-end="url(#arrGold)"/>
+        <path d="M160,372 C 300,330 340,230 456,205" fill="none" stroke="var(--pers)" stroke-width="2.4" opacity=".9" marker-end="url(#arrGold)"/>
         <text x="315" y="150" text-anchor="middle" font-size="10" fill="var(--muted)" font-style="italic">…both re-converge on the chain →</text>
 
         <!-- =============== the stable golden chain 8:29 → 8:30 =============== -->
@@ -260,14 +255,14 @@
       <svg viewBox="0 0 880 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A directed acyclic graph of five nodes: foreknew, predestined, called, justified, glorified, each annotated personal/God, active, object-role.">
         <defs>
           <marker id="arrChain" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--gold)"/></marker>
-          <filter id="glow2" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <filter id="glow2" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         </defs>
 
         <!-- maker (God) -->
         <rect x="370" y="34" width="140" height="34" rx="10" fill="var(--bg3)" stroke="var(--pers)" stroke-width="1.6"/>
-        <text x="440" y="56" text-anchor="middle" font-size="12.5" fill="var(--pers)" font-weight="600">God — the agent</text>
+        <text x="440" y="56" text-anchor="middle" font-size="12.5" fill="var(--pers-d)" font-weight="600">God — the agent</text>
         <!-- faint maker edges down to each node -->
-        <g stroke="var(--pers)" stroke-width="1" opacity=".5" fill="none">
+        <g stroke="var(--pers)" stroke-width="1" opacity=".55" fill="none">
           <path d="M392,68 L96,150"/>
           <path d="M412,68 L262,150"/>
           <path d="M440,68 L440,150"/>
@@ -300,7 +295,7 @@
         </g>
 
         <!-- annotation band -->
-        <text x="440" y="276" text-anchor="middle" font-size="12" fill="var(--muted)">every move: <tspan fill="var(--pers)" font-weight="600">personal / God</tspan> · <tspan fill="var(--ink)" font-weight="600">active</tspan> voice · <tspan fill="var(--ink)" font-weight="600">object</tspan> role (the loved are acted upon)</text>
+        <text x="440" y="276" text-anchor="middle" font-size="12" fill="var(--muted)">every move: <tspan fill="var(--pers-d)" font-weight="600">personal / God</tspan> · <tspan fill="var(--ink)" font-weight="600">active</tspan> voice · <tspan fill="var(--ink)" font-weight="600">object</tspan> role (the loved are acted upon)</text>
         <text x="440" y="297" text-anchor="middle" font-size="10.5" fill="var(--faint)" font-style="italic">directed + acyclic — the flow runs one way; all 3 coders agree (α = 1.000 on semantic_agency)</text>
       </svg>
     </div>
@@ -322,8 +317,8 @@
       <svg viewBox="0 0 880 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The solid coded golden chain along the spine, with ghosted unchosen branches fanning off each slot: at 8:28 the ghost of the personal-God reading and the unchosen voice values; ghosts are illustrative.">
         <defs>
           <marker id="arrSolid" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="var(--gold)"/></marker>
-          <marker id="arrGhost" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--faint)"/></marker>
-          <filter id="glow3" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <marker id="arrGhost" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ghost)"/></marker>
+          <filter id="glow3" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         </defs>
 
         <!-- ====== THE SOLID SPINE (the actual coded chain) ====== -->
@@ -352,40 +347,40 @@
 
         <!-- ====== GHOSTED UNCHOSEN BRANCHES (fanning UP off each slot) ====== -->
         <!-- 8:28 slot: the road NOT taken in the 7 impersonal editions = the personal-God reading (the 2-edition path), plus unchosen voice values -->
-        <g fill="none" stroke="var(--faint)" stroke-width="1.4" stroke-dasharray="5 4" opacity=".85">
+        <g fill="none" stroke="var(--ghost)" stroke-width="1.4" stroke-dasharray="5 4" opacity=".95">
           <path d="M92,230 C 60,180 50,150 60,120" marker-end="url(#arrGhost)"/>
           <path d="M100,228 C 100,180 100,150 100,120" marker-end="url(#arrGhost)"/>
           <path d="M108,230 C 140,180 150,150 142,120" marker-end="url(#arrGhost)"/>
         </g>
         <g text-anchor="middle">
-          <ellipse cx="60"  cy="106" rx="48" ry="18" fill="var(--bg2)" stroke="var(--pers-d)" stroke-width="1.2" stroke-dasharray="4 3" opacity=".9"/>
-          <text x="60"  y="103" font-size="9" fill="var(--pers)">ghost: personal-God</text>
+          <ellipse cx="60"  cy="106" rx="48" ry="18" fill="var(--bg2)" stroke="var(--pers-d)" stroke-width="1.2" stroke-dasharray="4 3" opacity=".95"/>
+          <text x="60"  y="103" font-size="9" fill="var(--pers-d)">ghost: personal-God</text>
           <text x="60"  y="114" font-size="8.5" fill="var(--faint)">(the road the 2 took)</text>
 
-          <ellipse cx="100" cy="106" rx="38" ry="16" fill="var(--bg2)" stroke="var(--line)" stroke-width="1.2" stroke-dasharray="4 3" opacity=".8"/>
+          <ellipse cx="100" cy="106" rx="38" ry="16" fill="var(--bg2)" stroke="var(--line)" stroke-width="1.2" stroke-dasharray="4 3" opacity=".9"/>
           <text x="100" y="103" font-size="9" fill="var(--muted)">ghost: middle</text>
           <text x="100" y="114" font-size="8.5" fill="var(--faint)">(unchosen voice)</text>
 
-          <ellipse cx="148" cy="106" rx="42" ry="16" fill="var(--bg2)" stroke="var(--line)" stroke-width="1.2" stroke-dasharray="4 3" opacity=".8"/>
+          <ellipse cx="148" cy="106" rx="42" ry="16" fill="var(--bg2)" stroke="var(--line)" stroke-width="1.2" stroke-dasharray="4 3" opacity=".9"/>
           <text x="148" y="103" font-size="9" fill="var(--muted)">ghost: passive</text>
           <text x="148" y="114" font-size="8.5" fill="var(--faint)">/ [stative — reserved]</text>
         </g>
 
         <!-- the rest of the chain: ghosts of the unchosen voice (passive / middle) off each spine node -->
-        <g fill="none" stroke="var(--faint)" stroke-width="1.3" stroke-dasharray="5 4" opacity=".7">
+        <g fill="none" stroke="var(--ghost)" stroke-width="1.3" stroke-dasharray="5 4" opacity=".8">
           <path d="M250,228 C 250,190 250,170 250,150" marker-end="url(#arrGhost)"/>
           <path d="M430,228 C 430,190 430,170 430,150" marker-end="url(#arrGhost)"/>
           <path d="M610,228 C 610,190 610,170 610,150" marker-end="url(#arrGhost)"/>
           <path d="M780,228 C 780,190 780,170 780,150" marker-end="url(#arrGhost)"/>
         </g>
         <g text-anchor="middle" font-size="8.5" fill="var(--faint)">
-          <ellipse cx="250" cy="138" rx="40" ry="14" fill="var(--bg2)" stroke="var(--line)" stroke-width="1" stroke-dasharray="4 3" opacity=".7"/>
+          <ellipse cx="250" cy="138" rx="40" ry="14" fill="var(--bg2)" stroke="var(--line)" stroke-width="1" stroke-dasharray="4 3" opacity=".8"/>
           <text x="250" y="141">ghost: passive</text>
-          <ellipse cx="430" cy="138" rx="40" ry="14" fill="var(--bg2)" stroke="var(--line)" stroke-width="1" stroke-dasharray="4 3" opacity=".7"/>
+          <ellipse cx="430" cy="138" rx="40" ry="14" fill="var(--bg2)" stroke="var(--line)" stroke-width="1" stroke-dasharray="4 3" opacity=".8"/>
           <text x="430" y="141">ghost: passive</text>
-          <ellipse cx="610" cy="138" rx="40" ry="14" fill="var(--bg2)" stroke="var(--line)" stroke-width="1" stroke-dasharray="4 3" opacity=".7"/>
+          <ellipse cx="610" cy="138" rx="40" ry="14" fill="var(--bg2)" stroke="var(--line)" stroke-width="1" stroke-dasharray="4 3" opacity=".8"/>
           <text x="610" y="141">ghost: middle</text>
-          <ellipse cx="780" cy="138" rx="40" ry="14" fill="var(--bg2)" stroke="var(--line)" stroke-width="1" stroke-dasharray="4 3" opacity=".7"/>
+          <ellipse cx="780" cy="138" rx="40" ry="14" fill="var(--bg2)" stroke="var(--line)" stroke-width="1" stroke-dasharray="4 3" opacity=".8"/>
           <text x="780" y="141">ghost: passive</text>
         </g>
 
@@ -396,7 +391,7 @@
 
     <div class="legend">
       <span class="chip"><span class="swatch" style="background:var(--gold)"></span> solid spine — the actual coded chain</span>
-      <span class="chip"><span class="swatch" style="background:var(--faint);opacity:.6"></span> ghost — the unchosen reading</span>
+      <span class="chip"><span class="swatch" style="background:var(--ghost)"></span> ghost — the unchosen reading</span>
     </div>
 
     <div class="flag"><b>Illustrative.</b> The <b>solid spine is documented</b> (the coded chain in the matrix); the <b>ghosted branches are illustrative</b> — they sketch the values not taken (the personal-God reading; the unchosen voice values passive / middle; <i>stative</i>, reserved). Not corpus data; not a convergence claim.</div>
@@ -407,7 +402,7 @@
   <footer>
     <b>The negative space — Romans 8:28–30 (pilot)</b> · design-s119 / Grammar of Meaning · 2026-06-20 · provisional, illustrative.<br>
     Renders from the sandbox ensemble matrix (<code>golden_chain_ensemble_matrix.csv</code>) — 3 cross-model coders (Claude Sonnet · Haiku · Opus), <b>not the core database</b> (Stage-6 coding ≈ 0). The α = 1.000 is cross-model <b>coder</b> agreement on <code>semantic_agency</code> (the negative space is <i>reproducible</i>), <b>not</b> a measured cross-tradition convergence. The cross-tradition reading is about <b>moves rhyming</b> — the same move in a different voice — not a claim that any tradition converged with another. The interface this seeds is the <b>Garden</b>.
-    <!-- HOW PRODUCED: design-s119, 2026-06-20 — the three W-E negative-space visuals built per the GO signal (SIGNAL_designSB_visuals_GO_2026-06-20.md) from the W-B alpha-pilot matrix. One self-contained HTML page, dark night-sky skin matching the grammar/coding data-viz family, inline SVG, no external deps. Visual 1 = the Poemage path-braid (7 impersonal-collective braid + 2 personal/God split at 8:28; re-converge on the chain; Vulgate deponent flag). Visual 2 = the golden-chain DAG (5 moves, directed acyclic, annotated personal/God + active + object-role). Visual 3 = the negative-space rendering (solid coded spine + ghosted unchosen branches). SCHOLARLY SOURCES: golden_chain_ensemble_matrix.csv + golden_chain_alpha_report_2026-06-20.md (the data + finding); SIGNAL_designSB_visuals_GO_2026-06-20.md (the GO + honesty rails); negative_space_concept_2026-06-19.md (Poemage/DAG framing, §6); grammar_crystallized_A1A2A4 / Decision 133 (8:28 = active + impersonal-collective, NOT stative — supersedes the concept doc's old stative/none example); CLAUDE.md §2.1 (illustrative; Stage-6=0; calibration not finding), §2.8 (the negative space documented). WHAT NEEDS VERIFICATION: (1) illustrative — golden chain only, not corpus data; banner + per-visual flags assert this. (2) alpha=1.0 = cross-model CODER reproducibility, not cross-tradition convergence — the distinction is in the banner, every flag, and the footer. (3) ghosted branches in Visual 3 are illustrative (the unchosen values), the solid spine is the documented matrix coding. (4) no IRR138 framework-recut and no C-layer rendered (not piloted). (5) the philologist gate (human typologist) is still owed before any graduation to the core DB. -->
+    <!-- HOW PRODUCED: originally design-s119, 2026-06-20 — the three W-E negative-space visuals (Poemage path-braid / golden-chain DAG / negative-space rendering) from the W-B alpha-pilot matrix. RESKINNED 2026-07-02 (design-SB, S133 site re-scaffold): re-themed from the dark night-sky skin to the LOCKED house-light system (Living Garden on white — Newsreader/Inter/IBM Plex Mono; fern imp / honey pers / terracotta gold; hairline rules; de-capped labels). CSS-var remap kept the same variable names so every SVG var(--...) reference re-colors automatically: grounds #0d0f1a/#0d1430/#111a3d → white; teal #5fd6c4 imp → fern #3F7D57; amber #f0944d pers → honey #E0A93B; gold #f3c969 → terracotta #C4602F; night ghost #3a4270 → sage #A9B08C. Star-field replaced with a faint botanical grain; node text-fills flipped from dark-legible to light-legible. Top nav REMOVED (embedded frame). ALL content, all three SVG visuals, the banner, per-visual flags, legends, and footer preserved verbatim. SCHOLARLY SOURCES: web/site-deploy/assets/gom.css (house palette/type/de-cap); golden_chain_ensemble_matrix.csv + golden_chain_alpha_report_2026-06-20.md (the data + finding); grammar_crystallized_A1A2A4 / Decision 133 (8:28 = active + impersonal-collective); CLAUDE.md §2.1 (illustrative; Stage-6=0), §2.8 (negative space documented). WHAT NEEDS VERIFICATION: (1) STAGING. (2) illustrative — golden chain only, not corpus data (banner + per-visual flags assert this). (3) alpha=1.0 = cross-model CODER reproducibility, not cross-tradition convergence. (4) ghosted branches in Visual 3 are illustrative; the solid spine is the documented matrix coding. (5) the philologist gate is still owed before any graduation to the core DB. -->
   </footer>
 
 </div>

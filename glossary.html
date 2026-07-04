@@ -1,83 +1,129 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Glossary — Grammar of Meaning</title>
+<title>Reference · Glossary — Grammar of Meaning</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/gom.css">
 <style>
-:root{
-  --ink:#221c14; --parch:#fbf6ec; --parch2:#f4ecd9; --line:#e3dac6; --mut:#8a7d63;
-  --moss:#3f5a39; --moss-d:#2f4a2c; --gold:#b8893a; --soft:#fcfbf6;
-  --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
-  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--parch);color:var(--ink);font-family:var(--serif);line-height:1.62;-webkit-font-smoothing:antialiased}
-.wrap{max-width:760px;margin:0 auto;padding:0 26px}
+  /* ---- page-specific tweaks (Reference / Glossary) ---- */
+  /* match the hub width so it aligns with the other pages (was 820 = squished); inner prose stays constrained */
+  .wrap{max-width:1080px}
 
-/* hero */
-.hero{padding:92px 0 22px}
-.hero .eyebrow{font:600 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin-bottom:14px}
-.hero h1{font-size:42px;line-height:1.06;margin:0 0 12px;font-weight:600;letter-spacing:-.01em}
-.hero .sub{font-size:18px;color:#2c2418;margin:0 0 14px;max-width:56ch}
-.hero .sub i{color:var(--moss-d)}
-.note{font:13.5px/1.5 var(--sans);color:var(--mut);background:var(--parch2);border:1px solid var(--line);
-  border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:11px 16px;margin:8px 0 0;max-width:60ch}
-.note b{color:var(--moss-d)}
+  /* intro rationale + living-list note under the hero */
+  .gl-lede{max-width:60ch;color:var(--ink-2);font-size:15.5px;line-height:1.62;margin:0 0 4px}
+  .gl-note{font-family:var(--sans);font-size:13.5px;color:var(--ink-2);background:var(--paper-2);
+    border:1px solid var(--rule);border-left:3px solid var(--honey);border-radius:0 10px 10px 0;
+    padding:11px 16px;margin:16px 0 0;max-width:62ch;line-height:1.55}
+  .gl-note b{color:var(--ink)}
 
-.rule{width:54px;height:2px;background:var(--gold);opacity:.6;margin:34px 0;border:0}
+  /* per-page table of contents — restyled to house (this is page nav, NOT site nav) */
+  .toc{margin:22px 0 2px;display:flex;flex-wrap:wrap;gap:8px 10px;
+    font-family:var(--mono);font-size:12px;letter-spacing:.02em}
+  .toc a{color:var(--fern);text-decoration:none;border:1px solid var(--rule);border-radius:999px;
+    padding:5px 13px;background:var(--paper-3);transition:border-color .15s ease, color .15s ease}
+  .toc a:hover{border-color:var(--fern);color:var(--moss);text-decoration:none}
 
-/* contents */
-.toc{margin:18px 0 0;font:14px/1.9 var(--sans)}
-.toc a{color:var(--moss);text-decoration:none;margin-right:18px;white-space:nowrap}
-.toc a:hover{color:var(--gold)}
+  /* glossary sections — house section rhythm */
+  section .gl-secsub{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-3);
+    margin:2px 0 20px}
 
-/* sections */
-section{margin:40px 0}
-h2{font-size:13px;font-family:var(--sans);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 4px}
-.secsub{font:14.5px/1.5 var(--sans);color:var(--mut);margin:0 0 14px}
+  /* term rows — hairline-ruled, house type; de-capped */
+  .row{display:flex;gap:20px;padding:15px 0;border-top:1px solid var(--rule)}
+  .row:first-of-type{border-top:0}
+  .row .t{flex:0 0 172px;font-family:var(--sans);font-weight:700;font-size:15px;color:var(--moss);line-height:1.4}
+  .row .d{flex:1;font-family:var(--serif);font-size:16px;line-height:1.6;color:var(--ink)}
+  .row .d i{color:var(--fern);font-style:italic}
+  .row .d b{color:var(--ink)}
+  .row .d .alias{font-family:var(--sans);font-size:12.5px;line-height:1.45;color:var(--ink-3);display:block;margin-top:5px}
+  .row .d .alias b{color:var(--ink-2)}
+  @media(max-width:600px){.row{flex-direction:column;gap:4px}.row .t{flex:none}}
 
-/* term rows */
-.row{display:flex;gap:16px;padding:13px 0;border-top:1px solid var(--line)}
-.row:first-of-type{border-top:0}
-.row .t{flex:0 0 168px;font-weight:600;font-size:16.5px;color:var(--ink)}
-.row .d{flex:1;font-size:16px;line-height:1.55;color:#2c2418}
-.row .d i{color:var(--moss-d)}
-.row .d .alias{font:12.5px/1.4 var(--sans);color:var(--mut);display:block;margin-top:3px}
-@media(max-width:600px){.row{flex-direction:column;gap:3px}.row .t{flex:none}}
-
-.foot{font-family:var(--sans);font-size:12px;color:var(--mut);text-align:center;padding:46px 0 60px;border-top:1px solid var(--line);margin-top:46px}
+  /* quiet closing note */
+  .foot{font-family:var(--sans);font-size:12px;color:var(--ink-3);border-top:1px solid var(--rule);
+    margin-top:36px;padding-top:16px;line-height:1.6;text-align:center}
+  .foot em{font-style:italic;color:var(--ink-2)}
 </style>
-<style>/* site chrome: home link (matches grammarofmeaning.org) */.gom-home{position:fixed;top:14px;left:16px;z-index:9999;font:600 13px/1 -apple-system,Segoe UI,sans-serif;color:#3f5a39;text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px;box-shadow:0 1px 5px rgba(80,60,20,.10)}.gom-home:hover{background:#fff;border-color:#b8893a;color:#b8893a}@media print{.gom-home{display:none}}</style>
 </head>
 <body>
-<a href="index.html" class="gom-home">← Grammar of Meaning</a>
-<a href="index.html" style="position:fixed;top:14px;left:16px;z-index:999;font:600 13px/1 -apple-system,sans-serif;color:#3f5a39;text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px">← Grammar of Meaning</a>
 
-<div class="wrap">
+<!-- reusable botanical symbols -->
+<svg style="display:none" aria-hidden="true"><defs>
+  <symbol id="sprig" viewBox="0 0 150 34">
+    <path d="M5 17 H145" stroke="#6E7B3A" stroke-width="1" fill="none"/>
+    <g fill="none" stroke="#3F7D57" stroke-width="1.3">
+      <path d="M60 17 q-9 -11 -20 -9 q7 8 20 9"/>
+      <path d="M90 17 q9 -11 20 -9 q-7 8 -20 9"/>
+      <path d="M68 17 q-6 9 -15 9 q5 -7 15 -9"/>
+      <path d="M82 17 q6 9 15 9 q-5 -7 -15 -9"/>
+    </g>
+    <circle cx="75" cy="17" r="3.2" fill="#E0A93B"/>
+    <circle cx="75" cy="17" r="6" fill="none" stroke="#C4602F" stroke-width="1"/>
+  </symbol>
+</defs></svg>
 
-  <header class="hero">
-    <div class="eyebrow">Grammar of Meaning · reference</div>
+<!-- NAV (house topbar) -->
+<div class="topbar">
+  <div class="wrap">
+    <a class="brandmark" href="index.html" style="color:var(--moss)">
+      <svg class="mark" viewBox="0 0 200 200" fill="none" aria-hidden="true"><path d="M100 30 C74 52 58 92 62 126 C64 152 82 168 100 176 L100 30 Z" fill="#2C4A38"/><path d="M100 30 C126 52 142 92 138 126 C136 152 118 168 100 176 L100 30 Z" fill="#8AA88B"/><line x1="100" y1="34" x2="100" y2="174" stroke="#FCFBF7" stroke-width="3"/><line x1="100" y1="176" x2="100" y2="194" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/></svg>
+      Grammar&nbsp;of&nbsp;Meaning
+    </a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="mission.html">About</a>
+      <a href="library.html">Library</a>
+      <a href="essays.html">Essays</a>
+      <a href="garden.html">Garden</a>
+      <a href="method.html">Method</a>
+      <a href="glossary.html" class="active">Reference</a>
+    
+      <a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a>
+    </nav>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <svg class="watermark" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+    <path d="M100 195 V70" stroke="#3F7D57" stroke-width="1.4"/>
+    <g stroke="#3F7D57" stroke-width="1.2" fill="none">
+      <path d="M100 150 q-46 -10 -58 -55 q46 6 58 55"/>
+      <path d="M100 120 q46 -12 58 -58 q-46 6 -58 58"/>
+      <path d="M100 96 q-38 -8 -48 -46 q38 5 48 46"/>
+      <path d="M100 78 q40 -10 50 -48 q-40 5 -50 48"/>
+    </g>
+    <circle cx="100" cy="62" r="7" fill="#E0A93B"/>
+  </svg>
+  <div class="wrap">
+    <div class="kicker">Reference · <b>the working vocabulary</b></div>
     <h1>Glossary</h1>
-    <p class="sub">Every term as we use it on the site — defined plainly. The master list of our working vocabulary.</p>
-    <div class="note"><b>A living list.</b> This is a work-in-progress reference that tracks the words a reader actually meets on the public pages. It will grow and tighten as the site does.</div>
+    <div class="sub">Every term as we use it — defined plainly.</div>
+    <p class="gl-lede">Every term as we use it on the site — defined plainly. The master list of our working vocabulary.</p>
+    <div class="gl-note"><b>A living list.</b> This is a work-in-progress reference that tracks the words a reader actually meets on the public pages. It will grow and tighten as the site does.</div>
 
+    <!-- per-page table of contents (page nav, restyled to house) -->
     <nav class="toc">
       <a href="#parts">The project's parts</a>
       <a href="#reading">How meaning is read</a>
       <a href="#method">The method</a>
       <a href="#machinery">The machinery</a>
     </nav>
-  </header>
+  </div>
+</header>
 
-  <hr class="rule">
+<div class="wrap">
 
   <!-- ============ THE PROJECT'S PARTS ============ -->
   <section id="parts">
-    <h2>The project's parts</h2>
-    <p class="secsub">One author, one inquiry, and the four parts of the work.</p>
+    <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">The project's parts</span><span class="sec-line"></span></div>
+    <p class="gl-secsub">One author, one inquiry, and the four parts of the work.</p>
 
     <div class="row"><div class="t">Grammar of Meaning</div><div class="d">The inquiry — an open, bottom-up study of how humans make meaning, across religion, philosophy, and psychology. Also the name of the published essays. <i>Field notes on how meaning gets made.</i></div></div>
 
@@ -95,8 +141,8 @@ h2{font-size:13px;font-family:var(--sans);font-weight:700;letter-spacing:.14em;t
 
   <!-- ============ HOW MEANING IS READ ============ -->
   <section id="reading">
-    <h2>How meaning is read</h2>
-    <p class="secsub">The core ideas the whole project turns on.</p>
+    <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">How meaning is read</span><span class="sec-line"></span></div>
+    <p class="gl-secsub">The core ideas the whole project turns on.</p>
 
     <div class="row"><div class="t">Meaning-making</div><div class="d">The premise: meaning isn't a thing you find or possess — it's <i>made</i>, a verb, in the meeting between a person and the world. So we study what traditions <i>do</i>, not only what they believe.</div></div>
 
@@ -125,8 +171,8 @@ h2{font-size:13px;font-family:var(--sans);font-weight:700;letter-spacing:.14em;t
 
   <!-- ============ THE METHOD ============ -->
   <section id="method">
-    <h2>The method</h2>
-    <p class="secsub">How the reading is kept honest.</p>
+    <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">The method</span><span class="sec-line"></span></div>
+    <p class="gl-secsub">How the reading is kept honest.</p>
 
     <div class="row"><div class="t">Bottom-up</div><div class="d">The discipline that keeps the answer from being smuggled into the question: each tradition is read in its <i>own</i> vocabulary first, before any comparison. A pattern only counts if it <i>emerges</i> from the traditions — not from an AI's priors or the Western canon.</div></div>
 
@@ -147,8 +193,8 @@ h2{font-size:13px;font-family:var(--sans);font-weight:700;letter-spacing:.14em;t
 
   <!-- ============ THE MACHINERY ============ -->
   <section id="machinery">
-    <h2>The machinery</h2>
-    <p class="secsub">The working parts a reader meets on the engine and essay pages.</p>
+    <div class="sec-head"><span class="sec-num">04</span><span class="sec-title">The machinery</span><span class="sec-line"></span></div>
+    <p class="gl-secsub">The working parts a reader meets on the engine and essay pages.</p>
 
     <div class="row"><div class="t">The engine</div><div class="d">The acquisition machine that fills the Library: it brings a new idea in — checks whether it's already held, searches many archives at once, pulls each source in with a full trail, splits it into passages, and codes it. What it brings in then fuels the next search — so it's an engine, not a one-way pipe.</div></div>
 
@@ -187,8 +233,42 @@ h2{font-size:13px;font-family:var(--sans);font-weight:700;letter-spacing:.14em;t
     <div class="row"><div class="t">Pilgrimage</div><div class="d">The shape of the experience: not a search bar but a walk — you arrive, pick a seed, watch the rhymes light up, go deep or wide, and end in a practice you can carry out the gate.</div></div>
   </section>
 
-  <div class="foot">A living reference, unlisted · <em>Grammar of Meaning</em> · 2026-06-19</div>
+  <svg class="sprig" style="margin-top:38px"><use href="#sprig"/></svg>
 
-</div>
+</div><!-- /wrap -->
+
+<!-- FOOTER (house pick-list footer) -->
+<footer>
+  <div class="wrap">
+    <div class="flabel">Grammar of Meaning</div>
+    <h3>How meaning gets made — read each tradition in its own vocabulary first.</h3>
+    <div class="pickgrid">
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">The work</div>
+        <div class="picklist">
+          <div><a href="library.html" style="color:#fff">The Library</a> <span class="k">— the world's traditions, gathered</span></div>
+          <div><a href="essays.html" style="color:#fff">The Essays</a> <span class="k">— meaning-making in public</span></div>
+          <div><a href="garden.html" style="color:#fff">The Garden</a> <span class="k">— a pilgrimage you walk</span></div>
+          <div><a href="method.html" style="color:#fff">The Method</a> <span class="k">— the open method behind it all</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">Reference</div>
+        <div class="picklist">
+          <div><a href="glossary.html" style="color:#fff">Glossary</a></div>
+          <div><a href="principles.html" style="color:#fff">Principles</a></div>
+          <div><a href="scholars.html" style="color:#fff">Scholars</a></div>
+          <div><a href="bibliography.html" style="color:#fff">Bibliography</a></div>
+        </div>
+        <div class="label-mute" style="color:var(--sage);margin:22px 0 10px">Start here</div>
+        <div class="picklist">
+          <div><a href="mission.html" style="color:#fff">What this is →</a></div>
+        </div>
+      </div>
+    </div>
+    <p class="foot-note">A living reference, unlisted · <em>Grammar of Meaning</em> · Tamara Sanderson · 2026</p>
+  </div>
+</footer>
+
 </body>
 </html>

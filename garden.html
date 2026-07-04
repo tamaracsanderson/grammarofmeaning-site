@@ -1,397 +1,402 @@
-<!doctype html><html><head><meta charset="utf-8">
-<title>The Garden — garden view</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The Garden — a pilgrimage you walk · Grammar of Meaning</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/gom.css">
 <style>
- body{font:14px/1.55 -apple-system,Segoe UI,sans-serif;margin:0;background:#f6f7f9;color:#1a1a2e}
- header{background:#1a1a2e;color:#fff;padding:20px 28px}
- header h1{margin:0 0 4px;font-size:22px} header .sub{opacity:.85;font-size:13px;max-width:760px}
- .statbar{display:flex;gap:22px;padding:12px 28px;background:#fff;border-bottom:1px solid #ddd;flex-wrap:wrap}
- .stat{font-size:13px} .stat b{font-size:20px;color:#5b5bd6;display:block}
- main{padding:18px 28px;max-width:1080px}
- h2{font-size:16px;margin:22px 0 8px;border-bottom:2px solid #ececf6;padding-bottom:4px}
- .note{background:#fff;border:1px solid #e0e0e8;border-radius:8px;padding:12px;margin:8px 0 14px;font-size:13px;color:#555}
- .constellation{display:flex;gap:12px;flex-wrap:wrap}
- .flower{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e0e0e8;border-radius:10px;
-   padding:12px 14px;min-width:220px;flex:1;transition:.12s}
- .flower:hover{border-color:#5b5bd6;box-shadow:0 2px 10px rgba(91,91,214,.15);transform:translateY(-1px)}
- .fname{font-size:15px;font-weight:700} .ffam{color:#5b5bd6;font-size:12px;margin:2px 0 6px}
- .fstats{font-size:12px;color:#777} .fstages{margin-top:6px}
- .tchip{display:inline-block;background:#ececf6;color:#3a3a6a;border-radius:3px;padding:0 5px;margin:1px;font-size:10px}
- table.pmatrix{border-collapse:collapse;background:#fff;margin:6px 0}
- table.pmatrix th,table.pmatrix td{border:1px solid #e0e0e8;padding:5px 11px;text-align:center;font-size:12px}
- table.pmatrix th{background:#f3f3fa;font-weight:600} table.pmatrix td.diag{background:#fafafc;color:#ccc}
- .rhyme{background:#fff;border:1px solid #e0e0e8;border-left:4px solid #5b5bd6;border-radius:0 8px 8px 0;margin:10px 0;padding:11px 15px}
- .rtop{margin-bottom:5px} .atype{color:#fff;border-radius:4px;padding:1px 8px;font-size:11px;font-weight:600}
- .rconf{float:right;font-size:11px;color:#999}
- .tier-strong{color:#1a7a3a;font-weight:600} .tier-candidate{color:#999}
- .provisional{background:#f4f0e8;color:#9a7a3a;border:1px solid #e8dcc0;border-radius:4px;padding:0 5px;font-size:10px;margin-left:6px}
- .rpair{font-size:13px;color:#444;margin:3px 0} .rfam{font-size:11px;color:#888}
- .rarr{color:#5b5bd6;margin:0 8px;font-weight:700}
- .contact-low{background:#fff0f0;color:#b03030;border:1px solid #f0d0d0;border-radius:4px;padding:0 6px;font-size:10px;margin-left:6px}
- .contact-mid{background:#fff7e8;color:#9a6b00;border:1px solid #f0e0c0;border-radius:4px;padding:0 6px;font-size:10px;margin-left:6px}
- .contact-high{background:#f0f0f4;color:#666;border:1px solid #ddd;border-radius:4px;padding:0 6px;font-size:10px;margin-left:6px}
- .ranalogy{font-size:15px;font-weight:600;margin:5px 0;color:#1a1a2e}
- .diffbox{background:#fff8f0;border:1px solid #f0e0d0;border-radius:6px;padding:8px 10px;margin-top:6px;font-size:12.5px}
- .shared{color:#1a6a3a;margin-bottom:3px} .diff{color:#9a4a1a;margin-bottom:2px}
- .forest{background:#fff;border:1px solid #e0e0e8;border-radius:10px;padding:14px 16px;margin:8px 0}
- .fcut label{font-size:13px;color:#3a3a6a} #fc-yr{color:#5b5bd6}
- .fdisp{font-size:13px;color:#555;margin:10px 0 12px;padding:8px 10px;background:#f3f3fa;border-radius:6px}
- .fdisp .fdk{color:#5b5bd6;font-weight:700;font-size:16px}
- .fbar{display:grid;grid-template-columns:180px 1fr 200px;gap:10px;align-items:center;margin:4px 0;font-size:12px}
- .fblabel{font-weight:600;color:#1a1a2e} .fbtrack{background:#ececf6;border-radius:4px;height:16px;overflow:hidden}
- .fbfill{background:#5b5bd6;height:100%;transition:width .12s} .fbmeta{color:#888;font-size:11px}
-</style><style>/* --- site chrome: garden re-skin + home link (matches grammarofmeaning.org) --- */
-:root{--ink:#221c14;--accent:#3f5a39;--line:#e3dac6;--mut:#8a7d63;--soft:#fcfbf6}
-body{background:#fbf6ec}
-.gom-home{position:fixed;top:14px;left:16px;z-index:999;font:600 13px/1 -apple-system,Segoe UI,sans-serif;color:#3f5a39;text-decoration:none;background:rgba(251,246,236,.94);border:1px solid #d9cfb6;border-radius:20px;padding:8px 14px;box-shadow:0 1px 5px rgba(80,60,20,.10)}
-.gom-home:hover{background:#fff;border-color:#b8893a;color:#b8893a}
-@media print{.gom-home{display:none}}
+  /* ---- page-specific tweaks (Garden overview) ---- */
+  .wrap{max-width:1080px}
+  .hero .lede{max-width:640px}
+
+  /* a horizon chip that rides above the hero title */
+  .horizon-chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;
+    font-weight:500;letter-spacing:0.04em;color:var(--ink-2);background:var(--paper-3);
+    border:1px solid var(--rule);border-radius:999px;padding:5px 13px;margin-bottom:20px}
+  .horizon-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--honey);flex:0 0 auto;
+    box-shadow:0 0 0 3px rgba(224,169,59,.18)}
+
+  /* section lede paragraph */
+  .lead-p{font-size:16px;color:var(--ink-2);line-height:1.68;max-width:66ch;margin:0 0 8px}
+  .lead-p b{color:var(--ink)}
+  .lead-p i{color:var(--fern);font-style:italic}
+  .lead-p + .lead-p{margin-top:18px}
+
+  /* ---- the sanctuary / not-a-feed contrast strip ---- */
+  .counter{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:26px}
+  @media(max-width:640px){.counter{grid-template-columns:1fr}}
+  .cwell{border:1px solid var(--rule);border-radius:14px;padding:20px 22px 18px;background:var(--paper-3)}
+  .cwell.feed{background:radial-gradient(120% 130% at 100% 0%, rgba(196,96,47,.05), transparent 60%),var(--paper-3)}
+  .cwell.sanct{border-left:4px solid var(--fern);border-radius:0 14px 14px 0;
+    background:radial-gradient(120% 130% at 0% 0%, rgba(63,125,87,.07), transparent 60%),var(--paper-3)}
+  .cwell .clabel{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;font-weight:600;margin-bottom:9px}
+  .cwell.feed .clabel{color:var(--terracotta)}
+  .cwell.sanct .clabel{color:var(--fern)}
+  .cwell h4{font-family:var(--serif);font-size:19px;color:var(--moss);font-weight:600;margin:0 0 8px;line-height:1.2}
+  .cwell p{font-size:14px;color:var(--ink-2);line-height:1.58;margin:0}
+  .cwell p b{color:var(--ink)}
+
+  /* ---- the three forms (feeling, not mechanism) ---- */
+  .forms{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+  @media(max-width:740px){.forms{grid-template-columns:1fr}}
+  .form{border:1px solid var(--rule);border-radius:13px;background:var(--paper-3);padding:20px 20px 18px;
+    display:flex;flex-direction:column}
+  .form .fglyph{margin-bottom:12px}
+  .form h4{font-family:var(--serif);font-size:19px;color:var(--moss);font-weight:600;margin:0 0 6px}
+  .form .sub{font-family:var(--mono);font-size:11px;color:var(--terracotta);letter-spacing:0.02em;margin-bottom:8px}
+  .form p{font-size:13.5px;color:var(--ink-2);line-height:1.55;margin:0}
+
+  /* ---- the walk (numbered path) ---- */
+  .walk{counter-reset:step;margin-top:24px;border:1px solid var(--rule);border-radius:14px;
+    background:var(--paper-3);overflow:hidden}
+  .wstep{display:flex;gap:16px;padding:16px 22px;border-top:1px solid var(--rule);align-items:flex-start}
+  .wstep:first-child{border-top:none}
+  .wstep .wn{counter-increment:step;flex:none;width:30px;height:30px;border-radius:50%;background:var(--fern);
+    color:#fff;display:flex;align-items:center;justify-content:center;
+    font-family:var(--sans);font-weight:700;font-size:14px}
+  .wstep .wn::before{content:counter(step)}
+  .wstep .wt{font-size:14.5px;color:var(--ink-2);line-height:1.55;padding-top:3px}
+  .wstep .wt b{color:var(--moss);font-family:var(--serif);font-weight:600}
+
+  /* ---- forms it might take (inspirations) ---- */
+  .insp-frame{border:1px solid var(--rule);border-radius:14px;background:var(--paper-3);
+    padding:6px 22px 8px;margin-top:24px}
+  .insp{display:flex;gap:18px;padding:18px 0;border-top:1px solid var(--rule);align-items:flex-start}
+  .insp:first-child{border-top:none}
+  .insp .iglyph{flex:none;width:44px;height:44px;margin-top:2px}
+  .insp .ibody{flex:1}
+  .insp h4{font-family:var(--serif);font-size:18px;color:var(--moss);font-weight:600;margin:0 0 2px}
+  .insp .isrc{font-family:var(--mono);font-size:11px;color:var(--terracotta);letter-spacing:0.02em;margin-bottom:6px}
+  .insp p{font-size:14px;color:var(--ink-2);line-height:1.56;margin:0;max-width:60ch}
+  .insp p i{color:var(--fern);font-style:italic}
+
+  /* ---- the honest horizon panel ---- */
+  .horizon{border:1px solid var(--rule);border-left:4px solid var(--honey);border-radius:0 14px 14px 0;
+    background:radial-gradient(120% 140% at 0% 0%, rgba(224,169,59,.08), transparent 60%),var(--paper-3);
+    padding:26px 30px;margin-top:8px}
+  .horizon .hk{font-family:var(--mono);font-size:11.5px;letter-spacing:0.06em;color:#9a7a2f;font-weight:600}
+  .horizon h3{font-family:var(--serif);font-size:26px;color:var(--moss);font-weight:600;margin:8px 0 14px;line-height:1.16;max-width:24ch}
+  .horizon p{font-size:15.5px;color:var(--ink-2);line-height:1.62;max-width:64ch;margin:0 0 12px}
+  .horizon p:last-child{margin-bottom:0}
+  .horizon p b{color:var(--ink)}
+  .horizon p i{color:var(--fern);font-style:italic}
+  .horizon .now-row{display:flex;align-items:baseline;gap:18px;margin:20px 0 6px;flex-wrap:wrap;
+    border-top:1px dashed var(--rule);padding-top:18px}
+  .horizon .now-tag{font-family:var(--serif);font-size:20px;font-weight:600;color:#9a7a2f;line-height:1;white-space:nowrap}
+  .horizon .now-lbl{font-family:var(--sans);font-size:13.5px;color:var(--ink-2);line-height:1.5;max-width:44ch}
+  .horizon .now-lbl b{color:var(--ink)}
+
+  /* explore cards prototype flag */
+  .proto-flag{font-family:var(--mono);font-size:10.5px;color:var(--terracotta);margin-top:10px;
+    letter-spacing:.03em;display:inline-flex;align-items:center;gap:6px}
+  .proto-flag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--honey);flex:none}
+
+  .foot-close{font-family:var(--sans);font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--rule);
+    margin-top:34px;padding-top:16px;line-height:1.65}
+  .foot-close em{font-style:italic;color:var(--ink-2)}
 </style>
-</head><body>
-<a href="index.html" class="gom-home">← Grammar of Meaning</a>
+</head>
+<body>
 
-<header>
-  <h1>🌸 The Garden — garden view <span style="font-size:12px;opacity:.7">(W11 Trellis · context-map)</span></h1>
-  <div class="sub">The archive-home above the individual flowers. Each flower is one seed observation
-   threaded through institutional time (T1–T10). The centerpiece is the cross-tradition <b>rhyme map</b>:
-   where the same structural <i>move</i> appears across traditions — flagged per-pair by a <b>contact
-   spectrum</b> (documented · plausible/indirect · no-known-direct), the Q2 convergence question made
-   navigable. Click a flower to walk its thread.</div>
-</header>
-<div class="statbar">
-  <div class="stat"><b>14</b> flowers</div>
-  <div class="stat"><b>797</b> threaded passages</div>
-  <div class="stat"><b>13</b> confirmed cross-tradition rhymes</div>
-  <div class="stat"><b>10</b> tradition families</div>
-</div>
-<main>
-  <h2>The flowers</h2>
-  <div class="constellation">
-        <a class="flower" href="../SEED-001-ROMANS/SEED-001-ROMANS_inspector.html">
-          <div class="fname">🌸 Romans 8 (Paul)</div>
-          <div class="ffam">Abrahamic · Christian</div>
-          <div class="fstats">336 passages · 7 stages · 334 coded · 4 rhymes</div>
-          <div class="fstages"><span class="tchip">T2</span> <span class="tchip">T3</span> <span class="tchip">T5</span> <span class="tchip">T6</span> <span class="tchip">T7</span> <span class="tchip">T8</span> <span class="tchip">T9</span></div>
-        </a>
-        <a class="flower" href="../SEED-016-AL-FATIHA/SEED-016-AL-FATIHA_inspector.html">
-          <div class="fname">🌸 Al-Fātiḥa (the Opening)</div>
-          <div class="ffam">Abrahamic · Islamic</div>
-          <div class="fstats">99 passages · 2 stages · 88 coded · 3 rhymes</div>
-          <div class="fstages"><span class="tchip">T2</span> <span class="tchip">T5</span></div>
-        </a>
-        <a class="flower" href="../SEED-006-FOUR-NOBLE-TRUTHS/SEED-006-FOUR-NOBLE-TRUTHS_inspector.html">
-          <div class="fname">🌸 Four Noble Truths</div>
-          <div class="ffam">Dharmic · Buddhist</div>
-          <div class="fstats">92 passages · 5 stages · 92 coded · 5 rhymes</div>
-          <div class="fstages"><span class="tchip">T2</span> <span class="tchip">T3</span> <span class="tchip">T5</span> <span class="tchip">T9</span> <span class="tchip">T10</span></div>
-        </a>
-        <a class="flower" href="../SEED-022-GENESIS/SEED-022-GENESIS_inspector.html">
-          <div class="fname">🌸 Genesis (creation)</div>
-          <div class="ffam">Abrahamic · Jewish</div>
-          <div class="fstats">63 passages · 2 stages · 63 coded · 3 rhymes</div>
-          <div class="fstages"><span class="tchip">T2</span> <span class="tchip">T5</span></div>
-        </a>
-        <a class="flower" href="../SEED-002-PLATO-CAVE/SEED-002-PLATO-CAVE_inspector.html">
-          <div class="fname">🌸 The Cave (Plato)</div>
-          <div class="ffam">Ancient · Mediterranean</div>
-          <div class="fstats">61 passages · 3 stages · 61 coded · 0 rhymes <span class="provisional">provisional · thin</span></div>
-          <div class="fstages"><span class="tchip">T2</span> <span class="tchip">T5</span> <span class="tchip">T10</span></div>
-        </a>
-        <a class="flower" href="../SEED-023-BRAHMA-SUTRA/SEED-023-BRAHMA-SUTRA_inspector.html">
-          <div class="fname">🌸 Brahma-Sūtra (Vedānta)</div>
-          <div class="ffam">Dharmic · Hindu</div>
-          <div class="fstats">29 passages · 1 stages · 29 coded · 4 rhymes</div>
-          <div class="fstages"><span class="tchip">T5</span></div>
-        </a>
-        <a class="flower" href="../SEED-011-FREUD/SEED-011-FREUD_inspector.html">
-          <div class="fname">🌸 Freud (structural psyche)</div>
-          <div class="ffam">Psychological</div>
-          <div class="fstats">24 passages · 2 stages · 24 coded · 5 rhymes</div>
-          <div class="fstages"><span class="tchip">T2</span> <span class="tchip">T5</span></div>
-        </a>
-        <a class="flower" href="../SEED-018-MOOL-MANTAR/SEED-018-MOOL-MANTAR_inspector.html">
-          <div class="fname">🌸 Mool Mantar (Sikh)</div>
-          <div class="ffam">DHR</div>
-          <div class="fstats">22 passages · 3 stages · 22 coded · 0 rhymes <span class="provisional">provisional · thin</span></div>
-          <div class="fstages"><span class="tchip">T3</span> <span class="tchip">T4</span> <span class="tchip">T5</span></div>
-        </a>
-        <a class="flower" href="../SEED-019-DAXUE/SEED-019-DAXUE_inspector.html">
-          <div class="fname">🌸 Daxue (Great Learning)</div>
-          <div class="ffam">East-Asian · Confucian</div>
-          <div class="fstats">20 passages · 1 stages · 20 coded · 2 rhymes</div>
-          <div class="fstages"><span class="tchip">T5</span></div>
-        </a>
-        <a class="flower" href="../SEED-003-GITA/SEED-003-GITA_inspector.html">
-          <div class="fname">🌸 Bhagavad-Gītā</div>
-          <div class="ffam">Dharmic · Hindu</div>
-          <div class="fstats">14 passages · 2 stages · 14 coded · 0 rhymes <span class="provisional">provisional · thin</span></div>
-          <div class="fstages"><span class="tchip">T5</span> <span class="tchip">T9</span></div>
-        </a>
-        <a class="flower" href="../SEED-017-MAHAVRATAS/SEED-017-MAHAVRATAS_inspector.html">
-          <div class="fname">🌸 Mahāvratas (Jain)</div>
-          <div class="ffam">Dharmic · Jain</div>
-          <div class="fstats">13 passages · 1 stages · 13 coded · 0 rhymes <span class="provisional">provisional · thin</span></div>
-          <div class="fstages"><span class="tchip">T5</span></div>
-        </a>
-        <a class="flower" href="../SEED-FLOOD-MANU/SEED-FLOOD-MANU_inspector.html">
-          <div class="fname">🌸 Manu &amp; Matsya (flood)</div>
-          <div class="ffam">Dharmic · Hindu</div>
-          <div class="fstats">12 passages · 3 stages · 12 coded · 0 rhymes <span class="provisional">provisional · thin</span></div>
-          <div class="fstages"><span class="tchip">T2</span> <span class="tchip">T3</span> <span class="tchip">T5</span></div>
-        </a>
-        <a class="flower" href="../SEED-FLOOD-GILGAMESH/SEED-FLOOD-GILGAMESH_inspector.html">
-          <div class="fname">🌸 Utnapishtim (flood)</div>
-          <div class="ffam">Ancient · Mediterranean</div>
-          <div class="fstats">8 passages · 2 stages · 8 coded · 0 rhymes <span class="provisional">provisional · thin</span></div>
-          <div class="fstages"><span class="tchip">T2</span> <span class="tchip">T5</span></div>
-        </a>
-        <a class="flower" href="../SEED-FLOOD-NOAH/SEED-FLOOD-NOAH_inspector.html">
-          <div class="fname">🌸 Noah (flood)</div>
-          <div class="ffam">Abrahamic · Jewish</div>
-          <div class="fstats">4 passages · 1 stages · 4 coded · 0 rhymes <span class="provisional">provisional · thin</span></div>
-          <div class="fstages"><span class="tchip">T2</span></div>
-        </a></div>
+<!-- reusable botanical symbols -->
+<svg style="display:none" aria-hidden="true"><defs>
+  <symbol id="sprig" viewBox="0 0 150 34">
+    <path d="M5 17 H145" stroke="#6E7B3A" stroke-width="1" fill="none"/>
+    <g fill="none" stroke="#3F7D57" stroke-width="1.3">
+      <path d="M60 17 q-9 -11 -20 -9 q7 8 20 9"/>
+      <path d="M90 17 q9 -11 20 -9 q-7 8 -20 9"/>
+      <path d="M68 17 q-6 9 -15 9 q5 -7 15 -9"/>
+      <path d="M82 17 q6 9 15 9 q-5 -7 -15 -9"/>
+    </g>
+    <circle cx="75" cy="17" r="3.2" fill="#E0A93B"/>
+    <circle cx="75" cy="17" r="6" fill="none" stroke="#C4602F" stroke-width="1"/>
+  </symbol>
+</defs></svg>
 
-  <h2>Cross-flower rhyme map</h2>
-  <div class="note">How many confirmed rhymes connect each pair of flowers (W1 detector →
-    Haiku-adjudicated; difference-statement required so resonance never flattens to false
-    equivalence). Darker = more rhymes. <b>§2.1:</b> these are candidates ratified before any
-    becomes an <code>analogyMatch</code> edge — never auto-written to the DB.</div>
-  <table class="pmatrix"><tr><th></th><th>Romans</th><th>Al-Fātiḥa</th><th>Four</th><th>Genesis</th><th>The</th><th>Brahma-Sūtra</th><th>Freud</th><th>Mool</th><th>Daxue</th><th>Bhagavad-Gītā</th><th>Mahāvratas</th><th>Manu</th><th>Utnapishtim</th><th>Noah</th></tr><tr><th>Romans 8 (Paul)</th><td class="diag">—</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td></tr><tr><th>Al-Fātiḥa (the Opening)</th><td style="background:rgba(91,91,214,0)"></td><td class="diag">—</td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td></tr><tr><th>Four Noble Truths</th><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0.19)">1</td><td class="diag">—</td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td></tr><tr><th>Genesis (creation)</th><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0.19)">1</td><td class="diag">—</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td></tr><tr><th>The Cave (Plato)</th><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td class="diag">—</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td></tr><tr><th>Brahma-Sūtra (Vedānta)</th><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0)"></td><td class="diag">—</td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td></tr><tr><th>Freud (structural psyche)</th><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0.19)">1</td><td class="diag">—</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td></tr><tr><th>Mool Mantar (Sikh)</th><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td class="diag">—</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td></tr><tr><th>Daxue (Great Learning)</th><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0.19)">1</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td class="diag">—</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td></tr><tr><th>Bhagavad-Gītā</th><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td class="diag">—</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td></tr><tr><th>Mahāvratas (Jain)</th><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td class="diag">—</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td></tr><tr><th>Manu &amp; Matsya (flood)</th><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td class="diag">—</td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td></tr><tr><th>Utnapishtim (flood)</th><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td class="diag">—</td><td style="background:rgba(91,91,214,0)"></td></tr><tr><th>Noah (flood)</th><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td style="background:rgba(91,91,214,0)"></td><td class="diag">—</td></tr></table>
-
-  <h2>The rhymes (13) — sorted by adjudication tier</h2>
-  <div class="note" style="background:#fbf8f0;border-color:#e8dcc0"><b>Read with a caveat (S109 essay-SB dogfood):</b>
-   most rhymes here share some form of <i>"doctrinal codification"</i> — but all current flowers are
-   <b>canonical foundational texts coded mostly at their T2/T5 (codification) stages</b>, so "they all codify a
-   teaching" is close to a <b>selection artifact</b>, not a discovery. The rhymes that ESCAPE the baseline are the
-   real signal — e.g. the <b>strong</b> Cave↔4NT <i>periagōgē ↔ tiparivaṭṭa</i> ("a turning of the whole cognizer
-   toward what-is, witnessed first-person before being taught"), an operation not a genre trait. Fix in flight:
-   more families (the Jain flower coded S109) + threading the thin flowers off the T2/T5 plateau onto T1 + T9/T10.</div>
-  <div class="note"><b>A rhyme is a shared structural move across unlike traditions</b> — same
-    operation, different substrate + outcome. The orange box names how they DIFFER. The contact badge is a
-    <b>per-pair degree on a spectrum</b> (rhyme is analogy, not sameness):
-    <span class="contact-low">no known direct contact</span> (the strongest convergence signal) ·
-    <span class="contact-mid">plausible · indirect contact</span> (known routes could carry it — Hellenistic
-    diffusion, Indo-Greek) · <span class="contact-high">documented contact</span> (shared lineage/region, e.g.
-    Hindu↔Buddhist). <b>The less the contact, the more striking the shared move.</b> Color = analogy kind.
-    <i>'No known' ≠ 'none'; calls are family-level heuristics pending advisor confirmation (§13).</i></div>
-  
-        <div class="rhyme" style="border-left-color:#5b5bd6">
-          <div class="rtop"><span class="atype" style="background:#5b5bd6">convergence</span>
-            <span class="rconf tier-strong">✓ ratified · IRR 5/5 (UNANIMOUS)</span></div>
-          <div class="rpair">🌸 <b>Romans 8 (Paul)</b> <span class="rfam">(Abrahamic · Christian)</span>
-            <span class="rarr">↔</span> <b>Brahma-Sūtra (Vedānta)</b> <span class="rfam">(Dharmic · Hindu)</span> <span class="contact-low">convergence</span></div>
-          <div class="ranalogy">Romans and the Brahma-Sutra: Defending Revelation Against Reason, 900 Years Apart — a Same-Mechanism-Different-Tradition piece; the divergence (polemic vs epistemology) is built in; the §13 honesty (translation-caution + the self-catch) comes pre-loaded; a Method-in-Public essay where the engine, not the writer, supplies the spine.</div>
-          <div class="diffbox">
-            <div class="shared"><b>shared move:</b> subordinate — autonomous reasoning / individual opinion → the established authority of scripture</div>
-            <div class="diff"><b>differs — substrate:</b> Christian doctrinal polemic (rebuking a specific opponent who &#x27;judged not by scripture&#x27;) vs Vedantic epistemology (establishing a universal axiom that reasoning apart from sruti is apratistha/ungrounded).</div>
-            <div class="diff"><b>differs — outcome:</b> A: a particular opponent is shown &#x27;the folly of your undertaking&#x27;. B: a general methodological rule — reasoning that disregards the holy texts has no proper foundation.</div>
-          </div>
-        </div>
-        <div class="rhyme" style="border-left-color:#5b5bd6;opacity:0.82">
-          <div class="rtop"><span class="atype" style="background:#5b5bd6">convergence</span>
-            <span class="rconf tier-candidate">◦ CTAG candidate · pending IRR</span></div>
-          <div class="rpair">🌸 <b>Romans 8 (Paul)</b> <span class="rfam">(Abrahamic · Christian)</span>
-            <span class="rarr">↔</span> <b>Four Noble Truths</b> <span class="rfam">(Dharmic · Buddhist)</span> <span class="contact-low">convergence</span></div>
-          <div class="ranalogy">CTAG candidate — shared operation-class “CULTIVATE” across ABRAHAMIC ↔ INDIC (synchronic 1.0). Pending operation-test + 5-LLM IRR (see IRR125).</div>
-          <div class="diffbox">
-            <div class="shared"><b>shared move:</b> operation-class: CULTIVATE (verb_family — confirm specific move at IRR)</div>
-            <div class="diff"><b>differs — substrate:</b> (pending IRR — verb_family is coarse; cohort names the specific substrate)</div>
-            <div class="diff"><b>differs — outcome:</b> (pending IRR)</div>
-          </div>
-        </div>
-        <div class="rhyme" style="border-left-color:#5b5bd6;opacity:0.82">
-          <div class="rtop"><span class="atype" style="background:#5b5bd6">convergence</span>
-            <span class="rconf tier-candidate">◦ CTAG candidate · pending IRR</span></div>
-          <div class="rpair">🌸 <b>Romans 8 (Paul)</b> <span class="rfam">(Abrahamic · Christian)</span>
-            <span class="rarr">↔</span> <b>Daxue (Great Learning)</b> <span class="rfam">(East-Asian · Confucian)</span> <span class="contact-low">convergence</span></div>
-          <div class="ranalogy">CTAG candidate — shared operation-class “CULTIVATE” across ABRAHAMIC ↔ SINIC (synchronic 1.0). Pending operation-test + 5-LLM IRR (see IRR125).</div>
-          <div class="diffbox">
-            <div class="shared"><b>shared move:</b> operation-class: CULTIVATE (verb_family — confirm specific move at IRR)</div>
-            <div class="diff"><b>differs — substrate:</b> (pending IRR — verb_family is coarse; cohort names the specific substrate)</div>
-            <div class="diff"><b>differs — outcome:</b> (pending IRR)</div>
-          </div>
-        </div>
-        <div class="rhyme" style="border-left-color:#5b5bd6;opacity:0.82">
-          <div class="rtop"><span class="atype" style="background:#5b5bd6">convergence</span>
-            <span class="rconf tier-candidate">◦ CTAG candidate · pending IRR</span></div>
-          <div class="rpair">🌸 <b>Four Noble Truths</b> <span class="rfam">(Dharmic · Buddhist)</span>
-            <span class="rarr">↔</span> <b>Daxue (Great Learning)</b> <span class="rfam">(East-Asian · Confucian)</span> <span class="contact-low">convergence</span></div>
-          <div class="ranalogy">CTAG candidate — shared operation-class “CULTIVATE” across INDIC ↔ SINIC (synchronic 1.0). Pending operation-test + 5-LLM IRR (see IRR125).</div>
-          <div class="diffbox">
-            <div class="shared"><b>shared move:</b> operation-class: CULTIVATE (verb_family — confirm specific move at IRR)</div>
-            <div class="diff"><b>differs — substrate:</b> (pending IRR — verb_family is coarse; cohort names the specific substrate)</div>
-            <div class="diff"><b>differs — outcome:</b> (pending IRR)</div>
-          </div>
-        </div>
-        <div class="rhyme" style="border-left-color:#5b5bd6;opacity:0.82">
-          <div class="rtop"><span class="atype" style="background:#5b5bd6">convergence</span>
-            <span class="rconf tier-candidate">◦ CTAG candidate · pending IRR</span></div>
-          <div class="rpair">🌸 <b>Romans 8 (Paul)</b> <span class="rfam">(Abrahamic · Christian)</span>
-            <span class="rarr">↔</span> <b>Freud (structural psyche)</b> <span class="rfam">(Psychological)</span> <span class="contact-low">convergence</span></div>
-          <div class="ranalogy">CTAG candidate — shared operation-class “DISCERN” across ABRAHAMIC ↔ MODERN (synchronic 1.0). Pending operation-test + 5-LLM IRR (see IRR125).</div>
-          <div class="diffbox">
-            <div class="shared"><b>shared move:</b> operation-class: DISCERN (verb_family — confirm specific move at IRR)</div>
-            <div class="diff"><b>differs — substrate:</b> (pending IRR — verb_family is coarse; cohort names the specific substrate)</div>
-            <div class="diff"><b>differs — outcome:</b> (pending IRR)</div>
-          </div>
-        </div>
-        <div class="rhyme" style="border-left-color:#5b5bd6;opacity:0.82">
-          <div class="rtop"><span class="atype" style="background:#5b5bd6">convergence</span>
-            <span class="rconf tier-candidate">◦ CTAG candidate · pending IRR</span></div>
-          <div class="rpair">🌸 <b>Four Noble Truths</b> <span class="rfam">(Dharmic · Buddhist)</span>
-            <span class="rarr">↔</span> <b>Freud (structural psyche)</b> <span class="rfam">(Psychological)</span> <span class="contact-low">convergence</span></div>
-          <div class="ranalogy">CTAG candidate — shared operation-class “DISCERN” across INDIC ↔ MODERN (synchronic 1.0). Pending operation-test + 5-LLM IRR (see IRR125).</div>
-          <div class="diffbox">
-            <div class="shared"><b>shared move:</b> operation-class: DISCERN (verb_family — confirm specific move at IRR)</div>
-            <div class="diff"><b>differs — substrate:</b> (pending IRR — verb_family is coarse; cohort names the specific substrate)</div>
-            <div class="diff"><b>differs — outcome:</b> (pending IRR)</div>
-          </div>
-        </div>
-        <div class="rhyme" style="border-left-color:#5b5bd6;opacity:0.82">
-          <div class="rtop"><span class="atype" style="background:#5b5bd6">convergence</span>
-            <span class="rconf tier-candidate">◦ CTAG candidate · pending IRR</span></div>
-          <div class="rpair">🌸 <b>Four Noble Truths</b> <span class="rfam">(Dharmic · Buddhist)</span>
-            <span class="rarr">↔</span> <b>Al-Fātiḥa (the Opening)</b> <span class="rfam">(Abrahamic · Islamic)</span> <span class="contact-low">convergence</span></div>
-          <div class="ranalogy">CTAG candidate — shared operation-class “DISCERN” across INDIC ↔ ABRAHAMIC (synchronic 1.0). Pending operation-test + 5-LLM IRR (see IRR125).</div>
-          <div class="diffbox">
-            <div class="shared"><b>shared move:</b> operation-class: DISCERN (verb_family — confirm specific move at IRR)</div>
-            <div class="diff"><b>differs — substrate:</b> (pending IRR — verb_family is coarse; cohort names the specific substrate)</div>
-            <div class="diff"><b>differs — outcome:</b> (pending IRR)</div>
-          </div>
-        </div>
-        <div class="rhyme" style="border-left-color:#5b5bd6;opacity:0.82">
-          <div class="rtop"><span class="atype" style="background:#5b5bd6">convergence</span>
-            <span class="rconf tier-candidate">◦ CTAG candidate · pending IRR</span></div>
-          <div class="rpair">🌸 <b>Freud (structural psyche)</b> <span class="rfam">(Psychological)</span>
-            <span class="rarr">↔</span> <b>Al-Fātiḥa (the Opening)</b> <span class="rfam">(Abrahamic · Islamic)</span> <span class="contact-low">convergence</span></div>
-          <div class="ranalogy">CTAG candidate — shared operation-class “DISCERN” across MODERN ↔ ABRAHAMIC (synchronic 1.0). Pending operation-test + 5-LLM IRR (see IRR125).</div>
-          <div class="diffbox">
-            <div class="shared"><b>shared move:</b> operation-class: DISCERN (verb_family — confirm specific move at IRR)</div>
-            <div class="diff"><b>differs — substrate:</b> (pending IRR — verb_family is coarse; cohort names the specific substrate)</div>
-            <div class="diff"><b>differs — outcome:</b> (pending IRR)</div>
-          </div>
-        </div>
-        <div class="rhyme" style="border-left-color:#5b5bd6;opacity:0.82">
-          <div class="rtop"><span class="atype" style="background:#5b5bd6">convergence</span>
-            <span class="rconf tier-candidate">◦ CTAG candidate · pending IRR</span></div>
-          <div class="rpair">🌸 <b>Freud (structural psyche)</b> <span class="rfam">(Psychological)</span>
-            <span class="rarr">↔</span> <b>Brahma-Sūtra (Vedānta)</b> <span class="rfam">(Dharmic · Hindu)</span> <span class="contact-low">convergence</span></div>
-          <div class="ranalogy">CTAG candidate — shared operation-class “DISCERN” across MODERN ↔ INDIC (synchronic 1.0). Pending operation-test + 5-LLM IRR (see IRR125).</div>
-          <div class="diffbox">
-            <div class="shared"><b>shared move:</b> operation-class: DISCERN (verb_family — confirm specific move at IRR)</div>
-            <div class="diff"><b>differs — substrate:</b> (pending IRR — verb_family is coarse; cohort names the specific substrate)</div>
-            <div class="diff"><b>differs — outcome:</b> (pending IRR)</div>
-          </div>
-        </div>
-        <div class="rhyme" style="border-left-color:#5b5bd6;opacity:0.82">
-          <div class="rtop"><span class="atype" style="background:#5b5bd6">convergence</span>
-            <span class="rconf tier-candidate">◦ CTAG candidate · pending IRR</span></div>
-          <div class="rpair">🌸 <b>Al-Fātiḥa (the Opening)</b> <span class="rfam">(Abrahamic · Islamic)</span>
-            <span class="rarr">↔</span> <b>Brahma-Sūtra (Vedānta)</b> <span class="rfam">(Dharmic · Hindu)</span> <span class="contact-low">convergence</span></div>
-          <div class="ranalogy">CTAG candidate — shared operation-class “DISCERN” across ABRAHAMIC ↔ INDIC (synchronic 1.0). Pending operation-test + 5-LLM IRR (see IRR125).</div>
-          <div class="diffbox">
-            <div class="shared"><b>shared move:</b> operation-class: DISCERN (verb_family — confirm specific move at IRR)</div>
-            <div class="diff"><b>differs — substrate:</b> (pending IRR — verb_family is coarse; cohort names the specific substrate)</div>
-            <div class="diff"><b>differs — outcome:</b> (pending IRR)</div>
-          </div>
-        </div>
-        <div class="rhyme" style="border-left-color:#5b5bd6;opacity:0.82">
-          <div class="rtop"><span class="atype" style="background:#5b5bd6">convergence</span>
-            <span class="rconf tier-candidate">◦ CTAG candidate · pending IRR</span></div>
-          <div class="rpair">🌸 <b>Four Noble Truths</b> <span class="rfam">(Dharmic · Buddhist)</span>
-            <span class="rarr">↔</span> <b>Genesis (creation)</b> <span class="rfam">(Abrahamic · Jewish)</span> <span class="contact-low">convergence</span></div>
-          <div class="ranalogy">CTAG candidate — shared operation-class “DISCERN” across INDIC ↔ ABRAHAMIC (synchronic 1.0). Pending operation-test + 5-LLM IRR (see IRR125).</div>
-          <div class="diffbox">
-            <div class="shared"><b>shared move:</b> operation-class: DISCERN (verb_family — confirm specific move at IRR)</div>
-            <div class="diff"><b>differs — substrate:</b> (pending IRR — verb_family is coarse; cohort names the specific substrate)</div>
-            <div class="diff"><b>differs — outcome:</b> (pending IRR)</div>
-          </div>
-        </div>
-        <div class="rhyme" style="border-left-color:#5b5bd6;opacity:0.82">
-          <div class="rtop"><span class="atype" style="background:#5b5bd6">convergence</span>
-            <span class="rconf tier-candidate">◦ CTAG candidate · pending IRR</span></div>
-          <div class="rpair">🌸 <b>Freud (structural psyche)</b> <span class="rfam">(Psychological)</span>
-            <span class="rarr">↔</span> <b>Genesis (creation)</b> <span class="rfam">(Abrahamic · Jewish)</span> <span class="contact-low">convergence</span></div>
-          <div class="ranalogy">CTAG candidate — shared operation-class “DISCERN” across MODERN ↔ ABRAHAMIC (synchronic 1.0). Pending operation-test + 5-LLM IRR (see IRR125).</div>
-          <div class="diffbox">
-            <div class="shared"><b>shared move:</b> operation-class: DISCERN (verb_family — confirm specific move at IRR)</div>
-            <div class="diff"><b>differs — substrate:</b> (pending IRR — verb_family is coarse; cohort names the specific substrate)</div>
-            <div class="diff"><b>differs — outcome:</b> (pending IRR)</div>
-          </div>
-        </div>
-        <div class="rhyme" style="border-left-color:#5b5bd6;opacity:0.82">
-          <div class="rtop"><span class="atype" style="background:#5b5bd6">convergence</span>
-            <span class="rconf tier-candidate">◦ CTAG candidate · pending IRR</span></div>
-          <div class="rpair">🌸 <b>Genesis (creation)</b> <span class="rfam">(Abrahamic · Jewish)</span>
-            <span class="rarr">↔</span> <b>Brahma-Sūtra (Vedānta)</b> <span class="rfam">(Dharmic · Hindu)</span> <span class="contact-low">convergence</span></div>
-          <div class="ranalogy">CTAG candidate — shared operation-class “DISCERN” across ABRAHAMIC ↔ INDIC (synchronic 1.0). Pending operation-test + 5-LLM IRR (see IRR125).</div>
-          <div class="diffbox">
-            <div class="shared"><b>shared move:</b> operation-class: DISCERN (verb_family — confirm specific move at IRR)</div>
-            <div class="diff"><b>differs — substrate:</b> (pending IRR — verb_family is coarse; cohort names the specific substrate)</div>
-            <div class="diff"><b>differs — outcome:</b> (pending IRR)</div>
-          </div>
-        </div>
-
-  <h2>Forest cross-section — the chaos→homogeneity test <span style="font-size:12px;color:#999">(IRR119)</span></h2>
-  <div class="note"><b>Cut all the flowers at one year.</b> The single-flower thread reads <i>down</i> a
-    lineage; this reads <i>across the whole forest at a moment</i> — drag the cut-plane and watch how many
-    branches are alive and how dispersed they are. The Q2 hypothesis is that dispersion <i>rises</i>
-    (proliferation/chaos) and <i>falls</i> (codification/homogeneity) at different eras.
-    <b>This is the TEST, not the claim:</b> if a cut at a council/codification year shows no drop in
-    dispersion, that's evidence <i>against</i> the hypothesis — we report it, we don't force it
-    (§2.1 candidate; DeepSeek's falsifiability flag). <i>520 dated atoms across 14 flowers.</i></div>
-  <div class="forest">
-    <div class="fcut"><label>cut-plane: the forest at year
-      <b><span id="fc-yr">2026 CE</span></b></label><br>
-      <input type="range" id="fc-range" min="-550" max="2026" value="2026" oninput="forestCut(this.value)" style="width:100%">
-    </div>
-    <div class="fdisp" id="fc-disp"></div>
-    <div id="fc-bars"></div>
+<!-- NAV -->
+<div class="topbar">
+  <div class="wrap">
+    <a class="brandmark" href="index.html" style="color:var(--moss)">
+      <svg class="mark" viewBox="0 0 200 200" fill="none" aria-hidden="true"><path d="M100 30 C74 52 58 92 62 126 C64 152 82 168 100 176 L100 30 Z" fill="#2C4A38"/><path d="M100 30 C126 52 142 92 138 126 C136 152 118 168 100 176 L100 30 Z" fill="#8AA88B"/><line x1="100" y1="34" x2="100" y2="174" stroke="#FCFBF7" stroke-width="3"/><line x1="100" y1="176" x2="100" y2="194" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/></svg>
+      Grammar&nbsp;of&nbsp;Meaning
+    </a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="mission.html">About</a>
+      <a href="library.html">Library</a>
+      <a href="essays.html">Essays</a>
+      <a href="garden.html" class="active">Garden</a>
+      <a href="method.html">Method</a>
+      <a href="glossary.html">Reference</a>
+    
+      <a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a>
+    </nav>
   </div>
-</main>
-<script>
- var FATOMS=[{"seed":"SEED-001-ROMANS","y":90,"trad":"ABR-CHR","t":"T2"},{"seed":"SEED-001-ROMANS","y":1265,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR","t":"T9"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR","t":"T9"},{"seed":"SEED-001-ROMANS","y":1265,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1678,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":1890,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1921,"trad":"ABR-CHR","t":"T6"},{"seed":"SEED-001-ROMANS","y":1899,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1835,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1919,"trad":"ABR-CHR","t":"T9"},{"seed":"SEED-001-ROMANS","y":1908,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":1873,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":1692,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1798,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1273,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1850,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":1271,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1875,"trad":"ABR-CHR","t":"T2"},{"seed":"SEED-001-ROMANS","y":1894,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1854,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1850,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1850,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1854,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1771,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1854,"trad":"ABR-CHR","t":"T6"},{"seed":"SEED-001-ROMANS","y":1864,"trad":"ABR-CHR","t":"T9"},{"seed":"SEED-001-ROMANS","y":1582,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":1861,"trad":"ABR-CHR","t":"T9"},{"seed":"SEED-001-ROMANS","y":1858,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":1678,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1831,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1900,"trad":"ABR-CHR","t":"T9"},{"seed":"SEED-001-ROMANS","y":1921,"trad":"ABR-CHR","t":"T9"},{"seed":"SEED-001-ROMANS","y":1908,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1660,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":1795,"trad":"ABR-CHR","t":"T3"},{"seed":"SEED-001-ROMANS","y":1678,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1880,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":1892,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":410,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1710,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1808,"trad":"ABR-CHR","t":"T6"},{"seed":"SEED-001-ROMANS","y":1678,"trad":"ABR-CHR","t":"T9"},{"seed":"SEED-001-ROMANS","y":1678,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1798,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1854,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":1835,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1798,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1854,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":413,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":420,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1891,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":1899,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1692,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1915,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1880,"trad":"ABR-CHR","t":"T9"},{"seed":"SEED-001-ROMANS","y":1908,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":1835,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1548,"trad":"ABR-CHR","t":"T9"},{"seed":"SEED-001-ROMANS","y":1265,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":200,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1265,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1908,"trad":"ABR-CHR","t":"T9"},{"seed":"SEED-001-ROMANS","y":1867,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":1835,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1660,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":1676,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1265,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1875,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":1914,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1265,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1880,"trad":"ABR-CHR","t":"T3"},{"seed":"SEED-001-ROMANS","y":1273,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1678,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1271,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":57,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1835,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1678,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":1678,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR","t":"T7"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T5"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T7"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T5"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T7"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2024,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-BLK","t":"T9"},{"seed":"SEED-001-ROMANS","y":400,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":400,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":400,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":392,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":2021,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":2019,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":400,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":50,"trad":"ABR-CHR-CAT","t":"T3"},{"seed":"SEED-001-ROMANS","y":415,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":388,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":400,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":2019,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":2019,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":2019,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":400,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":1880,"trad":"ABR-CHR-CAT","t":"T7"},{"seed":"SEED-001-ROMANS","y":401,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":1098,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":388,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":400,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":417,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":2019,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":2019,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":412,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":400,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":2019,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":2019,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":400,"trad":"ABR-CHR-CAT","t":"T5"},{"seed":"SEED-001-ROMANS","y":2010,"trad":"ABR-CHR-CAT-CAR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2010,"trad":"ABR-CHR-CAT-CAR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2002,"trad":"ABR-CHR-CAT-DOM","t":"T5"},{"seed":"SEED-001-ROMANS","y":2002,"trad":"ABR-CHR-CAT-DOM","t":"T5"},{"seed":"SEED-001-ROMANS","y":2002,"trad":"ABR-CHR-CAT-DOM","t":"T5"},{"seed":"SEED-001-ROMANS","y":2002,"trad":"ABR-CHR-CAT-DOM","t":"T5"},{"seed":"SEED-001-ROMANS","y":2002,"trad":"ABR-CHR-CAT-DOM","t":"T5"},{"seed":"SEED-001-ROMANS","y":2002,"trad":"ABR-CHR-CAT-DOM","t":"T5"},{"seed":"SEED-001-ROMANS","y":2002,"trad":"ABR-CHR-CAT-DOM","t":"T5"},{"seed":"SEED-001-ROMANS","y":1566,"trad":"ABR-CHR-CAT-TRD","t":"T6"},{"seed":"SEED-001-ROMANS","y":1566,"trad":"ABR-CHR-CAT-TRD","t":"T6"},{"seed":"SEED-001-ROMANS","y":1566,"trad":"ABR-CHR-CAT-TRD","t":"T6"},{"seed":"SEED-001-ROMANS","y":1566,"trad":"ABR-CHR-CAT-TRD","t":"T6"},{"seed":"SEED-001-ROMANS","y":1900,"trad":"ABR-CHR-CAT-TRD","t":"T9"},{"seed":"SEED-001-ROMANS","y":420,"trad":"ABR-CHR-DES","t":"T5"},{"seed":"SEED-001-ROMANS","y":1880,"trad":"ABR-CHR-DES","t":"T5"},{"seed":"SEED-001-ROMANS","y":420,"trad":"ABR-CHR-DES","t":"T5"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-DIS","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-DIS","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-DIS","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-DIS","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-DIS","t":"T9"},{"seed":"SEED-001-ROMANS","y":1782,"trad":"ABR-CHR-HES","t":"T8"},{"seed":"SEED-001-ROMANS","y":1782,"trad":"ABR-CHR-HES","t":"T8"},{"seed":"SEED-001-ROMANS","y":1782,"trad":"ABR-CHR-HES","t":"T8"},{"seed":"SEED-001-ROMANS","y":1782,"trad":"ABR-CHR-HES","t":"T8"},{"seed":"SEED-001-ROMANS","y":1338,"trad":"ABR-CHR-HES","t":"T8"},{"seed":"SEED-001-ROMANS","y":1782,"trad":"ABR-CHR-HES","t":"T8"},{"seed":"SEED-001-ROMANS","y":1896,"trad":"ABR-CHR-MYS","t":"T5"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR-MYS","t":"T5"},{"seed":"SEED-001-ROMANS","y":1915,"trad":"ABR-CHR-MYS","t":"T5"},{"seed":"SEED-001-ROMANS","y":1896,"trad":"ABR-CHR-MYS","t":"T5"},{"seed":"SEED-001-ROMANS","y":1915,"trad":"ABR-CHR-MYS","t":"T5"},{"seed":"SEED-001-ROMANS","y":1880,"trad":"ABR-CHR-ORT-COP","t":"T5"},{"seed":"SEED-001-ROMANS","y":1880,"trad":"ABR-CHR-ORT-COP","t":"T5"},{"seed":"SEED-001-ROMANS","y":1880,"trad":"ABR-CHR-ORT-COP","t":"T5"},{"seed":"SEED-001-ROMANS","y":1880,"trad":"ABR-CHR-ORT-COP","t":"T5"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR-ORT-COP","t":"T5"},{"seed":"SEED-001-ROMANS","y":1909,"trad":"ABR-CHR-ORT-GRE","t":"T5"},{"seed":"SEED-001-ROMANS","y":1909,"trad":"ABR-CHR-ORT-GRE","t":"T5"},{"seed":"SEED-001-ROMANS","y":1909,"trad":"ABR-CHR-ORT-GRE","t":"T5"},{"seed":"SEED-001-ROMANS","y":450,"trad":"ABR-CHR-ORT-HES","t":"T5"},{"seed":"SEED-001-ROMANS","y":450,"trad":"ABR-CHR-ORT-HES","t":"T5"},{"seed":"SEED-001-ROMANS","y":450,"trad":"ABR-CHR-ORT-HES","t":"T5"},{"seed":"SEED-001-ROMANS","y":1829,"trad":"ABR-CHR-PRO-AME","t":"T5"},{"seed":"SEED-001-ROMANS","y":1829,"trad":"ABR-CHR-PRO-AME","t":"T5"},{"seed":"SEED-001-ROMANS","y":1829,"trad":"ABR-CHR-PRO-AME","t":"T5"},{"seed":"SEED-001-ROMANS","y":1829,"trad":"ABR-CHR-PRO-AME","t":"T5"},{"seed":"SEED-001-ROMANS","y":1816,"trad":"ABR-CHR-PRO-AME","t":"T7"},{"seed":"SEED-001-ROMANS","y":1816,"trad":"ABR-CHR-PRO-AME","t":"T7"},{"seed":"SEED-001-ROMANS","y":1829,"trad":"ABR-CHR-PRO-AME","t":"T5"},{"seed":"SEED-001-ROMANS","y":1829,"trad":"ABR-CHR-PRO-AME","t":"T5"},{"seed":"SEED-001-ROMANS","y":1829,"trad":"ABR-CHR-PRO-AME","t":"T5"},{"seed":"SEED-001-ROMANS","y":1829,"trad":"ABR-CHR-PRO-AME","t":"T5"},{"seed":"SEED-001-ROMANS","y":2018,"trad":"ABR-CHR-PRO-QUA","t":"T5"},{"seed":"SEED-001-ROMANS","y":1935,"trad":"ABR-CHR-PRO-QUA","t":"T5"},{"seed":"SEED-001-ROMANS","y":1998,"trad":"ABR-CHR-PRO-QUA","t":"T5"},{"seed":"SEED-001-ROMANS","y":1935,"trad":"ABR-CHR-PRO-QUA","t":"T5"},{"seed":"SEED-001-ROMANS","y":1563,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":1988,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":2015,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":1898,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":1562,"trad":"ABR-CHR-PRO-REF","t":"T6"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":2003,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":2015,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":1799,"trad":"ABR-CHR-PRO-REF","t":"T6"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":1898,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T9"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2015,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":1799,"trad":"ABR-CHR-PRO-REF","t":"T6"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":1799,"trad":"ABR-CHR-PRO-REF","t":"T6"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":1820,"trad":"ABR-CHR-PRO-REF","t":"T6"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":1820,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":1820,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":1820,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":1960,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T7"},{"seed":"SEED-001-ROMANS","y":2014,"trad":"ABR-CHR-PRO-REF","t":"T5"},{"seed":"SEED-001-ROMANS","y":1647,"trad":"ABR-CHR-PRO-REF-PUR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR-PRO-REF-PUR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2015,"trad":"ABR-CHR-PRO-REF-PUR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR-PRO-REF-PUR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2017,"trad":"ABR-CHR-PRO-REF-PUR","t":"T5"},{"seed":"SEED-001-ROMANS","y":1816,"trad":"ABR-CHR-PRO-REF-PUR","t":"T7"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR-PRO-REF-PUR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2021,"trad":"ABR-CHR-PRO-REF-PUR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR-PRO-REF-PUR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR-PRO-REF-PUR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR-PRO-REF-PUR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2013,"trad":"ABR-CHR-PRO-REF-PUR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR-PRO-REF-PUR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2016,"trad":"ABR-CHR-PRO-REF-PUR","t":"T7"},{"seed":"SEED-001-ROMANS","y":2020,"trad":"ABR-CHR-PRO-REF-PUR","t":"T5"},{"seed":"SEED-001-ROMANS","y":2024,"trad":"ABR-CHR-WOM","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-WOM","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-WOM","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-WOM","t":"T5"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-WOM","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-WOM","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-WOM","t":"T7"},{"seed":"SEED-001-ROMANS","y":2024,"trad":"ABR-CHR-WOM","t":"T9"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-WOM","t":"T5"},{"seed":"SEED-001-ROMANS","y":2026,"trad":"ABR-CHR-WOM","t":"T7"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T5"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T5"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T5"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T5"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T5"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T5"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T5"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T5"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"ANC-PLA","t":"T2"},{"seed":"SEED-002-PLATO-CAVE","y":-380,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-002-PLATO-CAVE","y":1884,"trad":"?","t":"T10"},{"seed":"SEED-002-PLATO-CAVE","y":1635,"trad":"?","t":"T10"},{"seed":"SEED-002-PLATO-CAVE","y":1635,"trad":"?","t":"T10"},{"seed":"SEED-002-PLATO-CAVE","y":1635,"trad":"?","t":"T10"},{"seed":"SEED-002-PLATO-CAVE","y":1884,"trad":"?","t":"T10"},{"seed":"SEED-002-PLATO-CAVE","y":1884,"trad":"?","t":"T10"},{"seed":"SEED-002-PLATO-CAVE","y":1635,"trad":"?","t":"T10"},{"seed":"SEED-002-PLATO-CAVE","y":1884,"trad":"?","t":"T10"},{"seed":"SEED-002-PLATO-CAVE","y":1884,"trad":"?","t":"T10"},{"seed":"SEED-002-PLATO-CAVE","y":1884,"trad":"?","t":"T10"},{"seed":"SEED-002-PLATO-CAVE","y":1635,"trad":"?","t":"T10"},{"seed":"SEED-002-PLATO-CAVE","y":1635,"trad":"?","t":"T10"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T3"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T3"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T3"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T3"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T3"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T3"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-29,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-100,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-100,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-29,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-100,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-29,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-100,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-29,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-29,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-29,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-29,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-29,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-29,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-29,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-29,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-100,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-29,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-100,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-29,"trad":"DHR-BUD-THE","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-29,"trad":"DHR-BUD-THE","t":"T5"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-400,"trad":"DHR-BUD-THE","t":"T3"},{"seed":"SEED-022-GENESIS","y":1908,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1908,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1752,"trad":"ABR-CHR","t":"T2"},{"seed":"SEED-022-GENESIS","y":1752,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1908,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1752,"trad":"ABR-CHR","t":"T2"},{"seed":"SEED-022-GENESIS","y":1908,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1943,"trad":"ABR-JUD","t":"T5"},{"seed":"SEED-022-GENESIS","y":-550,"trad":"ABR-JUD","t":"T2"},{"seed":"SEED-022-GENESIS","y":-550,"trad":"ABR-JUD","t":"T2"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-022-GENESIS","y":1535,"trad":"META-GUT-AUTHOR","t":"T5"},{"seed":"SEED-016-AL-FATIHA","y":610,"trad":"ABR-ISL","t":"T2"},{"seed":"SEED-016-AL-FATIHA","y":630,"trad":"ABR-ISL","t":"T5"},{"seed":"SEED-016-AL-FATIHA","y":630,"trad":"ABR-ISL","t":"T2"},{"seed":"SEED-016-AL-FATIHA","y":610,"trad":"ABR-ISL","t":"T2"},{"seed":"SEED-016-AL-FATIHA","y":630,"trad":"ABR-ISL","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":800,"trad":"DHR-HIN-ADV","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":800,"trad":"DHR-HIN-ADV","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":800,"trad":"DHR-HIN-ADV","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":800,"trad":"DHR-HIN-ADV","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":800,"trad":"DHR-HIN-ADV","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":800,"trad":"DHR-HIN-ADV","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":800,"trad":"DHR-HIN-ADV","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":800,"trad":"DHR-HIN-ADV","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":800,"trad":"DHR-HIN-ADV","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":800,"trad":"DHR-HIN-ADV","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":800,"trad":"DHR-HIN-ADV","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":800,"trad":"DHR-HIN-ADV","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1904,"trad":"DHR-HIN-DVA","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1904,"trad":"DHR-HIN-DVA","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1904,"trad":"DHR-HIN-DVA","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1904,"trad":"DHR-HIN-DVA","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1904,"trad":"DHR-HIN-DVA","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1100,"trad":"DHR-HIN-VIS","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1100,"trad":"DHR-HIN-VIS","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1100,"trad":"DHR-HIN-VIS","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1100,"trad":"DHR-HIN-VIS","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1100,"trad":"DHR-HIN-VIS","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1100,"trad":"DHR-HIN-VIS","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1100,"trad":"DHR-HIN-VIS","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1100,"trad":"DHR-HIN-VIS","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1100,"trad":"DHR-HIN-VIS","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1100,"trad":"DHR-HIN-VIS","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1100,"trad":"DHR-HIN-VIS","t":"T5"},{"seed":"SEED-023-BRAHMA-SUTRA","y":1100,"trad":"DHR-HIN-VIS","t":"T5"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":430,"trad":"DHR-BUD-THE","t":"T5"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":430,"trad":"DHR-BUD-THE","t":"T5"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":430,"trad":"DHR-BUD-THE","t":"T5"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":430,"trad":"DHR-BUD-THE","t":"T5"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":430,"trad":"DHR-BUD-THE","t":"T5"},{"seed":"SEED-001-ROMANS","y":420,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":400,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":420,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":400,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":420,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":420,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":420,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":420,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":420,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":420,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":420,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":420,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-001-ROMANS","y":420,"trad":"ABR-CHR","t":"T5"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":1985,"trad":"DHR-BUD","t":"T5"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":1894,"trad":"DHR-BUD","t":"T10"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":550,"trad":"DHR-BUD","t":"T5"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-100,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-100,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-29,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-100,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-100,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-100,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-100,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-100,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-250,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-100,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":-100,"trad":"DHR-BUD","t":"T2"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":1985,"trad":"DHR-BUD","t":"T5"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":1894,"trad":"DHR-BUD","t":"T5"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":1985,"trad":"DHR-BUD","t":"T5"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":2024,"trad":"DHR-BUD","t":"T5"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":2026,"trad":"DHR-BUD-ENG","t":"T9"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":430,"trad":"DHR-BUD-THE","t":"T5"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":1949,"trad":"DHR-BUD-THE","t":"T5"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":2026,"trad":"MEDIA-POD","t":"T9"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":2026,"trad":"DHR-BUD","t":"T9"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":2026,"trad":"DHR-BUD","t":"T9"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":2026,"trad":"MEDIA-POD","t":"T9"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":2026,"trad":"MEDIA-POD","t":"T9"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":2026,"trad":"DHR-BUD","t":"T9"},{"seed":"SEED-006-FOUR-NOBLE-TRUTHS","y":2026,"trad":"MEDIA-POD","t":"T9"},{"seed":"SEED-019-DAXUE","y":2019,"trad":"EAS-CON","t":"T5"},{"seed":"SEED-017-MAHAVRATAS","y":2019,"trad":"DHR-JAI","t":"T5"},{"seed":"SEED-017-MAHAVRATAS","y":2019,"trad":"DHR-JAI","t":"T5"},{"seed":"SEED-017-MAHAVRATAS","y":2019,"trad":"DHR-JAI","t":"T5"},{"seed":"SEED-017-MAHAVRATAS","y":2023,"trad":"DHR-JAI","t":"T5"},{"seed":"SEED-017-MAHAVRATAS","y":2023,"trad":"DHR-JAI","t":"T5"},{"seed":"SEED-017-MAHAVRATAS","y":2019,"trad":"DHR-JAI","t":"T5"},{"seed":"SEED-003-GITA","y":2024,"trad":"DHR-HIN","t":"T5"},{"seed":"SEED-003-GITA","y":2024,"trad":"DHR-HIN","t":"T5"},{"seed":"SEED-003-GITA","y":2024,"trad":"DHR-HIN","t":"T5"},{"seed":"SEED-003-GITA","y":2026,"trad":"DHR-HIN-ADV","t":"T9"},{"seed":"SEED-011-FREUD","y":2009,"trad":"PSY-DRV","t":"T5"},{"seed":"SEED-011-FREUD","y":2025,"trad":"PSY-DRV","t":"T5"}], FNAMES={"SEED-001-ROMANS": "Romans 8 (Paul)", "SEED-016-AL-FATIHA": "Al-F\u0101ti\u1e25a (the Opening)", "SEED-006-FOUR-NOBLE-TRUTHS": "Four Noble Truths", "SEED-022-GENESIS": "Genesis (creation)", "SEED-002-PLATO-CAVE": "The Cave (Plato)", "SEED-023-BRAHMA-SUTRA": "Brahma-S\u016btra (Ved\u0101nta)", "SEED-011-FREUD": "Freud (structural psyche)", "SEED-018-MOOL-MANTAR": "Mool Mantar (Sikh)", "SEED-019-DAXUE": "Daxue (Great Learning)", "SEED-003-GITA": "Bhagavad-G\u012bt\u0101", "SEED-017-MAHAVRATAS": "Mah\u0101vratas (Jain)", "SEED-FLOOD-MANU": "Manu & Matsya (flood)", "SEED-FLOOD-GILGAMESH": "Utnapishtim (flood)", "SEED-FLOOD-NOAH": "Noah (flood)"};
- function forestCut(v){
-   var y=parseInt(v,10);
-   var perSeed={}, allTrads={};
-   FATOMS.forEach(function(a){
-     if(a.y>y) return;
-     if(!perSeed[a.seed]) perSeed[a.seed]={n:0,trads:{},stages:{}};
-     perSeed[a.seed].n++; perSeed[a.seed].trads[a.trad]=1; perSeed[a.seed].stages[a.t]=1;
-     allTrads[a.trad]=1;
-   });
-   var seeds=Object.keys(FNAMES), aliveFlowers=0, totalAtoms=0, branches=0;
-   var maxN=1;
-   seeds.forEach(function(s){ if(perSeed[s]){ maxN=Math.max(maxN, perSeed[s].n); } });
-   var bars='';
-   seeds.forEach(function(s){
-     var d=perSeed[s]||{n:0,trads:{},stages:{}};
-     var nt=Object.keys(d.trads).length, ns=Object.keys(d.stages).length;
-     if(d.n>0){aliveFlowers++; totalAtoms+=d.n; branches+=nt;}
-     var w=Math.round(d.n/maxN*100);
-     bars+='<div class="fbar"><div class="fblabel">'+FNAMES[s]+'</div>'+
-       '<div class="fbtrack"><div class="fbfill" style="width:'+w+'%"></div></div>'+
-       '<div class="fbmeta">'+d.n+' alive · '+nt+' sub-trad · '+ns+' stages</div></div>';
-   });
-   var disp=Object.keys(allTrads).length;
-   document.getElementById('fc-yr').textContent=(Math.abs(y))+(y<0?' BCE':' CE');
-   document.getElementById('fc-disp').innerHTML=
-     '<span class="fdk">'+aliveFlowers+'</span> flowers alive · '+
-     '<span class="fdk">'+totalAtoms+'</span> atoms · '+
-     '<span class="fdk">'+branches+'</span> active branches (seed×sub-tradition) · '+
-     '<span class="fdk">'+disp+'</span> distinct sub-traditions (forest dispersion)';
-   document.getElementById('fc-bars').innerHTML=bars;
- }
- window.addEventListener('DOMContentLoaded',function(){forestCut(2026);});</script>
-<script>/* --- host gate: flower→inspector detail pages are local-only (Tamara, on the drive).
-   On the public site, neutralize those links so there are no dead ends. --- */
-(function(){
- var LOCAL = location.protocol==='file:' || ['','localhost','127.0.0.1'].indexOf(location.hostname)>=0 || /^(192\.168|10|172\.(1[6-9]|2\d|3[01]))\./.test(location.hostname);
- if(LOCAL) return;
- document.querySelectorAll('a.flower').forEach(function(a){
-   a.removeAttribute('href'); a.style.cursor='default'; a.title='detail view available in the local archive';
- });
- var hint=Array.prototype.slice.call(document.querySelectorAll('div,p')).filter(function(e){return /Click a flower to walk its thread/.test(e.textContent)&&e.children.length<3;})[0];
- if(hint) hint.innerHTML=hint.innerHTML.replace('Click a flower to walk its thread.','Each flower’s threaded detail opens in the local archive.');
-})();</script>
-</body></html>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <svg class="watermark" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+    <path d="M100 195 V70" stroke="#3F7D57" stroke-width="1.4"/>
+    <g stroke="#3F7D57" stroke-width="1.2" fill="none">
+      <path d="M100 150 q-46 -10 -58 -55 q46 6 58 55"/>
+      <path d="M100 120 q46 -12 58 -58 q-46 6 -58 58"/>
+      <path d="M100 96 q-38 -8 -48 -46 q38 5 48 46"/>
+      <path d="M100 78 q40 -10 50 -48 q-40 5 -50 48"/>
+    </g>
+    <circle cx="100" cy="62" r="7" fill="#E0A93B"/>
+  </svg>
+  <div class="wrap">
+    <div class="horizon-chip"><span class="dot"></span>A Phase-3 vision · the horizon we're building toward</div>
+    <div class="kicker">The Garden · <b>a pilgrimage you walk</b></div>
+    <svg width="44" height="44" viewBox="0 0 200 200" aria-hidden="true" style="width:44px;height:44px;display:block;margin:6px 0 8px"><path d="M100 195 V70" fill="none" stroke="#2C4A38" stroke-width="9" stroke-linecap="round"/><path d="M100 150 q-46 -10 -58 -55 q46 6 58 55 Z" fill="#3F7D57"/><path d="M100 120 q46 -12 58 -58 q-46 6 -58 58 Z" fill="#2C4A38"/><path d="M100 96 q-38 -8 -48 -46 q38 5 48 46 Z" fill="#3F7D57"/><path d="M100 78 q40 -10 50 -48 q-40 5 -50 48 Z" fill="#2C4A38"/><circle cx="100" cy="62" r="7" fill="#E0A93B"/><circle cx="100" cy="62" r="9.5" fill="none" stroke="#C4602F" stroke-width="2.4"/></svg>
+    <h1>The Garden</h1>
+    <div class="sub">Not a database you query. A garden you walk — where the walking is itself a kind of formation.</div>
+    <p class="lede">This page describes what the Garden <b>will be</b>: an interactive constellation of what the world's traditions have observed about being alive, made into a place you can wander. It is a <i>vision</i>, honestly — the destination, not a finished thing. What exists today is the substrate that makes it possible, and an early prototype.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- 01 · WHAT THE GARDEN IS -->
+<section id="what">
+  <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">What the Garden is</span><span class="sec-line"></span></div>
+
+  <p class="lead-p">The Garden is a <b>digital pilgrimage</b> — an interactive constellation of the observations that traditions across the world have made about creaturely life: about suffering, attention, the self, desire, exile, the dread of the future. You don't read <i>about</i> these traditions. You wander <b>among</b> them, and the act of moving through them is not a detour on the way to an answer — it <i>is</i> the experience. Navigation, here, is a form of attention; and attention, patiently given, is a kind of formation.</p>
+
+  <p class="lead-p">Where a search engine hands you a ranked list and asks you to leave, the Garden invites you to stay: to slow down, to notice what draws you, to let one observation open onto another. It is built on a simple wager — that if you can <i>walk</i> across how humanity has made meaning, rather than skim summaries of it, something in you moves that a summary could never touch.</p>
+
+  <blockquote class="pull" style="margin-top:30px">
+    <p>Spirituality is the attention that makes the in-between visible. The Garden is a machine for that attention.</p>
+    <div class="attr">— <b>Grammar of Meaning</b> · on what the Garden is for</div>
+  </blockquote>
+</section>
+
+<!-- 02 · A SANCTUARY, NOT A FEED -->
+<section id="sanctuary">
+  <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">A sanctuary, not a feed</span><span class="sec-line"></span></div>
+
+  <p class="lead-p">The form matters as much as the content. Most of what we read online is engineered to keep us scrolling — ranked, optimized, endless, designed to extract our attention rather than reward it. The Garden is deliberately built as the <b>opposite</b> of that: slow, curatorial, dignified. It is a <i>sanctuary</i>, not a feed.</p>
+
+  <div class="counter">
+    <div class="cwell feed">
+      <div class="clabel">THE FEED</div>
+      <h4>Optimized to extract attention</h4>
+      <p>Ranked, infinite, urgent. It measures success in time-on-site and rewards whatever provokes. You leave depleted, and it wants you back. The interior life is treated as a metric.</p>
+    </div>
+    <div class="cwell sanct">
+      <div class="clabel">THE GARDEN</div>
+      <h4>A place that rewards attention</h4>
+      <p>Curated, bounded, unhurried. It measures nothing about you. Every observation is sourced, every crossing is offered rather than pushed. You leave having <b>dwelt</b> somewhere, not been mined.</p>
+    </div>
+  </div>
+
+  <p class="lead-p" style="margin-top:26px">This is a design commitment, not a decoration. The Garden will never monetize; it will never optimize for engagement; it will never turn a pilgrim's interiority into a product. It is meant to be a <b>commons for meaning-making</b> — a quiet, durable place to think, held open at a moment when the older commons has thinned.</p>
+</section>
+
+<!-- 03 · A PILGRIMAGE YOU WALK -->
+<section id="walk">
+  <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">A pilgrimage you walk</span><span class="sec-line"></span></div>
+
+  <p class="lead-p">Imagine arriving somewhere rather than opening a page. The Garden is meant to <i>feel</i> like a place — an atmosphere before it is an interface. There is <b>soil</b> underfoot (the conditions each observation grew from), <b>flowers</b> around you (the traditions, each in its own colour and grain), and a <b>constellation</b> overhead (the wider field you can look up into). Seasons pass. Some paths are lit; some you find by wandering.</p>
+
+  <div class="walk">
+    <div class="wstep"><span class="wn"></span><span class="wt"><b>You arrive.</b> Not a homepage — a threshold. Soil below, flowers around, a constellation above. You can follow a path, or simply wander and let the place unfold.</span></div>
+    <div class="wstep"><span class="wn"></span><span class="wt"><b>You wander.</b> Movement is gentle — the Garden affords the next meaningful crossing rather than dropping you into empty space. One observation leans toward its neighbours; you follow the pull, or resist it.</span></div>
+    <div class="wstep"><span class="wn"></span><span class="wt"><b>You dwell.</b> You slow into a single passage and its soil — reading it grounded, in the conditions that made it legible. Or you rise into the constellation and take in the wider field. You choose the grain: close, or wide.</span></div>
+    <div class="wstep"><span class="wn"></span><span class="wt"><b>Something finds you.</b> A passage you didn't seek arrives — a moment of designed serendipity, the way a real pilgrimage surprises. Not a ranked recommendation; a gift.</span></div>
+    <div class="wstep"><span class="wn"></span><span class="wt"><b>You leave carrying something.</b> Not a summary — a way of seeing you can walk back out the gate with. The pilgrimage records your route; the route is yours.</span></div>
+  </div>
+
+  <p class="lead-p" style="margin-top:26px">The aesthetic is drawn from places that have always known how to hold a walk: the fourfold Persian garden, the labyrinth traced toward a centre, the illuminated page with its commentary orbiting the text, the pilgrim road itself. Each tradition, in the Garden, may take its own <b>native form</b> — some are best read as a tree, some as a mandala or a labyrinth, some as a scroll or a river. The point is never the mechanism; it is the <i>feeling</i> — of being somewhere worth being slow in.</p>
+
+  <div class="forms">
+    <div class="form">
+      <svg class="fglyph" width="42" height="42" viewBox="0 0 42 42" aria-hidden="true" fill="none">
+        <path d="M21 40 V16" stroke="#6E7B3A" stroke-width="2"/>
+        <path d="M21 24 q-9 -4 -12 -13 M21 22 q9 -5 12 -13 M21 18 q-6 -5 -6 -12 M21 18 q6 -5 6 -12" stroke="#3F7D57" stroke-width="1.7" stroke-linecap="round"/>
+        <circle cx="9" cy="12" r="2.6" fill="#3F7D57"/><circle cx="33" cy="10" r="2.6" fill="#3F7D57"/>
+        <circle cx="21" cy="6" r="3" fill="#E0A93B"/>
+      </svg>
+      <h4>The tree</h4>
+      <div class="sub">lineage · descent</div>
+      <p>For traditions carried down a line — a root, a trunk, branches that fork and reach. You read a lineage the way you'd trace a family tree: back toward the seed, out toward the leaves.</p>
+    </div>
+    <div class="form">
+      <svg class="fglyph" width="42" height="42" viewBox="0 0 42 42" aria-hidden="true" fill="none">
+        <circle cx="21" cy="21" r="17" stroke="#3F7D57" stroke-width="1.4"/>
+        <circle cx="21" cy="21" r="11" stroke="#6E7B3A" stroke-width="1.2"/>
+        <circle cx="21" cy="21" r="5" stroke="#C4602F" stroke-width="1.2"/>
+        <circle cx="21" cy="21" r="2.4" fill="#E0A93B"/>
+      </svg>
+      <h4>The mandala</h4>
+      <div class="sub">centre · the labyrinth</div>
+      <p>For traditions organized around a centre — concentric, gathered, drawing you inward. The walk is a spiral to the middle and back out, the way a labyrinth is walked, not solved.</p>
+    </div>
+    <div class="form">
+      <svg class="fglyph" width="42" height="42" viewBox="0 0 42 42" aria-hidden="true" fill="none">
+        <path d="M5 13 q10 -6 16 0 t16 0" stroke="#3F7D57" stroke-width="1.5" fill="none"/>
+        <path d="M5 21 q10 -6 16 0 t16 0" stroke="#6E7B3A" stroke-width="1.5" fill="none"/>
+        <path d="M5 29 q10 -6 16 0 t16 0" stroke="#3F7D57" stroke-width="1.5" fill="none"/>
+        <circle cx="37" cy="21" r="2.6" fill="#E0A93B"/>
+      </svg>
+      <h4>The scroll</h4>
+      <div class="sub">the read · the river</div>
+      <p>For traditions that unspool in time — a scroll, a river, a long read. You move with the current, downstream through a text as it develops, dwelling where the water pools.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 · FORMS IT MIGHT TAKE -->
+<section id="forms-it-might-take">
+  <div class="sec-head"><span class="sec-num">04</span><span class="sec-title">Forms it might take</span><span class="sec-line"></span></div>
+
+  <p class="lead-p">We don't know exactly how the Garden will feel yet — its form is genuinely open. What we do know is the company it wants to keep. These are the traditions of <b>reading and attention</b> we're drawing on: not committed mechanics, but the forms the walk might take. Inspirations, held loosely — the shapes we'd be honoured for it to grow toward.</p>
+
+  <div class="insp-frame">
+    <div class="insp">
+      <svg class="iglyph" viewBox="0 0 44 44" aria-hidden="true" fill="none">
+        <rect x="15" y="15" width="14" height="14" rx="2" stroke="#C4602F" stroke-width="1.5"/>
+        <rect x="6" y="6" width="32" height="32" rx="3" stroke="#6E7B3A" stroke-width="1.1" opacity=".8"/>
+        <path d="M6 15 H15 M29 15 H38 M6 29 H15 M29 29 H38 M15 6 V15 M29 6 V15 M15 29 V38 M29 29 V38" stroke="#3F7D57" stroke-width="1" opacity=".7"/>
+        <circle cx="22" cy="22" r="2.2" fill="#E0A93B"/>
+      </svg>
+      <div class="ibody">
+        <h4>The Talmud page</h4>
+        <div class="isrc">text with commentary in orbit</div>
+        <p>A passage at the centre, its living commentary ringed around it — so you read the text and its <i>centuries of readers</i> at once. The margins are as alive as the middle.</p>
+      </div>
+    </div>
+    <div class="insp">
+      <svg class="iglyph" viewBox="0 0 44 44" aria-hidden="true" fill="none">
+        <path d="M10 12 H34 M10 18 H34 M10 24 H30 M10 30 H26" stroke="#6E7B3A" stroke-width="1.3" stroke-linecap="round"/>
+        <path d="M22 8 q-14 8 0 30 q14 -22 0 -30" stroke="#3F7D57" stroke-width="1.2" fill="none" opacity=".7"/>
+        <circle cx="22" cy="23" r="2.2" fill="#E0A93B"/>
+      </svg>
+      <div class="ibody">
+        <h4>Lectio divina</h4>
+        <div class="isrc">slow, contemplative reading</div>
+        <p>The monastic practice of reading a passage slowly, repeatedly, <i>dwelling</i> in it rather than consuming it — the same few lines returned to until they open. Reading as rest, not retrieval.</p>
+      </div>
+    </div>
+    <div class="insp">
+      <svg class="iglyph" viewBox="0 0 44 44" aria-hidden="true" fill="none">
+        <path d="M22 6 C12 6 6 14 6 22 C6 30 12 38 22 38" stroke="#3F7D57" stroke-width="1.4" fill="none"/>
+        <path d="M22 38 C32 38 38 30 38 22 C38 14 32 6 22 6" stroke="#C4602F" stroke-width="1.4" fill="none" opacity=".85"/>
+        <circle cx="22" cy="22" r="2.4" fill="#E0A93B"/>
+      </svg>
+      <div class="ibody">
+        <h4>Reading as a mirror</h4>
+        <div class="isrc">being seen, not just informed</div>
+        <p>In self-psychology, to be mirrored is to be reflected back to yourself and recognized. The Garden might read that way — the tradition catching something of the reader, so you leave feeling <i>seen</i>, not only taught.</p>
+      </div>
+    </div>
+    <div class="insp">
+      <svg class="iglyph" viewBox="0 0 44 44" aria-hidden="true" fill="none">
+        <path d="M11 30 q6 -20 0 -0.0001" stroke="#6E7B3A" stroke-width="1.3" fill="none"/>
+        <path d="M11 14 q-4 4 -2 10 M11 14 q4 4 2 10" stroke="#3F7D57" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M33 30 q6 -20 0 -0.0001" stroke="#6E7B3A" stroke-width="1.3" fill="none"/>
+        <path d="M33 14 q-4 4 -2 10 M33 14 q4 4 2 10" stroke="#3F7D57" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M15 20 q7 -6 14 0" stroke="#C4602F" stroke-width="1.2" fill="none" stroke-dasharray="3 3"/>
+        <circle cx="11" cy="11" r="2.2" fill="#E0A93B"/><circle cx="33" cy="11" r="2.2" fill="#E0A93B"/>
+      </svg>
+      <div class="ibody">
+        <h4>Crossing rhymes</h4>
+        <div class="isrc">wandering the resonances</div>
+        <p>Moving sideways between traditions where the same move surfaces in a different voice — a gesture in a sutra rhyming with one in an epistle. You wander the <i>resonances</i>, letting one tradition light up another.</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="lead-p" style="margin-top:22px">None of these is a decided feature — they are the lineage of attention the Garden hopes to belong to. Which of them the finished walk actually draws on, and how, is <b>still open</b>. That openness is honest, and part of the point: a place for meaning-making shouldn't be over-designed before it's been walked.</p>
+</section>
+
+<!-- 05 · THE HONEST HORIZON -->
+<section id="horizon">
+  <div class="sec-head"><span class="sec-num">05</span><span class="sec-title">The honest horizon</span><span class="sec-line"></span></div>
+
+  <div class="horizon">
+    <div class="hk">A VISION, NOT A BUILT THING — YET</div>
+    <h3>The Garden is the horizon. Today, there is an early prototype — not the pilgrimage.</h3>
+    <p>It would be easy to describe all of this as if you could walk it now. You can't, and it matters to say so plainly. The Garden is a <b>Phase-3 vision</b> — the destination the whole project is arranged toward. It is not finished, and much of what this page describes is a horizon we are building the ground for, not a thing already standing.</p>
+    <p>What exists <i>now</i> is the substrate: the library of gathered sources and the engine that finds and holds them — the slow, unglamorous infrastructure that has to be built first so that a Garden this honest can eventually exist. There is also an <b>early prototype</b> of the walk: rough, evolving, made before the current way of reading the traditions took shape.</p>
+    <div class="now-row">
+      <div class="now-tag">the substrate first</div>
+      <div class="now-lbl"><b>The library and the engine are what we're building today</b> — so that the Garden becomes possible. The pilgrimage is the horizon they're building toward, not a claim about where the work is now.</div>
+    </div>
+    <p style="margin-top:18px">This is said as a promise, not an apology. When the Garden opens, it will open on honest ground — sources read in each tradition's own terms, its skews shown rather than smoothed, the method published so anyone can walk in and contest it. Until then, this page keeps the vision in view and tells the truth about the distance still to cross.</p>
+  </div>
+
+  <svg class="sprig" style="margin-top:40px"><use href="#sprig"/></svg>
+
+  <div class="foot-close">
+    The Garden described here is a <em>Phase-3 vision</em> — the horizon this project is building toward, not a finished experience. Everything you can touch today is <em>substrate</em>: the library, the engine, and an early, evolving prototype of the walk. <em>Grammar of Meaning</em> · a working house, unlisted.
+  </div>
+</section>
+
+<!-- 06 · EXPLORE -->
+<section id="explore">
+  <div class="sec-head"><span class="sec-num">06</span><span class="sec-title">Explore the Garden</span><span class="sec-line"></span></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px" class="explore-cards">
+    <a class="hp-card" href="garden-walk.html" style="display:flex;flex-direction:column;text-decoration:none">
+      <b style="font-family:var(--serif);font-size:18px;color:var(--moss)">Walk an early prototype →</b>
+      <span style="font-size:13px;color:var(--ink-2);margin-top:7px;line-height:1.55">A first, rough pass at the walk — a way to feel the shape of the idea. It predates the current grammar, so read it as a sketch of the experience, not the experience itself.</span>
+      <span class="proto-flag">early prototype · structure evolving</span>
+    </a>
+    <div class="hp-card" style="display:flex;flex-direction:column;opacity:.72">
+      <b style="font-family:var(--serif);font-size:18px;color:var(--moss)">More as the Garden grows</b>
+      <span style="font-size:13px;color:var(--ink-2);margin-top:7px;line-height:1.55">As the substrate matures, more of the pilgrimage will land here — a form at a time, honestly flagged. The Garden opens slowly, on purpose.</span>
+      <span style="font-family:var(--mono);font-size:10.5px;color:var(--terracotta);margin-top:10px;letter-spacing:.04em">on the horizon</span>
+    </div>
+    <a class="hp-card" href="library.html" style="display:flex;flex-direction:column;text-decoration:none">
+      <b style="font-family:var(--serif);font-size:18px;color:var(--moss)">See the substrate being built →</b>
+      <span style="font-size:13px;color:var(--ink-2);margin-top:7px;line-height:1.55">The Library — what's been gathered and how the engine is built. This is the ground the Garden needs before it can open. The honest state of the work.</span>
+    </a>
+  </div>
+  <p style="font-size:12px;color:var(--ink-3);font-family:var(--sans);margin-top:14px;font-style:italic">More of the walk will land here as the Garden grows — each a card, not a rewrite of this page.</p>
+</section>
+
+</div><!-- /wrap -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="flabel">Grammar of Meaning</div>
+    <h3>How meaning gets made — read each tradition in its own vocabulary first.</h3>
+    <div class="pickgrid">
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">The work</div>
+        <div class="picklist">
+          <div><a href="library.html" style="color:#fff">The Library</a> <span class="k">— the world's traditions, gathered</span></div>
+          <div><a href="essays.html" style="color:#fff">The Essays</a> <span class="k">— meaning-making in public</span></div>
+          <div><a href="garden.html" style="color:#fff">The Garden</a> <span class="k">— a pilgrimage you walk</span></div>
+          <div><a href="method.html" style="color:#fff">The Method</a> <span class="k">— the open method behind it all</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="label-mute" style="color:var(--sage);margin-bottom:12px">Reference</div>
+        <div class="picklist">
+          <div><a href="glossary.html" style="color:#fff">Glossary</a></div>
+          <div><a href="principles.html" style="color:#fff">Principles</a></div>
+          <div><a href="scholars.html" style="color:#fff">Scholars</a></div>
+          <div><a href="bibliography.html" style="color:#fff">Bibliography</a></div>
+        </div>
+        <div class="label-mute" style="color:var(--sage);margin:22px 0 10px">Start here</div>
+        <div class="picklist">
+          <div><a href="mission.html" style="color:#fff">What this is →</a></div>
+        </div>
+      </div>
+    </div>
+    <p class="foot-note">A working house, unlisted · <em>Grammar of Meaning</em> · Tamara Sanderson · 2026</p>
+  </div>
+</footer>
+
+</body>
+</html>
