@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Archive of Hearts — Howard Thurman (LED-wall · warm)</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --p2-ground:#0E0B08;
+    --p2-ground2:#120D09;
+    --p2-amber:#E7C97A;
+    --p2-bone:#F3E4BC;
+    --p2-dim:#6a5636;
+    --p2-serif:"Newsreader",Georgia,serif;
+    --p2-sans:"Inter",system-ui,sans-serif;
+    --p2-mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--p2-ground);
+    color:var(--p2-bone);
+    font-family:var(--p2-sans);
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  .p2-stage{
+    position:fixed;inset:0;
+    width:100%;height:100%;
+    overflow:hidden;
+  }
+  #p2-canvas{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    display:block;
+  }
+  /* soft vignette so the grid recedes at the edges */
+  .p2-vignette{
+    position:absolute;inset:0;
+    pointer-events:none;
+    background:radial-gradient(120% 100% at 50% 46%, rgba(14,11,8,0) 40%, rgba(14,11,8,.72) 100%);
+    z-index:2;
+  }
+
+  /* ---- top kicker ---- */
+  .p2-kicker{
+    position:absolute;top:clamp(18px,4vh,42px);left:0;right:0;
+    text-align:center;z-index:5;
+    font-family:var(--p2-mono);
+    font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+    color:rgba(231,201,122,.5);
+    transition:opacity 1.1s ease;
+  }
+
+  /* ---- cycling titles during the draw ---- */
+  .p2-cycler{
+    position:absolute;left:0;right:0;top:50%;
+    transform:translateY(-50%);
+    text-align:center;z-index:6;
+    font-family:var(--p2-serif);
+    font-size:clamp(22px,4.4vw,44px);
+    font-weight:400;
+    color:rgba(243,228,188,.9);
+    letter-spacing:.01em;
+    padding:0 8vw;
+    opacity:0;pointer-events:none;
+    transition:opacity .5s ease;
+    text-shadow:0 0 34px rgba(231,201,122,.28);
+  }
+  .p2-cycler.on{opacity:1}
+
+  /* ---- the landed sermon ---- */
+  .p2-card{
+    position:absolute;left:0;right:0;top:50%;
+    transform:translateY(-50%);
+    z-index:7;
+    text-align:center;
+    padding:0 clamp(22px,8vw,120px);
+    opacity:0;pointer-events:none;
+    transition:opacity 1.5s ease;
+  }
+  .p2-card.on{opacity:1;pointer-events:auto}
+  .p2-eyebrow{
+    font-family:var(--p2-mono);
+    font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;
+    color:rgba(231,201,122,.5);
+    margin-bottom:22px;
+  }
+  .p2-title{
+    font-family:var(--p2-serif);
+    font-weight:500;
+    font-size:clamp(30px,6vw,64px);
+    line-height:1.08;
+    color:var(--p2-bone);
+    letter-spacing:-.01em;
+    text-shadow:0 0 40px rgba(231,201,122,.26);
+  }
+  .p2-excerpt{
+    font-family:var(--p2-serif);
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(16px,2.5vw,22px);
+    line-height:1.5;
+    color:rgba(243,228,188,.72);
+    max-width:34ch;margin:22px auto 0;
+  }
+  .p2-source{
+    font-family:var(--p2-mono);
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    color:rgba(231,201,122,.42);
+    margin-top:26px;
+  }
+
+  /* ---- audio affordance ---- */
+  .p2-audio{
+    margin:34px auto 0;
+    max-width:420px;
+    border:1px solid rgba(231,201,122,.16);
+    border-radius:3px;
+    background:rgba(20,15,10,.5);
+    padding:16px 18px 15px;
+    text-align:left;
+  }
+  .p2-audio-row{display:flex;align-items:center;gap:13px;margin:9px 0}
+  .p2-audio-row:first-child{margin-top:0}
+  .p2-play{
+    flex:0 0 auto;
+    width:30px;height:30px;border-radius:50%;
+    border:1px solid rgba(231,201,122,.4);
+    background:rgba(231,201,122,.06);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--p2-amber);cursor:default;
+  }
+  .p2-play svg{display:block}
+  .p2-track{flex:1 1 auto;min-width:0}
+  .p2-track-name{
+    font-family:var(--p2-sans);font-size:12.5px;
+    color:rgba(243,228,188,.82);letter-spacing:.01em;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .p2-track-sub{
+    font-family:var(--p2-mono);font-size:9.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:rgba(231,201,122,.36);margin-top:3px;
+  }
+  .p2-bar{
+    height:2px;margin-top:9px;border-radius:2px;
+    background:rgba(231,201,122,.12);position:relative;overflow:hidden;
+  }
+  .p2-bar::after{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:22%;
+    background:linear-gradient(90deg,rgba(231,201,122,.05),rgba(231,201,122,.4));
+  }
+  .p2-audio-note{
+    font-family:var(--p2-mono);font-size:9.5px;letter-spacing:.1em;
+    color:rgba(231,201,122,.3);margin-top:13px;font-style:normal;
+  }
+
+  /* ---- control ---- */
+  .p2-control{
+    position:absolute;left:0;right:0;bottom:clamp(26px,7vh,64px);
+    text-align:center;z-index:8;
+  }
+  .p2-btn{
+    font-family:var(--p2-mono);
+    font-size:13px;letter-spacing:.22em;text-transform:lowercase;
+    color:rgba(243,228,188,.66);
+    background:transparent;border:none;cursor:pointer;
+    padding:12px 20px;
+    transition:color .5s ease,letter-spacing .5s ease,opacity .5s ease;
+  }
+  .p2-btn:hover{color:var(--p2-bone);letter-spacing:.26em}
+  .p2-btn:disabled{opacity:.3;cursor:default}
+  .p2-btn .p2-dot{color:var(--p2-amber);margin-right:8px}
+
+  @media (max-width:520px){
+    .p2-audio{max-width:none}
+    .p2-kicker{font-size:10px;letter-spacing:.22em}
+  }
+</style>
+</head>
+<body>
+<div class="p2-stage">
+  <canvas id="p2-canvas"></canvas>
+  <div class="p2-vignette"></div>
+
+  <div class="p2-kicker" id="p2-kicker">les archives — a voice, drawn at random</div>
+
+  <div class="p2-cycler" id="p2-cycler"></div>
+
+  <div class="p2-card" id="p2-card">
+    <div class="p2-eyebrow">one heart, out of the many</div>
+    <div class="p2-title" id="p2-title"></div>
+    <div class="p2-excerpt" id="p2-excerpt"></div>
+    <div class="p2-source" id="p2-source"></div>
+
+    <div class="p2-audio">
+      <div class="p2-audio-row">
+        <div class="p2-play" aria-hidden="true">
+          <svg width="10" height="12" viewBox="0 0 10 12"><path d="M0 0 L10 6 L0 12 Z" fill="currentColor"/></svg>
+        </div>
+        <div class="p2-track">
+          <div class="p2-track-name">Deep River — spiritual · from the archive</div>
+          <div class="p2-track-sub">beneath the voice</div>
+          <div class="p2-bar"></div>
+        </div>
+      </div>
+      <div class="p2-audio-row">
+        <div class="p2-play" aria-hidden="true">
+          <svg width="10" height="12" viewBox="0 0 10 12"><path d="M0 0 L10 6 L0 12 Z" fill="currentColor"/></svg>
+        </div>
+        <div class="p2-track">
+          <div class="p2-track-name">Howard Thurman — the voice</div>
+          <div class="p2-track-sub">the drawn sermon</div>
+          <div class="p2-bar"></div>
+        </div>
+      </div>
+      <div class="p2-audio-note">audio binds when the recording is cleared.</div>
+    </div>
+  </div>
+
+  <div class="p2-control">
+    <button class="p2-btn" id="p2-btn"><span class="p2-dot">◦</span><span id="p2-btn-label">Draw a voice</span></button>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var SERMONS = [
+    ["The Sound of the Genuine","there is a sound of the genuine in you","commencement meditation"],
+    ["The Growing Edge","look well to the growing edge","meditation"],
+    ["Jesus and the Disinherited","to those with their backs against the wall","the sermon series"],
+    ["Freedom and Suffering","the fourth and final sermon","sermon series"],
+    ["A Moment of Crisis","bending the will","recorded sermon"],
+    ["Disciplines of the Spirit","commitment · suffering · prayer · reconciliation","1963"],
+    ["Quests for the Human","the introductory lecture","lecture series"],
+    ["Horn of the Wild Oxen","a recorded sermon","from the archive"],
+    ["An Easter Message","his eighth talk","recorded sermon"],
+    ["Prayers","Thurman reading his prayers aloud","recording"],
+    ["Eulogy for Mordecai Wyatt Johnson","for his teacher","recorded"],
+    ["On Religious Experience","religion as a deeply personal encounter","meditation"]
+  ];
+
+  var DECEL = [90,110,130,160,200,260,340,440,580,760];
+
+  // ---- palette (warm brown/amber → bone; linear-ish rgb for cell blend) ----
+  var GROUND = [14,11,8];    // warm near-black
+  var DIM    = [58,44,24];   // resting warm ember cell
+  var AMBER  = [231,201,122];// rising gold  (#E7C97A)
+  var BONE   = [243,228,188];// palest crest (#F3E4BC)
+  var PULSE  = [247,236,203];// bone-gold pulse glow (#F7ECCB)
+
+  var canvas = document.getElementById('p2-canvas');
+  var ctx = canvas.getContext('2d');
+  var kicker = document.getElementById('p2-kicker');
+  var cycler = document.getElementById('p2-cycler');
+  var card = document.getElementById('p2-card');
+  var elTitle = document.getElementById('p2-title');
+  var elExcerpt = document.getElementById('p2-excerpt');
+  var elSource = document.getElementById('p2-source');
+  var btn = document.getElementById('p2-btn');
+  var btnLabel = document.getElementById('p2-btn-label');
+
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- grid geometry ----
+  var W=0,H=0,dpr=1;
+  var cell=18;      // css px per cell (target ~14-22)
+  var gap=3;        // css px gap between cells
+  var pitch=cell+gap;
+  var cols=0,rows=0;
+  var chosen=null;  // {c,r} the one cell
+  // per-cell resting shimmer phase
+  var phase=null;
+
+  function buildGrid(){
+    // pick a cell size responsive to viewport
+    var min = Math.min(W,H);
+    cell = min < 520 ? 14 : (min < 900 ? 17 : 20);
+    gap = Math.max(2, Math.round(cell*0.17));
+    pitch = cell+gap;
+    cols = Math.ceil(W/pitch)+1;
+    rows = Math.ceil(H/pitch)+1;
+    phase = new Float32Array(cols*rows);
+    for(var i=0;i<cols*rows;i++){
+      phase[i] = Math.random()*Math.PI*2;
+    }
+  }
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio||1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = Math.round(W*dpr);
+    canvas.height = Math.round(H*dpr);
+    canvas.style.width = W+'px';
+    canvas.style.height = H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    buildGrid();
+    if(state==='rest' && prefersReduced) drawStatic();
+  }
+  window.addEventListener('resize', resize);
+
+  // ---- state machine ----
+  var state='rest';   // rest | draw | land
+  var running=true;
+  var t0=performance.now();
+
+  // draw / land timing
+  var drawStart=0, drawStep=0, drawIdx=0, drawTitleIdx=0;
+  var landStart=0, landChosen=null;
+  var pulseT=0;
+
+  // ---- per-draw randomized wave field (regenerated every beginDraw) ----
+  // sources = 1..3 ripple origins that INTERFERE (contributions summed).
+  // Each has a random position, speed (propagation), wavelength, phase,
+  // amplitude. This makes every draw distinct: sometimes one swelling
+  // ripple, sometimes two crossing sets, sometimes three.
+  var waveSources = [];
+  function seedWave(){
+    var n = 1 + Math.floor(Math.random()*3); // 1..3
+    waveSources = [];
+    for(var i=0;i<n;i++){
+      waveSources.push({
+        // origin in cell coords; allow slightly off-grid / off-edge origins
+        oc: Math.random()*cols,
+        or: Math.random()*rows,
+        speed: 6 + Math.random()*9,        // cells/sec — deep, slow current range
+        wavelength: 5 + Math.random()*10,  // cells between crests
+        phase: Math.random()*Math.PI*2,
+        amp: 0.55 + Math.random()*0.45     // per-source weight
+      });
+    }
+    // normalize so combined interference stays in a sane range
+    var tot=0; for(var j=0;j<waveSources.length;j++) tot+=waveSources[j].amp;
+    for(var k=0;k<waveSources.length;k++) waveSources[k].amp /= tot;
+  }
+
+  // ---- helpers ----
+  function lerp(a,b,t){return a+(b-a)*t;}
+  function mix(c1,c2,t){
+    return [lerp(c1[0],c2[0],t),lerp(c1[1],c2[1],t),lerp(c1[2],c2[2],t)];
+  }
+  function quant(v,steps){ // quantize brightness to give LED-stepped feel
+    return Math.round(v*steps)/steps;
+  }
+
+  // paint one cell with quantized warm brightness b in [0,1]
+  function paintCell(cx,cy,b){
+    if(b<=0.001) return;
+    // color ramp: dim ember -> gold amber -> pale bone as brightness rises.
+    // crossover pushed lower (0.42) so the swell reaches luminous amber sooner,
+    // and the top band rides AMBER->BONE for an unmistakably lit crest.
+    var col;
+    if(b<0.42){ col = mix(DIM, AMBER, b/0.42); }
+    else { col = mix(AMBER, BONE, (b-0.42)/0.58); }
+    // higher alpha floor + steeper rise => brighter cells read as luminous,
+    // while the near-dark ground stays deep (b<=0.001 returns early above).
+    var a = 0.14 + b*0.86;
+    ctx.fillStyle = 'rgba('+(col[0]|0)+','+(col[1]|0)+','+(col[2]|0)+','+a.toFixed(3)+')';
+    ctx.fillRect(cx, cy, cell, cell);
+    // warm bloom for the brightest cells (still gridded, just a halo of light)
+    if(b>0.62){
+      ctx.fillStyle='rgba('+(BONE[0])+','+(BONE[1])+','+(BONE[2])+','+((b-0.62)*0.30).toFixed(3)+')';
+      ctx.fillRect(cx-1, cy-1, cell+2, cell+2);
+    }
+  }
+
+  function clearGround(){
+    ctx.fillStyle = 'rgb('+GROUND[0]+','+GROUND[1]+','+GROUND[2]+')';
+    ctx.fillRect(0,0,W,H);
+  }
+
+  // center of grid in cell coords
+  function gridCenter(){ return {c:(cols-1)/2, r:(rows-1)/2}; }
+
+  // ---- resting field: dim warm cells, slow shimmer ----
+  function drawRest(now){
+    clearGround();
+    var tt = (now - t0)/1000;
+    for(var r=0;r<rows;r++){
+      for(var c=0;c<cols;c++){
+        var idx=r*cols+c;
+        var ph=phase[idx];
+        // slow, low-amplitude breathing shimmer
+        var sh = 0.5 + 0.5*Math.sin(tt*0.5 + ph);
+        var b = 0.10 + sh*0.13;                  // dim range
+        b = quant(b, 6);
+        paintCell(c*pitch, r*pitch, b);
+      }
+    }
+  }
+
+  function drawStatic(){
+    clearGround();
+    for(var r=0;r<rows;r++){
+      for(var c=0;c<cols;c++){
+        var idx=r*cols+c;
+        var b = quant(0.11 + (Math.sin(phase[idx])*0.5+0.5)*0.10, 5);
+        paintCell(c*pitch, r*pitch, b);
+      }
+    }
+  }
+
+  // ---- the draw: warm ripples radiate & INTERFERE across the grid ----
+  // Each of the 1..3 randomized sources emits an expanding ring whose crest
+  // travels at its own speed; contributions are SUMMED so the lit pattern is
+  // never the same twice. Brightness quantized per cell (LED-stepped).
+  function drawWave(now){
+    clearGround();
+    var elapsed = (now - drawStart)/1000;
+    var tt = (now - t0)/1000;
+    var TWO_PI = Math.PI*2;
+    for(var r=0;r<rows;r++){
+      for(var c=0;c<cols;c++){
+        var idx=r*cols+c;
+        var env = 0;
+        for(var s=0;s<waveSources.length;s++){
+          var src = waveSources[s];
+          var dc = c - src.oc, dr = r - src.or;
+          var dist = Math.sqrt(dc*dc + dr*dr);
+          // radius of this ripple's leading crest right now
+          var head = elapsed * src.speed;
+          // only cells the wavefront has reached (and just behind it) light
+          var trailing = head - dist;               // >0 once the front passed
+          if(trailing < 0) continue;                // front hasn't arrived
+          // travelling sinusoid: crest at the front, ripples behind it
+          var ang = (trailing / src.wavelength) * TWO_PI + src.phase;
+          var carrier = 0.5 + 0.5*Math.cos(ang);    // 0..1
+          // fade the ripple with distance travelled (deep, damped current)
+          var decay = Math.exp(-trailing * 0.045);
+          // soft leading gate so the very front swells in rather than snapping
+          var gate = Math.min(1, trailing*0.5);
+          env += src.amp * carrier * decay * gate;
+        }
+        // deep-river undertow: a slow vertical modulation across the field
+        var under = 0.5 + 0.5*Math.sin(tt*0.4 + r*0.28);
+        var base = 0.09 + (Math.sin(tt*0.5 + phase[idx])*0.5+0.5)*0.06;
+        // push the lit swell harder so the crest reads as luminous amber/bone
+        // against the deep ground (researcher: a drawn wave must be unmistakably lit)
+        var b = base + Math.min(1, env)*(0.90*under + 0.34);
+        b = Math.min(1, b);
+        b = quant(b, 7);             // LED-stepped brightness
+        paintCell(c*pitch, r*pitch, b);
+      }
+    }
+  }
+
+  // ---- the land: wave collapses inward, one cell holds & pulses ----
+  function drawLand(now){
+    clearGround();
+    var elapsed=(now-landStart)/1000;
+    var tt=(now-t0)/1000;
+    var ch = landChosen;
+    // collapse envelope: field dims to near-dark over ~1.6s
+    var collapse = Math.min(1, elapsed/1.6);
+    var fieldFade = 1 - collapse;   // remaining glow of the many
+    for(var r=0;r<rows;r++){
+      for(var c=0;c<cols;c++){
+        var idx=r*cols+c;
+        // distance to chosen cell
+        var dc=c-ch.c, dr=r-ch.r;
+        var dist=Math.sqrt(dc*dc+dr*dr);
+        // inward pull: cells near chosen linger a touch longer
+        var near = Math.max(0, 1 - dist/(cols*0.5));
+        var base = 0.09 + (Math.sin(tt*0.5 + phase[idx])*0.5+0.5)*0.05;
+        var b = base*fieldFade + near*0.18*fieldFade;
+        if(c===ch.c && r===ch.r){
+          // the one heart: swells in, then holds a slow lub-dub
+          var rise = Math.min(1, elapsed/1.1);
+          // ~58 bpm => 0.9667 s per beat; lub-dub double thump
+          var beat = (elapsed*(58/60)) % 1;
+          var lub = Math.exp(-Math.pow((beat-0.06)/0.055,2));
+          var dub = Math.exp(-Math.pow((beat-0.30)/0.07,2))*0.7;
+          var pulse = 0.5 + 0.5*(lub+dub);
+          b = lerp(0.16, 0.62 + pulse*0.38, rise);
+          b = Math.min(1, b);
+          // no quantize on the one — let it breathe smoothly (still a hard-edged cell)
+          paintCell(c*pitch, r*pitch, b);
+          // a gentle bone-gold halo ring, gridded outward
+          var ringA = rise*(0.12 + pulse*0.16);
+          ctx.fillStyle='rgba('+PULSE[0]+','+PULSE[1]+','+PULSE[2]+','+ringA.toFixed(3)+')';
+          ctx.fillRect(c*pitch-gap, r*pitch-gap, cell+gap*2, cell+gap*2);
+          continue;
+        }
+        b = quant(Math.max(0,b), 6);
+        paintCell(c*pitch, r*pitch, b);
+      }
+    }
+  }
+
+  // reduced-motion land: quick 3-step, then hold pulse
+  var rmStep=0, rmStart=0;
+  function drawLandReduced(now){
+    clearGround();
+    var elapsed=(now-rmStart)/1000;
+    var ch=landChosen;
+    var tt=(now-t0)/1000;
+    for(var r=0;r<rows;r++){
+      for(var c=0;c<cols;c++){
+        var b;
+        if(c===ch.c && r===ch.r){
+          var beat=(elapsed*(58/60))%1;
+          var lub=Math.exp(-Math.pow((beat-0.06)/0.06,2));
+          var dub=Math.exp(-Math.pow((beat-0.30)/0.08,2))*0.7;
+          b=0.55+0.35*(lub+dub);
+        } else {
+          b=quant(0.08+(Math.sin(phase[r*cols+c])*0.5+0.5)*0.05,5);
+        }
+        paintCell(c*pitch,r*pitch,Math.min(1,b));
+      }
+    }
+  }
+
+  // ---- main loop ----
+  function frame(now){
+    if(!running){ return; }
+    if(state==='rest'){
+      if(prefersReduced){ /* static already drawn */ }
+      else drawRest(now);
+    } else if(state==='draw'){
+      if(prefersReduced) drawStatic();
+      else drawWave(now);
+      tickCycler(now);
+    } else if(state==='land'){
+      if(prefersReduced) drawLandReduced(now);
+      else drawLand(now);
+    }
+    rafId = requestAnimationFrame(frame);
+  }
+
+  var rafId=null;
+  function start(){ if(!rafId) rafId=requestAnimationFrame(frame); }
+  function stop(){ if(rafId){ cancelAnimationFrame(rafId); rafId=null; } }
+
+  // ---- draw cycler (decelerating titles) ----
+  function tickCycler(now){
+    var since = now - drawStep;
+    var wait = DECEL[Math.min(drawIdx, DECEL.length-1)];
+    if(since >= wait){
+      drawStep = now;
+      drawTitleIdx = (drawTitleIdx + 1 + Math.floor(Math.random()*3)) % SERMONS.length;
+      cycler.textContent = SERMONS[drawTitleIdx][0];
+      drawIdx++;
+      if(drawIdx >= DECEL.length){
+        // last tick shown — resolve to the drawn sermon after final dwell
+        // hold the final title briefly, then land
+        setTimeout(land, DECEL[DECEL.length-1] + 140);
+        state='holdlast';
+      }
+    }
+  }
+
+  var finalPick=0;
+
+  function beginDraw(){
+    card.classList.remove('on');
+    kicker.style.opacity='0';
+    finalPick = Math.floor(Math.random()*SERMONS.length);
+    seedWave();                       // NEW randomized ripple field each draw
+    drawStart = performance.now();
+    drawStep = drawStart;
+    drawIdx = 0;
+    drawTitleIdx = Math.floor(Math.random()*SERMONS.length);
+    cycler.textContent = SERMONS[drawTitleIdx][0];
+    cycler.classList.add('on');
+    state='draw';
+    btn.disabled=true;
+    btnLabel.textContent='drawing…';
+
+    if(prefersReduced){
+      // quick sequence: flash a few titles fast then land
+      var seq=0;
+      (function flick(){
+        if(seq<3){
+          cycler.textContent = SERMONS[Math.floor(Math.random()*SERMONS.length)][0];
+          seq++; setTimeout(flick,180);
+        } else {
+          land();
+        }
+      })();
+    }
+  }
+
+  function land(){
+    // settle the cycler to the final title, then reveal card
+    cycler.textContent = SERMONS[finalPick][0];
+    // choose a cell (avoid extreme edges) — random every draw
+    var m=2;
+    landChosen = {
+      c: m + Math.floor(Math.random()*(cols-2*m)),
+      r: m + Math.floor(Math.random()*(rows-2*m))
+    };
+    chosen = landChosen;
+    landStart = performance.now();
+    rmStart = landStart;
+    state='land';
+
+    // fade cycler out, fill card, fade card in
+    cycler.classList.remove('on');
+    var s = SERMONS[finalPick];
+    elTitle.textContent = s[0];
+    elExcerpt.textContent = '“'+s[1]+'”';
+    elSource.textContent = s[2];
+
+    setTimeout(function(){
+      card.classList.add('on');
+      btn.disabled=false;
+      btnLabel.textContent='Draw another';
+    }, prefersReduced ? 300 : 900);
+  }
+
+  btn.addEventListener('click', function(){
+    if(state==='draw' || state==='holdlast') return;
+    if(state==='land'){
+      // draw another: dim card, reset to draw
+      card.classList.remove('on');
+      setTimeout(beginDraw, 520);
+    } else {
+      beginDraw();
+    }
+  });
+
+  // ---- visibility + off-screen pausing ----
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden){ running=false; stop(); }
+    else { running=true; start(); }
+  });
+
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ running=true; start(); }
+        else { running=false; stop(); }
+      });
+    }, {threshold:0.01});
+    io.observe(canvas);
+  }
+
+  // ---- init ----
+  resize();
+  if(prefersReduced){ drawStatic(); }
+  start();
+
+})();
+</script>
+
+<!--
+=======================================================================
+METHODOLOGY FOOTER — thurman_pixelwave_FINAL.html
+=======================================================================
+
+HOW PRODUCED
+  Built 2026-07-03 as the FINAL MERGED pixel-wave for the "Grammar of
+  Meaning" project's Howard Thurman interactive — the BEST-OF-BOTH of the
+  six-persona ARTIST-PERSONA bake-off Persona 2 line. It takes the STRUCTURE
+  and UNIQUE-PER-DRAW logic of thurman_persona2b_pixelwave_blue.html EXACTLY
+  and REVERTS THE PALETTE to the warm brown/amber of thurman_persona2_
+  pixelwave.html (the researcher's pick). Three changes only relative to the
+  blue variant:
+
+  1. WARM PALETTE (was deep-river blue/teal). Ground is warm near-black
+     (#0E0B08). Lit cells step DIM warm ember (#3A2C18) -> gold amber
+     (#E7C97A) -> pale bone (#F3E4BC) at the brightest; the pulse cell + halo
+     glow bone-gold (#F7ECCB). Text stays warm bone/gold (#F3E4BC). The
+     discrete quantized LED-grid look is preserved (visible cells + gaps,
+     stepped brightness via quant(), NOT smooth gradients).
+
+  2. EVERY DRAW IS UNIQUE (carried verbatim from the blue variant's
+     seedWave() + interference drawWave()). Each draw regenerates the wave
+     field: 1-3 ripple SOURCE points at random positions, each with random
+     propagation speed, wavelength, phase, amplitude. In drawWave() the
+     sources' expanding rings are SUMMED (interference), so the lit pattern
+     is never the same twice — sometimes one swelling ripple, sometimes two
+     crossing sets, sometimes three. The final collapse still resolves to ONE
+     pulsing cell (the one voice), and that cell's position is randomized
+     every draw. Deep-river register kept: slow speeds (6-15 cells/s), exp
+     distance damping — a current, not surf.
+
+  3. LUMINOUS PEAK (quality bump). The researcher noted a dimmer version felt
+     under-lit; the lit swell now reads clearly luminous against the deep
+     ground. paintCell() pushes the AMBER crossover lower (0.42 vs 0.55),
+     raises the alpha floor (0.14) and steepens the rise, and lowers the
+     warm-bloom threshold to b>0.62 with a stronger bloom (0.30). drawWave()
+     lifts the swell gain (0.90*under + 0.34). The ground stays deep + dark
+     (near-zero cells return early), so the brightest crest cells are
+     unmistakably luminous amber/bone without washing out the field.
+
+  Everything else is preserved from the shared Persona 2 spine: the "draw a
+  voice from the archive" interaction, the three states (rest / draw / land),
+  the SERMONS data verbatim, the decelerating title cycler on cadence
+  [90..760] ms, the placeholder audio UI, reduced-motion handling (static
+  gridded field + quick 3-step land, no wave), and offscreen/hidden-tab
+  pausing. Vanilla JS + a single 2D <canvas>, no libraries; one rAF loop;
+  devicePixelRatio capped at 2; IntersectionObserver + visibilitychange
+  pause. One Google Fonts link (Newsreader / Inter / IBM Plex Mono). CSS
+  namespace "p2-" (collision-free within a single-page mount).
+
+SCHOLARLY / CONCEPTUAL SOURCES
+  - Reframe (shared spine): the interaction is DRAWING A VOICE AT RANDOM
+    FROM AN ARCHIVE OF HEARTS — a reverent memorial gesture, NOT a
+    roulette/slot-machine. Lineage: Christian Boltanski, "Les Archives du
+    Cœur" (Teshima); Yasmin Fahandej, "A Father's Lullaby." Language is
+    "draw a voice from the archive" throughout; never "spin."
+  - Morph semantics are meaningful, not decorative: the MANY = the archive/
+    corpus rendered as the LED grid; the ONE = the single lit cell drawn;
+    landing enacts MANY -> ONE. Interference across 1-3 randomized sources
+    reads as the many voices meeting before the one is drawn.
+  - Medium lineage: Clifford Ross, "Digital Waves" — LED-wall sublime;
+    quantized pixel grid as the honest texture, not a smooth wave. The warm
+    candlelight palette reads as light held in a dark room — an archive lit
+    by embers, not a screensaver.
+  - Content: "Deep River" (Negro spiritual, public domain) plays BENEATH
+    Howard Thurman's spoken voice (the drawn sermon).
+  - Type register per GoM voice guide: Newsreader serif / Inter sans /
+    IBM Plex Mono labels; candlelight / dark-warm-luminous palette
+    (ground #0E0B08; lit cells amber #E7C97A -> bone #F3E4BC; pulse #F7ECCB).
+  - SERMONS array embedded verbatim from the brief.
+
+WHAT NEEDS VERIFICATION
+  - Stage 6 (CODE) = 0 coded passages (per CLAUDE.md §5). The sermon
+    excerpts here are PLACEHOLDER glosses for the interaction design, NOT
+    coded/verified passages from the corpus. Do not treat as analytical
+    output.
+  - AUDIO IS A PLACEHOLDER. No real audio is wired — the player UI is
+    structurally silent by design ("audio binds when the recording is
+    cleared"). Per §13 rights: Howard Thurman voice recordings are held by
+    Boston University / the Thurman estate; "Deep River" is public-domain
+    but a specific recording/performance must be cleared before binding.
+    The UI degrades gracefully with no audio present.
+  - Sermon titles/glosses/tags are for interaction-design demonstration;
+    provenance of each recording (BU Thurman collection vs. estate) must be
+    confirmed before any public deploy.
+  - Cross-device grid legibility (cell size / gap contrast on very small or
+    very high-DPI screens) and reduced-motion parity should be spot-checked.
+  - The luminous-peak bump was tuned for a deep-dark ground; on a very bright
+    or uncalibrated display the peak/ground contrast should be eyeballed.
+  - Interference math can occasionally over-brighten when 3 sources overlap;
+    env is clamped to [0,1] before ramping, but visual balance across the
+    1/2/3-source cases should be eyeballed on a real display.
+=======================================================================
+-->
+</body>
+</html>
