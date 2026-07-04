@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The archive — a voice, drawn at random</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --serif:'Newsreader',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
+    --gold:#E7C97A; --gold-deep:#C9A227; --bone:#F3E4BC; --cream:#EFE3CC;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{background:#0B0F0C;color:var(--cream);font-family:var(--serif);-webkit-font-smoothing:antialiased;overflow:hidden;}
+  .stage{position:fixed;inset:0;overflow:hidden;}
+  video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity 1.1s ease;}
+  .vig{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 120% at 50% 42%, rgba(8,12,9,0) 30%, rgba(8,12,9,.55) 100%),
+               linear-gradient(180deg, rgba(8,12,9,.35), rgba(8,12,9,0) 22%, rgba(8,12,9,0) 68%, rgba(8,12,9,.55));}
+  .content{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 28px;transition:opacity .6s ease;}
+  .content.fading{opacity:0;}
+  .kick{font-family:var(--mono);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:rgba(231,201,122,.72);margin-bottom:20px;}
+  .who{font-family:var(--serif);font-style:italic;font-size:16px;color:rgba(239,227,204,.72);margin-bottom:14px;}
+  .title{font-family:var(--serif);font-weight:500;font-size:clamp(38px,7vw,84px);line-height:1.06;letter-spacing:-.01em;color:var(--gold);margin:0 0 20px;text-shadow:0 2px 30px rgba(0,0,0,.45);max-width:16ch;}
+  .excerpt{font-family:var(--serif);font-style:italic;font-size:clamp(16px,2vw,20px);line-height:1.5;color:var(--bone);margin:0 0 16px;max-width:34ch;text-shadow:0 1px 16px rgba(0,0,0,.5);}
+  .tag{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(239,227,204,.5);margin-bottom:30px;}
+  .player{display:flex;align-items:center;gap:12px;padding:9px 16px;border:1px solid rgba(231,201,122,.28);border-radius:999px;background:rgba(12,16,12,.4);margin-bottom:26px;}
+  .player .pg{width:26px;height:26px;border-radius:50%;border:1px solid rgba(231,201,122,.5);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:11px;}
+  .player .lines{text-align:left;line-height:1.35;}
+  .player .l1{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:rgba(239,227,204,.85);}
+  .player .l2{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:rgba(239,227,204,.5);}
+  .player .l3{font-family:var(--serif);font-style:italic;font-size:10.5px;color:rgba(239,227,204,.4);}
+  .btn{font-family:var(--sans);font-size:13.5px;letter-spacing:.12em;color:var(--cream);background:rgba(14,20,14,.5);border:1px solid rgba(231,201,122,.34);border-radius:999px;padding:12px 30px;cursor:pointer;transition:background .4s ease, opacity .3s;}
+  .btn:hover{background:rgba(36,44,28,.62);}
+  .btn:disabled{opacity:.45;cursor:default;}
+  .caption{position:absolute;left:0;right:0;bottom:14px;z-index:2;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:rgba(239,227,204,.34);padding:0 20px;}
+  .dots{position:absolute;top:16px;right:18px;z-index:3;display:flex;gap:7px;}
+  .dots i{width:7px;height:7px;border-radius:50%;background:rgba(239,227,204,.22);transition:background .3s;}
+  .dots i.on{background:var(--gold);}
+  .sr{position:absolute;left:-9999px;}
+</style>
+</head>
+<body>
+<div class="stage">
+  <video id="bg" autoplay muted loop playsinline></video>
+  <div class="vig"></div>
+  <div class="dots" id="dots"></div>
+  <div class="content" id="content">
+    <div class="kick">les archives — a voice, drawn at random</div>
+    <div class="who">Howard Thurman</div>
+    <h1 class="title" id="title">The Sound of the Genuine</h1>
+    <p class="excerpt" id="excerpt">"there is a sound of the genuine in you"</p>
+    <div class="tag" id="tag">commencement meditation</div>
+    <div class="player">
+      <div class="pg">▶</div>
+      <div class="lines">
+        <div class="l1">Deep River — spiritual · from the archive</div>
+        <div class="l2">Howard Thurman — the voice</div>
+        <div class="l3">audio binds when cleared</div>
+      </div>
+    </div>
+    <button class="btn" id="draw">◦ draw another</button>
+  </div>
+  <div class="caption">a library of real water — a different one each visit, all in the house palette + pixel grid · Pixabay-licensed sources · live version transforms footage in real time (build-SB) · Stage 6 = 0</div>
+</div>
+<h2 class="sr">A rotating library of real ocean-water clips, each pixelized and recolored to the Grammar of Meaning palette; drawing a voice surfaces a different water and a different Howard Thurman sermon each time.</h2>
+<script>
+(function(){
+  var CLIPS = [
+    "./thurman_pixabay_motion.mp4",
+    "./thurman_pixabay_motion_218958.mp4",
+    "./thurman_pixabay_motion_111263.mp4",
+    "./thurman_pixabay_motion_43209.mp4",
+    "./thurman_pixabay_motion_348909.mp4"
+  ];
+  var SERMONS = [
+    ["The Sound of the Genuine","there is a sound of the genuine in you","commencement meditation"],
+    ["The Growing Edge","look well to the growing edge","meditation"],
+    ["Jesus and the Disinherited","to those with their backs against the wall","the sermon series"],
+    ["Freedom and Suffering","the fourth and final sermon","sermon series"],
+    ["A Moment of Crisis","bending the will","recorded sermon"],
+    ["Disciplines of the Spirit","commitment · suffering · prayer · reconciliation","1963"],
+    ["Quests for the Human","the introductory lecture","lecture series"],
+    ["Horn of the Wild Oxen","a recorded sermon","from the archive"],
+    ["An Easter Message","his eighth talk","recorded sermon"],
+    ["Prayers","Thurman reading his prayers aloud","recording"],
+    ["Eulogy for Mordecai Wyatt Johnson","for his teacher","recorded"],
+    ["On Religious Experience","religion as a deeply personal encounter","meditation"]
+  ];
+  var bg=document.getElementById('bg'), content=document.getElementById('content'),
+      titleEl=document.getElementById('title'), exEl=document.getElementById('excerpt'),
+      tagEl=document.getElementById('tag'), btn=document.getElementById('draw'), dots=document.getElementById('dots');
+  var current=-1;
+  CLIPS.forEach(function(_,i){var d=document.createElement('i');dots.appendChild(d);});
+  function paintDots(i){[].forEach.call(dots.children,function(el,j){el.className=j===i?'on':'';});}
+  function rnd(n,not){var x;do{x=Math.floor(Math.random()*n);}while(n>1&&x===not);return x;}
+  function setClip(i){ current=i; bg.style.opacity=0;
+    setTimeout(function(){ bg.src=CLIPS[i]; bg.load(); var p=bg.play(); if(p&&p.catch)p.catch(function(){}); bg.style.opacity=1; paintDots(i); }, 260);
+  }
+  function setSermon(s){ titleEl.textContent=s[0]; exEl.textContent='“'+s[1]+'”'; tagEl.textContent=s[2]; }
+  function draw(){
+    btn.disabled=true; content.classList.add('fading');
+    setTimeout(function(){
+      setClip(rnd(CLIPS.length,current));
+      setSermon(SERMONS[Math.floor(Math.random()*SERMONS.length)]);
+      content.classList.remove('fading'); btn.disabled=false;
+    }, 520);
+  }
+  btn.addEventListener('click',draw);
+  // first load: a random water + a random voice
+  setClip(Math.floor(Math.random()*CLIPS.length));
+  setSermon(SERMONS[Math.floor(Math.random()*SERMONS.length)]);
+})();
+</script>
+</body>
+</html>
