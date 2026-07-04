@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grammar of Meaning — favicon showdown (the small-size truth)</title>
+<!--
+  HOW PRODUCED: design-SB, 2026-07-04. The decision keeps turning on "does it hold small?" — so
+    this puts every master/leaf contender at 32 / 24 / 16px, on light AND dark chrome, side by
+    side. Answers two live questions: (1) does the heart-leaf read as a leaf or a heart small?
+    (2) which shadow treatment survives favicon size (split-halves vs sage-echo/cast-shadow)?
+    House palette. Staging, not deployed.
+  SCHOLARLY SOURCES: sprig_shadow.html (sprig + sage echo B1), tree_master.html (tree+shadow #3),
+    matisse_leaves_v2.html (L1-L4). House palette. CLAUDE.md §2.1, §13.
+  WHAT NEEDS VERIFICATION: the 16px column is the true favicon-legibility test; dark-chrome marks
+    would get a lightened variant in production (shown as-is here to reveal which need one).
+-->
+<style>
+  :root{--paper:#FCFBF7;--card:#FFFFFF;--rule:#C9BE9F;--ink:#24302A;--ink2:#52605A;--ink3:#7C8478;
+        --fern:#3F7D57;--moss:#2C4A38;--sage:#8AA88B;--terra:#C4602F;--honey:#E0A93B;--dark:#20281F;
+        --serif:'Newsreader',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;}
+  @import url('https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;padding:40px 32px 64px}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  header{max-width:980px;margin:0 auto 26px;border-bottom:1px solid var(--rule);padding-bottom:18px}
+  header h1{font-family:var(--serif);font-weight:500;font-size:28px;margin:0 0 8px}
+  header .note{font-size:13px;font-style:italic;color:var(--ink2);max-width:720px;line-height:1.5;margin:0}
+  table{max-width:980px;margin:0 auto;border-collapse:collapse;width:100%}
+  th{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);font-weight:400;padding:0 0 12px;text-align:center}
+  th.lab{text-align:left;padding-left:4px}
+  td{border-top:1px solid var(--rule);padding:14px 6px;text-align:center;vertical-align:middle}
+  td.lab{text-align:left;padding-left:4px;width:220px}
+  td.lab .id{font-family:var(--mono);font-size:12px;color:var(--fern);margin-right:5px}
+  td.lab .nm{font-weight:600;font-size:14px;color:var(--moss)}
+  td.lab .tr{display:block;font-family:var(--mono);font-size:10px;color:var(--ink3);margin-top:3px}
+  .chip{display:inline-flex;align-items:center;justify-content:center;background:var(--paper);border:1px solid var(--rule);border-radius:4px;padding:7px}
+  .chip.d{background:var(--dark);border-color:#38423400}
+  .chip svg{display:block}
+  .verdict{font-family:var(--mono);font-size:10px;line-height:1.5;color:var(--ink3);text-align:left;max-width:150px}
+  .verdict b{color:var(--terra);font-weight:500}
+  .verdict .ok{color:var(--fern)}
+  footer{max-width:980px;margin:30px auto 0;border-top:1px solid var(--rule);padding-top:14px;font-family:var(--mono);font-size:11px;color:var(--ink3);line-height:1.6}
+</style>
+</head>
+<body>
+<h2 class="sr-only">A favicon showdown: every master-mark and leaf contender rendered at 32, 24, and 16 pixels on light and dark chrome, to test which holds at favicon size and whether the heart-leaf reads as a leaf or a heart when small.</h2>
+
+<!-- ===== symbol defs ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="m-sprig" viewBox="0 0 200 200">
+    <path d="M100 195 V70" fill="none" stroke="#2C4A38" stroke-width="9" stroke-linecap="round"/>
+    <path d="M100 150 q-46 -10 -58 -55 q46 6 58 55 Z" fill="#3F7D57"/>
+    <path d="M100 120 q46 -12 58 -58 q-46 6 -58 58 Z" fill="#2C4A38"/>
+    <path d="M100 96 q-38 -8 -48 -46 q38 5 48 46 Z" fill="#3F7D57"/>
+    <path d="M100 78 q40 -10 50 -48 q-40 5 -50 48 Z" fill="#2C4A38"/>
+    <circle cx="100" cy="62" r="7" fill="#E0A93B"/><circle cx="100" cy="62" r="9.5" fill="none" stroke="#C4602F" stroke-width="2.4"/>
+  </symbol>
+  <symbol id="m-sprigecho" viewBox="0 0 200 200">
+    <g transform="translate(11 7)" opacity="0.5">
+      <path d="M100 195 V70" fill="none" stroke="#8AA88B" stroke-width="9" stroke-linecap="round"/>
+      <path d="M100 150 q-46 -10 -58 -55 q46 6 58 55 Z" fill="#8AA88B"/>
+      <path d="M100 120 q46 -12 58 -58 q-46 6 -58 58 Z" fill="#8AA88B"/>
+      <path d="M100 96 q-38 -8 -48 -46 q38 5 48 46 Z" fill="#8AA88B"/>
+      <path d="M100 78 q40 -10 50 -48 q-40 5 -50 48 Z" fill="#8AA88B"/>
+      <circle cx="100" cy="62" r="8.5" fill="#8AA88B"/>
+    </g>
+    <path d="M100 195 V70" fill="none" stroke="#2C4A38" stroke-width="9" stroke-linecap="round"/>
+    <path d="M100 150 q-46 -10 -58 -55 q46 6 58 55 Z" fill="#3F7D57"/>
+    <path d="M100 120 q46 -12 58 -58 q-46 6 -58 58 Z" fill="#2C4A38"/>
+    <path d="M100 96 q-38 -8 -48 -46 q38 5 48 46 Z" fill="#3F7D57"/>
+    <path d="M100 78 q40 -10 50 -48 q-40 5 -50 48 Z" fill="#2C4A38"/>
+    <circle cx="100" cy="62" r="7" fill="#E0A93B"/><circle cx="100" cy="62" r="9.5" fill="none" stroke="#C4602F" stroke-width="2.4"/>
+  </symbol>
+  <symbol id="m-tree" viewBox="0 0 200 200">
+    <g transform="translate(96 158) matrix(1 0 1.25 -0.4 0 0) translate(-96 -158)" opacity="0.4">
+      <path d="M 96 158 C 96 138 96 118 96 96" fill="none" stroke="#8AA88B" stroke-width="5"/>
+      <path d="M 96 112 C 84 100 76 86 72 70" fill="none" stroke="#8AA88B" stroke-width="4"/>
+      <path d="M 96 100 C 106 88 116 78 118 62" fill="none" stroke="#8AA88B" stroke-width="4"/>
+    </g>
+    <path d="M 96 158 C 96 138 96 118 96 96" fill="none" stroke="#2C4A38" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 96 110 C 82 98 74 84 70 68" fill="none" stroke="#2C4A38" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 96 98 C 108 86 118 78 122 64" fill="none" stroke="#3F7D57" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 82 90 C 76 82 68 78 58 76" fill="none" stroke="#3F7D57" stroke-width="4" stroke-linecap="round"/>
+    <path d="M 112 82 C 120 76 128 74 136 74" fill="none" stroke="#3F7D57" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="96" cy="92" r="5" fill="#C4602F"/>
+  </symbol>
+  <symbol id="m-l1" viewBox="0 0 200 200">
+    <path d="M100 30 C74 52 58 92 62 126 C64 152 82 168 100 176 L100 30 Z" fill="#2C4A38"/>
+    <path d="M100 30 C126 52 142 92 138 126 C136 152 118 168 100 176 L100 30 Z" fill="#8AA88B"/>
+    <line x1="100" y1="34" x2="100" y2="174" stroke="#FCFBF7" stroke-width="3"/>
+    <line x1="100" y1="176" x2="100" y2="194" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="m-l2" viewBox="0 0 200 200">
+    <g transform="rotate(10 100 184) translate(18 4)" fill="#8AA88B" opacity=".6"><path d="M100 28 C84 72 82 130 100 184 C118 130 116 72 100 28 Z"/></g>
+    <path d="M100 24 C82 70 80 130 100 186 C120 130 118 70 100 24 Z" fill="#2C4A38"/>
+    <line x1="100" y1="186" x2="100" y2="196" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/>
+    <circle cx="100" cy="26" r="6" fill="#C4602F"/>
+  </symbol>
+  <symbol id="m-l3" viewBox="0 0 200 200">
+    <g transform="translate(15 10)" fill="#8AA88B" opacity=".55"><path d="M100 46 C72 32 40 50 40 84 C40 120 72 148 100 176 C128 148 160 120 160 84 C160 50 128 32 100 46 Z"/></g>
+    <path d="M100 42 C72 28 40 46 40 80 C40 116 72 144 100 172 C128 144 160 116 160 80 C160 46 128 28 100 42 Z" fill="#2C4A38"/>
+    <line x1="100" y1="172" x2="100" y2="194" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="m-l4" viewBox="0 0 200 200">
+    <path d="M100 30 C97 46 101 52 72 55 C92 64 90 76 50 86 C89 96 92 108 65 124 C90 138 98 156 100 178 L100 30 Z" fill="#2C4A38"/>
+    <path d="M100 30 C103 46 99 52 128 55 C108 64 110 76 150 86 C111 96 108 108 135 124 C110 138 102 156 100 178 L100 30 Z" fill="#8AA88B"/>
+    <line x1="100" y1="34" x2="100" y2="176" stroke="#FCFBF7" stroke-width="3"/>
+    <line x1="100" y1="178" x2="100" y2="196" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/>
+  </symbol>
+</defs></svg>
+
+<header>
+  <h1>Favicon showdown — the small-size truth</h1>
+  <p class="note">Every contender at the three sizes a favicon actually renders. The 16px column is the real test. Two questions answered here: does the sage-shadow survive small, and does the heart read as a leaf or a heart?</p>
+</header>
+
+<table>
+  <thead><tr>
+    <th class="lab">mark</th><th>32px</th><th>24px</th><th>16px</th><th>dark 32px</th><th class="lab">the read</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td class="lab"><span class="id">—</span><span class="nm">the sprig (solid)</span><span class="tr">current house mark</span></td>
+      <td><span class="chip"><svg width="32" height="32"><use href="#m-sprig"/></svg></span></td>
+      <td><span class="chip"><svg width="24" height="24"><use href="#m-sprig"/></svg></span></td>
+      <td><span class="chip"><svg width="16" height="16"><use href="#m-sprig"/></svg></span></td>
+      <td><span class="chip d"><svg width="32" height="32"><use href="#m-sprig"/></svg></span></td>
+      <td class="verdict">fronds thin at 16px but the silhouette survives</td>
+    </tr>
+    <tr>
+      <td class="lab"><span class="id">B1</span><span class="nm">sprig + sage echo</span><span class="tr">you liked this</span></td>
+      <td><span class="chip"><svg width="32" height="32"><use href="#m-sprigecho"/></svg></span></td>
+      <td><span class="chip"><svg width="24" height="24"><use href="#m-sprigecho"/></svg></span></td>
+      <td><span class="chip"><svg width="16" height="16"><use href="#m-sprigecho"/></svg></span></td>
+      <td><span class="chip d"><svg width="32" height="32"><use href="#m-sprigecho"/></svg></span></td>
+      <td class="verdict"><b>echo muddies</b> — reads as a registration slip small; lovely large</td>
+    </tr>
+    <tr>
+      <td class="lab"><span class="id">T3</span><span class="nm">tree + its shadow</span><span class="tr">the master contender</span></td>
+      <td><span class="chip"><svg width="32" height="32"><use href="#m-tree"/></svg></span></td>
+      <td><span class="chip"><svg width="24" height="24"><use href="#m-tree"/></svg></span></td>
+      <td><span class="chip"><svg width="16" height="16"><use href="#m-tree"/></svg></span></td>
+      <td><span class="chip d"><svg width="32" height="32"><use href="#m-tree"/></svg></span></td>
+      <td class="verdict"><b>shadow drops out</b> small; the tree holds; the "road not taken" is a hero-only story</td>
+    </tr>
+    <tr>
+      <td class="lab"><span class="id">L1</span><span class="nm">the split leaf</span><span class="tr">split-halves</span></td>
+      <td><span class="chip"><svg width="32" height="32"><use href="#m-l1"/></svg></span></td>
+      <td><span class="chip"><svg width="24" height="24"><use href="#m-l1"/></svg></span></td>
+      <td><span class="chip"><svg width="16" height="16"><use href="#m-l1"/></svg></span></td>
+      <td><span class="chip d"><svg width="32" height="32"><use href="#m-l1"/></svg></span></td>
+      <td class="verdict"><span class="ok">holds cleanly</span> at 16px — the shadow is inside the shape, so it can't muddy</td>
+    </tr>
+    <tr>
+      <td class="lab"><span class="id">L2</span><span class="nm">willow + shadow</span><span class="tr">cast-shadow</span></td>
+      <td><span class="chip"><svg width="32" height="32"><use href="#m-l2"/></svg></span></td>
+      <td><span class="chip"><svg width="24" height="24"><use href="#m-l2"/></svg></span></td>
+      <td><span class="chip"><svg width="16" height="16"><use href="#m-l2"/></svg></span></td>
+      <td><span class="chip d"><svg width="32" height="32"><use href="#m-l2"/></svg></span></td>
+      <td class="verdict">narrow at 16px; the shadow blurs into the leaf</td>
+    </tr>
+    <tr>
+      <td class="lab"><span class="id">L3</span><span class="nm">heart-leaf + shadow</span><span class="tr">does it read leaf?</span></td>
+      <td><span class="chip"><svg width="32" height="32"><use href="#m-l3"/></svg></span></td>
+      <td><span class="chip"><svg width="24" height="24"><use href="#m-l3"/></svg></span></td>
+      <td><span class="chip"><svg width="16" height="16"><use href="#m-l3"/></svg></span></td>
+      <td><span class="chip d"><svg width="32" height="32"><use href="#m-l3"/></svg></span></td>
+      <td class="verdict"><b>reads as a heart</b> small — the "leaf" cues (vein/shadow) drop; carries a "like" feeling</td>
+    </tr>
+    <tr>
+      <td class="lab"><span class="id">L4</span><span class="nm">lobed leaf, half-shadow</span><span class="tr">split-halves</span></td>
+      <td><span class="chip"><svg width="32" height="32"><use href="#m-l4"/></svg></span></td>
+      <td><span class="chip"><svg width="24" height="24"><use href="#m-l4"/></svg></span></td>
+      <td><span class="chip"><svg width="16" height="16"><use href="#m-l4"/></svg></span></td>
+      <td><span class="chip d"><svg width="32" height="32"><use href="#m-l4"/></svg></span></td>
+      <td class="verdict">lobes get busy at 16px; holds better than the echoes, below L1</td>
+    </tr>
+  </tbody>
+</table>
+
+<footer>
+  method · every contender at 32 / 24 / 16px on light + dark chrome · the 16px column is the favicon-legibility test · split-halves (shadow inside the shape) survives small; sage-echo + cast-shadow (shadow behind the shape) muddy small · heart reads as a heart below ~24px · dark-chrome marks would get a lightened variant in production · house tokens only · staging, not deployed
+</footer>
+</body>
+</html>
