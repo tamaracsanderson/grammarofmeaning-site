@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grammar of Meaning — section marks: old (conceptual) vs new (leaves), side by side</title>
+<!--
+  HOW PRODUCED: design-SB, 2026-07-04. Correcting an over-reach: the MASTER (split leaf) is locked,
+    but the SECTION icons were never actually chosen to become leaves — the researcher wanted to
+    compare old (conceptual form-icons) vs new (leaf family) side by side. This surface: (1) a role
+    map (master vs sprig vs section vs hero, to clear the "master = where the sprig is?" confusion);
+    (2) two full nav bars, old vs new; (3) per-section detail; (4) Essays THREE ways (quill / quote-
+    mark / willow-leaf). House palette. Staging, not deployed.
+  SCHOLARLY SOURCES: icon_system.html + signoff.html (the original form icons: Library=sheets,
+    Garden=path, Method=instrument, Essays=quill); essays_alts.html (quill / quote-mark, off the
+    magnifying lens); matisse_leaves_v2.html (the leaf family). House palette. CLAUDE.md §2.1, §13.
+  WHAT NEEDS VERIFICATION: master is LOCKED (split leaf); section marks are the researcher's choice
+    (conceptual vs leaf, per-section or wholesale); Essays is a three-way.
+-->
+<style>
+  :root{--paper:#FCFBF7;--card:#FFFFFF;--rule:#C9BE9F;--ink:#24302A;--ink2:#52605A;--ink3:#7C8478;
+        --fern:#3F7D57;--moss:#2C4A38;--sage:#8AA88B;--olive:#6E7B3A;--terra:#C4602F;--honey:#E0A93B;--dark:#20281F;
+        --serif:'Newsreader',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;}
+  @import url('https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;padding:40px 32px 64px}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .wrap{max-width:1000px;margin:0 auto}
+  header{border-bottom:1px solid var(--rule);padding-bottom:20px;margin-bottom:8px}
+  header h1{font-family:var(--serif);font-weight:500;font-size:28px;margin:0 0 8px}
+  header .note{font-size:13.5px;font-style:italic;color:var(--ink2);max-width:760px;line-height:1.5;margin:0}
+  .sec{font-family:var(--mono);font-size:12px;letter-spacing:.03em;color:var(--terra);border-bottom:1px solid var(--rule);padding-bottom:8px;margin:38px 0 16px}
+  /* role map */
+  .roles{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .role{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:15px 17px;display:flex;gap:14px;align-items:flex-start}
+  .role.master{border-color:var(--fern);border-width:2px}
+  .role .ic{flex:none;width:40px;height:40px;display:flex;align-items:center;justify-content:center}
+  .role .t{font-weight:600;font-size:14px;color:var(--moss);margin:0 0 3px}
+  .role .d{font-size:12.5px;color:var(--ink2);line-height:1.45;margin:0}
+  .role .badge{font-family:var(--mono);font-size:9px;letter-spacing:.06em;padding:1px 7px;border-radius:12px;margin-left:6px}
+  .badge.lk{background:#DDEBD3;color:#2C4A38}
+  .badge.free{background:#F4E7DA;color:#9A4A1E}
+  /* nav bars */
+  .navbar{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:15px 22px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:8px}
+  .navbar .lead{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);width:70px}
+  .navbar .brandmark{display:flex;align-items:center;gap:9px;padding-right:20px;border-right:1px solid var(--rule)}
+  .navbar .brandmark .wm{font-family:var(--serif);font-size:15px;font-weight:500;color:var(--ink)}
+  .navlink{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none}
+  .navlink .lbl{font-size:12px;color:var(--ink2)}
+  /* per-section rows */
+  .rows{display:flex;flex-direction:column;gap:0}
+  .row{display:grid;grid-template-columns:120px 1fr 1fr;gap:20px;align-items:center;border-top:1px solid var(--rule);padding:16px 4px}
+  .row .snm{font-weight:600;font-size:15px;color:var(--moss)}
+  .opt{display:flex;align-items:center;gap:14px}
+  .opt .c{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:9px;display:flex;gap:9px;align-items:center}
+  .opt .lb{font-size:12.5px;color:var(--ink2);line-height:1.4}
+  .opt .lb b{color:var(--moss);font-weight:500}
+  .colhead{display:grid;grid-template-columns:120px 1fr 1fr;gap:20px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);padding:0 4px 4px}
+  .three{display:flex;gap:12px;flex-wrap:wrap}
+  .tcard{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;text-align:center;width:150px}
+  .tcard .fn{font-family:var(--mono);font-size:10px;color:var(--ink3);margin-top:7px}
+  .tcard .fd{font-size:11px;color:var(--ink2);margin-top:2px;line-height:1.35}
+  footer{border-top:1px solid var(--rule);padding-top:16px;margin-top:36px;font-family:var(--mono);font-size:11px;color:var(--ink3);line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h2 class="sr-only">A side-by-side comparison of the section marks — the old conceptual form-icons versus the new leaf family — plus a role map clarifying master mark vs sprig, and the Essays icon shown three ways.</h2>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="c-master" viewBox="0 0 200 200">
+    <path d="M100 30 C74 52 58 92 62 126 C64 152 82 168 100 176 L100 30 Z" fill="#2C4A38"/>
+    <path d="M100 30 C126 52 142 92 138 126 C136 152 118 168 100 176 L100 30 Z" fill="#8AA88B"/>
+    <line x1="100" y1="34" x2="100" y2="174" stroke="#FCFBF7" stroke-width="3"/>
+    <line x1="100" y1="176" x2="100" y2="194" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/>
+  </symbol>
+  <!-- OLD conceptual form icons -->
+  <symbol id="o-library" viewBox="0 0 200 200">
+    <rect x="52" y="48" width="86" height="104" rx="3" fill="none" stroke="#C9BE9F" stroke-width="2"/>
+    <rect x="66" y="60" width="86" height="104" rx="3" fill="#FFFFFF" stroke="#2C4A38" stroke-width="2.5"/>
+    <path d="M 109 150 C 109 128 109 108 109 84" fill="none" stroke="#3F7D57" stroke-width="2.25"/>
+    <path d="M 109 124 C 96 118 90 108 89 98" fill="none" stroke="#3F7D57" stroke-width="1.75"/>
+    <path d="M 109 110 C 122 105 128 96 130 87" fill="none" stroke="#8AA88B" stroke-width="1.75"/>
+    <circle cx="109" cy="84" r="4.5" fill="#C4602F"/><line x1="78" y1="150" x2="98" y2="150" stroke="#7C8478" stroke-width="1.75"/>
+  </symbol>
+  <symbol id="o-garden" viewBox="0 0 200 200">
+    <path d="M 44 158 Q 78 138 66 108 Q 54 78 100 66 Q 148 54 132 38" fill="none" stroke="#C9BE9F" stroke-width="3" stroke-linecap="round" stroke-dasharray="1.5 8"/>
+    <path d="M 66 108 C 66 100 66 94 66 88" fill="none" stroke="#3F7D57" stroke-width="2"/><circle cx="66" cy="108" r="4" fill="#2C4A38"/>
+    <path d="M 100 66 C 100 58 100 52 100 46" fill="none" stroke="#3F7D57" stroke-width="2"/><circle cx="100" cy="66" r="4" fill="#C4602F"/>
+    <path d="M 44 158 C 44 150 44 144 44 138" fill="none" stroke="#3F7D57" stroke-width="2"/><circle cx="44" cy="158" r="4" fill="#2C4A38"/>
+  </symbol>
+  <symbol id="o-method" viewBox="0 0 200 200">
+    <circle cx="42" cy="100" r="6" fill="#2C4A38"/><line x1="48" y1="100" x2="82" y2="100" stroke="#C9BE9F" stroke-width="2.5"/>
+    <circle cx="100" cy="100" r="18" fill="none" stroke="#3F7D57" stroke-width="3"/><circle cx="100" cy="100" r="6" fill="#C4602F"/>
+    <line x1="118" y1="100" x2="152" y2="100" stroke="#C9BE9F" stroke-width="2.5"/><circle cx="158" cy="100" r="6" fill="#6E7B3A"/>
+  </symbol>
+  <symbol id="o-quill" viewBox="0 0 200 200">
+    <path d="M 132 44 C 96 74 74 108 60 150" fill="none" stroke="#2C4A38" stroke-width="2.75" stroke-linecap="round"/>
+    <path d="M 132 44 C 128 82 112 118 78 138 C 92 108 108 76 132 44 Z" fill="none" stroke="#3F7D57" stroke-width="2.25" stroke-linejoin="round"/>
+    <path d="M 122 58 C 106 84 90 112 72 138" fill="none" stroke="#8AA88B" stroke-width="1.5"/><circle cx="63" cy="150" r="6" fill="#C4602F"/>
+  </symbol>
+  <symbol id="o-quote" viewBox="0 0 200 200">
+    <path d="M 78 60 C 56 66 46 84 46 106 C 46 126 60 138 76 136 C 90 134 98 122 96 110 C 94 98 84 92 74 96 C 78 78 92 70 100 68 Z" fill="#2C4A38"/>
+    <path d="M 142 60 C 120 66 110 84 110 106 C 110 126 124 138 140 136 C 154 134 162 122 160 110 C 158 98 148 92 138 96 C 142 78 156 70 164 68 Z" fill="#3F7D57"/>
+    <circle cx="76" cy="116" r="5.5" fill="#C4602F"/>
+  </symbol>
+  <!-- NEW leaves + sprig -->
+  <symbol id="n-oak" viewBox="0 0 200 200">
+    <path d="M100 30 C97 46 101 52 72 55 C92 64 90 76 50 86 C89 96 92 108 65 124 C90 138 98 156 100 178 C102 156 110 138 135 124 C108 108 111 96 150 86 C110 76 108 64 128 55 C99 52 103 46 100 30 Z" fill="#2C4A38"/>
+    <line x1="100" y1="40" x2="100" y2="176" stroke="#8AA88B" stroke-width="2"/><line x1="100" y1="178" x2="100" y2="196" stroke="#2C4A38" stroke-width="6" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="n-willow" viewBox="0 0 200 200">
+    <path d="M100 24 C82 70 80 130 100 186 C120 130 118 70 100 24 Z" fill="#2C4A38"/>
+    <line x1="100" y1="36" x2="100" y2="176" stroke="#8AA88B" stroke-width="1.8"/><line x1="100" y1="186" x2="100" y2="198" stroke="#2C4A38" stroke-width="6" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="n-sprig" viewBox="0 0 200 200">
+    <path d="M100 195 V70" fill="none" stroke="#2C4A38" stroke-width="9" stroke-linecap="round"/>
+    <path d="M100 150 q-46 -10 -58 -55 q46 6 58 55 Z" fill="#3F7D57"/><path d="M100 120 q46 -12 58 -58 q-46 6 -58 58 Z" fill="#2C4A38"/>
+    <path d="M100 96 q-38 -8 -48 -46 q38 5 48 46 Z" fill="#3F7D57"/><path d="M100 78 q40 -10 50 -48 q-40 5 -50 48 Z" fill="#2C4A38"/>
+    <circle cx="100" cy="62" r="7" fill="#E0A93B"/><circle cx="100" cy="62" r="9.5" fill="none" stroke="#C4602F" stroke-width="2.4"/>
+  </symbol>
+</defs></svg>
+
+<header>
+  <h1>Section marks — old vs new, side by side</h1>
+  <p class="note">Correcting my over-reach: the <b>master mark (the split leaf) is locked</b>, but the <b>section icons are your choice</b> — keep the old conceptual ones (book, path, instrument, quill) or move to leaves. Here they are next to each other, per section, plus a role map to clear up master-vs-sprig, plus Essays shown three ways.</p>
+</header>
+
+<!-- role map -->
+<div class="sec">first — who does what (the master / sprig / section / hero map)</div>
+<div class="roles">
+  <div class="role master">
+    <span class="ic"><svg width="34" height="34" viewBox="0 0 200 200"><use href="#c-master"/></svg></span>
+    <div><p class="t">the master mark <span class="badge lk">locked</span></p><p class="d">the split leaf. sits in the nav next to the wordmark + is the favicon. means “the whole site.” <b>it replaces the sprig</b> that’s there now.</p></div>
+  </div>
+  <div class="role">
+    <span class="ic"><svg width="30" height="30" viewBox="0 0 200 200"><use href="#n-sprig"/></svg></span>
+    <div><p class="t">the sprig <span class="badge free">freed up</span></p><p class="d">the <em>old</em> house mark. no longer the master. it can retire, or take one job (Garden, or the big hero lockup) — your call, not load-bearing.</p></div>
+  </div>
+  <div class="role">
+    <span class="ic"><svg width="26" height="26" viewBox="0 0 200 200"><use href="#o-library"/></svg></span>
+    <div><p class="t">the section marks <span class="badge free">deciding now</span></p><p class="d">the little icons by Library / Essays / Garden / Method. conceptual (book/quill/path/instrument) OR leaves — <b>this page is that choice.</b></p></div>
+  </div>
+  <div class="role">
+    <span class="ic"><svg width="34" height="34" viewBox="0 0 200 200"><use href="#n-sprig"/></svg></span>
+    <div><p class="t">the hero lockup <span class="badge free">optional</span></p><p class="d">a big letterhead / About-hero flourish (the sage-shadow sprig). nice-to-have, used large only. skippable.</p></div>
+  </div>
+</div>
+
+<!-- two nav bars -->
+<div class="sec">the two systems, whole — same locked master, different section marks</div>
+<div class="navbar">
+  <span class="lead">old</span>
+  <div class="brandmark"><svg width="24" height="24" viewBox="0 0 200 200"><use href="#c-master"/></svg><span class="wm">Grammar of Meaning</span></div>
+  <a class="navlink"><svg width="26" height="26" viewBox="0 0 200 200"><use href="#o-library"/></svg><span class="lbl">Library</span></a>
+  <a class="navlink"><svg width="26" height="26" viewBox="0 0 200 200"><use href="#o-garden"/></svg><span class="lbl">Garden</span></a>
+  <a class="navlink"><svg width="26" height="26" viewBox="0 0 200 200"><use href="#o-quill"/></svg><span class="lbl">Essays</span></a>
+  <a class="navlink"><svg width="26" height="26" viewBox="0 0 200 200"><use href="#o-method"/></svg><span class="lbl">Method</span></a>
+</div>
+<div class="navbar">
+  <span class="lead">new</span>
+  <div class="brandmark"><svg width="24" height="24" viewBox="0 0 200 200"><use href="#c-master"/></svg><span class="wm">Grammar of Meaning</span></div>
+  <a class="navlink"><svg width="26" height="26" viewBox="0 0 200 200"><use href="#n-oak"/></svg><span class="lbl">Library</span></a>
+  <a class="navlink"><svg width="26" height="26" viewBox="0 0 200 200"><use href="#n-sprig"/></svg><span class="lbl">Garden</span></a>
+  <a class="navlink"><svg width="26" height="26" viewBox="0 0 200 200"><use href="#o-quote"/></svg><span class="lbl">Essays</span></a>
+  <a class="navlink"><svg width="26" height="26" viewBox="0 0 200 200"><use href="#n-willow"/></svg><span class="lbl">Method</span></a>
+</div>
+<p class="note" style="margin-top:12px">Note the trade-off: the <b>old</b> set <em>says what each section is</em> (a book = library, a quill = writing, a path = a walk, an instrument = a method). The <b>new</b> set is <em>prettier + more unified</em> but leans on the text label to carry meaning (a leaf doesn’t say “library”). You can also <b>mix</b> — e.g. keep the book + quill where meaning matters, use leaves for Garden.</p>
+
+<!-- per-section detail -->
+<div class="sec">per section — pick one (or mix)</div>
+<div class="colhead"><span>section</span><span>old · conceptual</span><span>new · leaf</span></div>
+<div class="rows">
+  <div class="row">
+    <span class="snm">Library</span>
+    <div class="opt"><span class="c"><svg width="30" height="30" viewBox="0 0 200 200"><use href="#o-library"/></svg></span><span class="lb"><b>the book</b> — stacked pressed sheets; says “corpus”</span></div>
+    <div class="opt"><span class="c"><svg width="30" height="30" viewBox="0 0 200 200"><use href="#n-oak"/></svg></span><span class="lb"><b>the oak leaf</b> — full/gathered; pretty, needs the label</span></div>
+  </div>
+  <div class="row">
+    <span class="snm">Garden</span>
+    <div class="opt"><span class="c"><svg width="30" height="30" viewBox="0 0 200 200"><use href="#o-garden"/></svg></span><span class="lb"><b>the path</b> — a walk threading sprig-nodes</span></div>
+    <div class="opt"><span class="c"><svg width="30" height="30" viewBox="0 0 200 200"><use href="#n-sprig"/></svg></span><span class="lb"><b>the sprig</b> — a growing plant; the most literal “garden”</span></div>
+  </div>
+  <div class="row">
+    <span class="snm">Method</span>
+    <div class="opt"><span class="c"><svg width="30" height="30" viewBox="0 0 200 200"><use href="#o-method"/></svg></span><span class="lb"><b>the instrument</b> — node·lens·node; says “how it’s read”</span></div>
+    <div class="opt"><span class="c"><svg width="30" height="30" viewBox="0 0 200 200"><use href="#n-willow"/></svg></span><span class="lb"><b>the willow</b> — a slim leaf; pretty, needs the label</span></div>
+  </div>
+</div>
+
+<!-- essays three ways -->
+<div class="sec">Essays — three ways (you asked for the quill back)</div>
+<div class="three">
+  <div class="tcard"><svg width="40" height="40" viewBox="0 0 200 200"><use href="#o-quill"/></svg><div class="fn">the quill</div><div class="fd">the original; says “written” most directly</div></div>
+  <div class="tcard"><svg width="40" height="40" viewBox="0 0 200 200"><use href="#o-quote"/></svg><div class="fn">the quote-mark</div><div class="fd">says “voice / a said thing”; bold + tiny-legible</div></div>
+  <div class="tcard"><svg width="40" height="40" viewBox="0 0 200 200"><use href="#n-willow"/></svg><div class="fn">the willow leaf</div><div class="fd">stays in the leaf family; leans on the label</div></div>
+</div>
+
+<footer>
+  method · master LOCKED (split leaf) · section marks = researcher’s choice: old conceptual (book/path/instrument/quill) vs new leaves, per-section or mixed · Essays three-way (quill/quote/willow) · sprig is the freed old mark (retire / Garden / hero) · house tokens only · staging, not deployed
+</footer>
+</div>
+</body>
+</html>
