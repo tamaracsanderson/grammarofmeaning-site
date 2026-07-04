@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luminous Archive — S107 Design-Patterns Moodboard</title>
+<style>
+  :root{--vellum:#f6f1e3;--vellum2:#efe7d3;--ink:#2b2620;--muted:#8a7f6a;
+    --gold:#b8923b;--gold-deep:#8a6d24;--red:#9e3b2e;--rule:#d9cdb0;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--vellum);color:var(--ink);font-family:Georgia,serif;line-height:1.5}
+  header.top{padding:24px 24px 14px;border-bottom:2px solid var(--gold);background:linear-gradient(180deg,var(--vellum2),var(--vellum))}
+  header.top h1{font-size:25px;margin:0 0 4px}
+  header.top .sub{color:var(--muted);font-style:italic;font-size:13px;max-width:880px}
+  header.top .note{margin-top:8px;font-size:11.5px;color:var(--muted);border-left:3px solid var(--gold);padding-left:10px;max-width:880px}
+  nav.toc{position:sticky;top:0;z-index:30;background:rgba(246,241,227,.97);backdrop-filter:blur(4px);
+    border-bottom:1px solid var(--rule);padding:9px 18px;display:flex;flex-wrap:wrap;gap:6px;font-size:11.5px}
+  nav.toc a{color:var(--gold-deep);text-decoration:none;border:1px solid var(--rule);background:#fff;border-radius:12px;padding:2px 9px;white-space:nowrap}
+  nav.toc a:hover{border-color:var(--gold)}
+  section{padding:18px 22px 6px}
+  section h2{font-size:17px;margin:6px 0 2px;border-bottom:2px solid var(--gold);padding-bottom:3px;display:inline-block}
+  section .pat{font-size:12px;color:var(--muted);font-style:italic;margin:4px 0 12px;max-width:880px}
+  .grid{column-count:5;column-gap:13px}
+  @media(max-width:1500px){.grid{column-count:4}}@media(max-width:1100px){.grid{column-count:3}}@media(max-width:760px){.grid{column-count:2}}
+  .card{break-inside:avoid;margin:0 0 13px;background:#fff;border:1px solid var(--rule);border-radius:4px;overflow:hidden;box-shadow:0 1px 3px rgba(80,60,20,.08)}
+  .card img{width:100%;display:block;background:var(--vellum2);min-height:40px}
+  .card .cap{padding:6px 8px 8px;font-size:10.5px;color:var(--muted)}
+  .pdfbox{background:#fff;border:1px dashed var(--gold);border-radius:6px;padding:12px 14px;font-size:12.5px;max-width:880px}
+  .pdfbox b{color:var(--gold-deep)} .care{color:var(--red);font-weight:bold}
+  footer{padding:20px 24px 40px;font-size:11px;color:var(--muted);border-top:1px solid var(--rule);margin-top:18px;max-width:900px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>The Luminous Archive — S107 Design-Patterns Moodboard 🌿</h1>
+  <div class="sub">A visual companion to the S106–S107 design notes (<code>field_ed/library_design_session_notes_2026-06-06.md</code>), grouped by the patterns locked this session. Each image illustrates a pattern; click the section chips to jump.</div>
+  <div class="note"><b>IP posture:</b> this HTML is committed; the images it points to live in <code>library_photos_2026-06-06/</code> and are <b>gitignored copyrighted inspiration</b> — the bytes are never committed. Local design-reference only; never published/reproduced (only PD/CC0-acquired assets get shipped).<br>
+  <b>To add tonight's library finds:</b> drop the image in <code>field_ed/library_photos_2026-06-06/</code> and add one line to the <code>ITEMS</code> array under "▼ TONIGHT'S FINDS" in this file — or just ask me to regenerate the board from the folder.</div>
+</header>
+<nav class="toc" id="toc"></nav>
+<main id="main"></main>
+<footer>
+  S107 (2026-06-08), main-Claude, at researcher request — visual companion to the design-patterns notes. Pattern descriptions abbreviated from the locked notes. PDFs (Architecture of Trees, Medieval Flowers, Hajj, Mecca, etc.) live in <code>references/</code> (gitignored) — too multi-page to thumbnail; see the §PDF box.
+</footer>
+<script>
+const DIR = "library_photos_2026-06-06/";
+// {f: filename in library_photos, cap: short caption}
+const SECTIONS = [
+ {id:"soil", h:"The Soil — the slow-read (slowread.org)", pat:"Dwelling in the seed's source book, paced. Serialized slow-read · calm non-extractive surface · part-of-N trail · concordance beside readings · the 'simulcast' = communal reading in time.",
+  items:[
+   {f:"SR1.png",cap:"the book broken into 74 daily parts — the part-of-N trail"},
+   {f:"SR2.png",cap:"the calm serif reading surface (non-extractive)"},
+   {f:"SR3.png",cap:"the Concordance — jewel-tone endpaper = pigment-Sitz"},
+   {f:"SR4.png",cap:"pull-quote as object + floor-installation map"},
+   {f:"SR5.png",cap:"fold-out flap (tactile reveal) + Nebraska Sitz-map"},
+   {f:"SR6.png",cap:"the numbered timeline grid + text cards"},
+   {f:"SR7.png",cap:"★ node-edge narrative-map w/ colored paths = rhyme-map precedent"},
+  ]},
+ {id:"concentric", h:"The Circumplex · Concentric · S0–S8 Mandala", pat:"Plot the garden on a circle, not a quadrant. Circumplex (relational, plot-relative-to-a-center = Re-Centering Garden) + S0–S8 concentric scale-of-concern (self→cosmos; the dash = the metaxy at the ring-boundaries).",
+  items:[
+   {f:"plot1.jpg",cap:"Schell's interpersonal circumplex — 2 axes → continuous wheel"},
+   {f:"plot2.jpg",cap:"plot relative to a center (Han Solo) = the Re-Centering Garden"},
+   {f:"S1S8.jpg",cap:"the S0–S8 scale-of-concern (self→cosmos)"},
+   {f:"ref_eames_powers-of-ten.jpg",cap:"Powers of Ten — the zoom × S0–S8 braid"},
+   {f:"mandala_tibetan_kalachakra.jpg",cap:"Kalachakra — concentric, walked inward"},
+   {f:"thangka_tibetan_mandala.jpg",cap:"thangka mandala — nested rings"},
+   {f:"christian_contemporary-icon_last-supper-concentric-mandala.jpg",cap:"concentric Last Supper (cross-tradition concentric)"},
+   {f:"christian_medieval_angelic-hierarchy-mandala.webp",cap:"angelic-hierarchy mandala"},
+   {f:"christian_beatus_cosmic-wheel.jpeg",cap:"Beatus cosmic wheel"},
+   {f:"jewish_shiviti_menorah-concentric-text-arcs.jpg",cap:"shiviti — concentric text-arcs (text-as-ring)"},
+   {f:"jewish_papercut_concentric-text-medallion-lions.jpg",cap:"papercut concentric medallion"},
+   {f:"buddhist_tibetan_cosmological-sunburst.jpg",cap:"cosmological sunburst — radial"},
+  ]},
+ {id:"pilgrimage", h:"Pilgrimage — Wayfinding · Stamps · Labyrinth", pat:"The trail (sense of progress without a win): pilgrimage stamps (goshuin / Camino sellos). The labyrinth = the concentric scale, walked. Hajj/tawaf = the real-tradition anchor (see PDFs).",
+  items:[
+   {f:"buddhist_japanese_goshuin_pilgrim-stamps.webp",cap:"goshuin — Japanese pilgrim-stamps = the trail"},
+   {f:"christian_camino_pilgrim-sellos.jpg",cap:"Camino sellos — the stamp-book"},
+   {f:"ref_pilgrim-stamps-collection.webp",cap:"pilgrim-stamps collection"},
+   {f:"ref_stamp-map_japan-goshuin-by-locality.png",cap:"goshuin mapped by locality — stamps + wayfinding"},
+   {f:"ref_petersis_conference-of-birds_sufi-labyrinth.jpg",cap:"Conference of the Birds — Sufi labyrinth (walkable concentric)"},
+   {f:"ref_garden-maze_topiary-contemporary.png",cap:"garden maze / labyrinth — the walked path"},
+   {f:"buddhist_japanese_nachi-pilgrimage-mandala.jpg",cap:"Nachi pilgrimage mandala — map-as-pilgrimage"},
+  ]},
+ {id:"chance", h:"Chance — the Sortes / Surprise", pat:"The random entry-mode = the digital sortes (I Ching / bibliomancy / casting lots). The posture of surrender. Serendipity, never slot-machine.",
+  items:[
+   {f:"XKCD.png",cap:"the random button (xkcd) — the seed of the sortes idea"},
+   {f:"ref_oracle-tarot-decks_collection.jpg",cap:"oracle/tarot decks — chance as a way into meaning"},
+   {f:"ref_oracle-card_cross-of-camargue.jpg",cap:"oracle card"},
+   {f:"ref_oracle-tarot-deck_card5.jpg",cap:"oracle card (draw)"},
+   {f:"ref_oracle-tarot-deck_card7.jpg",cap:"oracle card (draw)"},
+  ]},
+ {id:"forms", h:"The Three Forms — Tree · Mandala/Labyrinth · Scroll/River", pat:"The form-family concordance. Tree (branching) · mandala/labyrinth (concentric — see §Concentric) · scroll/river (flowing).",
+  items:[
+   {f:"ref_blake_visionary-celestial-tree.jpg",cap:"TREE — Blake's visionary celestial tree"},
+   {f:"christian_medieval_jesse-tree_curved-vine.jpeg",cap:"TREE — Jesse tree (the Romans form)"},
+   {f:"ref_tree-of-life_pink-blossom-gold-fruit-deer.jpg",cap:"TREE — tree of life, fruit-as-nodes"},
+   {f:"christian_medieval_lignum-vitae_tree-of-life.png",cap:"TREE — lignum vitae"},
+   {f:"chinese_master-view_landscape-vignettes-scroll.jpg",cap:"SCROLL — master-view vignettes"},
+   {f:"ref_illustration_river-flowing-current-lines.jpg",cap:"RIVER — flowing current-lines"},
+   {f:"scroll_jewish_torah.webp",cap:"SCROLL — Torah scroll"},
+   {f:"ref_water_stylized-waves_mayuko-fujino.jpg",cap:"RIVER — stylized waves"},
+  ]},
+ {id:"pigment", h:"Pigment-Sitz · Painterliness · Material Surface", pat:"The shared illumination palette (lapis/malachite/vermilion/gold) — shared because the same minerals traded the same routes. The Archive should look hand-painted/material.",
+  items:[
+   {f:"christian_gothic_illuminated-initial_lapis-blue-gold.webp",cap:"lapis-blue + gold initial"},
+   {f:"jewish_illuminated-ketubah_baroque-floral-border.jpg",cap:"ketubah jewel-tone border"},
+   {f:"islamic_persian_conference-of-birds_tree-stream-goldfleck.jpg",cap:"Persian gold-fleck — birds/tree/stream"},
+   {f:"christian_insular_book-of-durrow_carpet-page-interlace.png",cap:"Book of Durrow interlace (the cyber-monastic sref)"},
+   {f:"ethiopian_geez_manuscript.jpg",cap:"Ge'ez manuscript — African flare"},
+   {f:"hindu_rajput_yoga-asana_peach-gold-red.jpg",cap:"Rajput peach-gold-red"},
+   {f:"christian_santa-costanza_vine-mosaic.jpg",cap:"★ Santa Costanza vine-mosaic (early-Christian, Rome) — the Romans-Sitz + vine/olive imagery (Rom 11); material mosaic surface"},
+   {f:"christian_chiapas_colonial-silver-altar-frontal.jpg",cap:"Colonial Chiapas silver/gold baroque altar frontal — pigment-Sitz + grapevine (Rom 11/Eucharist) + IHS sunburst (radial) + altar. Syncretic Catholic–Indigenous; colonial = PD-likely; CARE-foreground (Cinco Siglos de Plástica en Chiapas)"},
+  ]},
+ {id:"mirror", h:"The Honest Mirror · UI refs · Your own mockups", pat:"A mirror, not a face. Calm, non-extractive, painterly UI. (slowread is the aesthetic-north for the whole surface.)",
+  items:[
+   {f:"ref_ui_painterly_david-whyte-site.png",cap:"painterly UI — David Whyte site"},
+   {f:"ref_ui_painterly_lost-species-site.png",cap:"painterly UI — Lost Species"},
+   {f:"ref_ui_fading-focus_alan-menken-site.png",cap:"fading-focus UI"},
+   {f:"ref_ui_clustering_jp-recruitment-site.png",cap:"clustering UI"},
+   {f:"ref_mockup_gom-scroll-gradient_tamara.png",cap:"★ your own mockup — GoM scroll-gradient"},
+   {f:"ref_mockup_nodecard_tamara.png",cap:"★ your own mockup — node card"},
+  ]},
+ {id:"animals", h:"Animals as Parable-Bearers + Convergence Motifs", pat:"Animal parables = the rare double-case (documented travel + independent convergence). The Conference of the Birds; the trickster/teaching-beast mythemes.",
+  items:[
+   {f:"buddhist_tibetan_shamatha-elephant-path-thangka.jpg",cap:"the elephant-path thangka (the elephant parable's home tradition)"},
+   {f:"ref_folk-art_round-crown-trees_bird-deer.jpg",cap:"folk-art birds/deer in trees"},
+   {f:"ref_blockprint_birds-clouds.jpg",cap:"birds + clouds block-print"},
+   {f:"animals_bactrian-gold_feline-dragon-torc_turquoise.jpg",cap:"★ Bactrian Gold torcs — Scythian animal-style feline/dragon-head terminals in gold + Persian turquoise inlay (Afghanistan: I tesori ritrovati, Tillya Tepe, cover). The SILK-ROAD CONVERGENCE object (Greek+Persian+Steppe+Indian fused) + new material (gold+turquoise). ~1st c. CE, PD-by-age; book photo = inspiration"},
+  ]},
+ {id:"architecture", h:"Architecture / Built Environment", pat:"How built environment enters the garden — the panorama (real images of sacred places), the consecrated-ground built form, the arch/apse/dome/basilica vocabulary. Name architecture_* to land here.",
+  items:[
+   {f:"architecture_byzantine-syria_dead-cities-basilica.jpg",cap:"Dead Cities basilica (early-Byzantine Syria) — apse/arch/stone; the EASTERN-Christian strand + built-environment fodder. Modern photo (Peña) = inspiration; the architecture itself = PD/Wikimedia"},
+   {f:"architecture_ottoman-dome_pen-line.jpg",cap:"★ Ottoman dome interior as PEN-LINE drawing (Istanbul.pdf p.3) — a line-drawn DOME-MANDALA-from-below: directly the 2-pen line concordance + the mandala-form + dome-as-mandala. The convergence/palimpsest angle (church→mosque). Book photo = inspiration; the dome itself = PD"},
+   {f:"architecture_russian-orthodox_onion-domes.jpg",cap:"Russian Orthodox onion-domes through trees (Murom.pdf cover) — a NEW dome/spire type (Slavic-Orthodox), distinct from Ottoman + Byzantine-Syriac; the church-in-the-garden built form. Underlying architecture PD; 1971 book photo = inspiration"},
+   {f:"architecture_rajput_painted-darbar-interior.jpg",cap:"Rajput painted darbar interior + whirling dancers (Rajasthan.pdf p.2) — a TOTAL painted environment (every surface ornamented) + embodied ritual/movement: fodder for the garden-as-immersive-environment + the consecrated/lived layer. Modern photo = inspiration; the interior decoration = PD-by-age"},
+   {f:"architecture_odisha_kalinga-temple-relief.jpg",cap:"Kalinga temple stone-relief (Imaging Odisha, p.3) — Konark/Bhubaneswar sandstone carving + beaded border: the Odishan/Jagannath temple-sculpture idiom (a distinct REGIONAL Hindu tradition, not generic 'Indian'). Carved stone surface fodder. Underlying sculpture PD-by-age; book photo = inspiration"},
+  ]},
+ {id:"treetopo", h:"Tree-types & Topography — drawing-fodder", pat:"Real photos (from the books) of tree-shapes + landforms = the TYPE-VOCABULARY for the garden's hand-drawn forms — the branching-tree idioms + the hills/water/mountains landform kit (S105). Inspiration for OUR-OWN-drawing; the photo isn't the asset, the drawn form is — never reproduced/shipped (the underlying shape isn't copyrightable; the photo is). Name them tree_<type>_* / topo_<type>_* so they land here.",
+  items:[
+   {f:"topo_desert-dune-ripple.jpg",cap:"wind-rippled desert dune — landform/texture + the desert-Sitz of the Abrahamic seeds (Israel.pdf p.2)"},
+   {f:"tree_chiapas-jungle-engraving.jpg",cap:"Lacandon jungle wood-engraving — dense-jungle tree/forest type + B&W print idiom. ⚠ contemporary Chiapas artist (attribution TBD); CARE-foreground; INSPIRATION-only, never shipped"},
+   // {f:"tree_umbrella-pine_spreading.jpg",cap:"spreading umbrella-pine canopy — branching idiom"},
+   // {f:"topo_rolling-hills.jpg",cap:"rolling-hills contour — landform kit"},
+  ]},
+ {id:"pattern", h:"Pattern & Ornament — drawing-fodder", pat:"Geometric / textile / ornamental patterns = the pattern-kit layer (the tiles, borders, repeats the garden is dressed in). Inspiration for our-own; name pattern_* to land here.",
+  items:[
+   {f:"pattern_najran-kilim.jpg",cap:"Najrani kilim — jewel-tone diamond geometry (Desert Garden of Arabia, Najran p.3)"},
+   {f:"pattern_russian-orthodox_pearl-flower-embroidery.jpg",cap:"★ Russian Orthodox pearl/gold-thread flower embroidery (Murom.pdf p.2) — a luminous white-on-dark FLOWER (pomegranate/tulip + berries on a pearled ground): a NEW material idiom (textile/pearl-sewing) + flower-fodder in the Slavic-Orthodox register. Underlying work PD-by-age; 1971 Soviet book photo = inspiration"},
+   {f:"pattern_mughal_pietra-dura-flower-inlay.jpg",cap:"★ Mughal pietra-dura (parchin kari) marble flower-inlay (Rajasthan.pdf p.3) — a single flowering plant in dark stone on white marble (Taj Mahal idiom) + floral-scroll border: a NEW material idiom (semi-precious STONE inlay) + flower-fodder in the Indo-Muslim register. Underlying Mughal-era work PD-by-age; book photo = inspiration"},
+   {f:"pattern_odisha_ikat-lotus-bandha.jpg",cap:"★ Odisha ikat / bandha (Sambalpuri) weave — lotus-register (Imaging Odisha, Kulke, p.2): a NEW textile idiom (woven resist-dye IKAT, not embroidery/print) + flower-fodder in the Kalinga register. The 'one flower, many material grammars' set grows (now: paint · pearl-thread · stone-inlay · ikat-weave). Underlying craft PD-as-traditional; book photo = inspiration"},
+   {f:"pattern_bactrian-gold_tillya-tepe-crown_tree-flower.jpg",cap:"★★ Tillya Tepe gold crown (Afghanistan: I tesori ritrovati, p.3) — a collapsible nomadic CROWN that IS a tree-of-life + flowers + gold spangles: maps DIRECTLY onto the garden's own locked vocabulary (CROWN · TREE · FLOWER) + a new material grammar for tree/flower (gold spangle-work). ~1st c. CE, PD-by-age; book photo = inspiration"},
+  ]},
+ // ▼ TONIGHT'S FINDS — drop files in library_photos_2026-06-06/ and add {f:"...",cap:"..."} lines here:
+ {id:"finds", h:"▼ Tonight's library finds", pat:"Drop new images in library_photos_2026-06-06/ and add lines below (or ask me to regenerate). Tag the 'why' in the caption.",
+  items:[
+   {f:"mesoamerican_olmec_el-principe-basalt.jpg",cap:"★ Olmec basalt sculpture 'El Príncipe' (Cruz del Milagro, Veracruz — El Alma de México p.5): the MOTHER-CULTURE of Mesoamerica (root of Maya + Aztec) — a foundational gap now filled. Carved basalt monumental form. PD-by-age; book photo = inspiration. CARE: Indigenous-Mesoamerican, living descendants → tag requires_care_review"},
+   {f:"mesoamerican_aztec_coatlicue-pencil-drawing.jpg",cap:"★ Aztec Coatlicue, hand-drawn (colored pencil) (El Alma de México p.2): the earth-mother monolith — serpent skirt + skull necklace = LIFE-AND-DEATH in one body (the both/and made stone, thesis-relevant). Doubly useful: a 'monument-rendered-as-DRAWING' reference for our own icon-drawing. CARE: Aztec/Mexica sacred, living descendants → tag requires_care_review; surface to researcher"},
+   // {f:"yourfile.jpg",cap:"why you shot it / what pattern it informs"},
+  ]},
+];
+const PDFS = `<b>PDF references</b> (in <code>references/</code>, gitignored — multi-page, not thumbnailed here):
+<br>• <b>The architecture of trees</b> — aesthetic-spec for hand-drawn botanical (its drawings are in-copyright; inspiration only).
+<br>• <b>Medieval Flowers</b> — PD medieval illumination (category-shop → BL / Gallica / Morgan / e-codices).
+<br>• <b>Pattern & Ornament in the Arts of India</b>, <b>History of Information Graphics</b> — PD historical works (category-shops).
+<br>• <b>Hajj</b> (Biber/Aga-Khan) — modern photos, inspiration; the tawaf = the concentric pilgrimage in the flesh.
+<br>• <b>Mecca</b> (Stewart/Amin) — mixed: modern photos (reference) + PD historical Islamic art (Kaaba-schematics = concentric pilgrimage-maps).
+<br><span class="care">★ CARE (§2.11):</span> all Hajj/Mecca = requires_care_review; <span class="care">figural Prophet depictions (Mi'rāj) = CITE-NOT-REPRODUCE</span> — researcher judgment, not auto-carted.`;
+
+const main=document.getElementById('main'), toc=document.getElementById('toc');
+SECTIONS.forEach(s=>{
+  toc.insertAdjacentHTML('beforeend',`<a href="#${s.id}">${s.h.replace(/^▼ /,'')}</a>`);
+  let cards = s.items.map(it=>`<div class="card"><img loading="lazy" src="${DIR+encodeURIComponent(it.f)}" alt="${it.cap}"><div class="cap">${it.cap}</div></div>`).join('');
+  if(!s.items.length) cards = `<div class="pdfbox">No images yet — add finds here.</div>`;
+  main.insertAdjacentHTML('beforeend',
+    `<section id="${s.id}"><h2>${s.h}</h2><div class="pat">${s.pat}</div><div class="grid">${cards}</div></section>`);
+});
+main.insertAdjacentHTML('beforeend',`<section id="pdfs"><h2>PDF references &amp; CARE</h2><div class="pdfbox">${PDFS}</div></section>`);
+toc.insertAdjacentHTML('beforeend',`<a href="#pdfs">PDFs &amp; CARE</a>`);
+</script>
+</body>
+</html>

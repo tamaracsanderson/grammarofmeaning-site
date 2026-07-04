@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luminous Archive — The Convergences (visual moodboard, S105)</title>
+<style>
+  :root{
+    --vellum:#f6f1e3; --vellum2:#efe7d3; --ink:#2b2620; --muted:#8a7f6a;
+    --gold:#b8923b; --gold-deep:#8a6d24; --red:#9e3b2e; --rule:#d9cdb0;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--vellum);color:var(--ink);
+    font-family:Georgia,'Iowan Old Style',serif;line-height:1.55}
+  a{color:var(--gold-deep);text-decoration:none}
+  header.top{padding:38px 30px 22px;border-bottom:2px solid var(--gold);
+    background:linear-gradient(180deg,var(--vellum2),var(--vellum))}
+  header.top .kick{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  header.top h1{font-size:32px;margin:0 0 8px;letter-spacing:.3px}
+  header.top .sub{color:var(--muted);font-style:italic;max-width:780px;font-size:15px}
+  header.top .ip{margin-top:14px;font-size:12px;color:var(--muted);max-width:820px;
+    border-left:3px solid var(--gold);padding-left:12px}
+  main{max-width:1180px;margin:0 auto;padding:8px 24px 40px}
+  .conv{display:flex;gap:26px;padding:30px 4px;border-bottom:1px solid var(--rule);align-items:flex-start}
+  .conv:last-child{border-bottom:none}
+  .conv .txt{flex:0 0 290px;position:sticky;top:18px}
+  .conv .n{font-size:12px;color:var(--gold);letter-spacing:1px}
+  .conv h2{font-size:20px;margin:3px 0 8px;line-height:1.25}
+  .conv .pr{font-size:13.5px;color:#5c5444}
+  .conv .imgs{flex:1;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+  .conv .imgs a{display:block;background:#fff;border:1px solid var(--rule);border-radius:4px;
+    overflow:hidden;box-shadow:0 1px 3px rgba(80,60,20,.08);transition:transform .12s,box-shadow .12s;
+    max-width:230px}
+  .conv .imgs a:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(80,60,20,.16)}
+  .conv .imgs img{display:block;max-height:230px;width:auto;max-width:230px;background:var(--vellum2)}
+  .conv .imgs .f{font-size:9px;color:var(--muted);font-family:ui-monospace,monospace;
+    padding:4px 6px;word-break:break-word;line-height:1.3}
+  .star h2{color:var(--red)}
+  @media(max-width:760px){.conv{flex-direction:column;gap:12px}.conv .txt{position:static;flex:none}}
+  footer{max-width:1180px;margin:0 auto;padding:24px;color:var(--muted);font-size:12px;
+    border-top:2px solid var(--gold);font-style:italic}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="kick">The Luminous Archive · visual moodboard</div>
+  <h1>The Convergences</h1>
+  <div class="sub">What <em>locked</em> across S105 (2026-06-06) — each finding shown with the one or two images that <em>are</em> it. The distilled board (not the 200-clip library). §2.1 candidates: pressure-test, then cull to one "north" image each.</div>
+  <div class="ip"><b>Inspiration, not assets.</b> Build our own look-and-feel <i>inspired by</i> these; direct use is sourced or collage.</div>
+</header>
+<main id="main"></main>
+<footer>
+  S105 · 2026-06-06. Local references (gitignored, inspiration-only). Click any image for full size.
+  Companion: the exhaustive by-section board (<code>moodboards_by_section_2026-06-06.html</code>) + the notes (<code>library_design_session_notes_2026-06-06.md</code>). S106: cull each row to its single north image → the Romans build.
+</footer>
+<script>
+const DIR="library_photos_2026-06-06/";
+const C=[
+ ["The three FORM-families","One engine, many skins: branching (tree, kataphatic) · concentric (mandala/labyrinth, apophatic) · flowing (scroll/river, narrative). Found cross-tradition, not imposed.",
+  ["christian_medieval_jesse-tree_curved-vine.jpeg","buddhist_tibetan_mandala_assembly.jpg","ref_illustration_river-flowing-current-lines.jpg"]],
+ ["The VALUE-GRADIENT (dark→light) + the red sun","Depth/time/apophatic↔kataphatic as one vertical gradient: dark roots → luminous canopy → a warm RED SUN at the top (≈7 independent appearances = confirmed).",
+  ["ref_poster_green-gradient-tree_bundesgartenschau.webp","ref_pattern_blue-fade-zigzag.jpg","ethiopian_orthodox-icon_theotokos-red-sun-moon-eyes.png"]],
+ ["COLOUR = 3 channels + the illumination palette","hue=family · value=depth · saturation=aliveness. The palette you reached for IS the historical illumination pigments (lapis/malachite/vermilion/gold) — shared because the same minerals traded the same routes.",
+  ["ref_colorwheel.jpg","christian_gothic_stained-glass_st-denis-suger.jpg","hindu_rajput_yoga-asana-padmasana_bold-palette.jpg"]],
+ ["The TWO-PEN line layer","black = structure (every tradition draws in dark ink) · gold = significance (the sacred accent = the gradient's gold top). Interlace = a cross-tradition line-grammar.",
+  ["christian_gothic_illuminated-initial_lapis-blue-gold.webp","christian_insular_book-of-durrow_carpet-page-interlace.png"]],
+ ["PAINTERLINESS (the surface decision)","Flat composition + painterly, hand-made surface = the miniature. Resolves flat-vs-dimensional. The Archive should look painted, not vector-clean.",
+  ["islamic_persian_garden-miniature_paradise-green-gold.jpg","ref_contemporary-miniature_blue-night-garden_glowing-tree.jpg"]],
+ ["A NODE = a fruit/dot in the canopy","Quotable passages stud the tree as fruit: gold = high significance, colour = ordinary. Seen across 4 idioms. “By their fruits you shall know them.”",
+  ["ref_tree-of-life_pink-blossom-gold-fruit-deer.jpg","ref_watercolor_apple-trees_fruit-as-red-dots.webp"]],
+ ["CANOPY-OVERLAP = convergence","Two distinct trunks, one shared crown — convergence-with-difference made literal. How a rhyme-edge renders at canopy scale (overlap, not a line).",
+  ["ref_print_umbrella-pines_overlapping-canopy-stamped.webp"]],
+ ["SAME-AND-DIFFERENT (the thesis, visible)","One source, two flares. The Conference of the Birds as a Persian TREE and as a Sís LABYRINTH — same poem, different idiom = concordance + flare in one pair.",
+  ["islamic_persian_conference-of-birds_tree-stream-goldfleck.jpg","ref_petersis_conference-of-birds_sufi-labyrinth.jpg"]],
+ ["The flare follows the THEOLOGY","Derive each family's idiom from its relation to image+word. Jewish aniconism → text-as-image (micrography, the shiviti-menorah = text-as-tree).",
+  ["jewish_hebrew-micrography_jeremiah-lamentations.jpg","jewish_shiviti-amulet_menorah-psalm67-micrography.png"]],
+ ["The PARADISE-GARDEN / master-view (north-star)","A verdant, densely-treed, watered, populated landscape you read whole + zoom into — the Archive's core picture, found across Persia/China/Korea.",
+  ["islamic_persian_garden-miniature_paradise-green-gold.jpg","ref_east-asian_dense-spring-blossom-village_master-view.jpg","chinese_master-view_landscape-vignettes-scroll.jpg"]],
+ ["The PILGRIMAGE PATH (the journey changes you)","A winding path up the middle, the landscape unfolding either side; the Shamatha elephant whitening as it climbs = a value-gradient along a journey.",
+  ["buddhist_tibetan_shamatha-elephant-path-thangka.jpg","chinese_qinglu_winding-central-path-ascending.jpg"]],
+ ["The ZOOM (Powers of Ten)","Continuous scale: forest ↔ tree ↔ node ↔ word; cosmos(out) ↔ interior(in) = the metaxy at every scale. The Pure-Land thangka = a whole zoomable cosmos.",
+  ["ref_eames_powers-of-ten.jpg","buddhist_tibetan_sukhavati-pure-land-thangka.jpg"]],
+ ["The EYE / watching motif","Presence rendered as eyes/faces — the attentive garden (it attends back). ≈4 independent instances. Use sparingly.",
+  ["ethiopian_orthodox-icon_theotokos-red-sun-moon-eyes.png","ref_ornament-plate_peacock_fanned-tail-gold-blue.jpg"]],
+ ["PATTERN + the white-keyline (cohesion)","Repeats (seigaiha/lattice) + data-bound symbol-tiles (cross-grid) + a white cut-out edge that makes a collage of plots read as one.",
+  ["ref_pattern_stylized-waves_seigaiha.png","christian_russian-orthodox_three-hierarchs_patterned-vestments.jpg","ref_modernist_teaching-reading-scene_white-border.jpg"]],
+ ["The SKY / constellation (the story layer)","Stars=nodes, lines=rhymes, in the celestial register — gold-on-blue night. Descent as a radial fan; the mytheme as a constellation over the garden.",
+  ["christian_french-illumination_patriarch-radial-twelve_starry-sky.jpg","ref_dieppe-atlas_celestial-windrose.jpeg"]],
+ ["LANDFORM: depth via value (flat but deep)","Hills/mountains as contour + value fill; depth by per-form modeling AND atmospheric recession (near dark/saturated, far pale) — flat idiom, real depth.",
+  ["chinese_qinglu_blue-mountains_value-modeled.jpg","japanese_woodblock_misty-mountains_value-depth-flat.jpg"]],
+ ["The STAMP / sello (a keepsake, not a badge)","Records where you've been without rewarding/retaining — a black stamp on a soft gradient; by-locality, like a pilgrim's sello.",
+  ["christian_camino_pilgrim-sellos.jpg","ref_print_black-silhouette-on-stipple-gradient.jpg"]],
+];
+const main=document.getElementById("main");
+function title(f){return f.replace(/\.(jpg|jpeg|png|webp)$/i,"").replace(/[_-]/g," ").replace(/\b\w/g,c=>c.toUpperCase());}
+C.forEach(([t,pr,imgs],i)=>{
+  const d=document.createElement("div"); d.className="conv"+(i===0?" star":"");
+  let cards=imgs.map(f=>{const s=DIR+encodeURIComponent(f);
+    return `<a href="${s}" target="_blank"><img loading="lazy" src="${s}" alt="${f}"><div class="f">${f}</div></a>`;}).join("");
+  d.innerHTML=`<div class="txt"><div class="n">${String(i+1).padStart(2,"0")}</div><h2>${t}</h2><div class="pr">${pr}</div></div><div class="imgs">${cards}</div>`;
+  main.appendChild(d);
+});
+</script>
+</body>
+</html>

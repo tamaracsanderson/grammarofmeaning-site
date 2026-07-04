@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luminous Archive — Cross-Tradition Rhymes (Q2 made visual, S105)</title>
+<style>
+  :root{
+    --vellum:#f6f1e3; --vellum2:#efe7d3; --ink:#2b2620; --muted:#8a7f6a;
+    --gold:#b8923b; --gold-deep:#8a6d24; --red:#9e3b2e; --rule:#d9cdb0;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--vellum);color:var(--ink);
+    font-family:Georgia,'Iowan Old Style',serif;line-height:1.55}
+  a{color:var(--gold-deep);text-decoration:none}
+  header.top{padding:38px 30px 22px;border-bottom:2px solid var(--gold);
+    background:linear-gradient(180deg,var(--vellum2),var(--vellum))}
+  header.top .kick{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  header.top h1{font-size:32px;margin:0 0 8px;letter-spacing:.3px}
+  header.top .sub{color:var(--muted);font-style:italic;max-width:820px;font-size:15px}
+  header.top .pair{margin-top:12px;font-size:12.5px;color:#5c5444;max-width:820px}
+  header.top .pair b{color:var(--gold-deep)}
+  main{max-width:1180px;margin:0 auto;padding:8px 24px 40px}
+  .rhyme{padding:28px 4px;border-bottom:1px solid var(--rule)}
+  .rhyme:last-child{border-bottom:none}
+  .rhyme .head{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+  .rhyme .n{font-size:12px;color:var(--gold);letter-spacing:1px}
+  .rhyme h2{font-size:20px;margin:0;line-height:1.2}
+  .rhyme .pr{font-size:13.5px;color:#5c5444;margin:0 0 14px;max-width:880px}
+  .rhyme .imgs{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+  .rhyme .imgs a{display:block;background:#fff;border:1px solid var(--rule);border-radius:4px;
+    overflow:hidden;box-shadow:0 1px 3px rgba(80,60,20,.08);transition:transform .12s,box-shadow .12s;max-width:215px}
+  .rhyme .imgs a:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(80,60,20,.16)}
+  .rhyme .imgs img{display:block;max-height:215px;width:auto;max-width:215px;background:var(--vellum2)}
+  .rhyme .imgs .f{font-size:9px;color:var(--muted);font-family:ui-monospace,monospace;padding:4px 6px;word-break:break-word;line-height:1.3}
+  .star h2{color:var(--red)}
+  footer{max-width:1180px;margin:0 auto;padding:24px;color:var(--muted);font-size:12px;border-top:2px solid var(--gold);font-style:italic}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="kick">The Luminous Archive · visual moodboard · the SECOND lens</div>
+  <h1>Cross-Tradition Rhymes <span style="color:var(--muted);font-size:18px">— Q2, made visual</span></h1>
+  <div class="sub">Where the <em>traditions themselves</em> converge: the same observation / form surfacing independently across traditions, each in its own flare. This is the thesis claim as a board — <b>same-and-different</b>, found in the wild.</div>
+  <div class="pair"><b>Two boards, two senses of "converge":</b> <i>The Convergences</i> = what our <b>design</b> locked onto. <i>This board</i> = what the <b>corpus</b> shows — the rhymes across traditions (Q2). The forms aren't borrowed; each tradition reached for them.</div>
+</header>
+<main id="main"></main>
+<footer>
+  S105 · 2026-06-06. Each row = one observation, many traditions. The differences are the finding as much as the sameness (§2.1 — never "tradition X IS a tree"). Local references, inspiration-only. Heavily Christian/Islamic/E-Asian/Jewish so far — the library run (African/Indigenous/Andean/secular-modern) will test whether each rhyme truly holds (§2.8).
+</footer>
+<script>
+const DIR="library_photos_2026-06-06/";
+const R=[
+ ["The TREE OF LIFE / world-tree","A rooted tree as the image of descent, growth, and connection — reached for independently across traditions.",
+  ["christian_medieval_jesse-tree_curved-vine.jpeg","jewish_ketubah_flowering-tree-of-life-canopy.jpg","islamic_persian_manuscript-trees_fruit.jpg","ref_tree-of-life_pink-blossom-gold-fruit-deer.jpg","hindu_rajput_yoga-asana_tree-foliage.jpg"]],
+ ["The MANDALA / concentric cosmos","The centred, in-drawing diagram of the whole — Buddhist mandala, Christian cosmic-wheel, the Last Supper as a circle.",
+  ["buddhist_tibetan_mandala_assembly.jpg","mandala_tibetan_kalachakra.jpg","christian_beatus_cosmic-wheel.jpeg","christian_contemporary-icon_last-supper-concentric-mandala.jpg"]],
+ ["The LABYRINTH / path-to-the-centre","The spiral walk inward (the apophatic journey) — the Sufi Conference-of-Birds maze, the contemporary garden-maze, the Buddhist staged path.",
+  ["ref_petersis_conference-of-birds_sufi-labyrinth.jpg","ref_garden-maze_topiary-contemporary.png","buddhist_tibetan_shamatha-elephant-path-thangka.jpg"]],
+ ["The PARADISE-GARDEN (Eden everywhere)","A verdant, watered, enclosed garden of bliss — Persian chahar-bagh, the Daoist Peach-Blossom-Spring, the Christian hortus conclusus, the Korean longevity-land.",
+  ["islamic_persian_garden-miniature_paradise-green-gold.jpg","chinese_literati_landscape_peach-blossom-spring-valley.jpg","christian_medieval_unicorn-tapestry_millefleurs.jpg","korean_minhwa_longevity-landscape_red-sun-deer-cranes.jpg"]],
+ ["The COSMIC WOMAN on sun + moon (Rev 12)","One iconographic content — Mary on a personified red sun, moon beneath — in two completely different flares. Same observation, Russian and Ethiopian.",
+  ["christian_russian-orthodox_theotokos-red-sun-disc.jpg","ethiopian_orthodox-icon_theotokos-red-sun-moon-eyes.png"]],
+ ["TEXT-AS-IMAGE (the word made visual)","The aniconic traditions make the WORD their art — Hebrew micrography + shiviti-menorah; Arabic calligraphy + the illuminated Qur'an. The flare follows the theology.",
+  ["jewish_hebrew-micrography_jeremiah-lamentations.jpg","jewish_shiviti-amulet_menorah-psalm67-micrography.png","islamic_nastaliq_al-fatiha-calligraphy.jpg","islamic_arabic_quran_illuminated-border.jpg"]],
+ ["The RED SUN at the apex","A warm red sun as the light-source/now — recurring independently across Christian, Japanese, Korean, Chinese (≈7 sightings total).",
+  ["christian_russian-orthodox_theotokos-red-sun-disc.jpg","japanese_pine-branches_red-sun.jpg","korean_minhwa_longevity-landscape_red-sun-deer-cranes.jpg","ref_contemporary-chinese_layered-green-mountains_red-sun.jpg"]],
+ ["INTERLACE / the woven line","A knotted, woven line-grammar reached for everywhere — Celtic carpet-page, Jewish papercut lattice, Islamic arabesque.",
+  ["christian_insular_book-of-durrow_carpet-page-interlace.png","jewish_papercut_concentric-text-medallion-lions.jpg","islamic_arabic_quran_illuminated-border.jpg"]],
+ ["The GUARDIAN-FLANKING (tree + two animals)","A central tree/source flanked by paired guardian animals — Jewish lions, the Tree-of-Life deer, the unicorn, the folk bird+deer.",
+  ["jewish_papercut_mizrach_menorah-guardian-animals.jpg","ref_tree-of-life_pink-blossom-gold-fruit-deer.jpg","christian_medieval_unicorn-tapestry_millefleurs.jpg","ref_folk-art_round-crown-trees_bird-deer.jpg"]],
+ ["The PILGRIMAGE (route · waystations · stamps)","A walked route to a sacred centre, recorded by stamps — the Japanese Nachi pilgrimage-map + goshuin, the Christian Camino sellos.",
+  ["buddhist_japanese_nachi-pilgrimage-mandala.jpg","buddhist_japanese_goshuin_pilgrim-stamps.webp","christian_camino_pilgrim-sellos.jpg"]],
+ ["The COSMOS-DIAGRAM / wheel (vertical + cyclical)","The whole cosmos mapped as a wheel or a stacked vertical — the Buddhist bhavacakra ↔ Dante's vertical cosmos ↔ the Beatus wheel.",
+  ["buddhist_tibetan_bhavacakra_wheel-of-life.webp","christian_dante_inferno-cross-section.jpg","christian_beatus_cosmic-wheel.jpeg"]],
+ ["The CLOUD OF WITNESSES / the many","The communion of the many as repeated figures/heads/halos — the repetition that reads as one — Coptic martyrs, the radial twelve, tiled heads + halos.",
+  ["coptic_contemporary-icon_21-martyrs-of-libya.jpg","christian_french-illumination_patriarch-radial-twelve_starry-sky.jpg","ref_repetition_heads-crowd.jpg","ref_repetition_halos.jpg"]],
+];
+const main=document.getElementById("main");
+R.forEach(([t,pr,imgs],i)=>{
+  const d=document.createElement("div"); d.className="rhyme"+(i===0?" star":"");
+  const cards=imgs.map(f=>{const s=DIR+encodeURIComponent(f);
+    return `<a href="${s}" target="_blank"><img loading="lazy" src="${s}" alt="${f}"><div class="f">${f}</div></a>`;}).join("");
+  d.innerHTML=`<div class="head"><span class="n">R${String(i+1).padStart(2,"0")}</span><h2>${t}</h2></div><div class="pr">${pr}</div><div class="imgs">${cards}</div>`;
+  main.appendChild(d);
+});
+</script>
+</body>
+</html>
