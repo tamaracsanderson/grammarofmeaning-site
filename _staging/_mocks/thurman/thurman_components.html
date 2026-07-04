@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The voice archive — design system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FCFBF7; --card:#FFFFFF; --hair:#C9BE9F;
+    --moss:#2C4A38; --fern:#3F7D57; --olive:#6E7B3A;
+    --ink:#24302A; --ink-soft:#5A665C; --ink-mute:#8A8578;
+    --terra:#C4602F; --gold:#C9A227;
+    --water-1:#14201A; --water-2:#0A0F0C;
+    --serif:'Newsreader',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);-webkit-font-smoothing:antialiased;line-height:1.5;}
+  .wrap{max-width:1180px;margin:0 auto;padding:44px 40px 90px;}
+
+  /* ---- header ---- */
+  header{border-bottom:1px solid var(--hair);padding-bottom:34px;margin-bottom:8px;}
+  .brand{display:flex;align-items:center;gap:11px;margin-bottom:26px;}
+  .brand .sprig{width:26px;height:26px;flex:none;}
+  .brand .name{font-family:var(--serif);font-size:18px;font-weight:500;letter-spacing:.01em;}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--olive);margin:0 0 16px;}
+  h1.big{font-family:var(--serif);font-weight:500;font-size:clamp(38px,6vw,66px);line-height:1.02;margin:0 0 16px;letter-spacing:-.01em;}
+  .deck{font-family:var(--serif);font-size:clamp(17px,2.2vw,21px);line-height:1.5;color:var(--ink-soft);max-width:46ch;margin:0;}
+
+  /* ---- section scaffolding ---- */
+  section{margin-top:64px;}
+  .sec-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--olive);display:flex;align-items:baseline;gap:12px;margin:0 0 6px;}
+  .sec-eyebrow .num{color:var(--gold);}
+  .sec-title{font-family:var(--serif);font-weight:500;font-size:clamp(25px,3.4vw,34px);line-height:1.1;margin:0 0 10px;}
+  .sec-lede{font-family:var(--sans);font-size:14.5px;line-height:1.6;color:var(--ink-soft);max-width:58ch;margin:0 0 30px;}
+  .sec-rule{height:1px;background:var(--hair);border:0;margin:0 0 30px;}
+
+  /* ---- dials grid ---- */
+  .dials{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .dial{background:var(--card);border:1px solid var(--hair);border-radius:5px;padding:22px 20px 20px;box-shadow:0 6px 20px rgba(40,48,42,.06);display:flex;flex-direction:column;}
+  .dial .dkick{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 3px;}
+  .dial .dname{font-family:var(--serif);font-weight:500;font-size:22px;margin:0 0 4px;}
+  .dial .ddesc{font-family:var(--sans);font-size:12.5px;line-height:1.5;color:var(--ink-soft);margin:0 0 16px;}
+  .dial .dvis{margin:0 0 16px;min-height:56px;display:flex;align-items:center;}
+  .dmap{font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--ink-mute);border-top:1px solid var(--hair);padding-top:12px;margin-top:auto;}
+  .dmap b{color:var(--fern);font-weight:500;}
+  .dmap .arrow{color:var(--gold);}
+
+  /* dial 1 — pixel-grid swatch */
+  .pixgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;width:78px;}
+  .pixgrid span{aspect-ratio:1;border-radius:2px;}
+
+  /* dial 2 — palette rows */
+  .pal-rows{display:flex;flex-direction:column;gap:4px;}
+  .pal-row{display:flex;align-items:center;gap:8px;}
+  .pal-row .pname{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute);width:56px;flex:none;}
+  .ramp{display:flex;border-radius:3px;overflow:hidden;border:1px solid rgba(0,0,0,.08);flex:1;}
+  .ramp i{flex:1;height:15px;display:block;}
+
+  /* dial 3 — shape icons */
+  .shapes{display:flex;gap:14px;align-items:center;}
+  .shape-ic{display:flex;flex-direction:column;align-items:center;gap:5px;}
+  .shape-ic svg{display:block;}
+  .shape-ic span{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute);}
+  .size-note{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ink-mute);margin-left:6px;}
+
+  /* dial 4 — player glyph + song */
+  .song{display:flex;align-items:center;gap:11px;}
+  .playglyph{width:38px;height:38px;flex:none;border:1px solid var(--hair);border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--paper);}
+  .song .sline{font-family:var(--serif);font-style:italic;font-size:14px;line-height:1.35;color:var(--moss);}
+  .song .ssub{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;color:var(--ink-mute);}
+
+  /* ---- label components (on deep water) ---- */
+  .water{background:radial-gradient(120% 90% at 30% 10%,var(--water-1),var(--water-2));border:1px solid var(--hair);border-radius:6px;padding:38px 34px;box-shadow:inset 0 2px 40px rgba(0,0,0,.5);}
+  .water-cap{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(201,162,39,.7);margin:0 0 22px;}
+  .label-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start;}
+  .lbl-wrap{position:relative;}
+  .card-label{background:var(--card);border:1px solid var(--hair);border-radius:3px;padding:24px 24px 20px;box-shadow:0 14px 40px rgba(0,0,0,.35);}
+  .card-label .l-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--olive);margin:0 0 11px;}
+  .card-label h3{font-family:var(--serif);font-weight:500;font-size:23px;line-height:1.08;margin:0 0 3px;}
+  .card-label .l-title{font-family:var(--serif);font-weight:500;font-size:22px;line-height:1.12;margin:0 0 4px;color:var(--gold);}
+  .card-label .l-life{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--ink-soft);margin:0 0 3px;}
+  .card-label .l-meta{font-family:var(--sans);font-size:11.5px;line-height:1.45;color:var(--ink-soft);margin:0 0 14px;}
+  .card-label .l-rule{height:1px;background:var(--hair);border:0;margin:0 0 14px;}
+  .card-label .l-body{font-size:13.5px;line-height:1.55;margin:0 0 14px;}
+  .card-label blockquote{font-family:var(--serif);font-style:italic;font-size:15.5px;line-height:1.38;color:var(--moss);margin:0 0 4px;padding-left:12px;border-left:2px solid var(--terra);}
+  .card-label .l-qsrc{font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:var(--ink-mute);margin:0 0 14px;padding-left:12px;}
+  .card-label .l-credit{font-family:var(--mono);font-size:9px;line-height:1.6;letter-spacing:.02em;color:var(--ink-mute);border-top:1px solid var(--hair);padding-top:11px;margin:0;}
+  .card-label .l-credit b{color:var(--fern);font-weight:500;}
+  .pill{display:inline-block;font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:20px;vertical-align:1px;}
+  .pill.pd{background:rgba(63,125,87,.14);color:var(--fern);border:1px solid rgba(63,125,87,.4);}
+  .pill.cr{background:rgba(196,96,47,.12);color:var(--terra);border:1px solid rgba(196,96,47,.4);}
+
+  /* mono field-labels pointing to slots */
+  .slots{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;}
+  .slot{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:rgba(243,228,188,.66);border:1px solid rgba(201,162,39,.3);border-radius:12px;padding:3px 9px;}
+  .slot b{color:var(--gold);font-weight:500;}
+
+  /* ---- interstitials ---- */
+  .inters{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .inter{background:var(--card);border:1px solid var(--hair);border-radius:4px;padding:16px 16px 14px;box-shadow:0 5px 16px rgba(40,48,42,.06);display:flex;flex-direction:column;min-height:150px;}
+  .inter .i-name{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--olive);margin:0 0 10px;}
+  .inter .i-holds{font-family:var(--sans);font-size:11px;line-height:1.45;color:var(--ink-soft);margin:10px 0 0;}
+  .inter .i-rights{font-family:var(--mono);font-size:8.5px;letter-spacing:.04em;color:var(--ink-mute);margin-top:auto;padding-top:9px;}
+  .i-body{flex:1;display:flex;align-items:center;justify-content:center;}
+
+  /* obituary card mini */
+  .obit{width:100%;text-align:left;}
+  .obit .oh{font-family:var(--serif);font-weight:500;font-size:14px;margin:0 0 1px;}
+  .obit .od{font-family:var(--serif);font-style:italic;font-size:11px;color:var(--ink-soft);margin:0 0 6px;}
+  .obit .ol{font-family:var(--sans);font-size:10.5px;line-height:1.4;color:var(--ink-soft);margin:0;}
+
+  /* audio slot */
+  .audio-slot{display:flex;align-items:center;gap:9px;width:100%;background:var(--paper);border:1px solid var(--hair);border-radius:24px;padding:7px 12px;}
+  .audio-slot .pbtn{width:24px;height:24px;flex:none;border-radius:50%;background:var(--moss);display:flex;align-items:center;justify-content:center;}
+  .audio-slot .wave{flex:1;display:flex;align-items:center;gap:2px;height:18px;}
+  .audio-slot .wave i{flex:1;background:var(--fern);border-radius:2px;opacity:.55;}
+
+  /* video slot */
+  .video-slot{width:100%;background:#0A0C0A;border:1px solid #cbc3ae;padding:7px;}
+  .video-slot .screen{aspect-ratio:16/9;background:radial-gradient(120% 100% at 35% 20%,var(--water-1),var(--water-2));display:flex;align-items:center;justify-content:center;}
+  .video-slot .screen svg{opacity:.7;}
+
+  /* verse card */
+  .verse{width:100%;text-align:center;font-family:var(--serif);}
+  .verse .v-line{font-style:italic;font-size:13px;line-height:1.4;color:var(--moss);margin:0 0 6px;}
+  .verse .v-src{font-family:var(--mono);font-size:8.5px;letter-spacing:.05em;color:var(--ink-mute);}
+
+  /* quote card */
+  .quote{width:100%;}
+  .quote blockquote{font-family:var(--serif);font-style:italic;font-size:14px;line-height:1.38;color:var(--ink);margin:0 0 6px;padding-left:10px;border-left:2px solid var(--terra);}
+  .quote .q-src{font-family:var(--mono);font-size:8.5px;letter-spacing:.05em;color:var(--ink-mute);padding-left:10px;}
+
+  /* art card */
+  .artcard{width:100%;}
+  .artcard .a-plate{aspect-ratio:4/3;border:1px solid var(--hair);background:
+    linear-gradient(135deg,#2C4A38 0%,#3F7D57 40%,#8AA88B 70%,#C9A227 100%);border-radius:2px;}
+  .artcard .a-cap{font-family:var(--mono);font-size:8.5px;letter-spacing:.04em;color:var(--ink-mute);margin:7px 0 0;}
+
+  /* portrait frame */
+  .portrait{width:100%;display:flex;justify-content:center;}
+  .portrait .pf{width:88px;aspect-ratio:3/4;border:1px solid var(--hair);background:linear-gradient(180deg,#EDE6CE,#B6AE92);border-radius:2px;box-shadow:inset 0 0 22px rgba(90,84,66,.35);display:flex;align-items:flex-end;justify-content:center;padding-bottom:0;overflow:hidden;}
+  .portrait .pf svg{opacity:.5;}
+
+  /* ---- config table ---- */
+  .table-scroll{overflow-x:auto;border:1px solid var(--hair);border-radius:5px;}
+  table{border-collapse:collapse;width:100%;min-width:820px;background:var(--card);font-size:13px;}
+  thead th{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--olive);text-align:left;padding:13px 14px;border-bottom:1px solid var(--hair);vertical-align:bottom;font-weight:500;white-space:nowrap;}
+  tbody td{padding:14px;border-bottom:1px solid #EDE7D6;vertical-align:top;line-height:1.4;}
+  tbody tr:last-child td{border-bottom:0;}
+  .voice-name{font-family:var(--serif);font-weight:500;font-size:15px;color:var(--ink);}
+  .voice-name .vsub{display:block;font-family:var(--sans);font-size:10.5px;color:var(--ink-mute);font-weight:400;margin-top:1px;}
+  td .cell-mini{font-family:var(--sans);font-size:12px;color:var(--ink-soft);}
+  td .mono{font-family:var(--mono);font-size:10.5px;color:var(--ink-mute);}
+  .mini-ramp{display:flex;border-radius:3px;overflow:hidden;border:1px solid rgba(0,0,0,.08);width:78px;margin-bottom:4px;}
+  .mini-ramp i{flex:1;height:12px;}
+  .mini-shape{display:inline-flex;gap:4px;align-items:center;}
+  .blank-row td{color:var(--ink-mute);font-style:italic;font-family:var(--serif);}
+  .blank-cell{color:var(--ink-mute);}
+  .blank-cell::before{content:"—";}
+
+  /* ---- footer ---- */
+  .foot{margin-top:60px;border-top:1px solid var(--hair);padding-top:26px;}
+  .foot .fkick{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 10px;}
+  .foot p{font-family:var(--sans);font-size:13.5px;line-height:1.65;color:var(--ink-soft);max-width:64ch;margin:0;}
+  .foot .step{font-family:var(--mono);font-size:11px;color:var(--fern);}
+
+  @media(max-width:1000px){ .dials{grid-template-columns:repeat(2,1fr);} .inters{grid-template-columns:repeat(2,1fr);} }
+  @media(max-width:760px){
+    .wrap{padding:32px 20px 64px;}
+    .dials{grid-template-columns:1fr;}
+    .inters{grid-template-columns:1fr;}
+    .label-grid{grid-template-columns:1fr;gap:26px;}
+    .water{padding:24px 18px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <div class="brand">
+      <svg class="sprig" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M16 30 C16 20 16 12 16 4" stroke="#2C4A38" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M16 12 C11 11 8 8 7 4 C12 4 15 7 16 12Z" fill="#3F7D57"/>
+        <path d="M16 12 C21 11 24 8 25 4 C20 4 17 7 16 12Z" fill="#6E7B3A"/>
+        <path d="M16 20 C12 19 10 17 9 14 C13 14 15 16 16 20Z" fill="#3F7D57"/>
+        <path d="M16 20 C20 19 22 17 23 14 C19 14 17 16 16 20Z" fill="#6E7B3A"/>
+        <circle cx="16" cy="4" r="2" fill="#C9A227"/>
+      </svg>
+      <span class="name">Grammar of Meaning</span>
+    </div>
+    <p class="eyebrow">The voice archive · design system</p>
+    <h1 class="big">One engine, many voices</h1>
+    <p class="deck">Every voice in the archive is the same machine, reconfigured. Change four dials and fill the labels — the rest is shared. This is the kit.</p>
+  </header>
+
+  <!-- ============ 1. THE FOUR DIALS ============ -->
+  <section>
+    <p class="sec-eyebrow"><span class="num">01</span> What you change per voice</p>
+    <h2 class="sec-title">The four dials</h2>
+    <p class="sec-lede">A voice is a reconfiguration, not a redesign. Turn four dials — source, palette, pixel, song — and every screen, label, and interstitial inherits the change. Nothing else is touched.</p>
+    <hr class="sec-rule">
+
+    <div class="dials">
+
+      <!-- SOURCE -->
+      <div class="dial">
+        <p class="dkick">Dial 01</p>
+        <p class="dname">Source</p>
+        <p class="ddesc">The real footage / imagery register that gets pixelized live in the browser.</p>
+        <div class="dvis">
+          <div class="pixgrid" aria-hidden="true">
+            <span style="background:#0B2233"></span><span style="background:#15405C"></span><span style="background:#276B7E"></span><span style="background:#15405C"></span><span style="background:#4E9AAE"></span><span style="background:#276B7E"></span>
+            <span style="background:#15405C"></span><span style="background:#276B7E"></span><span style="background:#4E9AAE"></span><span style="background:#9FCAD6"></span><span style="background:#276B7E"></span><span style="background:#15405C"></span>
+            <span style="background:#276B7E"></span><span style="background:#4E9AAE"></span><span style="background:#9FCAD6"></span><span style="background:#4E9AAE"></span><span style="background:#15405C"></span><span style="background:#0B2233"></span>
+            <span style="background:#15405C"></span><span style="background:#276B7E"></span><span style="background:#15405C"></span><span style="background:#276B7E"></span><span style="background:#4E9AAE"></span><span style="background:#276B7E"></span>
+          </div>
+        </div>
+        <p class="dmap">
+          <b>Thurman</b> <span class="arrow">→</span> ocean / deep water<br>
+          <b>Plum Village</b> <span class="arrow">→</span> still river · rain · drifting cloud
+        </p>
+      </div>
+
+      <!-- PALETTE -->
+      <div class="dial">
+        <p class="dkick">Dial 02</p>
+        <p class="dname">Palette</p>
+        <p class="ddesc">Eyedropped from the source, harmonized to the house. Seven 7-stop ramps.</p>
+        <div class="dvis" style="align-items:stretch;">
+          <div class="pal-rows">
+            <div class="pal-row"><span class="pname">green</span><span class="ramp"><i style="background:#1E2722"></i><i style="background:#24302A"></i><i style="background:#2C4A38"></i><i style="background:#3F7D57"></i><i style="background:#8AA88B"></i><i style="background:#C9A227"></i><i style="background:#F3E4BC"></i></span></div>
+            <div class="pal-row"><span class="pname">blue</span><span class="ramp"><i style="background:#06101A"></i><i style="background:#0B2233"></i><i style="background:#15405C"></i><i style="background:#276B7E"></i><i style="background:#4E9AAE"></i><i style="background:#9FCAD6"></i><i style="background:#EAF6F8"></i></span></div>
+            <div class="pal-row"><span class="pname">ink</span><span class="ramp"><i style="background:#14140F"></i><i style="background:#242019"></i><i style="background:#3A362B"></i><i style="background:#5A5442"></i><i style="background:#89826A"></i><i style="background:#B6AE92"></i><i style="background:#EDE6CE"></i></span></div>
+            <div class="pal-row"><span class="pname">ember</span><span class="ramp"><i style="background:#0C0A08"></i><i style="background:#241812"></i><i style="background:#4A2E1E"></i><i style="background:#8A5A2E"></i><i style="background:#C9862F"></i><i style="background:#E7C97A"></i><i style="background:#F6ECD2"></i></span></div>
+            <div class="pal-row"><span class="pname">tide</span><span class="ramp"><i style="background:#06101A"></i><i style="background:#0C2A38"></i><i style="background:#1B5560"></i><i style="background:#3E8A7E"></i><i style="background:#8AA86A"></i><i style="background:#E0C24A"></i><i style="background:#F3E4BC"></i></span></div>
+            <div class="pal-row"><span class="pname">nocturne</span><span class="ramp"><i style="background:#0A0A16"></i><i style="background:#1E1B36"></i><i style="background:#3E2E52"></i><i style="background:#6E4A63"></i><i style="background:#A86B5E"></i><i style="background:#D8A24A"></i><i style="background:#F0DCC0"></i></span></div>
+            <div class="pal-row"><span class="pname">slate</span><span class="ramp"><i style="background:#141618"></i><i style="background:#2A2E30"></i><i style="background:#454A48"></i><i style="background:#6E6E63"></i><i style="background:#9A907A"></i><i style="background:#C4B79A"></i><i style="background:#EDE4CE"></i></span></div>
+          </div>
+        </div>
+        <p class="dmap">Each ramp is a luminance LUT: dark footage → left stop, bright → right. <b>Thurman</b> <span class="arrow">→</span> ink.</p>
+      </div>
+
+      <!-- PIXEL -->
+      <div class="dial">
+        <p class="dkick">Dial 03</p>
+        <p class="dname">Pixel</p>
+        <p class="ddesc">The grain of the transform — the shape each cell is drawn as, and how big.</p>
+        <div class="dvis">
+          <div class="shapes" aria-hidden="true">
+            <div class="shape-ic">
+              <svg width="30" height="30" viewBox="0 0 30 30"><rect x="4" y="4" width="22" height="22" rx="1" fill="#3F7D57"/></svg>
+              <span>square</span>
+            </div>
+            <div class="shape-ic">
+              <svg width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="12" fill="#3F7D57"/></svg>
+              <span>circle</span>
+            </div>
+            <div class="shape-ic">
+              <svg width="30" height="30" viewBox="0 0 30 30"><rect x="4" y="4" width="22" height="22" rx="7" fill="#3F7D57"/></svg>
+              <span>round</span>
+            </div>
+          </div>
+        </div>
+        <p class="dmap"><span class="mono" style="color:var(--ink-mute)">size:</span> bigger <span class="arrow">↔</span> smaller (24–220 cells across).<br><b>Thurman</b> <span class="arrow">→</span> round · small.</p>
+      </div>
+
+      <!-- SONG -->
+      <div class="dial">
+        <p class="dkick">Dial 04</p>
+        <p class="dname">Song</p>
+        <p class="ddesc">The tradition's own public-domain recording, played under the voice.</p>
+        <div class="dvis">
+          <div class="song">
+            <span class="playglyph" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 2 L12 7 L3 12 Z" fill="#2C4A38"/></svg>
+            </span>
+            <span>
+              <span class="sline">"Deep River"</span><br>
+              <span class="ssub">Fisk Jubilee Singers · PD</span>
+            </span>
+          </div>
+        </div>
+        <p class="dmap">
+          <b>Thurman</b> <span class="arrow">→</span> "Deep River," Fisk Jubilee Singers<br>
+          <b>Plum Village</b> <span class="arrow">→</span> the bell / a chant
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 2. LABEL COMPONENTS ============ -->
+  <section>
+    <p class="sec-eyebrow"><span class="num">02</span> White paper museum cards</p>
+    <h2 class="sec-title">The label components</h2>
+    <p class="sec-lede">Two reusable wall-labels sit on the deep-water ground so the paper cards pop. Every field is a named slot — fill the slots, the layout holds.</p>
+    <hr class="sec-rule">
+
+    <div class="water">
+      <p class="water-cap">Deep-water ground · #14201A → #0A0F0C · white cards float</p>
+      <div class="label-grid">
+
+        <!-- PERSON LABEL -->
+        <div class="lbl-wrap">
+          <div class="card-label">
+            <p class="l-eyebrow">a life in the archive</p>
+            <h3>Howard Thurman</h3>
+            <p class="l-life">1899 – 1981</p>
+            <p class="l-meta">Mystic-theologian · Dean of Marsh Chapel, Boston University · co-founder, the Church for the Fellowship of All Peoples</p>
+            <hr class="l-rule">
+            <p class="l-body">A mystic of the Black church who held the inner life and the work of liberation as one thing. He preached the "sound of the genuine": the true self that waits and listens beneath the noise.</p>
+            <p class="l-credit"><b>Courtesy of</b> the Howard Gotlieb Archival Research Center &amp; the Howard Thurman Center for Common Ground, Boston University. Quotes verified per §13. Schematic mock · Stage 6 = 0.</p>
+          </div>
+          <div class="slots">
+            <span class="slot"><b>name</b></span>
+            <span class="slot"><b>dates</b></span>
+            <span class="slot"><b>role</b></span>
+            <span class="slot"><b>a&nbsp;line</b></span>
+            <span class="slot"><b>archive&nbsp;credit</b></span>
+          </div>
+        </div>
+
+        <!-- ITEM LABEL -->
+        <div class="lbl-wrap">
+          <div class="card-label">
+            <p class="l-eyebrow">an item in the archive</p>
+            <p class="l-title">The Sound of the Genuine</p>
+            <p class="l-meta">Recorded sermon · Spelman College, Atlanta · 1980</p>
+            <hr class="l-rule">
+            <p class="l-body">A baccalaureate address on listening for the true self beneath the noise of expectation — the touchstone recording of Thurman's inner-life theology.</p>
+            <blockquote>"There is a sound of the genuine in you."</blockquote>
+            <p class="l-qsrc">— The Sound of the Genuine, Spelman College, 1980 · verified</p>
+            <p class="l-credit"><b>Credit:</b> Howard Thurman Center, Boston University. <span class="pill cr">© clearance pending</span> &nbsp; "Deep River," Fisk Jubilee Singers <span class="pill pd">PD if ≤1925</span></p>
+          </div>
+          <div class="slots">
+            <span class="slot"><b>title</b> (gold)</span>
+            <span class="slot"><b>type·place·year</b></span>
+            <span class="slot"><b>one&#8209;line</b></span>
+            <span class="slot"><b>credit</b></span>
+            <span class="slot"><b>rights&nbsp;pill</b></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. INTERSTITIAL COMPONENTS ============ -->
+  <section>
+    <p class="sec-eyebrow"><span class="num">03</span> Between the voices</p>
+    <h2 class="sec-title">The interstitial components</h2>
+    <p class="sec-lede">The connective tissue that runs between voices in the garden. Each is a reusable slot with a fixed rights posture — drop in content from that voice's own heritage and it takes the house shape.</p>
+    <hr class="sec-rule">
+
+    <div class="inters">
+
+      <!-- obituary -->
+      <div class="inter">
+        <p class="i-name">Obituary card</p>
+        <div class="i-body">
+          <div class="obit">
+            <p class="oh">Howard Thurman</p>
+            <p class="od">1899 – 1981</p>
+            <p class="ol">"He walked with God, and taught a generation to listen inward."</p>
+          </div>
+        </div>
+        <p class="i-holds">Holds: name · dates · a closing line.</p>
+        <p class="i-rights">rights: quote-verified · §13</p>
+      </div>
+
+      <!-- audio -->
+      <div class="inter">
+        <p class="i-name">Audio slot</p>
+        <div class="i-body">
+          <div class="audio-slot" aria-hidden="true">
+            <span class="pbtn"><svg width="9" height="9" viewBox="0 0 9 9"><path d="M2 1 L8 4.5 L2 8 Z" fill="#F3E4BC"/></svg></span>
+            <span class="wave"><i style="height:40%"></i><i style="height:70%"></i><i style="height:100%"></i><i style="height:55%"></i><i style="height:85%"></i><i style="height:35%"></i><i style="height:65%"></i><i style="height:90%"></i><i style="height:50%"></i><i style="height:75%"></i></span>
+          </div>
+        </div>
+        <p class="i-holds">Holds: one PD recording (song / sermon / chant).</p>
+        <p class="i-rights">rights: PD-only · §13</p>
+      </div>
+
+      <!-- video -->
+      <div class="inter">
+        <p class="i-name">Video slot</p>
+        <div class="i-body">
+          <div class="video-slot" aria-hidden="true">
+            <div class="screen">
+              <svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" fill="none" stroke="#C9A227" stroke-width="1"/><path d="M10 8 L18 13 L10 18 Z" fill="#C9A227"/></svg>
+            </div>
+          </div>
+        </div>
+        <p class="i-holds">Holds: 16:9 pixelized footage, paper chrome.</p>
+        <p class="i-rights">rights: licensed footage · §13</p>
+      </div>
+
+      <!-- verse -->
+      <div class="inter">
+        <p class="i-name">Verse card</p>
+        <div class="i-body">
+          <div class="verse">
+            <p class="v-line">"By the rivers of Babylon,<br>there we sat down and wept."</p>
+            <p class="v-src">Psalm 137 · KJV · PD</p>
+          </div>
+        </div>
+        <p class="i-holds">Holds: a short verse + citation.</p>
+        <p class="i-rights">rights: PD scripture · §13</p>
+      </div>
+
+      <!-- quote -->
+      <div class="inter">
+        <p class="i-name">Quote card</p>
+        <div class="i-body">
+          <div class="quote">
+            <blockquote>"There is a sound of the genuine in you."</blockquote>
+            <p class="q-src">Thurman · Spelman, 1980</p>
+          </div>
+        </div>
+        <p class="i-holds">Holds: one verified line + attribution.</p>
+        <p class="i-rights">rights: quote-verified · §13</p>
+      </div>
+
+      <!-- art -->
+      <div class="inter">
+        <p class="i-name">Art card</p>
+        <div class="i-body">
+          <div class="artcard">
+            <div class="a-plate" aria-hidden="true"></div>
+            <p class="a-cap">Untitled (water study) · PD</p>
+          </div>
+        </div>
+        <p class="i-holds">Holds: an image plate + one-line caption.</p>
+        <p class="i-rights">rights: PD / licensed · §13</p>
+      </div>
+
+      <!-- portrait -->
+      <div class="inter">
+        <p class="i-name">Portrait frame</p>
+        <div class="i-body">
+          <div class="portrait">
+            <div class="pf" aria-hidden="true">
+              <svg width="52" height="60" viewBox="0 0 52 60"><circle cx="26" cy="22" r="12" fill="#5A5442" opacity=".6"/><path d="M6 60 C6 42 18 36 26 36 C34 36 46 42 46 60 Z" fill="#5A5442" opacity=".6"/></svg>
+            </div>
+          </div>
+        </div>
+        <p class="i-holds">Holds: one portrait (placeholder until cleared).</p>
+        <p class="i-rights">rights: PD / clearance · §13</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ 4. PER-VOICE CONFIG TABLE ============ -->
+  <section>
+    <p class="sec-eyebrow"><span class="num">04</span> Proof of reuse</p>
+    <h2 class="sec-title">The per-voice config</h2>
+    <p class="sec-lede">One row per voice. Set the four dials, name the label credit and the song — the engine renders the rest. Adding a voice is filling a row.</p>
+    <hr class="sec-rule">
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Voice</th>
+            <th>Source</th>
+            <th>Palette</th>
+            <th>Pixel</th>
+            <th>Song</th>
+            <th>Label credit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="voice-name">Thurman<span class="vsub">Howard Thurman</span></span></td>
+            <td><span class="cell-mini">ocean / deep water</span></td>
+            <td>
+              <span class="mini-ramp" aria-hidden="true"><i style="background:#14140F"></i><i style="background:#242019"></i><i style="background:#3A362B"></i><i style="background:#5A5442"></i><i style="background:#89826A"></i><i style="background:#B6AE92"></i><i style="background:#EDE6CE"></i></span>
+              <span class="mono">ink</span>
+            </td>
+            <td>
+              <span class="mini-shape" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="4" fill="#3F7D57"/></svg></span>
+              <span class="mono">round · small</span>
+            </td>
+            <td><span class="cell-mini">"Deep River"</span><br><span class="mono">Fisk Jubilee Singers · PD</span></td>
+            <td><span class="mono">Howard Gotlieb / Thurman Center, BU</span></td>
+          </tr>
+
+          <tr>
+            <td><span class="voice-name">Plum Village<span class="vsub">Thich Nhat Hanh</span></span></td>
+            <td><span class="cell-mini">still river · rain · drifting cloud</span></td>
+            <td>
+              <span class="mini-ramp" aria-hidden="true"><i style="background:#06101A"></i><i style="background:#0C2A38"></i><i style="background:#1B5560"></i><i style="background:#3E8A7E"></i><i style="background:#8AA86A"></i><i style="background:#E0C24A"></i><i style="background:#F3E4BC"></i></span>
+              <span class="mono">tide · eyedropped from river-rain</span>
+            </td>
+            <td>
+              <span class="mini-shape" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="#3E8A7E"/></svg></span>
+              <span class="mono">circle · medium</span>
+            </td>
+            <td><span class="cell-mini">the bell / a chant</span><br><span class="mono">Plum Village · PD/CC</span></td>
+            <td><span class="mono">Plum Village Community</span></td>
+          </tr>
+
+          <tr class="blank-row">
+            <td><span class="voice-name" style="color:var(--ink-mute)">[next voice]<span class="vsub">run the DR pass →</span></span></td>
+            <td><span class="blank-cell"></span></td>
+            <td><span class="blank-cell"></span></td>
+            <td><span class="blank-cell"></span></td>
+            <td><span class="blank-cell"></span></td>
+            <td><span class="blank-cell"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <div class="foot">
+    <p class="fkick">To add a voice</p>
+    <p><span class="step">run the Deep Research pass</span> → <span class="step">set the four dials</span> → <span class="step">fill the labels</span>. Same engine, different soul. All sourced from that voice's own heritage (§2.1), rights-flagged (§13).</p>
+  </div>
+
+</div>
+
+<!--
+================================================================================
+METHODOLOGY FOOTER — thurman_components.html (the voice archive · design system)
+================================================================================
+
+HOW PRODUCED
+  Built by design-SB (design-system dispatch), 2026-07-03, as the reusable
+  component-library / design-language reference for the Grammar of Meaning
+  "voice archive." Purpose: make explicit that ANY tradition/voice is a
+  RECONFIGURATION (four dials + filled labels), not a redesign. Reuses the
+  seven palette ramps + three pixel shapes + the luminance-LUT transform
+  from thurman_water_lab.html and the white-paper wall-label pattern from
+  thurman_installation.html (both in
+  design-sb-site/web/site-deploy/_mocks/thurman/). Self-contained: one Google
+  Fonts link (Newsreader / Inter / IBM Plex Mono); all visuals CSS/SVG; no
+  external images required; mobile-responsive.
+
+SCHOLARLY SOURCES
+  - House style + palettes: thurman_water_lab.html (7 palettes, 3 shapes,
+    live pixelize transform); thurman_installation.html (museum wall-label).
+  - §2.1 (tradition-internal first / anti-pre-anchoring): every voice's
+    source imagery, palette eyedrop, and song come from THAT voice's OWN
+    heritage — never imported cross-tradition.
+  - §13 (ghost-in-the-machine prevention): rights posture surfaced per
+    component (PD / © / clearance-pending); quotes flagged verified.
+  - CLAUDE.md §1 naming: Grammar of Meaning = the inquiry/byline surface;
+    the archive/garden = the object.
+
+WHAT NEEDS VERIFICATION
+  - "Deep River" (Fisk Jubilee Singers): PD only if the specific recording is
+    ≤1925 — confirm the exact track year before publish (installation label
+    carries the same caveat).
+  - Plum Village config row is illustrative (palette/shape/song are proposed,
+    not eyedropped from a real DR pass yet) — run the DR pass to lock its
+    actual four-dial settings + credit.
+  - Thurman sermon recordings: © clearance PENDING with the Howard Thurman
+    Center, BU — do not treat as cleared.
+  - Stage 6 = 0 coded passages; all label body text is schematic, not
+    corpus-coded output.
+================================================================================
+-->
+</body>
+</html>
