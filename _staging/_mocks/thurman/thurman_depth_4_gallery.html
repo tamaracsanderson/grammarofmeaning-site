@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Depth · 4 · The Gallery room — walk in and behold</title>
+<!--
+  HOW PRODUCED: design-SB, 2026-07-04 (S133), depth-layer bakeoff mock 4 of 7. DIVERGENT: the
+    BEHOLD register as the deep view — clicking a fragment walks you INTO a walled museum room
+    (the installation register the researcher liked, used as depth). Art large on the wall, a
+    wall-label beside it, a bench; the companion is a docent's card you pick up (maieutic, never
+    oracle). ADDITIVE. Per reading-SB dispatch + binding spec.
+  SCHOLARLY SOURCES: binding spec 2026-07-03 (Behold = the installation as the deep view); the
+    delivered thurman_installation.html register; S106 (maieutic; three refusals). Psalm 139
+    KJV (PD). Thurman ©-BU. Dürer "Prodigal Son Among the Pigs" (1496, PD) as a real art slot.
+    House palette. CLAUDE.md §2.1, §13.
+  WHAT NEEDS VERIFICATION: SCHEMATIC · Stage 6=0 · art is a placeholder abstraction of the PD
+    Dürer engraving (production embeds the real Met/Wikimedia PD scan) · companion static demo.
+-->
+<style>
+  :root{--paper:#FCFBF7;--ink:#24302A;--soft:#5A665C;--mute:#8A8472;--hair:#C9BE9F;--moss:#2C4A38;--fern:#3F7D57;--olive:#6E7B3A;--terra:#C4602F;--honey:#E0A93B;
+        --wall:#EDE7D6;--wall2:#E4DCC6;--floor:#D8CEB6;
+        --serif:'Newsreader',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);-webkit-font-smoothing:antialiased;}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .stage{max-width:900px;margin:0 auto;padding:30px 22px 60px}
+  .kick{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--olive);margin:0 0 4px}
+  .lede{font-style:italic;color:var(--soft);font-size:14.5px;margin:0 0 20px;max-width:60ch}
+  .surface{display:inline-flex;gap:12px;align-items:center;padding:12px 15px;border:1px solid var(--hair);border-radius:8px;background:#FFFDF8;cursor:pointer;transition:.18s;margin-bottom:20px}
+  .surface:hover{border-color:var(--fern);background:#fff}
+  .surface .q{font-style:italic;font-size:14px;margin:0}
+  .surface .go{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--fern)}
+  /* the room */
+  .room{border:1px solid var(--hair);border-radius:10px;overflow:hidden;background:linear-gradient(180deg,var(--wall) 0%,var(--wall) 66%,var(--floor) 66%,var(--floor) 100%);
+        max-height:0;transition:max-height .7s cubic-bezier(.4,0,.15,1);padding:0 30px}
+  .room.open{max-height:760px;padding:34px 30px 30px}
+  .rtop{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px}
+  .rname{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--olive)}
+  .rclose{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);background:none;border:0;cursor:pointer}
+  .rclose:hover{color:var(--terra)}
+  .exhibit{display:grid;grid-template-columns:1.5fr 1fr;gap:30px;align-items:start}
+  .artwall{background:var(--wall2);padding:26px;border-radius:2px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)}
+  .frame{border:12px solid #F4EEDC;box-shadow:0 3px 10px rgba(30,26,18,.18);background:#0a1a22;overflow:hidden;border-radius:1px}
+  .label{padding-top:4px}
+  .leyebrow{font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--olive);margin:0 0 10px}
+  .label h3{font-family:var(--serif);font-weight:500;font-size:21px;margin:0 0 3px}
+  .label .life{font-style:italic;font-size:13px;color:var(--soft);margin:0 0 12px}
+  .label .body{font-size:13px;line-height:1.62;color:var(--soft);margin:0 0 14px}
+  .label .cr{font-family:var(--mono);font-size:8.5px;line-height:1.7;color:var(--mute);border-top:1px solid var(--hair);padding-top:10px}
+  /* docent card on the bench */
+  .bench{margin-top:22px;display:flex;gap:14px;align-items:flex-start}
+  .docent{flex:1;background:var(--paper);border:1px solid var(--hair);border-radius:8px;padding:14px 16px}
+  .dtitle{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--olive);margin:0 0 8px}
+  .dq{font-style:italic;font-size:14px;color:var(--fern);margin:0 0 10px}
+  .dpick{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--moss);background:none;border:1px solid var(--hair);border-radius:16px;padding:5px 11px;cursor:pointer;transition:.2s}
+  .dpick:hover{border-color:var(--fern)}
+  .dmirror{font-size:12px;line-height:1.55;color:var(--soft);margin:10px 0 0;display:none}
+  .dmirror.on{display:block;animation:fade .5s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .dmirror b{color:var(--moss);font-weight:500}
+  .dref{font-family:var(--mono);font-size:8px;letter-spacing:.03em;color:var(--mute);line-height:1.7;margin-top:10px}
+  .foot{font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:var(--mute);margin-top:22px;line-height:1.7}
+  @media(max-width:680px){.exhibit{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="stage">
+  <h2 class="sr-only">The Gallery room: clicking a fragment walks you into a walled museum room where the artwork hangs large with a wall-label beside it and a bench; a docent's card offers a maieutic question you can pick up.</h2>
+  <p class="kick">the voice-garden · going deeper · 4 / 7 — the gallery room</p>
+  <p class="lede">You nailed the installation register once already. Here it becomes the <em>deep view</em>: click, and you walk into a room — the work hangs large, its label beside it, a bench to sit. A docent's card offers one question; you may pick it up or leave it.</p>
+
+  <div class="surface" id="surface" role="button" tabindex="0">
+    <span class="q">The art Thurman preached on →</span>
+    <span class="go">enter the room</span>
+  </div>
+
+  <div class="room" id="room">
+    <div class="rtop"><span class="rname">room · the prodigal</span><button class="rclose" id="rclose">← leave the room</button></div>
+    <div class="exhibit">
+      <div class="artwall">
+        <div class="frame">
+          <svg viewBox="0 0 360 300" width="100%" xmlns="http://www.w3.org/2000/svg" aria-label="placeholder for Dürer, The Prodigal Son Among the Pigs, 1496, public domain"><rect width="360" height="300" fill="#0c1c24"/><rect x="0" y="0" width="360" height="300" fill="#123240" opacity=".3"/><circle cx="286" cy="70" r="34" fill="#E7D6A0" opacity=".16"/><path d="M40 250 Q120 210 200 244 T340 236" fill="none" stroke="#5f7a54" stroke-width="2" opacity=".5"/><path d="M60 262 q40 -30 80 -6 t80 -6" fill="none" stroke="#8a7b4a" stroke-width="2.5" opacity=".55"/><ellipse cx="150" cy="210" rx="26" ry="15" fill="#3a4a3a" opacity=".5"/><ellipse cx="210" cy="222" rx="20" ry="12" fill="#3a4a3a" opacity=".45"/><path d="M150 205 l4 -40 l10 2 l-4 40" fill="#6b5a3a" opacity=".6"/></svg>
+        </div>
+      </div>
+      <div class="label">
+        <p class="leyebrow">installation view · the deep look</p>
+        <h3>The Prodigal Son Among the Pigs</h3>
+        <p class="life">Albrecht Dürer · engraving · 1496</p>
+        <p class="body">The son at the low place — kneeling in the mire with the swine, the road home still unwalked. Thurman preached the far country and the way back. Here the image opens at size; the label sits beside it, unhurried.</p>
+        <p class="cr">Albrecht Dürer, <em>The Prodigal Son Among the Pigs</em>, 1496 · public domain · Met Open Access / Wikimedia (real scan in production; placeholder shown)</p>
+      </div>
+    </div>
+    <div class="bench">
+      <div class="docent">
+        <p class="dtitle">a docent's card · pick it up, or leave it</p>
+        <p class="dq">“The low place is drawn with great care. What in it holds your eye?”</p>
+        <button class="dpick" id="dpick">◦ turn the card over</button>
+        <div class="dmirror" id="dmirror">You stood longest in front of this one. <b>·</b> not because it's the finest — because you didn't look away. that might be telling you something. carry it out the door: whose low place could you sit beside this week?</div>
+        <p class="dref">maieutic, not an audio-guide of facts · a mirror, not a face · it is not Thurman · private · points you outward</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="foot">MOCK 4 / 7 · the gallery room (behold) · installation register as the deep view · docent card = the companion · static demo (prod = inline Max SDK)</p>
+</div>
+<script>
+(function(){
+  var s=document.getElementById('surface'),room=document.getElementById('room'),rc=document.getElementById('rclose'),
+      dp=document.getElementById('dpick'),dm=document.getElementById('dmirror');
+  function open(){room.classList.add('open');room.scrollIntoView({behavior:'smooth',block:'center'});}
+  s.addEventListener('click',open);
+  s.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
+  rc.addEventListener('click',function(){room.classList.remove('open');dm.classList.remove('on');s.scrollIntoView({behavior:'smooth',block:'center'});});
+  dp.addEventListener('click',function(){dm.classList.toggle('on')});
+})();
+</script>
+</body>
+</html>

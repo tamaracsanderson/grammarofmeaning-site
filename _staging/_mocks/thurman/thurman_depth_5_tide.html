@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Depth · 5 · The Tide — the fragment rises, the world recedes</title>
+<!--
+  HOW PRODUCED: design-SB, 2026-07-04 (S133), depth-layer bakeoff mock 5 of 7. DIVERGENT: the
+    POETIC motion-inversion. Rather than sinking (mock 1), the drawn fragment RISES to the
+    surface and the rest of the world recedes below a waterline; you read at the lit surface.
+    The companion is summoned by ringing a small bell (one question); the reflect-back is the
+    TIDE GOING OUT at close — what it leaves on the sand. ADDITIVE. Per reading-SB dispatch.
+  SCHOLARLY SOURCES: binding spec 2026-07-03; S106 (three refusals; maieutic). Psalm 139 KJV
+    (PD). Thurman ©-BU (short-quote only). Thurman's own sea motif (Deep River). House palette.
+    CLAUDE.md §2.1, §13.
+  WHAT NEEDS VERIFICATION: SCHEMATIC · Stage 6=0 · companion static demo (prod = inline Max SDK).
+-->
+<style>
+  :root{--paper:#FCFBF7;--ink:#24302A;--soft:#5A665C;--mute:#8A8472;--hair:#C9BE9F;--moss:#2C4A38;--fern:#3F7D57;--olive:#6E7B3A;--terra:#C4602F;--honey:#E0A93B;
+        --sky:#F3EEDF;--surf:#E8EDE6;--deep0:#12303e;--deep1:#0a1a22;
+        --serif:'Newsreader',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);-webkit-font-smoothing:antialiased;}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .stage{max-width:860px;margin:0 auto;padding:30px 22px 60px}
+  .kick{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--olive);margin:0 0 4px}
+  .lede{font-style:italic;color:var(--soft);font-size:14.5px;margin:0 0 20px;max-width:60ch}
+  .surface{display:inline-flex;gap:12px;align-items:center;padding:12px 15px;border:1px solid var(--hair);border-radius:8px;background:#FFFDF8;cursor:pointer;transition:.18s;margin-bottom:20px}
+  .surface:hover{border-color:var(--fern);background:#fff}
+  .surface .q{font-style:italic;font-size:14px;margin:0}
+  .surface .go{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--fern)}
+  /* the scene: sky above waterline, deep below */
+  .scene{position:relative;border:1px solid var(--hair);border-radius:10px;overflow:hidden;height:520px;background:var(--sky)}
+  .below{position:absolute;left:0;right:0;bottom:0;height:64%;background:linear-gradient(180deg,#123240,#0a1a22 70%,#060f15);transition:height 1s cubic-bezier(.4,0,.15,1)}
+  .scene.open .below{height:20%}
+  .waterline{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(231,214,160,.5),transparent);bottom:64%;transition:bottom 1s cubic-bezier(.4,0,.15,1)}
+  .scene.open .waterline{bottom:20%}
+  .recede{position:absolute;left:0;right:0;bottom:64%;padding:16px 26px;text-align:center;transition:bottom 1s cubic-bezier(.4,0,.15,1);z-index:1}
+  .scene.open .recede{display:none}
+  .rfrag{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#5a6b64;margin:2px 0}
+  /* the risen passage at the lit surface */
+  .risen{position:absolute;top:38px;left:50%;transform:translateX(-50%);width:min(60ch,84%);z-index:2;visibility:hidden}
+  .scene.open .risen{visibility:visible}
+  .reye{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--olive);text-align:center;margin:0 0 14px}
+  .rpass{font-size:18px;line-height:1.74;color:var(--ink);text-align:left}
+  .rsrc{font-family:var(--mono);font-size:9px;color:var(--mute);text-align:center;margin:16px 0 0}
+  .close{position:absolute;top:12px;right:14px;z-index:4;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);background:none;border:0;cursor:pointer;display:none}
+  .scene.open .close{display:block}
+  /* the bell + tide-out */
+  .tools{position:absolute;left:0;right:0;bottom:0;height:20%;z-index:3;display:none;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;padding:0 20px}
+  .scene.open .tools{display:flex}
+  .bell,.tideout{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:#CFE0D3;background:none;border:1px solid rgba(207,224,211,.4);border-radius:20px;padding:6px 13px;cursor:pointer;transition:.2s}
+  .bell:hover,.tideout:hover{border-color:var(--honey);color:var(--honey)}
+  .cline{position:absolute;left:50%;bottom:23%;transform:translateX(-50%);width:min(56ch,86%);z-index:3;font-style:italic;font-size:14px;line-height:1.55;color:#DCE7DE;text-align:center;display:none}
+  .cline.on{display:block;animation:fade .5s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .sand{position:absolute;left:50%;bottom:6%;transform:translateX(-50%);width:min(60ch,90%);z-index:3;text-align:center;display:none}
+  .sand.on{display:block;animation:fade .7s ease}
+  .sand p{font-size:13px;line-height:1.55;color:#EDE4CE;margin:0}
+  .sand b{color:var(--honey);font-weight:500}
+  .ref{font-family:var(--mono);font-size:8px;letter-spacing:.03em;color:#7d8c85;margin-top:10px}
+  .foot{font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:var(--mute);margin-top:22px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="stage">
+  <h2 class="sr-only">The Tide: instead of sinking, the drawn fragment rises to a lit surface while the rest of the world recedes below the waterline; ring a bell to summon one question, and at close the tide goes out, leaving a single reflection on the sand.</h2>
+  <p class="kick">the voice-garden · going deeper · 5 / 7 — the tide</p>
+  <p class="lede">Depth by inversion. The fragment doesn't pull you under — it <em>rises</em>, and everything else settles below the waterline. You read at the lit surface. Ring the bell for a question; when you leave, the tide goes out and leaves one thing on the sand.</p>
+
+  <div class="surface" id="surface" role="button" tabindex="0">
+    <span class="q">“…dwell in the uttermost parts of the sea…”</span>
+    <span class="go">let it rise ↑</span>
+  </div>
+
+  <div class="scene" id="scene">
+    <button class="close" id="close">let it settle ↓</button>
+    <div class="recede">
+      <p class="rfrag">a portrait</p><p class="rfrag">deep river · a spiritual</p><p class="rfrag">the sound of the genuine</p><p class="rfrag">a sermon · 1953</p>
+    </div>
+    <div class="risen">
+      <p class="reye">Psalm 139 · 9–10 · KJV</p>
+      <div class="rpass">If I take the wings of the morning, and dwell in the uttermost parts of the sea; even there shall thy hand lead me, and thy right hand shall hold me.</div>
+      <p class="rsrc">public domain · risen to the surface, held in the light</p>
+    </div>
+    <div class="waterline"></div>
+    <div class="below"></div>
+    <p class="cline" id="cline">“What rose with it? Stay with <em>even there</em> — the far edge you did not expect to be held.”</p>
+    <div class="tools">
+      <button class="bell" id="bell">◦ ring for a question</button>
+      <button class="tideout" id="tideout">the tide goes out →</button>
+    </div>
+    <div class="sand" id="sand"><p>the tide leaves this on the sand: <b>you let the sea-line rise twice, and lingered at “even there.”</b> not a score — a trace. carry the question out with you.</p><p class="ref">a mirror, not a face · it does not know you · private · no streak · points outward</p></div>
+  </div>
+
+  <p class="foot">MOCK 5 / 7 · the tide (poetic · motion-inversion) · rise not sink · reflect-back = the tide going out · static demo (prod = inline Max SDK)</p>
+</div>
+<script>
+(function(){
+  var s=document.getElementById('surface'),sc=document.getElementById('scene'),cl=document.getElementById('close'),
+      bell=document.getElementById('bell'),cline=document.getElementById('cline'),tideout=document.getElementById('tideout'),sand=document.getElementById('sand');
+  function open(){sc.classList.add('open');sc.scrollIntoView({behavior:'smooth',block:'center'});}
+  s.addEventListener('click',open);
+  s.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
+  cl.addEventListener('click',function(){sc.classList.remove('open');cline.classList.remove('on');sand.classList.remove('on');});
+  bell.addEventListener('click',function(){cline.classList.toggle('on')});
+  tideout.addEventListener('click',function(){sand.classList.add('on');cline.classList.remove('on')});
+})();
+</script>
+</body>
+</html>

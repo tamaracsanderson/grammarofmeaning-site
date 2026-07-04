@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Depth · 2 · The Drawer — the surface stays</title>
+<!--
+  HOW PRODUCED: design-SB, 2026-07-04 (S133), depth-layer bakeoff mock 2 of 7. DIVERGENT: the
+    CALM, least-disruptive end. Depth opens as a side-drawer sliding over a still-visible
+    surface (the roulette never leaves) — reading width inside; companion lives as quiet
+    MARGINALIA in the drawer's outer edge (hevruta-in-the-margin), summoned, never shouting.
+    ADDITIVE. Per reading-SB dispatch + binding spec.
+  SCHOLARLY SOURCES: binding spec 2026-07-03; luminous_archive_vision.md (Kohut); S106 (three
+    refusals; maieutic; "a mirror, not a face"). Psalm 139 KJV (PD). Thurman texts ©-BU
+    (short-quote only). House palette. CLAUDE.md §2.1, §2.11, §3, §13.
+  WHAT NEEDS VERIFICATION: SCHEMATIC · Stage 6=0 · companion static demo (prod = inline Max SDK).
+-->
+<style>
+  :root{--paper:#FCFBF7;--ink:#24302A;--soft:#5A665C;--mute:#8A8472;--hair:#C9BE9F;--moss:#2C4A38;--fern:#3F7D57;--olive:#6E7B3A;--terra:#C4602F;--honey:#E0A93B;
+        --serif:'Newsreader',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);-webkit-font-smoothing:antialiased;}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .stage{max-width:900px;margin:0 auto;padding:30px 22px 60px}
+  .kick{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--olive);margin:0 0 4px}
+  .lede{font-style:italic;color:var(--soft);font-size:14.5px;margin:0 0 20px;max-width:60ch}
+  /* faux-viewport holding surface + drawer */
+  .viewport{position:relative;border:1px solid var(--hair);border-radius:10px;overflow:hidden;min-height:440px;background:#0a1a22}
+  .surface-bg{position:absolute;inset:0;z-index:0}
+  .draws{position:relative;z-index:1;padding:26px;display:flex;flex-direction:column;gap:12px;max-width:60%}
+  .card{background:rgba(252,251,247,.94);border:1px solid var(--hair);border-radius:8px;padding:13px 15px;cursor:pointer;transition:.18s;display:flex;gap:12px;align-items:center}
+  .card:hover{background:#fff;border-color:var(--fern)}
+  .card .q{font-style:italic;font-size:14px;color:var(--ink);margin:0}
+  .card .c{font-family:var(--mono);font-size:9px;color:var(--mute);margin:3px 0 0}
+  .card .open{margin-left:auto;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--fern);white-space:nowrap}
+  .veil{position:absolute;inset:0;z-index:2;background:rgba(6,15,21,0);pointer-events:none;transition:background .4s}
+  .viewport.open .veil{background:rgba(6,15,21,.42);pointer-events:auto}
+  /* the drawer */
+  .drawer{position:absolute;top:0;right:0;bottom:0;z-index:3;width:min(70%,560px);background:var(--paper);
+          border-left:1px solid var(--hair);box-shadow:-8px 0 24px rgba(20,30,25,.14);transform:translateX(100%);transition:transform .5s cubic-bezier(.4,0,.15,1);
+          display:grid;grid-template-columns:1fr 150px}
+  .viewport.open .drawer{transform:none}
+  .dread{padding:30px 22px 30px 28px;overflow:auto}
+  .dclose{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);background:none;border:0;cursor:pointer;padding:0;margin:0 0 16px}
+  .dclose:hover{color:var(--terra)}
+  .deye{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--olive);margin:0 0 14px}
+  .dpass{font-size:17px;line-height:1.72;color:var(--ink);max-width:44ch}
+  .dsrc{font-family:var(--mono);font-size:9.5px;color:var(--mute);border-top:1px solid var(--hair);padding-top:11px;margin-top:18px;max-width:44ch}
+  /* the margin companion */
+  .margin{border-left:1px solid var(--hair);background:#FAF7EE;padding:30px 14px;display:flex;flex-direction:column}
+  .mlab{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--olive);margin:0 0 12px;writing-mode:vertical-rl;transform:rotate(180deg);align-self:flex-start;height:70px}
+  .mgloss{font-style:italic;font-size:12px;line-height:1.5;color:var(--fern);margin:0 0 14px}
+  .mask{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--moss);background:none;border:1px solid var(--hair);border-radius:16px;padding:5px 9px;cursor:pointer;transition:.2s;margin-bottom:14px}
+  .mask:hover{border-color:var(--fern)}
+  .mirror{font-size:11.5px;line-height:1.55;color:var(--soft);display:none}
+  .mirror.on{display:block;animation:fade .5s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .mirror b{color:var(--moss);font-weight:500}
+  .mref{margin-top:auto;font-family:var(--mono);font-size:8px;letter-spacing:.03em;color:var(--mute);line-height:1.7;border-top:1px dashed var(--hair);padding-top:10px}
+  .foot{font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:var(--mute);margin-top:22px;line-height:1.7}
+  @media(max-width:640px){.draws{max-width:100%}.drawer{width:92%;grid-template-columns:1fr}.margin{border-left:0;border-top:1px solid var(--hair)}.mlab{writing-mode:horizontal-tb;transform:none;height:auto}}
+</style>
+</head>
+<body>
+<div class="stage">
+  <h2 class="sr-only">The Drawer: clicking a fragment slides a reading panel in from the right while the water surface stays visible behind it; the companion lives as quiet marginalia in the drawer's outer edge.</h2>
+  <p class="kick">the voice-garden · going deeper · 2 / 7 — the drawer</p>
+  <p class="lede">The gentlest depth. The surface never leaves — a panel slides in beside it. You read at width; a companion waits in the margin, the way a study-partner's notes wait beside the text.</p>
+
+  <div class="viewport" id="viewport">
+    <div class="surface-bg">
+      <svg viewBox="0 0 900 440" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="w2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e2831"/><stop offset="1" stop-color="#050d12"/></linearGradient></defs><rect width="900" height="440" fill="url(#w2)"/><circle cx="700" cy="80" r="40" fill="#E7D6A0" opacity=".10"/><path d="M0 300 Q225 286 450 300 T900 294 V440 H0Z" fill="#0f3340" opacity=".6"/><path d="M0 360 Q225 348 450 360 T900 354 V440 H0Z" fill="#154655" opacity=".5"/></svg>
+    </div>
+    <div class="draws">
+      <div class="card" data-open="1"><div><p class="q">“…if I make my bed in hell, behold, thou art there.”</p><p class="c">Psalm 139 · public domain</p></div><span class="open">read ↗</span></div>
+      <div class="card" style="opacity:.6"><div><p class="q">“The sound of the genuine in you…”</p><p class="c">Thurman · Spelman 1980 · © Boston University</p></div><span class="open">read ↗</span></div>
+      <div class="card" style="opacity:.42"><div><p class="q">A portrait · Marsh Chapel</p><p class="c">image · behold</p></div><span class="open">open ↗</span></div>
+    </div>
+    <div class="veil" id="veil"></div>
+    <div class="drawer" id="drawer">
+      <div class="dread">
+        <button class="dclose" id="dclose">× close · back to the surface</button>
+        <p class="deye">Psalm 139 · 7–10 · KJV</p>
+        <div class="dpass">Whither shall I go from thy spirit? or whither shall I flee from thy presence? If I ascend up into heaven, thou art there: if I make my bed in hell, behold, thou art there. If I take the wings of the morning, and dwell in the uttermost parts of the sea; even there shall thy hand lead me, and thy right hand shall hold me.</div>
+        <p class="dsrc">King James Version · public domain · the passage in full, at reading width. no timer.</p>
+      </div>
+      <div class="margin">
+        <div class="mlab">in the margin</div>
+        <p class="mgloss">“even there”</p>
+        <button class="mask" id="mask">◦ notice</button>
+        <div class="mirror" id="mirror">Where is your own <em>even there</em> — the far edge you didn't expect to be held?<br><br><b>when you leave:</b> you returned to this line twice. that might be telling you something.</div>
+        <p class="mref">a mirror, not a face · it does not know you · private · no score</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="foot">MOCK 2 / 7 · the drawer (calm) · surface never leaves · companion = marginalia · static demo (prod = inline Max SDK, all seven guardrails)</p>
+</div>
+<script>
+(function(){
+  var vp=document.getElementById('viewport'),veil=document.getElementById('veil'),dc=document.getElementById('dclose'),
+      mask=document.getElementById('mask'),mirror=document.getElementById('mirror');
+  document.querySelectorAll('.card[data-open]').forEach(function(c){c.addEventListener('click',function(){vp.classList.add('open')})});
+  function close(){vp.classList.remove('open');mirror.classList.remove('on');}
+  dc.addEventListener('click',close);veil.addEventListener('click',close);
+  mask.addEventListener('click',function(){mirror.classList.toggle('on')});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Depth · 1 · The Descent — sink into the deep</title>
+<!--
+  HOW PRODUCED: design-SB, 2026-07-04 (S133), depth-layer bakeoff mock 1 of 7, per reading-SB
+    dispatch (bring the Thurman garden further: depth-layer + companion-mirror). DIVERGENT from
+    the reference prototype (which is a tabbed 3-register page) — this explores the IMMERSIVE
+    end: opening depth by sinking full-screen down through the water into a still reading
+    chamber (the luminous darkness). Companion = one summoned maieutic line at the deep margin.
+    ADDITIVE — does not touch the delivered mocks.
+  SCHOLARLY SOURCES: field_ed/voice_garden_depth_mirror_motif_binding_spec_2026-07-03.md (the
+    three principles + seven guardrails); luminous_archive_vision.md (Kohut mirror); S106
+    (three refusals; "a mirror, not a face"; maieutic). Psalm 139:7-10 KJV (PD). Thurman's
+    Deep River / The Luminous Darkness (his own sea motif; texts ©-BU — short-quote only).
+    House palette from _mocks/altar + _reskin. CLAUDE.md §2.1, §2.11, §3, §13.
+  WHAT NEEDS VERIFICATION: SCHEMATIC · Stage 6 = 0 · companion is a STATIC demo of the register
+    (production = inline Claude Max SDK, $0 single-user). Art is placeholder SVG water (PD/CC
+    footage in production). The "Thurman c.1928 PD" claim is verify-owed — not used here.
+-->
+<style>
+  :root{--paper:#FCFBF7;--ink:#24302A;--soft:#5A665C;--hair:#C9BE9F;--moss:#2C4A38;--fern:#3F7D57;--olive:#6E7B3A;--terra:#C4602F;--honey:#E0A93B;
+        --deep0:#0e2831;--deep1:#0a1a22;--deep2:#060f15;--lum:#E7D6A0;
+        --serif:'Newsreader',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);-webkit-font-smoothing:antialiased;}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .stage{max-width:860px;margin:0 auto;padding:30px 22px 60px}
+  .kick{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--olive);margin:0 0 4px}
+  .lede{font-style:italic;color:var(--soft);font-size:14.5px;margin:0 0 20px;max-width:60ch}
+  /* the surface fragment (the draw) */
+  .surface{display:flex;gap:14px;align-items:center;padding:14px 16px;border:1px solid var(--hair);border-radius:8px;background:#FFFDF8;cursor:pointer;transition:border-color .2s,background .2s}
+  .surface:hover{border-color:var(--fern);background:#FFFFFF}
+  .thumb{width:60px;height:60px;flex:none;border-radius:6px;overflow:hidden;border:1px solid var(--hair)}
+  .sfrag{flex:1;min-width:0}
+  .sfrag .q{font-style:italic;font-size:15px;color:var(--ink);margin:0 0 3px}
+  .sfrag .c{font-family:var(--mono);font-size:9.5px;color:#8A8472}
+  .go{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--fern);white-space:nowrap}
+  /* the chamber */
+  .chamber{position:relative;margin-top:22px;border-radius:10px;overflow:hidden;background:var(--deep1);min-height:150px;
+           border:1px solid #0a1a22;transition:min-height .9s cubic-bezier(.4,0,.15,1)}
+  .chamber.open{min-height:560px}
+  .water{position:absolute;inset:0;z-index:0}
+  .shaft{position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(62ch,80%);height:100%;
+         background:linear-gradient(180deg,rgba(231,214,160,.10),rgba(231,214,160,.03) 40%,transparent);pointer-events:none;z-index:1}
+  .hint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;
+        font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#B9C6C0}
+  .chamber.open .hint{display:none}
+  .content{position:relative;z-index:2;padding:52px 30px 30px;max-width:62ch;margin:0 auto;display:none}
+  .chamber.open .content{display:block}
+  .eye{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--honey);margin:0 0 18px;text-align:center}
+  .passage{font-size:19px;line-height:1.78;color:#F1EAD6;text-align:left}
+  .passage .drop{color:var(--lum)}
+  .src{font-family:var(--mono);font-size:10px;color:#8FA09A;margin:22px 0 0;border-top:1px solid rgba(201,190,159,.22);padding-top:12px}
+  /* the deep-margin companion */
+  .companion{margin:30px auto 0;max-width:62ch;position:relative;z-index:2;display:none}
+  .chamber.open .companion{display:block}
+  .cbell{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#9BB0A6;background:none;border:1px solid rgba(155,176,166,.4);border-radius:20px;padding:6px 14px;cursor:pointer;transition:.2s}
+  .cbell:hover{border-color:var(--lum);color:var(--lum)}
+  .cline{margin-top:14px;font-style:italic;font-size:15px;line-height:1.6;color:#CFE0D3;display:none}
+  .cline.on{display:block;animation:rise .6s ease}
+  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .refuse{margin-top:16px;font-family:var(--mono);font-size:8.5px;letter-spacing:.04em;color:#6E7F79;line-height:1.7}
+  .close{position:absolute;top:12px;right:14px;z-index:3;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#9BB0A6;background:none;border:0;cursor:pointer;display:none}
+  .chamber.open .close{display:block}
+  .foot{font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:#8A8472;margin-top:26px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="stage">
+  <h2 class="sr-only">The Descent: clicking a drawn fragment sinks the whole frame down through the water into a still, dark reading chamber where the passage sits in a shaft of light; a single maieutic companion line can be summoned at the deep margin.</h2>
+  <p class="kick">the voice-garden · going deeper · 1 / 7 — the descent</p>
+  <p class="lede">The surface let the fragment float up and settle back. Click it, and instead of expanding in place, you <em>sink</em> — down through the deep river into a room where you can stay.</p>
+
+  <div class="surface" id="surface" role="button" tabindex="0" aria-label="Descend into this fragment">
+    <div class="thumb">
+      <svg viewBox="0 0 60 60" width="60" height="60" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#12303e"/><stop offset="1" stop-color="#060f15"/></linearGradient></defs><rect width="60" height="60" fill="url(#w1)"/><circle cx="44" cy="16" r="8" fill="#E7D6A0" opacity=".3"/><path d="M0 40 Q15 34 30 39 T60 38 V60 H0Z" fill="#173d4c" opacity=".7"/><path d="M0 48 Q15 44 30 48 T60 47 V60 H0Z" fill="#1f4f5f" opacity=".6"/></svg>
+    </div>
+    <div class="sfrag">
+      <p class="q">“…if I make my bed in hell, behold, thou art there.”</p>
+      <p class="c">Psalm 139 · the sea Thurman returned to · public domain</p>
+    </div>
+    <span class="go">descend ↓</span>
+  </div>
+
+  <div class="chamber" id="chamber">
+    <div class="water">
+      <svg viewBox="0 0 860 560" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="sea1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e2831"/><stop offset=".5" stop-color="#0a1a22"/><stop offset="1" stop-color="#050d12"/></linearGradient></defs><rect width="860" height="560" fill="url(#sea1)"/><circle cx="430" cy="70" r="46" fill="#E7D6A0" opacity=".12"/><circle cx="430" cy="70" r="26" fill="#E7D6A0" opacity=".14"/><path d="M0 360 Q215 340 430 356 T860 350 V560 H0Z" fill="#0f3340" opacity=".7"/><path d="M0 420 Q215 404 430 420 T860 414 V560 H0Z" fill="#154655" opacity=".6"/><path d="M0 480 Q215 468 430 480 T860 475 V560 H0Z" fill="#1c5866" opacity=".5"/></svg>
+    </div>
+    <div class="shaft"></div>
+    <div class="hint">click the fragment above to descend</div>
+    <button class="close" id="close">↑ surface</button>
+    <div class="content">
+      <p class="eye">Psalm 139 · 7–10 · King James Version</p>
+      <div class="passage">Whither shall I go from thy spirit? or whither shall I flee from thy presence? If I ascend up into heaven, thou art there: <span class="drop">if I make my bed in hell, behold, thou art there.</span> If I take the wings of the morning, and dwell in the uttermost parts of the sea; even there shall thy hand lead me, and thy right hand shall hold me.</div>
+      <p class="src">public domain · the whole passage, at reading width · no timer, no next-button — sit as long as you like</p>
+    </div>
+    <div class="companion">
+      <button class="cbell" id="bell">◦ a quiet companion</button>
+      <p class="cline" id="cline">What do you notice, sitting with this? … Stay with <em>“even there.”</em> Where is your own <em>even there</em> — the far edge you did not expect to be held?
+        <span class="refuse">no streak · no score · private to you · it reflects you to yourself — it does not know you, and it is not Thurman · maieutic (it draws out; it does not deposit)</span>
+      </p>
+    </div>
+  </div>
+
+  <p class="foot">MOCK 1 / 7 · the descent (immersive) · additive to the garden · Stage 6 = 0 · companion is a static demo of the register (production = inline Claude Max SDK, $0 single-user, all seven guardrails)</p>
+</div>
+<script>
+(function(){
+  var s=document.getElementById('surface'),ch=document.getElementById('chamber'),cl=document.getElementById('close'),
+      bell=document.getElementById('bell'),cline=document.getElementById('cline');
+  function open(){ch.classList.add('open');ch.scrollIntoView({behavior:'smooth',block:'center'});}
+  s.addEventListener('click',open);
+  s.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
+  cl.addEventListener('click',function(){ch.classList.remove('open');cline.classList.remove('on');s.scrollIntoView({behavior:'smooth',block:'center'});});
+  bell.addEventListener('click',function(){cline.classList.toggle('on');});
+})();
+</script>
+</body>
+</html>
