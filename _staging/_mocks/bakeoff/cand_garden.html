@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grammar of Meaning — The Living Garden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ---- GROUNDS ---- */
+    --paper:        #F6F1E4;  /* herbarium sheet — warm rag paper */
+    --paper-2:      #EFE7D3;  /* deeper card ground */
+    --ink:          #24302A;  /* deep pine ink (NOT near-black) for body text */
+    --ink-soft:     #52605A;  /* secondary text */
+
+    /* ---- LIVING GREENS ---- */
+    --fern:         #3F7D57;  /* luminous fern — primary green accent */
+    --sage:         #8AA88B;  /* sage — soft supporting green */
+    --olive:        #6E7B3A;  /* olive — botanical linework / stems */
+    --moss-deep:    #2C4A38;  /* moss headline green — rich, not murky */
+
+    /* ---- WARM COUNTER-ACCENTS ---- */
+    --terracotta:   #C4602F;  /* soil / terracotta — the pop counter-accent */
+    --honey:        #E0A93B;  /* honey gold — bloom / highlight */
+
+    --line:         #C9BE9F;  /* hairline dividers on paper */
+    --line-soft:    rgba(110,123,58,.28);
+
+    --maxw: 860px;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Spectral", Georgia, serif;
+    font-size:18px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    /* Paper texture: layered radial + subtle fiber grain, CSS only */
+    background-image:
+      radial-gradient(circle at 18% 12%, rgba(224,169,59,.05), transparent 42%),
+      radial-gradient(circle at 82% 78%, rgba(63,125,87,.06), transparent 46%),
+      repeating-linear-gradient(0deg, rgba(110,123,58,.015) 0 2px, transparent 2px 5px),
+      repeating-linear-gradient(90deg, rgba(196,96,47,.012) 0 3px, transparent 3px 7px);
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+
+  h1,h2,h3,.display{
+    font-family:"Fraunces", Georgia, serif;
+    color:var(--moss-deep);
+    font-weight:500;
+    letter-spacing:-.01em;
+    line-height:1.12;
+  }
+  .eyebrow{
+    font-family:"Inter",sans-serif;
+    font-size:12px;font-weight:600;letter-spacing:.19em;text-transform:uppercase;
+    color:var(--terracotta);
+  }
+  .mono-label{
+    font-family:"Inter",sans-serif;font-size:11.5px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);
+  }
+  a{color:var(--fern);text-decoration:none}
+
+  /* ---------- BOTANICAL DIVIDER (CSS/SVG linework) ---------- */
+  .sprig{display:block;margin:0 auto;width:150px;height:34px;opacity:.85}
+
+  /* ================= NAV ================= */
+  nav.top{
+    position:sticky;top:0;z-index:20;
+    background:rgba(246,241,228,.9);
+    backdrop-filter:saturate(140%) blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.top .wrap{display:flex;align-items:center;gap:22px;padding-top:14px;padding-bottom:14px}
+  .brand{
+    font-family:"Fraunces",serif;font-weight:600;font-size:19px;color:var(--moss-deep);
+    display:flex;align-items:center;gap:9px;letter-spacing:-.01em;
+  }
+  .brand .mark{width:22px;height:22px;flex:0 0 auto}
+  nav.top ul{list-style:none;display:flex;gap:20px;margin:0 0 0 auto;padding:0}
+  nav.top ul a{
+    font-family:"Inter",sans-serif;font-size:14px;font-weight:500;color:var(--ink-soft);
+    padding:4px 2px;border-bottom:2px solid transparent;transition:.18s;
+  }
+  nav.top ul a:hover{color:var(--fern);border-color:var(--fern)}
+  nav.top ul a.active{color:var(--moss-deep);border-color:var(--honey)}
+
+  /* ================= SECTION SCAFFOLD ================= */
+  section{padding:56px 0}
+  section + section{border-top:1px solid var(--line)}
+  .sec-head{margin-bottom:26px}
+  .sec-head h2{font-size:30px;margin:.2em 0 .15em}
+  .sec-head p{margin:0;color:var(--ink-soft);max-width:60ch}
+
+  /* ================= HERO ================= */
+  .hero{
+    position:relative;overflow:hidden;padding:78px 0 66px;
+    background:
+      radial-gradient(120% 90% at 50% -10%, rgba(63,125,87,.10), transparent 60%),
+      linear-gradient(180deg, #F8F4E8, var(--paper));
+    border-bottom:1px solid var(--line);
+  }
+  .hero .wrap{position:relative;z-index:2;text-align:center}
+  .hero h1{font-size:clamp(42px,7vw,72px);font-weight:400;margin:.18em 0 .1em}
+  .hero .lede{
+    font-family:"Fraunces",serif;font-style:italic;font-weight:300;
+    font-size:clamp(20px,3.2vw,27px);color:var(--fern);margin:0 auto;max-width:22ch;
+  }
+  .hero .forms{
+    display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:30px;
+  }
+  .pill{
+    font-family:"Inter",sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;
+    padding:8px 16px;border-radius:999px;border:1px solid var(--line-soft);
+    color:var(--moss-deep);background:rgba(255,255,255,.4);
+  }
+  .pill.on{background:var(--fern);color:#F7F3E7;border-color:var(--fern)}
+  /* faint botanical watermark behind hero */
+  .hero .watermark{
+    position:absolute;right:-40px;bottom:-60px;width:340px;height:340px;
+    z-index:1;opacity:.14;pointer-events:none;
+  }
+  .hero .watermark-l{
+    position:absolute;left:-50px;top:-40px;width:250px;height:250px;
+    z-index:1;opacity:.10;pointer-events:none;transform:scaleX(-1);
+  }
+
+  /* ================= PALETTE ================= */
+  .chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px}
+  .chip{
+    border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;
+    box-shadow:0 1px 0 rgba(44,74,56,.04);
+  }
+  .chip .swatch{height:74px;position:relative}
+  .chip .body{padding:11px 13px 13px}
+  .chip .hex{font-family:"Inter",monospace;font-size:13px;font-weight:700;color:var(--ink);letter-spacing:.02em}
+  .chip .role{font-family:"Inter",sans-serif;font-size:12.5px;font-weight:600;color:var(--moss-deep);margin-top:3px}
+  .chip .note{font-family:"Inter",sans-serif;font-size:11.5px;color:var(--ink-soft);margin-top:5px;line-height:1.4}
+
+  /* ================= TYPE SPEC ================= */
+  .type-card{
+    background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:24px 26px;margin-bottom:16px;
+  }
+  .type-card .big{font-family:"Fraunces",serif;font-size:44px;color:var(--moss-deep);line-height:1.05;margin:6px 0}
+  .type-card .mid{font-family:"Spectral",serif;font-size:20px;color:var(--ink);margin:8px 0 0}
+  .type-card .why{font-family:"Inter",sans-serif;font-size:14px;color:var(--ink-soft);margin-top:12px;line-height:1.55}
+  .glyphs{font-family:"Fraunces",serif;font-size:24px;color:var(--olive);letter-spacing:.06em;margin-top:8px}
+
+  /* ================= SPECIMEN CARD ================= */
+  .specimen{
+    background:#FBF8ED;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+    box-shadow:0 8px 30px rgba(44,74,56,.07);
+  }
+  .specimen .plate{
+    display:grid;grid-template-columns:150px 1fr;gap:0;
+  }
+  .specimen .illo{
+    background:
+      radial-gradient(90% 70% at 50% 30%, rgba(63,125,87,.10), transparent),
+      var(--paper-2);
+    border-right:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;padding:14px;
+  }
+  .specimen .meta{padding:22px 24px}
+  .specimen .taxon{font-family:"Fraunces",serif;font-style:italic;font-size:13px;color:var(--olive);letter-spacing:.02em}
+  .specimen h3{font-size:25px;margin:2px 0 4px}
+  .specimen .region{font-family:"Inter",sans-serif;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--terracotta)}
+  .specimen p{margin:12px 0 0;font-size:16px;color:var(--ink);line-height:1.58}
+  .specimen .datarow{
+    display:flex;gap:22px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);
+  }
+  .datarow .d .k{font-family:"Inter",sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+  .datarow .d .v{font-family:"Fraunces",serif;font-size:19px;color:var(--moss-deep)}
+
+  /* ================= MOVE SPECIMEN (growing branch flowchart) ================= */
+  .branch-wrap{
+    background:
+      radial-gradient(100% 120% at 0% 0%, rgba(224,169,59,.06), transparent 55%),
+      #FBF8ED;
+    border:1px solid var(--line);border-radius:16px;padding:26px 28px 30px;
+  }
+  .branch-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px}
+  .branch-legend .lg{display:flex;align-items:center;gap:8px;font-family:"Inter",sans-serif;font-size:12px;font-weight:600;color:var(--ink-soft)}
+  .branch-legend .dot{width:12px;height:12px;border-radius:50%}
+
+  .nodecap{font-family:"Inter",sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}
+  .nodetxt{font-family:"Fraunces",serif;font-size:15px;font-weight:500}
+
+  /* ================= CALLOUT / PULL QUOTE ================= */
+  .callout{
+    position:relative;background:var(--moss-deep);color:#F1EAD6;border-radius:18px;
+    padding:40px 44px;overflow:hidden;
+  }
+  .callout .q{
+    font-family:"Fraunces",serif;font-style:italic;font-weight:300;
+    font-size:clamp(23px,3.6vw,31px);line-height:1.32;position:relative;z-index:2;margin:0;
+  }
+  .callout .q b{font-style:normal;font-weight:600;color:var(--honey)}
+  .callout .cite{font-family:"Inter",sans-serif;font-size:13px;letter-spacing:.06em;color:var(--sage);margin-top:18px;position:relative;z-index:2}
+  .callout .veins{position:absolute;inset:0;opacity:.16;z-index:1}
+
+  /* ================= "FOR THE CURIOUS" ================= */
+  .curious{
+    border:1px solid var(--line-soft);border-radius:16px;overflow:hidden;
+    background:
+      repeating-linear-gradient(135deg, rgba(110,123,58,.035) 0 12px, transparent 12px 24px),
+      var(--paper-2);
+  }
+  .curious summary{
+    list-style:none;cursor:pointer;padding:20px 24px;display:flex;align-items:center;gap:14px;
+  }
+  .curious summary::-webkit-details-marker{display:none}
+  .curious .leaf-toggle{
+    width:30px;height:30px;flex:0 0 auto;transition:transform .3s ease;color:var(--fern);
+  }
+  .curious[open] .leaf-toggle{transform:rotate(90deg)}
+  .curious .sum-txt .kick{font-family:"Inter",sans-serif;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--terracotta)}
+  .curious .sum-txt .ttl{font-family:"Fraunces",serif;font-size:20px;color:var(--moss-deep);margin-top:1px}
+  .curious .inner{padding:4px 26px 26px 68px}
+  .curious .inner p{font-size:16px;color:var(--ink);margin:0 0 12px}
+  .curious .inner .aside{
+    font-family:"Inter",sans-serif;font-size:13.5px;color:var(--ink-soft);
+    border-left:3px solid var(--honey);padding-left:14px;line-height:1.55;
+  }
+
+  /* ================= PICK LIST ================= */
+  .picklist{
+    background:#20302A;color:#E6E1CE;border-radius:14px;padding:24px 26px;
+    font-family:"Inter",monospace;font-size:13.5px;line-height:1.85;overflow-x:auto;
+  }
+  .picklist .h{color:var(--honey);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:11.5px}
+  .picklist .sw{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:middle;margin-right:7px;border:1px solid rgba(255,255,255,.2)}
+  .picklist b{color:#fff}
+
+  footer{padding:40px 0 70px;text-align:center;color:var(--ink-soft);font-family:"Inter",sans-serif;font-size:13px}
+</style>
+</head>
+<body>
+
+<!-- reusable sprig divider -->
+<svg style="display:none"><defs>
+  <symbol id="sprig" viewBox="0 0 150 34">
+    <path d="M5 17 H145" stroke="#6E7B3A" stroke-width="1" fill="none"/>
+    <g fill="none" stroke="#3F7D57" stroke-width="1.3">
+      <path d="M60 17 q-9 -11 -20 -9 q7 8 20 9"/>
+      <path d="M90 17 q9 -11 20 -9 q-7 8 -20 9"/>
+      <path d="M68 17 q-6 9 -15 9 q5 -7 15 -9"/>
+      <path d="M82 17 q6 9 15 9 q-5 -7 -15 -9"/>
+    </g>
+    <circle cx="75" cy="17" r="3.2" fill="#E0A93B"/>
+    <circle cx="75" cy="17" r="6" fill="none" stroke="#C4602F" stroke-width="1"/>
+  </symbol>
+</defs></svg>
+
+<!-- ============ NAV ============ -->
+<nav class="top">
+  <div class="wrap">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 22 V9" stroke="#6E7B3A" stroke-width="1.6"/>
+        <path d="M12 13 q-7 -2 -8 -9 q7 1 8 9" fill="#8AA88B" stroke="#3F7D57" stroke-width="1"/>
+        <path d="M12 10 q7 -3 8 -9 q-7 1 -8 9" fill="#3F7D57" stroke="#2C4A38" stroke-width="1"/>
+        <circle cx="12" cy="6" r="2.4" fill="#E0A93B" stroke="#C4602F" stroke-width="1"/>
+      </svg>
+      Grammar of Meaning
+    </div>
+    <ul>
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#">Library</a></li>
+      <li><a href="#">Essays</a></li>
+      <li><a href="#garden">Garden</a></li>
+      <li><a href="#">Method</a></li>
+      <li><a href="#">Reference</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <!-- botanical watermarks -->
+  <svg class="watermark" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+    <path d="M100 195 V70" stroke="#3F7D57" stroke-width="1.4"/>
+    <g stroke="#3F7D57" stroke-width="1.2" fill="none">
+      <path d="M100 150 q-46 -10 -58 -55 q46 6 58 55"/>
+      <path d="M100 120 q46 -12 58 -58 q-46 6 -58 58"/>
+      <path d="M100 96 q-38 -8 -48 -46 q38 5 48 46"/>
+      <path d="M100 78 q40 -10 50 -48 q-40 5 -50 48"/>
+    </g>
+    <circle cx="100" cy="62" r="7" fill="#E0A93B"/>
+  </svg>
+  <svg class="watermark-l" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+    <path d="M100 195 V60" stroke="#6E7B3A" stroke-width="1.4"/>
+    <g stroke="#6E7B3A" stroke-width="1.1" fill="none">
+      <path d="M100 150 q-42 -8 -54 -50 q42 5 54 50"/>
+      <path d="M100 115 q44 -10 56 -54 q-44 5 -56 54"/>
+    </g>
+  </svg>
+
+  <div class="wrap">
+    <div class="eyebrow">A Living Archive · Tamara Sanderson</div>
+    <h1>Grammar of Meaning</h1>
+    <p class="lede">How meaning gets made.</p>
+    <div class="forms">
+      <span class="pill">Library</span>
+      <span class="pill">Essays</span>
+      <span class="pill on">The Garden</span>
+      <span class="pill">Method</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ============ 1. DIRECTION ============ -->
+  <section id="direction">
+    <div class="eyebrow">Direction 01 — Bake-off Candidate</div>
+    <h2 style="font-size:34px;margin:.15em 0 .1em">The Living Garden</h2>
+    <p style="font-family:'Fraunces',serif;font-style:italic;font-size:22px;color:var(--fern);max-width:34ch;margin:.2em 0 0">
+      A herbarium for the human spirit — every tradition a plant, every reading a season of growth.
+    </p>
+    <p style="color:var(--ink-soft);max-width:62ch;margin-top:16px">
+      The identity IS the Garden: warm rag paper, luminous living greens, botanical linework, and an
+      organic-refined serif. Traditions are drawn as specimens; the recurring "moves" of meaning-making
+      are drawn as a growing branch. A pilgrimage through a collection that is still alive and putting out leaves.
+    </p>
+    <svg class="sprig" style="margin-top:24px"><use href="#sprig"/></svg>
+  </section>
+
+  <!-- ============ 2. PALETTE ============ -->
+  <section id="palette">
+    <div class="sec-head">
+      <div class="eyebrow">Palette</div>
+      <h2>Living greens, warm soil</h2>
+      <p>Greens chosen with intent — luminous fern and clean sage against warm parchment, warmed by terracotta soil and honey. No near-black, no murky grey-green anywhere.</p>
+    </div>
+    <div class="chips">
+      <div class="chip">
+        <div class="swatch" style="background:#F6F1E4"></div>
+        <div class="body"><div class="hex">#F6F1E4</div><div class="role">Rag Paper — ground</div>
+          <div class="note">Warm herbarium sheet. All accents sit on this; keeps the field bright, never muddy.</div></div>
+      </div>
+      <div class="chip">
+        <div class="swatch" style="background:#3F7D57"></div>
+        <div class="body"><div class="hex">#3F7D57</div><div class="role">Fern — primary accent</div>
+          <div class="note">Luminous living green. ~4.9:1 on paper — clearly readable, pops without going dark.</div></div>
+      </div>
+      <div class="chip">
+        <div class="swatch" style="background:#2C4A38"></div>
+        <div class="body"><div class="hex">#2C4A38</div><div class="role">Moss — headlines</div>
+          <div class="note">Rich display green, ~9:1 on paper. Deep but alive — the pine-not-black rule.</div></div>
+      </div>
+      <div class="chip">
+        <div class="swatch" style="background:#8AA88B"></div>
+        <div class="body"><div class="hex">#8AA88B</div><div class="role">Sage — soft support</div>
+          <div class="note">Quiet green for fills, sage-tints, leaf undersides. Use behind, not for text.</div></div>
+      </div>
+      <div class="chip">
+        <div class="swatch" style="background:#6E7B3A"></div>
+        <div class="body"><div class="hex">#6E7B3A</div><div class="role">Olive — linework / stems</div>
+          <div class="note">The botanical drawing green. Stems, hairlines, branch strokes. ~4.7:1 on paper.</div></div>
+      </div>
+      <div class="chip">
+        <div class="swatch" style="background:#C4602F"></div>
+        <div class="body"><div class="hex">#C4602F</div><div class="role">Terracotta — counter-accent</div>
+          <div class="note">Warm soil. The pop against all the green — eyebrows, links-hot, seed markers. ~4.6:1.</div></div>
+      </div>
+      <div class="chip">
+        <div class="swatch" style="background:#E0A93B"></div>
+        <div class="body"><div class="hex">#E0A93B</div><div class="role">Honey — bloom highlight</div>
+          <div class="note">The flower / bloom note. Sparingly: active tabs, seed dots, emphasis on dark grounds.</div></div>
+      </div>
+      <div class="chip">
+        <div class="swatch" style="background:#24302A"></div>
+        <div class="body"><div class="hex">#24302A</div><div class="role">Pine Ink — body text</div>
+          <div class="note">Not black. A deep pine-green ink; ~11:1 on paper. Warm, readable, botanical.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. TYPE ============ -->
+  <section id="type">
+    <div class="sec-head">
+      <div class="eyebrow">Typography</div>
+      <h2>Fraunces &amp; Spectral</h2>
+      <p>An organic, slightly wild display serif for warmth; a calm literary serif for reading; a clean humanist sans for labels and data.</p>
+    </div>
+
+    <div class="type-card">
+      <div class="mono-label">Display — Fraunces (opsz, soft/wonky serif)</div>
+      <div class="big">How meaning gets made.</div>
+      <div class="glyphs">Aa Gg &amp; Rhyme · metaxy · fern</div>
+      <div class="why"><b>Why Fraunces.</b> It has the botanical-plate warmth — ink-trap curves, an old-catalogue feeling — without tipping precious. Optical sizing lets headlines breathe and small caps stay crisp. It reads like a naturalist's hand-set title page.</div>
+    </div>
+
+    <div class="type-card" style="background:#FBF8ED">
+      <div class="mono-label">Body — Spectral (literary serif)</div>
+      <div class="mid">Each tradition is read in its own vocabulary. We look for the <i>moves</i> — the small operations of meaning-making — that recur as a rhyme from one plant to the next, across the whole garden of traditions.</div>
+      <div class="why"><b>Why Spectral.</b> Designed for on-screen long-form. Generous x-height, low contrast, sits calmly under Fraunces. Reading pages stay legible at length; italics carry the tradition-terms elegantly.</div>
+    </div>
+
+    <div class="type-card" style="background:var(--paper)">
+      <div class="mono-label">Labels &amp; Data — Inter (humanist sans)</div>
+      <div style="font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);margin-top:8px">
+        <span style="font-weight:700;letter-spacing:.13em;text-transform:uppercase;font-size:12px;color:var(--terracotta)">Agent · Substrate · Operation · Outcome</span><br>
+        <span style="color:var(--ink-soft)">Specimen no. 0114 — Family: Abrahamic — Reception: growing</span>
+      </div>
+      <div class="why"><b>Why Inter.</b> Diagram, taxon-data, and flowchart text must be maximally legible at small sizes. Inter keeps the botanical mood serif-led while the machinery of the Method stays engineered-clean.</div>
+    </div>
+  </section>
+
+  <!-- ============ 4. TEXTURE / MOTIF ============ -->
+  <section id="texture">
+    <div class="sec-head">
+      <div class="eyebrow">Texture &amp; Motif</div>
+      <h2>Drawn, not photographed</h2>
+      <p>Everything botanical is CSS/SVG linework — no images. Paper is a layered radial-plus-fiber grain; the recurring motif is <b>the sprig</b>: a stem with paired leaves and one honey seed at the node.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px">
+      <div style="border:1px solid var(--line);border-radius:12px;padding:18px;background:#FBF8ED;text-align:center">
+        <svg viewBox="0 0 120 120" style="width:96px;height:96px" fill="none" aria-hidden="true">
+          <path d="M60 112 V44" stroke="#6E7B3A" stroke-width="1.6"/>
+          <path d="M60 88 q-30 -6 -38 -36 q30 4 38 36" fill="#8AA88B" fill-opacity=".4" stroke="#3F7D57" stroke-width="1.2"/>
+          <path d="M60 68 q30 -7 38 -37 q-30 4 -38 37" fill="#3F7D57" fill-opacity=".3" stroke="#2C4A38" stroke-width="1.2"/>
+          <circle cx="60" cy="38" r="5" fill="#E0A93B" stroke="#C4602F" stroke-width="1.4"/>
+        </svg>
+        <div class="mono-label" style="margin-top:6px">The Sprig — core mark</div>
+      </div>
+      <div style="border:1px solid var(--line);border-radius:12px;padding:18px;background:#FBF8ED;text-align:center">
+        <svg viewBox="0 0 120 120" style="width:96px;height:96px" fill="none" aria-hidden="true">
+          <g stroke="#6E7B3A" stroke-width="1.3" fill="none">
+            <path d="M60 110 V20"/>
+            <path d="M60 84 q-26 4 -34 -18"/><path d="M60 70 q26 4 34 -18"/>
+            <path d="M60 56 q-22 4 -30 -14"/><path d="M60 44 q22 4 30 -14"/>
+          </g>
+          <circle cx="60" cy="18" r="4" fill="#E0A93B"/>
+        </svg>
+        <div class="mono-label" style="margin-top:6px">Root/branch rhythm</div>
+      </div>
+      <div style="border:1px solid var(--line);border-radius:12px;padding:18px;background:var(--paper);text-align:center">
+        <div style="height:96px;border-radius:8px;background:
+          repeating-linear-gradient(0deg, rgba(110,123,58,.10) 0 2px, transparent 2px 6px),
+          repeating-linear-gradient(90deg, rgba(196,96,47,.06) 0 3px, transparent 3px 8px),#F6F1E4"></div>
+        <div class="mono-label" style="margin-top:6px">Rag-paper grain</div>
+      </div>
+      <div style="border:1px solid var(--line);border-radius:12px;padding:18px;background:#2C4A38;text-align:center">
+        <svg viewBox="0 0 120 120" style="width:96px;height:96px" fill="none" aria-hidden="true">
+          <path d="M60 110 V16" stroke="#8AA88B" stroke-width="1.4"/>
+          <g stroke="#8AA88B" stroke-width="1.1" fill="none" opacity=".9">
+            <path d="M60 90 q-24 -4 -32 -26 q24 3 32 26"/>
+            <path d="M60 66 q24 -5 32 -28 q-24 3 -32 28"/>
+          </g>
+          <circle cx="60" cy="14" r="4.5" fill="#E0A93B"/>
+        </svg>
+        <div class="mono-label" style="margin-top:6px;color:#8AA88B">Night-garden (dark ground)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5a. SPECIMEN CARD ============ -->
+  <section id="garden">
+    <div class="sec-head">
+      <div class="eyebrow">The Garden — Specimen Plate</div>
+      <h2>A tradition, drawn as a plant</h2>
+      <p>Each tradition enters the Garden as a specimen: its own name, its family, and a reception that grows over time — leaves for centuries of commentary.</p>
+    </div>
+
+    <div class="specimen">
+      <div class="plate">
+        <div class="illo">
+          <!-- specimen linework -->
+          <svg viewBox="0 0 120 210" style="width:118px;height:200px" fill="none" aria-hidden="true">
+            <path d="M60 205 V52" stroke="#6E7B3A" stroke-width="1.7"/>
+            <g stroke="#3F7D57" stroke-width="1.3" fill="none">
+              <path d="M60 176 q-34 -8 -44 -44 q34 6 44 44"/>
+              <path d="M60 150 q34 -9 44 -46 q-34 6 -44 46"/>
+              <path d="M60 126 q-30 -7 -40 -40 q30 5 40 40"/>
+              <path d="M60 104 q32 -8 42 -42 q-32 5 -42 42"/>
+              <path d="M60 84 q-24 -6 -32 -32 q24 4 32 32"/>
+            </g>
+            <g fill="#8AA88B" fill-opacity=".35">
+              <path d="M60 176 q-34 -8 -44 -44 q34 6 44 44"/>
+              <path d="M60 150 q34 -9 44 -46 q-34 6 -44 46"/>
+            </g>
+            <circle cx="60" cy="46" r="7" fill="#E0A93B" stroke="#C4602F" stroke-width="1.6"/>
+            <circle cx="60" cy="46" r="12" fill="none" stroke="#C4602F" stroke-width="1" stroke-dasharray="2 3"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="region">Family · Abrahamic</div>
+          <h3>Pauline Christianity</h3>
+          <div class="taxon">reads in its own vocabulary — charis, pistis, dikaiosynē</div>
+          <p>A tradition that names the human problem as estrangement and its resolution as being <i>conformed</i> — remade into a likeness held in advance. Its reception has grown for two millennia, each commentary a new leaf on the same stem.</p>
+          <div class="datarow">
+            <div class="d"><div class="k">Specimen</div><div class="v">№ 0114</div></div>
+            <div class="d"><div class="k">Readings</div><div class="v">1,204</div></div>
+            <div class="d"><div class="k">Moves found</div><div class="v">37</div></div>
+            <div class="d"><div class="k">Reception</div><div class="v">growing</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5b. THE "MOVE" SPECIMEN — growing branch ============ -->
+  <section id="move">
+    <div class="sec-head">
+      <div class="eyebrow">The Method — A Move, Specimen-Drawn</div>
+      <h2>The move as a growing branch</h2>
+      <p>Our signature diagram. A "move" of meaning-making is one stem that sprouts four nodes in order — <b>Agent → Substrate → Operation → Outcome</b>. Read it left-to-right; legibility first, botany second.</p>
+    </div>
+
+    <div class="branch-wrap">
+      <!-- SVG growing-branch flowchart: legible node cards + connecting stem -->
+      <svg viewBox="0 0 760 250" width="100%" role="img" aria-label="Growing-branch flowchart: God to those foreknown to predestined to conformed">
+        <!-- main stem -->
+        <path d="M40 210 C 160 210 150 150 250 130 S 420 100 470 90 S 640 70 720 52"
+              stroke="#6E7B3A" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- little side leaves along the stem -->
+        <g stroke="#3F7D57" stroke-width="1.4" fill="#8AA88B" fill-opacity=".28">
+          <path d="M150 165 q-16 -14 -30 -8 q10 12 30 8"/>
+          <path d="M340 112 q16 -14 30 -8 q-10 12 -30 8"/>
+          <path d="M560 74 q-16 -13 -30 -7 q10 11 30 7"/>
+        </g>
+
+        <!-- NODE 1: AGENT -->
+        <g>
+          <circle cx="40" cy="210" r="9" fill="#E0A93B" stroke="#C4602F" stroke-width="2"/>
+          <rect x="8" y="150" width="118" height="48" rx="9" fill="#FFFFFF" stroke="#3F7D57" stroke-width="1.4"/>
+          <text x="67" y="169" text-anchor="middle" class="nodecap" fill="#C4602F" font-family="Inter,sans-serif" font-size="11" font-weight="700" letter-spacing="1.4">AGENT</text>
+          <text x="67" y="188" text-anchor="middle" fill="#2C4A38" font-family="Fraunces,serif" font-size="17" font-weight="600">God</text>
+        </g>
+
+        <!-- NODE 2: SUBSTRATE -->
+        <g>
+          <circle cx="250" cy="130" r="8" fill="#3F7D57" stroke="#2C4A38" stroke-width="2"/>
+          <rect x="188" y="68" width="150" height="50" rx="9" fill="#FFFFFF" stroke="#6E7B3A" stroke-width="1.4"/>
+          <text x="263" y="87" text-anchor="middle" fill="#6E7B3A" font-family="Inter,sans-serif" font-size="11" font-weight="700" letter-spacing="1.4">SUBSTRATE</text>
+          <text x="263" y="106" text-anchor="middle" fill="#2C4A38" font-family="Fraunces,serif" font-size="15.5" font-weight="600">those foreknown</text>
+        </g>
+
+        <!-- NODE 3: OPERATION -->
+        <g>
+          <circle cx="470" cy="90" r="8" fill="#3F7D57" stroke="#2C4A38" stroke-width="2"/>
+          <rect x="410" y="28" width="150" height="50" rx="9" fill="#FFFFFF" stroke="#6E7B3A" stroke-width="1.4"/>
+          <text x="485" y="47" text-anchor="middle" fill="#6E7B3A" font-family="Inter,sans-serif" font-size="11" font-weight="700" letter-spacing="1.4">OPERATION</text>
+          <text x="485" y="66" text-anchor="middle" fill="#2C4A38" font-family="Fraunces,serif" font-size="15.5" font-weight="600">predestined</text>
+        </g>
+
+        <!-- NODE 4: OUTCOME (the bloom) -->
+        <g>
+          <circle cx="720" cy="52" r="11" fill="#E0A93B" stroke="#C4602F" stroke-width="2.2"/>
+          <circle cx="720" cy="52" r="17" fill="none" stroke="#C4602F" stroke-width="1" stroke-dasharray="2 3"/>
+          <rect x="600" y="98" width="150" height="50" rx="9" fill="#2C4A38" stroke="#2C4A38" stroke-width="1.4"/>
+          <text x="675" y="117" text-anchor="middle" fill="#E0A93B" font-family="Inter,sans-serif" font-size="11" font-weight="700" letter-spacing="1.4">OUTCOME</text>
+          <text x="675" y="136" text-anchor="middle" fill="#F1EAD6" font-family="Fraunces,serif" font-size="15.5" font-weight="600">conformed</text>
+          <!-- connector from outcome bloom down to its label card -->
+          <path d="M720 63 C 705 78 690 88 675 98" stroke="#6E7B3A" stroke-width="1.6" fill="none"/>
+        </g>
+      </svg>
+
+      <div class="branch-legend">
+        <div class="lg"><span class="dot" style="background:#E0A93B;border:2px solid #C4602F"></span>Seed &amp; Bloom — Agent &amp; Outcome</div>
+        <div class="lg"><span class="dot" style="background:#3F7D57;border:2px solid #2C4A38"></span>Nodes — Substrate &amp; Operation</div>
+        <div class="lg"><span class="dot" style="background:#6E7B3A"></span>Stem — the reading’s direction</div>
+      </div>
+      <p style="font-family:'Inter',sans-serif;font-size:13.5px;color:var(--ink-soft);margin:16px 0 0;line-height:1.55">
+        Romans 8:29 — <i>“those he foreknew he also predestined to be conformed to the image of his Son.”</i>
+        The same four-node branch drawn for a Buddhist, Stoic, or Yoruba passage lets two plants be compared node-for-node: that is the <b>rhyme</b>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 5c. CALLOUT / PULL QUOTE ============ -->
+  <section id="callout">
+    <div class="callout">
+      <svg class="veins" viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 200 C120 150 130 60 250 10 S380 -20 430 -40" stroke="#8AA88B" stroke-width="1.2" fill="none"/>
+        <path d="M-20 180 C100 130 140 40 260 -10" stroke="#8AA88B" stroke-width="1" fill="none"/>
+        <g stroke="#E0A93B" stroke-width="1" fill="none" opacity=".7">
+          <path d="M160 78 q-22 -18 -40 -12 q14 16 40 12"/>
+          <path d="M200 62 q22 -18 40 -12 q-14 16 -40 12"/>
+        </g>
+      </svg>
+      <p class="q">Meaning is not stored in the plant. It is made in the <b>in-between</b> — the metaxy — where a reader and a tradition meet and something takes root.</p>
+      <div class="cite">— The Method, on the metaxy</div>
+    </div>
+  </section>
+
+  <!-- ============ 5d. FOR THE CURIOUS ============ -->
+  <section id="curious">
+    <div class="sec-head">
+      <div class="eyebrow">Secondary sections, made designed</div>
+      <h2>For the curious</h2>
+      <p>The expandable "for the curious" pattern reads as a labeled specimen drawer — hatch-textured, honey-ruled — not a plain accordion.</p>
+    </div>
+
+    <details class="curious" open>
+      <summary>
+        <svg class="leaf-toggle" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 19 C5 10 12 5 20 5 C20 14 13 19 5 19 Z" fill="#8AA88B" fill-opacity=".35" stroke="#3F7D57" stroke-width="1.4"/>
+          <path d="M5 19 C9 15 14 11 19 7" stroke="#2C4A38" stroke-width="1.2"/>
+        </svg>
+        <div class="sum-txt">
+          <div class="kick">For the curious</div>
+          <div class="ttl">Why “rhyme” and not “the same idea”?</div>
+        </div>
+      </summary>
+      <div class="inner">
+        <p>Two traditions rarely mean the <i>same</i> thing. But they often make the same <b>move</b> — the same operation on different substrate, toward a differently-named outcome. A rhyme, not a synonym.</p>
+        <p class="aside">
+          <b>Field note.</b> Pauline “conformed to the image” and a Confucian account of becoming a <i>junzi</i> share a move — a self reshaped toward a pattern held in advance — while disagreeing on almost everything else. The branch diagram makes the shared move visible without flattening the difference.
+        </p>
+      </div>
+    </details>
+
+    <details class="curious" style="margin-top:14px">
+      <summary>
+        <svg class="leaf-toggle" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 19 C5 10 12 5 20 5 C20 14 13 19 5 19 Z" fill="#8AA88B" fill-opacity=".35" stroke="#3F7D57" stroke-width="1.4"/>
+          <path d="M5 19 C9 15 14 11 19 7" stroke="#2C4A38" stroke-width="1.2"/>
+        </svg>
+        <div class="sum-txt">
+          <div class="kick">For the curious</div>
+          <div class="ttl">How does a specimen “grow”?</div>
+        </div>
+      </summary>
+      <div class="inner">
+        <p>Each new reading — a commentary, a translation, a lived retelling — adds a leaf. The plate you see is a snapshot of a plant still in season.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ 6. PICK LIST ============ -->
+  <section id="picklist">
+    <div class="sec-head">
+      <div class="eyebrow">Deliverable</div>
+      <h2>Copy-paste pick-list</h2>
+    </div>
+    <div class="picklist">
+<span class="h">// Grammar of Meaning — “The Living Garden”</span><br><br>
+<span class="h">Grounds</span><br>
+<span class="sw" style="background:#F6F1E4"></span><b>#F6F1E4</b>  Rag Paper — page ground<br>
+<span class="sw" style="background:#EFE7D3"></span><b>#EFE7D3</b>  Paper-2 — card ground<br>
+<span class="sw" style="background:#24302A"></span><b>#24302A</b>  Pine Ink — body text (not black)<br><br>
+<span class="h">Living greens</span><br>
+<span class="sw" style="background:#3F7D57"></span><b>#3F7D57</b>  Fern — primary accent<br>
+<span class="sw" style="background:#2C4A38"></span><b>#2C4A38</b>  Moss — headlines / dark ground<br>
+<span class="sw" style="background:#8AA88B"></span><b>#8AA88B</b>  Sage — soft support / fills<br>
+<span class="sw" style="background:#6E7B3A"></span><b>#6E7B3A</b>  Olive — botanical linework / stems<br><br>
+<span class="h">Warm counter-accents</span><br>
+<span class="sw" style="background:#C4602F"></span><b>#C4602F</b>  Terracotta — pop / eyebrows / seed rings<br>
+<span class="sw" style="background:#E0A93B"></span><b>#E0A93B</b>  Honey — bloom highlight / active tab<br><br>
+<span class="h">Type</span><br>
+Display: <b>Fraunces</b> (opsz 9–144, wght 300–700)<br>
+Body: <b>Spectral</b> (300 / 400 / 500 / italic)<br>
+Labels &amp; diagram: <b>Inter</b> (400–700)<br><br>
+<span class="h">Signature</span><br>
+The Sprig mark + the Move-as-growing-branch (Agent→Substrate→Operation→Outcome)<br>
+Textures: CSS rag-paper grain + SVG botanical linework only. No raster.
+    </div>
+  </section>
+
+  <svg class="sprig" style="margin:10px auto 0"><use href="#sprig"/></svg>
+  <footer>Grammar of Meaning · The Living Garden — one candidate in a 5-way design bake-off · Tamara Sanderson</footer>
+
+</div>
+</body>
+</html>

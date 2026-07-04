@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grammar of Meaning — the sprig, with its shadow</title>
+<style>
+  :root{
+    --paper:#FCFBF7; --card:#FFFFFF; --rule:#C9BE9F; --ink:#24302A;
+    --moss:#2C4A38; --fern:#3F7D57; --sage:#8AA88B; --olive:#6E7B3A;
+    --terra:#C4602F; --honey:#E0A93B;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Iowan Old Style",Georgia,"Times New Roman",serif;
+    -webkit-font-smoothing:antialiased;line-height:1.5}
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 28px 72px}
+  header.house{border-bottom:1px solid var(--rule);padding-bottom:20px;margin-bottom:36px}
+  header.house h1{font-size:26px;font-weight:600;margin:0 0 8px;letter-spacing:.2px}
+  header.house .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    font-size:12.5px;color:var(--fern);margin:0 0 10px;letter-spacing:.3px}
+  header.house .note{font-size:14px;color:var(--olive);margin:0;max-width:62ch}
+
+  h2.sec{font-size:19px;font-weight:600;margin:44px 0 6px;color:var(--moss)}
+  h2.sec .tag{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--terra);
+    margin-left:8px;font-weight:400}
+  p.lede{font-size:14.5px;color:var(--ink);margin:0 0 22px;max-width:70ch}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .card{background:var(--card);border:1px solid var(--rule);border-radius:14px;
+    padding:22px 22px 20px;display:flex;flex-direction:column;gap:14px}
+  .card h3{margin:0;font-size:16px;font-weight:600}
+  .card h3 .id{font-family:ui-monospace,Menlo,monospace;color:var(--fern);font-size:13px;margin-right:6px}
+  .marks{display:flex;align-items:flex-end;gap:26px;flex-wrap:wrap}
+  .mk{display:flex;flex-direction:column;align-items:center;gap:7px}
+  .mk .sz{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--sage)}
+  .desc{font-size:13.5px;color:var(--ink);margin:0}
+  .read{font-size:12.5px;color:var(--olive);margin:0;font-style:italic}
+  .read b{font-style:normal;color:var(--terra);font-weight:600}
+
+  .swatchband{display:flex;gap:0;border:1px solid var(--rule);border-radius:10px;
+    overflow:hidden;margin:30px 0 8px;max-width:760px}
+  .sw{flex:1;height:34px;display:flex;align-items:center;justify-content:center;
+    font-family:ui-monospace,Menlo,monospace;font-size:10.5px}
+
+  /* tab chrome */
+  .tabs{display:flex;gap:30px;flex-wrap:wrap;margin-top:4px}
+  .tabwin{border:1px solid var(--rule);border-radius:12px;overflow:hidden;width:330px;background:var(--card)}
+  .tabbar{display:flex;align-items:stretch;height:38px}
+  .tabbar.light{background:#EFEBDF}
+  .tabbar.dark{background:#20281F}
+  .tab{display:flex;align-items:center;gap:8px;padding:0 14px;height:100%;
+    border-top-left-radius:9px;border-top-right-radius:9px;margin-top:5px;font-size:12.5px;max-width:210px}
+  .tab.light{background:var(--card);color:var(--ink)}
+  .tab.dark{background:#2C4A38;color:#F0ECE0}
+  .tab .glyph{width:16px;height:16px;flex:none}
+  .tab .ttl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tabbody{height:66px;display:flex;align-items:center;justify-content:center}
+  .tabbody.light{background:var(--paper)}
+  .tabbody.dark{background:#161C15}
+  .tabcap{font-size:12px;color:var(--olive);margin:8px 2px 0;text-align:center}
+  footer{margin-top:52px;border-top:1px solid var(--rule);padding-top:16px;
+    font-size:12.5px;color:var(--sage);font-family:ui-monospace,Menlo,monospace}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h2 class="sr-only">Brandmark sheet showing the house sprig given two shadow/negative treatments — cut-out and shadow-behind — each at hero and favicon scale, plus a light/dark favicon test.</h2>
+
+<header class="house">
+  <h1>Grammar of Meaning — the sprig, with its shadow</h1>
+  <p class="mono">brandmark study · stem + four curved fronds + honey bloom · viewBox 0 0 200 200</p>
+  <p class="note">the existing house sprig + the object-and-its-negative treatment; cut-out vs shadow-behind.</p>
+</header>
+
+<!-- ================= SVG DEFS (shared) ================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- The master sprig, thickened for a mark: fronds filled as leaf-shapes, heavy stem.
+         Each frond q-curve out-and-back closes into a leaf. -->
+    <g id="sprig">
+      <!-- stem: heavy stroke -->
+      <path d="M100 195 V70" fill="none" stroke="var(--moss)" stroke-width="9" stroke-linecap="round"/>
+      <!-- fronds as closed filled leaf-shapes -->
+      <path d="M100 150 q-46 -10 -58 -55 q46 6 58 55 Z" fill="var(--fern)"/>
+      <path d="M100 120 q46 -12 58 -58 q-46 6 -58 58 Z" fill="var(--moss)"/>
+      <path d="M100 96 q-38 -8 -48 -46 q38 5 48 46 Z" fill="var(--fern)"/>
+      <path d="M100 78 q40 -10 50 -48 q-40 5 -50 48 Z" fill="var(--moss)"/>
+      <!-- honey bloom with terracotta ring -->
+      <circle cx="100" cy="62" r="7" fill="var(--honey)"/>
+      <circle cx="100" cy="62" r="9.5" fill="none" stroke="var(--terra)" stroke-width="2.4"/>
+    </g>
+
+    <!-- sprig as a single flat silhouette path-set, for carving / shadow (one flat color via currentColor) -->
+    <g id="sprigFlat">
+      <path d="M100 195 V70" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <path d="M100 150 q-46 -10 -58 -55 q46 6 58 55 Z" fill="currentColor"/>
+      <path d="M100 120 q46 -12 58 -58 q-46 6 -58 58 Z" fill="currentColor"/>
+      <path d="M100 96 q-38 -8 -48 -46 q38 5 48 46 Z" fill="currentColor"/>
+      <path d="M100 78 q40 -10 50 -48 q-40 5 -50 48 Z" fill="currentColor"/>
+      <circle cx="100" cy="62" r="8.5" fill="currentColor"/>
+    </g>
+
+    <!-- shadow-sprig for B2: same sprig MINUS the top-right frond (a frond it never grew) -->
+    <g id="sprigFlatMinus">
+      <path d="M100 195 V70" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+      <path d="M100 150 q-46 -10 -58 -55 q46 6 58 55 Z" fill="currentColor"/>
+      <path d="M100 120 q46 -12 58 -58 q-46 6 -58 58 Z" fill="currentColor"/>
+      <path d="M100 96 q-38 -8 -48 -46 q38 5 48 46 Z" fill="currentColor"/>
+      <circle cx="100" cy="62" r="8.5" fill="currentColor"/>
+    </g>
+
+    <!-- mask: moss field with sprig carved OUT (sprig = black in mask = removed) -->
+    <mask id="carveMask" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+      <rect x="0" y="0" width="200" height="200" fill="white"/>
+      <g color="black"><use href="#sprigFlat"/></g>
+    </mask>
+
+    <!-- Matisse papiers-decoupes leaf-frond: organic, hand-cut, ASYMMETRIC, lobed.
+         A single bold flat cut-paper silhouette (algae/seaweed frond). currentColor fill. -->
+    <g id="leaf">
+      <path d="M96 176
+               C86 150 70 140 60 118
+               C52 100 58 84 48 70
+               C40 58 46 44 60 42
+               C72 40 78 52 84 66
+               C90 54 88 36 100 28
+               C112 22 120 34 116 50
+               C112 64 104 70 108 84
+               C114 76 128 72 136 82
+               C144 92 138 106 124 108
+               C112 110 106 104 102 116
+               C110 118 122 122 124 136
+               C126 150 114 160 104 152
+               C98 148 98 138 100 130
+               C96 142 100 162 96 176 Z"
+            fill="currentColor"/>
+    </g>
+    <!-- shadow-leaf: same frond but one lobe un-grown (the negative / road not taken) -->
+    <g id="leafMinus">
+      <path d="M96 176
+               C86 150 70 140 60 118
+               C52 100 58 84 48 70
+               C40 58 46 44 60 42
+               C72 40 78 52 84 66
+               C90 54 88 36 100 28
+               C112 22 120 34 116 50
+               C112 64 104 70 108 84
+               C112 100 106 104 102 116
+               C110 118 122 122 124 136
+               C126 150 114 160 104 152
+               C98 148 98 138 100 130
+               C96 142 100 162 96 176 Z"
+            fill="currentColor"/>
+    </g>
+
+    <!-- mask: organic frond cut OUT of a field (frond = black = removed) -->
+    <mask id="carveLeafMask" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
+      <rect x="0" y="0" width="200" height="200" fill="white"/>
+      <g color="black"><use href="#leaf"/></g>
+    </mask>
+  </defs>
+</svg>
+
+<!-- reusable inline symbols so each swatch is self-contained -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="A1" viewBox="0 0 430 200">
+  <!-- solid sprig left -->
+  <use href="#sprig" x="0" y="0"/>
+  <!-- moss block right with sprig carved out -->
+  <rect x="230" y="6" width="192" height="188" rx="16" fill="var(--moss)"/>
+  <g transform="translate(230,0)" mask="url(#carveMask)">
+    <rect x="0" y="6" width="192" height="188" rx="16" fill="var(--moss)"/>
+  </g>
+  <!-- one terracotta bloom on the carved side -->
+  <g transform="translate(230,0)"><circle cx="100" cy="62" r="6.5" fill="var(--terra)"/></g>
+</symbol>
+
+<symbol id="A2" viewBox="0 0 200 200">
+  <rect x="4" y="4" width="192" height="192" rx="18" fill="var(--moss)"/>
+  <g mask="url(#carveMask)"><rect x="4" y="4" width="192" height="192" rx="18" fill="var(--moss)"/></g>
+  <circle cx="100" cy="62" r="6.5" fill="var(--terra)"/>
+</symbol>
+
+<symbol id="B1" viewBox="0 0 200 200">
+  <!-- sage echo-sprig behind, offset -->
+  <g transform="translate(11,7)" color="var(--sage)" opacity="0.5"><use href="#sprigFlat"/></g>
+  <!-- solid sprig on top -->
+  <use href="#sprig"/>
+</symbol>
+
+<symbol id="B2" viewBox="0 0 240 200">
+  <!-- ground line -->
+  <line x1="18" y1="196" x2="222" y2="196" stroke="var(--rule)" stroke-width="2.5"/>
+  <!-- cast shadow: skewed, leaning right, missing its top frond (road not taken) -->
+  <g transform="translate(100,196) skewX(-34) scale(1,0.62) translate(-100,-196)"
+     color="var(--sage)" opacity="0.42"><use href="#sprigFlatMinus"/></g>
+  <!-- solid sprig upright -->
+  <use href="#sprig"/>
+</symbol>
+
+<!-- C1: the cut leaf — bold organic frond lifted onto the cream ground, terracotta stray dot -->
+<symbol id="C1" viewBox="0 0 200 200">
+  <rect x="4" y="4" width="192" height="192" rx="18" fill="var(--paper)"/>
+  <use href="#leaf" color="var(--moss)"/>
+  <!-- a small cut terracotta dot, Matisse stray-bud style -->
+  <circle cx="150" cy="52" r="8" fill="var(--terra)"/>
+</symbol>
+
+<!-- C2: the leaf carved OUT — moss field, frond cut through to cream, the negative IS the mark -->
+<symbol id="C2" viewBox="0 0 200 200">
+  <rect x="4" y="4" width="192" height="192" rx="18" fill="var(--moss)"/>
+  <g mask="url(#carveLeafMask)"><rect x="4" y="4" width="192" height="192" rx="18" fill="var(--moss)"/></g>
+  <!-- terracotta cut dot, still reading on the moss field -->
+  <circle cx="150" cy="52" r="8" fill="var(--terra)"/>
+</symbol>
+
+<!-- C3: positive + negative pair — cut frond on cream beside cream frond in a moss block -->
+<symbol id="C3" viewBox="0 0 410 200">
+  <!-- positive: moss frond on cream -->
+  <rect x="4" y="6" width="192" height="188" rx="16" fill="var(--paper)"/>
+  <use href="#leaf" color="var(--moss)"/>
+  <!-- negative: cream frond cut from a moss block -->
+  <rect x="214" y="6" width="192" height="188" rx="16" fill="var(--moss)"/>
+  <g transform="translate(214,0)" mask="url(#carveLeafMask)">
+    <rect x="0" y="6" width="192" height="188" rx="16" fill="var(--moss)"/>
+  </g>
+  <!-- one terracotta dot spanning the seam -->
+  <circle cx="205" cy="30" r="7" fill="var(--terra)"/>
+</symbol>
+
+<!-- C4: cut leaf + soft offset sage shadow-leaf behind (after-image, one lobe un-grown) -->
+<symbol id="C4" viewBox="0 0 210 200">
+  <rect x="4" y="4" width="202" height="192" rx="18" fill="var(--paper)"/>
+  <g transform="translate(16,10)" color="var(--sage)" opacity="0.5"><use href="#leafMinus"/></g>
+  <use href="#leaf" color="var(--fern)"/>
+  <circle cx="150" cy="52" r="8" fill="var(--terra)"/>
+</symbol>
+</svg>
+
+<!-- palette band -->
+<div class="swatchband" role="img" aria-label="House palette swatches">
+  <div class="sw" style="background:#FCFBF7;color:#24302A">paper</div>
+  <div class="sw" style="background:#C9BE9F;color:#24302A">rule</div>
+  <div class="sw" style="background:#8AA88B;color:#24302A">sage</div>
+  <div class="sw" style="background:#3F7D57;color:#FCFBF7">fern</div>
+  <div class="sw" style="background:#2C4A38;color:#FCFBF7">moss</div>
+  <div class="sw" style="background:#6E7B3A;color:#FCFBF7">olive</div>
+  <div class="sw" style="background:#C4602F;color:#FCFBF7">terra</div>
+  <div class="sw" style="background:#E0A93B;color:#24302A">honey</div>
+</div>
+
+<!-- =============== TREATMENT A =============== -->
+<h2 class="sec">Treatment A — the cut-out<span class="tag">carved negative · figure-ground</span></h2>
+<p class="lede">The sprig read as what's <em>removed</em> from a moss field — the mark is the paper showing through.</p>
+
+<div class="grid">
+  <!-- A1 -->
+  <div class="card">
+    <h3><span class="id">A1</span>solid beside its carved twin</h3>
+    <div class="marks">
+      <div class="mk"><svg width="215" height="100" viewBox="0 0 430 200"><use href="#A1"/></svg><span class="sz">hero ~100px</span></div>
+      <div class="mk"><svg width="32" height="32" viewBox="215 6 200 188"><use href="#A1"/></svg><span class="sz">favicon 32px</span></div>
+    </div>
+    <p class="desc">Sprig solid on the left; a moss block on the right with the same sprig carved out (paper-color), one terracotta bloom.</p>
+    <p class="read">32px read: <b>weak</b> — two objects at favicon size collapse to noise; only ever crop to the carved half.</p>
+  </div>
+
+  <!-- A2 -->
+  <div class="card">
+    <h3><span class="id">A2</span>the mark IS the negative</h3>
+    <div class="marks">
+      <div class="mk"><svg width="100" height="100" viewBox="0 0 200 200"><use href="#A2"/></svg><span class="sz">hero ~100px</span></div>
+      <div class="mk"><svg width="32" height="32" viewBox="0 0 200 200"><use href="#A2"/></svg><span class="sz">favicon 32px</span></div>
+    </div>
+    <p class="desc">A single moss field with the sprig carved out entirely — the sprig is the paper coming through the moss. One terracotta bloom.</p>
+    <p class="read">32px read: <b>good</b> — one contained shape, high moss/paper contrast; the fronds thin but the silhouette survives.</p>
+  </div>
+</div>
+
+<!-- =============== TREATMENT B =============== -->
+<h2 class="sec">Treatment B — the shadow behind it<span class="tag">object + its echo</span></h2>
+<p class="lede">The solid sprig with a shadow version of itself — an after-image, or a cast shadow that grew a little differently.</p>
+
+<div class="grid">
+  <!-- B1 -->
+  <div class="card">
+    <h3><span class="id">B1</span>the sage after-image</h3>
+    <div class="marks">
+      <div class="mk"><svg width="100" height="100" viewBox="0 0 200 200"><use href="#B1"/></svg><span class="sz">hero ~100px</span></div>
+      <div class="mk"><svg width="32" height="32" viewBox="0 0 200 200"><use href="#B1"/></svg><span class="sz">favicon 32px</span></div>
+    </div>
+    <p class="desc">The solid sprig with a soft sage low-opacity echo directly behind it, offset slightly — a shadow / after-image.</p>
+    <p class="read">32px read: <b>fair</b> — the echo muddies at favicon size; legible but the offset reads as a print-registration slip, not depth.</p>
+  </div>
+
+  <!-- B2 -->
+  <div class="card">
+    <h3><span class="id">B2</span>the cast shadow, one frond short</h3>
+    <div class="marks">
+      <div class="mk"><svg width="120" height="100" viewBox="0 0 240 200"><use href="#B2"/></svg><span class="sz">hero ~100px</span></div>
+      <div class="mk"><svg width="32" height="32" viewBox="20 0 200 200"><use href="#B2"/></svg><span class="sz">favicon 32px</span></div>
+    </div>
+    <p class="desc">The solid sprig casting a real single-light-source shadow onto a ground line; the shadow leans to one side and is missing its top frond — the one it never grew.</p>
+    <p class="read">32px read: <b>fair→good</b> — at favicon we crop to the upright sprig and the shadow reads as a faint lean; the "missing frond" is a hero-scale story, invisible at 32px.</p>
+  </div>
+</div>
+
+<!-- =============== BAND C — MATISSE CUT-OUT LEAVES =============== -->
+<h2 class="sec">C — Matisse cut-out leaves<span class="tag">papiers découpés · figure-ground</span></h2>
+<p class="lede">A bold, hand-cut organic frond — asymmetric, lobed, alive — on a cream ground that is co-equal negative space. Cut-paper <em>is</em> figure-ground, which is the house's negative-space method. These flat shapes hold hardest at 32px.</p>
+
+<div class="grid">
+  <!-- C1 -->
+  <div class="card">
+    <h3><span class="id">C1</span>the cut leaf</h3>
+    <div class="marks">
+      <div class="mk"><svg width="100" height="100" viewBox="0 0 200 200"><use href="#C1"/></svg><span class="sz">hero ~100px</span></div>
+      <div class="mk"><svg width="32" height="32" viewBox="0 0 200 200"><use href="#C1"/></svg><span class="sz">favicon 32px</span></div>
+    </div>
+    <p class="desc">One bold organic frond in moss, lifted onto the cream ground like a cut-paper shape; a small terracotta stray dot beside it.</p>
+    <p class="read">32px read: <b>strong</b> — a single flat cut-paper silhouette; the lobes hold, the stray dot warms it. The favicon-safest of the four.</p>
+  </div>
+
+  <!-- C2 -->
+  <div class="card">
+    <h3><span class="id">C2</span>the leaf carved out</h3>
+    <div class="marks">
+      <div class="mk"><svg width="100" height="100" viewBox="0 0 200 200"><use href="#C2"/></svg><span class="sz">hero ~100px</span></div>
+      <div class="mk"><svg width="32" height="32" viewBox="0 0 200 200"><use href="#C2"/></svg><span class="sz">favicon 32px</span></div>
+    </div>
+    <p class="desc">A moss field with the same frond cut out of it — cream showing through. The negative is the mark; figure and ground trade places.</p>
+    <p class="read">32px read: <b>strong</b> — the moss field carries color at small size; the cut frond reads as bright cream. Inverts C1's contrast cleanly.</p>
+  </div>
+
+  <!-- C3 -->
+  <div class="card">
+    <h3><span class="id">C3</span>positive + negative pair</h3>
+    <div class="marks">
+      <div class="mk"><svg width="205" height="100" viewBox="0 0 410 200"><use href="#C3"/></svg><span class="sz">hero ~100px</span></div>
+      <div class="mk"><svg width="32" height="32" viewBox="0 0 200 200"><use href="#C3"/></svg><span class="sz">favicon 32px</span></div>
+    </div>
+    <p class="desc">The cut frond (moss on cream) beside its negative (cream frond in a moss block) — the papiers-découpés figure-ground stated as a pair.</p>
+    <p class="read">32px read: <b>weak</b> — the pairing is a hero-scale idea; at favicon crop to just one half (C1 or C2 emerges).</p>
+  </div>
+
+  <!-- C4 -->
+  <div class="card">
+    <h3><span class="id">C4</span>leaf + cast shadow</h3>
+    <div class="marks">
+      <div class="mk"><svg width="105" height="100" viewBox="0 0 210 200"><use href="#C4"/></svg><span class="sz">hero ~100px</span></div>
+      <div class="mk"><svg width="32" height="32" viewBox="0 0 210 200"><use href="#C4"/></svg><span class="sz">favicon 32px</span></div>
+    </div>
+    <p class="desc">The fern frond with a soft offset sage shadow-leaf behind it — the after-image, one lobe un-grown (the road not taken). Terracotta stray dot.</p>
+    <p class="read">32px read: <b>good</b> — the bold frond reads; the sage echo softens to a depth-halo rather than muddying at small size.</p>
+  </div>
+</div>
+
+<!-- =============== FAVORITE — DARK/LIGHT TAB TEST =============== -->
+<h2 class="sec">Favicon test — <span style="color:var(--fern)">C1</span> across chrome<span class="tag">light vs dark tab</span></h2>
+<p class="lede">C1 (the Matisse cut leaf) is the master candidate — a single bold cut-paper frond that holds hardest at 32px. On light chrome the frond is moss on cream; the dark-chrome variant inverts figure-ground so the mark keeps its contrast — the frond lightens to sage on a deep field.</p>
+
+<div class="tabs">
+  <!-- light chrome -->
+  <div>
+    <div class="tabwin">
+      <div class="tabbar light">
+        <div class="tab light">
+          <svg class="glyph" width="16" height="16" viewBox="0 0 200 200"><use href="#C1"/></svg>
+          <span class="ttl">Grammar of Meaning</span>
+        </div>
+      </div>
+      <div class="tabbody light">
+        <svg width="34" height="34" viewBox="0 0 200 200"><use href="#C1"/></svg>
+      </div>
+    </div>
+    <p class="tabcap">light chrome — moss frond on the cream ground</p>
+  </div>
+
+  <!-- dark chrome (inverted figure-ground) -->
+  <div>
+    <div class="tabwin" style="background:#20281F">
+      <div class="tabbar dark">
+        <div class="tab dark">
+          <!-- inverted: deep field, frond lightens (sage), terracotta dot -->
+          <svg class="glyph" width="16" height="16" viewBox="0 0 200 200">
+            <rect x="4" y="4" width="192" height="192" rx="18" fill="#161C15"/>
+            <use href="#leaf" color="var(--sage)"/>
+            <circle cx="150" cy="52" r="8" fill="var(--terra)"/>
+          </svg>
+          <span class="ttl" style="color:#F0ECE0">Grammar of Meaning</span>
+        </div>
+      </div>
+      <div class="tabbody dark">
+        <svg width="34" height="34" viewBox="0 0 200 200">
+          <rect x="4" y="4" width="192" height="192" rx="18" fill="#161C15"/>
+          <use href="#leaf" color="var(--sage)"/>
+          <circle cx="150" cy="52" r="8" fill="var(--terra)"/>
+        </svg>
+      </div>
+    </div>
+    <p class="tabcap">dark chrome — inverted: deep field, frond in sage, terracotta dot</p>
+  </div>
+</div>
+
+<footer>
+  grammar of meaning · brandmark study · palette-locked · A (sprig cut-out) · B (sprig shadow) · C (Matisse cut leaves)
+</footer>
+</div>
+</body>
+</html>

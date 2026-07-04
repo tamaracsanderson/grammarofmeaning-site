@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grammar of Meaning — Essays icon, alternatives</title>
+<style>
+  :root {
+    --paper:  #FCFBF7;
+    --card:   #FFFFFF;
+    --rule:   #C9BE9F;
+    --ink:    #24302A;
+    --ink-2:  #52605A;
+    --ink-3:  #7C8478;
+    --fern:   #3F7D57;
+    --moss:   #2C4A38;
+    --sage:   #8AA88B;
+    --olive:  #6E7B3A;
+    --terra:  #C4602F;
+    --honey:  #E0A93B;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 40px 32px 64px;
+  }
+
+  header.sheet {
+    max-width: 1240px;
+    margin: 0 auto 32px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 20px;
+  }
+  header.sheet h1 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-weight: 500;
+    font-size: 30px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  header.sheet .sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-3);
+    letter-spacing: 0.01em;
+  }
+  header.sheet .note {
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    font-style: italic;
+    max-width: 780px;
+    line-height: 1.5;
+  }
+
+  .section-label {
+    max-width: 1240px;
+    margin: 40px auto 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    color: var(--terra);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-label .sl-note {
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--ink-2);
+    margin-left: 8px;
+  }
+
+  .grid {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .icon-cell {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 20px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .icon-cell .ic-badge {
+    align-self: flex-start;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.03em;
+    color: var(--terra);
+    margin-bottom: 6px;
+  }
+  .icon-cell .ic-art {
+    height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-cell .ic-art svg { display: block; }
+  .icon-cell .ic-name {
+    margin-top: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--moss);
+    text-align: center;
+  }
+  .icon-cell .ic-says {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--ink-2);
+    text-align: center;
+    max-width: 240px;
+  }
+
+  /* size scale row: candidate 44 + candidate 24 + vs Library 24 */
+  .ic-scales {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 18px;
+  }
+  .ic-scales .sz {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .ic-scales svg { display: block; }
+  .ic-scales .szlab {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    color: var(--ink-3);
+    text-align: center;
+  }
+  .ic-scales .vs {
+    align-self: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-3);
+    padding: 0 2px;
+  }
+  .ic-scales .sz.lib {
+    padding-left: 14px;
+    border-left: 1px dashed var(--rule);
+  }
+  .ic-scales .sz.lib .szlab { color: var(--sage); }
+
+  .caption {
+    max-width: 1240px;
+    margin: 20px auto 0;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  footer.sheet {
+    max-width: 1240px;
+    margin: 44px auto 0;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<header class="sheet">
+  <h1>Grammar of Meaning — Essays icon, alternatives</h1>
+  <div class="sub">off the magnifying-lens · 6 fresh candidates · each shown against Library for distinctness · house palette · staging</div>
+  <div class="note">Off the magnifying-lens — the essays as written voice / one life / a marked passage, each shown against Library so the two never read the same at 24px. Same family DNA (hairline weight · botanical restraint · one terracotta accent max). Staging exploration, not deployed.</div>
+</header>
+
+<div class="section-label">essays — 6 candidates<span class="sl-note">each cell: the candidate at 44px + 24px, then Library @24px for the distinctness check</span></div>
+
+<div class="grid">
+
+  <!-- ============================================================ -->
+  <!-- 1 · THE QUILL / NIB -->
+  <!-- ============================================================ -->
+  <div class="icon-cell">
+    <div class="ic-badge">essays · 1</div>
+    <div class="ic-art">
+      <svg width="44" height="44" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the quill">
+        <!-- nib body: a leaf-shaped nib, botanical -->
+        <path d="M 132 44 C 96 74 74 108 60 150" fill="none" stroke="#2C4A38" stroke-width="2.75" stroke-linecap="round"/>
+        <path d="M 132 44 C 128 82 112 118 78 138 C 92 108 108 76 132 44 Z" fill="none" stroke="#3F7D57" stroke-width="2.25" stroke-linejoin="round"/>
+        <!-- centre slit -->
+        <path d="M 122 58 C 106 84 90 112 72 138" fill="none" stroke="#8AA88B" stroke-width="1.5"/>
+        <!-- ink-dot at the tip -->
+        <circle cx="63" cy="150" r="6" fill="#C4602F"/>
+      </svg>
+    </div>
+    <div class="ic-name">the quill / nib</div>
+    <div class="ic-says">the essays are written — a leaf-nib, one drop of ink</div>
+    <div class="ic-scales">
+      <div class="sz">
+        <svg width="44" height="44" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 132 44 C 96 74 74 108 60 150" fill="none" stroke="#2C4A38" stroke-width="2.75" stroke-linecap="round"/>
+          <path d="M 132 44 C 128 82 112 118 78 138 C 92 108 108 76 132 44 Z" fill="none" stroke="#3F7D57" stroke-width="2.25" stroke-linejoin="round"/>
+          <path d="M 122 58 C 106 84 90 112 72 138" fill="none" stroke="#8AA88B" stroke-width="1.5"/>
+          <circle cx="63" cy="150" r="6" fill="#C4602F"/>
+        </svg>
+        <span class="szlab">44px</span>
+      </div>
+      <div class="sz">
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 138 40 C 128 82 108 122 66 148" fill="none" stroke="#2C4A38" stroke-width="8" stroke-linecap="round"/>
+          <path d="M 138 40 C 132 84 112 122 80 140" fill="none" stroke="#3F7D57" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="60" cy="156" r="14" fill="#C4602F"/>
+        </svg>
+        <span class="szlab">24px</span>
+      </div>
+      <div class="sz lib">
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="50" y="46" width="88" height="106" rx="3" fill="none" stroke="#C9BE9F" stroke-width="5"/>
+          <rect x="66" y="62" width="88" height="106" rx="3" fill="#FFFFFF" stroke="#2C4A38" stroke-width="6"/>
+          <path d="M 110 154 C 110 128 110 106 110 82" fill="none" stroke="#3F7D57" stroke-width="6"/>
+          <circle cx="110" cy="80" r="10" fill="#C4602F"/>
+        </svg>
+        <span class="szlab">Library 24px</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 2 · THE QUOTE-MARK -->
+  <!-- ============================================================ -->
+  <div class="icon-cell">
+    <div class="ic-badge">essays · 2</div>
+    <div class="ic-art">
+      <svg width="44" height="44" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the quote-mark">
+        <!-- a single bold serif opening quote — two comma-forms, botanical in weight -->
+        <!-- left comma -->
+        <path d="M 78 60 C 56 66 46 84 46 106 C 46 126 60 138 76 136 C 90 134 98 122 96 110 C 94 98 84 92 74 96 C 78 78 92 70 100 68 Z" fill="#2C4A38"/>
+        <!-- right comma -->
+        <path d="M 142 60 C 120 66 110 84 110 106 C 110 126 124 138 140 136 C 154 134 162 122 160 110 C 158 98 148 92 138 96 C 142 78 156 70 164 68 Z" fill="#3F7D57"/>
+        <!-- terracotta seed inside the near comma -->
+        <circle cx="76" cy="116" r="5.5" fill="#C4602F"/>
+      </svg>
+    </div>
+    <div class="ic-name">the quote-mark</div>
+    <div class="ic-says">the public voice — meaning-making, said out loud</div>
+    <div class="ic-scales">
+      <div class="sz">
+        <svg width="44" height="44" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 78 60 C 56 66 46 84 46 106 C 46 126 60 138 76 136 C 90 134 98 122 96 110 C 94 98 84 92 74 96 C 78 78 92 70 100 68 Z" fill="#2C4A38"/>
+          <path d="M 142 60 C 120 66 110 84 110 106 C 110 126 124 138 140 136 C 154 134 162 122 160 110 C 158 98 148 92 138 96 C 142 78 156 70 164 68 Z" fill="#3F7D57"/>
+          <circle cx="76" cy="116" r="5.5" fill="#C4602F"/>
+        </svg>
+        <span class="szlab">44px</span>
+      </div>
+      <div class="sz">
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 78 54 C 52 62 40 84 40 110 C 40 132 56 146 76 144 C 92 142 100 128 98 114 C 96 100 84 94 72 98 C 76 78 94 68 104 66 Z" fill="#2C4A38"/>
+          <path d="M 148 54 C 122 62 110 84 110 110 C 110 132 126 146 146 144 C 162 142 170 128 168 114 C 166 100 154 94 142 98 C 146 78 164 68 174 66 Z" fill="#3F7D57"/>
+          <circle cx="74" cy="120" r="11" fill="#C4602F"/>
+        </svg>
+        <span class="szlab">24px</span>
+      </div>
+      <div class="sz lib">
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="50" y="46" width="88" height="106" rx="3" fill="none" stroke="#C9BE9F" stroke-width="5"/>
+          <rect x="66" y="62" width="88" height="106" rx="3" fill="#FFFFFF" stroke="#2C4A38" stroke-width="6"/>
+          <path d="M 110 154 C 110 128 110 106 110 82" fill="none" stroke="#3F7D57" stroke-width="6"/>
+          <circle cx="110" cy="80" r="10" fill="#C4602F"/>
+        </svg>
+        <span class="szlab">Library 24px</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 3 · ONE PAGE OPEN -->
+  <!-- ============================================================ -->
+  <div class="icon-cell">
+    <div class="ic-badge">essays · 3</div>
+    <div class="ic-art">
+      <svg width="44" height="44" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="one page open">
+        <!-- a single open leaf-page, curved like a leaf, spine down the centre -->
+        <path d="M 100 42 C 74 52 60 64 58 158 C 76 148 90 148 100 152 Z" fill="#FFFFFF" stroke="#2C4A38" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M 100 42 C 126 52 140 64 142 158 C 124 148 110 148 100 152 Z" fill="#FFFFFF" stroke="#2C4A38" stroke-width="2.5" stroke-linejoin="round"/>
+        <!-- spine as a stem -->
+        <line x1="100" y1="42" x2="100" y2="152" stroke="#3F7D57" stroke-width="2"/>
+        <!-- one hairline of text on the left leaf -->
+        <line x1="72" y1="96" x2="90" y2="94" stroke="#8AA88B" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="72" y1="110" x2="90" y2="108" stroke="#8AA88B" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- one terracotta mark on the right leaf -->
+        <line x1="110" y1="96" x2="128" y2="98" stroke="#C4602F" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ic-name">one page open</div>
+    <div class="ic-says">one essay — a single open leaf, marked once</div>
+    <div class="ic-scales">
+      <div class="sz">
+        <svg width="44" height="44" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 100 42 C 74 52 60 64 58 158 C 76 148 90 148 100 152 Z" fill="#FFFFFF" stroke="#2C4A38" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M 100 42 C 126 52 140 64 142 158 C 124 148 110 148 100 152 Z" fill="#FFFFFF" stroke="#2C4A38" stroke-width="2.5" stroke-linejoin="round"/>
+          <line x1="100" y1="42" x2="100" y2="152" stroke="#3F7D57" stroke-width="2"/>
+          <line x1="72" y1="96" x2="90" y2="94" stroke="#8AA88B" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="72" y1="110" x2="90" y2="108" stroke="#8AA88B" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="110" y1="96" x2="128" y2="98" stroke="#C4602F" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="szlab">44px</span>
+      </div>
+      <div class="sz">
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 100 38 C 70 48 54 62 52 162 C 74 150 90 150 100 156 Z" fill="#FFFFFF" stroke="#2C4A38" stroke-width="7" stroke-linejoin="round"/>
+          <path d="M 100 38 C 130 48 146 62 148 162 C 126 150 110 150 100 156 Z" fill="#FFFFFF" stroke="#2C4A38" stroke-width="7" stroke-linejoin="round"/>
+          <line x1="100" y1="42" x2="100" y2="152" stroke="#3F7D57" stroke-width="6"/>
+          <line x1="112" y1="98" x2="132" y2="100" stroke="#C4602F" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+        <span class="szlab">24px</span>
+      </div>
+      <div class="sz lib">
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="50" y="46" width="88" height="106" rx="3" fill="none" stroke="#C9BE9F" stroke-width="5"/>
+          <rect x="66" y="62" width="88" height="106" rx="3" fill="#FFFFFF" stroke="#2C4A38" stroke-width="6"/>
+          <path d="M 110 154 C 110 128 110 106 110 82" fill="none" stroke="#3F7D57" stroke-width="6"/>
+          <circle cx="110" cy="80" r="10" fill="#C4602F"/>
+        </svg>
+        <span class="szlab">Library 24px</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 4 · ONE FIGURE -->
+  <!-- ============================================================ -->
+  <div class="icon-cell">
+    <div class="ic-badge">essays · 4</div>
+    <div class="ic-art">
+      <svg width="44" height="44" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="one figure">
+        <!-- an oval portrait frame (round, vs Library's rectangle) -->
+        <ellipse cx="100" cy="100" rx="52" ry="60" fill="none" stroke="#C9BE9F" stroke-width="2"/>
+        <!-- a single upright sprig-as-figure: stem + two arm-leaves -->
+        <path d="M 100 148 C 100 128 100 108 100 88" fill="none" stroke="#2C4A38" stroke-width="2.75" stroke-linecap="round"/>
+        <path d="M 100 120 C 86 114 80 104 79 94" fill="none" stroke="#3F7D57" stroke-width="2.25" stroke-linecap="round"/>
+        <path d="M 100 120 C 114 114 120 104 121 94" fill="none" stroke="#3F7D57" stroke-width="2.25" stroke-linecap="round"/>
+        <!-- terracotta bloom as the head -->
+        <circle cx="100" cy="80" r="8" fill="#C4602F"/>
+      </svg>
+    </div>
+    <div class="ic-name">one figure</div>
+    <div class="ic-says">one life, read close — a sprig-figure in a portrait oval</div>
+    <div class="ic-scales">
+      <div class="sz">
+        <svg width="44" height="44" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <ellipse cx="100" cy="100" rx="52" ry="60" fill="none" stroke="#C9BE9F" stroke-width="2"/>
+          <path d="M 100 148 C 100 128 100 108 100 88" fill="none" stroke="#2C4A38" stroke-width="2.75" stroke-linecap="round"/>
+          <path d="M 100 120 C 86 114 80 104 79 94" fill="none" stroke="#3F7D57" stroke-width="2.25" stroke-linecap="round"/>
+          <path d="M 100 120 C 114 114 120 104 121 94" fill="none" stroke="#3F7D57" stroke-width="2.25" stroke-linecap="round"/>
+          <circle cx="100" cy="80" r="8" fill="#C4602F"/>
+        </svg>
+        <span class="szlab">44px</span>
+      </div>
+      <div class="sz">
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <ellipse cx="100" cy="100" rx="54" ry="62" fill="none" stroke="#C9BE9F" stroke-width="6"/>
+          <path d="M 100 150 C 100 128 100 108 100 84" fill="none" stroke="#2C4A38" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="100" cy="76" r="16" fill="#C4602F"/>
+        </svg>
+        <span class="szlab">24px</span>
+      </div>
+      <div class="sz lib">
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="50" y="46" width="88" height="106" rx="3" fill="none" stroke="#C9BE9F" stroke-width="5"/>
+          <rect x="66" y="62" width="88" height="106" rx="3" fill="#FFFFFF" stroke="#2C4A38" stroke-width="6"/>
+          <path d="M 110 154 C 110 128 110 106 110 82" fill="none" stroke="#3F7D57" stroke-width="6"/>
+          <circle cx="110" cy="80" r="10" fill="#C4602F"/>
+        </svg>
+        <span class="szlab">Library 24px</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 5 · THE MARKED PASSAGE -->
+  <!-- ============================================================ -->
+  <div class="icon-cell">
+    <div class="ic-badge">essays · 5</div>
+    <div class="ic-art">
+      <svg width="44" height="44" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the marked passage">
+        <!-- short stack of hairline text-lines, one marked terracotta -->
+        <line x1="56" y1="62" x2="144" y2="62" stroke="#8AA88B" stroke-width="2" stroke-linecap="round"/>
+        <line x1="56" y1="82" x2="132" y2="82" stroke="#8AA88B" stroke-width="2" stroke-linecap="round"/>
+        <!-- the marked line: darker, with a terracotta underline beneath it -->
+        <line x1="56" y1="102" x2="140" y2="102" stroke="#2C4A38" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="56" y1="112" x2="128" y2="112" stroke="#C4602F" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="56" y1="132" x2="136" y2="132" stroke="#8AA88B" stroke-width="2" stroke-linecap="round"/>
+        <line x1="56" y1="152" x2="120" y2="152" stroke="#8AA88B" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ic-name">the marked passage</div>
+    <div class="ic-says">the essayistic act — one line pulled out and marked</div>
+    <div class="ic-scales">
+      <div class="sz">
+        <svg width="44" height="44" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <line x1="56" y1="62" x2="144" y2="62" stroke="#8AA88B" stroke-width="2" stroke-linecap="round"/>
+          <line x1="56" y1="82" x2="132" y2="82" stroke="#8AA88B" stroke-width="2" stroke-linecap="round"/>
+          <line x1="56" y1="102" x2="140" y2="102" stroke="#2C4A38" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="56" y1="112" x2="128" y2="112" stroke="#C4602F" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="56" y1="132" x2="136" y2="132" stroke="#8AA88B" stroke-width="2" stroke-linecap="round"/>
+          <line x1="56" y1="152" x2="120" y2="152" stroke="#8AA88B" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="szlab">44px</span>
+      </div>
+      <div class="sz">
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <line x1="48" y1="56" x2="152" y2="56" stroke="#8AA88B" stroke-width="7" stroke-linecap="round"/>
+          <line x1="48" y1="82" x2="132" y2="82" stroke="#8AA88B" stroke-width="7" stroke-linecap="round"/>
+          <line x1="48" y1="108" x2="148" y2="108" stroke="#2C4A38" stroke-width="9" stroke-linecap="round"/>
+          <line x1="48" y1="126" x2="128" y2="126" stroke="#C4602F" stroke-width="9" stroke-linecap="round"/>
+          <line x1="48" y1="152" x2="140" y2="152" stroke="#8AA88B" stroke-width="7" stroke-linecap="round"/>
+        </svg>
+        <span class="szlab">24px</span>
+      </div>
+      <div class="sz lib">
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="50" y="46" width="88" height="106" rx="3" fill="none" stroke="#C9BE9F" stroke-width="5"/>
+          <rect x="66" y="62" width="88" height="106" rx="3" fill="#FFFFFF" stroke="#2C4A38" stroke-width="6"/>
+          <path d="M 110 154 C 110 128 110 106 110 82" fill="none" stroke="#3F7D57" stroke-width="6"/>
+          <circle cx="110" cy="80" r="10" fill="#C4602F"/>
+        </svg>
+        <span class="szlab">Library 24px</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 6 · THE DOG-EAR -->
+  <!-- ============================================================ -->
+  <div class="icon-cell">
+    <div class="ic-badge">essays · 6</div>
+    <div class="ic-art">
+      <svg width="44" height="44" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the dog-ear">
+        <!-- a single page with a folded top-right corner -->
+        <path d="M 60 46 L 120 46 L 148 74 L 148 154 L 60 154 Z" fill="#FFFFFF" stroke="#2C4A38" stroke-width="2.5" stroke-linejoin="round"/>
+        <!-- the folded corner, terracotta -->
+        <path d="M 120 46 L 120 74 L 148 74 Z" fill="#C4602F" stroke="#C4602F" stroke-width="1.5" stroke-linejoin="round"/>
+        <!-- two hairline text-lines, one sprig-stem down the page -->
+        <line x1="74" y1="96" x2="118" y2="96" stroke="#8AA88B" stroke-width="1.75" stroke-linecap="round"/>
+        <line x1="74" y1="114" x2="130" y2="114" stroke="#8AA88B" stroke-width="1.75" stroke-linecap="round"/>
+        <path d="M 74 132 C 88 128 100 130 118 132" fill="none" stroke="#3F7D57" stroke-width="1.75" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ic-name">the dog-ear</div>
+    <div class="ic-says">the one you marked — marginalia, a folded corner</div>
+    <div class="ic-scales">
+      <div class="sz">
+        <svg width="44" height="44" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 60 46 L 120 46 L 148 74 L 148 154 L 60 154 Z" fill="#FFFFFF" stroke="#2C4A38" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M 120 46 L 120 74 L 148 74 Z" fill="#C4602F" stroke="#C4602F" stroke-width="1.5" stroke-linejoin="round"/>
+          <line x1="74" y1="96" x2="118" y2="96" stroke="#8AA88B" stroke-width="1.75" stroke-linecap="round"/>
+          <line x1="74" y1="114" x2="130" y2="114" stroke="#8AA88B" stroke-width="1.75" stroke-linecap="round"/>
+          <path d="M 74 132 C 88 128 100 130 118 132" fill="none" stroke="#3F7D57" stroke-width="1.75" stroke-linecap="round"/>
+        </svg>
+        <span class="szlab">44px</span>
+      </div>
+      <div class="sz">
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 52 42 L 118 42 L 152 76 L 152 158 L 52 158 Z" fill="#FFFFFF" stroke="#2C4A38" stroke-width="8" stroke-linejoin="round"/>
+          <path d="M 118 42 L 118 76 L 152 76 Z" fill="#C4602F" stroke="#C4602F" stroke-width="4" stroke-linejoin="round"/>
+        </svg>
+        <span class="szlab">24px</span>
+      </div>
+      <div class="sz lib">
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="50" y="46" width="88" height="106" rx="3" fill="none" stroke="#C9BE9F" stroke-width="5"/>
+          <rect x="66" y="62" width="88" height="106" rx="3" fill="#FFFFFF" stroke="#2C4A38" stroke-width="6"/>
+          <path d="M 110 154 C 110 128 110 106 110 82" fill="none" stroke="#3F7D57" stroke-width="6"/>
+          <circle cx="110" cy="80" r="10" fill="#C4602F"/>
+        </svg>
+        <span class="szlab">Library 24px</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="caption">Distinctness check: at 24px, Library reads as a stack of two closed rectangular sheets with a pressed sprig. The two Essays candidates that stay most clearly off that silhouette are the quote-mark (a pair of soft comma-forms — no rectangle, no stack) and the marked passage (a run of horizontal lines with one terracotta line — reads as text, not as sheets). The dog-ear and one-page-open share Library's paper/rectangle vocabulary and risk collision at favicon scale; one-figure's oval helps but the sprig echoes Library's pressed sprig.</div>
+
+<footer class="sheet">
+  method · Library icon lifted verbatim from icon_system.html §3 (stacked pressed-specimen sheets) and shown at 24px beside each candidate for the distinctness check · 6 Essays candidates drawn new in the family DNA (hairline weight · botanical restraint · one terracotta accent max) · off the magnifying reading-lens · each candidate at 44px and 24px favicon-scale · house tokens only, no near-black / pure black · Newsreader + Inter + IBM Plex Mono · staging exploration, not deployed
+</footer>
+
+</body>
+</html>

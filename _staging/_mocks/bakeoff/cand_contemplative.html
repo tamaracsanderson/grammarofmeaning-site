@@ -1,0 +1,498 @@
+<!--
+  Grammar of Meaning — Bake-off candidate: "THE QUIET BOOK"
+  Direction: Radical calm. The site as an online book / pilgrimage reading-mode.
+  Self-contained. Inline CSS. Google Fonts via <link>. No raster images. CSS-only texture.
+-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grammar of Meaning — The Quiet Book (style board)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    /* ——— palette ——— */
+    --paper:      #F6F2E9; /* warm off-white ground — the page */
+    --paper-deep: #EFE9DB; /* recessed card ground */
+    --ink:        #24211C; /* near-black warm ink — body text */
+    --ink-soft:   #55504733; /* hairline rule (ink @ ~20%) */
+    --graphite:   #6E685C; /* muted label / caption ink */
+    --clay:       #B4573C; /* THE accent — rose-clay; the only voice of colour */
+    --clay-deep:  #8F3F2A; /* clay for small text / links (higher contrast) */
+    --clay-wash:  #B4573C14; /* clay @ ~8% — the softest possible tint block */
+    --sage:       #6C7A5E; /* single secondary earth — used ONCE, for the "curious" seam */
+
+    --measure: 34rem;           /* generous reading measure */
+    --serif: "Newsreader", Georgia, serif;
+    --sans:  "Inter", system-ui, sans-serif;
+    --mono:  "IBM Plex Mono", ui-monospace, monospace;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:19px;
+    line-height:1.72;
+    /* CSS-only paper texture: barely-there tonal breath, no image */
+    background-image:
+      radial-gradient(120% 80% at 50% -10%, #FBF8F1 0%, rgba(251,248,241,0) 60%),
+      radial-gradient(100% 60% at 50% 115%, #EEE7D8 0%, rgba(238,231,216,0) 55%);
+    background-attachment:fixed;
+  }
+
+  .book{ max-width:47rem; margin:0 auto; padding:0 2rem; }
+
+  /* faint hairline "spine" — the single motif: a thin clay-tinted rule that runs
+     down the left of the reading column, like a book's gutter thread. */
+  .spine{ position:relative; }
+  .spine::before{
+    content:""; position:absolute; left:-1.4rem; top:.4em; bottom:.4em;
+    width:1px; background:linear-gradient(var(--clay) 0 40%, var(--ink-soft) 40% 100%);
+    opacity:.5;
+  }
+
+  /* ——— shared type ——— */
+  .kicker{
+    font-family:var(--mono); font-size:.66rem; letter-spacing:.24em;
+    text-transform:uppercase; color:var(--graphite); font-weight:500;
+  }
+  .clay-kicker{ color:var(--clay-deep); }
+  h1,h2,h3{ font-weight:400; line-height:1.14; letter-spacing:-.011em; color:var(--ink); }
+  a{ color:var(--clay-deep); text-underline-offset:3px; text-decoration-thickness:1px; }
+
+  hr.rule{ border:0; height:1px; background:var(--ink-soft); margin:4.5rem 0; }
+  .verse{ counter-reset:none; }
+
+  /* section rhythm */
+  section{ padding:3.6rem 0; }
+  .label-num{ font-family:var(--mono); color:var(--clay-deep); font-size:.7rem; letter-spacing:.14em; }
+
+  /* ——— nav ——— */
+  nav.top{
+    display:flex; align-items:baseline; justify-content:space-between;
+    gap:2rem; padding:1.6rem 2rem; max-width:47rem; margin:0 auto;
+    border-bottom:1px solid var(--ink-soft);
+  }
+  nav.top .mark{ font-family:var(--serif); font-size:1.02rem; letter-spacing:.02em; }
+  nav.top .mark b{ font-weight:500; }
+  nav.top ul{ list-style:none; display:flex; gap:1.5rem; margin:0; padding:0; }
+  nav.top a{
+    font-family:var(--sans); font-size:.8rem; letter-spacing:.02em;
+    color:var(--graphite); text-decoration:none; transition:color .2s;
+  }
+  nav.top a:hover{ color:var(--clay-deep); }
+  nav.top a.here{ color:var(--ink); box-shadow:0 1px 0 var(--clay); }
+
+  /* ——— hero ——— */
+  .hero{ padding:6.5rem 0 4rem; }
+  .hero h1{ font-size:clamp(2.9rem,7vw,4.6rem); margin:.6rem 0 .2rem; }
+  .hero .sub{
+    font-family:var(--serif); font-style:italic; font-weight:300;
+    font-size:clamp(1.4rem,3.4vw,1.9rem); color:var(--graphite); margin:0 0 2rem;
+  }
+  .hero .byline{ font-family:var(--sans); font-size:.82rem; color:var(--graphite); letter-spacing:.02em; }
+  .hero .breath{
+    margin-top:2.4rem; max-width:var(--measure);
+    font-size:1.12rem; line-height:1.78;
+  }
+  .drop::first-letter{
+    font-size:3.4em; float:left; line-height:.78; padding:.06em .12em 0 0;
+    color:var(--clay); font-weight:400;
+  }
+
+  /* ——— palette chips ——— */
+  .chips{ display:grid; grid-template-columns:1fr; gap:0; max-width:var(--measure); }
+  .chip{
+    display:grid; grid-template-columns:2.6rem 1fr auto; align-items:center;
+    gap:1rem; padding:.9rem 0; border-bottom:1px solid var(--ink-soft);
+  }
+  .chip .sw{ width:2.6rem; height:2.6rem; border-radius:50%; box-shadow:inset 0 0 0 1px #0000000f; }
+  .chip .nm{ font-family:var(--sans); font-size:.9rem; color:var(--ink); }
+  .chip .nm small{ display:block; color:var(--graphite); font-size:.76rem; margin-top:.15rem; line-height:1.4; }
+  .chip .hex{ font-family:var(--mono); font-size:.76rem; color:var(--graphite); letter-spacing:.02em; }
+
+  /* ——— specimen ——— */
+  .spec > *{ margin:0; }
+  .spec .s-h1{ font-size:3.1rem; }
+  .spec .s-h2{ font-size:1.7rem; margin-top:1.6rem; color:var(--ink); }
+  .spec .s-body{ font-size:1.05rem; max-width:var(--measure); margin-top:1rem; }
+  .spec .s-cap{ font-family:var(--sans); font-size:.78rem; color:var(--graphite); margin-top:1rem; letter-spacing:.01em; }
+  .rationale{ font-family:var(--sans); font-size:.86rem; color:var(--graphite); max-width:var(--measure); line-height:1.65; }
+
+  /* ——— essay teaser card ——— */
+  .card{
+    max-width:var(--measure); padding:1.8rem 2rem 2rem;
+    background:var(--paper-deep); border:1px solid var(--ink-soft); border-radius:2px;
+    position:relative;
+  }
+  .card::before{
+    content:""; position:absolute; left:0; top:1.8rem; bottom:1.8rem; width:2px;
+    background:var(--clay);
+  }
+  .card .k{ margin-bottom:.6rem; }
+  .card h3{ font-size:1.6rem; margin:.2rem 0 .5rem; }
+  .card p{ margin:.4rem 0 1rem; color:#403C34; }
+  .card .more{ font-family:var(--sans); font-size:.8rem; color:var(--clay-deep); letter-spacing:.02em; }
+
+  /* ——— MOVE specimen flowchart ——— */
+  .flow{ max-width:var(--measure); margin-top:2rem; }
+  .flow .verse-src{
+    font-style:italic; font-weight:300; color:var(--graphite);
+    font-size:1.05rem; margin:0 0 2rem; padding-left:1rem; border-left:1px solid var(--clay);
+  }
+  .flow-step{
+    display:grid; grid-template-columns:8.6rem 1fr; gap:1.2rem; align-items:baseline;
+    padding:1rem 0;
+  }
+  .flow-step + .flow-step{ border-top:1px solid var(--ink-soft); }
+  .flow-step .role{
+    font-family:var(--mono); font-size:.68rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--clay-deep); padding-top:.2em;
+  }
+  .flow-step .val{ font-size:1.24rem; line-height:1.3; }
+  .flow-step .val small{
+    display:block; font-family:var(--sans); font-size:.78rem; color:var(--graphite);
+    margin-top:.25rem; letter-spacing:.01em; line-height:1.5;
+  }
+  .flow-arrow{ text-align:center; color:var(--clay); font-size:1rem; line-height:1; padding:.15rem 0; opacity:.7; }
+
+  /* ——— pull-quote ——— */
+  .pull{
+    max-width:40rem; margin:1rem auto; text-align:left; padding-left:1.6rem;
+    border-left:2px solid var(--clay);
+  }
+  .pull p{
+    font-size:1.9rem; line-height:1.34; font-weight:300; letter-spacing:-.01em; margin:0;
+    color:var(--ink);
+  }
+  .pull .attr{ font-family:var(--sans); font-size:.82rem; color:var(--graphite); margin-top:1rem; letter-spacing:.02em; }
+
+  /* ——— for the curious (the seam — paced as the loveliest part) ——— */
+  .curious{ max-width:var(--measure); }
+  .curious .seam{
+    display:flex; align-items:center; gap:1rem; margin:0 0 2rem;
+    font-family:var(--mono); font-size:.66rem; letter-spacing:.24em; text-transform:uppercase;
+    color:var(--sage);
+  }
+  .curious .seam::before,.curious .seam::after{
+    content:""; flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--sage)66,transparent);
+    opacity:.5;
+  }
+  details.q{ border-bottom:1px solid var(--ink-soft); }
+  details.q summary{
+    list-style:none; cursor:pointer; padding:1.35rem 0; display:flex; gap:1rem; align-items:baseline;
+    font-size:1.3rem; font-weight:400; color:var(--ink);
+  }
+  details.q summary::-webkit-details-marker{ display:none; }
+  details.q summary .n{ font-family:var(--mono); font-size:.8rem; color:var(--clay-deep); min-width:2rem; }
+  details.q summary .plus{ margin-left:auto; color:var(--sage); font-family:var(--sans); font-weight:400; transition:transform .25s; }
+  details.q[open] summary .plus{ transform:rotate(45deg); }
+  details.q .body{
+    padding:0 0 1.6rem 3rem; max-width:32rem; color:#403C34; font-size:1.02rem; line-height:1.74;
+  }
+  details.q .body .gloss{
+    display:block; font-family:var(--sans); font-size:.8rem; color:var(--graphite);
+    margin-top:.9rem; padding-top:.9rem; border-top:1px dotted var(--ink-soft); line-height:1.6;
+  }
+
+  /* ——— pick list ——— */
+  .pick{
+    max-width:var(--measure); background:var(--paper-deep);
+    border:1px solid var(--ink-soft); border-radius:2px; padding:1.6rem 1.8rem;
+    font-family:var(--mono); font-size:.78rem; line-height:1.9; color:#3B3730;
+  }
+  .pick b{ color:var(--clay-deep); font-weight:500; }
+  .pick .h{ font-family:var(--sans); font-size:.72rem; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--graphite); display:block; margin:0 0 .8rem; }
+
+  footer.foot{ padding:4rem 0 6rem; }
+  footer.foot p{ font-family:var(--sans); font-size:.78rem; color:var(--graphite); max-width:var(--measure); }
+
+  ::selection{ background:var(--clay-wash); }
+</style>
+
+<!-- ================= NAV ================= -->
+<nav class="top">
+  <span class="mark">Grammar of <b>Meaning</b></span>
+  <ul>
+    <li><a class="here" href="#">Home</a></li>
+    <li><a href="#">Library</a></li>
+    <li><a href="#">Essays</a></li>
+    <li><a href="#">Garden</a></li>
+    <li><a href="#">Method</a></li>
+    <li><a href="#">Reference</a></li>
+  </ul>
+</nav>
+
+<div class="book">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <p class="kicker clay-kicker">A sanctuary, not a feed</p>
+    <h1>Grammar of Meaning</h1>
+    <p class="sub">How meaning gets made.</p>
+    <p class="byline">Field notes by Tamara Sanderson</p>
+    <p class="breath spine drop">Read slowly. This is a study of the <em>moves</em> a person makes
+      when they reach across the space between themselves and the world — and of the way those moves
+      <em>rhyme</em> across five hundred traditions that never agreed to. One idea to a breath.
+      Turn the page when you are ready.</p>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ================= 1 · DIRECTION ================= -->
+  <section>
+    <p class="kicker"><span class="label-num">01 —</span> The direction</p>
+    <h2 style="font-size:2.2rem;margin:1.2rem 0 1rem;max-width:30rem;">The Quiet Book</h2>
+    <p style="max-width:var(--measure);font-size:1.12rem;">
+      The site as an online book held open to a single page. Immense air, a generous measure, one
+      reading serif at a size that asks you to sit down. A single voice of colour — a rose-clay, the
+      warmth of a terracotta wall in late light — that never shouts and never muddies. The
+      contemplative antidote to the feed: numbered, chaptered, one thought per beat.
+    </p>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ================= 2 · PALETTE ================= -->
+  <section>
+    <p class="kicker"><span class="label-num">02 —</span> Palette · restraint as luxury</p>
+    <h2 style="font-size:2rem;margin:1rem 0 1.6rem;">Six tones. One of them speaks.</h2>
+    <div class="chips">
+      <div class="chip">
+        <span class="sw" style="background:#F6F2E9"></span>
+        <span class="nm">Warm Paper <small>The ground — every page. Never white; the light of aged rag paper.</small></span>
+        <span class="hex">#F6F2E9</span>
+      </div>
+      <div class="chip">
+        <span class="sw" style="background:#EFE9DB"></span>
+        <span class="nm">Recessed Leaf <small>Cards & the "curious" seam. A half-shade deeper — a recessed panel, not a box.</small></span>
+        <span class="hex">#EFE9DB</span>
+      </div>
+      <div class="chip">
+        <span class="sw" style="background:#24211C"></span>
+        <span class="nm">Warm Ink <small>Body text. Near-black with warmth — ~13:1 on paper. Highly legible, never harsh.</small></span>
+        <span class="hex">#24211C</span>
+      </div>
+      <div class="chip">
+        <span class="sw" style="background:#6E685C"></span>
+        <span class="nm">Graphite <small>Captions, labels, sub-lines. ~4.9:1 on paper — quiet but readable.</small></span>
+        <span class="hex">#6E685C</span>
+      </div>
+      <div class="chip">
+        <span class="sw" style="background:#B4573C"></span>
+        <span class="nm">Rose-Clay — THE accent <small>The only colour with a voice. Rules, arrows, the drop-cap, the card spine. Pops clearly on paper; not muddy, not near-black.</small></span>
+        <span class="hex">#B4573C</span>
+      </div>
+      <div class="chip">
+        <span class="sw" style="background:#8F3F2A"></span>
+        <span class="nm">Clay Deep <small>Clay for small text & links — deepened to ~5.6:1 so a link is unmistakable at caption size.</small></span>
+        <span class="hex">#8F3F2A</span>
+      </div>
+      <div class="chip">
+        <span class="sw" style="background:#6C7A5E"></span>
+        <span class="nm">Quiet Sage — the seam only <small>Used once, at the "for the curious" threshold, to mark a change of register. A second earth, held in reserve.</small></span>
+        <span class="hex">#6C7A5E</span>
+      </div>
+    </div>
+    <p class="rationale" style="margin-top:1.4rem;">
+      One accent, disciplined. Rose-clay carries every emphasis so nothing competes; sage appears
+      exactly once, as a threshold marker. No greys — the neutrals are warm ink and graphite, both
+      tuned against the paper for contrast, so the page reads clear rather than muddy.
+    </p>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ================= 3 · TYPE ================= -->
+  <section>
+    <p class="kicker"><span class="label-num">03 —</span> Type · one serif, a whisper of sans</p>
+    <div class="spec">
+      <div class="s-h1">Newsreader</div>
+      <div class="s-cap">DISPLAY & BODY — Newsreader (optical, 6–72). One family, doing almost everything.</div>
+      <div class="s-h2">The predestined, conformed.</div>
+      <p class="s-body">
+        A grammar is a set of moves. Read a passage in its own vocabulary — <em>dukkha</em>,
+        <em>metanoia</em>, <em>tawḥīd</em> — and ask only: who acts, by what mechanism, toward what
+        end, on what basis. The answers rhyme. Newsreader's low contrast and generous x-height hold
+        the eye at length; its true italic carries the tradition-terms without breaking the line.
+      </p>
+      <div class="s-cap">CAPTION — Inter, 0.78rem, graphite. Labels, nav, glosses, data-lines only.</div>
+    </div>
+    <p class="rationale" style="margin-top:2rem;">
+      <strong style="color:var(--ink);font-weight:500;">Why.</strong> Newsreader is a screen-native
+      reading serif drawn for long-form — warm, calm, and legible at large sizes, with a beautiful
+      italic for the traditions' own words. A single sans (Inter) is held to labels and captions so
+      the page never feels like an interface. Data and the "move" grammar use IBM Plex Mono for
+      crisp, unambiguous specimen text.
+    </p>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ================= 4 · TEXTURE / MOOD ================= -->
+  <section>
+    <p class="kicker"><span class="label-num">04 —</span> Texture · air, paper, one hairline</p>
+    <p style="max-width:var(--measure);">
+      The texture is <em>almost nothing</em>, on purpose. A warm radial breath top and bottom gives
+      the paper a faint tonal grain — no image, pure CSS. The single motif is a
+      <strong style="font-weight:500;">gutter thread</strong>: a one-pixel rule, half rose-clay and
+      half ink, that runs down the left of the reading column like the sewn spine of a book. It
+      appears beside the hero and marks each chapter's opening breath. Whitespace does the rest.
+    </p>
+    <p class="s-cap" style="margin-top:1.2rem;">Motif idea — the gutter thread migrates: in the
+      Garden it becomes the pilgrim's path; in the Library, the shelf edge; in Method, the
+      margin-rule of a working notebook. One line, four meanings.</p>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ================= 5 · COMPONENTS ================= -->
+  <section>
+    <p class="kicker"><span class="label-num">05 —</span> Components · real content</p>
+
+    <!-- essay teaser -->
+    <p class="kicker" style="margin:2rem 0 1rem;">Essay teaser</p>
+    <article class="card">
+      <p class="k kicker clay-kicker">The Essays · No. 14</p>
+      <h3>The Length of a Road</h3>
+      <p>Francis walked out of Assisi with nothing, and the road he took was the same road the
+        Buddha's father paved to keep his son from ever seeing one. Two fathers, two walls, the same
+        gate — and what waits on the other side of it.</p>
+      <span class="more">Read the essay →</span>
+    </article>
+
+    <!-- MOVE specimen flowchart -->
+    <p class="kicker" style="margin:3.4rem 0 1rem;">The "move" specimen — a single grammar, read aloud</p>
+    <div class="flow">
+      <p class="verse-src">"For those whom he foreknew he also predestined to be conformed to the
+        image of his Son." — Romans 8:29</p>
+
+      <div class="flow-step">
+        <span class="role">Agent</span>
+        <span class="val">God <small>The one who acts. The mover behind the move.</small></span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">
+        <span class="role">Substrate</span>
+        <span class="val">those foreknown <small>What the move works upon — the material it takes hold of.</small></span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">
+        <span class="role">Operation</span>
+        <span class="val">predestined <small>The mechanism — the verb by which meaning is made.</small></span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">
+        <span class="role">Outcome</span>
+        <span class="val">conformed to the image <small>The telos — what the substrate becomes.</small></span>
+      </div>
+    </div>
+    <p class="s-cap" style="margin-top:1.3rem;max-width:var(--measure);">
+      Read left to right: <strong style="color:var(--clay-deep)">who acts</strong> · on what ·
+      by what mechanism · toward what end. The same four beats parse a sūtra, a psalm, a koan.
+      That is the grammar.</p>
+
+    <!-- pull quote -->
+    <div class="pull" style="margin-top:3.6rem;">
+      <p>Meaning is made in the in&#8209;between — the space between a person and the world. We are
+        only learning to read the moves that fill it.</p>
+      <p class="attr">— from the Method</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ================= FOR THE CURIOUS ================= -->
+  <section class="curious">
+    <p class="seam">For the curious</p>
+    <h2 style="font-size:1.9rem;margin:0 0 .6rem;">The workings, unhurried.</h2>
+    <p style="color:#403C34;margin:0 0 2rem;">Everything below is optional. It is also, we think, the
+      most beautiful part — the room where the method breathes. Open only what draws you.</p>
+
+    <details class="q" open>
+      <summary><span class="n">i.</span> <span>What is a "move"?</span> <span class="plus">+</span></summary>
+      <div class="body">
+        A move is one complete act of meaning-making, parsed into four beats: an <em>agent</em> acts,
+        upon a <em>substrate</em>, by an <em>operation</em>, toward an <em>outcome</em>. We read each
+        passage in its own tradition's words first — never importing our categories — and only then
+        ask whether its move rhymes with another's.
+        <span class="gloss">Plainly: we look at who is doing what to whom, and why — then notice when
+          two very different texts are doing the same thing.</span>
+      </div>
+    </details>
+
+    <details class="q">
+      <summary><span class="n">ii.</span> <span>What is the negative space?</span> <span class="plus">+</span></summary>
+      <div class="body">
+        The moves <em>not</em> taken. A fork a tradition reached and declined; a silence held where
+        another tradition spoke. We code the unsaid as carefully as the said — because the shape of
+        what a tradition refuses is part of how it makes meaning.
+        <span class="gloss">Plainly: sometimes the most telling thing about a text is the door it
+          walked past.</span>
+      </div>
+    </details>
+
+    <details class="q">
+      <summary><span class="n">iii.</span> <span>How is a rhyme different from an influence?</span> <span class="plus">+</span></summary>
+      <div class="body">
+        A rhyme is a shared <em>move</em>, not a shared <em>history</em>. Two traditions can make the
+        same move — the same agent-operation-outcome shape — in different voices, arrived at along
+        different roads. We claim the pattern, not a lineage between them.
+        <span class="gloss">Plainly: same move, different voice. Like two poets who rhyme without
+          ever having met.</span>
+      </div>
+    </details>
+
+    <details class="q">
+      <summary><span class="n">iv.</span> <span>Why five hundred traditions?</span> <span class="plus">+</span></summary>
+      <div class="body">
+        Because a pattern found in three is a coincidence and a pattern found across five hundred is
+        a grammar. Breadth is the discipline that keeps this honest — and the corpus's own tilts are
+        documented in the open, never hidden behind a tidy selection.
+        <span class="gloss">Plainly: the more places we look, the harder it is to fool ourselves.</span>
+      </div>
+    </details>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ================= 6 · PICK LIST ================= -->
+  <section>
+    <p class="kicker"><span class="label-num">06 —</span> Pick-list · copy-paste</p>
+    <div class="pick" style="margin-top:1.4rem;">
+      <span class="h">Palette</span>
+      <b>--paper</b>      #F6F2E9  · warm off-white ground<br>
+      <b>--paper-deep</b> #EFE9DB  · recessed card / seam<br>
+      <b>--ink</b>        #24211C  · body text (~13:1)<br>
+      <b>--graphite</b>   #6E685C  · captions / labels (~4.9:1)<br>
+      <b>--clay</b>       #B4573C  · THE accent (rules, arrows, drop-cap)<br>
+      <b>--clay-deep</b>  #8F3F2A  · clay for links / small text (~5.6:1)<br>
+      <b>--sage</b>       #6C7A5E  · the "curious" seam, used once<br>
+      <br>
+      <span class="h">Type</span>
+      <b>Display + Body</b> — Newsreader (Google, opsz 6–72)<br>
+      <b>Labels / UI</b>   — Inter (Google)<br>
+      <b>Data / specimen</b> — IBM Plex Mono (Google)<br>
+      <br>
+      <span class="h">Signature move</span>
+      Radical calm — the site as an online book / pilgrimage reading-mode.<br>
+      One accent · one serif · one-idea-per-beat · the gutter-thread motif.
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>The Quiet Book — a bake-off candidate for Grammar of Meaning. Warm paper, one clay voice, a
+      single reading serif. Restraint as luxury; a held breath.</p>
+  </footer>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grammar of Meaning — brandmark refinement</title>
+<style>
+  :root {
+    --paper:  #FCFBF7;
+    --card:   #FFFFFF;
+    --rule:   #C9BE9F;
+    --ink:    #24302A;
+    --ink-2:  #52605A;
+    --ink-3:  #7C8478;
+    --fern:   #3F7D57;
+    --moss:   #2C4A38;
+    --sage:   #8AA88B;
+    --olive:  #6E7B3A;
+    --terra:  #C4602F;
+    --honey:  #E0A93B;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 40px 32px 64px;
+  }
+
+  header.sheet {
+    max-width: 1240px;
+    margin: 0 auto 32px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 20px;
+  }
+  header.sheet h1 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-weight: 500;
+    font-size: 30px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  header.sheet .sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-3);
+    letter-spacing: 0.01em;
+  }
+  header.sheet .note {
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    font-style: italic;
+    max-width: 820px;
+    line-height: 1.5;
+  }
+
+  .section-label {
+    max-width: 1240px;
+    margin: 44px auto 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    color: var(--terra);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-label .sl-note {
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--ink-2);
+    margin-left: 8px;
+  }
+
+  .band { max-width: 1240px; margin: 0 auto; }
+
+  .caption {
+    max-width: 1240px;
+    margin: 12px auto 0;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+  .caption b { font-style: normal; font-weight: 600; color: var(--moss); }
+
+  /* generic icon-cell (from house convention) */
+  .icon-strip {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    gap: 20px;
+  }
+  .icon-strip.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .icon-cell {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 20px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .icon-cell.picked { border-left: 3px solid var(--fern); border-radius: 0 3px 3px 0; }
+  .icon-cell .ic-name {
+    margin-top: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--moss);
+    text-align: center;
+  }
+  .icon-cell .ic-says {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--ink-2);
+    text-align: center;
+  }
+  .icon-cell .ic-pick {
+    margin-top: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.02em;
+    color: var(--terra);
+  }
+
+  /* hero + favicon pair inside a variant cell */
+  .hf-pair {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    min-height: 128px;
+  }
+  .hf-pair .hf {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .hf-pair svg { display: block; }
+  .hf-pair .hf-lab {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    color: var(--ink-3);
+  }
+
+  /* browser tab mock */
+  .tabrow {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .chrome {
+    border: 1px solid var(--rule);
+    border-radius: 6px 6px 4px 4px;
+    overflow: hidden;
+  }
+  .chrome .barlab {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.02em;
+    padding: 8px 12px;
+    color: var(--ink-3);
+    background: var(--card);
+    border-bottom: 1px solid var(--rule);
+  }
+  .tabbar {
+    display: flex;
+    align-items: flex-end;
+    height: 46px;
+    padding: 0 10px;
+  }
+  .tabbar.light { background: #EFEBDD; }
+  .tabbar.dark  { background: #223227; }
+  .tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 34px;
+    padding: 0 16px 0 12px;
+    border-radius: 8px 8px 0 0;
+    font-size: 12.5px;
+  }
+  .tab.on-light { background: var(--paper); color: var(--ink-2); border: 1px solid var(--rule); border-bottom: none; }
+  .tab.on-dark  { background: #2C4A38; color: #D9E2D5; }
+  .tab svg { display: block; flex: 0 0 auto; }
+  .tab .addr {
+    flex: 1;
+    height: 18px;
+    border-radius: 9px;
+    margin-left: 8px;
+    max-width: 150px;
+  }
+  .tab.on-light .addr { background: #E7E1CE; }
+  .tab.on-dark  .addr { background: #24382C; }
+  .page-light { background: var(--paper); height: 34px; }
+  .page-dark  { background: #1E2C23; height: 34px; }
+
+  /* 24 / 48 side by side rows */
+  .rhythmwrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 22px 20px;
+  }
+  .rhythmgrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .rcol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 16px 12px 12px;
+  }
+  .rcol .r-sizes {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 22px;
+    min-height: 60px;
+  }
+  .rcol .r-sizes .rs { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .rcol .r-sizes svg { display: block; }
+  .rcol .r-sizes .rslab {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    color: var(--ink-3);
+  }
+  .rcol .r-name {
+    margin-top: 12px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--moss);
+  }
+  .rcol .r-rhythm {
+    margin-top: 3px;
+    font-size: 11.5px;
+    color: var(--ink-2);
+    text-align: center;
+    line-height: 1.4;
+  }
+  .subhead {
+    max-width: 1240px;
+    margin: 18px auto 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    color: var(--ink-3);
+  }
+
+  /* essays compare */
+  .comparewrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .compcard {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 20px 18px 16px;
+  }
+  .compcard .cc-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    color: var(--terra);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .compcard .cc-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    gap: 16px;
+    min-height: 100px;
+  }
+  .compcard .cc-one { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .compcard .cc-one svg { display: block; }
+  .compcard .cc-one .cc-cap {
+    font-size: 12px;
+    color: var(--ink-2);
+    text-align: center;
+  }
+  .compcard .cc-one .cc-cap b { color: var(--moss); }
+
+  footer.sheet {
+    max-width: 1240px;
+    margin: 44px auto 0;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<header class="sheet">
+  <h1>Grammar of Meaning — brandmark refinement</h1>
+  <div class="sub">acting on reading-sb feedback · master decided (negative-space figure) · warm it · test it · sharpen the family</div>
+  <div class="note">The master is decided — the negative-space figure, tradition-neutral. The golden chain is demoted to a concept-glyph. This round does four things reading-sb asked for: warm the master without losing the favicon silhouette; run the dark-chrome invert test; separate comb / chain / waves by <em>rhythm</em> so they hold at 24px; and revise Essays so it isn't a plainer Library. Staging exploration, not deployed.</div>
+</header>
+
+<!-- ============================================================ -->
+<!-- 1 · WARMING THE MASTER -->
+<!-- ============================================================ -->
+<div class="section-label">1 · warming the master<span class="sl-note">three warmed variants of the negative-space figure — keep the carve, lose the opaque cold</span></div>
+
+<div class="icon-strip cols-3">
+
+  <!-- Variant 1 — warmer moss + honey halo -->
+  <div class="icon-cell">
+    <div class="hf-pair">
+      <div class="hf">
+        <!-- hero ~110px -->
+        <svg width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="warmed master, honey halo">
+          <rect x="44" y="44" width="112" height="112" rx="18" fill="#33543F"/>
+          <circle cx="97" cy="100" r="20" fill="#E0A93B" opacity="0.20"/>
+          <path d="M 78 60 Q 100 100 78 140 Q 122 118 122 100 Q 122 82 78 60 Z" fill="#FCFBF7"/>
+          <circle cx="97" cy="100" r="6" fill="#C4602F"/>
+        </svg>
+        <span class="hf-lab">hero · ~110px</span>
+      </div>
+      <div class="hf">
+        <!-- favicon 32px -->
+        <svg width="32" height="32" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="38" y="38" width="124" height="124" rx="20" fill="#33543F"/>
+          <circle cx="98" cy="100" r="26" fill="#E0A93B" opacity="0.20"/>
+          <path d="M 74 54 Q 100 100 74 146 Q 126 120 126 100 Q 126 80 74 54 Z" fill="#FCFBF7"/>
+          <circle cx="98" cy="100" r="12" fill="#C4602F"/>
+        </svg>
+        <span class="hf-lab">favicon · 32px</span>
+      </div>
+    </div>
+    <div class="ic-name">warmer moss + honey halo</div>
+    <div class="ic-says">field lifted a touch toward the light; a soft honey glow behind the seed</div>
+  </div>
+
+  <!-- Variant 2 — olive field, organic botanical carve (PICK) -->
+  <div class="icon-cell picked">
+    <div class="hf-pair">
+      <div class="hf">
+        <svg width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="warmed master, olive field + leaf carve">
+          <rect x="44" y="44" width="112" height="112" rx="26" fill="#4C5F33"/>
+          <!-- carved figure as an organic leaf/seed silhouette -->
+          <path d="M 95 56 C 74 78 74 122 95 144 C 122 128 126 118 126 100 C 126 82 118 72 95 56 Z" fill="#FCFBF7"/>
+          <circle cx="99" cy="100" r="6" fill="#C4602F"/>
+        </svg>
+        <span class="hf-lab">hero · ~110px</span>
+      </div>
+      <div class="hf">
+        <svg width="32" height="32" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="38" y="38" width="124" height="124" rx="28" fill="#4C5F33"/>
+          <path d="M 96 52 C 72 78 72 122 96 148 C 128 130 132 118 132 100 C 132 82 122 70 96 52 Z" fill="#FCFBF7"/>
+          <circle cx="100" cy="100" r="12" fill="#C4602F"/>
+        </svg>
+        <span class="hf-lab">favicon · 32px</span>
+      </div>
+    </div>
+    <div class="ic-name">olive field + leaf carve</div>
+    <div class="ic-says">warmest field; the un-said reads as a leaf, tying negative space to the house botany</div>
+    <div class="ic-pick">picked — best resolves warm vs ownable</div>
+  </div>
+
+  <!-- Variant 3 — rounded organic frame, warm moss -->
+  <div class="icon-cell">
+    <div class="hf-pair">
+      <div class="hf">
+        <svg width="110" height="110" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="warmed master, organic rounded frame">
+          <!-- gently organic (super-ellipse-ish) outer field via a rounded blob path -->
+          <path d="M 100 42
+                   C 138 42 158 62 158 100
+                   C 158 138 138 158 100 158
+                   C 62 158 42 138 42 100
+                   C 42 62 62 42 100 42 Z" fill="#33543F"/>
+          <path d="M 78 60 Q 100 100 78 140 Q 122 118 122 100 Q 122 82 78 60 Z" fill="#FCFBF7"/>
+          <circle cx="97" cy="100" r="6" fill="#C4602F"/>
+        </svg>
+        <span class="hf-lab">hero · ~110px</span>
+      </div>
+      <div class="hf">
+        <svg width="32" height="32" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 100 38
+                   C 142 38 162 58 162 100
+                   C 162 142 142 162 100 162
+                   C 58 162 38 142 38 100
+                   C 38 58 58 38 100 38 Z" fill="#33543F"/>
+          <path d="M 74 54 Q 100 100 74 146 Q 126 120 126 100 Q 126 80 74 54 Z" fill="#FCFBF7"/>
+          <circle cx="98" cy="100" r="12" fill="#C4602F"/>
+        </svg>
+        <span class="hf-lab">favicon · 32px</span>
+      </div>
+    </div>
+    <div class="ic-name">organic rounded frame</div>
+    <div class="ic-says">the hard square softened into a living, seed-like frame; warmer moss field</div>
+  </div>
+
+</div>
+<div class="caption">All three keep the figure-ground concept — a solid field with the un-said carved out as a paper-shaped positive — and hold their silhouette at 32px. <b>Picked: olive field + leaf carve.</b> The olive is the warmest field in the palette that still reads as ground, and turning the carve into a leaf ties the negative space to the house botany without adding clutter or a second accent.</div>
+
+<!-- ============================================================ -->
+<!-- 2 · FAVICON INVERT TEST -->
+<!-- ============================================================ -->
+<div class="section-label">2 · favicon invert test<span class="sl-note">the picked mark in a light tab bar and a dark tab bar — does one mark hold both?</span></div>
+
+<div class="tabrow">
+
+  <!-- LIGHT CHROME -->
+  <div class="chrome">
+    <div class="barlab">light chrome — warm-white tab bar</div>
+    <div class="tabbar light">
+      <div class="tab on-light">
+        <svg width="18" height="18" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="38" y="38" width="124" height="124" rx="28" fill="#4C5F33"/>
+          <path d="M 96 52 C 72 78 72 122 96 148 C 128 130 132 118 132 100 C 132 82 122 70 96 52 Z" fill="#FCFBF7"/>
+          <circle cx="100" cy="100" r="12" fill="#C4602F"/>
+        </svg>
+        <span>Grammar of Meaning</span>
+        <span class="addr"></span>
+      </div>
+    </div>
+    <div class="page-light"></div>
+  </div>
+
+  <!-- DARK CHROME -->
+  <div class="chrome">
+    <div class="barlab">dark chrome — dark tab bar</div>
+    <div class="tabbar dark">
+      <div class="tab on-dark">
+        <!-- dark-mode variant: paper field, moss/olive carve so the mark still holds -->
+        <svg width="18" height="18" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="38" y="38" width="124" height="124" rx="28" fill="#EDE7D4"/>
+          <path d="M 96 52 C 72 78 72 122 96 148 C 128 130 132 118 132 100 C 132 82 122 70 96 52 Z" fill="#2C4A38"/>
+          <circle cx="100" cy="100" r="12" fill="#C4602F"/>
+        </svg>
+        <span>Grammar of Meaning</span>
+        <span class="addr"></span>
+      </div>
+    </div>
+    <div class="page-dark"></div>
+  </div>
+
+</div>
+<div class="caption">Honest read: the olive field (<b>#4C5F33</b>) is close enough to a dark <b>#2C4A38</b>-ish tab bar that the silhouette muddies — the mark loses its edge and the carved leaf stops popping. So the light-chrome mark does <b>not</b> survive on dark unchanged; a <b>dark-mode variant is required</b>. The fix shown on the right inverts the figure-ground: warm-paper field, moss carve, same terracotta seed — the figure-ground concept is preserved, the seed stays the single accent, and the mark holds on a dark bar. Ship the pair (light default + dark-mode swap via <code>prefers-color-scheme</code>).</div>
+
+<!-- ============================================================ -->
+<!-- 3 · DISTINCTIVENESS AT 24px — RHYTHM, NOT DETAIL -->
+<!-- ============================================================ -->
+<div class="section-label">3 · distinctiveness at 24px — comb vs chain vs waves<span class="sl-note">differentiate by rhythm; detail dies first at small size</span></div>
+
+<div class="subhead">before — the three as originally drawn (at risk of collapsing at 24px)</div>
+<div class="rhythmwrap">
+  <div class="rhythmgrid">
+
+    <!-- CHAIN before -->
+    <div class="rcol">
+      <div class="r-sizes">
+        <div class="rs">
+          <svg width="48" height="48" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 46 150 L 70 120 L 96 132 L 120 96 L 146 108 L 158 62" fill="none" stroke="#3F7D57" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="46" cy="150" r="6" fill="#2C4A38"/>
+            <circle cx="70" cy="120" r="6" fill="#3F7D57"/>
+            <circle cx="96" cy="132" r="6" fill="#3F7D57"/>
+            <circle cx="120" cy="96" r="6" fill="#3F7D57"/>
+            <circle cx="146" cy="108" r="6" fill="#3F7D57"/>
+            <circle cx="158" cy="62" r="8" fill="#E0A93B"/>
+          </svg>
+          <span class="rslab">48px</span>
+        </div>
+        <div class="rs">
+          <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 46 150 L 70 120 L 96 132 L 120 96 L 146 108 L 158 62" fill="none" stroke="#3F7D57" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="46" cy="150" r="10" fill="#2C4A38"/>
+            <circle cx="158" cy="62" r="12" fill="#E0A93B"/>
+          </svg>
+          <span class="rslab">24px</span>
+        </div>
+      </div>
+      <div class="r-name">chain</div>
+      <div class="r-rhythm">shallow climb — the destination barely rises above the jitter</div>
+    </div>
+
+    <!-- COMB before -->
+    <div class="rcol">
+      <div class="r-sizes">
+        <div class="rs">
+          <svg width="48" height="48" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <line x1="60" y1="70" x2="140" y2="70" stroke="#2C4A38" stroke-width="3"/>
+            <line x1="66" y1="70" x2="66" y2="132" stroke="#2C4A38" stroke-width="3"/>
+            <line x1="90" y1="70" x2="90" y2="132" stroke="#2C4A38" stroke-width="3"/>
+            <line x1="114" y1="70" x2="114" y2="132" stroke="#2C4A38" stroke-width="3"/>
+            <line x1="138" y1="70" x2="138" y2="132" stroke="#2C4A38" stroke-width="3"/>
+          </svg>
+          <span class="rslab">48px</span>
+        </div>
+        <div class="rs">
+          <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <line x1="56" y1="66" x2="144" y2="66" stroke="#2C4A38" stroke-width="7"/>
+            <line x1="64" y1="66" x2="64" y2="138" stroke="#2C4A38" stroke-width="7"/>
+            <line x1="90" y1="66" x2="90" y2="138" stroke="#2C4A38" stroke-width="7"/>
+            <line x1="116" y1="66" x2="116" y2="138" stroke="#2C4A38" stroke-width="7"/>
+            <line x1="140" y1="66" x2="140" y2="138" stroke="#2C4A38" stroke-width="7"/>
+          </svg>
+          <span class="rslab">24px</span>
+        </div>
+      </div>
+      <div class="r-name">comb</div>
+      <div class="r-rhythm">even teeth — but at 24px it fills to a solid block</div>
+    </div>
+
+    <!-- WAVES before -->
+    <div class="rcol">
+      <div class="r-sizes">
+        <div class="rs">
+          <svg width="48" height="48" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 34 88 Q 51 68 68 88 T 102 88 T 136 88 T 170 88" fill="none" stroke="#3F7D57" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M 34 118 Q 51 98 68 118 T 102 118 T 136 118 T 170 118" fill="none" stroke="#8AA88B" stroke-width="3.5" stroke-linecap="round"/>
+          </svg>
+          <span class="rslab">48px</span>
+        </div>
+        <div class="rs">
+          <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 34 88 Q 51 68 68 88 T 102 88 T 136 88 T 170 88" fill="none" stroke="#3F7D57" stroke-width="8" stroke-linecap="round"/>
+            <path d="M 34 118 Q 51 98 68 118 T 102 118 T 136 118 T 170 118" fill="none" stroke="#8AA88B" stroke-width="8" stroke-linecap="round"/>
+          </svg>
+          <span class="rslab">24px</span>
+        </div>
+      </div>
+      <div class="r-name">waves</div>
+      <div class="r-rhythm">two in-phase waves — read as one thick ripple, no rhyme</div>
+    </div>
+
+  </div>
+</div>
+<div class="caption"><b>At risk:</b> chain vs comb (both a row of verticals — the chain's climb is too shallow to distinguish, the comb fills solid) and waves-vs-itself (the two lines were nearly in phase, so the "two voices" rhyme vanished). All three risk collapsing into "a row of repeated marks."</div>
+
+<div class="subhead">after — rhythms exaggerated so each reads as itself at 24px</div>
+<div class="rhythmwrap">
+  <div class="rhythmgrid">
+
+    <!-- CHAIN after: steep climb, honey bloom destination -->
+    <div class="rcol">
+      <div class="r-sizes">
+        <div class="rs">
+          <svg width="48" height="48" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 40 158 L 66 140 L 92 118 L 118 92 L 148 58" fill="none" stroke="#3F7D57" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="40" cy="158" r="5" fill="#2C4A38"/>
+            <circle cx="66" cy="140" r="5.5" fill="#3F7D57"/>
+            <circle cx="92" cy="118" r="6" fill="#3F7D57"/>
+            <circle cx="118" cy="92" r="6.5" fill="#3F7D57"/>
+            <circle cx="150" cy="56" r="11" fill="#E0A93B"/>
+          </svg>
+          <span class="rslab">48px</span>
+        </div>
+        <div class="rs">
+          <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 40 162 L 74 132 L 108 96 L 148 58" fill="none" stroke="#3F7D57" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="40" cy="162" r="9" fill="#2C4A38"/>
+            <circle cx="150" cy="54" r="18" fill="#E0A93B"/>
+          </svg>
+          <span class="rslab">24px</span>
+        </div>
+      </div>
+      <div class="r-name">chain</div>
+      <div class="r-rhythm">steep, growing climb ending in a honey bloom — asymmetric, has a destination</div>
+    </div>
+
+    <!-- COMB after: tighter, regular, capped, air between -->
+    <div class="rcol">
+      <div class="r-sizes">
+        <div class="rs">
+          <svg width="48" height="48" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <line x1="56" y1="76" x2="144" y2="76" stroke="#2C4A38" stroke-width="3.5"/>
+            <line x1="64" y1="76" x2="64" y2="128" stroke="#2C4A38" stroke-width="3.5"/>
+            <line x1="88" y1="76" x2="88" y2="128" stroke="#2C4A38" stroke-width="3.5"/>
+            <line x1="112" y1="76" x2="112" y2="128" stroke="#2C4A38" stroke-width="3.5"/>
+            <line x1="136" y1="76" x2="136" y2="128" stroke="#2C4A38" stroke-width="3.5"/>
+          </svg>
+          <span class="rslab">48px</span>
+        </div>
+        <div class="rs">
+          <!-- fewer, well-spaced teeth so it stays a comb, not a block -->
+          <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <line x1="52" y1="74" x2="148" y2="74" stroke="#2C4A38" stroke-width="9"/>
+            <line x1="64" y1="74" x2="64" y2="134" stroke="#2C4A38" stroke-width="9"/>
+            <line x1="100" y1="74" x2="100" y2="134" stroke="#2C4A38" stroke-width="9"/>
+            <line x1="136" y1="74" x2="136" y2="134" stroke="#2C4A38" stroke-width="9"/>
+          </svg>
+          <span class="rslab">24px</span>
+        </div>
+      </div>
+      <div class="r-name">comb</div>
+      <div class="r-rhythm">even teeth off a flat spine, air between — symmetric, no destination</div>
+    </div>
+
+    <!-- WAVES after: two waves clearly out of phase (one dashed voice) -->
+    <div class="rcol">
+      <div class="r-sizes">
+        <div class="rs">
+          <svg width="48" height="48" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 32 100 Q 49 72 66 100 T 100 100 T 134 100 T 168 100" fill="none" stroke="#3F7D57" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M 32 100 Q 49 128 66 100 T 100 100 T 134 100 T 168 100" fill="none" stroke="#8AA88B" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="1 7"/>
+          </svg>
+          <span class="rslab">48px</span>
+        </div>
+        <div class="rs">
+          <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 30 100 Q 50 62 70 100 T 110 100 T 150 100 T 175 100" fill="none" stroke="#3F7D57" stroke-width="8" stroke-linecap="round"/>
+            <path d="M 30 100 Q 50 138 70 100 T 110 100 T 150 100 T 175 100" fill="none" stroke="#8AA88B" stroke-width="7" stroke-linecap="round"/>
+          </svg>
+          <span class="rslab">24px</span>
+        </div>
+      </div>
+      <div class="r-name">waves</div>
+      <div class="r-rhythm">two voices a half-cycle out of phase, crossing at every node — the rhyme</div>
+    </div>
+
+  </div>
+</div>
+<div class="caption"><b>Separated.</b> The at-risk pair was <b>chain vs comb</b>. Fix: the chain now climbs steeply and terminates in an oversized honey bloom — even at 24px it reads as "a line going somewhere," never a row of even teeth; the comb drops to three or four well-spaced teeth off a flat spine so it stays a comb rather than filling to a solid block. Waves were separated from themselves by pushing the two voices a full half-cycle out of phase — they now cross at every node (mirror-image ripples), so the "two voices, one rhyme" reads even at 24px. Rhythm survives where detail doesn't.</div>
+
+<!-- ============================================================ -->
+<!-- 4 · ESSAYS — REVISED SO IT ISN'T A PLAINER LIBRARY -->
+<!-- ============================================================ -->
+<div class="section-label">4 · essays icon — a close-reading signal<span class="sl-note">old Essays read as a plainer Library; add a lens so it's unmistakable at 24px</span></div>
+
+<div class="comparewrap">
+
+  <!-- OLD vs NEW essays -->
+  <div class="compcard">
+    <div class="cc-title">old vs new · Essays @ 24px</div>
+    <div class="cc-row">
+      <div class="cc-one">
+        <!-- OLD essays @ 24px (from source) -->
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 92 158 C 92 122 92 92 92 56" fill="none" stroke="#2C4A38" stroke-width="7"/>
+          <path d="M 92 122 C 72 112 62 96 60 82" fill="none" stroke="#3F7D57" stroke-width="6"/>
+          <circle cx="92" cy="54" r="14" fill="#C4602F"/>
+        </svg>
+        <div class="cc-cap"><b>old</b> — a sprig + bloom;<br>too close to Library</div>
+      </div>
+      <div class="cc-one">
+        <!-- NEW essays @ 24px: sprig under a lens -->
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- the sprig, read closely -->
+          <path d="M 84 150 C 84 122 84 100 84 78" fill="none" stroke="#2C4A38" stroke-width="7"/>
+          <path d="M 84 118 C 68 110 60 98 58 86" fill="none" stroke="#3F7D57" stroke-width="6"/>
+          <circle cx="84" cy="76" r="9" fill="#2C4A38"/>
+          <!-- the lens over the sprig -->
+          <circle cx="96" cy="96" r="40" fill="none" stroke="#3F7D57" stroke-width="8"/>
+          <line x1="124" y1="124" x2="156" y2="156" stroke="#C4602F" stroke-width="11" stroke-linecap="round"/>
+        </svg>
+        <div class="cc-cap"><b>new</b> — a sprig under a<br>reading lens</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW essays vs Library -->
+  <div class="compcard">
+    <div class="cc-title">separation check · Essays vs Library @ 24px</div>
+    <div class="cc-row">
+      <div class="cc-one">
+        <!-- NEW essays @ 24px -->
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 84 150 C 84 122 84 100 84 78" fill="none" stroke="#2C4A38" stroke-width="7"/>
+          <path d="M 84 118 C 68 110 60 98 58 86" fill="none" stroke="#3F7D57" stroke-width="6"/>
+          <circle cx="84" cy="76" r="9" fill="#2C4A38"/>
+          <circle cx="96" cy="96" r="40" fill="none" stroke="#3F7D57" stroke-width="8"/>
+          <line x1="124" y1="124" x2="156" y2="156" stroke="#C4602F" stroke-width="11" stroke-linecap="round"/>
+        </svg>
+        <div class="cc-cap"><b>Essays</b> — a lens<br>(reading one, close)</div>
+      </div>
+      <div class="cc-one">
+        <!-- Library @ 24px (from source) -->
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="50" y="46" width="88" height="106" rx="3" fill="none" stroke="#C9BE9F" stroke-width="5"/>
+          <rect x="66" y="62" width="88" height="106" rx="3" fill="#FFFFFF" stroke="#2C4A38" stroke-width="6"/>
+          <path d="M 110 154 C 110 128 110 106 110 82" fill="none" stroke="#3F7D57" stroke-width="6"/>
+          <circle cx="110" cy="80" r="10" fill="#C4602F"/>
+        </svg>
+        <div class="cc-cap"><b>Library</b> — stacked sheets<br>(the gathered corpus)</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="caption"><b>Distinct.</b> The old Essays was a bare sprig + bloom — the same botanical vocabulary as Library's pressed specimen, just without the sheets, so it read as "Library, simpler." The new Essays wraps the sprig in a <b>reading lens</b> with a terracotta handle: the round-outline-with-a-tick silhouette is nothing like Library's stacked rectangles, and it carries the literal "close reading" meaning. At 24px the shapes no longer share a family outline — a circle-plus-handle vs two offset rectangles.</div>
+
+<footer class="sheet">
+  round · brandmark refinement acting on reading-sb feedback · master = negative-space figure (decided, tradition-neutral) · golden chain demoted to concept-glyph · SVGs lifted verbatim from icon_system.html + rhythm/warmth/lens edits drawn new · one terracotta accent per glyph in use (audited) · house tokens only, no near-black / pure black · Newsreader + Inter + IBM Plex Mono · staging exploration, not deployed
+</footer>
+
+</body>
+</html>
