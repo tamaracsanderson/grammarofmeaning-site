@@ -119,8 +119,8 @@ def render_essay(e):
     url = f"{BASE}/essays/{slug}"
     hero_meta = hero or f"{BASE}/favicon.svg"
     border = palette_border(hero)
-    thumb = (f'<div class="e-thumb-wrap"><img class="e-thumb" style="border-color:{border}" '
-             f'src="{esc(hero)}" alt="{esc(title)}">'
+    thumb = (f'<div class="e-thumb-wrap"><span class="e-thumb-frame" style="border-color:{border}">'
+             f'<img class="e-thumb" src="{esc(hero)}" alt="{esc(title)}"></span>'
              + (f'<div class="e-thumbcap">{esc(hero_cap)}</div>' if hero_cap else "")
              + "</div>") if hero else ""
     page = PAGE.format(title=esc(title), deck=esc(deck), url=url, hero=esc(hero_meta),
@@ -151,9 +151,10 @@ PAGE = """<!DOCTYPE html>
  .backlink{{font-family:var(--mono);font-size:12px;color:var(--ink-2);text-decoration:none;display:inline-block;margin:6px 0 18px}} .backlink:hover{{color:var(--fern)}}
  .e-head{{display:flex;gap:28px;align-items:flex-start;margin:0 0 6px}}
  @media(max-width:680px){{.e-head{{flex-direction:column;gap:16px}}}}
- .e-thumb-wrap{{flex:0 0 190px}} @media(max-width:680px){{.e-thumb-wrap{{flex:none}}}}
- .e-thumb{{width:190px;max-width:52vw;height:auto;display:block;border:5px solid var(--sage);border-radius:6px;
-   box-shadow:0 0 0 1px rgba(36,48,42,.08), 0 10px 26px -14px rgba(36,48,42,.4)}}
+ .e-thumb-wrap{{flex:0 0 auto}} @media(max-width:680px){{.e-thumb-wrap{{flex:none}}}}
+ .e-thumb-frame{{display:inline-block;border:5px solid var(--sage);background:#C9A227;padding:1.6px;border-radius:6px;
+   box-shadow:0 0 0 1px rgba(36,48,42,.10), 0 10px 26px -14px rgba(36,48,42,.4)}}
+ .e-thumb{{display:block;width:180px;max-width:50vw;height:auto;border-radius:3px}}
  .e-thumbcap{{font-family:var(--sans);font-size:11px;color:var(--ink-3);margin-top:8px;line-height:1.45;max-width:190px}}
  .e-htext{{flex:1;min-width:0}}
  .e-kicker{{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--olive);margin:0 0 10px}}
@@ -195,7 +196,7 @@ PAGE = """<!DOCTYPE html>
    </div>
  </div>
  <div class="essay">{body}</div>
- <div class="also"><span class="t">This essay is also on the newsletter.</span><a href="{sub_link}" target="_blank" rel="noopener">Read / subscribe on Substack &#8599;</a></div>
+ <div class="also"><span class="t">Get new field notes by email as they're published.</span><a href="https://grammarofmeaning.substack.com/subscribe" target="_blank" rel="noopener">Subscribe &#8599;</a></div>
  <div class="byline-foot"><b>Tamara Sanderson</b> writes <em>Field Notes on how meaning gets made</em> — reading one life, image, or word at a time. <a href="/mission.html">About the project &#8594;</a></div>
 </article></div>
 <footer><div class="wrap"><div class="flabel">Grammar of Meaning</div><h3>How meaning gets made — read each tradition in its own vocabulary first.</h3><p class="foot-note"><em>Grammar of Meaning</em> · Tamara Sanderson · 2026</p></div></footer>
