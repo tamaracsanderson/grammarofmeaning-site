@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How an essay gets made · Grammar of Meaning</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -79,6 +78,12 @@
   .archgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
   .archgrid .archcard:last-child{grid-column:1 / -1}
   @media(max-width:680px){.archgrid{grid-template-columns:1fr}.archgrid .archcard:last-child{grid-column:auto}}
+  .between-frame{margin-top:40px}
+  .between-grid{grid-template-columns:repeat(3,1fr)}
+  .between-grid .archcard:last-child{grid-column:auto}
+  @media(max-width:680px){.between-grid{grid-template-columns:1fr}}
+  .seed-origin{max-width:52em;font-size:16px;line-height:1.6}
+  .between-close{max-width:50em;margin-top:20px;font-style:italic}
   .archcard{position:relative;border-radius:14px;padding:16px 18px 17px;background:linear-gradient(var(--eng-bg),var(--paper-3));
     border:1px solid var(--eng-bd)}
   .archcard.you{border-color:var(--you-bd);border-left-width:6px;border-left-color:var(--terracotta);
@@ -277,15 +282,42 @@
 <div class="e-wrap">
 
   <header class="hero">
-    <div class="kicker">How an essay gets made &nbsp;·&nbsp; <b>five machines and a human</b></div>
+    <div class="kicker">How an essay gets made &nbsp;·&nbsp; <b>made in the space between</b></div>
     <h1>Watch an essay get built — and see who actually does the work.</h1>
-    <p class="lede">A public essay starts as a <b>seed</b> and ends on a Substack. In between, several engines harvest, draft in parallel, and review — all from a corpus of roughly <b>335,000 sources</b>.</p>
-    <div class="thesis">The engines gather, draft, and review.<br><em>The human makes the essay.</em></div>
+    <p class="lede">An essay is not produced by a machine, and it is not lifted from an archive. It is made in the <b>space between</b> — three times over. The writer meets the sources, and a seed is born. The engines meet the archive, and the raw drafts come back. The writer meets the drafts, and — pass after pass — the essay becomes itself.</p>
+    <div class="thesis">The machines are the workshop.<br><em>The writer is the one who makes the thing.</em></div>
+
+    <!-- ===== THE SEED'S ORIGIN + THREE IN-BETWEENS — the frame ===== -->
+    <section class="arch between-frame">
+      <div class="arch-h">Where a seed comes from</div>
+      <p class="arch-sub seed-origin">An essay begins as a <b>seed</b> — and a seed is not a topic, it's a <b>connection</b>. It's the moment something in the archive catches against a life: a passage that rhymes with something you've lived, a figure whose choice suddenly reads differently, an old word that turns out to hold more than you knew. That spark — the sources meeting a reader who is changed by them — is the seed. It doesn't come from the machine. It comes from the friction between what the archive holds and what a person brings to it.</p>
+
+      <div class="arch-h" style="margin-top:1.5rem">Three in-betweens</div>
+      <p class="arch-sub">Meaning here isn't stored in the sources, and it isn't produced by the engine. It's made in the <b>space between</b> — and an essay is made in that space three times:</p>
+      <div class="archgrid between-grid">
+        <div class="archcard you">
+          <div class="ac-tag you">the human</div>
+          <div class="ac-n">The spark</div>
+          <div class="ac-d">Between a reader and the sources. A connection struck: the archive meets a life, and a <b>seed</b> is born.</div>
+        </div>
+        <div class="archcard eng">
+          <div class="ac-tag eng">the engine</div>
+          <div class="ac-n">The making</div>
+          <div class="ac-d">Between the engine and the archive. The reading at scale — the corpus queried (roughly <b>335,000 sources</b>), the <i>sitz</i> gathered, whole drafts written through different doors.</div>
+        </div>
+        <div class="archcard you">
+          <div class="ac-tag you">the human</div>
+          <div class="ac-n">The finishing</div>
+          <div class="ac-d">Between the writer and the draft. The revision, pass after pass, where the essay becomes itself — and becomes <b>hers</b>.</div>
+        </div>
+      </div>
+      <p class="arch-sub between-close">Not the machine's, and not simply lifted from the archive: an essay is what happens in the <b>between</b> — three times over, and only the last one makes it done. Two of the three are the writer's.</p>
+    </section>
 
     <!-- ===== §1 THE FIVE PIECES — the meta-architecture, front and center ===== -->
     <section class="arch">
-      <div class="arch-h">What's actually doing the work — five distinct pieces</div>
-      <p class="arch-sub">It's not "an AI that writes essays." It's a small machine shop: four engines, plus the human who runs them.</p>
+      <div class="arch-h">Inside <i>the making</i> — the workshop, piece by piece</div>
+      <p class="arch-sub">The middle in-between, opened up. It's not "an AI that writes essays" — it's a small machine shop: four engines that do the <b>instrumental</b> work, plus the human, who does the <b>generative</b> work (the spark before, the finishing after).</p>
       <div class="archgrid">
         <div class="archcard eng">
           <div class="ac-tag eng">engine</div>
@@ -300,12 +332,12 @@
         <div class="archcard eng star-card">
           <div class="ac-tag eng">engine · the clever bit</div>
           <div class="ac-n">3 · The bake-off engine</div>
-          <div class="ac-d">Several agents run <b>in parallel</b>, each drafting the <i>whole</i> piece through a different <b>door</b> (story-first / provocation-first / paradox-first). It returns a <b>menu</b> of complete drafts. <b>The human grafts and hybridizes — she never just picks one.</b></div>
+          <div class="ac-d">Several agents run <b>in parallel</b>, each drafting the <i>whole</i> piece through a different <b>door</b> (story-first / provocation-first / paradox-first). It returns a <b>menu of raw drafts — not essays</b>. <b>She never picks one; she grafts and rebuilds.</b></div>
         </div>
         <div class="archcard eng">
           <div class="ac-tag eng">engine</div>
           <div class="ac-n">4 · The reader / panel</div>
-          <div class="ac-d">A <b>nine-persona adversarial review</b> — three scholars, three readers, three practitioners — each prompted to <i>refute</i>, not praise. It is the direct cousin of the project's <b>5-LLM inter-rater-reliability method</b> used on the corpus coding: many independent perspectives, adversarial — applied to essays instead of codes.</div>
+          <div class="ac-d">A <b>four-reader adversarial review</b> — heart, mind, story, and soul — each prompted to <i>refute</i>, not praise. It is the direct cousin of the project's <b>5-LLM inter-rater-reliability method</b> used on the corpus coding: many independent perspectives, adversarial — applied to essays instead of codes.</div>
         </div>
         <div class="archcard you">
           <div class="ac-tag you">the human</div>
@@ -341,12 +373,13 @@
   <!-- effort tally -->
   <section class="tally" id="tally">
     <h3>Who did the work?</h3>
-    <p class="s">Roughly where the hours go — <b>illustrative, not measured</b>. The engines do the <i>volume</i>: research, several parallel drafts, the adversarial panel, a polish, the footnotes, the tags &amp; blurb, even art suggestions. The human does the <i>decisive</i> work: the <b>form</b>, the <b>graft</b>, and especially the <b>revision</b> (the bulk). <b>The engines draft; Tamara makes the essay.</b></p>
+    <p class="s">This isn't a question of hours. The engines do the <i>instrumental</i> work — the searching, the parallel drafts, the fact-checking, a first pass at footnotes. The writer does the <i>generative</i> work — the connection that starts it, the <b>form</b>, the <b>graft</b>, and the <b>revision</b> that turns a draft into an essay. Different <i>kinds</i> of work, not different <i>amounts</i>. (A piano doesn't do most of a sonata.) <b>The engines draft; Tamara makes the essay.</b></p>
     <div class="scale">
-      <div class="seg eng" id="segEng">the engine</div>
-      <div class="seg you" id="segYou">the human</div>
+      <div class="seg eng" id="segEng">instrumental · the engine</div>
+      <div class="seg you" id="segYou">generative · the writer</div>
     </div>
-    <div class="scalecap"><span>gather &amp; draft</span><span>judge, form, revise, source</span></div>
+    <div class="scalecap"><span>search, draft, check</span><span>the spark, the form, the finishing</span></div>
+    <p class="s" style="margin-top:.5rem;font-size:.82rem;opacity:.72"><b>Illustrative, not measured</b> — a picture of the two <i>kinds</i> of work, not a tally of who did more.</p>
     <div class="tallynote" id="tallynote"></div>
   </section>
 
@@ -673,11 +706,11 @@ function render(){
     pwrap.appendChild(d);
   });
 
-  // tally
-  segEng.style.flexBasis=ex.ratio.eng+'%';
-  segYou.style.flexBasis=ex.ratio.you+'%';
-  segEng.textContent=ex.ratio.eng>=14?`engine · ${ex.ratio.eng}%`:'';
-  segYou.textContent=`the human · ${ex.ratio.you}%`;
+  // tally — a KIND split (instrumental vs generative), not a quantity metric
+  segEng.style.flexBasis='42%';
+  segYou.style.flexBasis='58%';
+  segEng.textContent='instrumental · the engine';
+  segYou.textContent='generative · the writer';
   tallynote.innerHTML=ex.note;
 
   setupObserver();
