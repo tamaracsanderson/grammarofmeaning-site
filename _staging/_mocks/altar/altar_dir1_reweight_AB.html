@@ -72,22 +72,34 @@
   <linearGradient id="skX" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6E9EC4"/><stop offset="0.5" stop-color="#A7C8DC"/><stop offset="0.64" stop-color="#CFE0E4"/></linearGradient>
   <radialGradient id="suX" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFF8E2"/><stop offset="0.4" stop-color="#FBEFCC" stop-opacity=".65"/><stop offset="1" stop-color="#FBEFCC" stop-opacity="0"/></radialGradient>
   <radialGradient id="pX" cx="50%" cy="40%" r="58%"><stop offset="0" stop-color="#FFFFFF"/><stop offset="72%" stop-color="#FFFFFF" stop-opacity=".9"/><stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
-  <filter id="bX"><feGaussianBlur stdDeviation="1.7"/></filter>
+  <filter id="sfW"><feGaussianBlur stdDeviation="2.4"/></filter>
+  <filter id="hzW"><feGaussianBlur stdDeviation="5"/></filter>
+  <filter id="grassEdgeW" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.028 0.05" numOctaves="2" seed="3" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="10"/></filter>
+  <filter id="paintEdgeW"><feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="4"/></filter>
+  <filter id="grainW"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0.4 0 0 0 0 0.4 0 0 0 0 0.4 0 0 0 0.05 0"/></filter>
+  <filter id="skyVeilW" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.004 0.008" numOctaves="3" seed="14" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.42 -0.18"/><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="grassTexW" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.015 0.06" numOctaves="3" seed="7" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.18 0 0 0 0 0.28 0 0 0 0 0.10 0 0 0 0.18 -0.06"/></filter>
   <clipPath id="hole-judg"><circle cx="230" cy="150" r="52"/></clipPath>
   <clipPath id="hole-lib"><circle cx="166" cy="464" r="48"/></clipPath>
-  <!-- ONE continuous world behind the whole window; each absent pane is a real hole into it -->
+  <!-- three DISTINCT cumulus shapes (lit top + shadow base) -->
+  <g id="clA"><ellipse cx="0" cy="12" rx="44" ry="9" fill="#A4B7C4" opacity=".5"/><ellipse cx="-24" cy="4" rx="16" ry="13" fill="#EAF1F4"/><ellipse cx="-6" cy="-6" rx="20" ry="18" fill="#F6FAFB"/><ellipse cx="14" cy="-13" rx="18" ry="21" fill="#F6FAFB"/><ellipse cx="30" cy="0" rx="15" ry="12" fill="#EAF1F4"/><ellipse cx="2" cy="9" rx="42" ry="11" fill="#F6FAFB"/><ellipse cx="16" cy="-17" rx="12" ry="8" fill="#FFFFFF"/></g>
+  <g id="clB"><ellipse cx="0" cy="9" rx="50" ry="7" fill="#A4B7C4" opacity=".5"/><ellipse cx="-30" cy="2" rx="16" ry="11" fill="#EAF1F4"/><ellipse cx="-8" cy="-4" rx="19" ry="14" fill="#F6FAFB"/><ellipse cx="14" cy="-2" rx="16" ry="12" fill="#F6FAFB"/><ellipse cx="32" cy="3" rx="14" ry="9" fill="#EAF1F4"/><ellipse cx="0" cy="6" rx="48" ry="9" fill="#F6FAFB"/><ellipse cx="-6" cy="-7" rx="13" ry="7" fill="#FFFFFF"/></g>
+  <g id="clC"><ellipse cx="0" cy="6" rx="22" ry="5" fill="#A4B7C4" opacity=".5"/><ellipse cx="-9" cy="1" rx="11" ry="8" fill="#EFF5F7"/><ellipse cx="6" cy="-4" rx="13" ry="10" fill="#F8FBFC"/><ellipse cx="0" cy="4" rx="21" ry="7" fill="#F8FBFC"/><ellipse cx="5" cy="-6" rx="8" ry="5" fill="#FFFFFF"/></g>
+  <!-- ONE continuous world (developed illustration) behind the whole window; each absent pane is a real hole into it -->
   <g id="world">
     <rect x="0" y="0" width="460" height="770" fill="url(#skX)"/>
-    <circle cx="330" cy="120" r="66" fill="url(#suX)"/><circle cx="330" cy="120" r="15" fill="#FFF8E6"/>
-    <g filter="url(#bX)">
-      <ellipse cx="128" cy="112" rx="26" ry="2.4" fill="#FFFFFF" opacity=".45"/><ellipse cx="150" cy="128" rx="20" ry="2" fill="#FFFFFF" opacity=".35"/>
-      <ellipse cx="216" cy="176" rx="30" ry="8" fill="#CFDCE4"/><ellipse cx="204" cy="166" rx="15" ry="12" fill="url(#pX)"/><ellipse cx="220" cy="162" rx="19" ry="15" fill="url(#pX)"/><ellipse cx="234" cy="169" rx="13" ry="10" fill="url(#pX)"/><ellipse cx="216" cy="174" rx="29" ry="9" fill="url(#pX)"/>
-      <ellipse cx="300" cy="360" rx="26" ry="7" fill="#CFDCE4"/><ellipse cx="290" cy="352" rx="13" ry="10" fill="url(#pX)"/><ellipse cx="305" cy="350" rx="16" ry="12" fill="url(#pX)"/><ellipse cx="300" cy="357" rx="25" ry="8" fill="url(#pX)"/>
-      <ellipse cx="158" cy="452" rx="24" ry="6" fill="#CFDCE4"/><ellipse cx="150" cy="446" rx="12" ry="9" fill="url(#pX)"/><ellipse cx="165" cy="444" rx="14" ry="11" fill="url(#pX)"/><ellipse cx="158" cy="450" rx="23" ry="7" fill="url(#pX)"/>
-    </g>
-    <path d="M0 500 Q115 484 235 498 Q350 510 460 494 L460 770 L0 770 Z" fill="#AFC593"/>
-    <path d="M0 556 Q150 540 300 556 Q400 566 460 548 L460 770 L0 770 Z" fill="#90B070"/>
-    <path d="M0 624 Q160 610 320 624 Q410 632 460 618 L460 770 L0 770 Z" fill="#7BA25B"/>
+    <rect x="0" y="40" width="460" height="340" filter="url(#skyVeilW)"/>
+    <circle cx="330" cy="118" r="72" fill="url(#suX)"/><circle cx="330" cy="118" r="16" fill="#FFF8E6"/>
+    <use href="#clA" transform="translate(215 150) scale(1.05)" filter="url(#sfW)"/>
+    <use href="#clB" transform="translate(322 300) scale(0.9)" filter="url(#sfW)"/>
+    <use href="#clC" transform="translate(150 405) scale(0.78)" opacity=".72" filter="url(#hzW)"/>
+    <path d="M0 446 Q115 436 235 444 Q350 452 460 440 L460 486 L0 486 Z" fill="#AEBFB4" filter="url(#hzW)"/>
+    <path d="M0 462 Q12 450 24 460 Q38 448 52 459 Q68 448 84 459 Q100 448 116 459 Q132 448 148 459 Q164 448 180 459 Q196 448 212 459 Q228 448 244 459 Q260 449 276 459 Q292 448 308 459 Q324 449 340 459 Q356 448 372 459 Q388 449 404 459 Q420 449 436 459 Q450 450 460 458 L460 506 L0 506 Z" fill="#6F8F5E" opacity=".92" filter="url(#paintEdgeW)"/>
+    <path d="M0 482 Q230 476 460 482 L460 528 L0 528 Z" fill="#B7C9C9"/><path d="M0 496 Q190 490 420 496 L420 504 L0 504 Z" fill="#D2E0DE" opacity=".55"/>
+    <path d="M0 502 Q125 492 250 502 Q375 512 460 498 L460 770 L0 770 Z" fill="#8AAA6C" filter="url(#grassEdgeW)"/>
+    <path d="M0 502 Q125 492 250 502 Q375 512 460 498 L460 770 L0 770 Z" filter="url(#grassTexW)"/>
+    <path d="M0 612 Q160 600 320 614 Q410 620 460 608 L460 770 L0 770 Z" fill="#6E9152" filter="url(#grassEdgeW)"/>
+    <rect x="0" y="0" width="460" height="770" filter="url(#grainW)"/>
   </g>
   <clipPath id="fld"><path d="M112 726 L112 262 Q112 150 230 118 Q348 150 348 262 L348 726 Z"/></clipPath>
   <symbol id="m-aton" viewBox="0 0 150 150"><circle cx="75" cy="74" r="58" fill="#FBF4DC"/><circle cx="75" cy="52" r="20" fill="none" stroke="#C9A227" stroke-width="2.5"/><line x1="103" y1="30" x2="88" y2="96" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/><path d="M100 34 L124 39 L119 49 L124 59 L100 54 Z" fill="#9C2B2B"/><path d="M45 88 C40 78 46 68 57 67 C60 58 72 56 78 63 C90 60 100 68 97 80 C101 88 96 98 86 98 L52 98 C46 98 45 92 45 88 Z" fill="#FFFFFF" stroke="#2C4A38" stroke-width="2" stroke-linejoin="round"/><path d="M52 84 C46 84 44 90 48 94 C50 96 55 96 57 92 C58 89 56 84 52 84 Z" fill="#FFFFFF" stroke="#2C4A38" stroke-width="2"/><line x1="60" y1="98" x2="60" y2="112" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/><line x1="72" y1="98" x2="72" y2="112" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/><line x1="84" y1="98" x2="84" y2="112" stroke="#2C4A38" stroke-width="2" stroke-linecap="round"/></symbol>
