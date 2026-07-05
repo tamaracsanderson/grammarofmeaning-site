@@ -121,6 +121,14 @@
   a.ref-card.method{border-color:var(--honey)}
   a.ref-card b{font-family:var(--sans);font-weight:700;font-size:14.5px;color:var(--moss);display:block}
   a.ref-card span{display:block;font-size:12px;color:var(--ink-2);margin-top:4px;line-height:1.45}
+  /* author bio — words left, illuminated portrait right (fills the gutter) */
+  .who-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:40px;align-items:start;margin-top:6px}
+  .who-grid .who-words{max-width:60ch;margin:0}
+  .who-portrait{margin:0;text-align:center}
+  .who-frame{display:inline-block;border:5px solid var(--sage);background:#C9A227;padding:2px;border-radius:3px;line-height:0;box-shadow:0 8px 26px rgba(44,74,56,.15)}
+  .who-frame img{display:block;width:248px;height:auto;border-radius:1px}
+  .who-portrait figcaption{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--ink-3);margin-top:10px}
+  @media(max-width:720px){.who-grid{grid-template-columns:1fr;gap:22px}.who-portrait{justify-self:start;text-align:left}}
 </style>
 </head>
 <body>
@@ -374,7 +382,13 @@
 <!-- WHO'S BEHIND THIS — author bio -->
 <section id="who">
   <div class="sec-head"><span class="sec-num">✦</span><span class="sec-title">Who's behind this</span><span class="sec-line"></span></div>
-  <p class="rationale" style="max-width:64ch">The Grammar of Meaning is written and built by <b>Tamara Sanderson</b> — a candidate for the Master of Divinity (MDiv) at Harvard Divinity School, expected 2027, working at the intersection of religion, philosophy, and psychology. Before divinity school she spent fifteen years in design and analytical consulting at <b>IDEO</b> and <b>Google</b>, co-authored <i>Remote Works</i> (Berrett-Koehler, 2023), and was a Fellow in MIT's psychoanalysis program. This project is her thesis work — the corpus, the method, and the essays — made in the open.</p>
+  <div class="who-grid">
+    <p class="rationale who-words">The Grammar of Meaning is written and built by <b>Tamara Sanderson</b> — a candidate for the Master of Divinity (MDiv) at Harvard Divinity School, expected 2027, working at the intersection of religion, philosophy, and psychology. Before divinity school she spent fifteen years in design and analytical consulting at <b>IDEO</b> and <b>Google</b>, co-authored <i>Remote Works</i> (Berrett-Koehler, 2023), and was a Fellow in MIT's psychoanalysis program. This project is her thesis work — the corpus, the method, and the essays — made in the open.</p>
+    <figure class="who-portrait">
+      <div class="who-frame"><img src="img/tamara-woodstock-portrait.jpg" alt="Tamara Sanderson holding her dog on a winter evening in Woodstock, Vermont" loading="lazy" width="248"></div>
+      <figcaption>Woodstock, Vermont</figcaption>
+    </figure>
+  </div>
 </section>
 
 <!-- 10 · THE FORMS — four house cards -->
