@@ -49,14 +49,17 @@ def series_of(slug):
 def slug_of(link):
     return link.rstrip("/").split("/")[-1]
 
-def palette_border(url):
-    """Dominant color of the image, snapped to the nearest house-palette hue (border color)."""
+def image_meta(url):
+    """Returns (border_hex, orientation): dominant color snapped to the house palette + landscape/portrait/square."""
     if not (url and HAVE_PIL):
-        return "#8AA88B"
+        return "#8AA88B", "portrait"
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         data = urllib.request.urlopen(req, timeout=18).read()
-        im = Image.open(BytesIO(data)).convert("RGB").resize((64, 64))
+        src = Image.open(BytesIO(data)).convert("RGB")
+        w, h = src.size
+        orient = "landscape" if w > h * 1.15 else ("portrait" if h > w * 1.15 else "square")
+        im = src.resize((64, 64))
         q = im.quantize(colors=6).convert("RGB")
         counts = sorted(q.getcolors(64 * 64) or [], reverse=True)  # [(count,(r,g,b))]
         cands = [c for _, c in counts[:6]] or [(138, 168, 139)]
@@ -70,9 +73,9 @@ def palette_border(url):
             return sum((x - y) ** 2 for x, y in zip(a, b))
         name = min(PALETTE, key=lambda k: dist(dom, PALETTE[k]))
         r, g, b = PALETTE[name]
-        return "#%02X%02X%02X" % (r, g, b)
+        return "#%02X%02X%02X" % (r, g, b), orient
     except Exception:
-        return "#8AA88B"
+        return "#8AA88B", "portrait"
 
 def clean_body(raw):
     """Sanitize Substack content:encoded -> clean house HTML. Returns (body_html, hero_src, hero_cap)."""
@@ -147,9 +150,9 @@ def render_essay(e):
     body, hero, hero_cap = clean_body(raw)
     url = f"{BASE}/essays/{slug}"
     hero_meta = hero or f"{BASE}/favicon.svg"
-    border = palette_border(hero)
+    border, orient = image_meta(hero)
     thumb = (f'<div class="e-thumb-wrap"><span class="e-thumb-frame" style="border-color:{border}">'
-             f'<img class="e-thumb" src="{esc(hero)}" alt="{esc(title)}"></span></div>') if hero else ""
+             f'<img class="e-thumb {orient}" src="{esc(hero)}" alt="{esc(title)}"></span></div>') if hero else ""
     caption = f'<div class="e-cap">{esc(hero_cap)}</div>' if hero_cap else ""
     si = series_of(slug)
     if si and si["role"] == "part":
@@ -190,14 +193,15 @@ PAGE = """<!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/gom.css">
 <style>
- .wrap{{max-width:1080px}} .essay-wrap{{max-width:680px;margin:0 auto}}
+ .wrap{{max-width:1080px}} .essay-wrap{{max-width:680px;margin:0 auto;padding-bottom:56px}}
  .backlink{{font-family:var(--mono);font-size:12px;color:var(--ink-2);text-decoration:none;display:inline-block;margin:6px 0 18px}} .backlink:hover{{color:var(--fern)}}
  .e-head{{display:flex;gap:28px;align-items:flex-start;margin:0 0 6px}}
  @media(max-width:680px){{.e-head{{flex-direction:column;gap:16px}}}}
  .e-thumb-wrap{{flex:0 0 auto}} @media(max-width:680px){{.e-thumb-wrap{{flex:none}}}}
  .e-thumb-frame{{display:inline-block;border:5px solid var(--sage);background:#C9A227;padding:1.6px;border-radius:6px;
    box-shadow:0 0 0 1px rgba(36,48,42,.10), 0 10px 26px -14px rgba(36,48,42,.4)}}
- .e-thumb{{display:block;width:180px;max-width:50vw;height:auto;border-radius:3px}}
+ .e-thumb{{display:block;height:auto;max-width:52vw;border-radius:3px}}
+ .e-thumb.portrait{{width:178px}} .e-thumb.landscape{{width:252px}} .e-thumb.square{{width:206px}}
  .e-htext{{flex:1;min-width:0}}
  .e-kicker{{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--olive);margin:0 0 10px}}
  .e-kicker a{{color:var(--olive);text-decoration:none;border-bottom:1px solid rgba(110,123,58,.4)}} .e-kicker a:hover{{color:var(--fern)}}
