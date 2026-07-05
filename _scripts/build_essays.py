@@ -151,9 +151,16 @@ def render_essay(e):
     url = f"{BASE}/essays/{slug}"
     hero_meta = hero or f"{BASE}/favicon.svg"
     border, orient = image_meta(hero)
-    thumb = (f'<div class="e-thumb-wrap"><span class="e-thumb-frame" style="border-color:{border}">'
-             f'<img class="e-thumb {orient}" src="{esc(hero)}" alt="{esc(title)}"></span></div>') if hero else ""
-    caption = f'<div class="e-cap">{esc(hero_cap)}</div>' if hero_cap else ""
+    is_land = bool(hero) and orient == "landscape"
+    # portrait/square -> left thumbnail in the header; landscape -> full-width framed figure below the header
+    thumb = "" if is_land else ((f'<div class="e-thumb-wrap"><span class="e-thumb-frame" style="border-color:{border}">'
+             f'<img class="e-thumb {orient}" src="{esc(hero)}" alt="{esc(title)}"></span></div>') if hero else "")
+    if is_land:
+        post_head = (f'<figure class="e-hero-fig"><span class="e-hero-frame" style="border-color:{border}">'
+                     f'<img src="{esc(hero)}" alt="{esc(title)}"></span>'
+                     + (f'<figcaption>{esc(hero_cap)}</figcaption>' if hero_cap else "") + '</figure>')
+    else:
+        post_head = f'<div class="e-cap">{esc(hero_cap)}</div>' if hero_cap else ""
     si = series_of(slug)
     if si and si["role"] == "part":
         kicker = f'<a href="/essays/{si["intro"]}.html">{esc(si["name"])}</a> · Day {si["n"]} of {si["total"]}'
@@ -170,7 +177,7 @@ def render_essay(e):
                       f'<div class="sn-row">{"".join(items)}</div></div>')
     page = PAGE.format(title=esc(title), deck=esc(deck), url=url, hero=esc(hero_meta),
                        date_iso=date_iso, date_h=esc(date_h), body=body, thumb=thumb,
-                       kicker=kicker, caption=caption, series_nav=series_nav)
+                       kicker=kicker, post_head=post_head, series_nav=series_nav)
     return slug, url, title, deck, date_iso, date_h, hero_meta, page
 
 PAGE = """<!DOCTYPE html>
@@ -206,6 +213,10 @@ PAGE = """<!DOCTYPE html>
  .e-kicker{{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--olive);margin:0 0 10px}}
  .e-kicker a{{color:var(--olive);text-decoration:none;border-bottom:1px solid rgba(110,123,58,.4)}} .e-kicker a:hover{{color:var(--fern)}}
  .e-cap{{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:italic;line-height:1.5;max-width:640px;margin:16px 0 0}}
+ .e-hero-fig{{margin:26px 0 6px}}
+ .e-hero-frame{{display:block;border:6px solid var(--sage);background:#C9A227;padding:2px;border-radius:8px;box-shadow:0 0 0 1px rgba(36,48,42,.10),0 12px 30px -16px rgba(36,48,42,.42)}}
+ .e-hero-frame img{{display:block;width:100%;border-radius:4px}}
+ .e-hero-fig figcaption{{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:italic;line-height:1.5;margin-top:12px}}
  .series-nav{{max-width:680px;margin:34px auto 0;padding:14px 18px;border:1px solid var(--rule);border-radius:12px;background:var(--paper-3)}}
  .sn-label{{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--olive);margin-bottom:9px}}
  .sn-row{{display:flex;gap:8px;flex-wrap:wrap}}
@@ -248,7 +259,7 @@ PAGE = """<!DOCTYPE html>
      <div class="e-meta"><span>By <a href="/mission.html">Tamara Sanderson</a></span><span class="sep">·</span><span>{date_h}</span><span class="sep">·</span><span>Field Notes from the Archive</span></div>
    </div>
  </div>
- {caption}
+ {post_head}
  <div class="essay">{body}</div>
  {series_nav}
  <div class="also"><span class="t">Get new field notes by email as they're published.</span><a href="https://grammarofmeaning.substack.com/subscribe" target="_blank" rel="noopener">Subscribe &#8599;</a></div>
@@ -300,7 +311,15 @@ def main():
     args = ap.parse_args()
     outdir = os.path.join(args.repo, args.out)
     os.makedirs(outdir, exist_ok=True)
-    d = feedparser.parse(FEED)
+    # fetch a FRESH feed (Substack CDN-caches its RSS; bust it so new posts/edits show)
+    try:
+        import time
+        busted = FEED + ("&" if "?" in FEED else "?") + "_=" + str(int(time.time()))
+        req = urllib.request.Request(busted, headers={"User-Agent": "Mozilla/5.0", "Cache-Control": "no-cache", "Pragma": "no-cache"})
+        d = feedparser.parse(urllib.request.urlopen(req, timeout=20).read())
+        assert d.entries
+    except Exception:
+        d = feedparser.parse(FEED)
     SKIP = {"hello", "coming-soon", "welcome"}
     cards, urls = [], []
     for e in d.entries:
