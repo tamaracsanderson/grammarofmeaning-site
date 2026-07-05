@@ -167,7 +167,7 @@ def render_essay(e):
     elif si and si["role"] == "intro":
         kicker = f'A {si["total"]}-part series · Grammar of Meaning'
     else:
-        kicker = "Field Note · Grammar of Meaning"
+        kicker = "Essay · Grammar of Meaning"
     series_nav = ""
     if si:
         items = [f'<a href="/essays/{si["intro"]}.html" class="sn-item{" sn-cur" if slug==si["intro"] else ""}">Intro</a>']
@@ -193,7 +193,7 @@ PAGE = """<!DOCTYPE html>
 <meta property="article:published_time" content="{date_iso}"><meta property="article:author" content="Tamara Sanderson">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{deck}">
 <script type="application/ld+json">
-{{"@context":"https://schema.org","@type":"Article","@id":"{url}","headline":"{title}","description":"{deck}","author":{{"@type":"Person","name":"Tamara Sanderson","url":"/about.html"}},"publisher":{{"@type":"Organization","name":"Grammar of Meaning","url":"/"}},"datePublished":"{date_iso}","mainEntityOfPage":"{url}","isPartOf":{{"@type":"CreativeWorkSeries","name":"Field Notes from the Archive"}},"image":"{hero}"}}
+{{"@context":"https://schema.org","@type":"Article","@id":"{url}","headline":"{title}","description":"{deck}","author":{{"@type":"Person","name":"Tamara Sanderson","url":"/about.html"}},"publisher":{{"@type":"Organization","name":"Grammar of Meaning","url":"/"}},"datePublished":"{date_iso}","mainEntityOfPage":"{url}","isPartOf":{{"@type":"CreativeWorkSeries","name":"Essays from the Archive"}},"image":"{hero}"}}
 </script>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -246,7 +246,7 @@ PAGE = """<!DOCTYPE html>
 </style></head><body>
 <div class="topbar"><div class="wrap">
  <a class="brandmark" href="/index.html" style="color:var(--moss)"><svg class="mark" viewBox="0 0 200 200" fill="none" aria-hidden="true"><path d="M100 30 C74 52 58 92 62 126 C64 152 82 168 100 176 L100 30 Z" fill="#2C4A38"/><path d="M100 30 C126 52 142 92 138 126 C136 152 118 168 100 176 L100 30 Z" fill="#8AA88B"/><line x1="100" y1="34" x2="100" y2="174" stroke="#FCFBF7" stroke-width="3"/><line x1="100" y1="176" x2="100" y2="194" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/></svg> Grammar&nbsp;of&nbsp;Meaning</a>
- <nav class="nav"><a href="/index.html">Home</a><a href="/about.html">About</a><a href="/library.html">Library</a><a href="/essays.html" class="active">Essays</a><a href="/garden.html">Garden</a><a href="/method.html">Method</a><a href="/glossary.html">Reference</a><a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a></nav>
+ <nav class="nav"><a href="/index.html">Home</a><a href="/about.html">About</a><a href="/library.html">Library</a><a href="/essays.html" class="active">Essays</a><a href="/garden.html">Garden</a><a href="/method.html">Method</a><a href="/reference.html">Reference</a><a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a></nav>
 </div></div>
 <div class="wrap"><article class="essay-wrap">
  <a class="backlink" href="/essays.html">&#8592; The Essays</a>
@@ -256,13 +256,13 @@ PAGE = """<!DOCTYPE html>
      <div class="e-kicker">{kicker}</div>
      <h1 class="e-title">{title}</h1>
      <p class="e-deck">{deck}</p>
-     <div class="e-meta"><span>By <a href="/about.html">Tamara Sanderson</a></span><span class="sep">·</span><span>{date_h}</span><span class="sep">·</span><span>Field Notes from the Archive</span></div>
+     <div class="e-meta"><span>By <a href="/about.html">Tamara Sanderson</a></span><span class="sep">·</span><span>{date_h}</span><span class="sep">·</span><span>Essays from the Archive</span></div>
    </div>
  </div>
  {post_head}
  <div class="essay">{body}</div>
  {series_nav}
- <div class="also"><span class="t">Get new field notes by email as they're published.</span><a href="https://grammarofmeaning.substack.com/subscribe" target="_blank" rel="noopener">Subscribe &#8599;</a></div>
+ <div class="also"><span class="t">Get new essays by email as they're published.</span><a href="https://grammarofmeaning.substack.com/subscribe" target="_blank" rel="noopener">Subscribe &#8599;</a></div>
  <div class="byline-foot"><b>Tamara Sanderson</b> writes <em>Field Notes on how meaning gets made</em> — reading one life, image, or word at a time. <a href="/about.html">About the project &#8594;</a></div>
 </article></div>
 <footer><div class="wrap"><div class="flabel">Grammar of Meaning</div><h3>How meaning gets made — read each tradition in its own vocabulary first.</h3><p class="foot-note"><em>Grammar of Meaning</em> · Tamara Sanderson · 2026</p></div></footer>
@@ -290,11 +290,11 @@ INDEX = """<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name
 </style></head><body>
 <div class="topbar"><div class="wrap">
  <a class="brandmark" href="/index.html" style="color:var(--moss)"><svg class="mark" viewBox="0 0 200 200" fill="none" aria-hidden="true"><path d="M100 30 C74 52 58 92 62 126 C64 152 82 168 100 176 L100 30 Z" fill="#2C4A38"/><path d="M100 30 C126 52 142 92 138 126 C136 152 118 168 100 176 L100 30 Z" fill="#8AA88B"/><line x1="100" y1="34" x2="100" y2="174" stroke="#FCFBF7" stroke-width="3"/><line x1="100" y1="176" x2="100" y2="194" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/></svg> Grammar&nbsp;of&nbsp;Meaning</a>
- <nav class="nav"><a href="/index.html">Home</a><a href="/about.html">About</a><a href="/library.html">Library</a><a href="/essays.html" class="active">Essays</a><a href="/garden.html">Garden</a><a href="/method.html">Method</a><a href="/glossary.html">Reference</a><a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a></nav>
+ <nav class="nav"><a href="/index.html">Home</a><a href="/about.html">About</a><a href="/library.html">Library</a><a href="/essays.html" class="active">Essays</a><a href="/garden.html">Garden</a><a href="/method.html">Method</a><a href="/reference.html">Reference</a><a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a></nav>
 </div></div>
 <header class="hero"><div class="wrap">
  <div class="kicker">The Essays · <b>meaning-making in public</b></div>
- <h1>Field Notes from the Archive</h1>
+ <h1>Essays from the Archive</h1>
  <div class="sub">Where the project thinks out loud — one figure, one image, one word, read closely enough to see what it is doing. Published here for keeps; also on the newsletter.</div>
 </div></header>
 <div class="wrap" style="padding-top:26px">
@@ -353,17 +353,17 @@ def main():
     ess_cards = "\n".join(card_html(*c) for c in cards)
     if inject_region(os.path.join(repo, "essays.html"), "<!-- ESSAYS:START -->", "<!-- ESSAYS:END -->", ess_cards):
         print("  injected essay list -> essays.html")
-    ls, lt, ldk, ldh, lh = cards[0]
-    latest = (f'<a class="hp-card" href="/essays/{ls}.html" style="display:flex;gap:20px;align-items:center;text-decoration:none;box-shadow:0 4px 18px rgba(44,74,56,.07)">'
-              f'<img src="{esc(lh)}" alt="" style="flex:0 0 116px;width:116px;height:116px;object-fit:cover;border-radius:10px;border:3px solid var(--sage)">'
-              f'<span style="display:block;min-width:0">'
-              f'<span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--olive)">Latest field note · {ldh}</span>'
-              f'<b style="display:block;font-family:var(--serif);font-size:22px;color:var(--moss);margin-top:5px">{esc(lt)}</b>'
-              f'<span style="display:block;font-size:14px;color:var(--ink-2);margin-top:6px;line-height:1.5">{esc(ldk)}</span>'
-              f'</span></a>')
+    def home_card(c):
+        s, t, dk, dh, h = c
+        si = series_of(s)
+        label = esc(si["name"]) if si else "Essay"
+        return (f'<a class="he-card" href="/essays/{s}.html"><img src="{esc(h)}" alt="">'
+                f'<span class="he-body"><span class="he-eyebrow">{label} · {dh}</span>'
+                f'<span class="he-title">{esc(t)}</span><span class="he-deck">{esc(dk)}</span></span></a>')
+    latest = '<div class="hp-essays">' + "".join(home_card(c) for c in cards[:2]) + '</div>'
     if inject_region(os.path.join(repo, "index.html"), "<!-- LATEST-ESSAY:START -->", "<!-- LATEST-ESSAY:END -->", latest):
         print("  injected latest card -> index.html")
-    MAIN = ["", "essays.html", "about.html", "library.html", "garden.html", "method.html", "glossary.html", "bibliography.html", "principles.html"]
+    MAIN = ["", "essays.html", "about.html", "library.html", "garden.html", "method.html", "reference.html", "glossary.html", "bibliography.html", "principles.html", "scholars.html"]
     all_urls = [f"{BASE}/{p}" for p in MAIN] + [u for (u, _) in urls]
     smx = "\n".join(f'<url><loc>{u}</loc></url>' for u in all_urls)
     with open(os.path.join(repo, "sitemap.xml"), "w") as f:
