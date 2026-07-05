@@ -124,6 +124,18 @@ def clean_body(raw):
 def esc(s):
     return html.escape(html.unescape(s or ""), quote=True)
 
+def inject_region(path, start, end, content):
+    """Idempotently replace text between two marker comments in a hand-authored page."""
+    if not os.path.exists(path):
+        return False
+    txt = open(path).read()
+    if start not in txt or end not in txt:
+        return False
+    pre = txt.split(start)[0]
+    post = txt.split(end, 1)[1]
+    open(path, "w").write(pre + start + "\n" + content + "\n" + end + post)
+    return True
+
 def render_essay(e):
     title = e.get("title", "").strip()
     deck = re.sub(r"\s+", " ", (e.get("summary") or "")).strip()
@@ -301,7 +313,7 @@ def main():
         if si:
             label = "Intro" if si["role"] == "intro" else f'Day {si["n"]} of {si["total"]}'
             tag = f'<div class="ec-series">{esc(si["name"])} · {label}</div>'
-        return (f'<a class="ecard" href="{s}.html"><img src="{esc(h)}" alt="">'
+        return (f'<a class="ecard" href="/essays/{s}.html"><img src="{esc(h)}" alt="">'
                 f'<div class="ec-body">{tag}<div class="ec-date">{dh}</div>'
                 f'<div class="ec-title">{esc(t)}</div><div class="ec-deck">{esc(dk)}</div></div></a>')
     cards_html = "\n".join(card_html(*c) for c in cards)
@@ -311,7 +323,26 @@ def main():
     sm = "\n".join(f'<url><loc>{u}</loc><lastmod>{di}</lastmod></url>' for (u, di) in urls)
     with open(os.path.join(outdir, "sitemap-essays.xml"), "w") as f:
         f.write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sm}\n</urlset>\n')
-    print(f"  wrote sitemap-essays.xml\nDONE — {len(cards)} essays -> {outdir}")
+    print(f"  wrote sitemap-essays.xml")
+
+    # ---- wire the hand-authored pages (idempotent marker-injection) + a site-wide sitemap ----
+    repo = args.repo
+    ess_cards = "\n".join(card_html(*c) for c in cards)
+    if inject_region(os.path.join(repo, "essays.html"), "<!-- ESSAYS:START -->", "<!-- ESSAYS:END -->", ess_cards):
+        print("  injected essay list -> essays.html")
+    ls, lt, ldk, ldh, lh = cards[0]
+    latest = (f'<a class="hp-card" href="/essays/{ls}.html" style="display:flex;flex-direction:column;text-decoration:none">'
+              f'<span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--olive)">Latest field note</span>'
+              f'<b style="font-family:var(--serif);font-size:19px;color:var(--moss);margin-top:6px">{esc(lt)}</b>'
+              f'<span style="font-size:13px;color:var(--ink-2);margin-top:7px;line-height:1.5">{esc(ldk)}</span></a>')
+    if inject_region(os.path.join(repo, "index.html"), "<!-- LATEST-ESSAY:START -->", "<!-- LATEST-ESSAY:END -->", latest):
+        print("  injected latest card -> index.html")
+    MAIN = ["", "essays.html", "mission.html", "library.html", "garden.html", "method.html", "glossary.html", "bibliography.html", "principles.html"]
+    all_urls = [f"{BASE}/{p}" for p in MAIN] + [u for (u, _) in urls]
+    smx = "\n".join(f'<url><loc>{u}</loc></url>' for u in all_urls)
+    with open(os.path.join(repo, "sitemap.xml"), "w") as f:
+        f.write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{smx}\n</urlset>\n')
+    print(f"  wrote site sitemap.xml\nDONE — {len(cards)} essays -> {outdir}")
 
 if __name__ == "__main__":
     main()
