@@ -354,10 +354,13 @@ def main():
     if inject_region(os.path.join(repo, "essays.html"), "<!-- ESSAYS:START -->", "<!-- ESSAYS:END -->", ess_cards):
         print("  injected essay list -> essays.html")
     ls, lt, ldk, ldh, lh = cards[0]
-    latest = (f'<a class="hp-card" href="/essays/{ls}.html" style="display:flex;flex-direction:column;text-decoration:none">'
-              f'<span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--olive)">Latest field note</span>'
-              f'<b style="font-family:var(--serif);font-size:19px;color:var(--moss);margin-top:6px">{esc(lt)}</b>'
-              f'<span style="font-size:13px;color:var(--ink-2);margin-top:7px;line-height:1.5">{esc(ldk)}</span></a>')
+    latest = (f'<a class="hp-card" href="/essays/{ls}.html" style="display:flex;gap:20px;align-items:center;text-decoration:none;box-shadow:0 4px 18px rgba(44,74,56,.07)">'
+              f'<img src="{esc(lh)}" alt="" style="flex:0 0 116px;width:116px;height:116px;object-fit:cover;border-radius:10px;border:3px solid var(--sage)">'
+              f'<span style="display:block;min-width:0">'
+              f'<span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--olive)">Latest field note · {ldh}</span>'
+              f'<b style="display:block;font-family:var(--serif);font-size:22px;color:var(--moss);margin-top:5px">{esc(lt)}</b>'
+              f'<span style="display:block;font-size:14px;color:var(--ink-2);margin-top:6px;line-height:1.5">{esc(ldk)}</span>'
+              f'</span></a>')
     if inject_region(os.path.join(repo, "index.html"), "<!-- LATEST-ESSAY:START -->", "<!-- LATEST-ESSAY:END -->", latest):
         print("  injected latest card -> index.html")
     MAIN = ["", "essays.html", "about.html", "library.html", "garden.html", "method.html", "glossary.html", "bibliography.html", "principles.html"]
