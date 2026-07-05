@@ -29,6 +29,23 @@ PALETTE = {"moss": (44, 74, 56), "fern": (63, 125, 87), "sage": (138, 168, 139),
            "olive": (110, 123, 58), "gold": (201, 162, 39), "honey": (224, 169, 59),
            "terra": (196, 96, 47), "slate": (91, 124, 147)}
 
+# series map — RSS doesn't expose "part N of a series", so it's maintained here.
+SERIES = {
+    "What's Worth Wanting": {
+        "intro": "whats-worth-wanting",
+        "parts": ["the-man-who-threw-away-his-cup", "the-useless-tree",
+                  "the-woman-who-set-fire-to-heaven", "the-length-of-a-road"],
+    },
+}
+def series_of(slug):
+    for name, s in SERIES.items():
+        if slug == s["intro"]:
+            return {"name": name, "role": "intro", "intro": s["intro"], "parts": s["parts"], "total": len(s["parts"])}
+        if slug in s["parts"]:
+            return {"name": name, "role": "part", "intro": s["intro"], "parts": s["parts"],
+                    "n": s["parts"].index(slug) + 1, "total": len(s["parts"])}
+    return None
+
 def slug_of(link):
     return link.rstrip("/").split("/")[-1]
 
@@ -120,11 +137,25 @@ def render_essay(e):
     hero_meta = hero or f"{BASE}/favicon.svg"
     border = palette_border(hero)
     thumb = (f'<div class="e-thumb-wrap"><span class="e-thumb-frame" style="border-color:{border}">'
-             f'<img class="e-thumb" src="{esc(hero)}" alt="{esc(title)}"></span>'
-             + (f'<div class="e-thumbcap">{esc(hero_cap)}</div>' if hero_cap else "")
-             + "</div>") if hero else ""
+             f'<img class="e-thumb" src="{esc(hero)}" alt="{esc(title)}"></span></div>') if hero else ""
+    caption = f'<div class="e-cap">{esc(hero_cap)}</div>' if hero_cap else ""
+    si = series_of(slug)
+    if si and si["role"] == "part":
+        kicker = f'<a href="/essays/{si["intro"]}.html">{esc(si["name"])}</a> · Day {si["n"]} of {si["total"]}'
+    elif si and si["role"] == "intro":
+        kicker = f'A {si["total"]}-part series · Grammar of Meaning'
+    else:
+        kicker = "Field Note · Grammar of Meaning"
+    series_nav = ""
+    if si:
+        items = [f'<a href="/essays/{si["intro"]}.html" class="sn-item{" sn-cur" if slug==si["intro"] else ""}">Intro</a>']
+        for i, ps in enumerate(si["parts"], 1):
+            items.append(f'<a href="/essays/{ps}.html" class="sn-item{" sn-cur" if slug==ps else ""}">Day {i}</a>')
+        series_nav = (f'<div class="series-nav"><div class="sn-label">{esc(si["name"])} — a {si["total"]}-part series</div>'
+                      f'<div class="sn-row">{"".join(items)}</div></div>')
     page = PAGE.format(title=esc(title), deck=esc(deck), url=url, hero=esc(hero_meta),
-                       date_iso=date_iso, date_h=esc(date_h), body=body, thumb=thumb, sub_link=esc(link))
+                       date_iso=date_iso, date_h=esc(date_h), body=body, thumb=thumb,
+                       kicker=kicker, caption=caption, series_nav=series_nav)
     return slug, url, title, deck, date_iso, date_h, hero_meta, page
 
 PAGE = """<!DOCTYPE html>
@@ -155,9 +186,15 @@ PAGE = """<!DOCTYPE html>
  .e-thumb-frame{{display:inline-block;border:5px solid var(--sage);background:#C9A227;padding:1.6px;border-radius:6px;
    box-shadow:0 0 0 1px rgba(36,48,42,.10), 0 10px 26px -14px rgba(36,48,42,.4)}}
  .e-thumb{{display:block;width:180px;max-width:50vw;height:auto;border-radius:3px}}
- .e-thumbcap{{font-family:var(--sans);font-size:11px;color:var(--ink-3);margin-top:8px;line-height:1.45;max-width:190px}}
  .e-htext{{flex:1;min-width:0}}
  .e-kicker{{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--olive);margin:0 0 10px}}
+ .e-kicker a{{color:var(--olive);text-decoration:none;border-bottom:1px solid rgba(110,123,58,.4)}} .e-kicker a:hover{{color:var(--fern)}}
+ .e-cap{{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:italic;line-height:1.5;max-width:640px;margin:16px 0 0}}
+ .series-nav{{max-width:680px;margin:34px auto 0;padding:14px 18px;border:1px solid var(--rule);border-radius:12px;background:var(--paper-3)}}
+ .sn-label{{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--olive);margin-bottom:9px}}
+ .sn-row{{display:flex;gap:8px;flex-wrap:wrap}}
+ .sn-item{{font-family:var(--sans);font-size:13px;text-decoration:none;color:var(--ink-2);border:1px solid var(--rule);border-radius:999px;padding:4px 13px}} .sn-item:hover{{border-color:var(--sage)}}
+ .sn-cur{{background:var(--moss);color:#fff;border-color:var(--moss)}}
  .e-title{{font-family:var(--serif);font-weight:600;font-size:38px;line-height:1.13;color:var(--moss);margin:0 0 14px;letter-spacing:-.01em}}
  @media(max-width:640px){{.e-title{{font-size:30px}}}}
  .e-deck{{font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.5;color:var(--ink-2);margin:0 0 18px}}
@@ -189,13 +226,15 @@ PAGE = """<!DOCTYPE html>
  <div class="e-head">
    {thumb}
    <div class="e-htext">
-     <div class="e-kicker">Field Note · Grammar of Meaning</div>
+     <div class="e-kicker">{kicker}</div>
      <h1 class="e-title">{title}</h1>
      <p class="e-deck">{deck}</p>
      <div class="e-meta"><span>By <a href="/mission.html">Tamara Sanderson</a></span><span class="sep">·</span><span>{date_h}</span><span class="sep">·</span><span>Field Notes from the Archive</span></div>
    </div>
  </div>
+ {caption}
  <div class="essay">{body}</div>
+ {series_nav}
  <div class="also"><span class="t">Get new field notes by email as they're published.</span><a href="https://grammarofmeaning.substack.com/subscribe" target="_blank" rel="noopener">Subscribe &#8599;</a></div>
  <div class="byline-foot"><b>Tamara Sanderson</b> writes <em>Field Notes on how meaning gets made</em> — reading one life, image, or word at a time. <a href="/mission.html">About the project &#8594;</a></div>
 </article></div>
@@ -217,6 +256,7 @@ INDEX = """<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name
  .ecard img{{flex:0 0 92px;width:92px;height:92px;object-fit:cover;border-radius:8px;border:3px solid var(--sage)}}
  @media(max-width:560px){{.ecard img{{display:none}}}}
  .ec-body{{flex:1;min-width:0}}
+ .ec-series{{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--fern);margin-bottom:4px}}
  .ec-date{{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--ink-3);text-transform:uppercase}}
  .ec-title{{font-family:var(--serif);font-size:23px;font-weight:600;color:var(--moss);margin:4px 0 5px;line-height:1.2}}
  .ec-deck{{font-family:var(--serif);font-style:italic;font-size:15.5px;color:var(--ink-2);line-height:1.5}}
@@ -255,9 +295,16 @@ def main():
             f.write(page)
         cards.append((slug, title, deck, date_h, hero)); urls.append((url, date_iso))
         print(f"  wrote {slug}.html  ({title})")
-    cards_html = "\n".join(
-        f'<a class="ecard" href="{s}.html"><img src="{esc(h)}" alt=""><div class="ec-body"><div class="ec-date">{dh}</div><div class="ec-title">{esc(t)}</div><div class="ec-deck">{esc(dk)}</div></div></a>'
-        for (s, t, dk, dh, h) in cards)
+    def card_html(s, t, dk, dh, h):
+        si = series_of(s)
+        tag = ""
+        if si:
+            label = "Intro" if si["role"] == "intro" else f'Day {si["n"]} of {si["total"]}'
+            tag = f'<div class="ec-series">{esc(si["name"])} · {label}</div>'
+        return (f'<a class="ecard" href="{s}.html"><img src="{esc(h)}" alt="">'
+                f'<div class="ec-body">{tag}<div class="ec-date">{dh}</div>'
+                f'<div class="ec-title">{esc(t)}</div><div class="ec-deck">{esc(dk)}</div></div></a>')
+    cards_html = "\n".join(card_html(*c) for c in cards)
     with open(os.path.join(outdir, "index.html"), "w") as f:
         f.write(INDEX.format(cards=cards_html))
     print(f"  wrote index.html ({len(cards)} essays)")
