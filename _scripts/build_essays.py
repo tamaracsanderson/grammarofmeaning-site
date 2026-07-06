@@ -315,13 +315,16 @@ PAGE = """<!DOCTYPE html>
  .tags{{max-width:680px;margin:32px auto 0;display:flex;flex-wrap:wrap;align-items:center;gap:8px}}
  .tags-label{{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-right:2px}}
  .tag{{font-family:var(--sans);font-size:12.5px;color:var(--fern);text-decoration:none;background:var(--paper-3);border:1px solid var(--rule);border-radius:999px;padding:4px 12px}} .tag:hover{{border-color:var(--fern)}}
+ .made{{max-width:680px;margin:38px auto 0;padding:15px 20px;border:1px solid var(--rule);border-left:3px solid var(--sage);border-radius:12px;background:var(--paper-3);font-family:var(--sans);font-size:13.5px;line-height:1.62;color:var(--ink-2)}}
+ .made b{{color:var(--moss);font-weight:600}}
+ .made a{{color:var(--fern);text-decoration:none;font-weight:600;white-space:nowrap}} .made a:hover{{text-decoration:underline}}
  .also{{max-width:680px;margin:36px auto 0;padding:16px 20px;border:1px solid var(--rule);border-radius:12px;background:var(--paper-3);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}}
  .also .t{{font-family:var(--sans);font-size:13.5px;color:var(--ink-2)}} .also a{{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--fern);text-decoration:none;white-space:nowrap}}
  .byline-foot{{max-width:680px;margin:28px auto 0;font-family:var(--sans);font-size:13px;color:var(--ink-3);border-top:1px solid var(--rule);padding-top:16px;line-height:1.6}} .byline-foot a{{color:var(--fern);text-decoration:none}}
 </style></head><body>
 <div class="topbar"><div class="wrap">
  <a class="brandmark" href="/index.html" style="color:var(--moss)"><svg class="mark" viewBox="0 0 200 200" fill="none" aria-hidden="true"><path d="M100 30 C74 52 58 92 62 126 C64 152 82 168 100 176 L100 30 Z" fill="#2C4A38"/><path d="M100 30 C126 52 142 92 138 126 C136 152 118 168 100 176 L100 30 Z" fill="#8AA88B"/><line x1="100" y1="34" x2="100" y2="174" stroke="#FCFBF7" stroke-width="3"/><line x1="100" y1="176" x2="100" y2="194" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/></svg> Grammar&nbsp;of&nbsp;Meaning</a>
- <nav class="nav"><a href="/index.html">Home</a><a href="/about.html">About</a><a href="/library.html">Library</a><a href="/essays.html" class="active">Essays</a><a href="/garden.html">Garden</a><a href="/method.html">Method</a><a href="/reference.html">Reference</a><a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a></nav>
+ <nav class="nav"><a href="/index.html">Home</a><a href="/about.html">About</a><a href="/how-i-write.html">How I write</a><a href="/library.html">Library</a><a href="/essays.html" class="active">Essays</a><a href="/garden.html">Garden</a><a href="/method.html">Method</a><a href="/reference.html">Reference</a><a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a></nav>
 </div></div>
 <div class="wrap"><article class="essay-wrap">
  <a class="backlink" href="/essays.html">&#8592; The Essays</a>
@@ -337,6 +340,7 @@ PAGE = """<!DOCTYPE html>
  {post_head}
  <div class="essay">{body}</div>
  {series_nav}
+ <div class="made"><b>How this is made.</b> I write these essays, and I built the archive behind them &mdash; ~392,000 sources across ~400 traditions &mdash; and the method that mines it. The point isn&rsquo;t reach or speed; it&rsquo;s rigor: better sourcing, fact-checking, and reaching past my own knowledge, toward what&rsquo;s true. The AI is a studio I direct; the voice and every judgment are mine. <a href="/how-i-write.html">How I write &#8594;</a></div>
  <!--TAGS-->
  <!--COMPLEMENT-->
  <div class="also"><span class="t">Get new essays by email as they're published.</span><a href="https://grammarofmeaning.substack.com/subscribe" target="_blank" rel="noopener">Subscribe &#8599;</a></div>
@@ -367,7 +371,7 @@ INDEX = """<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name
 </style></head><body>
 <div class="topbar"><div class="wrap">
  <a class="brandmark" href="/index.html" style="color:var(--moss)"><svg class="mark" viewBox="0 0 200 200" fill="none" aria-hidden="true"><path d="M100 30 C74 52 58 92 62 126 C64 152 82 168 100 176 L100 30 Z" fill="#2C4A38"/><path d="M100 30 C126 52 142 92 138 126 C136 152 118 168 100 176 L100 30 Z" fill="#8AA88B"/><line x1="100" y1="34" x2="100" y2="174" stroke="#FCFBF7" stroke-width="3"/><line x1="100" y1="176" x2="100" y2="194" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/></svg> Grammar&nbsp;of&nbsp;Meaning</a>
- <nav class="nav"><a href="/index.html">Home</a><a href="/about.html">About</a><a href="/library.html">Library</a><a href="/essays.html" class="active">Essays</a><a href="/garden.html">Garden</a><a href="/method.html">Method</a><a href="/reference.html">Reference</a><a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a></nav>
+ <nav class="nav"><a href="/index.html">Home</a><a href="/about.html">About</a><a href="/how-i-write.html">How I write</a><a href="/library.html">Library</a><a href="/essays.html" class="active">Essays</a><a href="/garden.html">Garden</a><a href="/method.html">Method</a><a href="/reference.html">Reference</a><a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a></nav>
 </div></div>
 <header class="hero"><div class="wrap">
  <div class="kicker">The Essays · <b>meaning-making in public</b></div>
@@ -403,7 +407,7 @@ SUBJECT = """<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta na
 </style></head><body>
 <div class="topbar"><div class="wrap">
  <a class="brandmark" href="/index.html" style="color:var(--moss)"><svg class="mark" viewBox="0 0 200 200" fill="none" aria-hidden="true"><path d="M100 30 C74 52 58 92 62 126 C64 152 82 168 100 176 L100 30 Z" fill="#2C4A38"/><path d="M100 30 C126 52 142 92 138 126 C136 152 118 168 100 176 L100 30 Z" fill="#8AA88B"/><line x1="100" y1="34" x2="100" y2="174" stroke="#FCFBF7" stroke-width="3"/><line x1="100" y1="176" x2="100" y2="194" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/></svg> Grammar&nbsp;of&nbsp;Meaning</a>
- <nav class="nav"><a href="/index.html">Home</a><a href="/about.html">About</a><a href="/library.html">Library</a><a href="/essays.html" class="active">Essays</a><a href="/garden.html">Garden</a><a href="/method.html">Method</a><a href="/reference.html">Reference</a><a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a></nav>
+ <nav class="nav"><a href="/index.html">Home</a><a href="/about.html">About</a><a href="/how-i-write.html">How I write</a><a href="/library.html">Library</a><a href="/essays.html" class="active">Essays</a><a href="/garden.html">Garden</a><a href="/method.html">Method</a><a href="/reference.html">Reference</a><a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a></nav>
 </div></div>
 <header class="hero"><div class="wrap">
  <div class="kicker">The Essays · <b>by subject</b></div>
@@ -526,7 +530,7 @@ def main():
     latest = '<div class="hp-essays">' + "".join(home_card(c) for c in cards[:2]) + '</div>'
     if inject_region(os.path.join(repo, "index.html"), "<!-- LATEST-ESSAY:START -->", "<!-- LATEST-ESSAY:END -->", latest):
         print("  injected latest card -> index.html")
-    MAIN = ["", "essays.html", "about.html", "library.html", "garden.html", "method.html", "reference.html", "glossary.html", "bibliography.html", "principles.html", "scholars.html"]
+    MAIN = ["", "essays.html", "about.html", "how-i-write.html", "library.html", "garden.html", "method.html", "reference.html", "glossary.html", "bibliography.html", "principles.html", "scholars.html"]
     all_urls = [f"{BASE}/{p}" for p in MAIN] + [u for (u, _) in urls]
     smx = "\n".join(f'<url><loc>{u}</loc></url>' for u in all_urls)
     with open(os.path.join(repo, "sitemap.xml"), "w") as f:
