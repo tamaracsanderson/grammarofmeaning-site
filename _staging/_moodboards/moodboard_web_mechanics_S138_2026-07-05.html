@@ -42,7 +42,7 @@
   <h1>Grammar of Meaning — S138 Web-Mechanics &amp; Treatments Moodboard 🌿</h1>
   <div class="sub">A browseable gallery of the interactive-web references + design mechanics gathered across S138 (2026-07-05), organized by the four-layer map (<code>field_ed/the_four_layers_index_2026-07-05.md</code>). Look here when deciding a treatment/mechanic for a project. Click the section chips to jump; click a card title to visit the live reference.</div>
   <div class="note" style="border-left-color:var(--red)"><b>★ MECHANIC ≠ AESTHETIC (read this first).</b> This is a catalogue of <b>interaction patterns (verbs) to re-skin</b>, NOT looks to copy. The garden does <b>NOT</b> use the early-90s / brutalist / monospace-terminal web aesthetic that coats much of The HTML Review — it renders borrowed mechanics in its OWN look — a <b>non-kitsch RE-MAKING of William Morris / Arts &amp; Crafts pattern + cross-tradition illuminated-miniaturist pigment (lapis/malachite/vermilion/gold) + shān-shuǐ ink-landscape</b>, the maker's hand showing, ornament serving the text. RE-MAKE the craft, don't SKIN with it (no faux-parchment/gothic-font/AI-illuminated pastiche). ★ The look is <b>already proven live at <a href="https://grammarofmeaning.org/index.html" target="_blank" rel="noopener">grammarofmeaning.org</a></b> (custom botanical restraint + vellum/sage/gold + serif + quiet illuminated frames) — the moodboard supplies the VERBS; <b>GoM.org supplies the LOOK</b>. Handmade ETHOS (loved) ≠ early-web AESTHETIC (not). Full steer: <code>field_ed/aesthetic_direction_not_early_web_2026-07-05.md</code>.</div>
-  <div class="note"><b>Link-cards + a screenshot gallery.</b> The cards link out to <b>live external references</b>; the <b>📸 gallery</b> below shows the S138 design-reference captures (the cleaned set — optimized + committed so the gallery renders here; reference/inspiration only, on this unlisted noindex staging board). <b>grammarofmeaning.org is LIVE</b> (<a href="https://grammarofmeaning.org/index.html" target="_blank" rel="noopener">index.html</a>) — <b>design-SB owns deploys</b>; this is a repo file that lands in Obsidian → hand to design-SB to place on the site when you choose (reading-SB doesn't deploy directly).
+  <div class="note"><b>Link-cards + a screenshot gallery.</b> The cards link out to <b>live external references</b>; the <b>📸 gallery</b> below is <b>kept local</b> (artist copyright — external-site captures aren't republished): the design-reference captures render when you open this file <b>on your machine</b>, not on the web. <b>grammarofmeaning.org is LIVE</b> (<a href="https://grammarofmeaning.org/index.html" target="_blank" rel="noopener">index.html</a>) — <b>design-SB owns deploys</b>; this is a repo file that lands in Obsidian → hand to design-SB to place on the site when you choose (reading-SB doesn't deploy directly).
   <div class="legend"><b>Layers:</b>
     <span class="chip" style="background:var(--l-int)">✋ interactivity</span>
     <span class="chip" style="background:var(--l-treat)">🎨 treatment</span>
@@ -192,19 +192,26 @@ const SHOTS = [
  "Screenshot 2026-07-05 at 7.01.58 PM.jpg",
  "Screenshot 2026-07-05 at 7.38.48 PM.jpg"
 ];
-// 📸 Screenshot gallery — the S138 design-reference captures. The folder was cleaned (everything
-// in it belongs on the board), so the images are committed + optimized and render on the web.
+// 📸 Screenshot gallery — kept LOCAL by choice (artist copyright): the captures live on disk,
+// off the server. Opened locally (file://) the grid renders; served on the web, a note + the path.
+const LOCAL = location.protocol === 'file:';
 toc.insertAdjacentHTML('beforeend',`<a href="#gallery">📸 gallery</a>`);
-const thumbs = SHOTS.map(f=>{
-  const t = f.replace('Screenshot ','').replace(/\.(jpe?g|png)$/i,'');
-  return `<a class="card" href="${SHOTDIR+encodeURIComponent(f)}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;padding:0">
-    <img loading="lazy" src="${SHOTDIR+encodeURIComponent(f)}" alt="${t}" style="width:100%;display:block;background:var(--vellum2);min-height:40px;border-bottom:1px solid var(--rule)">
-    <div class="cap" style="padding:5px 7px;font-size:9.5px;color:var(--muted)">${t}</div></a>`;
-}).join('');
-main.insertAdjacentHTML('beforeend',
-  `<section id="gallery"><h2>📸 S138 screenshot gallery</h2>
-   <div class="pat">The S138 design-reference captures — click a thumbnail to open full-size. Reference / inspiration only (borrow the mechanic, not the aesthetic).</div>
-   <div class="grid" style="column-count:5">${thumbs}</div></section>`);
+if (LOCAL) {
+  const thumbs = SHOTS.map(f=>{
+    const t = f.replace('Screenshot ','').replace(/\.(jpe?g|png)$/i,'');
+    return `<a class="card" href="${SHOTDIR+encodeURIComponent(f)}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;padding:0">
+      <img loading="lazy" src="${SHOTDIR+encodeURIComponent(f)}" alt="${t}" style="width:100%;display:block;background:var(--vellum2);min-height:40px;border-bottom:1px solid var(--rule)">
+      <div class="cap" style="padding:5px 7px;font-size:9.5px;color:var(--muted)">${t}</div></a>`;
+  }).join('');
+  main.insertAdjacentHTML('beforeend',
+    `<section id="gallery"><h2>📸 S138 screenshot gallery</h2>
+     <div class="pat">The S138 design-reference captures — click a thumbnail to open full-size. Reference / inspiration only.</div>
+     <div class="grid" style="column-count:5">${thumbs}</div></section>`);
+} else {
+  main.insertAdjacentHTML('beforeend',
+    `<section id="gallery"><h2>📸 S138 screenshot gallery <span style="font-weight:normal;color:var(--muted);font-size:12px">· ${SHOTS.length} captures · local-only</span></h2>
+     <div class="pat"><b>Kept local — not published (artist copyright).</b> The ${SHOTS.length} design-reference captures live on your machine, not the server, so they don't get republished. <b>To browse them, open THIS file locally</b> — double-click it in Finder or bookmark it: <code>~/Documents/grammarofmeaning-site/_staging/_moodboards/moodboard_web_mechanics_S138_2026-07-05.html</code> — opened from disk the full grid renders. (The reference cards + guards + four-layer matrix above are the shareable content.)</div></section>`);
+}
 
 // 📄 PDF references
 toc.insertAdjacentHTML('beforeend',`<a href="#pdfs">📄 PDFs</a>`);
