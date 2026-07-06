@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grammar of Meaning — Enactment Practices: two matrices (tradition × ring · category × tradition)</title>
+<style>
+  :root{--vellum:#f6f1e3;--vellum2:#efe7d3;--ink:#2b2620;--muted:#8a7f6a;
+    --gold:#b8923b;--gold-deep:#8a6d24;--red:#9e3b2e;--rule:#d9cdb0;--gap:#c9bfa6;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--vellum);color:var(--ink);font-family:Georgia,serif;line-height:1.45}
+  header.top{padding:22px 22px 14px;border-bottom:2px solid var(--gold);background:linear-gradient(180deg,var(--vellum2),var(--vellum))}
+  header.top h1{font-size:22px;margin:0 0 4px}
+  header.top .sub{color:var(--muted);font-style:italic;font-size:13px;max-width:960px}
+  header.top .note{margin-top:8px;font-size:11.5px;color:var(--muted);border-left:3px solid var(--gold);padding-left:10px;max-width:960px}
+  nav.toc{position:sticky;top:0;z-index:30;background:rgba(246,241,227,.97);backdrop-filter:blur(4px);
+    border-bottom:1px solid var(--rule);padding:9px 18px;display:flex;flex-wrap:wrap;gap:6px;font-size:11.5px}
+  nav.toc a{color:var(--gold-deep);text-decoration:none;border:1px solid var(--rule);background:#fff;border-radius:12px;padding:2px 9px}
+  section{padding:16px 20px 8px}
+  section h2{font-size:18px;margin:4px 0 2px;border-bottom:2px solid var(--gold);padding-bottom:3px;display:inline-block}
+  section .pat{font-size:12px;color:var(--muted);font-style:italic;margin:4px 0 10px;max-width:960px}
+  .wrap{overflow-x:auto;border:1px solid var(--rule);border-radius:5px;background:#fff}
+  table{border-collapse:collapse;width:100%;min-width:960px;font-size:11.5px}
+  th,td{border:1px solid var(--rule);padding:6px 8px;vertical-align:top;text-align:left}
+  thead th{background:var(--vellum2);font-size:10.5px;letter-spacing:.03em;position:sticky;top:0}
+  th.rowh{background:var(--vellum2);font-weight:bold;white-space:nowrap;min-width:110px}
+  td .term{font-weight:bold;display:block}
+  td .g{color:var(--muted);font-size:10.5px}
+  td.gap{background:repeating-linear-gradient(45deg,transparent,transparent 5px,rgba(201,191,166,.18) 5px,rgba(201,191,166,.18) 10px);color:var(--gap);text-align:center;font-style:italic}
+  .flag{color:var(--red);font-size:10px;font-style:italic}
+  .star{color:var(--gold-deep)}
+  footer{padding:18px 22px 40px;font-size:11px;color:var(--muted);border-top:1px solid var(--rule);max-width:960px}
+  footer code{font-size:10.5px}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Enactment Practices — two matrices 🌿</h1>
+  <div class="sub">How a text is <i>lived out</i>, made systematic. <b>Matrix A</b> = each tradition × the scale-of-concern rings (S1→S6-8) — so you can see a tradition's <i>whole</i> range and where it's thin. <b>Matrix B</b> = each enactment <i>category</i> × tradition — so you can see the cross-tradition families (all the giving practices side by side, etc.).</div>
+  <div class="note"><b>★ Reading the gaps honestly (the cherry-picking check).</b> The enactment DR is <i>exemplar-based</i> (a practice or two per cell), so hatched <span style="color:var(--gap)">▧ cells</span> are <b>gaps</b> — some real (a tradition genuinely emphasises other rings) and some just <b>research-thin</b> (we haven't sourced it yet). Per the DR: the Abrahamic traditions are historically thin on <b>S5 (living earth)</b>; the Indigenous traditions bridge S5↔S6-8; Jainism's S5 is driven by an S1 goal (soul-purification). <b>Rings:</b> S1 interior · S2 near-other · S3 community · S4 society · S5 living-earth · S6-8 cosmos/divine. Source: <code>research/10_dr/reports/dr_enactment_practices_by_scale_report_2026-07-05.txt</code> + the by-tradition index.</div>
+</header>
+<nav class="toc"><a href="#a">Matrix A — tradition × ring</a><a href="#b">Matrix B — category × tradition</a><a href="#notes">Notes &amp; guards</a></nav>
+<main id="main"></main>
+<footer id="foot"></footer>
+<script>
+const TRADS = ["Christianity","Judaism","Islam","Buddhism","Hinduism","Jainism","Sikhism","Zoroastrianism","Confucianism","Daoism","Māori","Anishinaabe","Yoruba (Ifá)","Baháʼí"];
+const RINGS = [["S1","S1 · interior/body"],["S2","S2 · near other"],["S3","S3 · community"],["S4","S4 · society"],["S5","S5 · living earth"],["S6-8","S6–S8 · cosmos/divine"]];
+const CATS = ["Somatic / embodied","Relational care","Giving / charity","Communal / participatory","Justice / world-repair","Ecological / earth","Pilgrimage","Worship / offering"];
+// {tr, ring, cat, term, g(gloss), flag?, star?}
+const P = [
+ // Christianity
+ {tr:"Christianity",ring:"S1",cat:"Somatic / embodied",term:"Kneeling / prostration",g:"the body adopts the geometry of humility"},
+ {tr:"Christianity",ring:"S2",cat:"Relational care",term:"The encouraging word",g:"pastoral care as mediated grace (Bonhoeffer)",star:true},
+ {tr:"Christianity",ring:"S2",cat:"Relational care",term:"The works of mercy",g:"feed the hungry, visit the sick…"},
+ {tr:"Christianity",ring:"S3",cat:"Communal / participatory",term:"Diakonia / service",g:"the community as the Body of Christ"},
+ {tr:"Christianity",ring:"S3",cat:"Worship / offering",term:"The Eucharist / Sacrament",g:"'do this in memory of me' — collapse time",flag:"sacramental, closed to the unbaptized — never simulate"},
+ {tr:"Christianity",ring:"S4",cat:"Giving / charity",term:"Almsgiving / the tithe",g:""},
+ {tr:"Christianity",ring:"S4",cat:"Justice / world-repair",term:"Catholic social teaching / the prophetic call",g:"justice for the poor"},
+ {tr:"Christianity",ring:"S5",cat:"Ecological / earth",term:"Creation-care / Celtic agrarian blessings",g:"peripheral, modern eco-theology",flag:"historically thin (DR)"},
+ {tr:"Christianity",ring:"S6-8",cat:"Pilgrimage",term:"Pilgrimage (the Camino)",g:"penance/devotion; the walk mimics ascetic suffering"},
+ // Judaism
+ {tr:"Judaism",ring:"S2",cat:"Relational care",term:"Gemilut Ḥasadim",g:"lovingkindness — bikkur cholim, hospitality, comforting mourners (Imitatio Dei)",star:true},
+ {tr:"Judaism",ring:"S2",cat:"Relational care",term:"Ṭahārah",g:"purifying the dead — hesed shel emet (unrequited kindness)",flag:"closed — Chevra Kadisha"},
+ {tr:"Judaism",ring:"S3",cat:"Communal / participatory",term:"The minyan",g:"communal prayer quorum"},
+ {tr:"Judaism",ring:"S4",cat:"Justice / world-repair",term:"Tzedakah",g:"charity = JUSTICE (mishpat), not caritas; Maimonides' dignity-tiers",star:true},
+ {tr:"Judaism",ring:"S4",cat:"Justice / world-repair",term:"Tikkun Olam",g:"repairing the world"},
+ {tr:"Judaism",ring:"S5",cat:"Ecological / earth",term:"Shmita / Bal Tashchit",g:"the sabbatical year; do-not-destroy",flag:"peripheral (DR — look here to fill S5)"},
+ {tr:"Judaism",ring:"S6-8",cat:"Pilgrimage",term:"Aliyah la-regel",g:"festival pilgrimage (historical)"},
+ // Islam
+ {tr:"Islam",ring:"S1",cat:"Somatic / embodied",term:"Salat / sajdah (prostration)",g:"the geometry of surrender (bridges S6-8)"},
+ {tr:"Islam",ring:"S1",cat:"Somatic / embodied",term:"Tirakat",g:"Javanese Sufi asceticism — the fasting body as a 'living text'",flag:"lineage-bound (Tarekat)"},
+ {tr:"Islam",ring:"S2",cat:"Giving / charity",term:"Ṣadaqa",g:"voluntary giving/care"},
+ {tr:"Islam",ring:"S3",cat:"Communal / participatory",term:"Selametan",g:"Javanese communal feast — peace (salam) materialised in shared food"},
+ {tr:"Islam",ring:"S4",cat:"Giving / charity",term:"Zakāt",g:"obligatory alms that PURIFY wealth (tathīr) + distributive justice ('adl)",star:true},
+ {tr:"Islam",ring:"S5",cat:"Ecological / earth",term:"Hima / water-jurisprudence",g:"conservation zones",flag:"peripheral (DR — look here to fill S5)"},
+ {tr:"Islam",ring:"S6-8",cat:"Pilgrimage",term:"Ḥajj / ʿUmra",g:"a pillar; erases sin; unifies the Ummah",flag:"Ṭawāf closed; Mecca closed to non-Muslims — document, don't simulate"},
+ // Buddhism
+ {tr:"Buddhism",ring:"S1",cat:"Somatic / embodied",term:"Zazen / Kinhin",g:"'just sitting' (shikantaza) = enlightenment itself, not a means to it",star:true},
+ {tr:"Buddhism",ring:"S3",cat:"Giving / charity",term:"Dāna",g:"giving to the Sangha — merit (puñña) + severing greed"},
+ {tr:"Buddhism",ring:"S4",cat:"Justice / world-repair",term:"Engaged Buddhism (Tiep Hien)",g:"'Interbeing' — no personal liberation while society suffers (Thich Nhat Hanh)",star:true},
+ {tr:"Buddhism",ring:"S6-8",cat:"Pilgrimage",term:"Pilgrimage (Bodh Gaya)",g:""},
+ {tr:"Buddhism",ring:"S6-8",cat:"Worship / offering",term:"Puja / merit-dedication",g:""},
+ // Hinduism
+ {tr:"Hinduism",ring:"S1",cat:"Somatic / embodied",term:"Prāṇāyāma / pranama",g:"breath-control; prostration"},
+ {tr:"Hinduism",ring:"S3",cat:"Giving / charity",term:"Annadāna / Dāna",g:"food-giving; giving"},
+ {tr:"Hinduism",ring:"S3",cat:"Communal / participatory",term:"Kirtan / Bhajan",g:"communal devotional song"},
+ {tr:"Hinduism",ring:"S6-8",cat:"Worship / offering",term:"Yajña / Agnihotra",g:"fire-oblation — the literal 'operational mechanics of the universe' (Ṛta)",flag:"initiatory (historically varna-restricted), lineage-bound",star:true},
+ {tr:"Hinduism",ring:"S6-8",cat:"Pilgrimage",term:"Tīrtha",g:"a 'ford/crossing' between material + spiritual worlds; ancestor-rites"},
+ // Jainism
+ {tr:"Jainism",ring:"S3",cat:"Giving / charity",term:"Dāna",g:""},
+ {tr:"Jainism",ring:"S5",cat:"Ecological / earth",term:"Jīva-Dayā",g:"compassion for ALL life — vegetarianism, pinjrapoles, water-filtering; driven by ahimsa + soul-purification (NOT modern ecology)",star:true},
+ {tr:"Jainism",ring:"S6-8",cat:"Pilgrimage",term:"Pilgrimage",g:""},
+ // Sikhism
+ {tr:"Sikhism",ring:"S2",cat:"Relational care",term:"Seva (to individuals)",g:"selfless service"},
+ {tr:"Sikhism",ring:"S3",cat:"Communal / participatory",term:"Langar",g:"the free egalitarian communal kitchen — theological equality made sociological",star:true},
+ {tr:"Sikhism",ring:"S3",cat:"Giving / charity",term:"Vand Chhako",g:"sharing one's earnings"},
+ {tr:"Sikhism",ring:"S6-8",cat:"Worship / offering",term:"Ardas / Kirtan",g:"congregational prayer + song"},
+ // Zoroastrianism
+ {tr:"Zoroastrianism",ring:"S2",cat:"Giving / charity",term:"Ashodad",g:"good works / charity"},
+ {tr:"Zoroastrianism",ring:"S3",cat:"Communal / participatory",term:"Gahambar feasts",g:"seasonal communal feasts"},
+ {tr:"Zoroastrianism",ring:"S5",cat:"Ecological / earth",term:"Care for the elements",g:"fire · water · earth kept pure — a rare Abrahamic-adjacent S5",star:true},
+ {tr:"Zoroastrianism",ring:"S6-8",cat:"Worship / offering",term:"Fire-tending / Manthra",g:""},
+ // Confucianism
+ {tr:"Confucianism",ring:"S2",cat:"Relational care",term:"Filial piety (xiào)",g:"reverent care of parents/elders"},
+ {tr:"Confucianism",ring:"S3",cat:"Communal / participatory",term:"The rites (lǐ)",g:"ritual-propriety enacted in relationships"},
+ {tr:"Confucianism",ring:"S4",cat:"Justice / world-repair",term:"Governance-as-service",g:"rén (benevolence) enacted in ordering society"},
+ // Daoism
+ {tr:"Daoism",ring:"S3",cat:"Communal / participatory",term:"Communal ritual (jiao)",g:""},
+ {tr:"Daoism",ring:"S5",cat:"Ecological / earth",term:"Harmony with nature / the seasons",g:"wu wei toward the living world"},
+ // Māori
+ {tr:"Māori",ring:"S4",cat:"Justice / world-repair",term:"Legal personhood for rivers/mountains",g:"fighting for kin-rights of the land"},
+ {tr:"Māori",ring:"S5",cat:"Ecological / earth",term:"Kaitiakitanga",g:"guardianship — rāhui (harvest bans), protecting mauri; the land is an elder relative (whakapapa)",star:true},
+ // Anishinaabe
+ {tr:"Anishinaabe",ring:"S5",cat:"Ecological / earth",term:"Mino-bimaadiziwin",g:"'the good life' — mindful harvest, health of aki over accumulation",star:true},
+ {tr:"Anishinaabe",ring:"S6-8",cat:"Worship / offering",term:"Asemaa (sacred tobacco)",g:"the 'first medicine' — offered before any act; the reciprocity 'ignition key'",flag:"Indigenous, lineage-bound — source from knowledge-keepers"},
+ // Yoruba
+ {tr:"Yoruba (Ifá)",ring:"S3",cat:"Communal / participatory",term:"Bembé",g:"drumming ceremonies (bata) — impacts the S3 community"},
+ {tr:"Yoruba (Ifá)",ring:"S6-8",cat:"Worship / offering",term:"Ipese / Obi",g:"propitiation; the kola-nut offering as literal interaction with the divine (Odu-diagnosed)",flag:"initiatory — Babalawo/Iyanifa; source from practitioners"},
+ // Baháʼí
+ {tr:"Baháʼí",ring:"S3",cat:"Communal / participatory",term:"The devotional gathering",g:"the Ruhi reading COMPLETES in hosting + service"},
+ {tr:"Baháʼí",ring:"S4",cat:"Justice / world-repair",term:"Social action",g:""},
+];
+
+const main=document.getElementById('main');
+function cell(items){
+  if(!items.length) return '<td class="gap">▧</td>';
+  return '<td>'+items.map(p=>{
+    const star=p.star?'<span class="star">★ </span>':'';
+    const flag=p.flag?`<div class="flag">⟨${p.flag}⟩</div>`:'';
+    const g=p.g?`<span class="g"> — ${p.g}</span>`:'';
+    return `<div>${star}<span class="term">${p.term}</span>${g}${flag}</div>`;
+  }).join('<div style="height:4px"></div>')+'</td>';
+}
+// Matrix A — tradition (rows) × ring (cols)
+let a=`<section id="a"><h2>Matrix A — tradition × ring (each tradition's whole range)</h2>
+ <div class="pat">Read a ROW to see a tradition's full enactment reach across the scale-of-concern; a hatched ▧ cell = a gap (real emphasis-elsewhere OR research-thin — see the header).</div>
+ <div class="wrap"><table><thead><tr><th class="rowh">Tradition</th>${RINGS.map(r=>`<th>${r[1]}</th>`).join('')}</tr></thead><tbody>`;
+TRADS.forEach(tr=>{
+  a+=`<tr><th class="rowh">${tr}</th>`+RINGS.map(([rk])=>cell(P.filter(p=>p.tr===tr&&p.ring===rk))).join('')+`</tr>`;
+});
+a+=`</tbody></table></div></section>`;
+main.insertAdjacentHTML('beforeend',a);
+// Matrix B — category (rows) × tradition (cols)
+let b=`<section id="b"><h2>Matrix B — category × tradition (the cross-tradition families)</h2>
+ <div class="pat">Read a ROW to see one family across traditions — the giving row (Dāna · Zakāt · Tzedakah · Seva) shows the <b>rhyme</b>; the glosses show the <b>telos diverges</b> (merit vs purification vs justice). Moves-rhyme, telos-diverges — never perennialism.</div>
+ <div class="wrap"><table><thead><tr><th class="rowh">Category</th>${TRADS.map(t=>`<th>${t}</th>`).join('')}</tr></thead><tbody>`;
+CATS.forEach(cat=>{
+  b+=`<tr><th class="rowh">${cat}</th>`+TRADS.map(tr=>cell(P.filter(p=>p.cat===cat&&p.tr===tr))).join('')+`</tr>`;
+});
+b+=`</tbody></table></div></section>`;
+main.insertAdjacentHTML('beforeend',b);
+// notes
+main.insertAdjacentHTML('beforeend',`<section id="notes"><h2>Notes &amp; guards</h2>
+ <div class="pat">
+ <b>★ The hermeneutic licenses the act (never mechanical).</b> A text read as history yields no mandate; read as ethical obligation / incarnation, it licenses profound action. Each cell's gloss carries the <i>licensing reading</i>, not "text → deed".<br>
+ <b>★ Moves-rhyme / telos-diverges (Matrix B rows).</b> Dāna (merit + severing greed) ≠ Zakāt (purifying wealth) ≠ Tzedakah (justice/dignity) ≠ Seva (the divine immanent in the community). Same physical transfer; different worlds.<br>
+ <b>★ The S5 gap is real signal.</b> The Abrahamic traditions are historically thin on the living-earth ring; the DR points to the peripheries to fill it (Shmita, Hima, Celtic agrarian blessings). The hatched cells are an honest coverage-map, not a finished inventory.<br>
+ <b>CARE.</b> Sacraments · Ṭahārah · Yajña · Ifá · Indigenous rites are closed/initiatory/lineage-bound — analyse the licensing hermeneutic + the social effect; NEVER a how-to that simulates the rite (§2.11). Indigenous/African-diasporic practices sourced from within the tradition.<br>
+ <b>Digital enactment (the outward rings are where the web enables real action).</b> Tzedakah/Zakāt via verified food-banks/micro-loans; Dāna via dharma-center patronage; Gemilut Ḥasadim via meal-trains/encouragement. The line: an <i>invitation</i>, never coercive/guilt-driven/transactional; the platform never acts on the person's behalf, never proselytizes (digital anonymity actually serves Tzedakah's dignity mandate).
+ </div></section>`);
+document.getElementById('foot').innerHTML=`S138 (2026-07-05), reading-SB. Built from the enactment DR (<code>dr_enactment_practices_by_scale_report_2026-07-05.txt</code>) + the by-tradition index. FIRST-PASS + honest gaps — the DR is exemplar-based; hatched cells enrich as we source the thin rings (esp. S5 across the Abrahamic + East-Asian traditions). To add a practice: add a <code>{tr,ring,cat,term,g,flag?,star?}</code> line to the <code>P</code> array in this file — both matrices re-render. Under-represented ring (DR): <b>S5, living earth</b>. Companion frame: <code>field_ed/mece_engagement_modes_scale_of_concern_2026-07-05.md</code>.`;
+</script>
+</body>
+</html>
