@@ -46,6 +46,49 @@ def series_of(slug):
                     "n": s["parts"].index(slug) + 1, "total": len(s["parts"])}
     return None
 
+# ---- cross-linking (The Marginalian's "Complement with…", HAND-CURATED) ----
+# Tamara names the connections. Format: slug -> [(related_slug, "why they resonate"), ...].
+# STARTER set (renunciation / letting-go) with descriptive glosses — edit into your own voice + extend.
+RELATIONS = {
+    "the-length-of-a-road": [
+        ("the-man-who-threw-away-his-cup", "Diogenes, who also found freedom by giving things up"),
+        ("the-woman-who-set-fire-to-heaven", "Rabiʿa, renouncing the reward itself, not just the property"),
+    ],
+    "the-man-who-threw-away-his-cup": [
+        ("the-length-of-a-road", "Francis, who gave away everything — not just a cup"),
+        ("the-useless-tree", "Zhuangzi on the freedom of being good-for-nothing"),
+    ],
+    "the-woman-who-set-fire-to-heaven": [
+        ("the-length-of-a-road", "Francis, letting go of distance itself"),
+    ],
+    "the-useless-tree": [
+        ("the-man-who-threw-away-his-cup", "Diogenes, the other great dropout"),
+    ],
+}
+
+def complement_html(slug, meta):
+    """The 'Complement with…' end-block — hand-picked related essays (like The Marginalian)."""
+    items = []
+    for rslug, gloss in RELATIONS.get(slug, []):
+        m = meta.get(rslug)
+        if not m:
+            continue
+        items.append(f'<a class="cw-item" href="/essays/{rslug}.html">'
+                     f'<span class="cw-t">{esc(m["title"])}</span>'
+                     f'<span class="cw-g">{esc(gloss)}</span></a>')
+    if not items:
+        return ""
+    return ('<aside class="complement"><div class="cw-label">Complement with</div>'
+            + "".join(items) + '</aside>')
+
+def rewrite_substack_links(page, slugs):
+    """Her own cross-links written on Substack point at substack.com/p/<slug>; rewrite them to the
+    on-site /essays/<slug>.html so readers stay on the site (only for essays we actually mirror)."""
+    def repl(m):
+        s = m.group(1)
+        return f'href="/essays/{s}.html"' if s in slugs else m.group(0)
+    return re.sub(r'href="https?://grammarofmeaning\.substack\.com/p/([a-z0-9][a-z0-9-]*)[^"]*"', repl, page)
+
 def slug_of(link):
     return link.rstrip("/").split("/")[-1]
 
@@ -240,6 +283,11 @@ PAGE = """<!DOCTYPE html>
  .essay .footnote{{display:flex;gap:12px;align-items:baseline;margin:0 0 16px;font-family:var(--sans);font-size:14.5px;line-height:1.6;color:var(--ink-2)}}
  .essay .fn-num{{flex:0 0 auto;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--olive);min-width:16px}}
  .essay .footnote-content{{flex:1;min-width:0}} .essay .footnote-content p{{margin:0 0 8px}} .essay .footnote-content em{{color:var(--ink)}}
+ .complement{{max-width:680px;margin:40px auto 0;padding:20px 24px;border:1px solid var(--rule);border-radius:12px;background:var(--paper-3)}}
+ .cw-label{{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--olive);margin-bottom:12px}}
+ .cw-item{{display:block;text-decoration:none;padding:10px 0;border-top:1px solid var(--rule)}} .cw-item:first-of-type{{border-top:none;padding-top:0}}
+ .cw-t{{display:block;font-family:var(--serif);font-size:17px;font-weight:600;color:var(--moss);line-height:1.25}} .cw-item:hover .cw-t{{color:var(--fern)}}
+ .cw-g{{display:block;font-family:var(--serif);font-style:italic;font-size:14px;color:var(--ink-2);margin-top:2px;line-height:1.45}}
  .also{{max-width:680px;margin:36px auto 0;padding:16px 20px;border:1px solid var(--rule);border-radius:12px;background:var(--paper-3);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}}
  .also .t{{font-family:var(--sans);font-size:13.5px;color:var(--ink-2)}} .also a{{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--fern);text-decoration:none;white-space:nowrap}}
  .byline-foot{{max-width:680px;margin:28px auto 0;font-family:var(--sans);font-size:13px;color:var(--ink-3);border-top:1px solid var(--rule);padding-top:16px;line-height:1.6}} .byline-foot a{{color:var(--fern);text-decoration:none}}
@@ -262,6 +310,7 @@ PAGE = """<!DOCTYPE html>
  {post_head}
  <div class="essay">{body}</div>
  {series_nav}
+ <!--COMPLEMENT-->
  <div class="also"><span class="t">Get new essays by email as they're published.</span><a href="https://grammarofmeaning.substack.com/subscribe" target="_blank" rel="noopener">Subscribe &#8599;</a></div>
  <div class="byline-foot"><b>Tamara Sanderson</b> writes <em>Field Notes on how meaning gets made</em> — reading one life, image, or word at a time. <a href="/about.html">About the project &#8594;</a></div>
 </article></div>
@@ -322,10 +371,18 @@ def main():
         d = feedparser.parse(FEED)
     SKIP = {"hello", "coming-soon", "welcome"}
     cards, urls = [], []
+    # pass 1: render all (collect; don't write yet — complement blocks + link-rewrite need every essay known)
+    rendered = []
     for e in d.entries:
         if slug_of(e.get("link", "")) in SKIP or e.get("title", "").lower().startswith("hello there"):
             print(f"  skip: {e.get('title')}"); continue
-        slug, url, title, deck, date_iso, date_h, hero, page = render_essay(e)
+        rendered.append(render_essay(e))
+    META = {r[0]: {"title": r[2], "deck": r[3], "hero": r[6]} for r in rendered}
+    SLUGS = set(META)
+    # pass 2: fill the 'Complement with…' block + rewrite her Substack cross-links to on-site, then write
+    for slug, url, title, deck, date_iso, date_h, hero, page in rendered:
+        page = page.replace("<!--COMPLEMENT-->", complement_html(slug, META))
+        page = rewrite_substack_links(page, SLUGS)
         with open(os.path.join(outdir, f"{slug}.html"), "w") as f:
             f.write(page)
         cards.append((slug, title, deck, date_h, hero)); urls.append((url, date_iso))
@@ -350,7 +407,14 @@ def main():
 
     # ---- wire the hand-authored pages (idempotent marker-injection) + a site-wide sitemap ----
     repo = args.repo
-    ess_cards = "\n".join(card_html(*c) for c in cards)
+    eslugs = "[" + ",".join('"%s"' % c[0] for c in cards) + "]"
+    _btn = ('<div style="margin:2px 0 24px"><button onclick="__surprise()" style="font-family:var(--mono);'
+            'font-size:12.5px;letter-spacing:.04em;color:var(--fern);background:var(--paper-3);'
+            'border:1px solid var(--rule);border-radius:999px;padding:9px 18px;cursor:pointer">'
+            '&#10022; Surprise me — read a random essay &#8594;</button></div>')
+    _scr = (f'<script>const __ES={eslugs};function __surprise(){{location.href="/essays/"+'
+            f'__ES[Math.floor(Math.random()*__ES.length)]+".html"}}</script>')
+    ess_cards = _btn + _scr + "\n" + "\n".join(card_html(*c) for c in cards)
     if inject_region(os.path.join(repo, "essays.html"), "<!-- ESSAYS:START -->", "<!-- ESSAYS:END -->", ess_cards):
         print("  injected essay list -> essays.html")
     def home_card(c):
