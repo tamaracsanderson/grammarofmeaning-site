@@ -11,7 +11,7 @@ Source of truth = Substack (NOT the repo drafts, which carry [[verify]] markers)
 Usage:  python3 _scripts/build_essays.py [--out DIR] [--base URL]
 Default: writes staging pages to _staging/essays/ ; pass --out essays for production.
 """
-import argparse, os, re, sys, html, datetime, urllib.request
+import argparse, os, re, sys, html, json, datetime, urllib.request
 from io import BytesIO
 import feedparser
 from bs4 import BeautifulSoup
@@ -88,6 +88,30 @@ def rewrite_substack_links(page, slugs):
         s = m.group(1)
         return f'href="/essays/{s}.html"' if s in slugs else m.group(0)
     return re.sub(r'href="https?://grammarofmeaning\.substack\.com/p/([a-z0-9][a-z0-9-]*)[^"]*"', repl, page)
+
+# ---- tags / subjects (Substack drops them from RSS; scrape the post page's _preloads JSON) ----
+def fetch_tags(url):
+    """Returns [(name, slug), ...] of the post's non-hidden tags. Robust: [] on any failure."""
+    if not url:
+        return []
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        page = urllib.request.urlopen(req, timeout=25).read().decode("utf-8", "replace")
+        m = re.search(r'\\"postTags\\":\s*(\[.*?\])', page)
+        if not m:
+            return []
+        arr = json.loads(m.group(1).replace('\\"', '"'))
+        return [(t["name"], t["slug"]) for t in arr if not t.get("hidden") and t.get("name") and t.get("slug")]
+    except Exception:
+        return []
+
+def tag_chips_html(slug, TAGS, SHARED):
+    """Reader-page chips — only the SHARED subjects (tags on >=2 essays), which link to a subject page."""
+    chips = [f'<a class="tag" href="/essays/topic/{ts}.html">{esc(name)}</a>'
+             for name, ts in TAGS.get(slug, []) if ts in SHARED]
+    if not chips:
+        return ""
+    return '<div class="tags"><span class="tags-label">Subjects</span>' + "".join(chips) + '</div>'
 
 def slug_of(link):
     return link.rstrip("/").split("/")[-1]
@@ -288,6 +312,9 @@ PAGE = """<!DOCTYPE html>
  .cw-item{{display:block;text-decoration:none;padding:10px 0;border-top:1px solid var(--rule)}} .cw-item:first-of-type{{border-top:none;padding-top:0}}
  .cw-t{{display:block;font-family:var(--serif);font-size:17px;font-weight:600;color:var(--moss);line-height:1.25}} .cw-item:hover .cw-t{{color:var(--fern)}}
  .cw-g{{display:block;font-family:var(--serif);font-style:italic;font-size:14px;color:var(--ink-2);margin-top:2px;line-height:1.45}}
+ .tags{{max-width:680px;margin:32px auto 0;display:flex;flex-wrap:wrap;align-items:center;gap:8px}}
+ .tags-label{{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-right:2px}}
+ .tag{{font-family:var(--sans);font-size:12.5px;color:var(--fern);text-decoration:none;background:var(--paper-3);border:1px solid var(--rule);border-radius:999px;padding:4px 12px}} .tag:hover{{border-color:var(--fern)}}
  .also{{max-width:680px;margin:36px auto 0;padding:16px 20px;border:1px solid var(--rule);border-radius:12px;background:var(--paper-3);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}}
  .also .t{{font-family:var(--sans);font-size:13.5px;color:var(--ink-2)}} .also a{{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--fern);text-decoration:none;white-space:nowrap}}
  .byline-foot{{max-width:680px;margin:28px auto 0;font-family:var(--sans);font-size:13px;color:var(--ink-3);border-top:1px solid var(--rule);padding-top:16px;line-height:1.6}} .byline-foot a{{color:var(--fern);text-decoration:none}}
@@ -310,6 +337,7 @@ PAGE = """<!DOCTYPE html>
  {post_head}
  <div class="essay">{body}</div>
  {series_nav}
+ <!--TAGS-->
  <!--COMPLEMENT-->
  <div class="also"><span class="t">Get new essays by email as they're published.</span><a href="https://grammarofmeaning.substack.com/subscribe" target="_blank" rel="noopener">Subscribe &#8599;</a></div>
  <div class="byline-foot"><b>Tamara Sanderson</b> writes <em>Field Notes on how meaning gets made</em> — reading one life, image, or word at a time. <a href="/about.html">About the project &#8594;</a></div>
@@ -352,6 +380,43 @@ INDEX = """<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name
 <footer><div class="wrap"><div class="flabel">Grammar of Meaning</div><h3>How meaning gets made — read each tradition in its own vocabulary first.</h3><p class="foot-note"><em>Grammar of Meaning</em> · Tamara Sanderson · 2026</p></div></footer>
 </body></html>"""
 
+SUBJECT = """<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{name} — Essays · Grammar of Meaning</title>
+<meta name="description" content="Essays touching on {name} — from the Grammar of Meaning.">
+<link rel="canonical" href="https://grammarofmeaning.org/essays/topic/{tslug}.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/gom.css">
+<style>
+ .wrap{{max-width:920px}}
+ .ecard{{display:flex;gap:20px;align-items:center;text-decoration:none;border:1px solid var(--rule);border-radius:14px;padding:18px 20px;margin-bottom:14px;background:var(--paper-3);transition:border-color .15s}}
+ .ecard:hover{{border-color:var(--sage)}}
+ .ecard img{{flex:0 0 92px;width:92px;height:92px;object-fit:cover;border-radius:8px;border:3px solid var(--sage)}}
+ @media(max-width:560px){{.ecard img{{display:none}}}}
+ .ec-body{{flex:1;min-width:0}}
+ .ec-series{{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--fern);margin-bottom:4px}}
+ .ec-date{{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--ink-3);text-transform:uppercase}}
+ .ec-title{{font-family:var(--serif);font-size:23px;font-weight:600;color:var(--moss);margin:4px 0 5px;line-height:1.2}}
+ .ec-deck{{font-family:var(--serif);font-style:italic;font-size:15.5px;color:var(--ink-2);line-height:1.5}}
+ .backlink{{font-family:var(--mono);font-size:12px;color:var(--fern);text-decoration:none;display:inline-block;margin-top:14px}}
+</style></head><body>
+<div class="topbar"><div class="wrap">
+ <a class="brandmark" href="/index.html" style="color:var(--moss)"><svg class="mark" viewBox="0 0 200 200" fill="none" aria-hidden="true"><path d="M100 30 C74 52 58 92 62 126 C64 152 82 168 100 176 L100 30 Z" fill="#2C4A38"/><path d="M100 30 C126 52 142 92 138 126 C136 152 118 168 100 176 L100 30 Z" fill="#8AA88B"/><line x1="100" y1="34" x2="100" y2="174" stroke="#FCFBF7" stroke-width="3"/><line x1="100" y1="176" x2="100" y2="194" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/></svg> Grammar&nbsp;of&nbsp;Meaning</a>
+ <nav class="nav"><a href="/index.html">Home</a><a href="/about.html">About</a><a href="/library.html">Library</a><a href="/essays.html" class="active">Essays</a><a href="/garden.html">Garden</a><a href="/method.html">Method</a><a href="/reference.html">Reference</a><a href="https://grammarofmeaning.substack.com/" target="_blank" rel="noopener" class="nav-out">Substack&nbsp;&#8599;</a></nav>
+</div></div>
+<header class="hero"><div class="wrap">
+ <div class="kicker">The Essays · <b>by subject</b></div>
+ <h1>{name}</h1>
+ <div class="sub">{n} {essays_word} touching on {name} — read across the archive.</div>
+ <a class="backlink" href="/essays.html">&#8592; All essays</a>
+</div></header>
+<div class="wrap" style="padding-top:26px">
+{cards}
+</div>
+<footer><div class="wrap"><div class="flabel">Grammar of Meaning</div><h3>How meaning gets made — read each tradition in its own vocabulary first.</h3><p class="foot-note"><em>Grammar of Meaning</em> · Tamara Sanderson · 2026</p></div></footer>
+</body></html>"""
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="_staging/essays")
@@ -372,15 +437,24 @@ def main():
     SKIP = {"hello", "coming-soon", "welcome"}
     cards, urls = [], []
     # pass 1: render all (collect; don't write yet — complement blocks + link-rewrite need every essay known)
-    rendered = []
+    rendered, post_urls = [], {}
     for e in d.entries:
         if slug_of(e.get("link", "")) in SKIP or e.get("title", "").lower().startswith("hello there"):
             print(f"  skip: {e.get('title')}"); continue
-        rendered.append(render_essay(e))
-    META = {r[0]: {"title": r[2], "deck": r[3], "hero": r[6]} for r in rendered}
+        r = render_essay(e); rendered.append(r); post_urls[r[0]] = e.get("link")
+    META = {r[0]: {"title": r[2], "deck": r[3], "hero": r[6], "date_h": r[5]} for r in rendered}
     SLUGS = set(META)
-    # pass 2: fill the 'Complement with…' block + rewrite her Substack cross-links to on-site, then write
+    # scrape tags (Substack drops them from RSS) -> subject cross-linking; shared = tags on >=2 essays
+    TAGS = {slug: fetch_tags(post_urls.get(slug)) for slug in SLUGS}
+    tag_index = {}
+    for slug, tags in TAGS.items():
+        for name, ts in tags:
+            tag_index.setdefault(ts, {"name": name, "essays": []})["essays"].append(slug)
+    SHARED = {ts for ts, dd in tag_index.items() if len(dd["essays"]) >= 2}
+    print(f"  tags: {len(tag_index)} total, {len(SHARED)} shared (>=2 essays)")
+    # pass 2: fill subject chips + the 'Complement with…' block + rewrite her Substack cross-links, then write
     for slug, url, title, deck, date_iso, date_h, hero, page in rendered:
+        page = page.replace("<!--TAGS-->", tag_chips_html(slug, TAGS, SHARED))
         page = page.replace("<!--COMPLEMENT-->", complement_html(slug, META))
         page = rewrite_substack_links(page, SLUGS)
         with open(os.path.join(outdir, f"{slug}.html"), "w") as f:
@@ -405,6 +479,20 @@ def main():
         f.write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sm}\n</urlset>\n')
     print(f"  wrote sitemap-essays.xml")
 
+    # subject pages (one per shared tag) — the Marginalian 'browse by subject'
+    card_by_slug = {c[0]: card_html(*c) for c in cards}
+    forder = {c[0]: i for i, c in enumerate(cards)}
+    topicdir = os.path.join(outdir, "topic")
+    os.makedirs(topicdir, exist_ok=True)
+    for ts in SHARED:
+        d2 = tag_index[ts]
+        eslist = sorted(d2["essays"], key=lambda s: forder.get(s, 999))
+        ecs = "\n".join(card_by_slug[s] for s in eslist if s in card_by_slug)
+        with open(os.path.join(topicdir, f"{ts}.html"), "w") as f:
+            f.write(SUBJECT.format(name=esc(d2["name"]), tslug=ts, n=len(eslist),
+                                   essays_word=("essay" if len(eslist) == 1 else "essays"), cards=ecs))
+    print(f"  wrote {len(SHARED)} subject pages -> topic/")
+
     # ---- wire the hand-authored pages (idempotent marker-injection) + a site-wide sitemap ----
     repo = args.repo
     eslugs = "[" + ",".join('"%s"' % c[0] for c in cards) + "]"
@@ -414,7 +502,18 @@ def main():
             '&#10022; Surprise me — read a random essay &#8594;</button></div>')
     _scr = (f'<script>const __ES={eslugs};function __surprise(){{location.href="/essays/"+'
             f'__ES[Math.floor(Math.random()*__ES.length)]+".html"}}</script>')
-    ess_cards = _btn + _scr + "\n" + "\n".join(card_html(*c) for c in cards)
+    _browse = ""
+    if SHARED:
+        _chips = "".join(
+            f'<a href="/essays/topic/{ts}.html" style="font-family:var(--sans);font-size:12.5px;color:var(--ink);'
+            f'text-decoration:none;background:var(--paper-3);border:1px solid var(--rule);border-radius:999px;'
+            f'padding:5px 13px;display:inline-flex;align-items:center;gap:6px">{esc(tag_index[ts]["name"])}'
+            f'<span style="font-family:var(--mono);font-size:10px;color:var(--ink-3)">{len(tag_index[ts]["essays"])}</span></a>'
+            for ts in sorted(SHARED, key=lambda t: (-len(tag_index[t]["essays"]), tag_index[t]["name"].lower())))
+        _browse = ('<div style="margin:2px 0 26px"><div style="font-family:var(--mono);font-size:10.5px;'
+                   'letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px">Browse by subject</div>'
+                   '<div style="display:flex;flex-wrap:wrap;gap:8px">' + _chips + '</div></div>')
+    ess_cards = _btn + _scr + _browse + "\n" + "\n".join(card_html(*c) for c in cards)
     if inject_region(os.path.join(repo, "essays.html"), "<!-- ESSAYS:START -->", "<!-- ESSAYS:END -->", ess_cards):
         print("  injected essay list -> essays.html")
     def home_card(c):
