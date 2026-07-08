@@ -29,9 +29,14 @@ a{color:var(--fern)}
    (periodic wave-paths + thin sprigs are the tell). Hidden pending REAL public-domain art
    (Morris / Audubon / Botanic-Atlas, embedded or traced) OR hand-drawn (the Fresco-vector
    pass). Never procedurally generate ornament. */
-.m3 .morris-bg{display:none}
 .m3 .frame::before,.m3 .frame::after{display:none !important}
 .m5 .corner{display:none}
+/* REAL public-domain botanical art (fetched + optimized from Wikimedia; PD verified) */
+.m3 .morris-real{position:absolute;inset:0;background:url("assets/morris_trellis_1862.jpg") center/cover no-repeat;opacity:.15;z-index:0}
+.m5 .bcorner{position:absolute;width:210px;height:210px;background:url("assets/morris_botanical_2.jpg") center/cover;opacity:.4;mix-blend-mode:screen;z-index:0;pointer-events:none}
+.m5 .bcorner.tl{top:0;left:0;-webkit-mask-image:radial-gradient(circle at top left,#000,transparent 72%);mask-image:radial-gradient(circle at top left,#000,transparent 72%)}
+.m5 .bcorner.br{bottom:0;right:0;-webkit-mask-image:radial-gradient(circle at bottom right,#000,transparent 72%);mask-image:radial-gradient(circle at bottom right,#000,transparent 72%)}
+.attrib{font-family:var(--mono);font-size:9.5px;letter-spacing:.02em;color:var(--ink-3,#7C8478);opacity:.75}
 .bot-todo{font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;color:var(--olive);
   border:1px dashed var(--olive);border-radius:8px;padding:8px 12px;text-align:center;line-height:1.5;margin:0 0 12px}
 .m5 .bot-todo{color:#9db79f;border-color:rgba(157,183,159,.5)}
@@ -442,11 +447,11 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
         <p class="touch">William Morris × the Botanic-Atlas / Audubon botanical plates × the corner-botanical system.</p>
       </div>
       <div class="screen">
-        <svg class="morris-bg" preserveAspectRatio="none"><rect width="100%" height="100%" fill="url(#morris)"/></svg>
+        <div class="morris-real"></div>
         <div class="scr-pad">
           <div class="spine"><span class="on">Read</span><i>›</i><span>Reflect</span><i>›</i><span>Respond</span><i>›</i><span>Rest</span></div>
           <div class="frame">
-            <div class="bot-todo">◊ Morris botanical pattern + border = real PD Morris art (V&amp;A / archive.org), traced or hand-drawn — not procedurally generated</div>
+            <div class="attrib" style="margin-bottom:10px">botanical ground — William Morris, <i>Trellis</i> (1862) · public domain</div>
             <div class="scr-tag">Romans · read as Christian first &nbsp;·&nbsp; lens: the 6-move walk</div>
             <h2 class="scr-h">Romans 8<span class="vn">:28–30</span></h2>
             <p class="scr-sub">one branch, link growing from link</p>
@@ -526,13 +531,14 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
         <p class="touch">The Botanic-Atlas richness × Audubon plates × an illuminated garden, in GoM green.</p>
       </div>
       <div class="screen">
-        <!-- botanical corners removed: procedural = machine-made; real PD/hand-drawn art to come -->
+        <div class="bcorner tl"></div>
+        <div class="bcorner br"></div>
         <div class="scr-pad">
           <div class="spine"><span class="on">Read</span><i>›</i><span>Reflect</span><i>›</i><span>Respond</span><i>›</i><span>Rest</span></div>
           <div class="scr-tag">Romans · read as Christian first &nbsp;·&nbsp; lens: the 6-move walk</div>
           <h2 class="scr-h">Romans 8<span class="vn">:28–30</span></h2>
           <p class="scr-sub">the golden chain, illuminated on the green</p>
-          <div class="bot-todo">◊ botanical corners + embellishment = real PD Audubon / Botanic-Atlas plates, traced or hand-drawn — not procedurally generated</div>
+          <div class="attrib" style="color:#9db79f;opacity:.7;margin-bottom:2px">botanical corners — a period Arts-&amp;-Crafts sidewall (1875–99) · public domain</div>
           <div class="chain">
             <div class="link"><span class="dot"></span><div class="lw">foreknew</div><div class="gk">προέγνω</div></div>
             <div class="link"><span class="dot"></span><div class="lw">predestined</div><div class="gk">προώρισεν</div></div>
@@ -593,7 +599,7 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
 
   <footer>
     <b>How produced.</b> design-SB, 2026-07-08 (v2, re-anchored). First pass went too far into separate aesthetic worlds; this version is <b>five modes of the core GoM look</b> — links <code>/assets/gom.css</code>, uses the house tokens + Newsreader/Inter/Plex&nbsp;Mono, and varies layout/UI/interaction/palette-weighting only. Anchored in the house pattern + <code>thurman_depth_6_slowread</code> (the slow-read you liked) + <code>cand_editorial</code>/<code>cand_garden</code>; embellishment inspiration from the moodboards + Botanic-Atlas + Audubon botanical plates. Same Romans 8:28–30 slow-read (KJV, public-domain) in each for comparability; the golden chain (foreknew→predestined→called→justified→glorified) + the held negative-space "why" (§2.1) are the shared content. The seated figure is redrawn as a clean line-figure (the earlier filled blob read as a chess pawn). Guards travel all five. Staging, noindex; design-SB owns build + deploy; reading-SB advises.
-    <br><br><b>What needs verification.</b> (1) researcher picks / ranks / synthesizes — swap freely. (2) drawn demonstrator = OPEN practices only. (3) ALL ornament is drawn or PD-sourced, <b>never procedurally generated</b> (reading-SB 2026-07-08): the round-1 procedural vines read as machine-made (periodic wave-paths + thin sprigs) and are removed; real PD Morris (V&amp;A/archive.org) / Audubon / Botanic-Atlas art — embedded or traced, scan-rights verified — or hand-drawn (Fresco-vector) replaces them. (4) Stage 6 = 0 — deposits nothing. (5) the interactions here are sketched (reveal / breath / draw-on / light) — real build wires them per the mechanics board + reduced-motion fallbacks.
+    <br><br><b>What needs verification.</b> (1) researcher picks / ranks / synthesizes — swap freely. (2) drawn demonstrator = OPEN practices only. (3) ALL ornament is drawn or PD-sourced, <b>never procedurally generated</b> (reading-SB 2026-07-08). The round-1 procedural vines (periodic wave-paths + thin sprigs) read as machine-made and are gone; <b>real public-domain art is now embedded</b> — the Morris mode ground is William Morris's <i>Trellis</i> (1862); the maximal corners are a period Arts-&amp;-Crafts sidewall (1875–99); both firmly PD (authors d. 1896 / pre-1929), fetched + optimized from Wikimedia Commons (<code>_staging/_mocks/assets/</code>). This is the fast judge-able pass (option a); a curated/commissioned final set (Botanic-Atlas / Audubon / hand-drawn Fresco-vector) comes later. Verify each specific scan's rights before any PUBLIC (non-staging) use. (4) Stage 6 = 0 — deposits nothing. (5) the interactions here are sketched (reveal / breath / draw-on / light) — real build wires them per the mechanics board + reduced-motion fallbacks.
   </footer>
 </div>
 </body>
