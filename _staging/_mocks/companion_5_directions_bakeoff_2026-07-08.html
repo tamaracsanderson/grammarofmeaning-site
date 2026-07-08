@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Companion · 5-direction visual bake-off · Romans 8:28–30</title>
+<style>
+/* =============================================================================
+   THE COMPANION — 5-direction visual bake-off (design-SB, 2026-07-08)
+   Each direction is a full look/feel + palette, all nodding to the GoM family
+   (vellum · sage · gold · ink). Each mocks the SAME screen — the Romans 8:28–30
+   slow-read — so they compare. Self-contained: no CDN, system font stacks that
+   evoke each direction's intended (commissioned) faces; real build embeds those.
+   ============================================================================= */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --page:#e9e4d8; --card:#f4f1ea; --ink:#2b2620; --ink-2:#5b5446; --mut:#8a7d63; --rule:#d8cfba;
+  --gold:#b8923b; --lapis:#2d4a7a; --malachite:#3d6b4a; --vermilion:#9e3b2e; --sage:#6a7a3d;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--page);color:var(--ink);font-family:var(--serif);line-height:1.6;
+  background-image:radial-gradient(circle at 15% -5%,rgba(184,146,59,.05),transparent 40%),
+    radial-gradient(circle at 88% 6%,rgba(63,107,74,.05),transparent 42%);}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* ---- masthead ---- */
+.mast{padding:56px 0 26px;border-bottom:1px solid var(--rule)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+.mast h1{font-size:clamp(30px,4.4vw,44px);font-weight:600;line-height:1.1;margin:12px 0 8px;color:#3a3225;letter-spacing:-.01em}
+.mast .sub{font-size:18px;color:var(--ink-2);max-width:60ch;font-style:italic}
+.mast .anchor{margin-top:20px;font-family:var(--sans);font-size:14px;color:var(--ink-2);max-width:78ch;line-height:1.65}
+.mast .anchor b{color:var(--ink)}
+.famrow{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:center}
+.famrow .fl{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.fam{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:12px;color:var(--ink-2);
+  border:1px solid var(--rule);border-radius:99px;padding:4px 11px 4px 6px;background:#fbf9f3}
+.fam i{width:14px;height:14px;border-radius:50%;display:inline-block;border:1px solid rgba(0,0,0,.12)}
+
+/* ---- guards + jump nav ---- */
+.rail{position:sticky;top:0;z-index:50;background:rgba(233,228,216,.93);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--rule);padding:9px 0}
+.rail .wrap{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.rail a{font-family:var(--sans);font-size:12.5px;color:var(--ink-2);text-decoration:none;padding:5px 11px;border-radius:99px;border:1px solid transparent}
+.rail a:hover{border-color:var(--rule);background:#fbf9f3;color:var(--ink)}
+.rail .rl{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-right:4px}
+
+.guards{margin:26px 0 8px;padding:16px 20px;border:1px solid var(--rule);border-left:3px solid var(--vermilion);
+  border-radius:12px;background:#fbf9f3;font-family:var(--sans);font-size:13px;color:var(--ink-2);line-height:1.7}
+.guards b{color:var(--vermilion);font-weight:700}
+.guards .g{display:inline}
+
+/* ---- section scaffold ---- */
+section.dir{padding:44px 0 8px;border-bottom:1px dashed var(--rule)}
+.dir-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.dir-num{font-family:var(--mono);font-size:13px;color:var(--mut)}
+.dir-head h2{font-size:27px;font-weight:600;letter-spacing:-.01em}
+.dir-mood{font-style:italic;color:var(--ink-2);font-size:16px}
+.dir-pole{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin-left:auto}
+.grid{display:grid;grid-template-columns:340px 1fr;gap:32px;align-items:start;margin-top:18px}
+@media(max-width:880px){.grid{grid-template-columns:1fr}}
+
+/* spec card */
+.spec{font-family:var(--sans);font-size:13px;color:var(--ink-2);line-height:1.6}
+.spec h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin:16px 0 7px;font-weight:600}
+.spec h3:first-child{margin-top:0}
+.spec p{margin:0 0 4px} .spec b{color:var(--ink)}
+.sw{display:flex;gap:0;border-radius:8px;overflow:hidden;border:1px solid var(--rule)}
+.sw span{flex:1;height:42px;position:relative}
+.swlab{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:7px;font-family:var(--mono);font-size:10.5px;color:var(--mut)}
+.swlab i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:middle;border:1px solid rgba(0,0,0,.1)}
+.type-ex{font-size:15px;color:var(--ink);margin-top:2px}
+.touch{font-style:italic}
+
+/* the mock "screen" frame — a reading surface, consistent across directions */
+.screen{border-radius:16px;overflow:hidden;position:relative;box-shadow:0 20px 50px -24px rgba(43,38,32,.55),0 2px 0 rgba(255,255,255,.4) inset;
+  min-height:560px;border:1px solid rgba(0,0,0,.08)}
+.scr-pad{padding:30px 30px 24px}
+.spine{display:flex;gap:0;align-items:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase}
+.spine span{padding:0 9px;opacity:.4} .spine span.on{opacity:1;font-weight:700} .spine span:first-child{padding-left:0}
+.spine i{opacity:.3}
+.scr-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;opacity:.66;margin-top:14px}
+.scr-h{font-size:24px;font-weight:600;margin:4px 0 2px;letter-spacing:-.01em}
+.scr-sub{font-size:13px;font-style:italic;opacity:.7;margin-bottom:16px}
+.passage{font-size:16.5px;line-height:1.72}
+.passage .vn{font-family:var(--mono);font-size:10px;opacity:.5;vertical-align:super;margin-right:2px}
+.chainword{font-weight:700;white-space:nowrap;cursor:help}
+.lensrow{display:flex;gap:7px;flex-wrap:wrap;margin:18px 0 4px}
+.lens{font-family:var(--sans);font-size:11.5px;padding:4px 11px;border-radius:99px;border:1px solid;cursor:default}
+.lens.on{font-weight:700}
+.mirror{font-family:var(--sans);margin-top:18px;padding:13px 15px;border-radius:11px;font-size:13.5px}
+.mirror .q{font-family:var(--serif);font-style:italic;font-size:16px}
+.mirror .m{font-size:11.5px;margin-top:4px;opacity:.7}
+.guardline{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;opacity:.55;margin-top:16px}
+.sumi{display:block}
+.caption{font-family:var(--sans);font-size:11.5px;color:var(--mut);margin-top:9px;line-height:1.5;font-style:italic}
+
+/* the golden chain — shared skeleton, reskinned per direction */
+.chain{display:flex;align-items:stretch;gap:0;margin:18px 0 6px}
+.link{flex:1;text-align:center;position:relative;padding:0 3px}
+.link .dot{width:15px;height:15px;border-radius:50%;margin:0 auto 8px;position:relative;z-index:2}
+.link .lw{font-size:13.5px;font-weight:600;line-height:1.15}
+.link .gk{font-family:var(--serif);font-size:11px;opacity:.6;font-style:italic}
+.link:not(:last-child)::after{content:"";position:absolute;top:7px;left:50%;width:100%;height:2px;z-index:1}
+
+/* =========================== D1 · ILLUMINATED BOOK =========================== */
+.d1 .screen{background:
+    radial-gradient(circle at 30% 20%,rgba(184,146,59,.06),transparent 55%),
+    repeating-linear-gradient(0deg,rgba(120,90,40,.02) 0 2px,transparent 2px 5px),
+    #f4f1ea;color:#332a1c;font-family:"Iowan Old Style",Palatino,Georgia,serif;border-color:#c9a86a}
+.d1 .scr-pad{padding:0}
+.d1 .illum-frame{border:2px solid var(--gold);margin:14px;border-radius:8px;position:relative;padding:26px 28px 22px;
+  box-shadow:0 0 0 1px #e7d7a8 inset}
+.d1 .spine span.on{color:var(--vermilion)}
+.d1 .dropcap{float:left;font-size:62px;line-height:.82;font-weight:700;color:var(--vermilion);margin:6px 12px 0 0;
+  font-family:"Iowan Old Style",Palatino,serif;text-shadow:1px 1px 0 rgba(184,146,59,.35)}
+.d1 .chainword{color:#7a4a1e;border-bottom:1.5px solid var(--gold)}
+.d1 .chain{margin:22px 0 8px}
+.d1 .link .dot{width:26px;height:26px;background:radial-gradient(circle at 35% 30%,#e7c96a,var(--gold));
+  box-shadow:0 0 0 2px #fff4d6,0 0 0 3px var(--gold),0 3px 6px rgba(120,80,20,.4);color:#3a2a0e;
+  display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:12px;font-weight:700}
+.d1 .link:not(:last-child)::after{top:12px;background:linear-gradient(90deg,var(--gold),#e7c96a);height:3px}
+.d1 .link .lw{color:#5a3a12;margin-top:3px} .d1 .link .gk{color:var(--lapis)}
+.d1 .lens{border-color:#d8b86a;color:#6a4a1e;background:#fbf3dd} .d1 .lens.on{background:var(--lapis);color:#f4e8c8;border-color:var(--lapis)}
+.d1 .mirror{background:#f7edcf;border:1px solid #e0c47f} .d1 .mirror .q{color:#5a3a12}
+.d1 .ghost{color:var(--vermilion)} .d1 .sumi-wrap{color:#4a3a1e}
+
+/* =========================== D2 · INK & VOID =========================== */
+.d2 .screen{background:
+    repeating-linear-gradient(90deg,rgba(80,70,50,.015) 0 3px,transparent 3px 7px),#f6f1e3;
+  color:#2b2620;font-family:Georgia,"Times New Roman",serif;border-color:#ddd3bd}
+.d2 .void{display:grid;grid-template-columns:1fr 1fr;min-height:560px}
+.d2 .void .empty{position:relative}
+.d2 .void .content{padding:34px 30px 26px;display:flex;flex-direction:column;justify-content:flex-end;border-left:1px solid rgba(43,38,32,.07)}
+.d2 .scr-h{font-size:19px;font-weight:400;letter-spacing:.02em}
+.d2 .passage{font-size:14px;line-height:1.85;opacity:.9}
+.d2 .chainword{border-bottom:1px solid var(--vermilion)}
+.d2 .chain{flex-direction:column;gap:0;margin:16px 0 4px}
+.d2 .link{display:flex;align-items:center;gap:10px;text-align:left;padding:5px 0}
+.d2 .link .dot{width:6px;height:6px;margin:0;background:#2b2620} .d2 .link:not(:last-child)::after{display:none}
+.d2 .link .lw{font-size:13px;font-weight:400;letter-spacing:.04em} .d2 .link .gk{margin-left:auto;opacity:.4}
+.d2 .lens{border-color:#cfc3a8;color:#5b5446;font-size:11px} .d2 .lens.on{background:#2b2620;color:#f6f1e3;border-color:#2b2620}
+.d2 .mirror{background:transparent;border-top:1px solid rgba(43,38,32,.12);border-radius:0;padding:12px 0 0}
+.d2 .mirror .q{font-weight:400}
+.d2 .seal{position:absolute;bottom:34px;right:-14px;z-index:3}
+.d2 .caption{opacity:.7}
+
+/* =========================== D3 · LIVING GARDEN =========================== */
+.d3 .screen{background:
+    radial-gradient(ellipse at 80% 110%,rgba(106,122,61,.12),transparent 55%),
+    radial-gradient(circle at 12% 8%,rgba(203,176,106,.10),transparent 45%),#f4f1ea;
+  color:#2f2a22;font-family:"Iowan Old Style",Palatino,Georgia,serif;border-color:#c3cba0}
+.d3 .scr-pad{padding:26px 30px 22px;position:relative}
+.d3 .scr-h{color:#41582f}
+.d3 .chainword{color:#41582f;border-bottom:2px solid var(--sage)}
+.d3 .chain{align-items:flex-end}
+.d3 .link .dot{width:20px;height:20px;background:radial-gradient(circle at 35% 30%,#dccf8a,var(--sage));
+  box-shadow:0 0 0 3px #eef1e0;border:1px solid #4f5f2a}
+.d3 .link:not(:last-child)::after{top:9px;height:2px;background:var(--sage);
+  background-image:repeating-linear-gradient(90deg,var(--sage) 0 6px,transparent 6px 9px)}
+.d3 .link .lw{color:#3a4a24} .d3 .link .gk{color:#8a7d3d}
+.d3 .lens{border-color:#b6c088;color:#4a5a2a;background:#f0f2e4} .d3 .lens.on{background:var(--sage);color:#f4f1ea;border-color:var(--sage)}
+.d3 .mirror{background:#eef2e2;border:1px solid #cdd6ab} .d3 .mirror .q{color:#41582f}
+.d3 .sumi-wrap{color:#4a5a2a}
+
+/* =========================== D4 · THE STUDY (marginalia) =========================== */
+.d4 .screen{background:
+    linear-gradient(90deg,transparent 52px,rgba(163,58,44,.14) 52px,rgba(163,58,44,.14) 53px,transparent 53px),
+    repeating-linear-gradient(0deg,#efe7d3 0 27px,#ebe2cb 27px 28px);
+  color:#2f2a24;font-family:Georgia,serif;border-color:#d8ccae}
+.d4 .scr-pad{padding:22px 26px 22px 66px;position:relative}
+.d4 .spine{color:#7a6f57}
+.d4 .scr-h{color:#4a3f2c;font-size:22px}
+.d4 .chainword{color:#7a3a18;border-bottom:1px solid #a6893f}
+.d4 .passage{position:relative}
+.d4 .marg{position:absolute;left:-52px;width:46px;text-align:right;font-family:"Bradley Hand","Segoe Script","Comic Sans MS",cursive;
+  font-size:11px;color:var(--vermilion);line-height:1.2;opacity:.8}
+.d4 .underline-r{border-bottom:1.5px solid rgba(163,58,44,.5)}
+.d4 .chain{margin:16px 0 6px;border-top:1px solid #d8ccae;border-bottom:1px solid #d8ccae;padding:12px 0}
+.d4 .link{text-align:left;display:flex;flex-direction:column}
+.d4 .link .dot{width:9px;height:9px;background:#a6893f;margin:0 0 5px}
+.d4 .link:not(:last-child)::after{top:4px;left:9px;width:calc(100% - 9px);height:1px;background:#c9b06a;
+  background-image:repeating-linear-gradient(90deg,#c9b06a 0 3px,transparent 3px 6px)}
+.d4 .link .lw{font-size:12.5px;color:#5a4a2c} .d4 .link .gk{color:#8a7350}
+.d4 .lens{border-color:#cdbf98;color:#5f5849;background:#f3ecd8;font-size:11px} .d4 .lens.on{background:#5f5849;color:#efe7d3;border-color:#5f5849}
+.d4 .mirror{background:#f3ecd8;border:1px dashed #c3a94e} .d4 .mirror .q{color:#5a4a2c}
+.d4 .quietmarg{font-family:"Bradley Hand","Segoe Script",cursive;font-size:12px;color:#8a7350;opacity:.7;margin-top:10px}
+.d4 .sumi-wrap{color:#5f5849}
+
+/* =========================== D5 · THE PILGRIMAGE =========================== */
+.d5 .screen{background:
+    radial-gradient(ellipse at 70% 30%,rgba(200,135,74,.12),transparent 55%),
+    radial-gradient(ellipse at 20% 90%,rgba(122,138,109,.14),transparent 50%),#f4efe2;
+  color:#3a2f22;font-family:"Iowan Old Style",Palatino,Georgia,serif;border-color:#d6bd97}
+.d5 .scr-pad{padding:26px 30px 22px;position:relative}
+.d5 .scr-h{color:#9a5a24}
+.d5 .chainword{color:#9a5a24;border-bottom:1.5px dotted var(--gold)}
+.d5 .path-wrap{position:relative;margin:20px 0 8px}
+.d5 .station{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:5px}
+.d5 .stations{display:flex;justify-content:space-between;align-items:flex-start}
+.d5 .station .pin{width:22px;height:22px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+  background:radial-gradient(circle at 60% 40%,#e7c96a,var(--gold));border:1px solid #8a6a20;box-shadow:0 2px 4px rgba(120,80,20,.4)}
+.d5 .station .lw{font-size:12px;font-weight:600;color:#7a4a1e;text-align:center;line-height:1.15;max-width:9ch}
+.d5 .station .gk{font-size:10px;color:#5a6a4a;font-style:italic}
+.d5 .lens{border-color:#d3b483;color:#8a5424;background:#f6ecd8} .d5 .lens.on{background:#7a8a6d;color:#f4efe2;border-color:#7a8a6d}
+.d5 .mirror{background:#f6ecd8;border:1px solid #d8bd8a} .d5 .mirror .q{color:#8a5424}
+.d5 .sumi-wrap{color:#5a6a4a}
+
+/* ---- 5-up board ---- */
+.board{padding:52px 0 20px}
+.board h2{font-size:28px;font-weight:600;margin-bottom:4px}
+.board .lead{font-family:var(--sans);color:var(--ink-2);max-width:70ch;margin-bottom:24px;font-size:14.5px}
+.thumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:30px}
+@media(max-width:880px){.thumbs{grid-template-columns:repeat(2,1fr)}}
+.thumb{border-radius:12px;overflow:hidden;border:1px solid var(--rule);text-decoration:none;display:block;color:inherit;
+  transition:transform .15s,box-shadow .15s}
+.thumb:hover{transform:translateY(-3px);box-shadow:0 14px 30px -16px rgba(43,38,32,.5)}
+.thumb .cap{height:96px;position:relative;display:flex;align-items:flex-end;padding:10px}
+.thumb .cap .nm{font-size:13.5px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.thumb .miniswatch{display:flex;height:8px}.thumb .miniswatch span{flex:1}
+.thumb .meta{padding:9px 11px;font-family:var(--sans);font-size:11.5px;color:var(--ink-2);background:#fbf9f3}
+.thumb .meta b{display:block;color:var(--ink);font-size:10px;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin-bottom:2px}
+.matrix{width:100%;border-collapse:collapse;font-family:var(--sans);font-size:12.5px;background:#fbf9f3;border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+.matrix th,.matrix td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+.matrix thead th{background:#f0ebdd;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.matrix tbody th{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--mut);white-space:nowrap;width:120px}
+.matrix td b{color:var(--ink)}
+.matrix tr:last-child td,.matrix tr:last-child th{border-bottom:none}
+.pick{margin-top:24px;padding:18px 22px;border:1px solid var(--rule);border-left:3px solid var(--gold);border-radius:12px;
+  background:#fbf9f3;font-family:var(--sans);font-size:13.5px;color:var(--ink-2);line-height:1.7}
+.pick b{color:var(--ink)}
+footer{padding:40px 0 70px;font-family:var(--sans);font-size:12px;color:var(--mut);line-height:1.7}
+footer b{color:var(--ink-2)}
+</style>
+</head>
+<body>
+
+<!-- ============ reusable ink figures + botanicals (recolored via currentColor) ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="sumi-sit" viewBox="0 0 150 156">
+    <!-- blind-contour seated meditant: confident filled silhouette, slight wobble -->
+    <path fill="currentColor" d="M75 16c-11 0-19 8-19 19 0 10 7 18 17 19-8 4-13 11-17 24-5 17-10 33-32 46 3 3 8 3 14 2-3 5-5 9-4 12 4 2 9 1 13-2 8-4 18-6 34-6 17 0 27 2 35 6 4 3 9 4 13 2 1-3-1-7-4-12 6 1 11 1 14-2-22-13-27-29-32-46-4-13-9-20-17-24 10-1 17-9 17-19 0-11-8-19-19-19z"/>
+    <path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" opacity=".28" d="M55 108q20-9 40 0"/>
+  </symbol>
+  <symbol id="sumi-walk" viewBox="0 0 120 168">
+    <!-- Kinhin: robed figure mid-stride, forward lean -->
+    <path fill="currentColor" d="M60 12c-9 0-16 7-16 16 0 8 6 15 15 16-8 2-13 8-16 21-3 15-8 31-22 52 8 4 16 1 22-7 3 21 4 30 2 35 6 3 11 1 13-6 2-17 3-29 6-40 3 12 5 27 10 41 3 6 9 8 14 4-4-9-7-24-9-42 8 8 14 10 21 8-14-22-17-40-19-54-3-14-9-21-17-22 10-1 16-8 16-16 0-9-7-16-16-16z"/>
+  </symbol>
+  <symbol id="sprig" viewBox="0 0 160 34">
+    <path d="M6 17H154" stroke="currentColor" stroke-width="1" opacity=".55" fill="none"/>
+    <g fill="none" stroke="currentColor" stroke-width="1.4" opacity=".85">
+      <path d="M64 17q-10-12-22-10 8 9 22 10"/><path d="M96 17q10-12 22-10-8 9-22 10"/>
+      <path d="M72 17q-7 10-16 10 6-8 16-10"/><path d="M88 17q7 10 16 10-6-8-16-10"/>
+    </g>
+    <circle cx="80" cy="17" r="3.4" fill="currentColor"/><circle cx="80" cy="17" r="6.4" fill="none" stroke="currentColor" stroke-width="1"/>
+  </symbol>
+  <symbol id="vine-corner" viewBox="0 0 120 120">
+    <g fill="none" stroke="currentColor" stroke-width="1.5" opacity=".8">
+      <path d="M8 112C8 60 24 26 60 12"/><path d="M28 74q-14-6-20-20 16 2 24 14"/>
+      <path d="M40 50q-16-4-20-20 16 0 24 12"/><path d="M54 30q-14-6-16-22 15 3 22 15"/>
+    </g>
+    <g fill="currentColor" opacity=".85"><circle cx="60" cy="12" r="3.2"/><circle cx="52" cy="18" r="2.2"/></g>
+  </symbol>
+</defs></svg>
+
+<div class="wrap">
+  <header class="mast">
+    <div class="eyebrow">The Companion · visual bake-off · staging</div>
+    <h1>Five directions for a reading companion</h1>
+    <p class="sub">Same screen — the Romans 8:28–30 slow-read — drawn five ways, so they can sit side by side.</p>
+    <p class="anchor">The companion is a <b>reading-first</b> interface that reads one passage slowly. It holds the generative gap where two readings meet and <b>deposits nothing</b> — it draws out the reader's meaning, it never hands one down. This is a <b>divergent</b> pass: five relatively-different looks, each a full feel + palette, all <b>members of one family</b> (a nod to the GoM base — vellum · sage · gold · ink), each varying <i>within</i> it. Re-made, not skinned; for adults, never twee. Pick one, or synthesize.</p>
+    <div class="famrow">
+      <span class="fl">the base family</span>
+      <span class="fam"><i style="background:#f4f1ea"></i>vellum</span>
+      <span class="fam"><i style="background:#6a7a3d"></i>sage</span>
+      <span class="fam"><i style="background:#b8923b"></i>gold</span>
+      <span class="fam"><i style="background:#2b2620"></i>ink</span>
+    </div>
+  </header>
+</div>
+
+<nav class="rail"><div class="wrap">
+  <span class="rl">jump</span>
+  <a href="#d1">1 · Illuminated Book</a>
+  <a href="#d2">2 · Ink &amp; Void</a>
+  <a href="#d3">3 · Living Garden</a>
+  <a href="#d4">4 · The Study</a>
+  <a href="#d5">5 · The Pilgrimage</a>
+  <a href="#board">▪ 5-up board</a>
+</div></nav>
+
+<div class="wrap">
+  <div class="guards">
+    <b>Guards travel through all five.</b>
+    <span class="g"><b>·</b> deposits nothing (§2.1) — never asserts a reading or "traditions agree"; it holds the gap.</span>
+    <span class="g"><b>·</b> no gamification of the sacred (no scores/streaks); reduced-motion fallback on every motion.</span>
+    <span class="g"><b>·</b> CARE — represent-don't-simulate closed practices; the drawn demonstrator is <i>open</i> practices only (lectio-posture, Zazen, Kinhin); closed rites are honored/named, never a step-by-step figure.</span>
+    <span class="g"><b>·</b> re-make, not copy (no cloning living artists / the engraving look).</span>
+    <span class="g"><b>·</b> the rhyme is the reader's association (§2.6), never asserted convergence — <i>moves rhyme, telos diverges.</i></span>
+    <span class="g"><b>·</b> two registers legible everywhere: <i>illuminated</i> received-Word (the golden chain) + spare <i>sumi/ink</i> enacted-practice (the demonstrator).</span>
+  </div>
+
+  <!-- ============================== D1 · ILLUMINATED BOOK ============================== -->
+  <section class="dir d1" id="d1">
+    <div class="dir-head"><span class="dir-num">01</span><h2>Illuminated Book</h2>
+      <span class="dir-mood">a living illuminated manuscript — the chain as a gilded page</span>
+      <span class="dir-pole">the ornate / pigmented pole</span></div>
+    <div class="grid">
+      <div class="spec">
+        <h3>Palette</h3>
+        <div class="sw"><span style="background:#f4f1ea"></span><span style="background:#b8923b"></span><span style="background:#2d4a7a"></span><span style="background:#3d6b4a"></span><span style="background:#9e3b2e"></span></div>
+        <div class="swlab"><span><i style="background:#f4f1ea"></i>vellum f4f1ea</span><span><i style="background:#b8923b"></i>gold-leaf b8923b</span><span><i style="background:#2d4a7a"></i>lapis 2d4a7a</span><span><i style="background:#3d6b4a"></i>malachite 3d6b4a</span><span><i style="background:#9e3b2e"></i>vermilion 9e3b2e</span></div>
+        <h3>Type pairing</h3>
+        <p class="type-ex" style="font-family:'Iowan Old Style',Palatino,serif">Display · a humanist blackletter-adjacent (Cardo / EB&nbsp;Garamond&nbsp;SC)</p>
+        <p>Body · EB&nbsp;Garamond. <span style="color:var(--mut)">Mock renders a Palatino/Iowan fallback.</span></p>
+        <h3>Texture / material</h3>
+        <p>Vellum tooth + faint gold wash; drop-caps in vermilion; a Morris botanical border rules the page; gilded roundels catch light (highlight-inset, never flat).</p>
+        <h3>Negative-space ghost</h3>
+        <p>A <b>sinopia</b> — the withheld "why God chose these" as a faint red-ochre underdrawing beneath the chain. <b>Rubricate, don't black-out.</b></p>
+        <h3>Sumi demonstrator</h3>
+        <p>Lives in the <b>margin</b> — a spare ink seated form beside the gilded text; ornate word / spare body, both the maker's hand.</p>
+        <h3>Touchstone</h3>
+        <p class="touch">Book of Kells × William Morris × a reverent, non-kitsch re-make.</p>
+      </div>
+      <!-- MOCK SCREEN -->
+      <div class="screen">
+        <div class="illum-frame">
+          <svg style="position:absolute;top:-2px;left:-2px;width:66px;height:66px" viewBox="0 0 120 120"><use href="#vine-corner" style="color:#3d6b4a"/></svg>
+          <svg style="position:absolute;top:-2px;right:-2px;width:66px;height:66px;transform:scaleX(-1)" viewBox="0 0 120 120"><use href="#vine-corner" style="color:#3d6b4a"/></svg>
+          <div class="spine" style="color:#8a6a2a"><span class="on">Read</span><i>›</i><span>Reflect</span><i>›</i><span>Respond</span><i>›</i><span>Rest</span></div>
+          <div class="scr-tag">Romans · read as Christian first &nbsp;·&nbsp; lens: the 6-move walk</div>
+          <h2 class="scr-h" style="color:#5a3a12">Romans 8<span style="color:#9e3b2e">:28–30</span></h2>
+          <p class="scr-sub">The golden chain — an unbroken sequence, link to link.</p>
+          <div class="chain">
+            <div class="link"><span class="dot">ⲁ</span><div class="lw">foreknew</div><div class="gk">προέγνω</div></div>
+            <div class="link"><span class="dot">ⲃ</span><div class="lw">predestined</div><div class="gk">προώρισεν</div></div>
+            <div class="link"><span class="dot">ⲅ</span><div class="lw">called</div><div class="gk">ἐκάλεσεν</div></div>
+            <div class="link"><span class="dot">ⲇ</span><div class="lw">justified</div><div class="gk">ἐδικαίωσεν</div></div>
+            <div class="link"><span class="dot">ⲉ</span><div class="lw">glorified</div><div class="gk">ἐδόξασεν</div></div>
+          </div>
+          <p class="passage" style="font-size:15.5px;margin-top:6px"><span class="dropcap">A</span>nd we know that all things work together for good to them that love God, to them who are <span class="chainword">the called</span> according to his purpose. For whom he did <span class="chainword">foreknow</span>, he also did <span class="chainword">predestinate</span>… whom he called, them he also <span class="chainword">justified</span>: and whom he justified, them he also <span class="chainword">glorified</span>.</p>
+          <p class="passage" style="font-size:13px;font-style:italic;color:#9e3b2e;opacity:.62;margin-top:6px">…why <em>these</em>? Paul names every link and seals the reason. <span style="font-style:normal">— the ghost the page holds, and does not fill.</span></p>
+          <div class="lensrow">
+            <span class="lens on">the 6-move walk</span><span class="lens">Lectio</span><span class="lens">Close reading</span><span class="lens">Chavruta</span><span class="lens">the mirror</span>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:14px;margin-top:8px">
+            <div class="sumi-wrap" style="flex:0 0 auto"><svg class="sumi" width="58" height="60"><use href="#sumi-sit"/></svg><div class="caption" style="text-align:center;margin-top:0">the reader,<br>seated</div></div>
+            <div class="mirror" style="flex:1">
+              <div class="q">What caught you in the chain?</div>
+              <div class="m">The companion mirrors it back — it does not resolve it. A mirror, not a face.</div>
+            </div>
+          </div>
+          <div class="guardline">deposits nothing · rubricate don't erase · for adults</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== D2 · INK & VOID ============================== -->
+  <section class="dir d2" id="d2">
+    <div class="dir-head"><span class="dir-num">02</span><h2>Ink &amp; Void</h2>
+      <span class="dir-mood">shān-shuǐ — the text small in a sea of emptiness; the negative space <i>is</i> the medium</span>
+      <span class="dir-pole">the spare / apophatic pole</span></div>
+    <div class="grid">
+      <div class="spec">
+        <h3>Palette</h3>
+        <div class="sw"><span style="background:#f6f1e3"></span><span style="background:#2b2620"></span><span style="background:#9e3b2e"></span></div>
+        <div class="swlab"><span><i style="background:#f6f1e3"></i>vellum f6f1e3</span><span><i style="background:#2b2620"></i>ink 2b2620</span><span><i style="background:#9e3b2e"></i>one vermilion seal 9e3b2e</span></div>
+        <h3>Type pairing</h3>
+        <p class="type-ex" style="font-family:Georgia,serif;font-weight:400;letter-spacing:.02em">Display · a light-weight transitional serif</p>
+        <p>Body · the same face, small &amp; airy. <span style="color:var(--mut)">Near-monochrome; type recedes.</span></p>
+        <h3>Texture / material</h3>
+        <p>Raw paper grain; one dry-brush stroke; a single carved <b>vermilion seal</b> is the only colour on the page.</p>
+        <h3>Negative-space ghost</h3>
+        <p>The emptiness itself. The withheld "why" is the <b>vast blank half</b> — one-corner composition (Ma Yuan); the gap needs no drawing because it is the field.</p>
+        <h3>Sumi demonstrator</h3>
+        <p><b>Central and large</b> — the seated gesture carries the screen; the chain is a thin marginal line. Spare body over ornate word.</p>
+        <h3>Touchstone</h3>
+        <p class="touch">Ma Yuan's one-corner × sumi-e × Sengai's economy.</p>
+      </div>
+      <!-- MOCK SCREEN -->
+      <div class="screen">
+        <div class="void">
+          <div class="empty">
+            <div class="sumi-wrap" style="position:absolute;left:16%;bottom:16%;color:#2b2620"><svg class="sumi" width="150" height="156"><use href="#sumi-sit"/></svg></div>
+            <div style="position:absolute;left:20%;top:14%;font-family:Georgia,serif;font-style:italic;font-size:12px;color:#5b5446;opacity:.5;max-width:12ch">the field the reader sits in</div>
+          </div>
+          <div class="content">
+            <div class="spine" style="color:#5b5446"><span class="on">Read</span><i>›</i><span>Reflect</span><i>›</i><span>Respond</span><i>›</i><span>Rest</span></div>
+            <div class="scr-tag" style="margin-top:auto">Romans · read as Christian first &nbsp;·&nbsp; lens: Apophatic / silence</div>
+            <h2 class="scr-h">Romans 8:28–30</h2>
+            <p class="passage">For whom he did <span class="chainword">foreknow</span>, he also did <span class="chainword">predestinate</span>… and whom he <span class="chainword">called</span>, them he also <span class="chainword">justified</span>: and whom he justified, them he also <span class="chainword">glorified</span>.</p>
+            <div class="chain">
+              <div class="link"><span class="dot"></span><span class="lw">foreknew</span><span class="gk">προέγνω</span></div>
+              <div class="link"><span class="dot"></span><span class="lw">predestined</span><span class="gk">προώρισεν</span></div>
+              <div class="link"><span class="dot"></span><span class="lw">called</span><span class="gk">ἐκάλεσεν</span></div>
+              <div class="link"><span class="dot"></span><span class="lw">justified</span><span class="gk">ἐδικαίωσεν</span></div>
+              <div class="link"><span class="dot"></span><span class="lw">glorified</span><span class="gk">ἐδόξασεν</span></div>
+            </div>
+            <div class="lensrow"><span class="lens on">silence</span><span class="lens">Lectio</span><span class="lens">the mirror</span></div>
+            <div class="mirror"><div class="q">Sit with the gap where the reason should be.</div><div class="m">Nothing is filled in. The blank is Paul's, not ours.</div></div>
+            <div class="guardline" style="margin-top:12px">deposits nothing · the void is the text</div>
+          </div>
+          <svg class="seal" width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><rect x="2" y="2" width="42" height="42" rx="4" fill="#9e3b2e"/><g fill="#f6f1e3" font-family="Georgia,serif"><text x="23" y="20" text-anchor="middle" font-size="14">読</text><text x="23" y="37" text-anchor="middle" font-size="14">む</text></g></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== D3 · LIVING GARDEN ============================== -->
+  <section class="dir d3" id="d3">
+    <div class="dir-head"><span class="dir-num">03</span><h2>Living Garden</h2>
+      <span class="dir-mood">the GoM.org craft feel, alive — the chain as a growing branch</span>
+      <span class="dir-pole">the organic / GoM-craft pole</span></div>
+    <div class="grid">
+      <div class="spec">
+        <h3>Palette</h3>
+        <div class="sw"><span style="background:#f4f1ea"></span><span style="background:#6a7a3d"></span><span style="background:#cbb06a"></span><span style="background:#3d6b4a"></span><span style="background:#2f2a22"></span></div>
+        <div class="swlab"><span><i style="background:#f4f1ea"></i>vellum f4f1ea</span><span><i style="background:#6a7a3d"></i>sage 6a7a3d</span><span><i style="background:#cbb06a"></i>soft-gold cbb06a</span><span><i style="background:#3d6b4a"></i>green 3d6b4a</span><span><i style="background:#2f2a22"></i>ink 2f2a22</span></div>
+        <h3>Type pairing</h3>
+        <p class="type-ex" style="font-family:'Iowan Old Style',Palatino,serif">Display · Newsreader (the GoM house serif)</p>
+        <p>Body · Newsreader / a warm humanist serif. <span style="color:var(--mut)">Direct GoM.org continuity.</span></p>
+        <h3>Texture / material</h3>
+        <p>Warm vellum; soft botanical washes; the corner-botanical system as a <b>live, growing</b> element; dashed stems, not hard rules.</p>
+        <h3>Negative-space ghost</h3>
+        <p>The withheld "why" is the unseen <b>root system</b> beneath the branch — implied below the soil-line, faint green-ochre, never dug up.</p>
+        <h3>Sumi demonstrator</h3>
+        <p>Seated <b>among the leaves</b> — the ink figure sits in the garden, sage-toned; still contemplation beside the growing form.</p>
+        <h3>Touchstone</h3>
+        <p class="touch">GoM.org × Arts-&amp;-Crafts botanical × a living herbarium.</p>
+      </div>
+      <!-- MOCK SCREEN -->
+      <div class="screen">
+        <div class="scr-pad">
+          <svg style="position:absolute;right:8px;bottom:6px;width:120px;height:120px;opacity:.5" viewBox="0 0 120 120"><use href="#vine-corner" style="color:#6a7a3d;transform:scaleX(-1);transform-origin:center"/></svg>
+          <div class="spine" style="color:#6a7a3d"><span class="on">Read</span><i>›</i><span>Reflect</span><i>›</i><span>Respond</span><i>›</i><span>Rest</span></div>
+          <div class="scr-tag" style="color:#5a6a3a">Romans · read as Christian first &nbsp;·&nbsp; lens: the 6-move walk</div>
+          <h2 class="scr-h">Romans 8:28–30</h2>
+          <p class="scr-sub">One unbroken branch — link growing from link.</p>
+          <div class="chain">
+            <div class="link"><span class="dot"></span><div class="lw">foreknew</div><div class="gk">προέγνω</div></div>
+            <div class="link"><span class="dot"></span><div class="lw">predestined</div><div class="gk">προώρισεν</div></div>
+            <div class="link"><span class="dot"></span><div class="lw">called</div><div class="gk">ἐκάλεσεν</div></div>
+            <div class="link"><span class="dot"></span><div class="lw">justified</div><div class="gk">ἐδικαίωσεν</div></div>
+            <div class="link"><span class="dot"></span><div class="lw">glorified</div><div class="gk">ἐδόξασεν</div></div>
+          </div>
+          <p class="passage" style="margin-top:8px">And we know that all things work together for good to them that love God, to them who are <span class="chainword">the called</span> according to his purpose. For whom he did <span class="chainword">foreknow</span>, he also did <span class="chainword">predestinate</span>… whom he called, them he also <span class="chainword">justified</span>: and whom he justified, them he also <span class="chainword">glorified</span>.</p>
+          <p class="passage" style="font-size:13px;font-style:italic;color:#5a6a3a;opacity:.7;margin-top:6px">The root — <em>why these</em> — stays under the soil. The branch is shown; the root is honoured, not dug up.</p>
+          <div class="lensrow"><span class="lens on">the 6-move walk</span><span class="lens">Lectio</span><span class="lens">VTS</span><span class="lens">the mirror</span></div>
+          <div style="display:flex;align-items:flex-end;gap:14px;margin-top:8px">
+            <div class="sumi-wrap" style="flex:0 0 auto"><svg class="sumi" width="56" height="58"><use href="#sumi-sit"/></svg></div>
+            <div class="mirror" style="flex:1"><div class="q">Where did your attention want to go?</div><div class="m">An invitation, never "you should reach the divine." The companion doesn't grade the path you pick.</div></div>
+          </div>
+          <div class="guardline" style="color:#5a6a3a">deposits nothing · invitation not prescription</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== D4 · THE STUDY ============================== -->
+  <section class="dir d4" id="d4">
+    <div class="dir-head"><span class="dir-num">04</span><h2>The Study</h2>
+      <span class="dir-mood">a working manuscript — the reader's own hand in the margins</span>
+      <span class="dir-pole">the scholarly-intimate pole</span></div>
+    <div class="grid">
+      <div class="spec">
+        <h3>Palette</h3>
+        <div class="sw"><span style="background:#efe7d3"></span><span style="background:#5f5849"></span><span style="background:#a6893f"></span><span style="background:#a33a2c"></span><span style="background:#2f2a24"></span></div>
+        <div class="swlab"><span><i style="background:#efe7d3"></i>warm-cream efe7d3</span><span><i style="background:#5f5849"></i>sepia-ink 5f5849</span><span><i style="background:#a6893f"></i>muted-gold a6893f</span><span><i style="background:#a33a2c"></i>annotation-red a33a2c</span></div>
+        <h3>Type pairing</h3>
+        <p class="type-ex" style="font-family:Georgia,serif">Display · a bookish transitional serif (Georgia / Charter)</p>
+        <p>Body · the same; margins in a <b>hand</b> face + mono for references.</p>
+        <h3>Texture / material</h3>
+        <p>Ruled commonplace-book paper; a red margin-rule; sepia diagram; the reader's pencil underlines and marginal notes; warm, not clinical.</p>
+        <h3>Negative-space ghost</h3>
+        <p>A <b>marginal query in the reader's own hand</b> — "why these?" pencilled beside the sealed link; the gap is annotated, never answered.</p>
+        <h3>Sumi demonstrator</h3>
+        <p>A small sepia figure sketched in the margin like a study; quiet, drawn-in-passing. <b>Quiet marginalia</b> is the only social layer — never comments.</p>
+        <h3>Touchstone</h3>
+        <p class="touch">An annotated codex × the commonplace-book × warm paper.</p>
+      </div>
+      <!-- MOCK SCREEN -->
+      <div class="screen">
+        <div class="scr-pad">
+          <div class="spine"><span class="on">Read</span><i>›</i><span>Reflect</span><i>›</i><span>Respond</span><i>›</i><span>Rest</span></div>
+          <div class="scr-tag">Romans · read as Christian first &nbsp;·&nbsp; lens: Close reading</div>
+          <h2 class="scr-h">Romans 8:28–30</h2>
+          <div class="passage" style="margin-top:12px">
+            <div class="marg" style="top:0">nb — the<br>chain</div>
+            <p style="margin-bottom:8px">For whom he did <span class="chainword underline-r">foreknow</span>, he also did <span class="chainword underline-r">predestinate</span> to be conformed to the image of his Son…</p>
+            <div class="marg" style="top:54px;color:#8a7350;font-family:inherit;font-style:italic">proginōskō<br>=fore-<u>loved</u>?</div>
+            <p>Moreover whom he did predestinate, them he also <span class="chainword underline-r">called</span>: and whom he called, them he also <span class="chainword underline-r">justified</span>: and whom he justified, them he also <span class="chainword underline-r">glorified</span>.</p>
+            <div class="marg" style="top:150px;font-size:13px">why<br>these?</div>
+          </div>
+          <div class="chain">
+            <div class="link"><span class="dot"></span><span class="lw">foreknew</span><span class="gk">προέγνω</span></div>
+            <div class="link"><span class="dot"></span><span class="lw">predestined</span><span class="gk">προώρισεν</span></div>
+            <div class="link"><span class="dot"></span><span class="lw">called</span><span class="gk">ἐκάλεσεν</span></div>
+            <div class="link"><span class="dot"></span><span class="lw">justified</span><span class="gk">ἐδικαίωσεν</span></div>
+            <div class="link"><span class="dot"></span><span class="lw">glorified</span><span class="gk">ἐδόξασεν</span></div>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:14px;margin-top:6px">
+            <div class="sumi-wrap" style="flex:0 0 auto;opacity:.8"><svg class="sumi" width="50" height="52"><use href="#sumi-sit"/></svg></div>
+            <div class="mirror" style="flex:1"><div class="q">What did you underline, and why?</div><div class="m">Your marginalia is yours. Others' notes stay faint — presence, not comments.</div></div>
+          </div>
+          <div class="quietmarg">— a reader before you paused on "foreknew" too.</div>
+          <div class="lensrow"><span class="lens on">Close reading</span><span class="lens">Chavruta</span><span class="lens">PaRDeS</span><span class="lens">the mirror</span></div>
+          <div class="guardline">deposits nothing · quiet marginalia, never comments</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== D5 · THE PILGRIMAGE ============================== -->
+  <section class="dir d5" id="d5">
+    <div class="dir-head"><span class="dir-num">05</span><h2>The Pilgrimage</h2>
+      <span class="dir-mood">an illuminated map — the chain as stations along a gold path</span>
+      <span class="dir-pole">the journey / map pole</span></div>
+    <div class="grid">
+      <div class="spec">
+        <h3>Palette</h3>
+        <div class="sw"><span style="background:#c8874a"></span><span style="background:#7a8a6d"></span><span style="background:#b8923b"></span><span style="background:#2b2620"></span><span style="background:#f4efe2"></span></div>
+        <div class="swlab"><span><i style="background:#c8874a"></i>terracotta c8874a</span><span><i style="background:#7a8a6d"></i>sage-sea 7a8a6d</span><span><i style="background:#b8923b"></i>gold-path b8923b</span><span><i style="background:#2b2620"></i>ink 2b2620</span></div>
+        <h3>Type pairing</h3>
+        <p class="type-ex" style="font-family:'Iowan Old Style',Palatino,serif">Display · a mapmaker's engraved serif</p>
+        <p>Body · humanist serif; station labels in small caps / mono.</p>
+        <h3>Texture / material</h3>
+        <p>Aged-map ground; ochre landmasses, sage-sea; a winding gold path; waypoint pins; hand-lettered stations.</p>
+        <h3>Negative-space ghost</h3>
+        <p>The withheld "why" is <b>uncharted terrain</b> — a faint blank region past the last station, marked but never surveyed (<i>here the map ends</i>).</p>
+        <h3>Sumi demonstrator</h3>
+        <p>A <b>walking</b> ink figure (Kinhin) on the path — motion-through; still <i>and</i> moving contemplation is itself a cross-tradition rhyme.</p>
+        <h3>Touchstone</h3>
+        <p class="touch">A medieval pilgrimage map × a Japanese pilgrimage mandala × Ocean-of-Books, re-made in our hand.</p>
+      </div>
+      <!-- MOCK SCREEN -->
+      <div class="screen">
+        <div class="scr-pad">
+          <div class="spine" style="color:#8a6a4a"><span class="on">Read</span><i>›</i><span>Reflect</span><i>›</i><span>Respond</span><i>›</i><span>Rest</span></div>
+          <div class="scr-tag" style="color:#9a6a3a">Romans · read as Christian first &nbsp;·&nbsp; the reading as a journey</div>
+          <h2 class="scr-h">Romans 8:28–30</h2>
+          <p class="scr-sub" style="color:#8a5a2a">Five stations on one gold road — <span style="font-style:normal;font-family:var(--mono);font-size:11px">proximity = a candidate rhyme, never "they agree."</span></p>
+          <div class="path-wrap">
+            <svg viewBox="0 0 620 90" style="width:100%;height:84px;display:block" aria-hidden="true">
+              <path d="M20 64 C110 20 150 78 250 44 S430 20 520 54 600 40 600 40" fill="none" stroke="#b8923b" stroke-width="3" stroke-dasharray="2 6" stroke-linecap="round"/>
+              <text x="600" y="20" font-family="Georgia,serif" font-style="italic" font-size="11" fill="#7a8a6d" text-anchor="end" opacity=".7">…here the map ends</text>
+            </svg>
+            <div class="stations">
+              <div class="station"><span class="pin"></span><span class="lw">foreknew</span><span class="gk">προέγνω</span></div>
+              <div class="station"><span class="pin"></span><span class="lw">predestined</span><span class="gk">προώρισεν</span></div>
+              <div class="station"><span class="pin"></span><span class="lw">called</span><span class="gk">ἐκάλεσεν</span></div>
+              <div class="station"><span class="pin"></span><span class="lw">justified</span><span class="gk">ἐδικαίωσεν</span></div>
+              <div class="station"><span class="pin"></span><span class="lw">glorified</span><span class="gk">ἐδόξασεν</span></div>
+            </div>
+          </div>
+          <p class="passage" style="font-size:15px;margin-top:12px">For whom he did <span class="chainword">foreknow</span>, he also did <span class="chainword">predestinate</span>… whom he called, them he also <span class="chainword">justified</span>: and whom he justified, them he also <span class="chainword">glorified</span>.</p>
+          <div style="display:flex;align-items:flex-end;gap:14px;margin-top:8px">
+            <div class="sumi-wrap" style="flex:0 0 auto"><svg class="sumi" width="44" height="62"><use href="#sumi-walk"/></svg><div class="caption" style="text-align:center">walking<br>(Kinhin)</div></div>
+            <div class="mirror" style="flex:1"><div class="q">How far did the road carry you?</div><div class="m">Beyond the last station the terrain is unsurveyed — the reason God chose is off the map, by Paul's design.</div></div>
+          </div>
+          <div class="lensrow"><span class="lens on">journey</span><span class="lens">Naikan-walk</span><span class="lens">Lectio</span><span class="lens">the mirror</span></div>
+          <div class="guardline" style="color:#9a6a3a">deposits nothing · proximity = candidate rhyme, not agreement</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 5-UP BOARD ============================== -->
+  <section class="board" id="board">
+    <h2>The five, side by side</h2>
+    <p class="lead">One family, five weightings of it. Pick the one that fits the companion's telos — a slow, reverent reading that holds the gap — or synthesize (e.g. Illuminated word + Ink&amp;Void restraint; Garden warmth + Study intimacy).</p>
+    <div class="thumbs">
+      <a class="thumb" href="#d1"><div class="miniswatch"><span style="background:#f4f1ea"></span><span style="background:#b8923b"></span><span style="background:#2d4a7a"></span><span style="background:#3d6b4a"></span><span style="background:#9e3b2e"></span></div>
+        <div class="cap" style="background:radial-gradient(circle at 30% 20%,#b8923b,#5a3a12)"><span class="nm">1 · Illuminated Book</span></div>
+        <div class="meta"><b>ornate / pigmented</b>gilded roundels, Morris border, sinopia ghost, margin figure.</div></a>
+      <a class="thumb" href="#d2"><div class="miniswatch"><span style="background:#f6f1e3"></span><span style="background:#2b2620"></span><span style="background:#9e3b2e"></span></div>
+        <div class="cap" style="background:linear-gradient(135deg,#f6f1e3 55%,#2b2620)"><span class="nm" style="color:#2b2620;text-shadow:none">2 · Ink &amp; Void</span></div>
+        <div class="meta"><b>spare / apophatic</b>one-corner, huge blank, central sumi, one seal.</div></a>
+      <a class="thumb" href="#d3"><div class="miniswatch"><span style="background:#f4f1ea"></span><span style="background:#6a7a3d"></span><span style="background:#cbb06a"></span><span style="background:#3d6b4a"></span></div>
+        <div class="cap" style="background:radial-gradient(circle at 70% 90%,#6a7a3d,#3d4a24)"><span class="nm">3 · Living Garden</span></div>
+        <div class="meta"><b>organic / GoM-craft</b>growing branch, root-ghost, figure among leaves.</div></a>
+      <a class="thumb" href="#d4"><div class="miniswatch"><span style="background:#efe7d3"></span><span style="background:#5f5849"></span><span style="background:#a6893f"></span><span style="background:#a33a2c"></span></div>
+        <div class="cap" style="background:linear-gradient(135deg,#efe7d3,#5f5849)"><span class="nm">4 · The Study</span></div>
+        <div class="meta"><b>scholarly-intimate</b>reader's hand in the margins, annotated ghost, quiet marginalia.</div></a>
+      <a class="thumb" href="#d5"><div class="miniswatch"><span style="background:#c8874a"></span><span style="background:#7a8a6d"></span><span style="background:#b8923b"></span><span style="background:#2b2620"></span></div>
+        <div class="cap" style="background:linear-gradient(135deg,#c8874a,#7a8a6d)"><span class="nm">5 · The Pilgrimage</span></div>
+        <div class="meta"><b>journey / map</b>stations on a gold path, uncharted-ghost, walking figure.</div></a>
+    </div>
+
+    <table class="matrix">
+      <thead><tr><th></th><th>1 · Illuminated</th><th>2 · Ink &amp; Void</th><th>3 · Garden</th><th>4 · Study</th><th>5 · Pilgrimage</th></tr></thead>
+      <tbody>
+        <tr><th>Pole</th><td>ornate / pigmented</td><td>spare / apophatic</td><td>organic / craft</td><td>scholarly-intimate</td><td>journey / map</td></tr>
+        <tr><th>Palette weight</th><td>gold + lapis + malachite, rich</td><td>ink on vellum, 1 seal</td><td>sage + soft-gold, warm</td><td>cream + sepia + red</td><td>terracotta + sage-sea + gold</td></tr>
+        <tr><th>The chain</th><td>gilded roundels, gold line</td><td>thin marginal ink list</td><td>growing dashed branch</td><td>quiet sepia diagram</td><td>waypoint pins on a path</td></tr>
+        <tr><th>Ghost (the "why")</th><td>sinopia underdrawing</td><td>the vast blank half</td><td>unseen root system</td><td>pencilled marginal query</td><td>uncharted terrain</td></tr>
+        <tr><th>Demonstrator</th><td>seated, in the margin</td><td>seated, large &amp; central</td><td>seated among leaves</td><td>small sepia study</td><td>walking (Kinhin)</td></tr>
+        <tr><th>Reads as</th><td><b>reverent, sacred weight</b></td><td><b>meditative, quiet</b></td><td><b>alive, continuous with GoM.org</b></td><td><b>cerebral but warm</b></td><td><b>exploratory, Q2-forward</b></td></tr>
+        <tr><th>Watch-out</th><td>can tip ornate → kitsch</td><td>can read cold / austere</td><td>closest to existing site (least new)</td><td>red-rule can feel busy</td><td>map can imply "they agree" — guard hard</td></tr>
+      </tbody>
+    </table>
+
+    <div class="pick">
+      <b>Recommendation (design-SB).</b> If the companion should feel like a <i>sacred object</i>, lead with <b>Illuminated Book</b> and borrow <b>Ink &amp; Void</b>'s restraint so the gold never tips to kitsch — the two registers (illuminated word / spare body) are already the companion's spec, so this pairing is the most on-brief. If it should feel like an <i>extension of the live site</i>, <b>Living Garden</b> is the safest continuity but the least new. My pick to <b>push next</b>: <b>Illuminated × Ink&amp;Void hybrid</b> for the received-Word screens + <b>Study</b>'s marginalia for the reader's own layer. Your call — pick one, rank them, or name a synthesis and I'll build the chosen direction out to a real interactive slow-read.
+    </div>
+  </section>
+
+  <footer>
+    <b>How produced.</b> design-SB, 2026-07-08 — companion 5-direction visual bake-off per <code>field_ed/DESIGN_SB_companion_5_directions_bakeoff_2026-07-08.md</code> + companion §7 (<code>DESIGN_SB_HANDOVER_companion_2026-07-05.md</code>). All five nod to the GoM base family (vellum · sage · gold · ink) and vary within it; each mocks the same Romans 8:28–30 slow-read (KJV, public-domain) for comparability. The golden chain (foreknew → predestined → called → justified → glorified) and its Greek are the shared content; the negative-space "why" is held, never filled (§2.1). Type is rendered with system-font fallbacks (no CDN) that evoke the named commissioned faces; the real build embeds hand-drawn Fresco-vector figures + the illuminated faces per the D-pipeline. Sumi figures are original single-contour drawings (re-make-not-copy). Staging only — noindex; design-SB owns build + deploy; reading-SB advises.
+    <br><br><b>What needs verification.</b> (1) researcher picks / synthesizes — the 5 are a scaffold, swap freely. (2) drawn demonstrator = OPEN practices only (lectio-posture / Zazen / Kinhin); closed rites honored-not-figured. (3) the map direction must hold the similarity-flattening guard (proximity = candidate rhyme). (4) Stage 6 = 0 — the companion deposits nothing. (5) commissioned faces + hand-drawn vector figures replace the mock fallbacks in the real build.
+  </footer>
+</div>
+</body>
+</html>
