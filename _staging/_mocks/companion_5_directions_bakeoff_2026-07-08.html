@@ -207,6 +207,42 @@ section.dir{padding:44px 0 8px;border-bottom:1px dashed var(--rule)}
 .pick b{color:var(--ink)}
 footer{padding:38px 0 70px;font-family:var(--sans);font-size:12px;color:var(--ink-3,#7C8478);line-height:1.7}
 footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
+
+/* ---- FIXED brandmark (worn by all five) ---- */
+.brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none;color:var(--moss)}
+.brand .mk{width:24px;height:24px;flex:0 0 auto}
+.brand .wm{font-family:var(--serif);font-weight:600;font-size:16px;letter-spacing:-.01em}
+/* ---- LENS-SELECTOR — the round-2 differentiator: a distinct treatment per mode ---- */
+.lens-tab{position:absolute;left:0;top:96px;writing-mode:vertical-rl;transform:rotate(180deg);
+  background:var(--paper-3);border:1px solid var(--rule);border-left:none;border-radius:0 8px 8px 0;
+  padding:14px 6px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--fern);z-index:3}
+.lens-tab b{color:var(--moss)}
+.lens-margin{font-family:var(--sans);font-size:12px;color:var(--ink-2);margin-top:16px;display:flex;gap:9px;align-items:center;justify-content:center;flex-wrap:wrap}
+.lens-margin .cur{background:var(--fern);color:#fff;border-radius:99px;padding:3px 12px;font-weight:600}
+.lens-margin .oth{color:var(--ink-3,#7C8478)}
+.lens-note{margin-top:16px;background:#fbf3ea;border:1.4px solid #e0b48a;border-radius:12px 10px 14px 9px;padding:11px 14px;transform:rotate(-.4deg)}
+.lens-note .h{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--terracotta);margin-bottom:6px}
+.lens-note .opt{font-family:var(--serif);font-size:14px;color:#5a4a2c;margin:2px 14px 2px 0;display:inline-block}
+.lens-note .opt.on{color:#7a3f1e;font-weight:700;position:relative}
+.lens-note .opt.on::after{content:"";position:absolute;left:-3px;right:-3px;bottom:-3px;height:5px;background:no-repeat center/100% url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='6'><path d='M1 3 Q20 6 40 3 T79 4' fill='none' stroke='%23C4602F' stroke-width='1.6'/></svg>")}
+.lens-morris{margin-top:14px;border:1.4px solid var(--olive);border-radius:8px;background:rgba(252,251,247,.82);padding:11px 14px}
+.lens-morris .h{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--olive);margin-bottom:7px}
+.lens-morris .opt{font-family:var(--serif);font-size:13.5px;color:#2c4a38;display:flex;align-items:center;gap:8px;padding:2px 0}
+.lens-morris .opt::before{content:"";width:8px;height:8px;border-radius:0 50% 50% 50%;background:var(--sage);flex:0 0 auto}
+.lens-morris .opt.on{font-weight:700}.lens-morris .opt.on::before{background:var(--gold)}
+.lens-dial{margin-top:20px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.lens-dial .row{display:flex;align-items:center;gap:14px}
+.lens-dial .arw{font-family:var(--sans);color:var(--ink-3,#7C8478);font-size:16px}
+.lens-dial .cur{font-family:var(--serif);font-size:16px;color:var(--ink);min-width:12ch;text-align:center}
+.lens-dial .dots{display:flex;gap:4px}
+.lens-dial .dots i{width:4px;height:4px;border-radius:50%;background:var(--rule)}.lens-dial .dots i.on{background:var(--fern)}
+.lens-index{margin-top:14px;border-top:1px solid rgba(201,162,39,.3);border-bottom:1px solid rgba(201,162,39,.3);padding:11px 0}
+.lens-index .h{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#cbb98a;margin-bottom:8px}
+.lens-index .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1px 18px}
+.lens-index .fam{display:flex;gap:7px;align-items:baseline;font-family:var(--serif);font-size:11.5px;color:#c7d3c0;padding:2px 0}
+.lens-index .fam .in{font-family:var(--serif);font-size:14px;color:var(--gold);font-weight:700;flex:0 0 15px}
+.lens-index .fam.on{color:#f2ecd6}.lens-index .fam.on .in{text-shadow:0 0 8px rgba(224,169,59,.6)}
+.lens-index .fam .at{color:#9db79f;font-size:10px;font-style:italic}
 </style>
 </head>
 <body>
@@ -252,10 +288,11 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
 
 <div class="bo">
   <header class="mast">
-    <div class="eyebrow">The Companion · look &amp; feel · staging · v2</div>
+    <a class="brand" href="/index.html" style="margin-bottom:14px"><svg class="mk" viewBox="0 0 200 200" fill="none" aria-hidden="true"><path d="M100 30 C74 52 58 92 62 126 C64 152 82 168 100 176 L100 30 Z" fill="#2C4A38"/><path d="M100 30 C126 52 142 92 138 126 C136 152 118 168 100 176 L100 30 Z" fill="#8AA88B"/><line x1="100" y1="34" x2="100" y2="174" stroke="#FCFBF7" stroke-width="3"/><line x1="100" y1="176" x2="100" y2="194" stroke="#2C4A38" stroke-width="11" stroke-linecap="round"/></svg><span class="wm">Grammar of Meaning</span></a>
+    <div class="eyebrow">The Companion · look &amp; feel · staging · v3 (round 2)</div>
     <h1>Five iterations of the GoM look</h1>
     <p class="sub">Same house language, same screen — the Romans 8:28–30 slow-read — five different <b>modes</b> of it.</p>
-    <p class="anchor">Not five separate aesthetic worlds — <b>five modes of the one core look</b> (the live GoM house pattern: <code style="font-family:var(--mono);font-size:12px">gom.css</code> tokens, Newsreader / Inter / Plex&nbsp;Mono, paper · moss · fern · sage · olive · terracotta · gold). Each varies <b>layout · UI · interaction · palette-weighting</b> — one leans <i>slow-reading</i>, one <i>handmade-web</i>, one <i>Morris</i>, one <i>minimalism</i>, one <i>maximalism</i> (on a green-but-in-palette ground). Same content, five ways. Pick one, or synthesize.</p>
+    <p class="anchor"><b>Five outfits on one body, not five bodies.</b> The GoM identity is <b>fixed</b> — the same brandmark (above) + favicon + house pattern, the same palette family (<code style="font-family:var(--mono);font-size:12px">gom.css</code>: paper · moss · fern · sage · olive · terracotta · gold), the two registers (illuminated Word / spare ink body), and the botanical system. What <b>varies</b> is design-mode · layout · UI · interaction — one leans <i>slow-reading</i>, one <i>handmade-web</i>, one <i>Morris</i>, one <i>minimalism</i>, one <i>maximalism</i> (green-forward, still in-palette). <b>The lens-selector is the thing they actually differ on</b> — a margin-tab · a hand-drawn note · a Morris menu · a spare dial · an illuminated index — because <i>how the reader picks a lens</i> is the companion's core UI. The slow-read screen is built so the three hero exhibits drop in (reception-diptych → the Sitz view · translation-morph → a Sitz-dial · golden-chain-hole → the held "why"). Pick one, or synthesize.</p>
     <div class="famrow">
       <span class="fl">the house palette</span>
       <span class="fam"><i style="background:#FCFBF7"></i>paper</span>
@@ -305,7 +342,8 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
       <div class="screen">
         <div class="scr-pad">
           <div class="spine"><span class="on">Read</span><i>›</i><span>Reflect</span><i>›</i><span>Respond</span><i>›</i><span>Rest</span></div>
-          <div class="scr-tag" style="text-align:center">Romans · read as Christian first &nbsp;·&nbsp; lens: the 6-move walk</div>
+          <div class="scr-tag" style="text-align:center">Romans · read as Christian first</div>
+          <div class="lens-margin"><span class="cur">the 6-move walk</span><span class="oth">Lectio</span><span class="oth">silence</span><span class="oth">the mirror</span><span class="oth" style="opacity:.6">+ 10 families ⌄</span></div>
           <h2 class="scr-h">Romans 8<span class="vn">:28–30</span></h2>
           <p class="scr-sub">the golden chain, one link at a time</p>
           <p class="passage">
@@ -363,7 +401,7 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
             <div class="link"><span class="dot"></span><div class="lw">glorified</div><div class="gk">ἐδόξασεν</div></div>
           </div>
           <div class="scrawl">↑ Paul names every link — and seals <i>why these</i>. left blank on purpose.</div>
-          <div class="lensrow"><span class="lens on">Close reading</span><span class="lens">Lectio</span><span class="lens">Chavruta</span><span class="lens">the mirror</span></div>
+          <div class="lens-note"><div class="h">reading through — pick a lens</div><span class="opt on">Close reading</span><span class="opt">Lectio</span><span class="opt">Chavruta</span><span class="opt">the mirror</span><span class="opt" style="opacity:.6">+ the full battery…</span></div>
           <div class="demo"><svg width="34" height="38" style="color:var(--olive)"><use href="#fig-sit"/></svg> the demonstrator — for a bodily practice (open only)</div>
           <div class="mirror"><div class="q">What did your hand want to underline?</div><div class="m">Your marks are yours. The companion mirrors, never advises.</div></div>
           <div class="guardline">deposits nothing · the seams show, on purpose</div>
@@ -407,7 +445,7 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
             </div>
             <p class="passage" style="font-size:15.5px">For whom he did <span class="cw">foreknow</span>, he also did <span class="cw">predestinate</span>… whom he called, them he also <span class="cw">justified</span>: and whom he justified, them he also <span class="cw">glorified</span>.</p>
             <p class="ghostline">A bare patch in the pattern where <em>why these</em> would grow — the vine leaves it un-grown.</p>
-            <div class="lensrow"><span class="lens on">the 6-move walk</span><span class="lens">Lectio</span><span class="lens">VTS</span><span class="lens">the mirror</span></div>
+            <div class="lens-morris"><div class="h">the lens (pick one)</div><div class="opt on">The 6-move walk</div><div class="opt">Lectio · staged-discursive</div><div class="opt">VTS · what makes you say that?</div><div class="opt">Theoria · symbolic</div><div class="opt">the Rogerian mirror</div></div>
             <div class="mirror"><div class="q">Where did your attention want to go?</div><div class="m">An invitation, never "you should reach the divine."</div></div>
           </div>
           <div class="guardline">deposits nothing · ornament serves the reading</div>
@@ -447,7 +485,7 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
             <div class="link"><span class="dot"></span><div class="lw">justified</div></div>
             <div class="link"><span class="dot"></span><div class="lw">glorified</div></div>
           </div>
-          <div class="lensrow"><span class="lens on">close reading</span><span class="lens">silence</span><span class="lens">the mirror</span></div>
+          <div class="lens-dial"><div class="row"><span class="arw">‹</span><span class="cur">close reading</span><span class="arw">›</span></div><div class="dots"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
           <div class="mirror"><div class="q">Sit with the gap where the reason should be.</div><div class="m">Nothing is filled in.</div></div>
           <div class="guardline">deposits nothing</div>
         </div>
@@ -490,7 +528,18 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
           </div>
           <p class="passage" style="font-size:15.5px">And we know that all things work together for good to them that love God, to them who are <span class="cw">the called</span> according to his purpose. For whom he did <span class="cw">foreknow</span>, he also did <span class="cw">predestinate</span>… them he also <span class="cw">justified</span>: and whom he justified, them he also <span class="cw">glorified</span>.</p>
           <p class="ghostline">Beyond the last gold link the ground goes unlit — <em>why these</em> is present, and unilluminated.</p>
-          <div class="lensrow"><span class="lens on">the 6-move walk</span><span class="lens">Lectio</span><span class="lens">Chavruta</span><span class="lens">the mirror</span></div>
+          <div class="lens-index"><div class="h">the lens battery — ten families, illuminated</div><div class="grid2">
+            <div class="fam on"><span class="in">Ⅰ</span>Staged-discursive <span class="at">Lectio · PaRDeS</span></div>
+            <div class="fam"><span class="in">Ⅱ</span>Analytical <span class="at">close reading</span></div>
+            <div class="fam"><span class="in">Ⅲ</span>Symbolic <span class="at">Quadriga</span></div>
+            <div class="fam"><span class="in">Ⅳ</span>Apophatic <span class="at">Contemplatio · Dadirri</span></div>
+            <div class="fam"><span class="in">Ⅴ</span>Embodied <span class="at">Hesychasm · body-scan</span></div>
+            <div class="fam"><span class="in">Ⅵ</span>Recitation <span class="at">Nembutsu · dhikr</span></div>
+            <div class="fam"><span class="in">Ⅶ</span>Dialogical <span class="at">Chavruta</span></div>
+            <div class="fam"><span class="in">Ⅷ</span>Imaginative <span class="at">Ignatian</span></div>
+            <div class="fam"><span class="in">Ⅸ</span>Ethical <span class="at">Naikan · Stoic review</span></div>
+            <div class="fam"><span class="in">Ⅹ</span>Meta <span class="at">Rogerian mirror</span></div>
+          </div></div>
           <div class="demo"><svg width="34" height="38" style="color:#9db79f"><use href="#fig-sit"/></svg> the demonstrator — sage line on the green (open practices only)</div>
           <div class="mirror"><div class="q">What in the chain holds light for you?</div><div class="m">Mirrored back, never resolved.</div></div>
           <div class="guardline">deposits nothing · abundance serves the reading, never the score</div>
@@ -517,6 +566,7 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
         <tr><th>Ground</th><td>paper</td><td>paper (warm)</td><td>paper + faint pattern</td><td>paper</td><td><b>moss green</b></td></tr>
         <tr><th>Palette weight</th><td>ink + 1 fern</td><td>terracotta + olive</td><td>sage/olive + gold</td><td>ink + 1 fern</td><td>gold+sage+terra on green</td></tr>
         <tr><th>The chain</th><td>builds as you read</td><td>ink circles, dashed</td><td>gilded berries on a vine</td><td>hairline + 5 points</td><td>glowing gold links</td></tr>
+        <tr><th>Lens-selector <span style="color:var(--terracotta)">★</span></th><td><b>margin selector</b></td><td><b>hand-drawn note</b></td><td><b>Morris menu</b></td><td><b>spare dial</b></td><td><b>illuminated index (all 10)</b></td></tr>
         <tr><th>Interaction</th><td>line-at-a-time, breath</td><td>inks itself (draw-on)</td><td>border grows</td><td>hidden until touched</td><td>links catch light</td></tr>
         <tr><th>Reads as</th><td><b>calm, unhurried</b></td><td><b>human, warm</b></td><td><b>crafted, alive</b></td><td><b>clear, austere</b></td><td><b>rich, reverent</b></td></tr>
         <tr><th>Watch-out</th><td>can feel sparse for a rich text</td><td>wobble must stay tasteful</td><td>pattern can crowd the words</td><td>can read cold</td><td>green+gold must not tip to kitsch</td></tr>
