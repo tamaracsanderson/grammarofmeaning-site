@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Companion · Romans 8:28–30 · a slow read</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/gom.css">
+<style>
+/* ============================================================================
+   THE COMPANION — Romans 8:28–30, the interactive slow-read (design-SB 2026-07-08)
+   Locked look (researcher pick, option 1): deep-green ground · quiet gold Chi-Rho
+   serial repeat · beige double-gold card · larger title · honey accents.
+   Guards: deposits nothing (§2.1) · no gamification · reduced-motion fallback ·
+   nothing is saved or sent. Progressive enhancement: with JS off, everything shows.
+   ============================================================================ */
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.6}
+.bo{max-width:1000px;margin:0 auto;padding:0 20px}
+.bo svg{width:auto;height:auto;max-width:100%}
+.topnote{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3,#7C8478);text-align:center;padding:20px 0 0}
+
+/* --- the green Chi-Rho ground (option 1: quiet gold) --- */
+.ground{position:relative;margin:16px 0 40px;border-radius:20px;overflow:hidden;padding:48px 34px;display:flex;justify-content:center;
+  background-color:#22392b;box-shadow:0 24px 60px -26px rgba(10,26,16,.7);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='104' height='104'><g fill='none' stroke='%23c9a227' stroke-width='4' stroke-linecap='round' opacity='0.5'><line x1='52' y1='24' x2='52' y2='84'/><path d='M52 26 C76 26 76 50 52 50'/><line x1='28' y1='36' x2='76' y2='80'/><line x1='76' y1='36' x2='28' y2='80'/></g></svg>");
+  background-repeat:repeat,no-repeat;background-size:78px 78px;background-position:center}
+@media(max-width:640px){.ground{padding:22px 10px}}
+
+/* --- the beige double-gold card --- */
+.card{position:relative;z-index:1;width:min(600px,100%);background:#f5efe1;border:2px solid rgba(201,162,39,.5);border-radius:5px;
+  padding:40px 46px 34px;box-shadow:0 28px 70px -22px rgba(8,22,12,.6)}
+.card::before{content:"";position:absolute;inset:8px;border:1px solid rgba(201,162,39,.7);border-radius:2px;pointer-events:none}
+@media(max-width:640px){.card{padding:30px 22px 26px}}
+.c-eb{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--olive);text-align:center}
+.orn{display:flex;align-items:center;justify-content:center;gap:16px;margin:14px 0 2px}
+.orn::before,.orn::after{content:"";height:1px;flex:0 1 110px;background:var(--gold);opacity:.55}
+.orn .di{font-size:10px;color:#E0A93B;transform:rotate(45deg);line-height:1}
+.c-h{font-family:var(--serif);font-size:clamp(38px,5.6vw,52px);font-weight:600;color:var(--moss);text-align:center;line-height:1.04;margin:6px 0 0;letter-spacing:-.015em}
+.orn-sm{width:56px;height:1px;background:var(--gold);opacity:.6;margin:12px auto 4px}
+
+/* --- tabs (the four modes) --- */
+.tabs{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:16px 0 2px}
+.tab{font-family:var(--sans);font-size:13px;color:var(--ink-2);background:none;border:1px solid transparent;border-radius:99px;padding:5px 14px;cursor:pointer}
+.tab:hover{background:rgba(201,162,39,.1)}
+.tab[aria-selected="true"]{color:var(--moss);font-weight:600;border-color:rgba(201,162,39,.5);background:#fbf6ea}
+.panel{display:none;margin-top:8px}
+.panel.on{display:block}
+
+/* --- the reader --- */
+.reading{font-family:var(--serif);font-size:19.5px;line-height:1.9;color:var(--ink);text-align:center;max-width:30em;margin:14px auto 0;min-height:150px}
+.ph{transition:opacity .5s ease}
+.ph.veiled{opacity:0}
+.ph .cw{color:var(--moss);font-style:italic;font-weight:600}
+.reading.done .ph.veiled{opacity:0} /* stays hidden */
+.pace{display:flex;align-items:center;justify-content:center;gap:9px;margin:22px 0 4px;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--ink-3,#7C8478);cursor:pointer;user-select:none}
+.pace .b{width:9px;height:9px;border-radius:50%;background:#E0A93B;animation:br 3.8s ease-in-out infinite}
+@keyframes br{0%,100%{transform:scale(.7);opacity:.5}50%{transform:scale(1.12);opacity:1}}
+.pace.hidden{display:none}
+
+/* --- the golden chain --- */
+.chain{display:flex;align-items:flex-start;justify-content:space-between;margin:26px auto 0;max-width:30em}
+.chain .lk{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;position:relative}
+.chain .lk .d{width:9px;height:9px;border-radius:50%;background:#d8cdb0;z-index:2;box-shadow:0 0 0 3px #f5efe1;transition:background .4s,transform .4s}
+.chain .lk.lit .d{background:#E0A93B;transform:scale(1.25)}
+.chain .lk:not(:last-child)::after{content:"";position:absolute;top:4px;left:50%;width:100%;height:1px;background:#d8cdb0;z-index:1}
+.chain .lk.lit:not(:last-child)::after{background:#E0A93B;opacity:.5}
+.chain .lk span{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--ink-3,#7C8478);transition:color .4s}
+.chain .lk.lit span{color:var(--ink-2)}
+
+/* --- the held "why" + reflect (revealed at end of the read) --- */
+.tail{opacity:0;max-height:0;overflow:hidden;transition:opacity .6s ease}
+.tail.show{opacity:1;max-height:600px;margin-top:20px}
+.why{font-family:var(--serif);font-style:italic;font-size:14.5px;color:var(--olive);text-align:center;line-height:1.6}
+.why em{color:var(--terracotta);font-style:normal}
+.reflect{margin-top:20px;border-top:1px solid var(--rule);padding-top:16px}
+.reflect .q{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--moss);text-align:center}
+.reflect textarea{width:100%;margin-top:12px;min-height:78px;background:#fbf7ee;border:1px solid var(--rule);border-radius:8px;padding:11px 13px;
+  font-family:var(--serif);font-size:15px;color:var(--ink);resize:vertical}
+.reflect textarea::placeholder{color:var(--ink-3,#7C8478);font-style:italic}
+.reflect .m{font-family:var(--sans);font-size:11px;color:var(--ink-3,#7C8478);text-align:center;margin-top:8px}
+
+/* --- the move (word-swap) --- */
+.move-p{font-family:var(--serif);font-size:18px;line-height:1.85;color:var(--ink);text-align:center;max-width:30em;margin:16px auto 0}
+.swap{color:var(--moss);font-weight:600;border-bottom:1.5px dotted var(--gold);cursor:pointer;font-style:italic}
+.move-note{font-family:var(--sans);font-size:12.5px;color:var(--ink-2);text-align:center;max-width:30em;margin:18px auto 0;line-height:1.6}
+.move-note b{color:var(--moss)}
+
+/* --- the gap --- */
+.gap-wrap{text-align:center;max-width:30em;margin:16px auto 0}
+.gap-p{font-family:var(--serif);font-size:17px;line-height:1.8;color:var(--ink)}
+.gap-hole{margin:20px auto;height:74px;border:1px dashed rgba(196,96,47,.4);border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-style:italic;color:var(--olive);font-size:14px;background:repeating-linear-gradient(45deg,rgba(196,96,47,.03) 0 8px,transparent 8px 16px)}
+.gap-note{font-family:var(--sans);font-size:12px;color:var(--ink-3,#7C8478);line-height:1.6}
+
+/* --- the lens bar + ⌘K palette --- */
+.lensbar{font-family:var(--sans);font-size:12.5px;color:var(--ink-3,#7C8478);text-align:center;margin-top:22px;border-top:1px solid var(--rule);padding-top:14px}
+.lensbar b{color:var(--moss)}
+.lensbar button{font-family:var(--mono);font-size:10.5px;color:var(--fern);background:none;border:1px solid var(--rule);border-radius:99px;padding:4px 10px;margin-left:8px;cursor:pointer}
+.lensbar button:hover{border-color:var(--fern)}
+.palette-scrim{position:fixed;inset:0;background:rgba(20,30,22,.55);backdrop-filter:blur(3px);z-index:50;display:none;align-items:flex-start;justify-content:center;padding:8vh 16px}
+.palette-scrim.open{display:flex}
+.palette{width:min(560px,100%);background:var(--paper);border:1px solid var(--rule);border-radius:14px;box-shadow:0 30px 80px -20px rgba(8,22,12,.6);overflow:hidden;max-height:82vh;display:flex;flex-direction:column}
+.palette .ph-lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3,#7C8478);padding:16px 20px 6px}
+.palette input{border:none;border-bottom:1px solid var(--rule);margin:0 20px 6px;padding:6px 0 12px;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ink);background:none;outline:none}
+.palette input::placeholder{color:var(--ink-3,#7C8478)}
+.palette .list{overflow-y:auto;padding:6px 0 10px}
+.opt{display:flex;gap:12px;align-items:baseline;padding:11px 20px;cursor:pointer;border-left:3px solid transparent}
+.opt.sel{background:#f3efe2;border-left-color:var(--gold)}
+.opt .nm{font-family:var(--serif);font-size:16px;color:var(--moss);font-weight:600}
+.opt .fam{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--olive)}
+.opt .ds{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--ink-2);flex-basis:100%;margin-top:2px}
+.opt .body{flex:1;min-width:0}
+.palette .foot{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--ink-3,#7C8478);border-top:1px solid var(--rule);padding:9px 20px;display:flex;justify-content:space-between}
+.guards{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3,#7C8478);text-align:center;padding:0 0 60px;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="topnote">The Companion · a slow read · staging</div>
+<div class="bo">
+  <div class="ground">
+    <div class="card">
+      <div class="c-eb">Romans · read as Christian first</div>
+      <div class="orn"><span class="di">&#9670;</span></div>
+      <div class="c-h">Romans 8:28–30</div>
+      <div class="orn-sm"></div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-p="read">Slow read</button>
+        <button class="tab" role="tab" aria-selected="false" data-p="ask">Ask</button>
+        <button class="tab" role="tab" aria-selected="false" data-p="move">The move</button>
+        <button class="tab" role="tab" aria-selected="false" data-p="gap">The gap</button>
+      </div>
+
+      <!-- SLOW READ -->
+      <div class="panel on" id="p-read">
+        <div class="reading" id="reading">
+          <span class="ph">And we know that all things work together for good </span>
+          <span class="ph">to them that love God, </span>
+          <span class="ph veiled" data-link="2">to them who are <span class="cw">the called</span> according to his purpose. </span>
+          <span class="ph veiled" data-link="0">For whom he did <span class="cw">foreknow</span>, </span>
+          <span class="ph veiled" data-link="1">he also did <span class="cw">predestinate</span> to be conformed to the image of his Son, </span>
+          <span class="ph veiled">that he might be the firstborn among many brethren. </span>
+          <span class="ph veiled">Moreover whom he did predestinate, them he also called: </span>
+          <span class="ph veiled" data-link="3">and whom he called, them he also <span class="cw">justified</span>: </span>
+          <span class="ph veiled" data-link="4">and whom he justified, them he also <span class="cw">glorified</span>. </span>
+        </div>
+        <div class="pace" id="pace"><span class="b"></span> tap, scroll, or press space to unfold the next line</div>
+        <div class="chain" id="chain">
+          <div class="lk" data-i="0"><span class="d"></span><span>foreknew</span></div>
+          <div class="lk" data-i="1"><span class="d"></span><span>predestined</span></div>
+          <div class="lk" data-i="2"><span class="d"></span><span>called</span></div>
+          <div class="lk" data-i="3"><span class="d"></span><span>justified</span></div>
+          <div class="lk" data-i="4"><span class="d"></span><span>glorified</span></div>
+        </div>
+        <div class="tail" id="tail">
+          <div class="why">Paul names every link — and seals <em>why these</em>. The gap is his, not ours; the companion holds it and fills nothing in.</div>
+          <div class="reflect">
+            <div class="q">What caught you?</div>
+            <textarea placeholder="a word, a phrase, a snag… or nothing." aria-label="reflection"></textarea>
+            <div class="m">Nothing here is scored, saved, or sent. The reply is a question, not an answer.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ASK -->
+      <div class="panel" id="p-ask">
+        <div class="reflect" style="border-top:none;padding-top:6px">
+          <div class="q">What caught you?</div>
+          <textarea placeholder="Write anything. Or nothing. This stays on your device." aria-label="reflection"></textarea>
+          <div class="m">Nothing you write is saved, logged, or sent. The companion mirrors — it never advises.</div>
+        </div>
+      </div>
+
+      <!-- THE MOVE -->
+      <div class="panel" id="p-move">
+        <div class="move-p">For whom he did <span class="swap" id="sw1" data-a="foreknew" data-b="fore-loved">foreknew</span>, he also did <span class="swap" id="sw2" data-a="predestinate" data-b="marked out beforehand">predestinate</span>… them he also justified, them he also glorified.</div>
+        <div class="move-note"><b>One word sounds like a decree. The other sounds like a hand drawing a line in advance.</b> Tap a word to turn it in the light. Neither is presented as the right one.</div>
+      </div>
+
+      <!-- THE GAP -->
+      <div class="panel" id="p-gap">
+        <div class="gap-wrap">
+          <div class="gap-p">The chain runs unbroken: foreknew → predestined → called → justified → glorified. Paul names each link.</div>
+          <div class="gap-hole">…why <em style="font-style:italic;color:var(--terracotta)">these</em>? — held, not filled</div>
+          <div class="gap-note">The reason God chose is the one thing Paul does not say. Holding that gap, and depositing nothing into it, is faithful to his reticence — not a design conceit.</div>
+        </div>
+      </div>
+
+      <div class="lensbar">reading through <b id="lensname">the 6-move walk</b><button id="lensbtn">change lens ⌘K</button></div>
+    </div>
+  </div>
+  <div class="guards">deposits nothing · nothing saved or sent · reduced-motion aware · a mirror, not a face</div>
+</div>
+
+<!-- ⌘K lens palette -->
+<div class="palette-scrim" id="scrim" role="dialog" aria-modal="true" aria-label="Choose a lens">
+  <div class="palette">
+    <div class="ph-lab">Choose a lens</div>
+    <input id="psearch" placeholder="Search: silence, body, image…" aria-label="Search lenses">
+    <div class="list" id="plist"></div>
+    <div class="foot"><span>↑ ↓ move · ↵ choose · esc close</span><span>ten families · one at a time</span></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- slow-read reveal ---------- */
+  var reading=document.getElementById('reading'), pace=document.getElementById('pace'),
+      tail=document.getElementById('tail'), chain=document.getElementById('chain');
+  var phrases=[].slice.call(reading.querySelectorAll('.ph'));
+  var links=[].slice.call(chain.querySelectorAll('.lk'));
+  var idx=phrases.filter(function(p){return !p.classList.contains('veiled');}).length; // first shown
+  function lightUpTo(){
+    phrases.forEach(function(p,i){
+      if(i<idx && p.dataset.link!=null){ var lk=links[+p.dataset.link]; if(lk) lk.classList.add('lit'); }
+    });
+  }
+  function advance(){
+    if(idx>=phrases.length){ finish(); return; }
+    phrases[idx].classList.remove('veiled'); idx++;
+    lightUpTo();
+    if(idx>=phrases.length) finish();
+  }
+  function finish(){
+    pace.classList.add('hidden');
+    tail.classList.add('show');
+    links.forEach(function(l){l.classList.add('lit');});
+  }
+  if(RM){ // reduced motion: show everything at once
+    phrases.forEach(function(p){p.classList.remove('veiled');}); idx=phrases.length; finish();
+  } else {
+    lightUpTo();
+    document.getElementById('p-read').addEventListener('click',function(e){
+      if(e.target.closest('textarea')||e.target.closest('.swap')) return; advance();
+    });
+    window.addEventListener('keydown',function(e){
+      if(e.key===' '&&document.getElementById('p-read').classList.contains('on')&&!document.getElementById('scrim').classList.contains('open')){ e.preventDefault(); advance(); }
+    });
+    var lastScroll=0;
+    window.addEventListener('scroll',function(){
+      var y=window.scrollY; if(y>lastScroll+40 && document.getElementById('p-read').classList.contains('on')){ advance(); lastScroll=y; }
+    },{passive:true});
+  }
+
+  /* ---------- tabs ---------- */
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  tabs.forEach(function(t){ t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-selected', x===t ? 'true':'false');});
+    document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+    document.getElementById('p-'+t.dataset.p).classList.add('on');
+  });});
+
+  /* ---------- the move (word-swap) ---------- */
+  document.querySelectorAll('.swap').forEach(function(s){
+    var on=false; s.addEventListener('click',function(e){ e.stopPropagation(); on=!on; s.textContent = on ? s.dataset.b : s.dataset.a; });
+  });
+
+  /* ---------- ⌘K lens palette ---------- */
+  var LENSES=[
+    ['Lectio divina','staged','Move through the passage in four unhurried stages.'],
+    ['Close reading','analytical','Attend to how the sentence is built.'],
+    ['Figural','symbolic','Let words open into images that reach elsewhere.'],
+    ['Silence','apophatic','Read by refusing to conclude.'],
+    ['Body-scan','embodied','Notice what the passage does in the body.'],
+    ['Aloud','recitation','Say the passage until it says itself.'],
+    ['Chavruta','dialogical','Argue it with a partner; hold the tension.'],
+    ['Ignatian','imaginative','Place yourself inside the scene.'],
+    ['Naikan','ethical','Turn the passage back on your own life.'],
+    ['The mirror','meta','It reflects your reading back — never fixes it.'],
+    ['The 6-move walk','grammar of meaning','Plain sense · the move · negative space · the weight · the rhyme · the mirror.']
+  ];
+  var scrim=document.getElementById('scrim'), plist=document.getElementById('plist'),
+      psearch=document.getElementById('psearch'), lensname=document.getElementById('lensname');
+  var sel=10, filtered=LENSES.slice();
+  function render(){
+    plist.innerHTML=''; filtered.forEach(function(l,i){
+      var d=document.createElement('div'); d.className='opt'+(i===sel?' sel':'');
+      d.innerHTML='<span class="body"><span class="nm">'+l[0]+'</span> <span class="fam">'+l[1]+'</span><span class="ds">'+l[2]+'</span></span>';
+      d.addEventListener('click',function(){choose(i);});
+      plist.appendChild(d);
+    });
+  }
+  function openP(){ scrim.classList.add('open'); psearch.value=''; filtered=LENSES.slice(); sel=filtered.length-1; render(); setTimeout(function(){psearch.focus();},30); }
+  function closeP(){ scrim.classList.remove('open'); }
+  function choose(i){ if(!filtered[i])return; lensname.textContent=filtered[i][0]; closeP(); }
+  document.getElementById('lensbtn').addEventListener('click',openP);
+  window.addEventListener('keydown',function(e){
+    if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){ e.preventDefault(); scrim.classList.contains('open')?closeP():openP(); return; }
+    if(!scrim.classList.contains('open')) return;
+    if(e.key==='Escape') closeP();
+    else if(e.key==='ArrowDown'){ e.preventDefault(); sel=Math.min(sel+1,filtered.length-1); render(); }
+    else if(e.key==='ArrowUp'){ e.preventDefault(); sel=Math.max(sel-1,0); render(); }
+    else if(e.key==='Enter'){ e.preventDefault(); choose(sel); }
+  });
+  psearch && psearch.addEventListener('input',function(){
+    var q=psearch.value.toLowerCase();
+    filtered=LENSES.filter(function(l){return (l[0]+' '+l[1]+' '+l[2]).toLowerCase().indexOf(q)>=0;});
+    sel=0; render();
+  });
+  scrim.addEventListener('click',function(e){ if(e.target===scrim) closeP(); });
+})();
+</script>
+</body>
+</html>
