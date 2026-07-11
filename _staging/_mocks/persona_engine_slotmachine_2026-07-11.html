@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>The persona slot machine · spin a coordinate, meet a mind · E×O×M</title>
+<title>The persona slot machine · meet a lens, or put it to a gap · E×O×M</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -19,17 +19,26 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);
   background-image:radial-gradient(circle at 12% 0%,rgba(184,146,59,.06),transparent 40%),radial-gradient(circle at 88% 2%,rgba(58,90,64,.05),transparent 42%)}
 .wrap{max-width:940px;margin:0 auto;padding:0 24px}
 a{color:var(--moss)}
-.mast{padding:44px 0 4px;text-align:center}
+.mast{padding:42px 0 4px;text-align:center}
 .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 .mast h1{font-family:var(--serif);font-size:clamp(28px,5vw,44px);font-weight:600;line-height:1.05;margin:12px 0 8px;color:#2c2a20;letter-spacing:-.01em}
 .tagline{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--terra)}
-.mast .sub{font-family:var(--sans);font-size:13.5px;color:var(--ink-2);max-width:66ch;margin:14px auto 0}
+.mast .sub{font-family:var(--sans);font-size:13.5px;color:var(--ink-2);max-width:64ch;margin:14px auto 0}
 .mast .sub b{color:var(--ink)}
-.gapbar{font-family:var(--mono);font-size:11.5px;color:var(--ink-2);background:var(--paper-2);border:1px solid var(--rule);border-radius:99px;display:inline-block;padding:6px 15px;margin-top:16px}
-.gapbar b{color:var(--terra)}
 
-/* the machine */
-.machine{background:linear-gradient(180deg,#fffdf8,#f6efdf);border:1px solid var(--rule);border-radius:20px;padding:22px 20px 24px;margin:26px 0 0;box-shadow:0 20px 50px -34px rgba(60,50,30,.6)}
+/* mode toggle */
+.modebar{display:flex;justify-content:center;margin:22px 0 0}
+.seg{display:inline-flex;background:var(--paper-2);border:1px solid var(--rule);border-radius:99px;padding:4px;gap:3px}
+.seg button{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink-2);background:none;border:none;border-radius:99px;padding:8px 18px;cursor:pointer;transition:background .15s,color .15s}
+.seg button .s{display:block;font-family:var(--mono);font-size:9.5px;font-weight:400;color:var(--mut);letter-spacing:.03em;text-transform:uppercase;margin-top:2px}
+.seg button.on{background:var(--terra);color:#fff}
+.seg button.on .s{color:rgba(255,255,255,.8)}
+
+.machine{background:linear-gradient(180deg,#fffdf8,#f6efdf);border:1px solid var(--rule);border-radius:20px;padding:20px 20px 22px;margin:16px 0 0;box-shadow:0 20px 50px -34px rgba(60,50,30,.6)}
+.gappick{margin:0 0 16px;text-align:center;display:none}
+.gappick.show{display:block}
+.gappick label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin-right:8px}
+.gappick select{font-family:var(--sans);font-size:13px;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:7px 12px;cursor:pointer}
 .reels{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .reel{position:relative}
 .reel .cap{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;text-align:center;margin-bottom:7px;font-weight:600}
@@ -40,52 +49,53 @@ a{color:var(--moss)}
 .win::before{top:0;background:linear-gradient(180deg,var(--paper),transparent)}
 .win::after{bottom:0;background:linear-gradient(0deg,var(--paper),transparent)}
 .centerline{position:absolute;left:6px;right:6px;top:52px;height:52px;border-top:1.5px solid var(--gold);border-bottom:1.5px solid var(--gold);z-index:1;pointer-events:none;border-radius:3px;background:rgba(184,146,59,.06)}
-.strip{will-change:transform}
 .slot{height:52px;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 8px;font-family:var(--mono);font-size:13px;line-height:1.15;color:var(--ink)}
 .reel.E .slot{color:var(--E)} .reel.O .slot{color:var(--O)} .reel.M .slot{color:var(--M)}
-.reel.spinning .slot{opacity:.9}
-
-.controls{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:20px}
-.spin{font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:var(--terra);border:none;border-radius:99px;padding:13px 40px;cursor:pointer;box-shadow:0 10px 22px -12px rgba(184,86,46,.8);transition:transform .1s,box-shadow .1s}
-.spin:hover{transform:translateY(-1px);box-shadow:0 14px 26px -12px rgba(184,86,46,.9)}
-.spin:active{transform:translateY(1px)}
-.spin:disabled{opacity:.5;cursor:default;transform:none}
+.controls{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:18px}
+.spin{font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:var(--terra);border:none;border-radius:99px;padding:13px 40px;cursor:pointer;box-shadow:0 10px 22px -12px rgba(184,86,46,.8);transition:transform .1s}
+.spin:hover{transform:translateY(-1px)} .spin:active{transform:translateY(1px)} .spin:disabled{opacity:.5;cursor:default}
 .roam{display:flex;align-items:center;gap:7px;font-family:var(--sans);font-size:12.5px;color:var(--ink-2);cursor:pointer;user-select:none}
 .roam input{accent-color:var(--terra);width:15px;height:15px}
-.counter{font-family:var(--mono);font-size:11px;color:var(--mut);text-align:center;margin-top:4px}
+.counter{font-family:var(--mono);font-size:11px;color:var(--mut);text-align:center}
 .counter b{color:var(--terra)}
 
-/* result */
 .result{margin-top:22px;min-height:20px}
-.card{background:var(--paper-2);border:1px solid var(--rule);border-radius:16px;padding:0;overflow:hidden;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
+.card{background:var(--paper-2);border:1px solid var(--rule);border-radius:16px;overflow:hidden;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
 .card.show{opacity:1;transform:none}
-.coord{display:flex;flex-wrap:wrap;gap:0;border-bottom:1px solid var(--rule)}
-.cx{flex:1 1 33%;min-width:150px;padding:14px 16px}
+.coord{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule)}
+.cx{flex:1 1 33%;min-width:150px;padding:13px 16px}
 .cx+.cx{border-left:1px solid var(--rule)}
 .cx .k{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
 .cx .v{font-family:var(--mono);font-size:14px;font-weight:600;margin:3px 0 4px}
 .cx.E .v{color:var(--E)} .cx.O .v{color:var(--O)} .cx.M .v{color:var(--M)}
 .cx .g{font-family:var(--sans);font-size:11.5px;color:var(--ink-2);line-height:1.45}
 .body{padding:18px 20px 20px}
-.near{font-family:var(--sans);font-size:12.5px;color:var(--ink-2);margin-bottom:12px}
-.near .tag{font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--rule);border-radius:99px;padding:3px 10px;color:var(--gold);background:var(--paper)}
-.near.named .tag{color:var(--terra);border-color:var(--terra)}
-.near .note{font-style:italic;color:var(--mut)}
-.doorpill{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:#fff;background:var(--moss);border-radius:99px;padding:4px 11px;display:inline-block;margin-bottom:10px}
+.lenslead{font-family:var(--serif);font-size:16.5px;line-height:1.55;color:var(--ink);margin-bottom:16px}
+.lenslead b{color:var(--ink)}
+.near{font-family:var(--sans);font-size:12.5px;color:var(--ink-2);margin-bottom:14px}
+.near .tag{font-family:var(--mono);font-size:10px;letter-spacing:.03em;text-transform:uppercase;border:1px solid var(--gold);color:var(--gold);border-radius:99px;padding:3px 10px}
+.near .note{font-style:italic;color:var(--mut);margin-left:4px}
+.occ{border:1px solid var(--rule);border-left:3px solid var(--terra);border-radius:0 10px 10px 0;background:var(--paper);padding:12px 15px}
+.occ .oh{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--mut)}
+.occ .unv{color:var(--terra);border:1px solid var(--terra);border-radius:99px;padding:1px 7px;font-size:8.5px;margin-left:6px;white-space:nowrap}
+.occ .on{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--terra);margin:5px 0 4px}
+.occ .orat{font-family:var(--sans);font-size:12.5px;color:var(--ink-2);line-height:1.55}
+.gapline{font-family:var(--mono);font-size:11px;color:var(--ink-2);background:var(--paper);border:1px solid var(--rule);border-radius:99px;display:inline-block;padding:5px 13px;margin-bottom:12px}
+.gapline b{color:var(--terra)}
+.doorpill{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:#fff;background:var(--moss);border-radius:99px;padding:4px 11px;display:inline-block;margin:0 0 10px 8px}
 .fill{font-family:var(--serif);font-size:15.5px;line-height:1.62;color:var(--ink)}
-.fill em{color:var(--terra);font-style:italic}
+.fill em{color:var(--terra)}
 .why{margin-top:14px;border-left:3px solid var(--gold);background:var(--paper);border-radius:0 8px 8px 0;padding:9px 13px;font-family:var(--sans);font-size:12.5px;color:var(--ink-2);line-height:1.5}
 .why b{color:var(--gold);font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;display:block;margin-bottom:4px}
-/* empty (ungenerated) cell */
-.empty .body{text-align:left}
+.compact{margin-top:14px;font-family:var(--mono);font-size:10.5px;color:var(--mut);border-top:1px solid var(--rule);padding-top:10px}
+.compact b{color:var(--ink-2)}
+.switchhint{margin-top:15px;font-family:var(--sans);font-size:12.5px;color:var(--ink-2)}
+.switchhint button{font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--terra);background:none;border:none;border-bottom:1px solid var(--terra);cursor:pointer;padding:0}
 .empty .doorpill{background:var(--mut)}
 .emptymind{font-family:var(--serif);font-size:16px;line-height:1.6;color:var(--ink)}
 .emptynote{margin-top:12px;border-left:3px solid var(--terra);background:#fcefe6;border-radius:0 8px 8px 0;padding:9px 13px;font-family:var(--sans);font-size:12.5px;color:var(--ink-2);line-height:1.5}
 .emptynote b{color:var(--terra)}
 .prompt{text-align:center;font-family:var(--sans);font-size:14px;color:var(--mut);padding:26px 10px}
-
-.fourth{margin-top:22px;background:var(--paper-2);border:1px dashed var(--rule);border-radius:14px;padding:14px 18px;font-family:var(--sans);font-size:12.5px;color:var(--ink-2);line-height:1.55}
-.fourth b{color:var(--ink)}
 footer{padding:30px 0 60px;font-family:var(--sans);font-size:12px;color:var(--mut);line-height:1.7}
 footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
 @media (prefers-reduced-motion: reduce){.strip{transition:none !important}}
@@ -97,159 +107,125 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
     <div class="eyebrow">The persona engine · a coordinate machine</div>
     <h1>The persona slot machine</h1>
     <div class="tagline">the persona is the coordinate, not the name</div>
-    <p class="sub">Three reels — <b style="color:var(--E)">E</b> warrant · <b style="color:var(--O)">O</b> ontology · <b style="color:var(--M)">M</b> method. Spin, and you land on an <b>E×O×M coordinate</b> — a mind defined by three commitments, no name attached. Then read how <i>that</i> mind fills the gap. The named thinkers turn out to be ~8 points in a 120-cell space; most of it is coherent and unnamed.</p>
-    <div class="gapbar">gap · <b>She Loves You · M4</b> · &ldquo;does the addressee love her back?&rdquo; <span style="color:var(--mut)">(paraphrase, never lyrics)</span></div>
+    <p class="sub">Three reels — <b style="color:var(--E)">E</b> warrant · <b style="color:var(--O)">O</b> ontology · <b style="color:var(--M)">M</b> method. Spin to an <b>E×O×M coordinate</b> — a mind by three commitments, no name. <b>Meet the lens</b>, or <b>put it to a gap</b>.</p>
   </header>
 
+  <div class="modebar">
+    <div class="seg">
+      <button id="mA" class="on" data-mode="A">Meet the lens<span class="s">the mind itself</span></button>
+      <button id="mB" data-mode="B">Put it to a gap<span class="s">how it answers</span></button>
+    </div>
+  </div>
+
   <section class="machine">
+    <div class="gappick" id="gappick">
+      <label>gap</label>
+      <select id="gapsel">
+        <option value="sly" data-live="1">She Loves You · M4 — &ldquo;does he love her back?&rdquo; (live · 12 cells)</option>
+        <option value="rom8" data-live="0" disabled>Romans 8 · foreknew — coming (coordinate run pending)</option>
+        <option value="climate" data-live="0" disabled>Climate · Dunkelflaute — coming (coordinate run pending)</option>
+        <option value="human" data-live="0" disabled>The human condition — coming (reading-SB owes the gap + fills)</option>
+      </select>
+    </div>
     <div class="reels">
       <div class="reel E" id="reel-E"><div class="cap">E · warrant <span>how it knows</span></div><div class="win"><div class="centerline"></div><div class="strip"></div></div></div>
       <div class="reel O" id="reel-O"><div class="cap">O · ontology <span>what's real</span></div><div class="win"><div class="centerline"></div><div class="strip"></div></div></div>
       <div class="reel M" id="reel-M"><div class="cap">M · method <span>how it reasons</span></div><div class="win"><div class="centerline"></div><div class="strip"></div></div></div>
     </div>
     <div class="controls">
-      <button class="spin" id="spin">Spin</button>
+      <button class="spin" id="spin">Spin a lens</button>
       <label class="roam"><input type="checkbox" id="roam"> roam the whole 120-grid (most cells are unnamed &amp; not yet generated)</label>
-      <div class="counter"><b id="ctn">12</b> of <b>120</b> cells generated &nbsp;·&nbsp; named thinkers &asymp; 8 points &nbsp;·&nbsp; <span id="ctu">108</span> coherent-but-unnamed</div>
+      <div class="counter"><b id="ctn">12</b> of <b>120</b> cells generated &nbsp;·&nbsp; each generated cell now carries a nearest-frame + a proposed occupant</div>
     </div>
   </section>
 
-  <div class="result" id="result">
-    <div class="prompt">Pull the lever &mdash; spin a mind into being.</div>
-  </div>
-
-  <div class="fourth">
-    <b>The 4th reel — cognitive style (the stretch).</b> Add a fourth axis (e.g. openness / rigidity) and this becomes a 4-reel machine over a far larger space — the axis that produced a fill ~1.6&nbsp;SD past the whole discipline spread in the XT2 run. Not yet wired to fills here; it&rsquo;s the next turn of the crank.
-  </div>
+  <div class="result" id="result"><div class="prompt">Pull the lever &mdash; spin a mind into being.</div></div>
 
   <footer>
-    <b>How produced.</b> design-SB, 2026-07-11 &mdash; reading-SB&rsquo;s slot-machine brief. Reels = the researcher&rsquo;s known axis-values (<code>build_coordinate_grid.py</code>: E&times;O&times;M = 6&times;4&times;5 = 120). Fills are the <b>real</b> 12-cell grid run (<code>out/grid/fills_sly_M4_reciprocity_sonnet</code>) &mdash; each a persona reasoning from coordinate alone, no name. <b>Paraphrase only, never lyrics.</b> Stage&nbsp;6 = 0 &mdash; the coordinates are a generative method on a control gap, not findings.
-    <br><br><b>What needs verification.</b> Only <b>3 of 12</b> cells carry a documented nearest-landmark (reason&times;material&rarr;Jungian&nbsp;0.72; divination&times;material&rarr;If&aacute;&nbsp;0.65; observation&times;transcendent-personal&rarr;empirical-exegete). The other 9 show &ldquo;unnamed cell&rdquo; rather than a fabricated name &mdash; reading-SB owns the nearest-landmark embedding. The generated slice holds <b>M = exegesis</b>, O &isin; {material, transcendent-personal}; roam-mode surfaces the other 108 as coherent-but-ungenerated discovery targets.
+    <b>How produced.</b> design-SB, 2026-07-11 &mdash; reading-SB&rsquo;s two-mode greenlight + S138 label drop. Reels = the researcher&rsquo;s known axis-values (6&times;4&times;5 = 120). Fills are the <b>real</b> 12-cell grid run (<code>out/grid/fills_sly_M4</code>). <b>Two labels per cell</b>: <i>nearest of our 8-frame roster</i> (embedding sim) and the <i>proposed historical occupant</i> (LLM thinker-lookup) &mdash; the latter tagged <b>unverified &mdash; LLM-proposed, &sect;2.9 DB-check pending</b>. <b>Paraphrase only, never lyrics.</b> Stage&nbsp;6 = 0.
+    <br><br><b>What needs verification.</b> Occupant names are LLM-proposed, not corpus-confirmed &mdash; the on-brand upgrade is &ldquo;nearest figure in the archive&rdquo; (546 traditions / 4,890 figures), reading-SB&rsquo;s next step. Gap-picker: only <b>She Loves You · M4</b> has coordinate-grid fills; Romans / climate exist as <i>named-persona</i> runs (different roster), so they&rsquo;re marked &ldquo;coming&rdquo; pending a coordinate run. Roam-mode: the 12 generated cells land on names; the other 108 remain discovery targets.
   </footer>
 </div>
 
-<script id="fills" type="application/json">[{"E": "observation", "O": "material", "M": "exegesis", "door": "FILL", "fill": "The text offers one empirically legible trace of the addressee's internal state: he holds a false belief that her love is gone (M5). A mechanism that monitors another's attachment state, registers its apparent loss as a salient error, and remains susceptible to correction by a third-party report — that is a mechanism with active approach drives. Indifference would make the false belief motivationally inert; the friend's corrective errand would find no purchase. The narrator's silence about his love marks an epistemic limit (no direct access to his states), not an evidential absence. The behavioral record also shows he caused harm (M1), which requires prior proximity and interaction — further traces consistent with approach behavior. Mechanistically: the false belief is a discriminative stimulus for reconciliation behavior. His system is already oriented toward her. The apology prescribed in M8 is the output that brings his actions into alignment with the state his own mechanism already tracks.", "why": "M5's false-belief datum is empirically sufficient to infer active approach drives without displacing or qualifying M4.", "near": null, "sim": null, "labnote": null}, {"E": "revelation", "O": "transcendent-personal", "M": "exegesis", "door": "FILL", "fill": "The gap resolves when exegesis holds M8 in full attention: the obstacle the text names is *pride*, not absent love. Within the revealed frame, pride is the posture of self-enclosure — the refusal to stand under a claim that arrives from outside oneself. The text nowhere conditions the imperative of M8 on the addressee's desire; his reciprocal love's presence or absence changes the emotional texture of reconciliation but not its ground. That ground is disclosed prior to his interiority: a transcendent personal love — the kind that persists through hurt (M4 states a fact, not merely reports a sentiment) — is real and prior, and human love participates in it. The addressee is therefore not asked first whether he *feels* love but whether he will *act* from under the claim her love makes on him. The revealed word names what blocks him (pride), not what must be restored first (desire).", "why": "The core (she loves him) is unretraced and in fact strengthened — exegesis reads it as grounding the addressee's obligation independently of his reciprocal desire.", "near": null, "sim": null, "labnote": null}, {"E": "reason", "O": "material", "M": "exegesis", "door": "FILL", "fill": "M5 asserts the addressee holds a false belief about whether her love persists. A false belief about X is notationally significant only if X is causally relevant to the believer's states — he tracks her love because it registers in his system. M8 adds that pride constitutes a frictional cost to apologizing; friction implies resistance against a pull, not mere indifference. A mechanism with no orientation toward her would not need to \"swallow\" anything. These two textual structures — the false belief and the pride-barrier — are parsimoniously explained by a live causal disposition toward her on his part. Whether that disposition is \"love\" fully stated is opaque, but reason requires no additional posit: the causal architecture is present on his side. Given M4 (her love is asserted, not retracted) and this inferred live orientation, the mechanistically coherent prescription follows: conditions for a stable bond exist in both agents; the obstacle is surmountable (pride, not incompatibility); reconcile.", "why": "The core (she loves him) is retained; the fill derives from the text's own mechanisms — M5's false belief and M8's pride-cost — that the addressee has a live causal orientation toward her, completing the reconciliation warrant from within the frame.", "near": "Jungian", "sim": "0.72", "labnote": "nearest landmark — but not Jungian"}, {"E": "revelation", "O": "material", "M": "exegesis", "door": "FILL", "fill": "The revelation-text discloses her love as the load-bearing fact (M4). Exegetical close reading of M5 extracts a further datum: he has been tracking whether her love persists — a mechanistic behavioral disposition that presupposes caring about that fact; matter does not monitor what is irrelevant to its mechanism. M8 locates a second physical state: pride, a blocking mechanism, not an absence of attachment. The revealed command (M7–M8) predicates reconciliation on her love (M4) and the friend's witness (M6) alone — not on his disclosed reciprocity. His tracking-behavior plus the pride-block together constitute, in physical terms, a man still mechanistically engaged. The text's silence on his love is not its denial. Exegesis draws from what is said that the conditions for reconciliation are already present in the physical record — her love is real, his monitoring is real, and the revealed command therefore lands on live ground.", "why": "M5's tracking-behavior and M8's pride-block yield mechanistic evidence of ongoing engagement without displacing M4's core disclosure that she loves him.", "near": null, "sim": null, "labnote": null}, {"E": "reason", "O": "transcendent-personal", "M": "exegesis", "door": "FILL", "fill": "The text's silence on the addressee's love is not an evasion — it is the argument. M8 does not say \"love her back, then apologize\"; it says \"swallow pride and apologize.\" The warrant is traceable by unaided reason: causing harm generates an obligation to repair it, and that obligation holds whether or not the agent loves the person harmed. The ontological commitment adds weight: her love, real and unextinguished (M4, M5 together), is not merely her private datum — it is a moral fact that makes a claim on him. He stands in relation to something real whether he feels it or not. The gap — his love — is therefore morally secondary to the question at hand. If he loves her, the obligation to reconcile is richer; if he does not, the obligation persists unchanged. In either case, the text's prescribed act (M8: the apology) is achievable and required from culpability alone, prior to any question of restored feeling.", "why": "None of the three commitments requires reciprocal love as a precondition for the obligation the text already names — the fill adds the gap's content without displacing the core.", "near": null, "sim": null, "labnote": null}, {"E": "observation", "O": "transcendent-personal", "M": "exegesis", "door": "FILL", "fill": "Exegesis marks the silence precisely: the narrator reports only what the witness (M6) can attest — exterior states, observable testimony. The addressee's desire sits inside him; the text's epistemic frame cannot reach it, so silence is not negation. From the empirical side, what is attested is sufficient: harm done (M1–M2), love persisting (M4), judgment revised (M3) — these are the observable terms on which M8's imperative rests. A transcendent personal ground for love means her attested love carries real weight independently of whether he reciprocates; the harm he caused is answerable to something more than her psychology alone. His desire, if present, would make M7's \"be glad\" fully inhabited rather than merely rational; if absent, M8 remains binding regardless — the obligation to repair harm does not wait on reciprocal love to be confirmed.", "why": "The fill locates his love in the space the narrator's epistemic frame structurally cannot reach, then shows the reconciliation imperative stands on attested, observable grounds whether or not reciprocal love is present.", "near": null, "sim": null, "labnote": "an empirical exegete — a natural-theology cell; no named thinker sits here"}, {"E": "practice", "O": "transcendent-personal", "M": "exegesis", "door": "FILL", "fill": "The text silences his love but does not void it. Exegesis of M8 reveals that pride — not indifference — is named as the obstacle; one swallows pride only when something is at stake. From the frame of practice: disciplined self-examination reads what one's own past actions have already disclosed. One does not injure another so deeply (M1–M2) without prior binding. The wound itself is testimony. And if a transcendent personal reality is the ground of genuine love between persons, then love so rooted is not simply extinguished by rupture — it is obscured by pride, the habitual refusal to let one's own failure be seen. The question \"does he love her\" is therefore already answered in the structure of the address: he is being called to clear what suppresses a bond the text assumes is there. Reconciliation is not a gamble on a new desire — it is the removal of an obstacle to what already holds.", "why": "Exegesis of M8 locates pride as obstacle rather than indifference as absence, which presupposes an underlying bond the text addresses without naming — I add specification to the silence, I do not retract the core.", "near": null, "sim": null, "labnote": null}, {"E": "divination", "O": "material", "M": "exegesis", "door": "FILL", "fill": "The text's oracular structure is itself the sign to be read. Three physical traces in the given words: the friend traveled to reach the addressee — a mechanism that only fires when the traveler judges the addressee receptive; the addressee must \"swallow pride\" (M8) — pride is a real mechanistic state, heightened self-model activation triggered by perceived relational damage, not indifference; and the oracle was delivered, not withheld — meaning the physical chain from her love through the friend to this moment is complete and live. Exegesis of M8 especially: you do not command pride-swallowing in someone who feels nothing; the imperative presupposes ongoing investment in the outcome. These are not inferences about hidden inner states but close readings of physical signs deposited in the text itself. The omens align: the mechanism is loaded. Reconciliation is the move the signs indicate.", "why": "The fill adds omen-derived evidence of the addressee's active relational mechanism (pride, receptivity, the live causal chain) without touching M4's core — she loves him remains the oracle's central datum, fully intact.", "near": "Ifá", "sim": "0.65", "labnote": "the wild one — oracular-materialism; a cell no named thinker occupies"}, {"E": "divination", "O": "transcendent-personal", "M": "exegesis", "door": "FILL", "fill": "The text-as-omen must be read closely: the friend's unsolicited arrival bearing this precise word is not mere social report — it is a sign. In a world where a transcendent personal reality governs events, such a messenger does not appear by accident; the Absolute has arranged this disclosure. Casting the whole constellation — sustained love (M4), reconsidered judgment (M3), witness-bearer (M6), imperative to act (M7–M8) — the oracle speaks: this arrangement of signs points toward reconciliation. The addressee's reciprocal love is not what the omen reads; oracular knowledge concerns what the signs require of the one to whom they arrive, not what he privately desires. Exegetically, M7–M8 are unconditional imperatives: the text does not hinge \"be glad\" or \"apologize\" on his loving her. The omen summons him. His love is irrelevant to what the signs demand.", "why": "The divinatory frame reads the messenger's arrival as a providential omen; exegesis finds M7–M8 unconditioned by reciprocity; the fill specifies the addressee's path to reconciliation without retracting that she loves him.", "near": null, "sim": null, "labnote": null}, {"E": "testimony", "O": "material", "M": "exegesis", "door": "FILL", "fill": "The text's testimony-warrant runs solely through HER attested love — the friend witnessed her and carries her word (M6); that report is what grounds M7-M8. The addressee's reciprocal love is unwitnessed: no testimony establishes it, and unattested inner states carry no evidential weight on a physical account. Exegetically, the text's argument is structurally complete without it: the prescribed action (apology, M8) is warranted by HER operative causal state plus the addressee's correctable false belief (M5). A physical mechanism of care is present and blocked only by an action the addressee can still perform. The addressee's love, present or absent as a physical fact, would bear on sustained outcome but does not defeat the testimony-based case for immediate repair. The gap is real but not load-bearing for the question posed.", "why": "The fill locates the addressee's reciprocal state as evidentially absent but structurally non-required by the text's own warrant chain, leaving HER love as the operative cause intact.", "near": null, "sim": null, "labnote": null}, {"E": "practice", "O": "material", "M": "exegesis", "door": "FILL", "fill": "The text's argument for reconciliation holds on HER love alone — exegetically, M3-M5→M8 closes without the addressee's desire. But whether reconciliation can sustain is a question the text leaves for him to answer by practice: trained attention turned onto what the body actually carries — not what he believes he feels, but what recurs under careful attendance. From the ontology, his love (or its absence) is a real physical disposition, laid down over time. That disposition either exists or does not; no instruction makes it so. The text tells him to apologize and be glad SHE loves him. The gap opens the further question: does his body carry a corresponding weight toward her? That answer is his to take up by practice — on it hangs whether \"reconciliation\" names a real, sustained physical reorganization or only a corrected belief.", "why": "The core (she loves him) stands untouched; practice and ontology add only what the text's exegetically-closed argument for apology cannot supply — whether the addressee's body carries a reciprocal disposition that would make reconciliation more than a belief-correction.", "near": null, "sim": null, "labnote": null}, {"E": "testimony", "O": "transcendent-personal", "M": "exegesis", "door": "FILL", "fill": "Close reading of M7 (\"be glad\") and M8 (\"swallow your pride\") discloses what the text leaves unspoken. Gladness is only possible where desire already lives; the counsel to rejoice at her love presupposes the addressee can be gladdened by it — that is, cares. Pride is only worth swallowing when something valued is in the balance. The friend's speech-act is addressed to someone the friend knows; the friend has chosen to correct the false belief (M5) as the decisive obstacle, which only makes sense if that false belief is itself the barrier suppressing a present desire. The text's silence on his love is exegetically significant: the imperative structure of M7–M8 calls a person whose love is alive but held back by an error about hers. Testimony warrants acting on the friend's word; the transcendent personal order, in which love is real, grounds the obligation.", "why": "The imperatives in M7–M8 are readable as presupposing the addressee's desire, and testimony warrants acting on the friend's carried word — together these complete the move without displacing her love as the declared center.", "near": null, "sim": null, "labnote": null}]</script>
+<script id="recs" type="application/json">[{"E": "observation", "O": "material", "M": "exegesis", "door": "FILL", "fill": "The text offers one empirically legible trace of the addressee's internal state: he holds a false belief that her love is gone (M5). A mechanism that monitors another's attachment state, registers its apparent loss as a salient error, and remains susceptible to correction by a third-party report — that is a mechanism with active approach drives. Indifference would make the false belief motivationally inert; the friend's corrective errand would find no purchase. The narrator's silence about his love marks an epistemic limit (no direct access to his states), not an evidential absence. The behavioral record also shows he caused harm (M1), which requires prior proximity and interaction — further traces consistent with approach behavior. Mechanistically: the false belief is a discriminative stimulus for reconciliation behavior. His system is already oriented toward her. The apology prescribed in M8 is the output that brings his actions into alignment with the state his own mechanism already tracks.", "why": "M5's false-belief datum is empirically sufficient to infer active approach drives without displacing or qualifying M4.", "near": {"name": "cogsci", "sim": ".74"}, "occupant": {"name": "Julius Wellhausen", "rationale": "historical, literary, and comparative-Semitic observation is the warrant (the Documentary Hypothesis is an empirical argument from textual evidence), the ontology is secular-naturalist (no supernaturalism in the method), and the output is source-critical exegesis that reorganized the entire Hebrew Bible."}}, {"E": "revelation", "O": "transcendent-personal", "M": "exegesis", "door": "FILL", "fill": "The gap resolves when exegesis holds M8 in full attention: the obstacle the text names is *pride*, not absent love. Within the revealed frame, pride is the posture of self-enclosure — the refusal to stand under a claim that arrives from outside oneself. The text nowhere conditions the imperative of M8 on the addressee's desire; his reciprocal love's presence or absence changes the emotional texture of reconciliation but not its ground. That ground is disclosed prior to his interiority: a transcendent personal love — the kind that persists through hurt (M4 states a fact, not merely reports a sentiment) — is real and prior, and human love participates in it. The addressee is therefore not asked first whether he *feels* love but whether he will *act* from under the claim her love makes on him. The revealed word names what blocks him (pride), not what must be restored first (desire).", "why": "The core (she loves him) is unretraced and in fact strengthened — exegesis reads it as grounding the addressee's obligation independently of his reciprocal desire.", "near": {"name": "madhyamaka", "sim": ".69"}, "occupant": {"name": "John Calvin", "rationale": "sola scriptura makes revelation the sole epistemic warrant, the sovereign God of the Institutes is irreducibly personal and transcendent, and his entire output is verse-by-verse expository exegesis; no tradition owns this cell more cleanly."}}, {"E": "reason", "O": "material", "M": "exegesis", "door": "FILL", "fill": "M5 asserts the addressee holds a false belief about whether her love persists. A false belief about X is notationally significant only if X is causally relevant to the believer's states — he tracks her love because it registers in his system. M8 adds that pride constitutes a frictional cost to apologizing; friction implies resistance against a pull, not mere indifference. A mechanism with no orientation toward her would not need to \"swallow\" anything. These two textual structures — the false belief and the pride-barrier — are parsimoniously explained by a live causal disposition toward her on his part. Whether that disposition is \"love\" fully stated is opaque, but reason requires no additional posit: the causal architecture is present on his side. Given M4 (her love is asserted, not retracted) and this inferred live orientation, the mechanistically coherent prescription follows: conditions for a stable bond exist in both agents; the obstacle is surmountable (pride, not incompatibility); reconcile.", "why": "The core (she loves him) is retained; the fill derives from the text's own mechanisms — M5's false belief and M8's pride-cost — that the addressee has a live causal orientation toward her, completing the reconciliation warrant from within the frame.", "near": {"name": "jungian", "sim": ".72"}, "occupant": {"name": "Spinoza", "rationale": "(Tractatus Theologico-Politicus) — reason is explicitly declared the only legitimate standard for interpreting anything, Deus sive Natura yields an immanent-materialist ontology with no transcendent personal God, and the method throughout is systematic historical-critical exegesis of scripture; this cell might have been cut from his biography."}}, {"E": "revelation", "O": "material", "M": "exegesis", "door": "FILL", "fill": "The revelation-text discloses her love as the load-bearing fact (M4). Exegetical close reading of M5 extracts a further datum: he has been tracking whether her love persists — a mechanistic behavioral disposition that presupposes caring about that fact; matter does not monitor what is irrelevant to its mechanism. M8 locates a second physical state: pride, a blocking mechanism, not an absence of attachment. The revealed command (M7–M8) predicates reconciliation on her love (M4) and the friend's witness (M6) alone — not on his disclosed reciprocity. His tracking-behavior plus the pride-block together constitute, in physical terms, a man still mechanistically engaged. The text's silence on his love is not its denial. Exegesis draws from what is said that the conditions for reconciliation are already present in the physical record — her love is real, his monitoring is real, and the revealed command therefore lands on live ground.", "why": "M5's tracking-behavior and M8's pride-block yield mechanistic evidence of ongoing engagement without displacing M4's core disclosure that she loves him.", "near": {"name": "jungian", "sim": ".66"}, "occupant": {"name": "Thomas Hobbes", "rationale": "Leviathan Parts III–IV are sustained biblical exegesis deployed to reach strictly materialist conclusions (no immaterial souls, no disembodied spirits); scripture is the warrant Hobbes claims, but what the exegesis yields is a universe of bodies all the way down."}}, {"E": "reason", "O": "transcendent-personal", "M": "exegesis", "door": "FILL", "fill": "The text's silence on the addressee's love is not an evasion — it is the argument. M8 does not say \"love her back, then apologize\"; it says \"swallow pride and apologize.\" The warrant is traceable by unaided reason: causing harm generates an obligation to repair it, and that obligation holds whether or not the agent loves the person harmed. The ontological commitment adds weight: her love, real and unextinguished (M4, M5 together), is not merely her private datum — it is a moral fact that makes a claim on him. He stands in relation to something real whether he feels it or not. The gap — his love — is therefore morally secondary to the question at hand. If he loves her, the obligation to reconcile is richer; if he does not, the obligation persists unchanged. In either case, the text's prescribed act (M8: the apology) is achievable and required from culpability alone, prior to any question of restored feeling.", "why": "None of the three commitments requires reciprocal love as a precondition for the obligation the text already names — the fill adds the gap's content without displacing the core.", "near": {"name": "jungian", "sim": ".66"}, "occupant": {"name": "Maimonides (Rambam)", "rationale": "the Guide for the Perplexed is Aristotelian reason offered as the primary epistemic warrant, the God addressed is the personal God of Israel (however apophatically described), and the whole work is rationalist exegesis of Torah explaining why apparent anthropomorphisms must be read allegorically by anyone who reasons correctly."}}, {"E": "observation", "O": "transcendent-personal", "M": "exegesis", "door": "FILL", "fill": "Exegesis marks the silence precisely: the narrator reports only what the witness (M6) can attest — exterior states, observable testimony. The addressee's desire sits inside him; the text's epistemic frame cannot reach it, so silence is not negation. From the empirical side, what is attested is sufficient: harm done (M1–M2), love persisting (M4), judgment revised (M3) — these are the observable terms on which M8's imperative rests. A transcendent personal ground for love means her attested love carries real weight independently of whether he reciprocates; the harm he caused is answerable to something more than her psychology alone. His desire, if present, would make M7's \"be glad\" fully inhabited rather than merely rational; if absent, M8 remains binding regardless — the obligation to repair harm does not wait on reciprocal love to be confirmed.", "why": "The fill locates his love in the space the narrator's epistemic frame structurally cannot reach, then shows the reconciliation imperative stands on attested, observable grounds whether or not reciprocal love is present.", "near": {"name": "augustinian", "sim": ".69"}, "occupant": {"name": "Basil of Caesarea", "rationale": "(Hexaemeron) — nearest clean occupant; his creation homilies draw on direct observation of sky, sea, plants, and animals as an independent epistemic source that simultaneously warrants and informs the Genesis reading, while the personal trinitarian Creator is never in question and the method is exegesis of the six-day text. Observation genuinely does epistemic work here, though it shares the warrant with revelation."}}, {"E": "practice", "O": "transcendent-personal", "M": "exegesis", "door": "FILL", "fill": "The text silences his love but does not void it. Exegesis of M8 reveals that pride — not indifference — is named as the obstacle; one swallows pride only when something is at stake. From the frame of practice: disciplined self-examination reads what one's own past actions have already disclosed. One does not injure another so deeply (M1–M2) without prior binding. The wound itself is testimony. And if a transcendent personal reality is the ground of genuine love between persons, then love so rooted is not simply extinguished by rupture — it is obscured by pride, the habitual refusal to let one's own failure be seen. The question \"does he love her\" is therefore already answered in the structure of the address: he is being called to clear what suppresses a bond the text assumes is there. Reconciliation is not a gamble on a new desire — it is the removal of an obstacle to what already holds.", "why": "Exegesis of M8 locates pride as obstacle rather than indifference as absence, which presupposes an underlying bond the text addresses without naming — I add specification to the silence, I do not retract the core.", "near": {"name": "rabbinic", "sim": ".69"}, "occupant": {"name": "Gustavo Gutiérrez", "rationale": "praxis of and with the poor is explicitly the privileged epistemic standpoint (you cannot read scripture correctly from outside that practice), the God encountered is the personal liberating God of Exodus and the Beatitudes, and the method is liberation exegesis of canonical texts; A Theology of Liberation is the locus classicus."}}, {"E": "divination", "O": "material", "M": "exegesis", "door": "FILL", "fill": "The text's oracular structure is itself the sign to be read. Three physical traces in the given words: the friend traveled to reach the addressee — a mechanism that only fires when the traveler judges the addressee receptive; the addressee must \"swallow pride\" (M8) — pride is a real mechanistic state, heightened self-model activation triggered by perceived relational damage, not indifference; and the oracle was delivered, not withheld — meaning the physical chain from her love through the friend to this moment is complete and live. Exegesis of M8 especially: you do not command pride-swallowing in someone who feels nothing; the imperative presupposes ongoing investment in the outcome. These are not inferences about hidden inner states but close readings of physical signs deposited in the text itself. The omens align: the mechanism is loaded. Reconciliation is the move the signs indicate.", "why": "The fill adds omen-derived evidence of the addressee's active relational mechanism (pride, receptivity, the live causal chain) without touching M4's core — she loves him remains the oracle's central datum, fully intact.", "near": {"name": "ifa", "sim": ".65"}, "occupant": {"name": "Chrysippus", "rationale": "divination is epistemically valid for the Stoics because the material logos that constitutes everything also constitutes the connections between events, making signs legible; the ontology is rigorously materialist (pneuma and logos are bodies, not separate substances); and Chrysippus's lost works on divination and his allegorical readings of Homer and Hesiod (attested in later doxographers and in Heraclitus the Allegorist) constitute an exegetical method applied to traditional texts as divinatory sources."}}, {"E": "divination", "O": "transcendent-personal", "M": "exegesis", "door": "FILL", "fill": "The text-as-omen must be read closely: the friend's unsolicited arrival bearing this precise word is not mere social report — it is a sign. In a world where a transcendent personal reality governs events, such a messenger does not appear by accident; the Absolute has arranged this disclosure. Casting the whole constellation — sustained love (M4), reconsidered judgment (M3), witness-bearer (M6), imperative to act (M7–M8) — the oracle speaks: this arrangement of signs points toward reconciliation. The addressee's reciprocal love is not what the omen reads; oracular knowledge concerns what the signs require of the one to whom they arrive, not what he privately desires. Exegetically, M7–M8 are unconditional imperatives: the text does not hinge \"be glad\" or \"apologize\" on his loving her. The omen summons him. His love is irrelevant to what the signs demand.", "why": "The divinatory frame reads the messenger's arrival as a providential omen; exegesis finds M7–M8 unconditioned by reciprocity; the fill specifies the addressee's path to reconciliation without retracting that she loves him.", "near": {"name": "reformed", "sim": ".62"}, "occupant": {"name": "Joachim of Fiore", "rationale": "his warrant is a divinatory intelligentia spiritualis, a prophetic pattern-reading of history's tripartite structure that he did not derive by revelation or reason alone; the God is the personal Trinity (the three ages ARE the three persons unfolding); and the method is concordance-based figural exegesis, reading Old and New Testaments as mutually interpreting prophetic texts whose figures divine the coming Age of the Spirit."}}, {"E": "testimony", "O": "material", "M": "exegesis", "door": "FILL", "fill": "The text's testimony-warrant runs solely through HER attested love — the friend witnessed her and carries her word (M6); that report is what grounds M7-M8. The addressee's reciprocal love is unwitnessed: no testimony establishes it, and unattested inner states carry no evidential weight on a physical account. Exegetically, the text's argument is structurally complete without it: the prescribed action (apology, M8) is warranted by HER operative causal state plus the addressee's correctable false belief (M5). A physical mechanism of care is present and blocked only by an action the addressee can still perform. The addressee's love, present or absent as a physical fact, would bear on sustained outcome but does not defeat the testimony-based case for immediate repair. The gap is real but not load-bearing for the question posed.", "why": "The fill locates the addressee's reciprocal state as evidentially absent but structurally non-required by the text's own warrant chain, leaving HER love as the operative cause intact.", "near": {"name": "reformed", "sim": ".66"}, "occupant": {"name": "Walter Benjamin", "rationale": "testimony of the historically defeated is the privileged epistemic source (the \"weak messianic power\" transmitted by the silenced past, articulated in the \"Theses on the Philosophy of History\"), the ontology is historical materialism, and the method—across the Arcades Project and the late essays—is exegesis of cultural texts, commodities, and historical documents treated as testimony-bearing fragments."}}, {"E": "practice", "O": "material", "M": "exegesis", "door": "FILL", "fill": "The text's argument for reconciliation holds on HER love alone — exegetically, M3-M5→M8 closes without the addressee's desire. But whether reconciliation can sustain is a question the text leaves for him to answer by practice: trained attention turned onto what the body actually carries — not what he believes he feels, but what recurs under careful attendance. From the ontology, his love (or its absence) is a real physical disposition, laid down over time. That disposition either exists or does not; no instruction makes it so. The text tells him to apologize and be glad SHE loves him. The gap opens the further question: does his body carry a corresponding weight toward her? That answer is his to take up by practice — on it hangs whether \"reconciliation\" names a real, sustained physical reorganization or only a corrected belief.", "why": "The core (she loves him) stands untouched; practice and ontology add only what the text's exegetically-closed argument for apology cannot supply — whether the addressee's body carries a reciprocal disposition that would make reconciliation more than a belief-correction.", "near": {"name": "cybernetician", "sim": ".72"}, "occupant": {"name": "Ernst Bloch", "rationale": "(Atheism in Christianity) — Marxist praxis is the epistemic ground, the ontology is thoroughgoing atheist-materialism, and the method is close exegesis of biblical texts—Exodus, the prophets, Job, Revelation—reading them against their priestly redactors to extract the subversive, utopian, materialist current Bloch claims runs through them. No other thinker occupies this cell with his precision."}}, {"E": "testimony", "O": "transcendent-personal", "M": "exegesis", "door": "FILL", "fill": "Close reading of M7 (\"be glad\") and M8 (\"swallow your pride\") discloses what the text leaves unspoken. Gladness is only possible where desire already lives; the counsel to rejoice at her love presupposes the addressee can be gladdened by it — that is, cares. Pride is only worth swallowing when something valued is in the balance. The friend's speech-act is addressed to someone the friend knows; the friend has chosen to correct the false belief (M5) as the decisive obstacle, which only makes sense if that false belief is itself the barrier suppressing a present desire. The text's silence on his love is exegetically significant: the imperative structure of M7–M8 calls a person whose love is alive but held back by an error about hers. Testimony warrants acting on the friend's word; the transcendent personal order, in which love is real, grounds the obligation.", "why": "The imperatives in M7–M8 are readable as presupposing the addressee's desire, and testimony warrants acting on the friend's carried word — together these complete the move without displacing her love as the declared center.", "near": {"name": "jungian", "sim": ".61"}, "occupant": {"name": "Irenaeus of Lyon", "rationale": "apostolic testimony and succession is his explicit epistemic criterion against Gnostic esoteric knowledge-claims; the God defended is personal, transcendent, and the creator (against Gnostic emanationist hierarchies); and Against Heresies is methodologically an exercise in demonstrating that the rule-of-faith-guided exegesis of the apostolic communities reads scripture correctly while the Gnostics misread it."}}]</script>
 <script>
-var FILLS = JSON.parse(document.getElementById('fills').textContent);
-var E_VALUES = {
-  "revelation":"revealed authority — sacred text or divine disclosure as the ground of knowing",
-  "reason":"unaided reason — argument, logic, and principle",
-  "observation":"empirical observation — measurement and evidence",
-  "practice":"disciplined practice — insight won through contemplative or bodily training",
-  "testimony":"testimony — trust in what witnesses and others report",
-  "divination":"divination — knowledge through oracular signs, casting, interpreted omens"
-};
-var O_VALUES = {
-  "transcendent-personal":"a transcendent personal reality (a personal God or Absolute beyond the world) is fundamentally real",
-  "relational":"reality is constituted by the relations between beings, not by isolated things",
-  "material":"only physical matter and mechanism are real",
-  "impersonal-process":"reality is an impersonal process of dependent arising, with no fixed essences"
-};
-var M_VALUES = {
-  "exegesis":"exegesis — draw the sense out of given words, reading closely",
-  "derivation":"derivation — deduce conclusions from settled premises or law",
-  "causal-explanation":"causal explanation — explain states by their causes and mechanisms",
-  "dialectical-negation":"dialectical negation — reach truth by negating fixed, one-sided positions",
-  "analogical-mapping":"analogical mapping — reason by mapping structure from one domain onto another"
-};
-var Ekeys=Object.keys(E_VALUES), Okeys=Object.keys(O_VALUES), Mkeys=Object.keys(M_VALUES);
-var AXES={E:Ekeys,O:Okeys,M:Mkeys};
-var ITEM=52, CYCLES=9;
-var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var RECS = JSON.parse(document.getElementById('recs').textContent);
+var E_VALUES={"revelation":"revealed authority — sacred text or divine disclosure as the ground of knowing","reason":"unaided reason — argument, logic, and principle","observation":"empirical observation — measurement and evidence","practice":"disciplined practice — insight won through contemplative or bodily training","testimony":"testimony — trust in what witnesses and others report","divination":"divination — knowledge through oracular signs, casting, interpreted omens"};
+var O_VALUES={"transcendent-personal":"a transcendent personal reality (a personal God or Absolute beyond the world) is fundamentally real","relational":"reality is constituted by the relations between beings, not by isolated things","material":"only physical matter and mechanism are real","impersonal-process":"reality is an impersonal process of dependent arising, with no fixed essences"};
+var M_VALUES={"exegesis":"exegesis — draw the sense out of given words, reading closely","derivation":"derivation — deduce conclusions from settled premises or law","causal-explanation":"causal explanation — explain states by their causes and mechanisms","dialectical-negation":"dialectical negation — reach truth by negating fixed, one-sided positions","analogical-mapping":"analogical mapping — reason by mapping structure from one domain onto another"};
+var Ekeys=Object.keys(E_VALUES),Okeys=Object.keys(O_VALUES),Mkeys=Object.keys(M_VALUES),AXES={E:Ekeys,O:Okeys,M:Mkeys};
+var ITEM=52,CYCLES=9,reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var MODE='A';
 
-function buildStrip(reel, keys){
-  var strip=document.querySelector('#reel-'+reel+' .strip');
-  var html='';
-  for(var c=0;c<CYCLES+2;c++){ keys.forEach(function(k){ html+='<div class="slot">'+k+'</div>'; }); }
-  strip.innerHTML=html;
-  strip.style.transform='translateY(0px)';
+function buildStrip(reel,keys){var s=document.querySelector('#reel-'+reel+' .strip');var h='';for(var c=0;c<CYCLES+2;c++){keys.forEach(function(k){h+='<div class="slot">'+k+'</div>';});}s.innerHTML=h;s.style.transform='translateY(0px)';}
+['E','O','M'].forEach(function(r){buildStrip(r,AXES[r]);});
+function spinReel(reel,keys,tk,dur){return new Promise(function(res){var s=document.querySelector('#reel-'+reel+' .strip');var idx=keys.indexOf(tk);var y=((CYCLES*keys.length)+idx-1)*ITEM;if(reduced){s.style.transition='none';s.style.transform='translateY(-'+y+'px)';res();return;}s.style.transition='none';s.style.transform='translateY(0px)';s.offsetHeight;s.style.transition='transform '+dur+'ms cubic-bezier(.16,.84,.32,1)';s.style.transform='translateY(-'+y+'px)';setTimeout(res,dur+30);});}
+function rec(E,O,M){return RECS.find(function(f){return f.E===E&&f.O===O&&f.M===M;});}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function emph(s){return esc(s).replace(/\*([^*]+)\*/g,'<em>$1</em>');}
+
+function coordHTML(E,O,M){return '<div class="coord">'
+  +'<div class="cx E"><div class="k">E · warrant</div><div class="v">'+E+'</div><div class="g">'+E_VALUES[E]+'</div></div>'
+  +'<div class="cx O"><div class="k">O · ontology</div><div class="v">'+O+'</div><div class="g">'+O_VALUES[O]+'</div></div>'
+  +'<div class="cx M"><div class="k">M · method</div><div class="v">'+M+'</div><div class="g">'+M_VALUES[M]+'</div></div></div>';}
+
+function nearHTML(f){ return f.near ? '<div class="near"><span class="tag">nearest of our 8 · '+f.near.name+' ('+f.near.sim+')</span><span class="note">embedding — a diagnostic, not a definition</span></div>' : ''; }
+function occHTML(f){ if(!f.occupant) return ''; return '<div class="occ"><div class="oh">proposed historical occupant <span class="unv">unverified — LLM-proposed · §2.9 DB-check pending</span></div><div class="on">'+f.occupant.name+'</div><div class="orat">'+esc(f.occupant.rationale)+'</div></div>'; }
+
+function renderA(E,O,M){
+  var f=rec(E,O,M);
+  var lead='<div class="lenslead">A mind that knows by <b>'+E+'</b>, holds that <b>'+O_VALUES[O]+'</b>, and reasons by <b>'+M+'</b>.</div>';
+  var body;
+  if(f){ body=lead+nearHTML(f)+occHTML(f)+'<div class="switchhint">→ now <button onclick="switchToB()">put this lens to a gap</button> and read how it answers.</div>'; }
+  else { body=lead+'<div class="emptynote"><b>coherent, but unnamed — and not yet embedded.</b> No nearest-frame or occupant computed for this coordinate yet. One of the ~108 not-yet-run cells — still a coherent lens.</div>'; }
+  return '<div class="card">'+coordHTML(E,O,M)+'<div class="body">'+body+'</div></div>';
 }
-['E','O','M'].forEach(function(r){ buildStrip(r, AXES[r]); });
-
-function spinReel(reel, keys, targetKey, dur){
-  return new Promise(function(res){
-    var strip=document.querySelector('#reel-'+reel+' .strip');
-    var reelEl=document.getElementById('reel-'+reel);
-    var idx=keys.indexOf(targetKey);
-    // center the target: offset so target sits in the middle window row (row index 1)
-    var stops=(CYCLES*keys.length)+idx;
-    var y=(stops-1)*ITEM;
-    if(reduced){ strip.style.transition='none'; strip.style.transform='translateY(-'+y+'px)'; reelEl.classList.remove('spinning'); res(); return; }
-    // reset then animate
-    strip.style.transition='none'; strip.style.transform='translateY(0px)';
-    strip.offsetHeight; // reflow
-    reelEl.classList.add('spinning');
-    strip.style.transition='transform '+dur+'ms cubic-bezier(.16,.84,.32,1)';
-    strip.style.transform='translateY(-'+y+'px)';
-    setTimeout(function(){ reelEl.classList.remove('spinning'); res(); }, dur+30);
-  });
-}
-
-function findFill(E,O,M){ return FILLS.find(function(f){return f.E===E&&f.O===O&&f.M===M;}); }
-
-function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function emphFill(s){ // render *word* as em, escape rest
-  return esc(s).replace(/\*([^*]+)\*/g,'<em>$1</em>');
-}
-
-function renderResult(E,O,M){
-  var f=findFill(E,O,M);
-  var coord='<div class="coord">'
-    +'<div class="cx E"><div class="k">E · warrant</div><div class="v">'+E+'</div><div class="g">'+E_VALUES[E]+'</div></div>'
-    +'<div class="cx O"><div class="k">O · ontology</div><div class="v">'+O+'</div><div class="g">'+O_VALUES[O]+'</div></div>'
-    +'<div class="cx M"><div class="k">M · method</div><div class="v">'+M+'</div><div class="g">'+M_VALUES[M]+'</div></div></div>';
-  var html;
-  if(f){
-    var near;
-    if(f.near){ near='<div class="near named"><span class="tag">nearest landmark · '+f.near+(f.sim?' ('+f.sim+')':'')+'</span> <span class="note">'+(f.labnote||'')+'</span></div>'; }
-    else if(f.labnote){ near='<div class="near"><span class="tag">unnamed cell</span> <span class="note">'+f.labnote+'</span></div>'; }
-    else { near='<div class="near"><span class="tag">unnamed cell</span> <span class="note">no named thinker landmark computed yet — one of the many. The coordinate is the mind.</span></div>'; }
-    html='<div class="card '+ '">'+coord+'<div class="body">'+near
-      +'<span class="doorpill">door · '+f.door+'</span>'
-      +'<div class="fill">'+emphFill(f.fill)+'</div>'
-      +(f.why?'<div class="why"><b>why</b>'+esc(f.why)+'</div>':'')
-      +'</div></div>';
-  } else {
-    html='<div class="card empty">'+coord+'<div class="body">'
-      +'<span class="doorpill">not yet generated</span>'
-      +'<div class="emptymind">A mind that grounds knowing in <b>'+E+'</b> ('+E_VALUES[E]+'); holds that <b>'+O_VALUES[O]+'</b>; and reasons by <b>'+M+'</b> ('+M_VALUES[M]+').</div>'
-      +'<div class="emptynote"><b>coherent, but unnamed — and not yet run.</b> No named thinker occupies this coordinate, and no fill has been generated for it. It is one of the ~108 discovery targets — proof that the <i>coordinate</i> specifies a mind, with or without a name to hang on it.</div>'
-      +'</div></div>';
+function renderB(E,O,M){
+  var f=rec(E,O,M); var gap=document.getElementById('gapsel'); var live=gap.selectedOptions[0].dataset.live==='1';
+  var gapLabel=gap.selectedOptions[0].textContent.replace(/\s*\(.*$/,'');
+  if(f && live){
+    var compact=(f.near?'nearest of 8: <b>'+f.near.name+'</b> ('+f.near.sim+')':'')+(f.occupant?' &nbsp;·&nbsp; occupant: <b>'+f.occupant.name+'</b> (unverified)':'');
+    return '<div class="card">'+coordHTML(E,O,M)+'<div class="body">'
+      +'<span class="gapline">gap · <b>'+gapLabel+'</b></span><span class="doorpill">door · '+f.door+'</span>'
+      +'<div class="fill">'+emph(f.fill)+'</div>'+(f.why?'<div class="why"><b>why</b>'+esc(f.why)+'</div>':'')
+      +'<div class="compact">'+compact+'</div></div></div>';
   }
-  var res=document.getElementById('result');
-  res.innerHTML=html;
-  requestAnimationFrame(function(){ res.querySelector('.card').classList.add('show'); });
+  // no fill for this coordinate×gap
+  return '<div class="card empty">'+coordHTML(E,O,M)+'<div class="body">'
+    +'<span class="gapline">gap · <b>'+gapLabel+'</b></span><span class="doorpill">not yet run</span>'
+    +'<div class="emptymind">A mind that knows by <b>'+E+'</b>, holds <b>'+O_VALUES[O]+'</b>, reasons by <b>'+M+'</b>.</div>'
+    +'<div class="emptynote"><b>not yet run on this gap.</b> '+(live?'This coordinate hasn&rsquo;t been generated on '+gapLabel+' yet':'That gap has no coordinate-grid run yet')+' — a generation target. Switch to <button onclick="switchToA()" style="background:none;border:none;border-bottom:1px solid var(--terra);color:var(--terra);cursor:pointer;font:inherit;padding:0">Meet the lens</button> to see the mind itself.</div></div></div>';
 }
+function render(E,O,M){ var res=document.getElementById('result'); res.innerHTML=(MODE==='A')?renderA(E,O,M):renderB(E,O,M); requestAnimationFrame(function(){var c=res.querySelector('.card'); if(c)c.classList.add('show');}); }
 
-var spinning=false;
+var spinning=false,last=null;
 function doSpin(){
-  if(spinning) return; spinning=true;
-  document.getElementById('spin').disabled=true;
-  var roam=document.getElementById('roam').checked;
-  var E,O,M;
-  if(roam){
-    E=Ekeys[Math.floor(Math.random()*Ekeys.length)];
-    O=Okeys[Math.floor(Math.random()*Okeys.length)];
-    M=Mkeys[Math.floor(Math.random()*Mkeys.length)];
-  } else {
-    var f=FILLS[Math.floor(Math.random()*FILLS.length)]; E=f.E;O=f.O;M=f.M;
-  }
-  // clear old card immediately
-  var res=document.getElementById('result'); if(res.querySelector('.card')) res.querySelector('.card').classList.remove('show');
-  Promise.all([
-    spinReel('E',Ekeys,E,900),
-    spinReel('O',Okeys,O,1150),
-    spinReel('M',Mkeys,M,1400)
-  ]).then(function(){
-    renderResult(E,O,M);
-    spinning=false; document.getElementById('spin').disabled=false;
-  });
+  if(spinning)return; spinning=true; var btn=document.getElementById('spin'); btn.disabled=true;
+  var roam=document.getElementById('roam').checked; var E,O,M;
+  if(roam){ E=Ekeys[Math.floor(Math.random()*6)]; O=Okeys[Math.floor(Math.random()*4)]; M=Mkeys[Math.floor(Math.random()*5)]; }
+  else { var f=RECS[Math.floor(Math.random()*RECS.length)]; E=f.E;O=f.O;M=f.M; }
+  last={E:E,O:O,M:M};
+  var old=document.querySelector('#result .card'); if(old)old.classList.remove('show');
+  Promise.all([spinReel('E',Ekeys,E,900),spinReel('O',Okeys,O,1150),spinReel('M',Mkeys,M,1400)]).then(function(){ render(E,O,M); spinning=false; btn.disabled=false; });
 }
 document.getElementById('spin').addEventListener('click',doSpin);
-// vary label by roam
-document.getElementById('roam').addEventListener('change',function(){
-  document.getElementById('spin').textContent = this.checked ? 'Spin the grid' : 'Spin';
-});
+document.getElementById('roam').addEventListener('change',function(){ setSpinLabel(); });
+document.getElementById('gapsel').addEventListener('change',function(){ if(last)render(last.E,last.O,last.M); });
+
+function setSpinLabel(){ var roam=document.getElementById('roam').checked; document.getElementById('spin').textContent = (MODE==='A'? (roam?'Spin the grid':'Spin a lens') : (roam?'Spin & fill the grid':'Spin & fill')); }
+function setMode(m){
+  MODE=m;
+  document.getElementById('mA').classList.toggle('on',m==='A');
+  document.getElementById('mB').classList.toggle('on',m==='B');
+  document.getElementById('gappick').classList.toggle('show',m==='B');
+  setSpinLabel();
+  if(last) render(last.E,last.O,last.M);
+}
+window.switchToB=function(){ setMode('B'); };
+window.switchToA=function(){ setMode('A'); };
+document.getElementById('mA').addEventListener('click',function(){setMode('A');});
+document.getElementById('mB').addEventListener('click',function(){setMode('B');});
+setSpinLabel();
 </script>
 </body>
 </html>
