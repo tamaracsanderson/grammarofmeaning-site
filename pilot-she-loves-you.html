@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>IRR177 — cold-cohort comparison — "She Loves You"</title>
+<style>
+  :root{
+    --ink:#1c1a17; --ink2:#565049; --ink3:#8a837a; --line:#e4ded4; --line2:#cfc7ba;
+    --paper:#faf7f1; --card:#fffdf8; --accent:#6a5acd; --accent-bg:#efeafb;
+    --yes:#0f6e56; --yes-bg:#e1f5ee; --no:#993c1d; --no-bg:#faece7; --adj:#854f0b; --adj-bg:#faeeda;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --ink:#ece7dd; --ink2:#b3aca0; --ink3:#837c71; --line:#33302b; --line2:#413d36;
+    --paper:#17150f; --card:#1e1b15; --accent:#a99cf0; --accent-bg:#241f38;
+    --yes:#5dcaa5; --yes-bg:#0f342b; --no:#f0997b; --no-bg:#3a1c11; --adj:#ef9f27; --adj-bg:#3a2a0a;
+  }}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+    line-height:1.55;font-size:15px;-webkit-font-smoothing:antialiased;padding:0 20px 80px}
+  .wrap{max-width:900px;margin:0 auto}
+  header{padding:34px 0 18px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin:0 0 8px}
+  h1{font-family:var(--serif);font-weight:500;font-size:30px;line-height:1.15;margin:0 0 6px;letter-spacing:-.01em}
+  .sub{color:var(--ink2);font-size:15px;max-width:60ch;margin:0}
+  .verdict{display:inline-flex;align-items:center;gap:9px;margin-top:16px;padding:7px 15px;border-radius:999px;
+    background:var(--yes-bg);color:var(--yes);font-weight:500;font-size:14px}
+  .verdict .dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+  h2{font-family:var(--serif);font-weight:500;font-size:20px;margin:38px 0 4px;letter-spacing:-.01em}
+  .note{color:var(--ink3);font-size:13.5px;margin:0 0 16px;max-width:66ch}
+  .strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:22px 0 4px}
+  .metric{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+  .metric .k{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin:0 0 7px}
+  .metric .v{font-family:var(--serif);font-size:27px;font-weight:500;line-height:1;letter-spacing:-.01em}
+  .metric .cap{font-size:12.5px;color:var(--ink2);margin:6px 0 0}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:4px}
+  th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line)}
+  th{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);font-weight:400;
+    white-space:nowrap;cursor:default}
+  thead th{border-bottom:1px solid var(--line2)}
+  td.lbl{font-weight:500;color:var(--ink)}
+  td.desc{color:var(--ink2);font-size:12.5px}
+  .tag{display:inline-block;font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:6px;white-space:nowrap}
+  .t-yes{background:var(--yes-bg);color:var(--yes)}
+  .t-no{background:var(--no-bg);color:var(--no)}
+  .t-adj{background:var(--adj-bg);color:var(--adj)}
+  .cohort-cell{text-align:center;font-family:var(--mono);font-size:13px}
+  .cy{color:var(--yes);font-weight:500}.cn{color:var(--ink3)}.ca{color:var(--adj);font-weight:500}
+  .ref{background:var(--accent-bg)}
+  .count-bar{display:inline-block;height:9px;border-radius:3px;background:var(--accent);vertical-align:middle;margin-right:8px;min-width:3px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:20px}
+  ul.tight{margin:6px 0 0;padding-left:19px}ul.tight li{margin:5px 0;color:var(--ink2)}
+  ul.tight li b{color:var(--ink);font-weight:500}
+  .fb{margin-top:14px}
+  textarea{width:100%;min-height:120px;background:var(--card);border:1px solid var(--line2);border-radius:10px;
+    padding:12px 14px;font-family:var(--sans);font-size:14px;color:var(--ink);resize:vertical;line-height:1.5}
+  textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+  button{margin-top:10px;background:transparent;border:1px solid var(--line2);border-radius:8px;padding:8px 15px;
+    font-family:var(--sans);font-size:13.5px;color:var(--ink);cursor:pointer}
+  button:hover{background:var(--accent-bg);border-color:var(--accent)}
+  button:active{transform:scale(.98)}
+  .foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink3);font-size:12px;font-family:var(--mono);line-height:1.7}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h2 class="sr-only">IRR177 cold-cohort comparison of the negative-space coding of the Beatles' "She Loves You": five independent coders vs the author's reference.</h2>
+
+<header>
+  <p class="eyebrow">IRR177 · negative-space pilot · reliability run</p>
+  <h1>Five cold coders vs the author's read</h1>
+  <p class="sub">The 8-move pilot on "She Loves You" was coded by the method author — contaminated. This is the measurement: five independent cohorts (GPT · Haiku · Gemini · DeepSeek · Solar) handed only the locked instrument, the 8 moves, and the fixed QUD. Where they agree, the instrument reproduces. Where they diverge from the reference, they correct it.</p>
+  <span class="verdict"><span class="dot"></span>GO for the Romans-8 transfer — with two findings</span>
+</header>
+
+<div class="strip">
+  <div class="metric"><p class="k">cell classification</p><div class="v">κ ≈ 1.0</div><p class="cap">unanimous on the 7 core slots (which are grammar / trivial / the-gap)</p></div>
+  <div class="metric"><p class="k">money cell = M4</p><div class="v">4 / 5</div><p class="cap">"she loves you" is the density peak; Gemini → M6 (defensible)</p></div>
+  <div class="metric"><p class="k">fill vs substitute</p><div class="v">5 / 5</div><p class="cap">all 8 moves are fills; zero substitutions — AND/INSTEAD held</p></div>
+  <div class="metric"><p class="k">meta-move</p><div class="v">5 / 5</div><p class="cap">the friend persuades you to reconcile — read identically</p></div>
+</div>
+
+<h2>Residual convergence — do the strangers find the same never-filled gaps?</h2>
+<p class="note">The reference named two residuals: <b>her own voice</b> and <b>the friend's motive</b>. This is the go/no-go. <span class="cy">yes</span> = named explicitly · <span class="ca">adj</span> = adjacent / partial · <span class="cn">—</span> = not surfaced. The reference column is tinted.</p>
+<table id="resid">
+  <thead><tr>
+    <th>Residual gap</th><th>GPT</th><th>Haiku</th><th>Gemini</th><th>DeepSeek</th><th>Solar</th><th class="ref">Reference</th><th>Cold rate</th>
+  </tr></thead>
+  <tbody></tbody>
+</table>
+
+<div class="card">
+  <h2 style="margin-top:0">The two findings</h2>
+  <ul class="tight">
+    <li><b>The friend's motive survives cold, 5/5.</b> Every stranger independently names the witness's warrant / stake / reliability as unfilled. This residual is the song's, not the author's. ✓</li>
+    <li><b>Her own voice does <i>not</i> survive cold, 1/5.</b> Only Haiku frames the woman's silence as conspicuous. The other four relocate the foreclosed interiority to the <b>addressee</b> — "does <i>he</i> love her back?", never stated (4/5). The reliable second residual is <b>his reciprocity</b>, not <b>her voice</b>. The un-voiced-woman reading is a reader-supplied lens the author had been primed on all session — a live §2.8 bias-visibility specimen inside the method-building loop.</li>
+    <li><b>A third residual the reference missed:</b> <i>why</i> she loves you (the positive ground). Reappraisal ("you're not cruel") removes an obstacle to love; it never supplies the reason for it. 3/5 cold.</li>
+  </ul>
+</div>
+
+<h2>The unitizing spread — content agrees, the tally does not</h2>
+<p class="note">Total gaps found per cohort. The grain-anchor (Decision 162 B) cut the worst of the v2 spread but left 8 → 29: Gemini reads "one gap per role" as one-per-move; DeepSeek splits one-per-slot including sitz/paradigm. This is why reliability is reported as <b>set-agreement</b>, not <b>count-agreement</b> — the money findings don't move.</p>
+<table id="counts">
+  <thead><tr><th>Coder</th><th style="width:60%">Total gaps</th><th>Reads grain as</th></tr></thead>
+  <tbody></tbody>
+</table>
+
+<h2>Per-move gap density</h2>
+<p class="note">Where each coder found the gaps. Every cohort peaks at M4 ("she loves you") except Gemini, who bundled to one-per-move. M4 as the density peak is the money-cell finding, visible in the shape.</p>
+<table id="permove">
+  <thead><tr><th>Coder</th><th>M1</th><th>M2</th><th>M3</th><th>M4</th><th>M5</th><th>M6</th><th>M7</th><th>M8</th></tr></thead>
+  <tbody></tbody>
+</table>
+
+<h2>Your notes</h2>
+<p class="note">Anything to feed back into the reconciliation, the grain micro-fix, or the Romans transfer. Copy pulls it to your clipboard to paste into chat.</p>
+<div class="fb">
+  <textarea id="fb" placeholder="e.g. — the his-reciprocity relocation is the real headline; do we want a v3 grain calibration or just the spec clarification before Romans?"></textarea>
+  <br><button id="copy">Copy notes to clipboard</button>
+  <span id="copied" style="margin-left:10px;color:var(--yes);font-size:13px;display:none">copied ✓</span>
+</div>
+
+<p class="foot">source · research/00_irr/irr177_8move_coding_she_loves_you_reconciliation_2026-07-10.md<br>responses · research/00_irr/irr177_8move_coding_she_loves_you_responses/ (5 raw)<br>reference · field_ed/negative_space_pilot_8move_she_loves_you_2026-07-10.md (author, contaminated — scored against, not counted)<br>self-contained · no network calls · safe to reopen anytime</p>
+</div>
+
+<script>
+const RESID = [
+  {g:"The friend's motive / witness warrant", gpt:'yes',haiku:'yes',gemini:'yes',deepseek:'yes',solar:'yes',ref:'yes'},
+  {g:"Addressee's foreclosed reciprocity (does he love her?)", gpt:'yes',haiku:'yes',gemini:'adj',deepseek:'yes',solar:'adj',ref:'no'},
+  {g:"Why she loves you (the positive ground)", gpt:'yes',haiku:'adj',gemini:'adj',deepseek:'yes',solar:'adj',ref:'no'},
+  {g:"Her own voice (she never speaks)", gpt:'no',haiku:'yes',gemini:'no',deepseek:'adj',solar:'no',ref:'yes'},
+];
+const COUNTS = [
+  {c:'Gemini',n:8,how:'one gap per move (max bundling)'},
+  {c:'Solar',n:10,how:'one salient gap per move'},
+  {c:'Reference',n:19,how:'per slot + frame-role'},
+  {c:'GPT',n:18,how:'per role, moderate'},
+  {c:'Haiku',n:23,how:'per role, fine'},
+  {c:'DeepSeek',n:29,how:'per slot incl. sitz/paradigm (max split)'},
+];
+const PERMOVE = [
+  {c:'GPT',m:[3,2,2,4,2,2,1,2]},
+  {c:'Haiku',m:[2,2,2,6,2,3,2,4]},
+  {c:'Gemini',m:[1,1,1,1,1,1,1,1]},
+  {c:'DeepSeek',m:[1,3,2,6,4,4,4,5]},
+  {c:'Solar',m:[1,1,1,3,1,1,1,1]},
+];
+const cls={yes:'cy',no:'cn',adj:'ca'}, txt={yes:'yes',no:'—',adj:'adj'};
+const rate=r=>{let y=0,a=0;['gpt','haiku','gemini','deepseek','solar'].forEach(k=>{if(r[k]==='yes')y++;else if(r[k]==='adj')a++});
+  return y+'/5'+(a?' +'+a+'adj':'');};
+const rt=document.querySelector('#resid tbody');
+RESID.forEach(r=>{
+  const tr=document.createElement('tr');
+  let h=`<td class="lbl">${r.g}</td>`;
+  ['gpt','haiku','gemini','deepseek','solar'].forEach(k=>h+=`<td class="cohort-cell ${cls[r[k]]}">${txt[r[k]]}</td>`);
+  h+=`<td class="cohort-cell ref ${cls[r.ref]}">${txt[r.ref]}</td>`;
+  h+=`<td class="cohort-cell"><span class="tag ${rate(r).startsWith('5')?'t-yes':rate(r).startsWith('4')?'t-yes':rate(r).startsWith('1/5')?'t-no':'t-adj'}">${rate(r)}</span></td>`;
+  tr.innerHTML=h; rt.appendChild(tr);
+});
+const ct=document.querySelector('#counts tbody'), mx=Math.max(...COUNTS.map(d=>d.n));
+COUNTS.forEach(d=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td class="lbl${d.c==='Reference'?' ref':''}">${d.c}</td>`+
+    `<td><span class="count-bar" style="width:${Math.round(d.n/mx*300)}px${d.c==='Reference'?';background:var(--accent);opacity:.55':''}"></span><span style="font-family:var(--mono);font-size:13px">${d.n}</span></td>`+
+    `<td class="desc">${d.how}</td>`;
+  ct.appendChild(tr);
+});
+const pt=document.querySelector('#permove tbody');
+PERMOVE.forEach(d=>{
+  let h=`<td class="lbl">${d.c}</td>`;
+  const pk=Math.max(...d.m);
+  d.m.forEach(v=>h+=`<td class="cohort-cell" style="${v===pk&&pk>1?'color:var(--accent);font-weight:500':''}">${v}</td>`);
+  const tr=document.createElement('tr'); tr.innerHTML=h; pt.appendChild(tr);
+});
+document.querySelector('#copy').addEventListener('click',()=>{
+  const t=document.querySelector('#fb').value.trim();
+  const payload='IRR177 pilot-viewer notes (2026-07-10):\n\n'+(t||'(no notes entered)');
+  navigator.clipboard.writeText(payload).then(()=>{
+    const c=document.querySelector('#copied'); c.style.display='inline'; setTimeout(()=>c.style.display='none',1800);
+  }).catch(()=>{document.querySelector('#fb').select();document.execCommand('copy');});
+});
+</script>
+</body>
+</html>

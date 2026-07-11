@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The negative-space instrument — definitions & schema — Grammar of Meaning</title>
+<style>
+  :root{
+    --paper:#f7f2e7; --paper2:#fffdf7; --card:#fffefa; --ink:#26221a; --ink2:#5b5346; --ink3:#8a8172;
+    --line:#e4dcc9; --line2:#d0c6ae; --moss:#4b6b46; --moss-d:#33502f; --gold:#b8892f; --gold-bg:#f6ecd4;
+    --gap:#8a3b2a; --gap-bg:#f6e3dc; --barred:#6a4a86; --barred-bg:#ece3f4;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,sans-serif;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --paper:#14130f; --paper2:#1a1813; --card:#1e1b15; --ink:#ece7dc; --ink2:#b3aa98; --ink3:#847c6c;
+    --line:#33302704; --line:#332f27; --line2:#423d31; --moss:#8fb884; --moss-d:#6c9a62; --gold:#e0b45f; --gold-bg:#2c2410;
+    --gap:#e0977c; --gap-bg:#37201a; --barred:#b79ce0; --barred-bg:#251d33;
+  }}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.62;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:920px;margin:0 auto;padding:0 22px 90px}
+  a{color:var(--moss-d)}@media(prefers-color-scheme:dark){a{color:var(--moss)}}
+  header{padding:40px 0 20px;border-bottom:2px solid var(--line2)}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+  h1{font-family:var(--serif);font-weight:500;font-size:34px;line-height:1.12;margin:0 0 8px;letter-spacing:-.015em}
+  .sub{color:var(--ink2);font-size:16px;max-width:64ch;margin:0}
+  .meta{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--ink3)}
+  nav.toc{position:sticky;top:0;background:var(--paper);border-bottom:1px solid var(--line);padding:11px 0;margin-bottom:8px;z-index:5;
+    display:flex;flex-wrap:wrap;gap:5px 14px;font-family:var(--mono);font-size:11.5px}
+  nav.toc a{color:var(--ink3);text-decoration:none}nav.toc a:hover{color:var(--moss-d)}
+  h2{font-family:var(--serif);font-weight:500;font-size:23px;margin:44px 0 6px;letter-spacing:-.01em;scroll-margin-top:52px}
+  h2 .q{font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.05em;margin-left:8px}
+  h3{font-size:16px;font-weight:600;margin:24px 0 4px}
+  p{margin:10px 0}.lead{color:var(--ink2)}
+  pre.chart{background:var(--paper2);border:1px solid var(--line2);border-radius:10px;padding:16px 18px;overflow-x:auto;
+    font-family:var(--mono);font-size:12.5px;line-height:1.5;color:var(--ink)}
+  .eq{background:var(--gold-bg);border-radius:8px;padding:12px 16px;font-family:var(--mono);font-size:14px;overflow-x:auto;margin:14px 0}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);font-weight:400}
+  thead th{border-bottom:1px solid var(--line2)}
+  td b,td strong{font-weight:600}
+  code{font-family:var(--mono);font-size:.92em;background:var(--paper2);padding:1px 5px;border-radius:4px}
+  .tag{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:6px;white-space:nowrap;display:inline-block}
+  .t-gap{background:var(--gap-bg);color:var(--gap)}.t-bar{background:var(--barred-bg);color:var(--barred)}
+  .t-fill{background:var(--gold-bg);color:var(--gold)}
+  .callout{background:var(--card);border:1px solid var(--line2);border-left:3px solid var(--moss);border-radius:0 10px 10px 0;
+    padding:13px 17px;margin:16px 0;font-size:14.5px;color:var(--ink2)}
+  .callout b{color:var(--ink)}
+  .foot{margin-top:50px;padding-top:18px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--ink3);line-height:1.7}
+  .backlink{display:inline-block;margin:24px 0 0;font-family:var(--mono);font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <p class="eyebrow">the coding lab · canonical reference</p>
+  <h1>The negative-space instrument</h1>
+  <p class="sub">Definitions &amp; schema — the finalized grammar for reading what a text does <em>not</em> say. Every term defined once, with an example, and what not to confuse it with.</p>
+  <p class="meta">v1 · 2026-07-10 · source of truth: <code>field_ed/negative_space_DEFINITIONS_AND_SCHEMA_v1</code> · paraphrase-only (no lyrics) · Stage 6 = 0 (method, not findings)</p>
+</header>
+
+<nav class="toc">
+  <a href="#moves">0 · the text</a>
+  <a href="#move">1 · the move</a>
+  <a href="#surround">2 · surrounding</a>
+  <a href="#frame">3 · frame</a>
+  <a href="#grid">4 · the grid</a>
+  <a href="#terms">5 · said/unsaid/alt</a>
+  <a href="#altaxis">6 · the alt axis</a>
+  <a href="#scan">7 · the scan</a>
+  <a href="#roles">8 · frame-roles</a>
+  <a href="#resolve">9·12 · resolution</a>
+  <a href="#door">10·11 · the door</a>
+  <a href="#flavors">flavors</a>
+  <a href="#engine">13 · the engine</a>
+  <a href="#defs">14 · definitions</a>
+</nav>
+
+<h2 id="moves">0 — the text we code <span class="q">(paraphrase only)</span></h2>
+<p class="lead">The coding unit is our <b>paraphrase</b> of each move, never the copyrighted lyric. The 8 moves of "She Loves You" (the control text):</p>
+<table>
+<thead><tr><th>Move</th><th>Paraphrase</th><th>operation</th></tr></thead>
+<tbody>
+<tr><td>M1</td><td>you did something that hurt her</td><td>hurt</td></tr>
+<tr><td>M2</td><td>she suffered badly over it</td><td>suffer</td></tr>
+<tr><td>M3</td><td>she's reconsidered — she judges you're <em>not</em> cruel</td><td>reappraise</td></tr>
+<tr><td>M4</td><td><b>she loves you</b> <em>(the core)</em></td><td>love</td></tr>
+<tr><td>M5</td><td>you (wrongly) believe her love is gone</td><td>fear</td></tr>
+<tr><td>M6</td><td>the friend reports he saw her and she told him what to pass on <em>(the witness/messenger)</em></td><td>relay</td></tr>
+<tr><td>M7</td><td>so you ought to be glad</td><td>be-glad</td></tr>
+<tr><td>M8</td><td>swallow your pride and apologize</td><td>apologize</td></tr>
+</tbody>
+</table>
+
+<h2 id="move">1 — the move <span class="q">Q1: the 7 grammar, H0–H2, narrator</span></h2>
+<p><b>A move = one operation and its arguments</b> — what the text <em>does</em>, not what it says. It has <b>CORE-7 slots</b> in <b>three H-layers</b> (from Role-and-Reference Grammar's layered clause):</p>
+<pre class="chart">H0  NARRATOR      — the FRAME layer. who tells it / from what point of view. (was "warrant", Decision 161)
+H1  PROPOSITION   — the ASSERT layer. the move's content: operation · agent · substrate · outcome.
+H2  MODIFIERS     — the QUALIFY layer. two riders on H1 slots: type (rides operation) · voice (rides agent).</pre>
+<div class="eq">M = Narrator[ Operation<sub>type</sub> ( Agent<sub>voice</sub> , Substrate ) → Outcome ]</div>
+<p class="lead">Read aloud: <em>a <b>narrator</b> frames an <b>operation</b> (of a certain <b>type</b>) by which an <b>agent</b> (in a certain <b>voice</b>) acts on a <b>substrate</b> to produce an <b>outcome</b>.</em> M is the whole bracket, not just the agent.</p>
+<pre class="chart">┌─────────────────────────────────────────────────────────────────────┐
+│  H0  NARRATOR  ── frames ──►  "the friend, as eyewitness-messenger"   │  who tells it, on what authority
+├─────────────────────────────────────────────────────────────────────┤
+│  H1  PROPOSITION                                                     │
+│        operation ── the move ──►  love                               │  the verb
+│      (H2 type)  rides operation ──►  report / deem / transform …     │  which KIND of move
+│        agent  ── originator ──►  she                                 │  who does it (in-frame, not the author)
+│      (H2 voice)  rides agent ──►  active / middle-passive / null     │  the agency-mode
+│        substrate ── acts on ──►  you                                 │  the input / given
+│        outcome ── produces ──►  (the bond love yields)               │  the output / result
+└─────────────────────────────────────────────────────────────────────┘
+        SURROUNDING (§2, shared across the move):  sitz  ·  paradigm</pre>
+<table>
+<thead><tr><th>#</th><th>Slot</th><th>H</th><th>Definition</th><th>M4 "she loves you"</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><b>operation</b></td><td>H1</td><td>the move itself — the verb; what the text DOES</td><td>love</td></tr>
+<tr><td>2</td><td><b>type</b></td><td>H2</td><td>which KIND of move (rides operation): transformative · constitutive · deeming · yielding · report</td><td>report</td></tr>
+<tr><td>3</td><td><b>voice</b></td><td>H2</td><td>agency-mode (rides agent): active · middle-passive · null-stative</td><td>active</td></tr>
+<tr><td>4</td><td><b>agent</b></td><td>H1</td><td>the in-frame ORIGINATOR (not the author); <code>none</code> = agentless</td><td>she</td></tr>
+<tr><td>5</td><td><b>substrate</b></td><td>H1</td><td>what the move ACTS ON — the input/given</td><td>you</td></tr>
+<tr><td>6</td><td><b>outcome</b></td><td>H1</td><td>what the move PRODUCES — the output/result</td><td>(the bond love yields)</td></tr>
+<tr><td>7</td><td><b>narrator</b></td><td>H0</td><td>teller + POV + authority-source (argument · revelation · witness · self-positing · <code>none</code>)</td><td>the friend, as eyewitness</td></tr>
+</tbody>
+</table>
+<div class="callout"><b>Why type &amp; voice are H2.</b> H1 is <em>what is asserted</em>; H2 is <em>how it's qualified</em>. "love" is asserted; that it's a <em>report</em> and in the <em>active</em> voice qualifies it. <b>narrator</b> (was "warrant") moved to H0 because the authority-source frames the whole proposition from above — it isn't inside it. <b>"consequence" is removed:</b> an outcome only becomes a consequence when it's the substrate of a later move, i.e. <code>outcome(N)=substrate(N+1)</code> — a production edge, not a slot.</div>
+
+<h2 id="surround">2 — surrounding <span class="q">Q2: sitz + paradigm</span></h2>
+<p>Two fields shared across a whole move (fill once). <b>Different axes — don't merge.</b></p>
+<table>
+<thead><tr><th>Field</th><th>Definition</th><th>Axis</th><th>Example (M4)</th></tr></thead>
+<tbody>
+<tr><td><b>sitz</b></td><td>the historical SITUATION OF THE TELLING — where/when/how-the-world-was</td><td>the <em>teller's</em> world</td><td>a 1963 pop single; a friend brokering a reconciliation</td></tr>
+<tr><td><b>paradigm</b></td><td>the conceptual FRAME the CONTENT assumes — the governing worldview</td><td>the <em>content's</em> world</td><td>romantic-love-as-reconcilable</td></tr>
+</tbody>
+</table>
+<p class="lead">Mnemonic: <b>the narrator sits in a <em>sitz</em>; the content sits in a <em>paradigm</em>.</b> (Romans: Paul's sitz = c.57 CE, Jew–Gentile house-churches; the paradigm = providence / election.)</p>
+
+<h2 id="frame">3 — a move IS a frame <span class="q">a moment in time</span></h2>
+<p>Each move is one freeze-frame: one operation, fixed agent/substrate/outcome, one narrator, one sitz. The text is a <em>sequence</em> of frames (M1→M8). So:</p>
+<ul>
+<li><b>time lives in the edges, not the slots</b> — a slot is a still; the <em>production edge</em> (outcome(N)→substrate(N+1)) is the motion between stills.</li>
+<li><b>"beyond-frame" means literally outside this freeze-frame's declared world</b> — a value the frame can't hold.</li>
+<li>every frame has <b>three horizons</b>, because three minds stand at different times: the <b>agent</b> (in the frame), the <b>narrator</b> (telling it), the <b>reader</b> (receiving it, maybe centuries later) = the 3 seers.</li>
+</ul>
+
+<h2 id="grid">4 — the detection grid <span class="q">Q4: 2×2 × seer</span></h2>
+<p>Every position (a slot OR a frame-role) is placed on a <b>2×2: visibility × salience</b>.</p>
+<pre class="chart">AXIS 1 — VISIBILITY (binary):  transparent | opaque
+         = is the value recoverable from the text? closed-class (tense/mood) → transparent;
+           open-class (which love? how much?) → opaque unless a modifier states it.
+AXIS 2 — SALIENCE (binary):  in-focus | out-of-focus
+         = would filling it MATERIALLY change what the addressee is positioned to
+           believe/feel/do, relative to the FIXED QUD?
+
+                    in-focus (matters)          out-of-focus (trivial)
+    transparent   ┌────────────────────────┬────────────────────────┐
+    (recoverable) │       GRAMMAR          │       TRIVIAL          │
+                  │  said & load-bearing   │  said but irrelevant   │
+    ──────────────┼────────────────────────┼────────────────────────┤
+    opaque        │   ★ THE GAP ★          │       NOISE            │
+    (unrecover-   │  the money cell —      │  unrecoverable but     │
+    able)         │  unsaid AND it matters │  doesn't matter        │
+                  └────────────────────────┴────────────────────────┘</pre>
+<p><b>The seer lens (× seer).</b> Once a position is in THE GAP, ask <b>"opaque to WHOM?"</b> — evidential, not psychological:</p>
+<table>
+<thead><tr><th>Seer</th><th>Question</th><th>Seer? Seen?</th></tr></thead>
+<tbody>
+<tr><td><b>agent</b></td><td>does <em>she</em> (in-frame) know it?</td><td>both a seer AND one of the seen (a slot)</td></tr>
+<tr><td><b>narrator</b></td><td>can the <em>teller</em> vouch for it?</td><td>both a seer AND seen (H0 slot)</td></tr>
+<tr><td><b>reader</b></td><td>can <em>we</em> decode it from the text?</td><td>seer only</td></tr>
+</tbody>
+</table>
+
+<h2 id="terms">5 — said / unsaid / alternative <span class="q">Q5: still in use?</span></h2>
+<p>Yes — three DIFFERENT things; keep them apart (Decision 159):</p>
+<table>
+<thead><tr><th>Term</th><th>What it is</th><th>Where it lives</th></tr></thead>
+<tbody>
+<tr><td><b>SAID</b></td><td>the value actually present in the slot</td><td>the CORE-7 grammar (the positive coding)</td></tr>
+<tr><td><b>UNSAID</b></td><td>a value ABSENT but in-frame; detected + flavored</td><td>the grid + flavors (the negative coding)</td></tr>
+<tr><td><b>ALTERNATIVE</b></td><td>a <em>specific competing value</em> that could have filled the slot instead</td><td>the alternative axis (the generation input)</td></tr>
+</tbody>
+</table>
+
+<h2 id="altaxis">6 — the alternative axis <span class="q">Q6: contrary / null / the frame-jump</span></h2>
+<p>For any slot, the values that could have gone there sort into four kinds by their relation to the SAID:</p>
+<pre class="chart">SAID = "loves"
+  ├─ CONTRARY      = the far pole; same voice + agent, opposite valence   → "hates"       (still engaged)
+  ├─ [BETWEEN]     = the bounded spectrum of other nameable values        → "likes / misses"
+  ├─ PRIVATION     = the agent/voice WITHDRAWN — the emptied slot         → "is indifferent to"  (the null; origin=0)
+  └─ BEYOND-FRAME  = outside the declared universe — the un-imagined      → (flag, don't code)</pre>
+<div class="callout"><b>Null &amp; the frame-jump (your exact question).</b> <b>PRIVATION = the null</b> — the slot emptied to zero. "Indifference" is the null of "love" (the origin of the number-line, not its negative pole — which is why the opposite of love is indifference, not hate). And <b>"she hates you" JUMPS THE FRAME</b>: swapping SAID "loves" → CONTRARY "hates" is a <span class="tag t-bar">SUBSTITUTE</span> — it <em>retracts</em> the love (you can't say "she loves you AND hates you" as one move). A substitute voids the premise, so it doesn't complete <em>this</em> frame; it starts a <b>different one</b> (a fork). Contrary/substitute = the door OUT of the frame; fill = the door that stays IN.</div>
+
+<h2 id="scan">7 — the gap scan <span class="q">Q7: all 7 parts, or only where not explicit?</span></h2>
+<p>You <b>scan all 7 slots (+ frame-roles), but a slot only PRODUCES a gap when it lands in THE GAP cell</b> (opaque × in-focus). Most land in GRAMMAR or TRIVIAL — those are not gaps.</p>
+<div class="callout"><b>Your M2 example is exactly right.</b> In <em>she suffered badly</em>: agent="she" and the fact-of-suffering are transparent+in-focus → GRAMMAR. Only <b>how much she suffered</b> is opaque+in-focus → <b>1 GAP</b>, on the operation's <em>Degree</em> role, flavored <span class="tag t-fill">underdetermined</span>, a <span class="tag t-fill">FILL</span> that gets filled-internally by M4's degree. One move, one gap — the norm. M4 (the money cell) has ~6.</div>
+
+<h2 id="roles">8 — frame-roles <span class="q">Q8: what degree, reason are</span></h2>
+<p>Beyond the CORE-7, every <em>operation</em> opens <b>frame-roles</b> (FrameNet — the slots the verb implies). Most gaps sit here:</p>
+<table>
+<thead><tr><th>Frame-role</th><th>Asks</th><th>"suffer"</th><th>"love"</th></tr></thead>
+<tbody>
+<tr><td><b>Degree</b></td><td>how much?</td><td>how badly she suffered</td><td>how much she loves you</td></tr>
+<tr><td><b>Reason</b></td><td>why?</td><td>why she suffered</td><td>why she loves you</td></tr>
+<tr><td><b>Manner</b></td><td>in what way?</td><td>how it showed</td><td>how the love shows</td></tr>
+<tr><td><b>Reciprocity</b></td><td>mutual?</td><td>—</td><td>does <em>he</em> love her back</td></tr>
+</tbody>
+</table>
+<p class="lead">Plus a universal discourse layer on every move (temporality · evidentiality · modality · reciprocity · interiority). A gap can sit on a CORE-7 slot OR a frame-role OR a discourse field.</p>
+
+<h2 id="resolve">9 &amp; 12 — resolution <span class="q">edges · reception · why RESIDUAL is caps</span></h2>
+<p>Every detected gap resolves one of three ways:</p>
+<table>
+<thead><tr><th>Resolution</th><th>Definition</th><th>An edge?</th><th>Example (M4)</th></tr></thead>
+<tbody>
+<tr><td><b>filled-internally</b></td><td>another move in THIS text answers it</td><td><b>yes — a completion edge</b> (can run backward = suspense)</td><td>M4 warrant ← M6 (the witness)</td></tr>
+<tr><td><b>generatable</b></td><td>the text doesn't, but the fill engine can produce an in-frame fill</td><td>a <em>candidate</em> edge</td><td>M4 degree → "a deep, enduring love"</td></tr>
+<tr><td><b>RESIDUAL</b></td><td>neither text nor monotonic fill closes it — only reception (new eyes, later) can</td><td><b>yes — the reception edge</b> (points OUT of the text)</td><td>the friend's motive; why she loves you</td></tr>
+</tbody>
+</table>
+<div class="callout"><b>The 400-years-later theologian is the reception edge made literal.</b> A RESIDUAL in Paul ("God foreknew <em>whom</em>?") is exactly the gap Augustine fills 400 years later, and Arminius fills differently 1500 years later. The text leaves it residual; reception is the set of later moves, by later agents, that close it — and because they close it with <em>different</em> fills, they <b>fork</b>. <b>The residuals are where the cross-tradition thesis (Q2) lives.</b><br><br><b>Why RESIDUAL is caps:</b> it's the <em>headline output</em> — the flag for exactly where history has to step in (the reception target, the fork site, the convergence-test point). Same field, marked.</div>
+
+<h2 id="door">10 &amp; 11 — the door: fill / substitute / barred <span class="q">the "— (foreclosed)" fix</span></h2>
+<p><b>You caught a real bug.</b> The door is a <b>three-value field</b>, not two:</p>
+<table>
+<thead><tr><th>Value</th><th>Test</th><th>Meaning</th><th>Monotonic?</th></tr></thead>
+<tbody>
+<tr><td><span class="tag t-fill">FILL</span></td><td>"…AND X" co-holds</td><td>X <em>completes</em> the move without retracting it</td><td>yes → stays in frame</td></tr>
+<tr><td><span class="tag t-gap">SUBSTITUTE</span></td><td>"…X INSTEAD" retracts</td><td>X <em>replaces</em> the SAID, voiding the premise</td><td>no → jumps frame</td></tr>
+<tr><td><span class="tag t-bar">BARRED</span></td><td>can't even propose X</td><td>the move <em>forecloses</em> the knowledge — the coder is blocked</td><td>n/a — only reception opens it</td></tr>
+</tbody>
+</table>
+<p class="lead">So <code>— (foreclosed)</code> should read <b>BARRED</b>. BARRED always co-occurs with the <em>foreclosed</em> or <em>horizon-limit</em> flavor. And the grid &amp; flavors are <b>two layers run in order</b>: <b>A</b> the grid (binary — WHERE is the gap?) → <b>B</b> the door (FILL/SUBSTITUTE/BARRED — CAN it close?) → <b>C</b> the flavor (graded — WHY is it opaque?). The flavors live <em>downstream</em> of the grid, not inside a cell — which keeps the grid's κ tight (binary) while the graded flavor <em>underdetermined</em> (= translucent = a range not a point) carries the honest continuum.</p>
+
+<h2 id="flavors">the 6 flavors <span class="q">the classifier — extensible</span></h2>
+<table>
+<thead><tr><th>Flavor</th><th>Family</th><th>Detection-method (the test)</th><th>Spine</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><b>omitted</b></td><td>FILL</td><td>role left empty; null-instantiation</td><td>Fillmore</td><td>"why you hurt her"</td></tr>
+<tr><td><b>underdetermined</b></td><td>FILL</td><td>constrained but not fixed — a range (=translucent)</td><td>Pinkal</td><td>"how much she loves you"</td></tr>
+<tr><td><b>presupposed</b></td><td>SUBST-stance</td><td>taken as common ground</td><td>Stalnaker</td><td>M7 presupposes you're not already glad</td></tr>
+<tr><td><b>suppressed</b></td><td>SUBST-stance</td><td>a marked absence — actively kept down</td><td>Jakobson</td><td>the unrelayed rest of her words</td></tr>
+<tr><td><b>foreclosed</b></td><td>BARRED</td><td>evidentially barred — the frame won't license it</td><td>Aikhenvald</td><td>her interior; his reciprocity</td></tr>
+<tr><td><b>horizon-limit</b></td><td>BARRED</td><td>outside the paradigm's imaginable</td><td>Taylor</td><td>"love" beyond the romantic frame</td></tr>
+</tbody>
+</table>
+<p class="lead"><b>Extensible (FIT-OR-EXTEND).</b> The 6 = the current census, not a lockbox. A new pattern earns a new flavor only with a <em>distinct detection-method</em> (else it's a relabel), IRR-validated. The grid detects (fixed); the flavors grow.</p>
+
+<h2 id="engine">13 — the generator <span class="q">do we have an engine yet?</span></h2>
+<p>Not yet — the honest status:</p>
+<table>
+<thead><tr><th>Engine</th><th>Job</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><b>detector</b> (IRR177)</td><td><em>names the absence</em> — which gaps, cell, flavor</td><td>✅ done + reliability-locked</td></tr>
+<tr><td><b>SUBSTITUTE engine</b></td><td>generates the <em>forks</em> (the door OUT)</td><td>⚙️ exists (<code>negative_space_generator_v1.py</code>), needs the salience filter</td></tr>
+<tr><td><b>FILL engine</b> (money cell)</td><td>generates <em>what-could-be still in frame</em> — the branches not taken</td><td>📝 spec'd, NOT built — the next build after the pilot</td></tr>
+</tbody>
+</table>
+<div class="callout"><b>Detection vs generation:</b> IRR177 = detection (naming the absence). The generator = generation (making what could-be / could-have-been that's <em>still in the frame</em> = the branches not taken). The generator is the theology payoff: on "God foreknew," the FILL engine articulates the in-frame fills the text leaves open, the SUBSTITUTE engine articulates the forks (single vs double predestination), and reception (Augustine, Arminius) shows which branch each tradition took. <b>Convergence across traditions (Q2) is the rhyme across those picks.</b></div>
+
+<h2 id="defs">14 — master definitions <span class="q">every term · example · don't-confuse-with</span></h2>
+<p class="lead">The full table (every term, one line, an example, and what not to confuse it with) is in the source doc — <code>negative_space_DEFINITIONS_AND_SCHEMA_v1</code>, Part 10. The arbiter whenever a term feels fuzzy.</p>
+
+<a class="backlink" href="coding-lab.html">← back to the coding lab</a>
+
+<p class="foot">HOW PRODUCED · reading-SB, 2026-07-10, per researcher request for the canonical reference as an HTML site page. Rendered from the markdown source of truth. SCHOLARLY SOURCES · Van Valin (RRG); Fillmore/FrameNet; Pinkal; Stalnaker; Jakobson; Aikhenvald; Taylor; Roberts (QUD); Genette; Newman; Decisions 159–162; IRR173–177. WHAT NEEDS VERIFICATION · (1) the markdown is source-of-truth; regenerate this page when it changes. (2) the FILL engine is spec'd not built. (3) Stage 6 = 0.</p>
+</div>
+</body>
+</html>
