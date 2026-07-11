@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The persona-space map · every mind is a point · E×O×M</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#faf7ef; --paper-2:#fffdf8; --ink:#22201a; --ink-2:#575347; --mut:#8c8474; --rule:#e2d9c6;
+  --moss:#3a5a40; --gold:#b8923b; --terra:#b8562e; --honey:#e0a93b; --teal:#2f6f7a; --olive:#6e7b3a; --plum:#8a4a6a;
+  --serif:'Newsreader',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.6;
+  background-image:radial-gradient(circle at 12% 0%,rgba(184,146,59,.06),transparent 42%),radial-gradient(circle at 88% 2%,rgba(58,90,64,.05),transparent 44%)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+a{color:var(--moss)}
+.mast{padding:40px 0 4px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.mast h1{font-family:var(--serif);font-size:clamp(27px,4.6vw,42px);font-weight:600;line-height:1.05;margin:11px 0 6px;color:#2c2a20;letter-spacing:-.01em}
+.tagline{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--terra)}
+.mast .sub{font-family:var(--sans);font-size:13.5px;color:var(--ink-2);max-width:74ch;margin:12px 0 0}
+.mast .sub b{color:var(--ink)}
+.banner{margin:16px 0 0;background:#fcefe6;border:1px solid var(--terra);border-radius:11px;padding:10px 14px;font-family:var(--sans);font-size:12.5px;color:#7a3c22;line-height:1.5}
+.banner b{color:var(--terra)}
+
+.plot{position:relative;margin:20px 0 0;background:var(--paper-2);border:1px solid var(--rule);border-radius:18px;overflow:hidden;box-shadow:0 20px 50px -36px rgba(60,50,30,.6)}
+svg{display:block;width:100%;height:auto;touch-action:none;cursor:grab}
+svg.grabbing{cursor:grabbing}
+.axmark{font-family:var(--mono);font-size:10px;fill:var(--mut)}
+.pt{cursor:pointer;transition:opacity .15s}
+.pt.dim{opacity:.12}
+.pt.pulse{animation:pulse 1.1s ease-out 2}
+@keyframes pulse{0%{r:16;opacity:.5}100%{r:var(--r);opacity:1}}
+
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:12px 14px;border-top:1px solid var(--rule);background:var(--paper)}
+.legend{display:flex;flex-wrap:wrap;gap:6px}
+.lg{display:flex;align-items:center;gap:6px;font-family:var(--sans);font-size:12px;color:var(--ink-2);border:1px solid var(--rule);border-radius:99px;padding:4px 11px;background:var(--paper-2);cursor:pointer;user-select:none}
+.lg .sw{width:10px;height:10px;border-radius:50%}
+.lg.off{opacity:.4}
+.lg .ct{font-family:var(--mono);font-size:10px;color:var(--mut)}
+.tools{margin-left:auto;display:flex;gap:8px;align-items:center}
+.tbtn{font-family:var(--mono);font-size:11px;border:1px solid var(--rule);border-radius:8px;background:var(--paper-2);color:var(--ink-2);padding:6px 11px;cursor:pointer}
+.tbtn:hover{border-color:var(--gold);color:var(--ink)}
+.tbtn.spin{background:var(--terra);color:#fff;border-color:var(--terra);font-weight:600;letter-spacing:.03em;text-transform:uppercase}
+
+.tip{position:absolute;pointer-events:none;z-index:5;max-width:300px;background:var(--paper-2);border:1px solid var(--rule);border-radius:12px;box-shadow:0 14px 34px -18px rgba(60,50,30,.7);padding:12px 14px;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
+.tip.show{opacity:1;transform:none}
+.tip .kd{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+.tip .lb{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--ink);line-height:1.15}
+.tip .co{font-family:var(--mono);font-size:10.5px;color:var(--ink-2);margin:6px 0 2px}
+.tip .co b{color:var(--ink)}
+.tip .nn{font-family:var(--sans);font-size:11px;color:var(--terra);margin-top:5px}
+.tip .nn.none{color:var(--mut)}
+.tip .ex{font-family:var(--serif);font-size:12.5px;font-style:italic;color:var(--ink-2);margin-top:8px;line-height:1.5;border-top:1px solid var(--rule);padding-top:7px}
+.tip .ung{font-family:var(--sans);font-size:11.5px;color:var(--mut);margin-top:7px;border-top:1px solid var(--rule);padding-top:7px;line-height:1.5}
+
+.read{display:grid;grid-template-columns:1fr;gap:10px;margin:20px 0 0}
+@media(min-width:680px){.read{grid-template-columns:repeat(3,1fr)}}
+.rc{background:var(--paper-2);border:1px solid var(--rule);border-radius:12px;padding:13px 15px}
+.rc h3{font-family:var(--serif);font-size:15px;font-weight:600;margin:0 0 5px;color:var(--moss)}
+.rc p{font-family:var(--sans);font-size:12.5px;color:var(--ink-2);margin:0;line-height:1.5}
+footer{padding:28px 0 60px;font-family:var(--sans);font-size:12px;color:var(--mut);line-height:1.7}
+footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="mast">
+    <div class="eyebrow">The persona engine · the whole space at once</div>
+    <h1>The persona-space map</h1>
+    <div class="tagline">every mind is a point; the named thinkers are a sparse overlay; the gaps are where new minds live</div>
+    <p class="sub">Each persona we&rsquo;ve run is projected here by the <b>embedding of its fill</b> — distance ≈ similarity of mind. <b>Clusters are neighbourhoods</b> (Jungian, Madhyamaka, Sufi share a &ldquo;dissolve-the-surface&rdquo; region, reached by different ontologies). <b>Empty space is unexplored coordinates</b> — the cells no one has run yet. The slot machine lands on a point in <i>this</i> space.</p>
+    <div class="banner" id="banner"><b>Placeholder layout.</b> Point <i>identities + fills are real</i>; their <i>positions are illustrative</i> until reading-SB&rsquo;s real embedding projection lands — then it&rsquo;s a one-line data swap and this banner goes away.</div>
+  </header>
+
+  <section class="plot">
+    <svg id="svg" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" aria-label="Persona-space scatter map">
+      <text class="axmark" x="14" y="628">projection of fill-embeddings — distance ≈ similarity of mind (axes are not quantities)</text>
+      <g id="scene"></g>
+    </svg>
+    <div class="tip" id="tip"></div>
+    <div class="toolbar">
+      <div class="legend" id="legend"></div>
+      <div class="tools">
+        <button class="tbtn" id="reset">reset view</button>
+        <button class="tbtn spin" id="spin">spin → land</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="read">
+    <div class="rc"><h3>Clusters = neighbourhoods</h3><p>Where points bunch, minds that share a <i>move</i> sit close — even across very different traditions. The names hid these neighbourhoods; the coordinates reveal them.</p></div>
+    <div class="rc"><h3>Overlay = the named few</h3><p>The named thinkers (terra) are a sparse scatter over a dense space. Most points near them are <i>unnamed</i> — coordinates, not schools.</p></div>
+    <div class="rc"><h3>Whitespace = the frontier</h3><p>Empty regions are coordinates not yet run (faint rings). That&rsquo;s where the novel, coherent-but-unnamed minds live — the discovery targets.</p></div>
+  </div>
+
+  <footer>
+    <b>How produced.</b> design-SB, 2026-07-11 &mdash; reading-SB&rsquo;s persona-space-map brief. Interactive scatter over the schema <code>{x,y,(z),label,kind,E,O,M,nearest_named,fill_excerpt}</code>; auto-fits any projection range (t-SNE / UMAP / PCA). <b>Placeholder data</b>: the 12 real grid-cell fills + the named-frame overlay carry real identities/excerpts; positions are a deterministic E×O×M stand-in until reading-SB exports the real projection. <b>Paraphrase only, never lyrics.</b> Stage&nbsp;6 = 0 &mdash; the map is a method view, not a findings claim.
+    <br><br><b>What needs verification.</b> Swap <code>{"placeholder":true,"points":[…]}</code> for reading-SB&rsquo;s export (same schema) &mdash; banner auto-hides when <code>placeholder</code> is false. <code>z</code> (3rd axis) is accepted and reserved; the MVP renders the 2D projection. nearest_named shown where present; blank &ne; &ldquo;no thinker in history,&rdquo; only &ldquo;none in our named set.&rdquo;
+  </footer>
+</div>
+
+<script id="data" type="application/json">{"placeholder": true, "points": [{"x": 5.75, "y": 3.837, "label": "observation×material×exegesis", "kind": "grid", "E": "observation", "O": "material", "M": "exegesis", "nearest_named": null, "fill_excerpt": "The text offers one empirically legible trace of the addressee's internal state: he holds a false belief that her love is gone (M5). A mechanism that monitors another's attachment state, registers its apparent…"}, {"x": 0.72, "y": 0.1, "label": "revelation×transcendent-personal×exegesis", "kind": "grid", "E": "revelation", "O": "transcendent-personal", "M": "exegesis", "nearest_named": null, "fill_excerpt": "The gap resolves when exegesis holds M8 in full attention: the obstacle the text names is *pride*, not absent love. Within the revealed frame, pride is the posture of self-enclosure — the refusal to stand under…"}, {"x": 6.564, "y": 2.237, "label": "reason×material×exegesis", "kind": "grid", "E": "reason", "O": "material", "M": "exegesis", "nearest_named": "Jungian", "fill_excerpt": "M5 asserts the addressee holds a false belief about whether her love persists. A false belief about X is notationally significant only if X is causally relevant to the believer's states — he tracks her love bec…"}, {"x": 6.6, "y": 0.737, "label": "revelation×material×exegesis", "kind": "grid", "E": "revelation", "O": "material", "M": "exegesis", "nearest_named": null, "fill_excerpt": "The revelation-text discloses her love as the load-bearing fact (M4). Exegetical close reading of M5 extracts a further datum: he has been tracking whether her love persists — a mechanistic behavioral dispositi…"}, {"x": 0.444, "y": 1.6, "label": "reason×transcendent-personal×exegesis", "kind": "grid", "E": "reason", "O": "transcendent-personal", "M": "exegesis", "nearest_named": null, "fill_excerpt": "The text's silence on the addressee's love is not an evasion — it is the argument. M8 does not say \"love her back, then apologize\"; it says \"swallow pride and apologize.\" The warrant is traceable by unaided rea…"}, {"x": -0.01, "y": 3.3, "label": "observation×transcendent-personal×exegesis", "kind": "grid", "E": "observation", "O": "transcendent-personal", "M": "exegesis", "nearest_named": null, "fill_excerpt": "Exegesis marks the silence precisely: the narrator reports only what the witness (M6) can attest — exterior states, observable testimony. The addressee's desire sits inside him; the text's epistemic frame canno…"}, {"x": -0.594, "y": 4.8, "label": "practice×transcendent-personal×exegesis", "kind": "grid", "E": "practice", "O": "transcendent-personal", "M": "exegesis", "nearest_named": null, "fill_excerpt": "The text silences his love but does not void it. Exegesis of M8 reveals that pride — not indifference — is named as the obstacle; one swallows pride only when something is at stake. From the frame of practice:…"}, {"x": 6.29, "y": 8.737, "label": "divination×material×exegesis", "kind": "grid", "E": "divination", "O": "material", "M": "exegesis", "nearest_named": "Ifá", "fill_excerpt": "The text's oracular structure is itself the sign to be read. Three physical traces in the given words: the friend traveled to reach the addressee — a mechanism that only fires when the traveler judges the addre…"}, {"x": 0.41, "y": 8.0, "label": "divination×transcendent-personal×exegesis", "kind": "grid", "E": "divination", "O": "transcendent-personal", "M": "exegesis", "nearest_named": null, "fill_excerpt": "The text-as-omen must be read closely: the friend's unsolicited arrival bearing this precise word is not mere social report — it is a sign. In a world where a transcendent personal reality governs events, such…"}, {"x": 5.608, "y": 7.137, "label": "testimony×material×exegesis", "kind": "grid", "E": "testimony", "O": "material", "M": "exegesis", "nearest_named": null, "fill_excerpt": "The text's testimony-warrant runs solely through HER attested love — the friend witnessed her and carries her word (M6); that report is what grounds M7-M8. The addressee's reciprocal love is unwitnessed: no tes…"}, {"x": 5.526, "y": 5.437, "label": "practice×material×exegesis", "kind": "grid", "E": "practice", "O": "material", "M": "exegesis", "nearest_named": null, "fill_excerpt": "The text's argument for reconciliation holds on HER love alone — exegetically, M3-M5→M8 closes without the addressee's desire. But whether reconciliation can sustain is a question the text leaves for him to ans…"}, {"x": -0.152, "y": 6.5, "label": "testimony×transcendent-personal×exegesis", "kind": "grid", "E": "testimony", "O": "transcendent-personal", "M": "exegesis", "nearest_named": null, "fill_excerpt": "Close reading of M7 (\"be glad\") and M8 (\"swallow your pride\") discloses what the text leaves unspoken. Gladness is only possible where desire already lives; the counsel to rejoice at her love presupposes the ad…"}, {"x": 7.68, "y": 7.8, "label": "Jungian", "kind": "named", "E": "practice", "O": "transcendent-personal", "M": "dialectical-negation", "nearest_named": null, "fill_excerpt": "dissolve-the-surface neighbourhood"}, {"x": 7.68, "y": 8.6, "label": "Madhyamaka", "kind": "named", "E": "reason", "O": "impersonal-process", "M": "dialectical-negation", "nearest_named": null, "fill_excerpt": "dissolve-the-surface neighbourhood"}, {"x": 7.26, "y": 6.2, "label": "Sufi", "kind": "named", "E": "practice", "O": "transcendent-personal", "M": "analogical-mapping", "nearest_named": null, "fill_excerpt": "dissolve-the-surface neighbourhood"}, {"x": 6.17, "y": 8.637, "label": "Ifá", "kind": "named", "E": "divination", "O": "material", "M": "exegesis", "nearest_named": null, "fill_excerpt": "oracular"}, {"x": 0.574, "y": 2.189, "label": "Thomist", "kind": "named", "E": "reason", "O": "transcendent-personal", "M": "derivation", "nearest_named": null, "fill_excerpt": "a named landmark in the space"}, {"x": 6.25, "y": 2.67, "label": "Humean", "kind": "named", "E": "observation", "O": "material", "M": "causal-explanation", "nearest_named": null, "fill_excerpt": "a named landmark in the space"}, {"x": 0.6, "y": 0.0, "label": "Augustinian", "kind": "named", "E": "revelation", "O": "transcendent-personal", "M": "exegesis", "nearest_named": null, "fill_excerpt": "a named landmark in the space"}, {"x": 6.25, "y": 2.67, "label": "Predictive-processing", "kind": "named", "E": "observation", "O": "material", "M": "causal-explanation", "nearest_named": null, "fill_excerpt": "a named landmark in the space"}, {"x": 3.974, "y": 2.537, "label": "cybernetician", "kind": "discipline", "E": "reason", "O": "relational", "M": "derivation", "nearest_named": null, "fill_excerpt": "(illustrative point — real one arrives with reading-SB's export)"}, {"x": 3.9, "y": 2.97, "label": "phenomenologist", "kind": "discipline", "E": "observation", "O": "relational", "M": "dialectical-negation", "nearest_named": null, "fill_excerpt": "(illustrative point — real one arrives with reading-SB's export)"}, {"x": 4.57, "y": 7.629, "label": "Yoruba-diaspora", "kind": "place", "E": "divination", "O": "relational", "M": "analogical-mapping", "nearest_named": null, "fill_excerpt": "(illustrative point — real one arrives with reading-SB's export)"}, {"x": 9.556, "y": 4.904, "label": "Kyoto-school", "kind": "place", "E": "practice", "O": "impersonal-process", "M": "dialectical-negation", "nearest_named": null, "fill_excerpt": "(illustrative point — real one arrives with reading-SB's export)"}, {"x": 1.35, "y": 0.099, "label": "revelation×transcendent-personal×dialectical-negation", "kind": "ungenerated", "E": "revelation", "O": "transcendent-personal", "M": "dialectical-negation", "nearest_named": null, "fill_excerpt": null}, {"x": 4.1, "y": 0.099, "label": "revelation×relational×causal-explanation", "kind": "ungenerated", "E": "revelation", "O": "relational", "M": "causal-explanation", "nearest_named": null, "fill_excerpt": null}, {"x": 6.85, "y": 0.099, "label": "revelation×material×derivation", "kind": "ungenerated", "E": "revelation", "O": "material", "M": "derivation", "nearest_named": null, "fill_excerpt": null}, {"x": 7.6, "y": -0.196, "label": "revelation×material×analogical-mapping", "kind": "ungenerated", "E": "revelation", "O": "material", "M": "analogical-mapping", "nearest_named": null, "fill_excerpt": null}, {"x": 9.6, "y": 0.099, "label": "revelation×impersonal-process×exegesis", "kind": "ungenerated", "E": "revelation", "O": "impersonal-process", "M": "exegesis", "nearest_named": null, "fill_excerpt": null}, {"x": 10.35, "y": -0.196, "label": "revelation×impersonal-process×dialectical-negation", "kind": "ungenerated", "E": "revelation", "O": "impersonal-process", "M": "dialectical-negation", "nearest_named": null, "fill_excerpt": null}, {"x": 0.824, "y": 2.237, "label": "reason×transcendent-personal×causal-explanation", "kind": "ungenerated", "E": "reason", "O": "transcendent-personal", "M": "causal-explanation", "nearest_named": null, "fill_excerpt": null}, {"x": 4.324, "y": 0.929, "label": "reason×relational×analogical-mapping", "kind": "ungenerated", "E": "reason", "O": "relational", "M": "analogical-mapping", "nearest_named": null, "fill_excerpt": null}, {"x": 7.074, "y": 0.929, "label": "reason×material×dialectical-negation", "kind": "ungenerated", "E": "reason", "O": "material", "M": "dialectical-negation", "nearest_named": null, "fill_excerpt": null}, {"x": 9.824, "y": 0.929, "label": "reason×impersonal-process×causal-explanation", "kind": "ungenerated", "E": "reason", "O": "impersonal-process", "M": "causal-explanation", "nearest_named": null, "fill_excerpt": null}, {"x": 0.0, "y": 3.789, "label": "observation×transcendent-personal×derivation", "kind": "ungenerated", "E": "observation", "O": "transcendent-personal", "M": "derivation", "nearest_named": null, "fill_excerpt": null}, {"x": 0.75, "y": 2.67, "label": "observation×transcendent-personal×analogical-mapping", "kind": "ungenerated", "E": "observation", "O": "transcendent-personal", "M": "analogical-mapping", "nearest_named": null, "fill_excerpt": null}, {"x": 2.75, "y": 3.789, "label": "observation×relational×exegesis", "kind": "ungenerated", "E": "observation", "O": "relational", "M": "exegesis", "nearest_named": null, "fill_excerpt": null}, {"x": 9.0, "y": 2.67, "label": "observation×impersonal-process×derivation", "kind": "ungenerated", "E": "observation", "O": "impersonal-process", "M": "derivation", "nearest_named": null, "fill_excerpt": null}, {"x": 9.75, "y": 3.66, "label": "observation×impersonal-process×analogical-mapping", "kind": "ungenerated", "E": "observation", "O": "impersonal-process", "M": "analogical-mapping", "nearest_named": null, "fill_excerpt": null}, {"x": 2.906, "y": 4.899, "label": "practice×relational×causal-explanation", "kind": "ungenerated", "E": "practice", "O": "relational", "M": "causal-explanation", "nearest_named": null, "fill_excerpt": null}, {"x": 5.656, "y": 4.899, "label": "practice×material×derivation", "kind": "ungenerated", "E": "practice", "O": "material", "M": "derivation", "nearest_named": null, "fill_excerpt": null}, {"x": 6.406, "y": 4.604, "label": "practice×material×analogical-mapping", "kind": "ungenerated", "E": "practice", "O": "material", "M": "analogical-mapping", "nearest_named": null, "fill_excerpt": null}, {"x": 8.406, "y": 4.899, "label": "practice×impersonal-process×exegesis", "kind": "ungenerated", "E": "practice", "O": "impersonal-process", "M": "exegesis", "nearest_named": null, "fill_excerpt": null}, {"x": 0.108, "y": 7.037, "label": "testimony×transcendent-personal×causal-explanation", "kind": "ungenerated", "E": "testimony", "O": "transcendent-personal", "M": "causal-explanation", "nearest_named": null, "fill_excerpt": null}, {"x": 2.858, "y": 7.037, "label": "testimony×relational×derivation", "kind": "ungenerated", "E": "testimony", "O": "relational", "M": "derivation", "nearest_named": null, "fill_excerpt": null}, {"x": 3.608, "y": 5.729, "label": "testimony×relational×analogical-mapping", "kind": "ungenerated", "E": "testimony", "O": "relational", "M": "analogical-mapping", "nearest_named": null, "fill_excerpt": null}, {"x": 6.358, "y": 5.729, "label": "testimony×material×dialectical-negation", "kind": "ungenerated", "E": "testimony", "O": "material", "M": "dialectical-negation", "nearest_named": null, "fill_excerpt": null}, {"x": 9.108, "y": 5.729, "label": "testimony×impersonal-process×causal-explanation", "kind": "ungenerated", "E": "testimony", "O": "impersonal-process", "M": "causal-explanation", "nearest_named": null, "fill_excerpt": null}, {"x": 0.42, "y": 8.589, "label": "divination×transcendent-personal×derivation", "kind": "ungenerated", "E": "divination", "O": "transcendent-personal", "M": "derivation", "nearest_named": null, "fill_excerpt": null}, {"x": 1.17, "y": 7.47, "label": "divination×transcendent-personal×analogical-mapping", "kind": "ungenerated", "E": "divination", "O": "transcendent-personal", "M": "analogical-mapping", "nearest_named": null, "fill_excerpt": null}, {"x": 3.17, "y": 8.589, "label": "divination×relational×exegesis", "kind": "ungenerated", "E": "divination", "O": "relational", "M": "exegesis", "nearest_named": null, "fill_excerpt": null}, {"x": 3.92, "y": 7.47, "label": "divination×relational×dialectical-negation", "kind": "ungenerated", "E": "divination", "O": "relational", "M": "dialectical-negation", "nearest_named": null, "fill_excerpt": null}, {"x": 6.67, "y": 7.47, "label": "divination×material×causal-explanation", "kind": "ungenerated", "E": "divination", "O": "material", "M": "causal-explanation", "nearest_named": null, "fill_excerpt": null}, {"x": 9.42, "y": 7.47, "label": "divination×impersonal-process×derivation", "kind": "ungenerated", "E": "divination", "O": "impersonal-process", "M": "derivation", "nearest_named": null, "fill_excerpt": null}, {"x": 10.17, "y": 8.46, "label": "divination×impersonal-process×analogical-mapping", "kind": "ungenerated", "E": "divination", "O": "impersonal-process", "M": "analogical-mapping", "nearest_named": null, "fill_excerpt": null}]}</script>
+<script>
+var DATA = JSON.parse(document.getElementById('data').textContent);
+var PTS = DATA.points;
+if(!DATA.placeholder){ var b=document.getElementById('banner'); if(b) b.style.display='none'; }
+
+var KIND = {
+  grid:{c:'var(--gold)', r:7, lbl:'coordinate cell (generated)'},
+  named:{c:'var(--terra)', r:8, lbl:'named thinker (overlay)'},
+  coordinate:{c:'var(--moss)', r:7, lbl:'coordinate persona'},
+  discipline:{c:'var(--teal)', r:7, lbl:'discipline frame'},
+  place:{c:'var(--olive)', r:7, lbl:'place persona'},
+  ungenerated:{c:'var(--mut)', r:5, lbl:'un-generated cell (the gaps)'}
+};
+var PALETTE=['var(--plum)','var(--honey)','var(--moss)','var(--teal)'];
+function kindStyle(k){ if(KIND[k]) return KIND[k]; var i=Object.keys(KIND).length%PALETTE.length; KIND[k]={c:PALETTE[i],r:7,lbl:k}; return KIND[k]; }
+
+// ---- auto-fit projection to viewBox ----
+var PAD=54, VW=1000, VH=610;
+var xs=PTS.map(p=>p.x), ys=PTS.map(p=>p.y);
+var xmin=Math.min.apply(null,xs), xmax=Math.max.apply(null,xs), ymin=Math.min.apply(null,ys), ymax=Math.max.apply(null,ys);
+var xr=(xmax-xmin)||1, yr=(ymax-ymin)||1;
+function SX(x){ return PAD + (x-xmin)/xr*(VW-2*PAD); }
+function SY(y){ return PAD + (1-(y-ymin)/yr)*(VH-2*PAD); }
+
+var scene=document.getElementById('scene');
+var off={}; // kind -> hidden?
+function draw(){
+  scene.innerHTML='';
+  PTS.forEach(function(p,i){
+    var st=kindStyle(p.kind);
+    var c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',SX(p.x)); c.setAttribute('cy',SY(p.y));
+    var r=st.r; c.setAttribute('r',r); c.style.setProperty('--r',r);
+    if(p.kind==='ungenerated'){ c.setAttribute('fill','none'); c.setAttribute('stroke',st.c); c.setAttribute('stroke-width','1.4'); c.setAttribute('stroke-dasharray','2 2'); }
+    else { c.setAttribute('fill',st.c); c.setAttribute('stroke','#fff'); c.setAttribute('stroke-width','1.2'); }
+    c.setAttribute('class','pt'+(off[p.kind]?' dim':''));
+    c.setAttribute('data-i',i);
+    if(p.kind==='named'){ var t=document.createElementNS('http://www.w3.org/2000/svg','text'); t.setAttribute('x',SX(p.x)+11); t.setAttribute('y',SY(p.y)+4); t.setAttribute('class','axmark'+(off[p.kind]?' ptdim':'')); t.setAttribute('fill','var(--terra)'); t.setAttribute('font-weight','600'); t.style.paintOrder='stroke'; t.style.stroke='var(--paper-2)'; t.style.strokeWidth='3.5px'; t.style.strokeLinejoin='round'; if(off[p.kind]) t.setAttribute('opacity','0.12'); t.textContent=p.label; t.setAttribute('data-lab',i); scene.appendChild(t); }
+    scene.appendChild(c);
+    c.addEventListener('mouseenter',function(e){ showTip(p,e); });
+    c.addEventListener('mouseleave',hideTip);
+    c.addEventListener('click',function(e){ showTip(p,e,true); });
+  });
+}
+
+var tip=document.getElementById('tip'), svg=document.getElementById('svg');
+function showTip(p,e,pin){
+  var st=kindStyle(p.kind);
+  var coord=(p.E||p.O||p.M)?'<div class="co">'+(p.E?'<b>'+p.E+'</b>':'?')+' × '+(p.O?'<b>'+p.O+'</b>':'?')+' × '+(p.M?'<b>'+p.M+'</b>':'?')+'</div>':'';
+  var nn = p.nearest_named ? '<div class="nn">nearest named · '+p.nearest_named+'</div>'
+         : (p.kind==='named' ? '' : '<div class="nn none">no named landmark — the coordinate is the mind</div>');
+  var body = (p.kind==='ungenerated')
+    ? '<div class="ung">un-generated cell — a coordinate no one has run yet. One of the gaps where a novel, coherent mind would live.</div>'
+    : (p.fill_excerpt ? '<div class="ex">'+p.fill_excerpt+'</div>' : '');
+  tip.innerHTML='<div class="kd" style="color:'+st.c+'">'+st.lbl+'</div><div class="lb">'+p.label+'</div>'+coord+nn+body;
+  var rect=svg.getBoundingClientRect();
+  var cx=SX(p.x)/VW*rect.width, cy=SY(p.y)/640*rect.height;
+  var tx=Math.min(Math.max(cx+14,8), rect.width-260), ty=Math.min(cy+10, rect.height-40);
+  tip.style.left=tx+'px'; tip.style.top=ty+'px';
+  tip.classList.add('show');
+}
+function hideTip(){ tip.classList.remove('show'); }
+
+// ---- legend (click to filter) ----
+function buildLegend(){
+  var counts={}; PTS.forEach(p=>counts[p.kind]=(counts[p.kind]||0)+1);
+  var el=document.getElementById('legend'); el.innerHTML='';
+  Object.keys(counts).forEach(function(k){
+    var st=kindStyle(k);
+    var d=document.createElement('div'); d.className='lg';
+    d.innerHTML='<span class="sw" style="background:'+(k==='ungenerated'?'transparent':st.c)+';'+(k==='ungenerated'?'border:1.4px dashed '+st.c:'')+'"></span>'+st.lbl+' <span class="ct">'+counts[k]+'</span>';
+    d.addEventListener('click',function(){ off[k]=!off[k]; d.classList.toggle('off',off[k]); draw(); });
+    el.appendChild(d);
+  });
+}
+
+// ---- pan + zoom ----
+var vb={x:0,y:0,w:VW,h:640}, sx0,sy0,vx0,vy0,drag=false;
+function applyVB(){ svg.setAttribute('viewBox',vb.x+' '+vb.y+' '+vb.w+' '+vb.h); }
+svg.addEventListener('wheel',function(e){ e.preventDefault();
+  var rect=svg.getBoundingClientRect();
+  var mx=vb.x+(e.clientX-rect.left)/rect.width*vb.w, my=vb.y+(e.clientY-rect.top)/rect.height*vb.h;
+  var f=e.deltaY<0?0.88:1.14; var nw=Math.min(Math.max(vb.w*f,180),2600); var s=nw/vb.w;
+  vb.x=mx-(mx-vb.x)*s; vb.y=my-(my-vb.y)*s; vb.w=nw; vb.h=640*(nw/VW); applyVB();
+},{passive:false});
+svg.addEventListener('pointerdown',function(e){ drag=true; svg.classList.add('grabbing'); sx0=e.clientX; sy0=e.clientY; vx0=vb.x; vy0=vb.y; svg.setPointerCapture(e.pointerId); });
+svg.addEventListener('pointermove',function(e){ if(!drag)return; var rect=svg.getBoundingClientRect(); vb.x=vx0-(e.clientX-sx0)/rect.width*vb.w; vb.y=vy0-(e.clientY-sy0)/rect.height*vb.h; applyVB(); });
+svg.addEventListener('pointerup',function(e){ drag=false; svg.classList.remove('grabbing'); });
+document.getElementById('reset').addEventListener('click',function(){ vb={x:0,y:0,w:VW,h:640}; applyVB(); });
+
+// ---- spin → land on a random GENERATED point ----
+document.getElementById('spin').addEventListener('click',function(){
+  var gen=PTS.map((p,i)=>({p,i})).filter(o=>o.p.kind!=='ungenerated');
+  var pick=gen[Math.floor(Math.random()*gen.length)];
+  draw();
+  var circ=scene.querySelector('.pt[data-i="'+pick.i+'"]');
+  if(circ){ circ.classList.add('pulse'); }
+  showTip(pick.p,null,true);
+});
+
+buildLegend(); draw(); applyVB();
+</script>
+</body>
+</html>
