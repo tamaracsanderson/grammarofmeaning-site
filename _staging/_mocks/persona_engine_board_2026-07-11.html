@@ -75,13 +75,13 @@ a{color:var(--moss)}
 .mini{margin-top:16px}
 .mini .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--mut);margin-bottom:6px}
 .mg{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:5px;aspect-ratio:1.5/1}
-.mg .c{border:1px solid var(--rule);border-radius:7px;background:var(--paper);font-family:var(--mono);font-size:8px;color:var(--mut);padding:6px;display:flex;align-items:flex-end;line-height:1.25}
+.mg .c{position:relative;border:1px solid var(--rule);border-radius:7px;background:var(--paper);font-family:var(--mono);font-size:8px;color:var(--mut);padding:6px;display:flex;align-items:flex-end;justify-content:flex-end;line-height:1.25}
 .mg .c.hit{border-width:2px}
 .mg .c.hit.money{border-color:var(--terra);background:#fcefe6;color:var(--terra)}
 .mg .c.hit.residual{border-color:var(--residual);background:#f9f0d8;color:#7a5f14}
 .mg .c.hit.plain{border-color:var(--plain);background:#efe9dc;color:var(--ink-2)}
 .mg .c.hit.fork{border-color:var(--fork);background:#f6e4ec;color:var(--fork)}
-.mg .c .me{position:relative;font-weight:600;font-size:11px}
+.mg .c .me{position:absolute;top:5px;left:7px;font-weight:700;font-size:12px}
 /* right content blocks */
 .dsummary{font-family:var(--sans);font-size:13.5px;color:var(--ink-2);line-height:1.6}
 .dsummary b{color:var(--ink)}
@@ -166,7 +166,7 @@ var MOVES=[
  {id:'M2',op:'suffer',beat:'She suffered badly.',kind:'plain',cell:'ti',
   verdict:'Said', summary:'Stated on the surface — <b>nothing withheld at the grid layer</b>, so the grid classifies it plain-said. It <i>rests on</i> a load-bearing condition, but that lives in the move-tree, not as a grid gap.',
   precond:'Had the suffering <i>destroyed</i> her, no reappraisal is possible and the whole persuasion stops. That’s a <b>precondition-fail</b> branch — a load-bearing annotation in the move-tree, not a withheld gap and not a fork.'},
- {id:'M3',op:'reappraise',beat:'She reconsidered — judges you’re not cruel.',kind:'residual',cell:'oo',
+ {id:'M3',op:'reappraise',beat:'She reconsidered — judges you’re not cruel.',kind:'residual',cell:'to',
   verdict:'Quiet residual', summary:'The <b>move</b> is stated on the surface — so the move’s own door is <b>fill</b>. What it <i>carries</i> is an <b>unreliable warrant</b>: a residual, out of focus — you don’t feel it unless you look.',
   gapq:'Is her change of heart veridical — or motivated?', door:'fill', seer:'opaque to reader; even she may not know',
   note:'She may <i>want</i> “not the hurting kind” to be true.',
@@ -177,7 +177,7 @@ var MOVES=[
   triad:true, handoff:true},
  {id:'M5',op:'fear',beat:'You wrongly believe her love is gone.',kind:'plain',cell:'ti',
   verdict:'Said', summary:'A <b>stated (false) belief</b>. Frames reach for it as an exegetical key — but the text withholds nothing here; it says it plainly.'},
- {id:'M6',op:'relay / warrant',beat:'The friend saw her, and carries her word.',kind:'residual',cell:'oo',
+ {id:'M6',op:'relay / warrant',beat:'The friend saw her, and carries her word.',kind:'residual',cell:'to',
   verdict:'Quiet residual', summary:'The <b>move</b> is stated — the witness is named — so the move’s own door is <b>fill</b>. What it <i>carries</i> is an <b>unreliable warrant</b>: a residual, out of focus.',
   gapq:'Does the witness have his own motive? Is his word trustworthy?', door:'fill', seer:'opaque to reader; the friend knows his own interest',
   note:'The entire appeal leans on this relay; the text never certifies it.',
@@ -241,7 +241,7 @@ function select(id){
     } else if(m.note){ html+='<div class="dsummary" style="margin-top:6px;font-size:12.5px;color:var(--mut)">'+m.note+'</div>'; }
     if(m.residual){
       html+='<div class="meta"><span class="chip">the move · <b>stated</b></span><span class="chip">move door · <b>fill</b></span><span class="chip">seer · '+m.seer+'</span></div>';
-      html+='<div class="resflag"><span class="rh">reliability-residual · door BARRED · foreclosed → RESIDUAL</span>'+m.residual+'</div>';
+      html+='<div class="resflag"><span class="rh">reliability-residual · opaque · out-of-focus · door BARRED → RESIDUAL</span>'+m.residual+'</div>';
     } else {
       html+='<div class="meta"><span class="chip">flavor · <b>'+m.flavor+'</b></span><span class="chip">door · <b>'+m.door+'</b></span><span class="chip">seer · '+m.seer+'</span></div>';
     }
