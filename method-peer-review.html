@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The method reviews itself — Grammar of Meaning</title>
+<style>
+  :root{--paper:#f7f2e7;--paper2:#fffdf7;--card:#fffefa;--ink:#26221a;--ink2:#5b5346;--ink3:#8a8172;--line:#e4dcc9;--line2:#d0c6ae;--moss:#4b6b46;--moss-d:#33502f;--gold:#b8892f;--gold-bg:#f6ecd4;--good:#33502f;--good-bg:#e7efdf;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,sans-serif;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;}
+  @media (prefers-color-scheme:dark){:root{--paper:#14130f;--paper2:#1a1813;--card:#1e1b15;--ink:#ece7dc;--ink2:#b3aa98;--ink3:#847c6c;--line:#332f27;--line2:#423d31;--moss:#8fb884;--moss-d:#6c9a62;--gold:#e0b45f;--gold-bg:#2c2410;--good:#8fb884;--good-bg:#1c2618;}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.62;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding:0 22px 90px}
+  a{color:var(--moss-d)}@media(prefers-color-scheme:dark){a{color:var(--moss)}}
+  header{padding:44px 0 20px;border-bottom:2px solid var(--line2)}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+  h1{font-family:var(--serif);font-weight:500;font-size:32px;line-height:1.13;margin:0 0 8px;letter-spacing:-.015em}
+  .sub{color:var(--ink2);font-size:16.5px;max-width:62ch;margin:0}
+  h2{font-family:var(--serif);font-weight:500;font-size:22px;margin:40px 0 6px;letter-spacing:-.01em}
+  h2 .n{font-family:var(--mono);font-size:12px;color:var(--gold);margin-right:8px}
+  p{margin:10px 0}.lead{color:var(--ink2)}
+  .callout{background:var(--card);border:1px solid var(--line2);border-left:3px solid var(--moss);border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0;font-size:14.5px;color:var(--ink2)}
+  .callout b{color:var(--ink)}
+  .verdict{display:inline-flex;align-items:center;gap:9px;margin:8px 0;padding:6px 14px;border-radius:999px;background:var(--good-bg);color:var(--good);font-weight:500;font-size:13.5px}
+  ul.tight{margin:6px 0;padding-left:19px}ul.tight li{margin:6px 0;color:var(--ink2)}ul.tight li b{color:var(--ink);font-weight:500}
+  .backlink{display:inline-block;margin:26px 0 0;font-family:var(--mono);font-size:12px}
+  .foot{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--ink3);line-height:1.7}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h2 class="sr-only">Two case studies in which the method was peer-reviewed by five independent AI models before being built, and the reviews caught real, load-bearing problems.</h2>
+<header>
+  <p class="eyebrow">the coding lab · case study · methodology</p>
+  <h1>The method reviews itself</h1>
+  <p class="sub">Before building an instrument, we hand its design to five independent models and ask them to break it. Twice this session it worked exactly as intended — the reviews caught real problems, and one of them <em>protected the thesis's central claim</em>.</p>
+</header>
+
+<h2><span class="n">§1</span>Why review a design before building it</h2>
+<p class="lead">A solo researcher has no committee in the room. So the project substitutes a <strong>five-model panel</strong> (GPT, Gemini, Claude, DeepSeek, Solar) — a discipline borrowed from the project's own reliability method. The rule is simple: <em>validate the design before you build it.</em> A one-day review round is far cheaper than a week spent building the wrong thing. Below are the two rounds from this session; both returned "proceed, with named changes," and both changed the build.</p>
+
+<h2><span class="n">§2</span>IRR178 — reviewing the generative engine's design</h2>
+<span class="verdict">5/5 · proceed with named changes — do not build as drawn</span>
+<p class="lead">We proposed a "persona rolodex" — filling an interpretive gap from many disciplinary frames — and asked the panel to critique the *design*, not approve it. They agreed it was measuring the <strong>wrong thing</strong>:</p>
+<ul class="tight">
+<li><b>Wrong construct.</b> We were measuring <em>divergence</em>; divergence isn't creativity (random noise diverges too). The right object is <b>quality-diversity</b> — an archive of grounded, non-redundant candidates across a defined space (from evolutionary computation).</li>
+<li><b>Confounded mechanism.</b> A prompt-persona mixes the frame, the named-person stereotype, the wording, and the model's own priors. Without controls, "the physicist" measures the model's <em>stereotype</em> of a physicist.</li>
+<li><b>Biased instrument.</b> Embedding "distance" measures distance-from-training-data, not conceptual distance — and an LLM can't judge its own bias.</li>
+</ul>
+<div class="callout">Every one of these reshaped the build: we replaced the persona <em>names</em> with <b>three coordinates</b> (epistemic warrant × ontological commitment × inferential operation), added a <b>fake-persona control</b>, and re-framed the whole experiment around quality-diversity. The result — <a href="persona-rolodex-phase1.html">the persona white paper</a> — is a far better instrument than the one we'd have built without the round.</div>
+
+<h2><span class="n">§3</span>IRR179 — reviewing the edge taxonomy</h2>
+<span class="verdict">5/5 · codeable with named changes — and one change protects the thesis</span>
+<p class="lead">We proposed nine named "edges" — the connecting lines between moves, including the cross-text ones where convergence lives. The panel converged, from five different angles, on a single load-bearing correction:</p>
+<div class="callout"><b>"Same structure" is not the same as "independent convergence."</b> A move here and a move there can share an identical shape and <em>still</em> not be independent — because of borrowing, common ancestry, or a shared source. So the convergence edge had to split: the <b>structural match</b> (codeable) versus <b>independent convergence</b> (a later verdict that must rule out contact). And a new edge — <b>CITE</b> — exists precisely to catch the borrowing: Augustine quoting Paul is a citation, not an independent discovery.</div>
+<p class="lead">The project's defining question is "convergence across traditions that share <em>no historical contact</em>." Before the round, the taxonomy would have counted inherited traditions as independent discoveries — quietly inflating the central claim. After it, that claim is <strong>rigorous rather than assumed.</strong> The review didn't weaken the thesis; it hardened it. (Full taxonomy: <a href="negative-space-edges.html">edges &amp; meta-move</a>.)</p>
+
+<h2><span class="n">§4</span>What this demonstrates</h2>
+<p class="lead">The point of publishing these rounds is the point of the whole project: <strong>the method is open, and it is auditable.</strong> The critiques are on the record — including the ones that said we were wrong — and so is what we changed in response. A design that survives five independent adversarial reviews, with its revisions documented, is a stronger object than one that was simply asserted. And the same five-model machine that <em>validates</em> a design is the one that, elsewhere in the lab, <em>measures</em> whether an instrument is reliable — one apparatus, two jobs.</p>
+
+<a class="backlink" href="coding-lab.html">← back to the coding lab</a>
+<p class="foot">HOW PRODUCED · reading-SB, 2026-07-11. Reconciliations: research/00_irr/irr178_… and irr179_edge_taxonomy_reconciliation. Both rounds: 5 independent web-UI cohorts, reconciled to consensus buckets. WHAT NEEDS VERIFICATION · the named changes are being built (the persona engine is measured; the edge taxonomy is at v2); specific paper citations from the rounds await verification before formal use. Stage 6 = 0.</p>
+</div>
+</body>
+</html>

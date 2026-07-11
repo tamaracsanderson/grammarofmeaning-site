@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The move-tree — Grammar of Meaning</title>
+<style>
+  :root{
+    --paper:#f7f2e7;--paper2:#fffdf7;--card:#fffefa;--ink:#26221a;--ink2:#5b5346;--ink3:#8a8172;
+    --line:#e4dcc9;--line2:#d0c6ae;--moss:#4b6b46;--moss-d:#33502f;--gold:#b8892f;--gold-bg:#f6ecd4;--gap:#8a3b2a;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,sans-serif;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --paper:#14130f;--paper2:#1a1813;--card:#1e1b15;--ink:#ece7dc;--ink2:#b3aa98;--ink3:#847c6c;
+    --line:#332f27;--line2:#423d31;--moss:#8fb884;--moss-d:#6c9a62;--gold:#e0b45f;--gold-bg:#2c2410;--gap:#e0977c;}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.62;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding:0 22px 90px}
+  a{color:var(--moss-d)}@media(prefers-color-scheme:dark){a{color:var(--moss)}}
+  header{padding:44px 0 20px;border-bottom:2px solid var(--line2)}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+  h1{font-family:var(--serif);font-weight:500;font-size:32px;line-height:1.13;margin:0 0 8px;letter-spacing:-.015em}
+  .sub{color:var(--ink2);font-size:16.5px;max-width:62ch;margin:0}
+  h2{font-family:var(--serif);font-weight:500;font-size:22px;margin:40px 0 6px;letter-spacing:-.01em}
+  h2 .n{font-family:var(--mono);font-size:12px;color:var(--gold);margin-right:8px}
+  p{margin:10px 0}.lead{color:var(--ink2)}
+  .figwrap{overflow-x:auto;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;padding:10px;margin:18px 0}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:12px 0}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);font-weight:400}
+  code{font-family:var(--mono);font-size:.9em;background:var(--paper2);padding:1px 5px;border-radius:4px}
+  .callout{background:var(--card);border:1px solid var(--line2);border-left:3px solid var(--moss);border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0;font-size:14.5px;color:var(--ink2)}
+  .callout b{color:var(--ink)}
+  .backlink{display:inline-block;margin:26px 0 0;font-family:var(--mono);font-size:12px}
+  .foot{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--ink3);line-height:1.7}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h2 class="sr-only">The eight moves of a song as a situation-calculus tree: the path the song takes, the branches it does not take, the dead-ends where a precondition fails, and the reliability branch on the reappraisal.</h2>
+<header>
+  <p class="eyebrow">the coding lab · methodology · the Saquib bridge</p>
+  <h1>The move-tree</h1>
+  <p class="sub">A text is a <em>path</em> through a tree of possible moves. Each move is a state; each state could have branched otherwise. Drawing the tree makes the road taken, the roads not taken, and the dead-ends all visible at once.</p>
+</header>
+
+<h2><span class="n">§1</span>A text is a path through a tree</h2>
+<p class="lead">This is the formalism the situation-calculus frame (from Nazmus Saquib) gives us. A move is <code>do(a, s)</code> — doing action <em>a</em> in situation <em>s</em>. Every situation could branch into several next moves; <code>Poss(a, s)</code> decides which are even allowed. The text <strong>takes one path</strong>; the tree holds all the others. Below, "She Loves You" — the spine is the path the song takes; the branches are what it doesn't; the red boxes are where a precondition fails and the path simply <em>stops</em>.</p>
+<div class="figwrap">
+<svg viewBox="0 0 720 560" xmlns="http://www.w3.org/2000/svg" role="img" font-family="var(--sans)">
+<title>The move-tree of "She Loves You"</title>
+<defs>
+<marker id="g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#4b6b46"/></marker>
+<marker id="r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#993c1d"/></marker>
+<marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ba7517"/></marker>
+</defs>
+<style>
+.t{fill:#26221a}.ts{fill:#5b5346}.th{fill:#8a8172}.lab{fill:#b8892f;font-size:11px;letter-spacing:.1em}.poss{fill:#8a8172;font-size:9.5px;font-family:ui-monospace,Menlo,monospace}
+.node{fill:#fffdf7;stroke:#d0c6ae}.core{fill:#f6ecd4;stroke:#b8892f;stroke-width:2}.win{fill:#e7efdf;stroke:#4b6b46}
+.dead{fill:#f6e3dc;stroke:#993c1d}.fork{fill:#faeeda;stroke:#ba7517}.unrel{fill:#faeeda;stroke:#ba7517;stroke-dasharray:4 3}
+@media (prefers-color-scheme:dark){.t{fill:#ece7dc}.ts{fill:#b3aa98}.th{fill:#847c6c}.lab{fill:#e0b45f}.poss{fill:#a99}
+.node{fill:#1e1b15;stroke:#423d31}.core{fill:#2c2410;stroke:#e0b45f}.win{fill:#1c2618;stroke:#8fb884}
+.dead{fill:#3a1c11;stroke:#e0977c}.fork{fill:#3a2a0a;stroke:#e0b45f}.unrel{fill:#3a2a0a;stroke:#e0b45f;stroke-dasharray:4 3}}
+</style>
+<text x="26" y="30" class="lab">THE MOVE-TREE — the path taken (spine) · the branches not taken (to the side) · where the path stops</text>
+<g font-size="12">
+<rect x="70" y="44" width="150" height="34" rx="8" class="node"/><text x="82" y="65" class="t">M1 · hurt</text>
+<rect x="70" y="96" width="150" height="34" rx="8" class="node"/><text x="82" y="117" class="t">M2 · suffer</text>
+<rect x="70" y="148" width="150" height="34" rx="8" class="node"/><text x="82" y="169" class="t">M3 · reappraise</text>
+<rect x="70" y="200" width="150" height="34" rx="8" class="core"/><text x="82" y="221" class="t" font-weight="500">M4 · loves ★</text>
+<rect x="70" y="252" width="150" height="34" rx="8" class="node"/><text x="82" y="273" class="t">M5 · fear</text>
+<rect x="70" y="304" width="150" height="34" rx="8" class="node"/><text x="82" y="325" class="t">M6 · relay/warrant</text>
+<rect x="70" y="356" width="150" height="34" rx="8" class="node"/><text x="82" y="377" class="t">M7 · be-glad</text>
+<rect x="70" y="408" width="150" height="34" rx="8" class="node"/><text x="82" y="429" class="t">M8 · apologize</text>
+<rect x="70" y="464" width="150" height="34" rx="8" class="win"/><text x="82" y="485" class="t" font-weight="500">→ reconcile</text>
+</g>
+<g stroke="#4b6b46" stroke-width="2" marker-end="url(#g)" fill="none">
+<line x1="145" y1="78" x2="145" y2="94"/><line x1="145" y1="130" x2="145" y2="146"/><line x1="145" y1="182" x2="145" y2="198"/>
+<line x1="145" y1="234" x2="145" y2="250"/><line x1="145" y1="286" x2="145" y2="302"/><line x1="145" y1="338" x2="145" y2="354"/>
+<line x1="145" y1="390" x2="145" y2="406"/><line x1="145" y1="442" x2="145" y2="462"/>
+</g>
+<text x="150" y="493" class="th" font-size="10">PATH TAKEN (the song)</text>
+<text x="228" y="140" class="poss">Poss: she is not destroyed</text>
+<text x="228" y="192" class="poss">Poss: reappraise = true</text>
+<g stroke="#993c1d" stroke-width="1.4" stroke-dasharray="3 2" marker-end="url(#r)" fill="none"><path d="M220 108 H 356"/><path d="M220 158 Q 300 150 356 150"/></g>
+<g stroke="#ba7517" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#a)" fill="none"><path d="M220 172 Q 300 210 356 214"/><path d="M220 425 H 356"/></g>
+<rect x="360" y="92" width="330" height="34" rx="8" class="dead"/><text x="372" y="106" class="ts" font-size="11">branch: she is destroyed →</text><text x="372" y="120" class="t" font-size="11" font-weight="500">DEAD END — no reappraisal possible</text>
+<rect x="360" y="133" width="330" height="34" rx="8" class="dead"/><text x="372" y="147" class="ts" font-size="11">branch: she stays hurt (judges you cruel) →</text><text x="372" y="161" class="t" font-size="11" font-weight="500">DEAD END — loves() outputs FALSE</text>
+<rect x="360" y="198" width="330" height="46" rx="8" class="unrel"/><text x="372" y="214" class="t" font-size="11" font-weight="500">★ is her reappraisal veridical — or motivated?</text><text x="372" y="230" class="ts" font-size="10.5">“not the hurting kind” may be what she WANTS →</text><text x="372" y="242" class="ts" font-size="10.5">M4 rests on shaky ground (a hidden residual)</text>
+<rect x="360" y="408" width="330" height="34" rx="8" class="fork"/><text x="372" y="422" class="ts" font-size="11">branch: keep your pride (don't apologize) →</text><text x="372" y="436" class="t" font-size="11" font-weight="500">FORK → estrangement</text>
+<g font-size="10.5">
+<line x1="70" y1="524" x2="96" y2="524" stroke="#4b6b46" stroke-width="2" marker-end="url(#g)"/><text x="102" y="528" class="th">path taken</text>
+<line x1="200" y1="524" x2="226" y2="524" stroke="#993c1d" stroke-width="1.4" stroke-dasharray="3 2" marker-end="url(#r)"/><text x="232" y="528" class="th">precondition fails (dead end)</text>
+<line x1="410" y1="524" x2="436" y2="524" stroke="#ba7517" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#a)"/><text x="442" y="528" class="th">fork / unreliable (a residual)</text>
+</g>
+<text x="26" y="550" class="th" font-size="9.5">Saquib mapping: node = do(a,s) · Poss = presupposition/narrator-license · branch = an alternative · dead-end = a foreclosed branch · the path = the meta-move.</text>
+</svg>
+</div>
+<div class="callout"><b>The reliability branch (a listening insight).</b> M3 — "she's realized he's not the hurting kind" — is drawn with a dashed branch, because it may not be true: it could be <em>her rationalization</em> for what she wants. So M4 ("she loves you") rests on a precondition that is itself unreliable. The song is <b>doubly unreliable</b>: it omits how <em>he</em> feels, and it can't vouch for whether <em>her</em> reappraisal is real. The tree makes that visible as a branch, not a footnote.</div>
+
+<h2><span class="n">§2</span>What "she said" ↔ what we built</h2>
+<table>
+<thead><tr><th>situation calculus (Saquib)</th><th>our instrument</th></tr></thead>
+<tbody>
+<tr><td>action <code>do(a, s)</code></td><td>a <b>move</b></td></tr>
+<tr><td>situation <code>s</code></td><td>the <b>sitz</b></td></tr>
+<tr><td><code>Poss(a, s)</code> — precondition</td><td>the <b>presupposition</b> / the narrator's license</td></tr>
+<tr><td>a branch not taken</td><td>an <b>alternative</b> (a substitute)</td></tr>
+<tr><td>a branch "outputs false"</td><td>a <b>foreclosed</b> gap — the path stops</td></tr>
+<tr><td>a full <b>path</b></td><td>the production chain = the <b>meta-move</b></td></tr>
+<tr><td>"generate the tree via LLM"</td><td>the <b>generation engine</b> (fill + substitute)</td></tr>
+<tr><td>"trace a path, evaluate via LLM"</td><td>the <b>coding</b> (evaluate each move in its situation)</td></tr>
+</tbody>
+</table>
+
+<h2><span class="n">§3</span>Toward a <em>real</em> tree — the next build</h2>
+<p class="lead">Right now this tree is <strong>the taken path plus a few hand-drawn branches</strong>. To make it a real tree, we grow it the way Saquib describes: <strong>at each move-state, ask the generation engine for <em>all</em> the ways it could go next</strong> — then recurse. Move 1 opens its possibilities; each of those is a new state that opens its own; and so on, until paths either reach the end or <em>stop</em> (a precondition fails). Two shapes are worth building:</p>
+<ul>
+<li><b>Open growth:</b> from the first move, branch out fully — every path and every dead-end. The state-space of the song.</li>
+<li><b>Fixed endpoints:</b> hold M1 and M8 fixed, and enumerate <em>all the ways M1 could reach M8</em> — the space of routes between a given start and a given end. (This is the more tractable, and the more revealing for reception: two traditions reaching the same end by different routes.)</li>
+</ul>
+<div class="callout">The substitute engine already generates the branches; the coding traces the path. What's new is the <b>recursion</b> — growing state by state — and a way to <em>evaluate</em> each generated branch (does it stay in-frame? does its precondition hold?). That evaluation is exactly the reliability work the rest of the lab is built on. On Romans, the tree is where the fork becomes real: the golden chain is one path; single vs. double predestination is a branch.</div>
+
+<a class="backlink" href="coding-lab.html">← back to the coding lab</a>
+<p class="foot">HOW PRODUCED · reading-SB, 2026-07-11, per researcher request to give the move-tree its own page. The tree object lives at field_ed/_persona_engine/move_tree_she_loves_you.json. WHAT NEEDS VERIFICATION · the taken-path tree is coded; the full recursive possibility-tree (open growth / fixed-endpoints) is the next build. Stage 6 = 0.</p>
+</div>
+</body>
+</html>
