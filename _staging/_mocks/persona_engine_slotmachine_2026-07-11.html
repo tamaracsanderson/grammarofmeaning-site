@@ -89,6 +89,8 @@ a{color:var(--moss)}
 .why b{color:var(--gold);font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;display:block;margin-bottom:4px}
 .compact{margin-top:14px;font-family:var(--mono);font-size:10.5px;color:var(--mut);border-top:1px solid var(--rule);padding-top:10px}
 .compact b{color:var(--ink-2)}
+.maplink{margin-top:13px;font-family:var(--sans);font-size:12.5px}
+.maplink a{color:var(--moss);border-bottom:1px solid var(--moss);text-decoration:none}
 .switchhint{margin-top:15px;font-family:var(--sans);font-size:12.5px;color:var(--ink-2)}
 .switchhint button{font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--terra);background:none;border:none;border-bottom:1px solid var(--terra);cursor:pointer;padding:0}
 .empty .doorpill{background:var(--mut)}
@@ -171,13 +173,14 @@ function coordHTML(E,O,M){return '<div class="coord">'
 
 function nearHTML(f){ return f.near ? '<div class="near"><span class="tag">nearest of our 8 · '+f.near.name+' ('+f.near.sim+')</span><span class="note">embedding — a diagnostic, not a definition</span></div>' : ''; }
 function occHTML(f){ if(!f.occupant) return ''; return '<div class="occ"><div class="oh">proposed historical occupant <span class="unv">unverified — LLM-proposed · §2.9 DB-check pending</span></div><div class="on">'+f.occupant.name+'</div><div class="orat">'+esc(f.occupant.rationale)+'</div></div>'; }
+function mapLink(E,O,M){ return '<div class="maplink"><a href="persona_engine_spacemap_2026-07-11.html?E='+encodeURIComponent(E)+'&O='+encodeURIComponent(O)+'&M='+encodeURIComponent(M)+'">see this coordinate on the map →</a></div>'; }
 
 function renderA(E,O,M){
   var f=rec(E,O,M);
   var lead='<div class="lenslead">A mind that knows by <b>'+E+'</b>, holds that <b>'+O_VALUES[O]+'</b>, and reasons by <b>'+M+'</b>.</div>';
   var body;
-  if(f){ body=lead+nearHTML(f)+occHTML(f)+'<div class="switchhint">→ now <button onclick="switchToB()">put this lens to a gap</button> and read how it answers.</div>'; }
-  else { body=lead+'<div class="emptynote"><b>coherent, but unnamed — and not yet embedded.</b> No nearest-frame or occupant computed for this coordinate yet. One of the ~108 not-yet-run cells — still a coherent lens.</div>'; }
+  if(f){ body=lead+nearHTML(f)+occHTML(f)+'<div class="switchhint">→ now <button onclick="switchToB()">put this lens to a gap</button> and read how it answers.</div>'+mapLink(E,O,M); }
+  else { body=lead+'<div class="emptynote"><b>coherent, but unnamed — and not yet embedded.</b> No nearest-frame or occupant computed for this coordinate yet. One of the ~108 not-yet-run cells — still a coherent lens.</div>'+mapLink(E,O,M); }
   return '<div class="card">'+coordHTML(E,O,M)+'<div class="body">'+body+'</div></div>';
 }
 function renderB(E,O,M){
@@ -188,7 +191,7 @@ function renderB(E,O,M){
     return '<div class="card">'+coordHTML(E,O,M)+'<div class="body">'
       +'<span class="gapline">gap · <b>'+gapLabel+'</b></span><span class="doorpill">door · '+f.door+'</span>'
       +'<div class="fill">'+emph(f.fill)+'</div>'+(f.why?'<div class="why"><b>why</b>'+esc(f.why)+'</div>':'')
-      +'<div class="compact">'+compact+'</div></div></div>';
+      +'<div class="compact">'+compact+'</div>'+mapLink(E,O,M)+'</div></div>';
   }
   // no fill for this coordinate×gap
   return '<div class="card empty">'+coordHTML(E,O,M)+'<div class="body">'
@@ -199,14 +202,17 @@ function renderB(E,O,M){
 function render(E,O,M){ var res=document.getElementById('result'); res.innerHTML=(MODE==='A')?renderA(E,O,M):renderB(E,O,M); requestAnimationFrame(function(){var c=res.querySelector('.card'); if(c)c.classList.add('show');}); }
 
 var spinning=false,last=null;
-function doSpin(){
+function spinTo(E,O,M){
   if(spinning)return; spinning=true; var btn=document.getElementById('spin'); btn.disabled=true;
-  var roam=document.getElementById('roam').checked; var E,O,M;
-  if(roam){ E=Ekeys[Math.floor(Math.random()*6)]; O=Okeys[Math.floor(Math.random()*4)]; M=Mkeys[Math.floor(Math.random()*5)]; }
-  else { var f=RECS[Math.floor(Math.random()*RECS.length)]; E=f.E;O=f.O;M=f.M; }
   last={E:E,O:O,M:M};
   var old=document.querySelector('#result .card'); if(old)old.classList.remove('show');
   Promise.all([spinReel('E',Ekeys,E,900),spinReel('O',Okeys,O,1150),spinReel('M',Mkeys,M,1400)]).then(function(){ render(E,O,M); spinning=false; btn.disabled=false; });
+}
+function doSpin(){
+  var roam=document.getElementById('roam').checked; var E,O,M;
+  if(roam){ E=Ekeys[Math.floor(Math.random()*6)]; O=Okeys[Math.floor(Math.random()*4)]; M=Mkeys[Math.floor(Math.random()*5)]; }
+  else { var f=RECS[Math.floor(Math.random()*RECS.length)]; E=f.E;O=f.O;M=f.M; }
+  spinTo(E,O,M);
 }
 document.getElementById('spin').addEventListener('click',doSpin);
 document.getElementById('roam').addEventListener('change',function(){ setSpinLabel(); });
@@ -226,6 +232,10 @@ window.switchToA=function(){ setMode('A'); };
 document.getElementById('mA').addEventListener('click',function(){setMode('A');});
 document.getElementById('mB').addEventListener('click',function(){setMode('B');});
 setSpinLabel();
+// deep-link: ?E=&O=&M=(&mode=A|B) pre-spins to a coordinate (e.g. from the space map)
+(function(){ var q=new URLSearchParams(location.search); var pm=q.get('mode'); if(pm==='A'||pm==='B') setMode(pm);
+  var pE=q.get('E'),pO=q.get('O'),pM=q.get('M');
+  if(pE&&pO&&pM&&Ekeys.indexOf(pE)>=0&&Okeys.indexOf(pO)>=0&&Mkeys.indexOf(pM)>=0){ spinTo(pE,pO,pM); } })();
 </script>
 </body>
 </html>
