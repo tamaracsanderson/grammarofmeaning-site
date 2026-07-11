@@ -105,6 +105,19 @@ a{color:var(--moss)}
 .rhyme .sy{font-family:var(--sans);font-size:13px;color:var(--ink-2);line-height:1.6}.rhyme .sy b{color:var(--ink)}
 footer{max-width:1180px;margin:0 auto;padding:34px 24px 60px;font-family:var(--sans);font-size:12px;color:var(--mut);line-height:1.7}
 footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
+/* --- listen strip (YouTube facade — click-to-load, nocookie; nothing loads until pressed) --- */
+.listen{background:var(--paper-2);border:1px solid var(--rule);border-radius:14px;padding:15px 17px;margin:16px 0 0}
+.listen .leyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin-bottom:10px}
+.ytfacade{display:flex;align-items:center;gap:14px;cursor:pointer;border:1px solid var(--rule);border-radius:11px;padding:11px 14px;background:var(--paper);transition:border-color .15s,box-shadow .15s}
+.ytfacade:hover,.ytfacade:focus-visible{border-color:var(--gold);box-shadow:0 6px 16px -10px rgba(60,50,30,.4);outline:none}
+.ytplay{flex:0 0 auto;width:42px;height:42px;border-radius:50%;background:var(--terra);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;padding-left:3px}
+.ytmeta{font-family:var(--serif);font-size:15px;color:var(--ink);line-height:1.3}
+.ytmeta b{font-weight:600}
+.ytmeta span{display:block;font-family:var(--sans);font-size:11px;color:var(--mut);margin-top:2px}
+.lnote{font-family:var(--sans);font-size:11px;color:var(--mut);margin-top:9px;line-height:1.5}
+.lnote a{color:var(--moss)}
+.ytwrap{position:relative;padding-top:56.25%;border-radius:11px;overflow:hidden;background:#000;margin:16px 0 0}
+.ytwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 </style>
 </head>
 <body>
@@ -113,6 +126,14 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
   <h1>The pipeline, pinned — the gap, live</h1>
   <p class="lede">The whole map stays on the left; the song plays through it on the right. You never lose the forest.</p>
   <p class="altlink"><b>“She Loves You”</b> · paraphrase, never lyrics. The linear walkthrough is <a href="/_staging/_mocks/persona_engine_scrolly_2026-07-11.html">Concept A</a>; the click-around board is <a href="/_staging/_mocks/persona_engine_board_2026-07-11.html">Concept B</a>.</p>
+  <div class="listen">
+    <div class="leyebrow">New to the song? Listen first</div>
+    <div class="ytfacade" data-yt="nGbWU8S3vzs" role="button" tabindex="0" aria-label="Play “She Loves You” by The Beatles, 1963">
+      <div class="ytplay" aria-hidden="true">▶</div>
+      <div class="ytmeta"><b>“She Loves You”</b> · The Beatles, 1963<span>plays from YouTube — nothing loads until you press play</span></div>
+    </div>
+    <div class="lnote">We paraphrase the song here, never the lyrics (copyright). The recording streams from YouTube — <a href="https://www.youtube.com/watch?v=nGbWU8S3vzs" target="_blank" rel="noopener">watch on YouTube ↗</a>.</div>
+  </div>
 </div>
 
 <div class="split">
@@ -220,6 +241,20 @@ function update(){ renderStages(); document.getElementById('pane').innerHTML=pan
 document.getElementById('prev').addEventListener('click',function(){if(cur>0){cur--;update();}});
 document.getElementById('next').addEventListener('click',function(){if(cur<STAGES.length-1){cur++;update();}});
 update();
+/* listen strip: load the YouTube (nocookie) player only on explicit press */
+document.querySelectorAll('.ytfacade').forEach(function(f){
+  function load(){
+    var w=document.createElement('div'); w.className='ytwrap';
+    var ifr=document.createElement('iframe');
+    ifr.src='https://www.youtube-nocookie.com/embed/'+f.dataset.yt+'?autoplay=1&rel=0';
+    ifr.title='“She Loves You” — The Beatles, 1963';
+    ifr.setAttribute('allow','autoplay; encrypted-media; picture-in-picture; fullscreen');
+    ifr.setAttribute('allowfullscreen','');
+    w.appendChild(ifr); f.replaceWith(w);
+  }
+  f.addEventListener('click',load);
+  f.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();load();}});
+});
 </script>
 </body>
 </html>
