@@ -103,6 +103,9 @@ a{color:var(--moss)}
 .forkalt b{color:var(--fork)}
 .annot{margin-top:12px;border-left:3px solid var(--gold);padding:8px 12px;background:var(--paper);border-radius:0 8px 8px 0;font-family:var(--sans);font-size:13px;color:var(--ink-2)}
 .annot b{color:var(--gold)}
+.resflag{margin-top:12px;border:1px solid var(--terra);border-left-width:3px;border-radius:0 8px 8px 0;padding:9px 12px;background:#fcefe6;font-family:var(--sans);font-size:12.5px;color:var(--ink-2);line-height:1.55}
+.resflag .rh{color:var(--terra);font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;display:block;margin-bottom:5px}
+.resflag b{color:var(--terra);font-weight:600}
 footer{padding:38px 0 64px;font-family:var(--sans);font-size:12px;color:var(--mut);line-height:1.7}
 footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
 /* --- listen strip (YouTube facade — click-to-load, nocookie; nothing loads until pressed) --- */
@@ -164,9 +167,10 @@ var MOVES=[
   verdict:'Said', summary:'Stated on the surface — <b>nothing withheld at the grid layer</b>, so the grid classifies it plain-said. It <i>rests on</i> a load-bearing condition, but that lives in the move-tree, not as a grid gap.',
   precond:'Had the suffering <i>destroyed</i> her, no reappraisal is possible and the whole persuasion stops. That’s a <b>precondition-fail</b> branch — a load-bearing annotation in the move-tree, not a withheld gap and not a fork.'},
  {id:'M3',op:'reappraise',beat:'She reconsidered — judges you’re not cruel.',kind:'residual',cell:'oo',
-  verdict:'Quiet residual', summary:'Stated on the surface — but it carries an <b>unreliable warrant</b>. A gap, yes, but <b>out of focus</b>: you don’t feel it unless you look.',
-  gapq:'Is her change of heart veridical — or motivated?', flavor:'underdetermined', door:'fill', seer:'opaque to reader; even she may not know',
-  note:'She may <i>want</i> “not the hurting kind” to be true. The text can’t settle it.'},
+  verdict:'Quiet residual', summary:'The <b>move</b> is stated on the surface — so the move’s own door is <b>fill</b>. What it <i>carries</i> is an <b>unreliable warrant</b>: a residual, out of focus — you don’t feel it unless you look.',
+  gapq:'Is her change of heart veridical — or motivated?', door:'fill', seer:'opaque to reader; even she may not know',
+  note:'She may <i>want</i> “not the hurting kind” to be true.',
+  residual:'Whether her reappraisal is <b>veridical or motivated</b> is <b>foreclosed</b> — the text cannot certify it. Not a range to fill; a warrant it withholds, resolving as a <b>RESIDUAL</b>. This foreclosed warrant is the <b>ironic edge</b> — the missing-warrant finding.'},
  {id:'M4',op:'loves',beat:'She loves you.',kind:'money',cell:'oi',core:true,
   verdict:'The money spot', summary:'Opaque <b>and</b> in focus — the gap the text makes you feel but won’t resolve. This is the one the whole method is built to find.',
   gapq:'Does the addressee love her back?', flavor:'foreclosed', door:'barred', seer:'opaque to narrator + reader; the agent may know',
@@ -174,9 +178,10 @@ var MOVES=[
  {id:'M5',op:'fear',beat:'You wrongly believe her love is gone.',kind:'plain',cell:'ti',
   verdict:'Said', summary:'A <b>stated (false) belief</b>. Frames reach for it as an exegetical key — but the text withholds nothing here; it says it plainly.'},
  {id:'M6',op:'relay / warrant',beat:'The friend saw her, and carries her word.',kind:'residual',cell:'oo',
-  verdict:'Quiet residual', summary:'The witness is stated — but the <b>warrant</b> behind him is unreliable. A gap, out of focus.',
-  gapq:'Does the witness have his own motive? Is his word trustworthy?', flavor:'underdetermined', door:'fill', seer:'opaque to reader; the friend knows his own interest',
-  note:'The entire appeal leans on this relay; the text never certifies it.'},
+  verdict:'Quiet residual', summary:'The <b>move</b> is stated — the witness is named — so the move’s own door is <b>fill</b>. What it <i>carries</i> is an <b>unreliable warrant</b>: a residual, out of focus.',
+  gapq:'Does the witness have his own motive? Is his word trustworthy?', door:'fill', seer:'opaque to reader; the friend knows his own interest',
+  note:'The entire appeal leans on this relay; the text never certifies it.',
+  residual:'Whether the witness is <b>disinterested</b> is <b>foreclosed</b> — the text cannot certify his motive. Not a range to fill; a warrant it withholds, resolving as a <b>RESIDUAL</b>. This foreclosed warrant is the <b>ironic edge</b> — the missing-warrant finding.'},
  {id:'M7',op:'be-glad',beat:'So be glad.',kind:'plain',cell:'to',
   verdict:'Said', summary:'An <b>imperative</b>, minor and out of focus. The grid runs empty — nothing withheld.'},
  {id:'M8',op:'apologize',beat:'Swallow your pride and apologize.',kind:'fork',cell:'ti',
@@ -234,7 +239,12 @@ function select(id){
         +'<div class="tc unsaid"><div class="tt">Unsaid</div><div class="vv">“does he love her back?”</div></div>'
         +'<div class="tc alt"><div class="tt">Alternative</div><div class="vv">“he doesn’t” / “unsure”</div></div></div>';
     } else if(m.note){ html+='<div class="dsummary" style="margin-top:6px;font-size:12.5px;color:var(--mut)">'+m.note+'</div>'; }
-    html+='<div class="meta"><span class="chip">flavor · <b>'+m.flavor+'</b></span><span class="chip">door · <b>'+m.door+'</b></span><span class="chip">seer · '+m.seer+'</span></div>';
+    if(m.residual){
+      html+='<div class="meta"><span class="chip">the move · <b>stated</b></span><span class="chip">move door · <b>fill</b></span><span class="chip">seer · '+m.seer+'</span></div>';
+      html+='<div class="resflag"><span class="rh">reliability-residual · door BARRED · foreclosed → RESIDUAL</span>'+m.residual+'</div>';
+    } else {
+      html+='<div class="meta"><span class="chip">flavor · <b>'+m.flavor+'</b></span><span class="chip">door · <b>'+m.door+'</b></span><span class="chip">seer · '+m.seer+'</span></div>';
+    }
     if(m.handoff){ html+='<div class="handoff"><b>Barred within the song’s own frame</b> — so we hand it out. The <a href="/_staging/_mocks/persona_engine_scrolly_2026-07-11.html#s8">frame-roles</a> each propose a reading from outside it — an Augustinian, a cybernetician, a high-openness mind (16/16 blind-named).</div>'; }
   }
   if(m.fork){ html+='<div class="forkalt"><b>the path not taken →</b> '+m.fork+'</div>'; }
