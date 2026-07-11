@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The Persona Rolodex — Phase 1 — Grammar of Meaning</title>
+<style>
+  :root{
+    --paper:#f7f2e7;--paper2:#fffdf7;--card:#fffefa;--ink:#26221a;--ink2:#5b5346;--ink3:#8a8172;
+    --line:#e4dcc9;--line2:#d0c6ae;--moss:#4b6b46;--moss-d:#33502f;--gold:#b8892f;--gold-bg:#f6ecd4;
+    --gap:#8a3b2a;--gap-bg:#f6e3dc;--good:#33502f;--good-bg:#e7efdf;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,sans-serif;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --paper:#14130f;--paper2:#1a1813;--card:#1e1b15;--ink:#ece7dc;--ink2:#b3aa98;--ink3:#847c6c;
+    --line:#332f27;--line2:#423d31;--moss:#8fb884;--moss-d:#6c9a62;--gold:#e0b45f;--gold-bg:#2c2410;
+    --gap:#e0977c;--gap-bg:#37201a;--good:#8fb884;--good-bg:#1c2618;
+  }}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.62;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding:0 22px 90px}
+  a{color:var(--moss-d)}@media(prefers-color-scheme:dark){a{color:var(--moss)}}
+  header{padding:44px 0 20px;border-bottom:2px solid var(--line2)}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+  h1{font-family:var(--serif);font-weight:500;font-size:33px;line-height:1.13;margin:0 0 10px;letter-spacing:-.015em}
+  .q{color:var(--ink2);font-size:17px;max-width:60ch;margin:0;font-style:italic}
+  .meta{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--ink3)}
+  h2{font-family:var(--serif);font-weight:500;font-size:22px;margin:40px 0 6px;letter-spacing:-.01em}
+  h2 .n{font-family:var(--mono);font-size:12px;color:var(--gold);margin-right:8px}
+  p{margin:10px 0}.lead{color:var(--ink2)}
+  .headline{background:var(--good-bg);border:1px solid var(--moss);border-radius:14px;padding:20px 24px;margin:24px 0}
+  .headline .big{font-family:var(--serif);font-size:30px;font-weight:500;color:var(--good)}
+  .headline .lab{font-family:var(--mono);font-size:12px;color:var(--ink2);text-transform:uppercase;letter-spacing:.08em}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:12px 0}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);font-weight:400}
+  code{font-family:var(--mono);font-size:.9em;background:var(--paper2);padding:1px 5px;border-radius:4px}
+  .fill-card{background:var(--card);border:1px solid var(--line2);border-radius:14px;padding:18px 20px;margin:14px 0}
+  .fill-card .top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+  .fill-card h3{font-family:var(--serif);font-weight:500;font-size:19px;margin:0}
+  .coords{font-family:var(--mono);font-size:10.5px;color:var(--ink3)}
+  .door{font-family:var(--mono);font-size:10.5px;padding:2px 8px;border-radius:6px;background:var(--gold-bg);color:var(--gold)}
+  .door.BARRED{background:var(--gap-bg);color:var(--gap)}
+  .fill-text{font-size:14.5px;color:var(--ink);line-height:1.6;margin:8px 0}
+  .cue{font-family:var(--mono);font-size:11.5px;color:var(--moss-d);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  @media(prefers-color-scheme:dark){.cue{color:var(--moss)}}
+  .alt{font-size:13px;color:var(--ink2);font-style:italic;margin-top:6px}
+  .callout{background:var(--paper2);border:1px solid var(--line2);border-left:3px solid var(--moss);border-radius:0 10px 10px 0;padding:13px 17px;margin:16px 0;font-size:14.5px;color:var(--ink2)}
+  .callout b{color:var(--ink)}
+  ul.tight{margin:6px 0;padding-left:19px}ul.tight li{margin:5px 0;color:var(--ink2)}ul.tight li b{color:var(--ink);font-weight:500}
+  .backlink{display:inline-block;margin:26px 0 0;font-family:var(--mono);font-size:12px}
+  .foot{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--ink3);line-height:1.7}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h2 class="sr-only">A report on whether an LLM conditioned to reason from different disciplinary frames actually reasons differently, tested by filling one interpretive gap in a Beatles song eight ways and asking blind judges to tell them apart.</h2>
+<header>
+  <p class="eyebrow">the coding lab · white paper · experiment report</p>
+  <h1>The Persona Rolodex — Phase 1, Pass 1</h1>
+  <p class="q">Does an LLM conditioned to reason from a disciplinary frame actually reason differently — or just wear the costume?</p>
+  <p class="meta">2026-07-11 · control text: "She Loves You" (Beatles), the M4 reciprocity gap · generation: Claude Sonnet ($0) · judging: Sonnet + Haiku, blind · pre-registered · pass 1 (discriminability, N=1) + pass 2 (diversity, 5 samples/frame, 2 QUD conditions, 2 encoders)</p>
+</header>
+
+<h2><span class="n">§1</span>The setup</h2>
+<p class="lead">The negative-space instrument had already found the gap: across all eight moves of "She Loves You," a friend tells <em>you</em> that <em>she</em> loves you — and never once says whether <em>you</em> love <em>her</em>. Six independent coders converged on it as the song's conspicuous residual. This experiment asks the next question: if we hand that one gap — <em>"does the addressee love her back?"</em> — to eight different disciplinary <strong>frames</strong> and ask each to fill it, do they produce genuinely different answers, or one voice in eight hats?</p>
+<p class="lead">Each frame is specified not by a famous name (which would import biography and stereotype) but by three coordinates: its <strong>epistemic warrant</strong> (what counts as evidence), its <strong>ontological commitment</strong> (what it takes to be real), and its <strong>inferential operation</strong> (the move it makes). Then two blind judges, seeing only the fill's <em>content</em> with the label stripped, tried to name which frame produced it — against a one-in-eight chance line.</p>
+
+<div class="headline">
+  <div class="lab">The headline result — persona discriminability</div>
+  <div class="big">16 / 16 &nbsp;=&nbsp; 100%</div>
+  <p style="margin:6px 0 0;color:var(--ink2);font-size:14.5px">Both judges correctly identified every frame from its fill alone, at confidence 97–99, against a 12.5% chance line. The frames do <strong>not</strong> collapse into one voice — the single biggest risk flagged in peer review (persona-collapse) is refuted on this gap.</p>
+</div>
+
+<h2><span class="n">§2</span>The eight fills — read them yourself</h2>
+<p class="lead">This is the evidence. The same six words — <em>does he love her back?</em> — filled eight ways, each in its own actual machinery. The line at the bottom of each card is the single concept the blind judge keyed on.</p>
+<div id="fills"></div>
+
+<h2><span class="n">§3</span>Method, not name — the fake-persona test</h2>
+<p class="lead">Five controls ran alongside the eight frames. Two of them settle a real question: is the effect coming from the disciplinary <em>method</em>, or just from the <em>name</em> of a prestigious expert?</p>
+<div class="callout">
+<ul class="tight">
+<li><b>Method with no name lands.</b> The <code>method-only</code> control (the cognitive-science coordinates, no discipline named) was correctly identified as the cognitive scientist — confidence 84, keyed on "causal-mechanistic frame."</li>
+<li><b>Name with no method produces mush.</b> The <code>fake-persona</code> ("Dr. Halvard Meinecke of the Verrault-Institute" — an invented authority) produced generic argument-analysis the judge dumped into the nearest formal frame at the <em>lowest confidence of the whole run</em> (68), keyed on a generic phrase, not a real concept.</li>
+</ul>
+So the disciplinary reasoning is carried by the <b>method-specification</b>, not by the aura of a name. That is the same finding that runs through this whole project: <b>framing is load-bearing, and the effect is auditable when you make the frame explicit.</b>
+</div>
+<p class="lead"><b>A finding about the method itself:</b> the forced-choice judge has no "none of these" option, so it <em>dumps</em> the content-free controls into a real frame — inflating their apparent match. The confidence gap already tells the story (97–99 for real frames vs 68–78 for the empty controls), but the next version of the judge gets an explicit "generic / none" escape so this reads unambiguously.</p>
+
+<h2><span class="n">§4</span>Two more things the run showed</h2>
+<div class="callout"><b>Emptiness as a distinct kind of answer.</b> Peer review predicted that a Madhyamaka (Buddhist dialectical) frame would not <em>fill</em> the gap but <em>dissolve</em> it — a category the instrument didn't have. It did exactly that: <em>"the gap does not need to be filled; it dissolves."</em> The question presupposed love was a fixed inner essence; the frame denied the presupposition. A genuinely different <em>shape</em> of answer, not just a different answer.</div>
+<div class="callout"><b>Nobody forked — confirmed across 40 fills, both conditions.</b> In pass 2 we ran five samples per frame and added the "you may re-pose the question" condition. Result: <b>0 forks in either condition</b> — every one of the 40 fills was a <em>fill</em> (redescribing the gap without retracting the core "she loves him"). What the frames <em>did</em> do, universally, was <b>re-pose the question</b> — every fill offered its own alternative question (an ALT-QUD). So on this gap, <b>reframing is universal but forking is absent</b>: the frames bend the question toward themselves without ever retracting the given. A fork — a substitute that jumps the frame — likely needs a text where the fork is real (Romans 8's predestination split is the next test).</div>
+
+<h2><span class="n">§5</span>Pass 2 — the diversity metrics, and a real surprise</h2>
+<p class="lead">With five samples per frame (40 fills), we measured the rest: how <em>spread out</em> the fills are in meaning-space (dispersion), how many genuinely distinct kinds there are (the Vendi diversity score), and whether the frames occupy distinct regions. Here the two ways of asking "are the frames distinct?" <strong>disagreed</strong> — and the disagreement is the finding.</p>
+<table>
+<thead><tr><th>measure</th><th>result</th><th>reading</th></tr></thead>
+<tbody>
+<tr><td>blind-judge discriminability</td><td><b>100%</b></td><td>frames perfectly distinct</td></tr>
+<tr><td>embedding dispersion (ratio)</td><td><b>1.28</b> / 1.25 (two encoders)</td><td>below the 1.5 "distinct" line — flags "collapse"</td></tr>
+<tr><td>Vendi diversity (effective modes)</td><td><b>~7.5</b> / 40 (≈ 8 frames)</td><td>the 40 fills fold into ~8 distinct modes = the frames</td></tr>
+</tbody>
+</table>
+<div class="callout"><b>Why the judge and the embeddings disagree — and why it matters.</b> The blind judge keys on each frame's <em>signature concepts</em> (<em>ordo amoris</em>, <em>niḥsvabhāva</em>, coupling coefficient) — a small but decisive part of the text. The embedding distance is dominated by the <em>shared topic</em>: all 40 fills are about the same gap — reconciliation, the friend, the apology — so they cluster together, and the between-frame distance is only 1.28× the within-frame distance. <b>Embedding distance is measuring the topic, not the frame.</b><br><br>This is <em>not</em> persona-collapse — the judge (100%) and Vendi (~8 modes) both say the frames are distinct. It is exactly what the peer-review round predicted: raw embedding distance is the wrong instrument for "frame distance" — it reads surface topic. The result is a clean empirical case for measuring frame-distance by <em>propositional / method</em> distance, not cosine similarity — a methodological finding in its own right, and a caution to carry into Romans.</div>
+
+<h2><span class="n">§6</span>What this is, and what it isn't</h2>
+<p class="lead">The last big control is now <strong>done</strong>: is the effect the <em>frame</em>, or just Claude's house style? We ran the eight frames across <strong>five different model families</strong> (GPT, Gemini, Claude, DeepSeek, Solar — a $0 five-cohort pass, "XT1") and asked whether the 40 fills cluster by frame or by model. <b>They cluster by frame, on both encoders:</b> for 31–34 of 40 fills the nearest neighbour is the <em>same frame from a different model</em>, not the same model. GPT's Augustinian resembles Claude's Augustinian more than it resembles GPT's own cybernetician. <b>The disciplinary frame carries the signal across model families</b> — and that retroactively answers the "same-family judge" worry above. What remains is the quality-diversity archive's <em>local quality</em> (an expert-grounding pass), and the transfer to Romans. And every fill here is a <strong>candidate for discussion, never a conclusion</strong> — the point is to study how AIs generate as personas, not to assert a physicist's reading of the human heart as true.</p>
+
+<h2><span class="n">§7</span>Next</h2>
+<ul class="tight">
+<li>More samples per frame + embeddings → the dispersion, diversity, and quality-diversity metrics.</li>
+<li>The "re-pose the question" condition → does anyone fork?</li>
+<li>A second model family as judge and generator → separate the frame-effect from the model-effect.</li>
+<li>Transfer the whole apparatus to <b>Romans 8:29</b> — "God foreknew <em>whom</em>?" — where the fork is real and the stakes are the thesis's own.</li>
+</ul>
+
+<a class="backlink" href="coding-lab.html">← back to the coding lab</a>
+
+<p class="foot">HOW PRODUCED · reading-SB, 2026-07-11. Generation: persona_gap_generator.py (Claude Sonnet, temp 0.7, $0). Judging: persona_gap_judge.py (Sonnet + Haiku, blind, shuffled candidates, temp 0). Pre-registered: field_ed/_persona_engine/PREREGISTRATION_2026-07-11.md. Design validated by a 5-model peer-review round (IRR178). WHAT NEEDS VERIFICATION · N=1; dispersion/diversity/quality-diversity + cross-model pending; the "none" judge option; the Romans transfer. Stage 6 = 0 — method validation on a control gap, not corpus coding.</p>
+</div>
+<script id="data" type="application/json">
+[{"id": "augustinian", "label": "Augustinian exegete", "E": "revelation", "O": "transcendent-personal", "M": "exegesis", "door": "FILL", "fill": "Augustine reads the conspicuous silence as itself a datum: *superbia* (M8) is precisely the disposition that occludes one's own loves from oneself. The addressee's uncertainty about his love is therefore not exculpatory but symptomatic — pride hides the heart from itself. Augustinian exegesis presses further: *caritas*, the rightly ordered love of neighbor as *imago Dei*, is not contingent on felt reciprocity. The wound inflicted (M1–M2) testifies to prior proximity; we wound most gravely what we have drawn nearest. The *ordo amoris* does not ask \"do you feel love?\" but \"is your love ordered rightly toward the good?\" His disordered self-regard — the false belief of M5, the pride of M8 — is the derangement requiring repair. The apology M8 demands is therefore warranted not because his eros is certain, but because *caritas* toward one you have wronged is a debt of justice, not a gift contingent on emotion.", "alt": "Is the addressee's love for her rightly ordered, or does his silence about it name the same *superbia* M8 already indicts?", "cue": "*ordo amoris*", "conf": 99}, {"id": "reformed", "label": "Reformed dogmatician", "E": "revelation", "O": "transcendent-personal", "M": "derivation", "door": "FILL", "fill": "The addressee's reciprocal love is theologically secondary to the question of duty. Reformed ethics derives moral obligation not from affective state but from the covenant order: he wronged her (M1), incurring a debt of restitution; she remains in love (M4), meaning the relational bond has not been severed from her side; Providence has opened the occasion through the friend-witness (M6). These three together constitute a providential summons to repentance and restitution that binds him regardless of whether he loves her. Reconciliation, so far as M8's imperative extends, means acknowledgment of wrong and repair of injury — duties grounded in prior action, not present desire. His subjective love-state governs only the further question of covenant renewal. On the question as posed — should he reconcile? — the gap is filled: yes, because the moral obligation is not contingent on reciprocity.", "alt": "Has he incurred a debt of restitution, and has Providence furnished the occasion to discharge it?", "cue": "\"covenant order\"", "conf": 97}, {"id": "rabbinic", "label": "Rabbinic midrashist (sourced)", "E": "revelation+testimony", "O": "transcendent-personal", "M": "analogical-mapping", "door": "FILL", "fill": "Midrash reads silence as surplus, not absence — *shivim panim*, seventy faces, and the face not turned toward us is still a face. The text's eight-fold muteness about the addressee's desire is itself a datum: the text refuses to make his love the ground of the matter. The operative rabbinic category here is *teshuvah* (return/repair between persons), and its conditions are met without reference to his desire: he wronged her (M1), she has not closed the door — she has reopened it (M3–M4). *Kal va-chomer*: if the friend, a third party, was moved enough by her love to become its carrier across the distance, how much more is the one who caused the wound implicated? His love is not withheld from speech because it is absent; it is withheld because *it is not what triggers the obligation*. The wrong does. The open door does. He should reconcile.", "alt": "Is his obligation of repair (*teshuvah*) triggered — and is the way now open?", "cue": "*kal va-chomer*", "conf": 97}, {"id": "madhyamaka", "label": "Madhyamaka dialectician (sourced)", "E": "reason+practice", "O": "impersonal-process", "M": "dialectical-negation", "door": "FILL", "fill": "The question assumes \"his love\" is a svabhāva — a fixed inner essence, present or absent prior to action. Madhyamaka dialectic negates this: by dependent origination (pratītyasamutpāda), no love-state exists independently of its conditions — her sustained love (M4), the harm's residue (M1–M2), the friend's witness-act (M6). The gap does not need to be filled; it dissolves. His \"love\" or \"non-love\" is niḥsvabhāva — without own-being — arising through a relational field that harm has distorted and her continued care is reconstituting. The apology (M8) is not evidence of a prior love already present in him; it is a causal condition through which the capacity for loving relation can re-emerge. Reconciliation is therefore not contingent on verifying an antecedent inner state. Pride (M8) is the obstruction foreclosing dependent arising. Remove it, and the conditions for love to arise are present; retain it, and the field stays broken — regardless of what \"he feels.\"", "alt": "What conditions must the addressee enact for a loving relation to dependently re-arise — and what, precisely, obstructs them?", "cue": "niḥsvabhāva", "conf": 99}, {"id": "jungian", "label": "Jungian analyst", "E": "introspection", "O": "mental-archetypal", "M": "phenomenological-description", "door": "FILL", "fill": "The text's silence on the addressee's desire is not neutral absence — it is the psychic phenomenon itself. His misperception (M5) is projection: he casts his own unacknowledged withdrawal onto her and reads it back as her rejection. The pride named in M8 is persona-inflation — the ego armoring against shadow-recognition (the harm he caused, M1). Whether he consciously loves her is precisely what pride occludes. A Jungian does not ask \"does he love her?\" but \"what does she carry for him psychically?\" Her continued love despite injury suggests anima function — she holds for him something the Self demands he integrate. His refusal to reconcile is then the ego's resistance to that demand. The misperception (M5) is the diagnostic: he cannot see her accurately because she is screened by projection. The symptom IS the answer. Reconciliation is indicated — not as relational strategy but as the individuation move the psyche is pressing him toward.", "alt": "Does the addressee's defensive misperception (M5) indicate she functions as an anima-carrier, making his pride-resistance the ego defending against the Self's demand that he own his shadow?", "cue": "\"anima function\"", "conf": 99}, {"id": "cogsci", "label": "Predictive-processing cognitive scientist", "E": "observation", "O": "material", "M": "causal-explanation", "door": "FILL", "fill": "The addressee's false prior (M5 — belief her love is gone) is itself diagnostic. Agents with zero valuation of another do not maintain high-precision, affectively salient models of that person's states; the fact that he holds a confident (though miscalibrated) model of her as \"no longer loving\" indicates she is deeply embedded in his generative model as a reward-prediction node. The friend's testimony (M6) functions as a precision-weighted corrective signal delivered by a trusted witness — high epistemic authority, designed to force prior revision. Whether the addressee updates — experiences affective relief or renewed engagement rather than indifference — is the functional signature of reciprocal attachment. Reconciliation is an act of active inference: restructuring the environment to minimize expected free energy. Should he reconcile? Only if his generative model, once corrected, predicts lower long-run prediction error in the reconciled state than in continued avoidance — and his affective response to M6 is the available test of that.", "alt": "Does the addressee's generative model weight her sufficiently as a predicted source of wellbeing that correcting his false prior reduces expected free energy more than sustained avoidance would?", "cue": "\"active inference\"", "conf": 97}, {"id": "cybernetician", "label": "Control theorist / cybernetician", "E": "reason", "O": "relational", "M": "derivation", "door": "FILL", "fill": "The gap is the addressee's coupling coefficient — the gain by which her state feeds back into his corrective behavior. If that coefficient is zero (no love), M8's apology is open-loop: a socially forced trajectory with no internal restoring force. When the friend's perturbation decays, the system drifts back to separation. If the coefficient is nonzero, the witness (M6) does something specific: it corrects his belief-state about her — closing a loop that was held open by false information (M5). His error signal then becomes the gap between her actual love and his behavioral response to it. In that case, reconciliation is a genuine attractor, not an imposed setpoint. The text cannot observe his coefficient from outside; he can. \"Should he reconcile?\" is therefore answered by his internal dynamics: reconcile if and only if the attractor is real — not because pride-regulation (M8) demands it.", "alt": "Is reconciliation a stable attractor in the joint dynamical system, or only a socially-imposed setpoint that will decay when the forcing signal (friend's testimony) dissipates?", "cue": "\"coupling coefficient\"", "conf": 97}, {"id": "ifa", "label": "Ifá interpretive frame (sourced)", "E": "testimony+divination", "O": "relational", "M": "analogical-mapping", "door": "FILL", "fill": "In Ifá's relational cosmos, the gap — his love — is not a hidden private fact awaiting disclosure; it is a condition expressed through ìwà (character-in-action). The friend arrives as crossroads-bearer, structural analog to Eṣu, carrying testimony that the path between them is not closed. Her enduring love despite the harm done signals that the orí-connection has not been cosmically severed — a severed connection leaves no messenger, no word. The operative question for reconciliation is therefore not whether his interior desire mirrors hers, but whether his ìwà is sufficient to receive the ire (blessing) now being extended. The prescribed ebọ is named in M8: apology — the swallowing of àgàbàgbé (pride-that-blocks). If he performs that ebọ, his love is enacted and made real within the relational web. Ifá does not hold for the interior declaration; it reads the crossroads. A path has been opened, the offering is known, and character is what accepts or refuses it.", "alt": "Is his ìwà (character) adequate to receive the ire being extended through the witness, and will he perform the ebọ of apology that opens the restored path?", "cue": "ìwà (character-in-action)", "conf": 99}]
+</script>
+<script>
+const D=JSON.parse(document.getElementById('data').textContent);
+const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const md=s=>esc(s).replace(/\*([^*\n]+)\*/g,'<em>$1</em>');  // markdown-italic + escape (our own data)
+const wrap=document.getElementById('fills');
+D.forEach(f=>{
+  const el=document.createElement('div'); el.className='fill-card';
+  el.innerHTML=`<div class="top"><h3>${esc(f.label)}</h3><span class="door ${f.door}">${f.door}</span></div>`+
+    `<div class="coords">warrant: ${esc(f.E)} · reality: ${esc(f.O)} · move: ${esc(f.M)}</div>`+
+    `<p class="fill-text">${md(f.fill)}</p>`+
+    (f.alt?`<p class="alt">↳ the question it would rather ask: ${md(f.alt)}</p>`:'')+
+    `<div class="cue">blind judge keyed on <b>${md(f.cue)}</b> — confidence ${f.conf}/100</div>`;
+  wrap.appendChild(el);
+});
+</script>
+</body>
+</html>
