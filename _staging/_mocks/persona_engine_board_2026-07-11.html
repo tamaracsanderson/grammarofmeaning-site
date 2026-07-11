@@ -101,6 +101,8 @@ a{color:var(--moss)}
 .handoff{margin-top:14px;font-family:var(--sans);font-size:12.5px}
 .forkalt{margin-top:12px;border-left:3px solid var(--fork);padding:8px 12px;background:var(--paper);border-radius:0 8px 8px 0;font-family:var(--sans);font-size:13px;color:var(--ink-2)}
 .forkalt b{color:var(--fork)}
+.annot{margin-top:12px;border-left:3px solid var(--gold);padding:8px 12px;background:var(--paper);border-radius:0 8px 8px 0;font-family:var(--sans);font-size:13px;color:var(--ink-2)}
+.annot b{color:var(--gold)}
 footer{padding:38px 0 64px;font-family:var(--sans);font-size:12px;color:var(--mut);line-height:1.7}
 footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
 /* --- listen strip (YouTube facade — click-to-load, nocookie; nothing loads until pressed) --- */
@@ -124,7 +126,7 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
     <div class="eyebrow">Persona engine · Concept B · the song as a board</div>
     <h1>Run the grid on any move</h1>
     <p class="lede">The pipeline isn’t a story about one line — it’s a tool. Click any of the eight moves and watch the grid run. Most come up empty. One lights up.</p>
-    <p class="hint"><b>Worked example: “She Loves You”</b> (paraphrase, never lyrics). Click around — you’ll find that <b>most moves withhold nothing</b>, a couple carry a <b>quiet residual</b>, two open a <b>fork</b>, and exactly one is the <b>money spot</b>.</p>
+    <p class="hint"><b>Worked example: “She Loves You”</b> (paraphrase, never lyrics). Click around — you’ll find that <b>most moves withhold nothing</b>, a couple carry a <b>quiet residual</b>, one opens a <b>fork</b>, and exactly one is the <b>money spot</b>.</p>
     <p class="altlink">This is the drill-down / “let me play” cut. The linear walkthrough is <a href="/_staging/_mocks/persona_engine_scrolly_2026-07-11.html">Concept A</a>.</p>
   </header>
 
@@ -149,7 +151,7 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
   <div class="detail" id="detail"><div class="empty">Click a move above to run the grid on it.</div></div>
 
   <footer>
-    <b>How produced.</b> design-SB, 2026-07-11 — Concept B of reading-SB’s end-to-end bakeoff brief. Per-move status grounded in <code>move_tree_she_loves_you.json</code> branch kinds (M2/M8 forks, M3/M6 “unreliable” residuals, M4 core) + <code>gap_pack…reciprocity.json</code>. <b>Paraphrase only, never lyrics</b> (copyright). Stage 6 = 0 — teaches the <i>method</i> on a control text; forks/rhymes candidate-framed. Self-contained, own palette, noindex/staging.
+    <b>How produced.</b> design-SB, 2026-07-11 — Concept B of reading-SB’s end-to-end bakeoff brief. Per-move status grounded in <code>move_tree_she_loves_you.json</code> branch kinds (M8 fork; M2 precondition-fail, shown as a tree-layer annotation, grid-classified plain-said; M3/M6 “unreliable” residuals; M4 core) + <code>gap_pack…reciprocity.json</code>. Per reading-SB S138 schema review. <b>Paraphrase only, never lyrics</b> (copyright). Stage 6 = 0 — teaches the <i>method</i> on a control text; forks/rhymes candidate-framed. Self-contained, own palette, noindex/staging.
     <br><br><b>What needs verification.</b> reading-SB owns label-correctness — every grid placement, verdict, flavor + door here is arbitrated against the definitions doc before this promotes past <code>_staging</code>. Pick B vs C (vs A) by feel.
   </footer>
 </div>
@@ -158,16 +160,16 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
 var MOVES=[
  {id:'M1',op:'hurt',beat:'You hurt her.',kind:'plain',cell:'ti',
   verdict:'Said', summary:'The wound is <b>stated outright</b>. Nothing is withheld here — the grid runs and comes up empty.'},
- {id:'M2',op:'suffer',beat:'She suffered badly.',kind:'fork',cell:'ti',
-  verdict:'Fork', summary:'Stated — but it rests on a <b>precondition</b>. Run the grid and what surfaces isn’t a withheld gap; it’s a <b>path not taken</b>.',
-  fork:'Had the suffering <b>destroyed</b> her, no reappraisal is possible and the whole persuasion stops. That’s an <b>alternative</b> (a substitute path), not a gap the text is hiding.'},
+ {id:'M2',op:'suffer',beat:'She suffered badly.',kind:'plain',cell:'ti',
+  verdict:'Said', summary:'Stated on the surface — <b>nothing withheld at the grid layer</b>, so the grid classifies it plain-said. It <i>rests on</i> a load-bearing condition, but that lives in the move-tree, not as a grid gap.',
+  precond:'Had the suffering <i>destroyed</i> her, no reappraisal is possible and the whole persuasion stops. That’s a <b>precondition-fail</b> branch — a load-bearing annotation in the move-tree, not a withheld gap and not a fork.'},
  {id:'M3',op:'reappraise',beat:'She reconsidered — judges you’re not cruel.',kind:'residual',cell:'oo',
   verdict:'Quiet residual', summary:'Stated on the surface — but it carries an <b>unreliable warrant</b>. A gap, yes, but <b>out of focus</b>: you don’t feel it unless you look.',
   gapq:'Is her change of heart veridical — or motivated?', flavor:'underdetermined', door:'fill', seer:'opaque to reader; even she may not know',
   note:'She may <i>want</i> “not the hurting kind” to be true. The text can’t settle it.'},
  {id:'M4',op:'loves',beat:'She loves you.',kind:'money',cell:'oi',core:true,
   verdict:'The money spot', summary:'Opaque <b>and</b> in focus — the gap the text makes you feel but won’t resolve. This is the one the whole method is built to find.',
-  gapq:'Does the addressee love her back?', flavor:'foreclosed', door:'fill', seer:'opaque to narrator + reader; the agent may know',
+  gapq:'Does the addressee love her back?', flavor:'foreclosed', door:'barred', seer:'opaque to narrator + reader; the agent may know',
   triad:true, handoff:true},
  {id:'M5',op:'fear',beat:'You wrongly believe her love is gone.',kind:'plain',cell:'ti',
   verdict:'Said', summary:'A <b>stated (false) belief</b>. Frames reach for it as an exegetical key — but the text withholds nothing here; it says it plainly.'},
@@ -223,6 +225,7 @@ function select(id){
     +'<div class="drestate">“'+m.beat+'”</div>'
     +miniGrid(m)+'</div><div class="dright">'
     +'<div class="dsummary">'+m.summary+'</div>';
+  if(m.precond){ html+='<div class="annot"><b>tree-layer · precondition →</b> '+m.precond+'</div>'; }
   if(m.gapq){
     html+='<div class="gapq '+m.kind+'">'+m.gapq+'</div>';
     if(m.triad){
@@ -232,7 +235,7 @@ function select(id){
         +'<div class="tc alt"><div class="tt">Alternative</div><div class="vv">“he doesn’t” / “unsure”</div></div></div>';
     } else if(m.note){ html+='<div class="dsummary" style="margin-top:6px;font-size:12.5px;color:var(--mut)">'+m.note+'</div>'; }
     html+='<div class="meta"><span class="chip">flavor · <b>'+m.flavor+'</b></span><span class="chip">door · <b>'+m.door+'</b></span><span class="chip">seer · '+m.seer+'</span></div>';
-    if(m.handoff){ html+='<div class="handoff">→ hand this gap to the <a href="/_staging/_mocks/persona_engine_scrolly_2026-07-11.html#s8">frame-roles</a> — an Augustinian, a cybernetician, a high-openness mind each fill it differently (16/16 blind-named).</div>'; }
+    if(m.handoff){ html+='<div class="handoff"><b>Barred within the song’s own frame</b> — so we hand it out. The <a href="/_staging/_mocks/persona_engine_scrolly_2026-07-11.html#s8">frame-roles</a> each propose a reading from outside it — an Augustinian, a cybernetician, a high-openness mind (16/16 blind-named).</div>'; }
   }
   if(m.fork){ html+='<div class="forkalt"><b>the path not taken →</b> '+m.fork+'</div>'; }
   html+='</div></div>';
