@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The song as a board · run the grid on any move · persona engine (Concept B)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================================
+   CONCEPT B — "The song as a board." Click any of the 8 moves; run the grid.
+   Teaches: the grid is a TOOL you run on any move, not a story about M4.
+   Per-move status grounded in move_tree_she_loves_you.json branch kinds
+   (money spot M4 · quiet residuals M3/M6 unreliable · forks M2/M8 · said M1/M5/M7)
+   + gap_pack reciprocity. Paraphrase only, no lyrics. Stage 6 = 0. reading-SB
+   arbitrates every label pre-live. Self-contained, own palette, noindex/staging.
+   ============================================================================ */
+:root{
+  --paper:#faf7ef; --paper-2:#fffdf8; --ink:#22201a; --ink-2:#575347; --mut:#8c8474; --rule:#e2d9c6;
+  --moss:#3a5a40; --gold:#b8923b; --terra:#b8562e;
+  --said:#2f6f7a; --unsaid:#c08a2e; --alt:#a8476a; --residual:#c08a2e; --fork:#a8476a; --plain:#8c8474;
+  --serif:'Newsreader',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.6;
+  background-image:radial-gradient(circle at 10% 0%,rgba(184,146,59,.05),transparent 40%),radial-gradient(circle at 92% 3%,rgba(58,90,64,.05),transparent 42%)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+a{color:var(--moss)}
+.mast{padding:46px 0 6px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.mast h1{font-family:var(--serif);font-size:clamp(27px,4.4vw,40px);font-weight:600;line-height:1.08;margin:12px 0 8px;color:#2c2a20;letter-spacing:-.01em}
+.mast .lede{font-size:17.5px;color:var(--ink-2);max-width:64ch;font-style:italic}
+.mast .hint{font-family:var(--sans);font-size:13px;color:var(--ink-2);margin-top:12px;max-width:70ch}
+.mast .hint b{color:var(--ink)}
+.altlink{font-family:var(--sans);font-size:12px;color:var(--mut);margin-top:8px}
+
+/* legend / tally */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px;font-family:var(--sans);font-size:11.5px}
+.legend .lg{border:1px solid var(--rule);border-radius:99px;padding:4px 11px;color:var(--ink-2);background:var(--paper-2);display:flex;align-items:center;gap:6px}
+.legend .lg .sw{width:9px;height:9px;border-radius:50%}
+.legend .lg .ct{font-family:var(--mono);font-weight:600}
+.sw.money{background:var(--terra)} .sw.residual{background:var(--residual)} .sw.fork{background:var(--fork)} .sw.plain{background:var(--plain)}
+
+/* board */
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0 22px}
+@media(max-width:760px){.board{grid-template-columns:repeat(2,1fr)}}
+.mv{cursor:pointer;background:var(--paper-2);border:1px solid var(--rule);border-radius:12px;padding:13px 14px;text-align:left;transition:transform .12s,box-shadow .12s,border-color .12s;position:relative}
+.mv:hover{transform:translateY(-2px);box-shadow:0 8px 20px -12px rgba(60,50,30,.4)}
+.mv .id{font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--gold)}
+.mv .op{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-left:6px}
+.mv .beat{font-family:var(--serif);font-size:15px;color:var(--ink);margin-top:6px;line-height:1.35}
+.mv .status{position:absolute;top:12px;right:12px;width:10px;height:10px;border-radius:50%;background:var(--rule);transition:background .2s}
+.mv.seen[data-kind=money] .status{background:var(--terra);box-shadow:0 0 0 4px rgba(184,86,46,.18)}
+.mv.seen[data-kind=residual] .status{background:var(--residual)}
+.mv.seen[data-kind=fork] .status{background:var(--fork)}
+.mv.seen[data-kind=plain] .status{background:var(--plain)}
+.mv.active{border-color:var(--gold);box-shadow:0 0 0 2px rgba(184,146,59,.28),0 10px 24px -12px rgba(60,50,30,.5)}
+.mv .core{position:absolute;bottom:10px;right:12px;font-family:var(--mono);font-size:9px;color:var(--terra)}
+
+/* detail panel */
+.detail{background:var(--paper-2);border:1px solid var(--rule);border-radius:16px;padding:0;overflow:hidden;min-height:260px}
+.empty{padding:40px 28px;text-align:center;color:var(--mut);font-family:var(--sans);font-size:14px}
+.dwrap{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:720px){.dwrap{grid-template-columns:270px 1fr}}
+.dleft{padding:22px 22px;border-bottom:1px solid var(--rule)}
+@media(min-width:720px){.dleft{border-bottom:none;border-right:1px solid var(--rule)}}
+.dright{padding:22px 24px}
+.verdict{font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;font-weight:600;display:inline-block;padding:5px 11px;border-radius:99px;margin-bottom:12px}
+.verdict.money{color:#fff;background:var(--terra)} .verdict.residual{color:#5f4a12;background:#f4e6c4}
+.verdict.fork{color:#fff;background:var(--fork)} .verdict.plain{color:var(--ink-2);background:#eae4d4}
+.drestate{font-family:var(--serif);font-size:19px;color:var(--ink);font-style:italic;margin-bottom:4px}
+.dop{font-family:var(--mono);font-size:11px;color:var(--mut)}
+/* mini grid */
+.mini{margin-top:16px}
+.mini .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--mut);margin-bottom:6px}
+.mg{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:5px;aspect-ratio:1.5/1}
+.mg .c{border:1px solid var(--rule);border-radius:7px;background:var(--paper);font-family:var(--mono);font-size:8px;color:var(--mut);padding:6px;display:flex;align-items:flex-end;line-height:1.25}
+.mg .c.hit{border-width:2px}
+.mg .c.hit.money{border-color:var(--terra);background:#fcefe6;color:var(--terra)}
+.mg .c.hit.residual{border-color:var(--residual);background:#f9f0d8;color:#7a5f14}
+.mg .c.hit.plain{border-color:var(--plain);background:#efe9dc;color:var(--ink-2)}
+.mg .c.hit.fork{border-color:var(--fork);background:#f6e4ec;color:var(--fork)}
+.mg .c .me{position:relative;font-weight:600;font-size:11px}
+/* right content blocks */
+.dsummary{font-family:var(--sans);font-size:13.5px;color:var(--ink-2);line-height:1.6}
+.dsummary b{color:var(--ink)}
+.gapq{font-family:var(--serif);font-size:20px;font-style:italic;margin:14px 0 4px}
+.gapq.money{color:var(--terra)} .gapq.residual{color:#8a6a15}
+.triad{display:grid;grid-template-columns:1fr;gap:8px;margin:12px 0}
+@media(min-width:520px){.triad{grid-template-columns:repeat(3,1fr)}}
+.tc{border-radius:9px;padding:9px 11px;border:1px solid;background:var(--paper)}
+.tc .tt{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.tc .vv{font-family:var(--serif);font-size:14px;font-style:italic;margin-top:3px}
+.tc.said{border-color:var(--said)}.tc.said .tt,.tc.said .vv{color:var(--said)}
+.tc.unsaid{border-color:var(--unsaid)}.tc.unsaid .tt,.tc.unsaid .vv{color:var(--unsaid)}
+.tc.alt{border-color:var(--alt)}.tc.alt .tt,.tc.alt .vv{color:var(--alt)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.meta .chip{font-family:var(--mono);font-size:10px;color:var(--ink-2);border:1px solid var(--rule);border-radius:99px;padding:4px 10px;background:var(--paper)}
+.meta .chip b{color:var(--terra)}
+.handoff{margin-top:14px;font-family:var(--sans);font-size:12.5px}
+.forkalt{margin-top:12px;border-left:3px solid var(--fork);padding:8px 12px;background:var(--paper);border-radius:0 8px 8px 0;font-family:var(--sans);font-size:13px;color:var(--ink-2)}
+.forkalt b{color:var(--fork)}
+footer{padding:38px 0 64px;font-family:var(--sans);font-size:12px;color:var(--mut);line-height:1.7}
+footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="mast">
+    <div class="eyebrow">Persona engine · Concept B · the song as a board</div>
+    <h1>Run the grid on any move</h1>
+    <p class="lede">The pipeline isn’t a story about one line — it’s a tool. Click any of the eight moves and watch the grid run. Most come up empty. One lights up.</p>
+    <p class="hint"><b>Worked example: “She Loves You”</b> (paraphrase, never lyrics). Click around — you’ll find that <b>most moves withhold nothing</b>, a couple carry a <b>quiet residual</b>, two open a <b>fork</b>, and exactly one is the <b>money spot</b>.</p>
+    <p class="altlink">This is the drill-down / “let me play” cut. The linear walkthrough is <a href="/_staging/_mocks/persona_engine_scrolly_2026-07-11.html">Concept A</a>.</p>
+  </header>
+
+  <div class="legend">
+    <span class="lg"><span class="sw money"></span>money spot <span class="ct" id="ct-money">0</span></span>
+    <span class="lg"><span class="sw residual"></span>quiet residual <span class="ct" id="ct-residual">0</span></span>
+    <span class="lg"><span class="sw fork"></span>fork / path-not-taken <span class="ct" id="ct-fork">0</span></span>
+    <span class="lg"><span class="sw plain"></span>said — nothing withheld <span class="ct" id="ct-plain">0</span></span>
+    <span class="lg" style="border:none;background:none;color:var(--mut)">examined <span class="ct" id="ct-seen">0</span>/8</span>
+  </div>
+
+  <div class="board" id="board"></div>
+  <div class="detail" id="detail"><div class="empty">Click a move above to run the grid on it.</div></div>
+
+  <footer>
+    <b>How produced.</b> design-SB, 2026-07-11 — Concept B of reading-SB’s end-to-end bakeoff brief. Per-move status grounded in <code>move_tree_she_loves_you.json</code> branch kinds (M2/M8 forks, M3/M6 “unreliable” residuals, M4 core) + <code>gap_pack…reciprocity.json</code>. <b>Paraphrase only, never lyrics</b> (copyright). Stage 6 = 0 — teaches the <i>method</i> on a control text; forks/rhymes candidate-framed. Self-contained, own palette, noindex/staging.
+    <br><br><b>What needs verification.</b> reading-SB owns label-correctness — every grid placement, verdict, flavor + door here is arbitrated against the definitions doc before this promotes past <code>_staging</code>. Pick B vs C (vs A) by feel.
+  </footer>
+</div>
+
+<script>
+var MOVES=[
+ {id:'M1',op:'hurt',beat:'You hurt her.',kind:'plain',cell:'ti',
+  verdict:'Said', summary:'The wound is <b>stated outright</b>. Nothing is withheld here — the grid runs and comes up empty.'},
+ {id:'M2',op:'suffer',beat:'She suffered badly.',kind:'fork',cell:'ti',
+  verdict:'Fork', summary:'Stated — but it rests on a <b>precondition</b>. Run the grid and what surfaces isn’t a withheld gap; it’s a <b>path not taken</b>.',
+  fork:'Had the suffering <b>destroyed</b> her, no reappraisal is possible and the whole persuasion stops. That’s an <b>alternative</b> (a substitute path), not a gap the text is hiding.'},
+ {id:'M3',op:'reappraise',beat:'She reconsidered — judges you’re not cruel.',kind:'residual',cell:'oo',
+  verdict:'Quiet residual', summary:'Stated on the surface — but it carries an <b>unreliable warrant</b>. A gap, yes, but <b>out of focus</b>: you don’t feel it unless you look.',
+  gapq:'Is her change of heart veridical — or motivated?', flavor:'underdetermined', door:'fill', seer:'opaque to reader; even she may not know',
+  note:'She may <i>want</i> “not the hurting kind” to be true. The text can’t settle it.'},
+ {id:'M4',op:'loves',beat:'She loves you.',kind:'money',cell:'oi',core:true,
+  verdict:'The money spot', summary:'Opaque <b>and</b> in focus — the gap the text makes you feel but won’t resolve. This is the one the whole method is built to find.',
+  gapq:'Does the addressee love her back?', flavor:'foreclosed', door:'fill', seer:'opaque to narrator + reader; the agent may know',
+  triad:true, handoff:true},
+ {id:'M5',op:'fear',beat:'You wrongly believe her love is gone.',kind:'plain',cell:'ti',
+  verdict:'Said', summary:'A <b>stated (false) belief</b>. Frames reach for it as an exegetical key — but the text withholds nothing here; it says it plainly.'},
+ {id:'M6',op:'relay / warrant',beat:'The friend saw her, and carries her word.',kind:'residual',cell:'oo',
+  verdict:'Quiet residual', summary:'The witness is stated — but the <b>warrant</b> behind him is unreliable. A gap, out of focus.',
+  gapq:'Does the witness have his own motive? Is his word trustworthy?', flavor:'underdetermined', door:'fill', seer:'opaque to reader; the friend knows his own interest',
+  note:'The entire appeal leans on this relay; the text never certifies it.'},
+ {id:'M7',op:'be-glad',beat:'So be glad.',kind:'plain',cell:'to',
+  verdict:'Said', summary:'An <b>imperative</b>, minor and out of focus. The grid runs empty — nothing withheld.'},
+ {id:'M8',op:'apologize',beat:'Swallow your pride and apologize.',kind:'fork',cell:'ti',
+  verdict:'Fork', summary:'The stated ask — but it presses <b>one</b> path over a live alternative. Run the grid and a <b>fork</b> opens.',
+  fork:'The other path: <b>keep your pride, don’t apologize.</b> That’s a <b>substitute</b> (a new-eyes divergence) — the door’s other branch. The song insists on one road; the fork names the road refused.'}
+];
+var CELLS={ti:{cls:'plain',lbl:'transparent · in-focus'},oi:{cls:'money',lbl:'opaque · in-focus'},to:{cls:'plain',lbl:'transparent · out-of-focus'},oo:{cls:'residual',lbl:'opaque · out-of-focus'}};
+var order=['ti','oi','to','oo']; // grid layout: TL transparent-in, TR opaque-in, BL transparent-out, BR opaque-out
+var seen={};
+function esc(s){return s;}
+function renderBoard(){
+  var b=document.getElementById('board'); b.innerHTML='';
+  MOVES.forEach(function(m){
+    var d=document.createElement('button'); d.className='mv'; d.dataset.kind=m.kind; d.dataset.id=m.id;
+    d.innerHTML='<span class="id">'+m.id+'</span><span class="op">'+m.op+'</span>'+(m.core?'<span class="core">★ core</span>':'')+'<div class="beat">'+m.beat+'</div><span class="status"></span>';
+    d.addEventListener('click',function(){select(m.id);});
+    b.appendChild(d);
+  });
+}
+function tally(){
+  var c={money:0,residual:0,fork:0,plain:0};
+  Object.keys(seen).forEach(function(id){var m=MOVES.find(function(x){return x.id===id;}); c[m.kind]++;});
+  document.getElementById('ct-money').textContent=c.money;
+  document.getElementById('ct-residual').textContent=c.residual;
+  document.getElementById('ct-fork').textContent=c.fork;
+  document.getElementById('ct-plain').textContent=c.plain;
+  document.getElementById('ct-seen').textContent=Object.keys(seen).length;
+}
+function miniGrid(m){
+  var kind=CELLS[m.cell].cls;
+  var cells=order.map(function(k){
+    var hit=(k===m.cell);
+    var label={ti:'transparent · in',oi:'opaque · in',to:'transparent · out',oo:'opaque · out'}[k];
+    return '<div class="c'+(hit?' hit '+kind:'')+'">'+(hit?'<span class="me">'+m.id+'</span>':'')+'<span style="margin-left:auto">'+label+'</span></div>';
+  }).join('');
+  return '<div class="mini"><div class="lbl">where it lands on the 2×2</div><div class="mg">'+cells+'</div></div>';
+}
+function select(id){
+  var m=MOVES.find(function(x){return x.id===id;});
+  seen[id]=true;
+  document.querySelectorAll('.mv').forEach(function(el){el.classList.toggle('active',el.dataset.id===id);el.classList.toggle('seen',!!seen[el.dataset.id]);});
+  tally();
+  var html='<div class="dwrap"><div class="dleft">'
+    +'<span class="verdict '+m.kind+'">'+m.verdict+'</span>'
+    +'<div class="dop">'+m.id+' · '+m.op+'</div>'
+    +'<div class="drestate">“'+m.beat+'”</div>'
+    +miniGrid(m)+'</div><div class="dright">'
+    +'<div class="dsummary">'+m.summary+'</div>';
+  if(m.gapq){
+    html+='<div class="gapq '+m.kind+'">'+m.gapq+'</div>';
+    if(m.triad){
+      html+='<div class="triad">'
+        +'<div class="tc said"><div class="tt">Said</div><div class="vv">“she loves you”</div></div>'
+        +'<div class="tc unsaid"><div class="tt">Unsaid</div><div class="vv">“does he love her back?”</div></div>'
+        +'<div class="tc alt"><div class="tt">Alternative</div><div class="vv">“he doesn’t” / “unsure”</div></div></div>';
+    } else if(m.note){ html+='<div class="dsummary" style="margin-top:6px;font-size:12.5px;color:var(--mut)">'+m.note+'</div>'; }
+    html+='<div class="meta"><span class="chip">flavor · <b>'+m.flavor+'</b></span><span class="chip">door · <b>'+m.door+'</b></span><span class="chip">seer · '+m.seer+'</span></div>';
+    if(m.handoff){ html+='<div class="handoff">→ hand this gap to the <a href="/_staging/_mocks/persona_engine_scrolly_2026-07-11.html#s8">frame-roles</a> — an Augustinian, a cybernetician, a high-openness mind each fill it differently (16/16 blind-named).</div>'; }
+  }
+  if(m.fork){ html+='<div class="forkalt"><b>the path not taken →</b> '+m.fork+'</div>'; }
+  html+='</div></div>';
+  document.getElementById('detail').innerHTML=html;
+}
+renderBoard(); tally();
+</script>
+</body>
+</html>
