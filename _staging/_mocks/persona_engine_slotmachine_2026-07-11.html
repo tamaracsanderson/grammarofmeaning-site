@@ -11,7 +11,7 @@
 :root{
   --paper:#faf7ef; --paper-2:#fffdf8; --ink:#22201a; --ink-2:#575347; --mut:#8c8474; --rule:#e2d9c6;
   --moss:#3a5a40; --gold:#b8923b; --terra:#b8562e; --honey:#e0a93b; --plum:#8a4a6a;
-  --E:#3a5a40; --O:#8a5a2e; --M:#2f6f7a;
+  --E:#3a5a40; --O:#8a5a2e; --M:#2f6f7a; --T:#4b6b46;
   --serif:'Newsreader',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
 }
 *{box-sizing:border-box}
@@ -39,10 +39,13 @@ a{color:var(--moss)}
 .gappick.show{display:block}
 .gappick label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin-right:8px}
 .gappick select{font-family:var(--sans);font-size:13px;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:7px 12px;cursor:pointer}
-.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.reels{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:560px){.reels{grid-template-columns:repeat(2,1fr)}}
+.grn{color:var(--T)!important;font-weight:600}
+.cx .tnote{color:var(--mut);font-style:italic}
 .reel{position:relative}
 .reel .cap{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;text-align:center;margin-bottom:7px;font-weight:600}
-.reel.E .cap{color:var(--E)} .reel.O .cap{color:var(--O)} .reel.M .cap{color:var(--M)}
+.reel.E .cap{color:var(--E)} .reel.O .cap{color:var(--O)} .reel.M .cap{color:var(--M)} .reel.T .cap{color:var(--T)}
 .reel .cap span{color:var(--mut);font-weight:400}
 .win{position:relative;height:156px;overflow:hidden;background:var(--paper);border:1px solid var(--rule);border-radius:12px;box-shadow:inset 0 8px 14px -12px rgba(60,50,30,.4),inset 0 -8px 14px -12px rgba(60,50,30,.4)}
 .win::before,.win::after{content:'';position:absolute;left:0;right:0;height:52px;z-index:2;pointer-events:none}
@@ -50,7 +53,7 @@ a{color:var(--moss)}
 .win::after{bottom:0;background:linear-gradient(0deg,var(--paper),transparent)}
 .centerline{position:absolute;left:6px;right:6px;top:52px;height:52px;border-top:1.5px solid var(--gold);border-bottom:1.5px solid var(--gold);z-index:1;pointer-events:none;border-radius:3px;background:rgba(184,146,59,.06)}
 .slot{height:52px;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 8px;font-family:var(--mono);font-size:13px;line-height:1.15;color:var(--ink)}
-.reel.E .slot{color:var(--E)} .reel.O .slot{color:var(--O)} .reel.M .slot{color:var(--M)}
+.reel.E .slot{color:var(--E)} .reel.O .slot{color:var(--O)} .reel.M .slot{color:var(--M)} .reel.T .slot{color:var(--T)}
 .controls{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:18px}
 .spin{font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:var(--terra);border:none;border-radius:99px;padding:13px 40px;cursor:pointer;box-shadow:0 10px 22px -12px rgba(184,86,46,.8);transition:transform .1s}
 .spin:hover{transform:translateY(-1px)} .spin:active{transform:translateY(1px)} .spin:disabled{opacity:.5;cursor:default}
@@ -63,11 +66,11 @@ a{color:var(--moss)}
 .card{background:var(--paper-2);border:1px solid var(--rule);border-radius:16px;overflow:hidden;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s}
 .card.show{opacity:1;transform:none}
 .coord{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule)}
-.cx{flex:1 1 33%;min-width:150px;padding:13px 16px}
+.cx{flex:1 1 25%;min-width:140px;padding:13px 16px}
 .cx+.cx{border-left:1px solid var(--rule)}
 .cx .k{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
 .cx .v{font-family:var(--mono);font-size:14px;font-weight:600;margin:3px 0 4px}
-.cx.E .v{color:var(--E)} .cx.O .v{color:var(--O)} .cx.M .v{color:var(--M)}
+.cx.E .v{color:var(--E)} .cx.O .v{color:var(--O)} .cx.M .v{color:var(--M)} .cx.T .v{color:var(--T)}
 .cx .g{font-family:var(--sans);font-size:11.5px;color:var(--ink-2);line-height:1.45}
 .body{padding:18px 20px 20px}
 .lenslead{font-family:var(--serif);font-size:16.5px;line-height:1.55;color:var(--ink);margin-bottom:16px}
@@ -114,7 +117,7 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
     <div class="eyebrow">The persona engine · a coordinate machine</div>
     <h1>The persona slot machine</h1>
     <div class="tagline">the persona is the coordinate, not the name</div>
-    <p class="sub">Three reels — <b style="color:var(--E)">E</b> warrant · <b style="color:var(--O)">O</b> ontology · <b style="color:var(--M)">M</b> method. Spin to an <b>E×O×M coordinate</b> — a mind by three commitments, no name. <b>Meet the lens</b>, or <b>put it to a gap</b>.</p>
+    <p class="sub">Reels — <b style="color:var(--E)">E</b> warrant · <b style="color:var(--O)">O</b> ontology · <b style="color:var(--M)">M</b> method · <b style="color:var(--T)">T</b> telos (<span style="color:var(--T)">●</span> green, the 4th axis). Spin to a coordinate — a mind by its commitments, no name. <b>Meet the lens</b>, or <b>put it to a gap</b>.</p>
   </header>
 
   <div class="modebar">
@@ -138,6 +141,7 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
       <div class="reel E" id="reel-E"><div class="cap">E · warrant <span>how it knows</span></div><div class="win"><div class="centerline"></div><div class="strip"></div></div></div>
       <div class="reel O" id="reel-O"><div class="cap">O · ontology <span>what's real</span></div><div class="win"><div class="centerline"></div><div class="strip"></div></div></div>
       <div class="reel M" id="reel-M"><div class="cap">M · method <span>how it reasons</span></div><div class="win"><div class="centerline"></div><div class="strip"></div></div></div>
+      <div class="reel T" id="reel-T"><div class="cap">T · telos <span class="grn">● green</span></div><div class="win"><div class="centerline"></div><div class="strip"></div></div></div>
     </div>
     <div class="controls">
       <button class="spin" id="spin">Spin a lens</button>
@@ -149,7 +153,7 @@ footer b{color:var(--ink-2)}footer code{font-family:var(--mono);font-size:11px}
   <div class="result" id="result"><div class="prompt">Pull the lever &mdash; spin a mind into being.</div></div>
 
   <footer>
-    <b>How produced.</b> design-SB, 2026-07-11 &mdash; reading-SB&rsquo;s two-mode greenlight + S138 label drop. Reels = the researcher&rsquo;s known axis-values (6&times;4&times;5 = 120). Fills are <b>real</b> 12-cell grid runs on <b>three live gaps</b> (<code>fills_sly_M4</code> · <code>fills_human_suffering_why</code> · <code>romans_grid/fills_rom8</code>), selectable in Mode B. <b>Two labels per cell</b>: <i>nearest of our 8-frame roster</i> (embedding sim) and the <i>proposed historical occupant</i> (LLM thinker-lookup) &mdash; the latter tagged <b>unverified &mdash; LLM-proposed, &sect;2.9 DB-check pending</b>. <b>Paraphrase only, never lyrics.</b> Stage&nbsp;6 = 0.
+    <b>How produced.</b> design-SB, 2026-07-11 &mdash; reading-SB&rsquo;s two-mode greenlight + S138 label drop. Reels = the researcher&rsquo;s known axis-values — E&times;O&times;M (6&times;4&times;5 = 120 coordinate cells) plus a <b>4th telos reel</b> (7 IRR-green values). telos is a <b>display axis</b>: the fills are keyed to E&times;O&times;M, so the reel spins and the coordinate shows all four, but the fill is <i>not yet telos-conditioned</i> (the atlas records all 5 axes; fill-conditioning is a later run). stance (the 5th, candidate) is held for its mini-round. Fills are <b>real</b> 12-cell grid runs on <b>three live gaps</b> (<code>fills_sly_M4</code> · <code>fills_human_suffering_why</code> · <code>romans_grid/fills_rom8</code>), selectable in Mode B. <b>Two labels per cell</b>: <i>nearest of our 8-frame roster</i> (embedding sim) and the <i>proposed historical occupant</i> (LLM thinker-lookup) &mdash; the latter tagged <b>unverified &mdash; LLM-proposed, &sect;2.9 DB-check pending</b>. <b>Paraphrase only, never lyrics.</b> Stage&nbsp;6 = 0.
     <br><br><b>What needs verification.</b> Occupant names are LLM-proposed, not corpus-confirmed &mdash; the on-brand upgrade is &ldquo;nearest figure in the archive&rdquo; (546 traditions / 4,890 figures), reading-SB&rsquo;s next step. Gap-picker: <b>She Loves You · M4</b>, <b>Why do we suffer?</b>, and <b>Romans 8 · foreknew</b> each have full 12-cell coordinate runs (live). Non-FILL doors are surfaced, not hidden: SUBSTITUTE cells render as a <b>fork</b> (plum), and Romans&rsquo; reason&times;material cell is <b>BARRED</b> — an honest &ldquo;this frame can&rsquo;t answer,&rdquo; which is itself a finding. Climate is unrun. Roam-mode: the 12 generated cells land on names; the other 108 remain discovery targets.
   </footer>
 </div>
@@ -160,12 +164,14 @@ var RECS = JSON.parse(document.getElementById('recs').textContent);
 var E_VALUES={"revelation":"revealed authority — sacred text or divine disclosure as the ground of knowing","reason":"unaided reason — argument, logic, and principle","observation":"empirical observation — measurement and evidence","practice":"disciplined practice — insight won through contemplative or bodily training","testimony":"testimony — trust in what witnesses and others report","divination":"divination — knowledge through oracular signs, casting, interpreted omens"};
 var O_VALUES={"transcendent-personal":"a transcendent personal reality (a personal God or Absolute beyond the world) is fundamentally real","relational":"reality is constituted by the relations between beings, not by isolated things","material":"only physical matter and mechanism are real","impersonal-process":"reality is an impersonal process of dependent arising, with no fixed essences"};
 var M_VALUES={"exegesis":"exegesis — draw the sense out of given words, reading closely","derivation":"derivation — deduce conclusions from settled premises or law","causal-explanation":"causal explanation — explain states by their causes and mechanisms","dialectical-negation":"dialectical negation — reach truth by negating fixed, one-sided positions","analogical-mapping":"analogical mapping — reason by mapping structure from one domain onto another"};
-var Ekeys=Object.keys(E_VALUES),Okeys=Object.keys(O_VALUES),Mkeys=Object.keys(M_VALUES),AXES={E:Ekeys,O:Okeys,M:Mkeys};
+var T_VALUES={"contemplation":"beholding what is","flourishing":"a life going well (eudaimonia)","harmony":"right relation and balance","knowledge-understanding":"seeing truly","liberation":"release from bondage","power-mastery":"capacity, control, efficacy","salvation":"rescue / ultimate deliverance"};
+var Ekeys=Object.keys(E_VALUES),Okeys=Object.keys(O_VALUES),Mkeys=Object.keys(M_VALUES),Tkeys=Object.keys(T_VALUES),AXES={E:Ekeys,O:Okeys,M:Mkeys,T:Tkeys};
+var curTelos=Tkeys[0];
 var ITEM=52,CYCLES=9,reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var MODE='A';
 
 function buildStrip(reel,keys){var s=document.querySelector('#reel-'+reel+' .strip');var h='';for(var c=0;c<CYCLES+2;c++){keys.forEach(function(k){h+='<div class="slot">'+k+'</div>';});}s.innerHTML=h;s.style.transform='translateY(0px)';}
-['E','O','M'].forEach(function(r){buildStrip(r,AXES[r]);});
+['E','O','M','T'].forEach(function(r){buildStrip(r,AXES[r]);});
 function spinReel(reel,keys,tk,dur){return new Promise(function(res){var s=document.querySelector('#reel-'+reel+' .strip');var idx=keys.indexOf(tk);var y=((CYCLES*keys.length)+idx-1)*ITEM;if(reduced){s.style.transition='none';s.style.transform='translateY(-'+y+'px)';res();return;}s.style.transition='none';s.style.transform='translateY(0px)';s.offsetHeight;s.style.transition='transform '+dur+'ms cubic-bezier(.16,.84,.32,1)';s.style.transform='translateY(-'+y+'px)';setTimeout(res,dur+30);});}
 function rec(E,O,M){return RECS.find(function(f){return f.E===E&&f.O===O&&f.M===M;});}
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
@@ -174,7 +180,8 @@ function emph(s){return esc(s).replace(/\*([^*]+)\*/g,'<em>$1</em>');}
 function coordHTML(E,O,M){return '<div class="coord">'
   +'<div class="cx E"><div class="k">E · warrant</div><div class="v">'+E+'</div><div class="g">'+E_VALUES[E]+'</div></div>'
   +'<div class="cx O"><div class="k">O · ontology</div><div class="v">'+O+'</div><div class="g">'+O_VALUES[O]+'</div></div>'
-  +'<div class="cx M"><div class="k">M · method</div><div class="v">'+M+'</div><div class="g">'+M_VALUES[M]+'</div></div></div>';}
+  +'<div class="cx M"><div class="k">M · method</div><div class="v">'+M+'</div><div class="g">'+M_VALUES[M]+'</div></div>'
+  +'<div class="cx T"><div class="k">T · telos <span class="grn">● green</span></div><div class="v">'+curTelos+'</div><div class="g">'+T_VALUES[curTelos]+' <span class="tnote">— the 4th axis; not yet fill-conditioned</span></div></div></div>';}
 
 function nearHTML(f){ return f.near ? '<div class="near"><span class="tag">nearest of our 8 · '+f.near.name+' ('+f.near.sim+')</span><span class="note">embedding — a diagnostic, not a definition</span></div>' : ''; }
 function occHTML(f){ if(!f.occupant) return ''; return '<div class="occ"><div class="oh">proposed historical occupant <span class="unv">unverified — LLM-proposed · §2.9 DB-check pending</span></div><div class="on">'+f.occupant.name+'</div><div class="orat">'+esc(f.occupant.rationale)+'</div></div>'; }
@@ -216,7 +223,8 @@ function spinTo(E,O,M){
   if(spinning)return; spinning=true; var btn=document.getElementById('spin'); btn.disabled=true;
   last={E:E,O:O,M:M};
   var old=document.querySelector('#result .card'); if(old)old.classList.remove('show');
-  Promise.all([spinReel('E',Ekeys,E,900),spinReel('O',Okeys,O,1150),spinReel('M',Mkeys,M,1400)]).then(function(){ render(E,O,M); spinning=false; btn.disabled=false; });
+  curTelos=Tkeys[Math.floor(Math.random()*Tkeys.length)];
+  Promise.all([spinReel('E',Ekeys,E,900),spinReel('O',Okeys,O,1150),spinReel('M',Mkeys,M,1400),spinReel('T',Tkeys,curTelos,1650)]).then(function(){ render(E,O,M); spinning=false; btn.disabled=false; });
 }
 function doSpin(){
   var roam=document.getElementById('roam').checked; var E,O,M;
