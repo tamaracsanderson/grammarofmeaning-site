@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The flywheel — mission control — Grammar of Meaning</title>
+<style>
+  :root{--paper:#f7f2e7;--paper2:#fffdf7;--card:#fffefa;--ink:#26221a;--ink2:#5b5346;--ink3:#8a8172;--line:#e4dcc9;--line2:#d0c6ae;--moss:#4b6b46;--moss-d:#33502f;--gold:#b8892f;--gold-bg:#f6ecd4;--good:#33502f;--good-bg:#e7efdf;--gap:#8a3b2a;--gap-bg:#f6e3dc;--barred:#6a4a86;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,sans-serif;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;}
+  @media (prefers-color-scheme:dark){:root{--paper:#14130f;--paper2:#1a1813;--card:#1e1b15;--ink:#ece7dc;--ink2:#b3aa98;--ink3:#847c6c;--line:#332f27;--line2:#423d31;--moss:#8fb884;--moss-d:#6c9a62;--gold:#e0b45f;--gold-bg:#2c2410;--good:#8fb884;--good-bg:#1c2618;--gap:#e0977c;--gap-bg:#37201a;--barred:#b79ce0;}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding:0 22px 90px}
+  a{color:var(--moss-d)}@media(prefers-color-scheme:dark){a{color:var(--moss)}}
+  header{padding:44px 0 18px;border-bottom:2px solid var(--line2)}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+  h1{font-family:var(--serif);font-weight:500;font-size:32px;line-height:1.12;margin:0 0 8px;letter-spacing:-.015em}
+  .sub{color:var(--ink2);font-size:16.5px;max-width:60ch;margin:0}
+  .meta{margin-top:12px;font-family:var(--mono);font-size:11.5px;color:var(--ink3)}
+  h2{font-family:var(--serif);font-weight:500;font-size:21px;margin:38px 0 4px;letter-spacing:-.01em}
+  h2 .n{font-family:var(--mono);font-size:12px;color:var(--gold);margin-right:8px}
+  p{margin:9px 0}.lead{color:var(--ink2)}
+  .pulse{display:grid;grid-template-columns:1fr;gap:14px;margin:16px 0}
+  @media(min-width:640px){.pulse{grid-template-columns:1.1fr 1fr}}
+  .stat{background:var(--card);border:1px solid var(--line2);border-radius:14px;padding:16px 20px}
+  .stat .big{font-family:var(--serif);font-size:44px;font-weight:500;color:var(--moss-d);line-height:1}
+  @media(prefers-color-scheme:dark){.stat .big{color:var(--moss)}}
+  .stat .lbl{font-family:var(--sans);font-size:13px;color:var(--ink2);margin-top:6px}
+  .stat .sm{font-family:var(--mono);font-size:11px;color:var(--ink3);margin-top:8px}
+  .ladder{margin-top:4px}
+  .ladder .lh{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
+  .bar{display:flex;height:26px;border-radius:7px;overflow:hidden;border:1px solid var(--line2)}
+  .bar span{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:#fff;min-width:2px}
+  .seg-unverified{background:var(--ink3)}.seg-xt_confirmed{background:var(--moss)}.seg-xt_split{background:var(--gold)}.seg-researcher_confirmed{background:var(--moss-d)}
+  .legend{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;font-family:var(--mono);font-size:10.5px;color:var(--ink2)}
+  .legend i{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:5px;vertical-align:0}
+  /* gap map — the hero */
+  .axis{margin:14px 0}
+  .axname{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink2);margin-bottom:6px}
+  .axname .ax-c{color:var(--ink3)}
+  .cells{display:flex;flex-wrap:wrap;gap:7px}
+  .cell{font-family:var(--mono);font-size:11.5px;border-radius:7px;padding:6px 11px;border:1px solid}
+  .cell.lit{background:var(--good-bg);border-color:var(--moss);color:var(--moss-d)}
+  @media(prefers-color-scheme:dark){.cell.lit{color:var(--good)}}
+  .cell.lit b{font-weight:700;margin-left:5px}
+  .cell.empty{background:transparent;border-color:var(--line2);border-style:dashed;color:var(--ink3)}
+  .cell.empty .acq{color:var(--gap);font-weight:600}
+  .seamrow{display:grid;grid-template-columns:1fr;gap:12px;margin:14px 0}
+  @media(min-width:560px){.seamrow{grid-template-columns:1fr 1fr}}
+  .seam{background:var(--card);border:1px solid var(--line2);border-left:3px solid var(--gold);border-radius:0 12px 12px 0;padding:13px 16px}
+  .seam .sn{font-family:var(--serif);font-size:30px;font-weight:500;color:var(--gold)}
+  .seam .sl{font-size:13px;color:var(--ink2);margin-top:4px}.seam .sl b{color:var(--ink)}
+  .callout{background:var(--card);border:1px solid var(--line2);border-left:3px solid var(--gap);border-radius:0 10px 10px 0;padding:13px 17px;margin:18px 0;font-size:14px;color:var(--ink2)}
+  .callout b{color:var(--ink)}
+  .backlink{display:inline-block;margin:28px 0 0;font-family:var(--mono);font-size:12px}
+  .foot{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--ink3);line-height:1.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <p class="eyebrow">the coding lab · telemetry</p>
+  <h1>The flywheel — mission control</h1>
+  <p class="sub">Watch the map fill. The corpus is being classified into its own coordinate space; the <em>empty</em> cells are what to go acquire next. This is that loop, made visible &mdash; the open-methodology thesis you can watch turn.</p>
+  <p class="meta" id="meta"></p>
+</header>
+
+<h2><span class="n">1</span>Is it working? &mdash; the pulse</h2>
+<div class="pulse">
+  <div class="stat">
+    <div class="big" id="pct"></div>
+    <div class="lbl" id="pctlbl"></div>
+    <div class="sm" id="rowsm"></div>
+  </div>
+  <div class="stat">
+    <div class="ladder">
+      <div class="lh">verification ladder</div>
+      <div class="bar" id="verbar"></div>
+      <div class="legend" id="verlegend"></div>
+    </div>
+    <div class="sm" id="candsm" style="margin-top:12px"></div>
+  </div>
+</div>
+
+<h2><span class="n">2</span>The gap map &mdash; watch it fill</h2>
+<p class="lead">Each axis is a reel of possible values. <b>Lit</b> cells are occupied (a figure sits there; the number is how many); <b>dashed</b> cells are empty &mdash; positions no source in the library yet holds. <b>The empty cells are the acquisition list.</b> As figures get classified and acquired, cells light up, session over session.</p>
+<div id="gapmap"></div>
+
+<h2><span class="n">3</span>Seam health &mdash; the tripwire</h2>
+<p class="lead">Two warning lights. A climbing number means the loop has stalled at that seam &mdash; kept small and honest, not a hero.</p>
+<div class="seamrow" id="seams"></div>
+
+<div class="callout"><b>Honest caveats (rendered, not hidden).</b> The atlas is <em>beginning</em>, not done &mdash; <span id="cav-pct"></span> of the voices are classified. And occupancy counts <em>rows</em>, not yet <em>verified</em> rows &mdash; read it next to the verification ladder, which is why the ladder sits beside the headline number. Snapshot updates each session (the DB is 40&nbsp;GB and local, so this can&rsquo;t be live).</div>
+
+<a class="backlink" href="coding-lab.html">&larr; back to the coding lab</a>
+<p class="foot">HOW PRODUCED &middot; reading-SB owns the data export (<code>flywheel_tracker.py</code> &rarr; <code>flywheel_state.json</code>, one snapshot per session); design-SB owns the page + deploy. WHAT NEEDS VERIFICATION &middot; snapshot cadence = per session, not live; occupancy = rows not verified rows (pair with the ladder). Stage&nbsp;6 = 0.</p>
+</div>
+
+<script id="state" type="application/json">{"ts": "2026-07-12 01:16 UTC", "tag": "S138-close", "working": {"rows": 10, "figures_classified": 7, "voices": 1611, "persons": 1286, "pct": 0.4, "verification": {"unverified": 10}, "candidates": 20}, "gap_map": {"epistemic-warrant": {"occupied": {"observation": 2, "reason": 3, "revelation": 5}, "empty": ["divination", "embodied-practice", "mystical-union", "noetic-intuition", "practice", "testimony"], "reel_size": 9}, "ontological-commitment": {"occupied": {"emanation-process": 1, "impersonal-process": 1, "material": 1, "relational": 1, "transcendent-personal": 6}, "empty": ["consciousness-first", "panpsychism", "void"], "reel_size": 8}, "inferential-operation": {"occupied": {"analogical-mapping": 1, "causal-explanation": 1, "derivation": 1, "dialectical-negation": 1, "exegesis": 6}, "empty": ["abduction", "induction"], "reel_size": 7}, "telos": {"occupied": {"flourishing": 1, "knowledge-understanding": 2, "power-mastery": 1, "salvation": 4}, "empty": ["contemplation", "harmony", "liberation"], "reel_size": 7}, "stance": {"occupied": {"reductive": 3, "reverent": 5, "suspicious": 2}, "empty": ["charitable", "paranoid", "reparative"], "reel_size": 6}}, "seams": {"s2_backlog": 1610, "s3_unverified": 10}}</script>
+<script id="hist" type="application/json">[{"ts": "2026-07-12 01:13 UTC", "rows": 8, "figs": 6}]</script>
+<script>
+var S = JSON.parse(document.getElementById('state').textContent);
+var H = JSON.parse(document.getElementById('hist').textContent);
+var AXLABEL = {"epistemic-warrant":"E · warrant","ontological-commitment":"O · ontology","inferential-operation":"M · method","telos":"T · telos","stance":"S · stance"};
+var w = S.working;
+document.getElementById('meta').textContent = 'snapshot ' + S.ts + ' · ' + (S.tag||'') + ' · updates each session, not live';
+document.getElementById('pct').textContent = (w.pct!=null? w.pct+'%' : '—');
+document.getElementById('pctlbl').innerHTML = '<b>'+w.figures_classified+'</b> figures classified into the coordinate atlas';
+document.getElementById('rowsm').textContent = w.rows+' atlas rows · of '+w.voices.toLocaleString()+' voices ('+w.persons.toLocaleString()+' persons) · the atlas is beginning';
+document.getElementById('cav-pct').textContent = (w.pct!=null? w.pct+'%':'a tiny fraction');
+document.getElementById('candsm').innerHTML = '<b>'+w.candidates+'</b> candidate axis-values in play (green/candidate only, §2.1)';
+
+// verification ladder
+var order = ['unverified','xt_confirmed','xt_split','researcher_confirmed'];
+var labels = {unverified:'unverified',xt_confirmed:'XT-confirmed',xt_split:'XT-split',researcher_confirmed:'researcher-confirmed'};
+var v = w.verification||{}; var tot = order.reduce(function(a,k){return a+(v[k]||0);},0)||1;
+var bar='', leg='';
+order.forEach(function(k){ var n=v[k]||0; if(n>0){ bar+='<span class="seg-'+k+'" style="width:'+(100*n/tot)+'%" title="'+labels[k]+': '+n+'">'+(100*n/tot>=14?n:'')+'</span>'; }
+  leg+='<span><i class="seg-'+k+'" style="background:'+({unverified:'var(--ink3)',xt_confirmed:'var(--moss)',xt_split:'var(--gold)',researcher_confirmed:'var(--moss-d)'}[k])+'"></i>'+labels[k]+' '+(v[k]||0)+'</span>'; });
+document.getElementById('verbar').innerHTML = bar;
+document.getElementById('verlegend').innerHTML = leg;
+
+// gap map
+var gm = S.gap_map, out='';
+Object.keys(gm).forEach(function(ax){
+  var g = gm[ax], occ = g.occupied||{}, empty = g.empty||[];
+  var nOcc = Object.keys(occ).length;
+  out += '<div class="axis"><div class="axname">'+(AXLABEL[ax]||ax)+' <span class="ax-c">'+nOcc+' occupied · '+empty.length+' empty · reel '+g.reel_size+'</span></div><div class="cells">';
+  var maxc = Math.max.apply(null, Object.keys(occ).map(function(k){return occ[k];}).concat([1]));
+  Object.keys(occ).sort(function(a,b){return occ[b]-occ[a];}).forEach(function(val){
+    var op = 0.5 + 0.5*(occ[val]/maxc);
+    out += '<span class="cell lit" style="opacity:'+op.toFixed(2)+'">'+val+'<b>'+occ[val]+'</b></span>';
+  });
+  empty.forEach(function(val){ out += '<span class="cell empty">'+val+' <span class="acq">→ acquire</span></span>'; });
+  out += '</div></div>';
+});
+document.getElementById('gapmap').innerHTML = out;
+
+// seams
+var sm = S.seams||{};
+var seamHtml =
+  '<div class="seam"><div class="sn">'+((sm.s2_backlog!=null?sm.s2_backlog:'—')).toLocaleString()+'</div><div class="sl"><b>S2 · acquired, not yet classified.</b> Voices in the library not yet placed into the coordinate atlas — the classification backlog. Climbing = classification stalled.</div></div>'+
+  '<div class="seam"><div class="sn">'+((sm.s3_unverified!=null?sm.s3_unverified:'—')).toLocaleString()+'</div><div class="sl"><b>S3 · classified, not yet verified.</b> Atlas rows not yet XT-verified. Climbing = verification stalled behind classification.</div></div>';
+document.getElementById('seams').innerHTML = seamHtml;
+</script>
+</body>
+</html>
