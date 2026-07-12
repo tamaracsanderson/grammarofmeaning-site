@@ -52,6 +52,30 @@
   .foot-close{font-family:var(--sans);font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--rule);
     margin-top:34px;padding-top:16px;line-height:1.65}
   .foot-close em{font-style:italic;color:var(--ink-2)}
+
+  /* ---- 06 · the flywheel ---- */
+  .flyfig{margin:32px 0 6px;background:radial-gradient(120% 130% at 50% 0%,rgba(63,125,87,.05),transparent 60%),var(--paper-3);
+    border:1px solid var(--rule);border-radius:16px;padding:20px 18px 12px}
+  .flyfig svg{display:block;width:100%;height:auto;max-width:600px;margin:0 auto}
+  .flyfig .cap{font-family:var(--mono);font-size:11px;color:var(--ink-3);text-align:center;margin-top:6px;letter-spacing:.02em;line-height:1.5}
+  .cyc-node{font-family:var(--mono);font-size:12px;fill:var(--ink)}
+  .cyc-node.acq{fill:var(--terracotta);font-weight:600}
+  .cyc-ctr{font-family:var(--serif);font-size:18px;font-style:italic;fill:var(--moss)}
+  .cyc-sub{font-family:var(--mono);font-size:10px;fill:var(--ink-3);letter-spacing:.05em}
+  .twocol{display:grid;grid-template-columns:1fr;gap:16px;margin-top:28px}
+  @media(min-width:720px){.twocol{grid-template-columns:1fr 1fr}}
+  .dircard{border:1px solid var(--rule);border-radius:14px;padding:18px 20px;background:var(--paper-3)}
+  .dircard .dk{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--olive);text-transform:uppercase}
+  .dircard .dh{font-family:var(--serif);font-size:20px;color:var(--moss);font-weight:600;margin:5px 0 9px;line-height:1.18}
+  .dircard p{font-size:14.5px;color:var(--ink-2);line-height:1.6;margin:0}
+  .dircard p b{color:var(--ink)} .dircard p i{color:var(--fern);font-style:italic}
+  .sparse{display:flex;align-items:center;gap:28px;flex-wrap:wrap;margin:30px 0 4px;justify-content:center}
+  .sgrid{display:grid;grid-template-columns:repeat(6,24px);grid-auto-rows:24px;gap:7px;flex:0 0 auto}
+  .sgrid .c{border:1px solid var(--rule);border-radius:5px}
+  .sgrid .c.on{background:var(--sage);border-color:var(--sage)}
+  .sgrid .c.acq{border:1.6px dashed var(--terracotta);background:rgba(196,96,47,.09);position:relative}
+  .sparse .lbl{font-family:var(--sans);font-size:14px;color:var(--ink-2);max-width:32ch;line-height:1.55}
+  .sparse .lbl b{color:var(--terracotta)}
 </style>
 </head>
 <body>
@@ -159,9 +183,86 @@
   </blockquote>
 </section>
 
-<!-- 06 · THE HONEST FRONTIER -->
+<!-- 06 · THE FLYWHEEL -->
+<section id="flywheel">
+  <div class="sec-head"><span class="sec-num">06</span><span class="sec-title">The flywheel — the map and the library define each other</span><span class="sec-line"></span></div>
+
+  <p class="lead-p">We don't read a fixed list of great thinkers. We characterize every interpretive mind as a <b>position</b> — three coordinates: what it treats as its ground of knowing (revelation, reason, observation, practice…), what it takes as fundamentally real (a personal God, a relational web, matter, emptiness…), and how it reasons (exegesis, derivation, dialectic, analogy…). Plot the whole archive — <b>4,890 named figures across 546 traditions</b> — into that coordinate space, and the <i>empty regions</i> light up: positions in intellectual history that no source in the library yet occupies. Those empty coordinates are not gaps in the map — <b>they are the acquisition list</b>. The library and the coordinate-map define each other, and the space between them is exactly what to go find next.</p>
+
+  <div class="flyfig">
+    <svg viewBox="0 0 640 400" role="img" aria-label="The flywheel: corpus, classify into coordinates, coverage map, empty cells, name the occupant, acquire, back to the corpus.">
+      <circle cx="320" cy="185" r="132" fill="none" stroke="var(--rule)" stroke-width="1.5"/>
+      <!-- clockwise arrowheads at midpoints -->
+      <g fill="var(--olive)">
+        <path d="M-6-4L6 0L-6 4Z" transform="translate(386,90) rotate(30)"/>
+        <path d="M-6-4L6 0L-6 4Z" transform="translate(452,185) rotate(90)"/>
+        <path d="M-6-4L6 0L-6 4Z" transform="translate(386,280) rotate(150)"/>
+        <path d="M-6-4L6 0L-6 4Z" transform="translate(254,280) rotate(210)"/>
+        <path d="M-6-4L6 0L-6 4Z" transform="translate(188,185) rotate(270)"/>
+        <path d="M-6-4L6 0L-6 4Z" transform="translate(254,90) rotate(330)"/>
+      </g>
+      <!-- nodes -->
+      <g stroke="var(--paper-3)" stroke-width="2.5">
+        <circle cx="320" cy="53" r="8" fill="var(--moss)"/>
+        <circle cx="434" cy="119" r="8" fill="var(--fern)"/>
+        <circle cx="434" cy="251" r="8" fill="var(--fern)"/>
+        <circle cx="320" cy="317" r="9" fill="var(--terracotta)"/>
+        <circle cx="206" cy="251" r="8" fill="var(--fern)"/>
+        <circle cx="206" cy="119" r="8" fill="var(--fern)"/>
+      </g>
+      <!-- labels -->
+      <text class="cyc-node" x="320" y="36" text-anchor="middle">the corpus</text>
+      <text class="cyc-node" x="450" y="116" text-anchor="start">classify → coordinates</text>
+      <text class="cyc-node" x="450" y="255" text-anchor="start">coverage map</text>
+      <text class="cyc-node acq" x="320" y="342" text-anchor="middle">empty cells</text>
+      <text class="cyc-node" x="190" y="255" text-anchor="end">name the occupant</text>
+      <text class="cyc-node" x="190" y="116" text-anchor="end">acquire</text>
+      <!-- center -->
+      <text class="cyc-ctr" x="320" y="182" text-anchor="middle">a flywheel that knows</text>
+      <text class="cyc-ctr" x="320" y="205" text-anchor="middle">what it's missing</text>
+      <text class="cyc-sub" x="320" y="228" text-anchor="middle">CORPUS ⇄ MAP</text>
+    </svg>
+    <div class="cap">corpus → classify into coordinates → coverage map → empty cells → name the occupant → acquire → back to the corpus</div>
+  </div>
+
+  <div class="twocol">
+    <div class="dircard">
+      <div class="dk">direction one</div>
+      <div class="dh">The corpus teaches us the coordinates</div>
+      <p>Real traditions demand dimensions we hadn't listed — <i>emptiness</i>, consciousness-first idealism, abductive reasoning. The archive tells the map what it should contain.</p>
+    </div>
+    <div class="dircard">
+      <div class="dk">direction two</div>
+      <div class="dh">The map teaches us what to acquire</div>
+      <p>The empty cells — the whole <i>material</i> corner of ontology, structurally missing across the religious traditions — point to exactly which thinkers to bring in (<b>Hobbes, Wellhausen, Spinoza</b>), turning bias into a visible, correctable coordinate rather than a hidden one.</p>
+    </div>
+  </div>
+
+  <div class="sparse">
+    <div class="sgrid" aria-hidden="true">
+      <div class="c on"></div><div class="c"></div><div class="c on"></div><div class="c"></div><div class="c"></div><div class="c on"></div>
+      <div class="c"></div><div class="c on"></div><div class="c"></div><div class="c acq"></div><div class="c"></div><div class="c"></div>
+      <div class="c on"></div><div class="c"></div><div class="c"></div><div class="c"></div><div class="c on"></div><div class="c"></div>
+    </div>
+    <div class="lbl">An empty cell isn't a hole in the map — it's a target. <b>→ acquire</b> the mind that occupies it, and the flywheel turns once more.</div>
+  </div>
+
+  <div class="frontier" style="margin-top:34px">
+    <div class="fk">a living instrument · not a finished atlas</div>
+    <h3>The coordinates are a hypothesis, per figure.</h3>
+    <p>A model proposes each placement, the corpus confirms we actually hold the text, and a specialist vets it. The axis-set itself is still under cross-model validation. The map is a <b>living instrument, not a finished atlas</b>.</p>
+    <p>And today it is drawn from a <b>demonstration slice — 12 of 546 traditions</b>, not the full corpus. The loop is real and running; the full classification is what it's built toward, not what it has finished.</p>
+  </div>
+
+  <blockquote class="pull" style="margin-top:32px">
+    <p>The empty coordinates aren't gaps in the map — they're the acquisition list.</p>
+    <div class="attr">— <b>Grammar of Meaning</b> · the coordinate-driven flywheel</div>
+  </blockquote>
+</section>
+
+<!-- 07 · THE HONEST FRONTIER -->
 <section id="frontier">
-  <div class="sec-head"><span class="sec-num">06</span><span class="sec-title">The honest frontier</span><span class="sec-line"></span></div>
+  <div class="sec-head"><span class="sec-num">07</span><span class="sec-title">The honest frontier</span><span class="sec-line"></span></div>
 
   <div class="frontier">
     <div class="fk">coding stands at zero · the frontier</div>
@@ -183,7 +284,7 @@
 
 <!-- 07 · EXPLORE -->
 <section id="explore">
-  <div class="sec-head"><span class="sec-num">07</span><span class="sec-title">Explore the method</span><span class="sec-line"></span></div>
+  <div class="sec-head"><span class="sec-num">08</span><span class="sec-title">Explore the method</span><span class="sec-line"></span></div>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px" class="explore-cards">
     <a class="hp-card" href="grammar.html" style="display:flex;flex-direction:column;text-decoration:none">
       <b style="font-family:var(--serif);font-size:18px;color:var(--moss)">How a move gets coded →</b>
