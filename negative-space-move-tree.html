@@ -9,11 +9,13 @@
   :root{
     --paper:#f7f2e7;--paper2:#fffdf7;--card:#fffefa;--ink:#26221a;--ink2:#5b5346;--ink3:#8a8172;
     --line:#e4dcc9;--line2:#d0c6ae;--moss:#4b6b46;--moss-d:#33502f;--gold:#b8892f;--gold-bg:#f6ecd4;--gap:#8a3b2a;
+    --nar:#b8892f;--nar-bg:#f6ecd4;--int:#6a4a86;--int-bg:#ece3f4;
     --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,sans-serif;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
   }
   @media (prefers-color-scheme:dark){:root{
     --paper:#14130f;--paper2:#1a1813;--card:#1e1b15;--ink:#ece7dc;--ink2:#b3aa98;--ink3:#847c6c;
-    --line:#332f27;--line2:#423d31;--moss:#8fb884;--moss-d:#6c9a62;--gold:#e0b45f;--gold-bg:#2c2410;--gap:#e0977c;}}
+    --line:#332f27;--line2:#423d31;--moss:#8fb884;--moss-d:#6c9a62;--gold:#e0b45f;--gold-bg:#2c2410;--gap:#e0977c;
+    --nar:#e0b45f;--nar-bg:#2c2410;--int:#b79ce0;--int-bg:#251d33;}}
   *{box-sizing:border-box}
   body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.62;-webkit-font-smoothing:antialiased}
   .wrap{max-width:900px;margin:0 auto;padding:0 22px 90px}
@@ -35,6 +37,16 @@
   .backlink{display:inline-block;margin:26px 0 0;font-family:var(--mono);font-size:12px}
   .foot{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--ink3);line-height:1.7}
   .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .kinds{display:grid;grid-template-columns:1fr;gap:12px;margin:16px 0}
+  @media(min-width:620px){.kinds{grid-template-columns:1fr 1fr}}
+  .kcard{border-radius:12px;padding:13px 17px;border:1px solid}
+  .kcard.nar{background:var(--nar-bg);border-color:var(--nar)}.kcard.int{background:var(--int-bg);border-color:var(--int)}
+  .kcard .kk{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.04em}
+  .kcard.nar .kk{color:var(--nar)}.kcard.int .kk{color:var(--int)}
+  .kcard .kt{font-family:var(--serif);font-size:15.5px;color:var(--ink);margin:3px 0 6px}
+  .kcard p{margin:0;font-size:13.5px;color:var(--ink2)}
+  .tag{font-family:var(--mono);font-size:11px;padding:1px 7px;border-radius:5px;font-weight:600;white-space:nowrap;display:inline-block}
+  .tag.nar{background:var(--nar-bg);color:var(--nar)}.tag.int{background:var(--int-bg);color:var(--int)}
 </style>
 </head>
 <body>
@@ -100,7 +112,60 @@
 </div>
 <div class="callout"><b>The reliability branch (a listening insight).</b> M3 — "she's realized he's not the hurting kind" — is drawn with a dashed branch, because it may not be true: it could be <em>her rationalization</em> for what she wants. So M4 ("she loves you") rests on a precondition that is itself unreliable. The song is <b>doubly unreliable</b>: it omits how <em>he</em> feels, and it can't vouch for whether <em>her</em> reappraisal is real. The tree makes that visible as a branch, not a footnote.</div>
 
-<h2><span class="n">§2</span>What "she said" ↔ what we built</h2>
+<h2><span class="n">§2</span>Two branch-kinds — narrative vs interpretive</h2>
+<p class="lead">Not every branch is the same kind of thing. The first pilot grew the song's tree to 5–9 branches per move — because it conflated two kinds of "otherwise." The fix (the 5th admissibility rule): <b>tag both, never merge them.</b></p>
+<div class="kinds">
+  <div class="kcard nar"><div class="kk">[narrative]</div><div class="kt">an alternative way the <em>story / history</em> could go</div><p>she could be angry; the friend could lie; a tradition could spread differently. Plot contingency — <b>scripture is full of these.</b></p></div>
+  <div class="kcard int"><div class="kk">[interpretive]</div><div class="kt">an alternative <em>reading of the same words</em></div><p>"foreknew" = foresight vs fore-love; single vs double predestination. Reading divergence — <b>the fork a doctrine splits on.</b></p></div>
+</div>
+<div class="callout"><b>Different but not separate.</b> Narrative history — who held power, how a text spread — <em>shapes</em> how the words later get read, so both are kept and rendered distinctly. The move-tree maps <b>how a text is READ (interpretive) laid over how a history could GO (narrative)</b>. And the control lives on the interpretive axis: a plain narrative has many <span class="tag nar">[narrative]</span> branches but few <span class="tag int">[interpretive]</span> forks — it reads one way.</div>
+<div class="figwrap">
+<svg viewBox="0 0 700 288" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>The song's tree is all narrative branches with no interpretive fork; Romans forks interpretively on "foreknew".</title>
+<style>
+  .mt-tt{fill:#26221a;font-family:"Iowan Old Style",Palatino,Georgia,serif;font-size:15px}
+  .mt-sm{fill:#8a8172;font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.04em}
+  .mt-b{fill:#26221a;font-family:-apple-system,Helvetica,sans-serif;font-size:11px}
+  .nb{fill:#f6ecd4;stroke:#b8892f}.ib{fill:#ece3f4;stroke:#6a4a86}.cr{fill:#f6ecd4;stroke:#b8892f;stroke-width:2}
+  .ntag{fill:#b8892f;font-family:ui-monospace,Menlo,monospace;font-size:8.5px;font-weight:700}
+  .itag{fill:#6a4a86;font-family:ui-monospace,Menlo,monospace;font-size:8.5px;font-weight:700}
+  .foot{fill:#8a8172;font-family:ui-monospace,Menlo,monospace;font-size:9.5px}
+  @media(prefers-color-scheme:dark){.mt-tt{fill:#ece7dc}.mt-b{fill:#ece7dc}.mt-sm,.foot{fill:#847c6c}
+    .nb{fill:#2c2410;stroke:#e0b45f}.ib{fill:#251d33;stroke:#b79ce0}.cr{fill:#2c2410;stroke:#e0b45f}
+    .ntag{fill:#e0b45f}.itag{fill:#b79ce0}}
+</style>
+<line x1="350" y1="16" x2="350" y2="276" stroke="#d0c6ae" stroke-dasharray="2 4"/>
+<marker id="mg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#4b6b46"/></marker>
+<marker id="mp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6a4a86"/></marker>
+<!-- LEFT: the song, all narrative -->
+<text x="22" y="26" class="mt-tt">"She Loves You"</text>
+<text x="22" y="42" class="mt-sm">HIGH NARRATIVE · LOW INTERPRETIVE</text>
+<line x1="48" y1="60" x2="48" y2="236" stroke="#4b6b46" stroke-width="2" marker-end="url(#mg)"/>
+<g stroke="#b8892f" stroke-width="1.3" stroke-dasharray="4 3">
+  <line x1="48" y1="84" x2="86" y2="84"/><line x1="48" y1="142" x2="86" y2="142"/><line x1="48" y1="200" x2="86" y2="200"/>
+</g>
+<g>
+  <rect x="86" y="72" width="234" height="24" rx="6" class="nb"/><text x="96" y="88" class="mt-b">branch: she is destroyed</text><text x="285" y="88" class="ntag">NAR</text>
+  <rect x="86" y="130" width="234" height="24" rx="6" class="nb"/><text x="96" y="146" class="mt-b">branch: keep your pride</text><text x="285" y="146" class="ntag">NAR</text>
+  <rect x="86" y="188" width="234" height="24" rx="6" class="nb"/><text x="96" y="204" class="mt-b">reappraisal is motivated</text><text x="285" y="204" class="ntag">NAR</text>
+</g>
+<text x="22" y="262" class="foot">every branch is [narrative] · 0 interpretive forks — the song reads one way</text>
+<!-- RIGHT: Romans, one interpretive fork -->
+<text x="378" y="26" class="mt-tt">Romans 8 · foreknew</text>
+<text x="378" y="42" class="mt-sm">AN INTERPRETIVE FORK</text>
+<line x1="440" y1="60" x2="440" y2="116" stroke="#4b6b46" stroke-width="2"/>
+<rect x="388" y="116" width="104" height="30" rx="8" class="cr"/><text x="404" y="136" class="mt-b" font-weight="500">foreknew</text>
+<g stroke="#6a4a86" stroke-width="1.6" fill="none" marker-end="url(#mp)">
+  <path d="M420 146 Q 400 165 400 176"/><path d="M462 146 Q 560 165 560 176"/>
+</g>
+<rect x="374" y="178" width="150" height="42" rx="7" class="ib"/><text x="384" y="196" class="mt-b" font-size="10.5">conditional —</text><text x="384" y="210" class="mt-b" font-size="10.5">foreseen faith</text><text x="486" y="214" class="itag">INT</text>
+<rect x="540" y="178" width="152" height="42" rx="7" class="ib"/><text x="550" y="196" class="mt-b" font-size="10.5">unconditional —</text><text x="550" y="210" class="mt-b" font-size="10.5">fore-love</text><text x="654" y="214" class="itag">INT</text>
+<text x="378" y="262" class="foot">1 interpretive fork · the doctrine splits — Augustine crossed it</text>
+</svg>
+</div>
+<div class="callout"><b>The finding.</b> "She Loves You" is <b>high-narrative, low-interpretive</b>: every branch in the tree above is <span class="tag nar">[narrative]</span> (she's destroyed; keep your pride; her reappraisal is motivated — all plot), and it has <em>no</em> interpretive fork — the song reads one way. <b>Romans forks</b>: "foreknew whom?" is a genuine <span class="tag int">[interpretive]</span> split (conditional foreseen-faith vs unconditional fore-love), the seam Augustine crossed across 32 years (<a href="augustine-trajectory.html">the trajectory</a>). The instrument distinguishes a text that branches only in <em>plot</em> from one that splits in <em>reading</em>.</div>
+
+<h2><span class="n">§3</span>What "she said" ↔ what we built</h2>
 <table>
 <thead><tr><th>situation calculus (Saquib)</th><th>our instrument</th></tr></thead>
 <tbody>
@@ -115,7 +180,7 @@
 </tbody>
 </table>
 
-<h2><span class="n">§3</span>Toward a <em>real</em> tree — the next build</h2>
+<h2><span class="n">§4</span>Toward a <em>real</em> tree — the next build</h2>
 <p class="lead">Right now this tree is <strong>the taken path plus a few hand-drawn branches</strong>. To make it a real tree, we grow it the way Saquib describes: <strong>at each move-state, ask the generation engine for <em>all</em> the ways it could go next</strong> — then recurse. Move 1 opens its possibilities; each of those is a new state that opens its own; and so on, until paths either reach the end or <em>stop</em> (a precondition fails). Two shapes are worth building:</p>
 <ul>
 <li><b>Open growth:</b> from the first move, branch out fully — every path and every dead-end. The state-space of the song.</li>
