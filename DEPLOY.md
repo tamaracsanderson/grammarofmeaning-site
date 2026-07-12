@@ -1,3 +1,21 @@
+> ## ⚠️ SOURCE-OF-TRUTH NOTICE — read before ANY bulk copy (design-SB, 2026-07-11)
+>
+> **This repo (`grammarofmeaning-site`) is the live site and the current source of truth.**
+> The `twelve-laws:web/site-deploy/` bundle that originally seeded it (Step 1 below) is now a
+> **stale, partial mirror.** As of 2026-07-11 the live repo holds **~150 files that do NOT exist
+> in twelve-laws** — the entire `_staging/_mocks/` design corpus (the persona interactives:
+> slot machine, space map, scrolly/board/split; plus thurman, brandmark, bakeoff, altar, companion)
+> and public pages `about / essays / library / reference / romans / garden-walk` — and **~20 public
+> pages have diverged**, including `method.html` (holds the live §06 flywheel), `index.html`, and
+> `coding-lab.html`.
+>
+> **DO NOT follow the old "edit in twelve-laws, re-copy into this bundle" instruction below.**
+> A wholesale copy from `twelve-laws:web/site-deploy` → here would **delete the persona suite,
+> the flywheel section, and most of the site.** Edit **directly in this repo** (PR → merge; Pages
+> auto-builds). Reconciling the two copies — sync this repo *into* twelve-laws, or formally retire
+> the twelve-laws mirror — is a **pending decision for the researcher / main-Claude.** Until that
+> lands, **this repo is authoritative and the twelve-laws bundle must not be deployed.**
+
 # Deploy this bundle → grammarofmeaning.org (GitHub Pages + Cloudflare DNS)
 
 This folder is a **self-contained static site** (the garden hub + the pitch + the
@@ -54,5 +72,5 @@ Back in the repo's **Settings → Pages**, once the green "DNS check successful"
 ## Notes
 - **Unlisted, not secret.** `robots.txt` (Disallow: /) + `noindex` meta keep it out of search. It's a send-a-link site, not password-protected. Fine for the pitch; don't put anything truly private here.
 - **What's deployed:** the hub (`index.html`), the pitch, and the method instruments (schema, influence-grammar, tree, workbench, explainer, t-stages). The **image-heavy moodboards are NOT here** (museum-image rights) — they stay local.
-- **To update the site:** edit in `twelve-laws` (the source of truth), re-copy into this bundle, push to `grammarofmeaning-site`. Or later: wire Cloudflare Pages git-connect for auto-deploy.
+- **To update the site (CURRENT process, supersedes the original below):** edit **directly in this repo** via PR → merge; GitHub Pages auto-builds in ~1 min. ~~*(Original, now unsafe: "edit in twelve-laws, re-copy into this bundle" — see the SOURCE-OF-TRUTH NOTICE at the top; the twelve-laws bundle has diverged and re-copying would delete the live site.)*~~
 - The **bookshelf essay-site** (`web/grammar-of-meaning/`, the S85 mock) is a *separate* surface — not deployed here. When you pick a skin, that becomes the `/essays` section.
