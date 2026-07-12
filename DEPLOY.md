@@ -12,9 +12,16 @@
 > **DO NOT follow the old "edit in twelve-laws, re-copy into this bundle" instruction below.**
 > A wholesale copy from `twelve-laws:web/site-deploy` → here would **delete the persona suite,
 > the flywheel section, and most of the site.** Edit **directly in this repo** (PR → merge; Pages
-> auto-builds). Reconciling the two copies — sync this repo *into* twelve-laws, or formally retire
-> the twelve-laws mirror — is a **pending decision for the researcher / main-Claude.** Until that
-> lands, **this repo is authoritative and the twelve-laws bundle must not be deployed.**
+> auto-builds).
+>
+> **DECIDED 2026-07-11 (approved by the researcher + reading-SB): this repo is THE single source
+> of truth. The `twelve-laws:web/site-deploy/` mirror is RETIRED — do not read from it, write to
+> it, or deploy from it.** All site hand-offs (content drafts, gap-picker wiring, new pages) route
+> to **this** repo, where design-SB deploys them — that is already the working pattern (others hand
+> content to design-SB; design-SB deploys). Anything written to the old mirror silently rots, so
+> nothing should be written there. Retiring/stubbing the twelve-laws mirror directory itself is a
+> `twelve-laws` write owned by main-Claude (design-SB can't touch that tree); until it's stubbed,
+> this notice is the guardrail.
 
 # Deploy this bundle → grammarofmeaning.org (GitHub Pages + Cloudflare DNS)
 
