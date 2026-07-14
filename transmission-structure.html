@@ -70,6 +70,27 @@
   .sw-held{background:var(--green-bg);border:1px solid var(--green)}
   .sw-dev{background:var(--amber-bg);border:1px solid var(--amber)}
   .sw-rival{background:var(--red-bg);border:1px solid var(--red)}
+  /* interactive stage — pick a figure → watch it hold or split */
+  .picker{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 18px}
+  .pbtn{font-family:var(--sans);font-size:14px;padding:7px 14px;border-radius:99px;border:1.5px solid var(--line2);background:var(--paper2);color:var(--ink2);cursor:pointer;transition:all .18s}
+  .pbtn.green.on{border-color:var(--green);background:var(--green-bg);color:var(--green);font-weight:600}
+  .pbtn.red.on{border-color:var(--red);background:var(--red-bg);color:var(--red);font-weight:600}
+  .pbtn:hover{border-color:var(--ink3)}
+  .stagewrap{position:relative;height:238px;background:var(--paper2);border:1px solid var(--line2);border-radius:14px;margin:0 0 4px;overflow:hidden}
+  .axisline{position:absolute;left:6%;right:6%;top:26px;height:2px;background:var(--line2)}
+  .axistick{position:absolute;top:14px;font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3);transform:translateX(-50%)}
+  .converge-pt{position:absolute;left:50%;top:20px;width:14px;height:14px;border-radius:50%;transform:translate(-50%,-50%);border:2px dashed var(--ink3);opacity:.5}
+  .sc{position:absolute;transform:translateX(-50%);width:150px;border-radius:10px;padding:8px 10px;border:1.5px solid var(--line2);background:var(--card);left:50%;opacity:0;transition:left .72s cubic-bezier(.34,.02,.24,1),top .72s cubic-bezier(.34,.02,.24,1),opacity .5s}
+  .sc b{display:block;font-family:var(--serif);font-size:13.5px;color:var(--ink);line-height:1.2}
+  .sc i{font-style:normal;font-family:var(--mono);font-size:10.5px;display:block;margin-top:3px}
+  .sc u{text-decoration:none;display:block;font-family:var(--mono);font-size:9px;color:var(--ink3);margin-top:3px}
+  .sc.held{border-color:var(--green);background:var(--green-bg);box-shadow:0 1px 6px rgba(75,107,70,.14)}.sc.held i{color:var(--green);font-weight:600}
+  .sc.out{border-color:var(--amber);background:var(--amber-bg);box-shadow:0 1px 6px rgba(186,117,23,.16)}.sc.out i{color:var(--amber);font-weight:600}
+  .sc.rival{border-color:var(--red);background:var(--red-bg);box-shadow:0 1px 6px rgba(156,63,55,.16)}.sc.rival i{color:var(--red);font-weight:600}
+  .scap{font-size:14.5px;padding:11px 15px;border-radius:9px;margin:0 0 8px}
+  .scap.conv{background:var(--green-bg);color:var(--green)}
+  .scap.div{background:var(--red-bg);color:var(--red)}
+  .scap b{font-weight:700}.scap em{font-style:normal;font-family:var(--mono);font-size:13px}
 </style>
 </head>
 <body>
@@ -80,6 +101,16 @@
   <h1>Custody, not sacredness, protects a founder's essence</h1>
   <p class="sub">Take seven founders — Jesus, God, Muhammad, the Buddha, Confucius, Socrates, Freud — and read each one across the rival portrayals history left behind. On one axis, the <em>essence</em> (ontological-commitment), a pattern appears: the essence holds when a single custodian, or a genuinely shared core, keeps it; it splits when rival custodians share no core. What does the protecting is the <em>custody</em> — not the reverence.</p>
 </header>
+
+<h2>Pick a figure — watch it hold or split</h2>
+<p class="lead">Choose a founder. The instrument places each surviving portrayal on the <em>essence</em> axis (ontological-commitment) and lets it move: portrayals that share the essence <strong>converge</strong> on one point; portrayals whose custodians rewrote it <strong>diverge</strong>. Colour marks the transmission structure — green where a custody protects the essence, red where rival custody splits it.</p>
+<div class="picker" id="picker"></div>
+<div class="stagewrap" id="stage">
+  <div class="axisline"></div>
+  <div class="axistick" style="left:50%">essence axis · ontological-commitment</div>
+  <div class="converge-pt"></div>
+</div>
+<div class="scap" id="scap"></div>
 
 <h2>The spectrum</h2>
 <p class="lead">Seven figures, ordered by how far their portrayals spread apart on the essence axis. Green = the essence is protected (a single or shared-core custody). Red = the essence is contested (rival custody, no shared core). The number is the base spread, 0 (identical) to 1 (every axis differs).</p>
@@ -168,6 +199,50 @@
 </div>
 
 <a class="backlink" href="coding-lab.html">← back to the coding lab</a>
+<script>
+(function(){
+  var FIGS = [{"figure": "God", "color": "green", "tx": "single-custodian (Tanakh)", "spread": 0.0, "status": "PROTECTED", "agrees": true, "icv": "personal-agentive", "ports": [{"label": "Genesis P (Gen 1)", "custody": "canonical", "ess": "personal-agentive", "out": false, "dom": "divine mode: TRANSCENDENT"}, {"label": "Genesis J (Gen 2)", "custody": "canonical", "ess": "personal-agentive", "out": false, "dom": "divine mode: IMMANENT"}]}, {"figure": "Jesus", "color": "green", "tx": "single-custodian (Church)", "spread": 0.06, "status": "PROTECTED", "agrees": true, "icv": "personal-agentive", "ports": [{"label": "Matthew", "custody": "canonical", "ess": "personal-agentive", "out": false, "dom": ""}, {"label": "John", "custody": "canonical", "ess": "personal-agentive", "out": false, "dom": ""}, {"label": "Luke", "custody": "canonical", "ess": "personal-agentive", "out": false, "dom": ""}, {"label": "Nag Hammadi (out-of-custody)", "custody": "Gnostic (outside Church)", "ess": "apophatic", "out": true, "dom": ""}]}, {"figure": "Muhammad", "color": "green", "tx": "single-custodian (hadith scholars)", "spread": 0.27, "status": "PROTECTED", "agrees": true, "icv": "personal-agentive", "ports": [{"label": "prophetic hadith", "custody": "canonical", "ess": "personal-agentive", "out": false, "dom": "voice mode: PROPHETIC"}, {"label": "hadith qudsi", "custody": "canonical", "ess": "personal-agentive", "out": false, "dom": "voice mode: DIVINE"}]}, {"figure": "Buddha", "color": "green", "tx": "fragmented but SHARED core (śūnyatā)", "spread": 0.33, "status": "PRESERVED", "agrees": true, "icv": "void", "ports": [{"label": "Pali (Theravāda)", "custody": "early canon", "ess": "void", "out": false, "dom": ""}, {"label": "Āgama", "custody": "early canon", "ess": "void", "out": false, "dom": ""}, {"label": "Lotus (Mahāyāna)", "custody": "rival school", "ess": "void", "out": false, "dom": ""}]}, {"figure": "Socrates", "color": "red", "tx": "no-custodian (contested human)", "spread": 0.67, "status": "CONTESTED (telos + method)", "agrees": true, "icv": "not-asserted", "ports": [{"label": "Plato's Socrates", "custody": "none", "ess": "not-asserted", "out": false, "dom": ""}, {"label": "Xenophon's Socrates", "custody": "none", "ess": "not-asserted", "out": false, "dom": ""}]}, {"figure": "Confucius", "color": "red", "tx": "rival-custodian, NO shared core", "spread": 0.83, "status": "CONTESTED", "agrees": false, "icv": "impersonal-order", "ports": [{"label": "Analects (Confucian)", "custody": "Confucian", "ess": "impersonal-order", "out": false, "dom": ""}, {"label": "Zhuangzi (Daoist)", "custody": "Daoist", "ess": "apophatic", "out": false, "dom": ""}]}, {"figure": "Freud", "color": "red", "tx": "rival-custodian, NO shared core", "spread": 1.0, "status": "CONTESTED", "agrees": false, "icv": "impersonal-order", "ports": [{"label": "Freudian (Freud)", "custody": "Freudian school", "ess": "impersonal-order", "out": false, "dom": ""}, {"label": "Jungian (Jung)", "custody": "Jungian school", "ess": "dual-aspect-monism", "out": false, "dom": ""}]}];
+  var picker=document.getElementById('picker'), stage=document.getElementById('stage'), cap=document.getElementById('scap');
+  function xFor(val, uv){ return uv.length<2 ? 50 : 16 + 68*(uv.indexOf(val)/(uv.length-1)); }
+  function esc(s){ return String(s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+  function select(i){
+    Array.prototype.forEach.call(picker.children,function(b,j){ b.classList.toggle('on', j===i); });
+    var f=FIGS[i];
+    var uv=[]; f.ports.forEach(function(p){ if(uv.indexOf(p.ess)<0) uv.push(p.ess); });
+    // clear only the chips (keep axis line + ticks)
+    Array.prototype.slice.call(stage.querySelectorAll('.sc')).forEach(function(el){ el.remove(); });
+    var atX={};
+    f.ports.forEach(function(p){
+      var x=xFor(p.ess, uv), key=x.toFixed(1);
+      atX[key]=(atX[key]||0); var yoff=atX[key]*58; atX[key]++;
+      var cls = p.out ? 'out' : (f.agrees ? 'held' : (uv.length<2 ? 'held' : 'rival'));
+      var el=document.createElement('div');
+      el.className='sc '+cls;
+      el.innerHTML='<b>'+esc(p.label)+'</b><i>'+esc(p.ess)+'</i>'+(p.dom?'<u>'+esc(p.dom)+'</u>':'');
+      el.style.left='50%'; el.style.top=(58+yoff)+'px'; el.style.opacity='0';
+      stage.appendChild(el);
+      void el.offsetWidth;                 // force reflow so the transition triggers reliably
+      el.style.left=x+'%'; el.style.opacity='1';
+    });
+    var domNote = f.ports.some(function(p){return p.dom;}) ? ' The visible difference sits in a domain axis, not the essence.' : '';
+    var outNote = f.ports.some(function(p){return p.out;}) ? ' Only the out-of-custody reading breaks away \u2014 custody, not sacredness, protects it.' : '';
+    if(f.agrees){
+      cap.className='scap conv';
+      cap.innerHTML='<b>Converges.</b> The custodians hold one essence \u2014 <em>'+esc(f.icv)+'</em>.'+outNote+domNote+'  <span style="opacity:.7">spread '+f.spread.toFixed(2)+'</span>';
+    } else {
+      cap.className='scap div';
+      cap.innerHTML='<b>Diverges.</b> Rival custody, no shared core \u2014 <em>'+uv.map(esc).join(' vs ')+'</em>.  <span style="opacity:.7">spread '+f.spread.toFixed(2)+'</span>';
+    }
+  }
+  FIGS.forEach(function(f,i){
+    var b=document.createElement('button');
+    b.className='pbtn '+(f.color==='green'?'green':'red');
+    b.textContent=f.figure; b.onclick=function(){ select(i); };
+    picker.appendChild(b);
+  });
+  select(0);
+})();
+</script>
 <p class="foot">HOW PRODUCED · design-SB, built by build_transmission.py from reading-SB's feed 2026-07-14 (S147) (FINDINGS ledger V2-V12; Sonnet-hardened runs. N=1 matched pair/figure (demonstrator-grade).). Seed-agnostic + idempotent — regenerates when the feed updates. SCHOLARLY SOURCES · FINDINGS ledger V2-V12; Sonnet-hardened runs. N=1 matched pair/figure (demonstrator-grade).; the FINDINGS ledger V2–V12; the E×O×M×telos×stance×ground coordinate instrument. WHAT NEEDS VERIFICATION · N=1 matched pair per figure (demonstrator-grade); Confucius + Freud carry full 6-axis Sonnet-hardened coords, the others give the essence axis + the domain axis where the finding lives (full 6-axis re-run available on request). Stage 6 = 0.</p>
 </div>
 </body>
