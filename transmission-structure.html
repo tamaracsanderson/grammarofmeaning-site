@@ -6,8 +6,8 @@
 <meta name="robots" content="noindex,nofollow">
 <title>What protects a founder's essence — custody, not sacredness — Grammar of Meaning</title>
 <style>
-  :root{--paper:#f7f2e7;--paper2:#fffdf7;--card:#fffefa;--ink:#26221a;--ink2:#5b5346;--ink3:#8a8172;--line:#e4dcc9;--line2:#d0c6ae;--moss:#4b6b46;--moss-d:#33502f;--gold:#b8892f;--gold-bg:#f6ecd4;--green:#4b6b46;--green-bg:#e8efe2;--red:#9c3f37;--red-bg:#f4e3e0;--amber:#ba7517;--amber-bg:#faeeda;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,sans-serif;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;}
-  @media (prefers-color-scheme:dark){:root{--paper:#14130f;--paper2:#1a1813;--card:#1e1b15;--ink:#ece7dc;--ink2:#b3aa98;--ink3:#847c6c;--line:#332f27;--line2:#423d31;--moss:#8fb884;--moss-d:#6c9a62;--gold:#e0b45f;--gold-bg:#2c2410;--green:#8fb884;--green-bg:#1c2a18;--red:#d98b80;--red-bg:#301b18;--amber:#e0b45f;--amber-bg:#3a2a0a;}}
+  :root{--paper:#f7f2e7;--paper2:#fffdf7;--card:#fffefa;--ink:#26221a;--ink2:#5b5346;--ink3:#8a8172;--line:#e4dcc9;--line2:#d0c6ae;--moss:#4b6b46;--moss-d:#33502f;--gold:#b8892f;--gold-bg:#f6ecd4;--green:#4b6b46;--green-bg:#e8efe2;--red:#9c3f37;--red-bg:#f4e3e0;--amber:#ba7517;--amber-bg:#faeeda;--myst:#5b53a6;--myst-bg:#eae7f6;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,sans-serif;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;}
+  @media (prefers-color-scheme:dark){:root{--paper:#14130f;--paper2:#1a1813;--card:#1e1b15;--ink:#ece7dc;--ink2:#b3aa98;--ink3:#847c6c;--line:#332f27;--line2:#423d31;--moss:#8fb884;--moss-d:#6c9a62;--gold:#e0b45f;--gold-bg:#2c2410;--green:#8fb884;--green-bg:#1c2a18;--red:#d98b80;--red-bg:#301b18;--amber:#e0b45f;--amber-bg:#3a2a0a;--myst:#a99ee6;--myst-bg:#221d38;}}
   *{box-sizing:border-box}
   body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.62;-webkit-font-smoothing:antialiased}
   .wrap{max-width:860px;margin:0 auto;padding:0 22px 90px}
@@ -59,6 +59,9 @@
   .chip.dev .ce,.chip.out .ce{color:var(--amber);font-weight:600}
   .chip.rival{border-color:var(--red);background:var(--red-bg)}
   .chip.rival .ce{color:var(--red);font-weight:600}
+  .chip.mystical{border-color:var(--myst);background:var(--myst-bg);box-shadow:0 0 0 3px var(--myst-bg),0 0 0 4px var(--myst)}
+  .chip.mystical .ce{color:var(--myst);font-weight:600}
+  .myst-word,.mw{color:var(--myst);font-weight:600;font-style:normal}
   .verdict{margin:12px 0 0;font-size:14px;padding:9px 13px;border-radius:8px}
   .verdict.v-green{background:var(--green-bg);color:var(--green)}
   .verdict.v-red{background:var(--red-bg);color:var(--red)}
@@ -70,13 +73,14 @@
   .sw-held{background:var(--green-bg);border:1px solid var(--green)}
   .sw-dev{background:var(--amber-bg);border:1px solid var(--amber)}
   .sw-rival{background:var(--red-bg);border:1px solid var(--red)}
+  .sw-myst{background:var(--myst-bg);border:1px solid var(--myst);box-shadow:0 0 0 1.5px var(--myst)}
   /* interactive stage — pick a figure → watch it hold or split */
   .picker{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 18px}
   .pbtn{font-family:var(--sans);font-size:14px;padding:7px 14px;border-radius:99px;border:1.5px solid var(--line2);background:var(--paper2);color:var(--ink2);cursor:pointer;transition:all .18s}
   .pbtn.green.on{border-color:var(--green);background:var(--green-bg);color:var(--green);font-weight:600}
   .pbtn.red.on{border-color:var(--red);background:var(--red-bg);color:var(--red);font-weight:600}
   .pbtn:hover{border-color:var(--ink3)}
-  .stagewrap{position:relative;height:238px;background:var(--paper2);border:1px solid var(--line2);border-radius:14px;margin:0 0 4px;overflow:hidden}
+  .stagewrap{position:relative;height:304px;background:var(--paper2);border:1px solid var(--line2);border-radius:14px;margin:0 0 4px;overflow:hidden}
   .axisline{position:absolute;left:6%;right:6%;top:26px;height:2px;background:var(--line2)}
   .axistick{position:absolute;top:14px;font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3);transform:translateX(-50%)}
   .converge-pt{position:absolute;left:50%;top:20px;width:14px;height:14px;border-radius:50%;transform:translate(-50%,-50%);border:2px dashed var(--ink3);opacity:.5}
@@ -87,10 +91,19 @@
   .sc.held{border-color:var(--green);background:var(--green-bg);box-shadow:0 1px 6px rgba(75,107,70,.14)}.sc.held i{color:var(--green);font-weight:600}
   .sc.out{border-color:var(--amber);background:var(--amber-bg);box-shadow:0 1px 6px rgba(186,117,23,.16)}.sc.out i{color:var(--amber);font-weight:600}
   .sc.rival{border-color:var(--red);background:var(--red-bg);box-shadow:0 1px 6px rgba(156,63,55,.16)}.sc.rival i{color:var(--red);font-weight:600}
+  .sc.mystical{border-color:var(--myst);background:var(--myst-bg);box-shadow:0 0 0 4px var(--paper2),0 0 0 6px var(--myst),0 2px 10px rgba(91,83,166,.28)}.sc.mystical i{color:var(--myst);font-weight:600}
+  .sc .mtag{color:var(--myst);font-weight:600;letter-spacing:.03em;text-transform:uppercase;font-size:8px}
   .scap{font-size:14.5px;padding:11px 15px;border-radius:9px;margin:0 0 8px}
   .scap.conv{background:var(--green-bg);color:var(--green)}
   .scap.div{background:var(--red-bg);color:var(--red)}
+  .scap.myst{background:var(--myst-bg);color:var(--myst)}
   .scap b{font-weight:700}.scap em{font-style:normal;font-family:var(--mono);font-size:13px}
+  /* A/B/C view toggle */
+  .vtog{display:inline-flex;gap:0;border:1.5px solid var(--line2);border-radius:99px;padding:3px;margin:2px 0 10px;flex-wrap:wrap}
+  .vbtn{font-family:var(--sans);font-size:13px;padding:6px 13px;border-radius:99px;border:0;background:transparent;color:var(--ink2);cursor:pointer;transition:all .18s}
+  .vbtn.on{background:var(--ink);color:var(--paper);font-weight:600}
+  .vbtn.disabled{color:var(--ink3);cursor:not-allowed;opacity:.6}
+  .vbtn:not(.on):not(.disabled):hover{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -103,7 +116,13 @@
 </header>
 
 <h2>Pick a figure — watch it hold or split</h2>
-<p class="lead">Choose a founder. The instrument places each surviving portrayal on the <em>essence</em> axis (ontological-commitment) and lets it move: portrayals that share the essence <strong>converge</strong> on one point; portrayals whose custodians rewrote it <strong>diverge</strong>. Colour marks the transmission structure — green where a custody protects the essence, red where rival custody splits it.</p>
+<p class="lead">Choose a founder. The instrument places each surviving <em>framer</em> — "Matthew's Jesus", "Isaiah's God" — on the <em>essence</em> axis (ontological-commitment) and lets it move: framers that share the essence <strong>converge</strong>; framers whose custodians rewrote it <strong>diverge</strong>. Green = a custody protects the essence; red = rival custody splits it; <span class="myst-word">metaxy-indigo</span> = the <span class="myst-word">mystical strand</span>, the framer that breaks the essence toward the apophatic.</p>
+<div class="vtog" id="vtog">
+  <button class="vbtn on" data-v="A">View A · primary source</button>
+  <button class="vbtn" data-v="B">View B · + mystical outliers</button>
+  <button class="vbtn disabled" data-v="C" title="Gated on reading-SB's per-tradition periodizations (IRR192: not a single Küng line)">View C · reception over time · coming</button>
+</div>
+<p class="lead" style="font-size:14px;margin-top:2px">Toggle <b>A → B</b> and watch the mystical framer appear and break away. View A shows the in-custody core; View B adds the out-of-custody / mystical readings. View C (the framers on a reception era-axis) is held until the per-tradition periodizations land — it will be a multi-clock model, not a single timeline.</p>
 <div class="picker" id="picker"></div>
 <div class="stagewrap" id="stage">
   <div class="axisline"></div>
@@ -121,7 +140,8 @@
 
 <h2>Read each one</h2>
 <p class="lead">Each card holds the founder's rival portrayals as chips. A <span style="color:var(--green);font-weight:600">green</span> chip holds the shared essence; an <span style="color:var(--amber);font-weight:600">amber</span> chip is the one that leaves custody and deviates; <span style="color:var(--red);font-weight:600">red</span> chips are rival cores with nothing shared. Where a difference is real but lives in a <em>domain</em> axis rather than the essence, the chip names it underneath.</p>
-<div class="legend"><span><i class="sw-held"></i>holds the shared essence</span><span><i class="sw-dev"></i>out of custody · deviates</span><span><i class="sw-rival"></i>rival core · no shared essence</span></div>
+<div class="legend"><span><i class="sw-held"></i>holds the shared essence</span><span><i class="sw-myst"></i>mystical strand · breaks the essence</span><span><i class="sw-dev"></i>out of custody · deviates</span><span><i class="sw-rival"></i>rival core · no shared essence</span></div>
+<div class="callout" style="border-left-color:var(--myst)"><b class="myst-word">The mystical strand.</b> One pattern runs through every break: the framer that shifts the essence is always the <span class="myst-word">mystical / apophatic</span> one — Thomas among the gospels, Isaiah in the Tanakh, the Sufi Light in Islam, the Zhuangzi against the Analects. Each is marked in metaxy-indigo so you can see the breaks cluster at the mystical turn. The custody protects the core; the mystical strand is where it moves.</div>
 
   <div class="fig green">
     <div class="fh">
@@ -129,9 +149,9 @@
       <span class="stat st-prot">PROTECTED</span>
     </div>
     <div class="fmeta"><span class="tx">single-custodian (Tanakh)</span><span class="spread"><i style="width:0%"></i></span><span class="sv">spread 0.00</span></div>
-    <div class="chips"><div class="chip held"><div class="cl">Genesis P (Gen 1)</div><div class="cu">canonical</div><div class="ce">personal-agentive<span class="dom">divine mode: TRANSCENDENT</span></div></div><div class="chip held"><div class="cl">Genesis J (Gen 2)</div><div class="cu">canonical</div><div class="ce">personal-agentive<span class="dom">divine mode: IMMANENT</span></div></div></div>
-    <div class="verdict v-green"><b>essence invariant</b> — every portrayal holds <em>personal-agentive</em>. Variance, where it exists, lives in a <em>domain</em> axis, not the essence.</div>
-    <p class="note">V3/V7: essence invariant; the famous P/J difference lives in the DOMAIN axis (transcendent vs immanent), not the essence.</p>
+    <div class="chips"><div class="chip held"><div class="cl">Genesis P</div><div class="cu">canonical</div><div class="ce">personal-agentive<span class="dom">divine mode: TRANSCENDENT</span></div></div><div class="chip held"><div class="cl">Genesis J</div><div class="cu">canonical</div><div class="ce">personal-agentive<span class="dom">divine mode: IMMANENT</span></div></div><div class="chip held"><div class="cl">Job</div><div class="cu">canonical</div><div class="ce">personal-agentive</div></div><div class="chip held"><div class="cl">Moses</div><div class="cu">canonical</div><div class="ce">personal-agentive</div></div><div class="chip held"><div class="cl">Psalms</div><div class="cu">canonical</div><div class="ce">personal-agentive</div></div><div class="chip mystical"><div class="cl">Isaiah</div><div class="cu">canonical</div><div class="ce">apophatic</div></div></div>
+    <div class="verdict v-green"><b>the custodial core holds</b> <em>personal-agentive</em>; the <span class="myst-word">mystical strand</span> (Isaiah) breaks toward <em>apophatic</em>. Custody protects the core — the mystical turn is what shifts it.</div>
+    <p class="note">V15: the Tanakh framers (Genesis-P/J, Job, Moses, Psalms) hold personal-agentive; Isaiah — in custody — breaks toward apophatic (deus absconditus). The essence-shifter is the mystical strand, even within the canon.</p>
   </div>
   <div class="fig green">
     <div class="fh">
@@ -139,9 +159,9 @@
       <span class="stat st-prot">PROTECTED</span>
     </div>
     <div class="fmeta"><span class="tx">single-custodian (Church)</span><span class="spread"><i style="width:6%"></i></span><span class="sv">spread 0.06</span></div>
-    <div class="chips"><div class="chip held"><div class="cl">Matthew</div><div class="cu">canonical</div><div class="ce">personal-agentive</div></div><div class="chip held"><div class="cl">John</div><div class="cu">canonical</div><div class="ce">personal-agentive</div></div><div class="chip held"><div class="cl">Luke</div><div class="cu">canonical</div><div class="ce">personal-agentive</div></div><div class="chip out"><div class="cl">Nag Hammadi (out-of-custody)</div><div class="cu">Gnostic (outside Church)</div><div class="ce">apophatic</div></div></div>
-    <div class="verdict v-green"><b>essence protected in custody</b> — the canonical portrayals hold <em>personal-agentive</em>; the out-of-custody reading is the one that deviates. <em>Custody, not sacredness, does the protecting.</em></div>
-    <p class="note">V9 out-of-custody: canonical essence invariant (personal-agentive); the Gnostic portrayal outside the custody deviates (apophatic) — custody, not sacredness, protects it.</p>
+    <div class="chips"><div class="chip held"><div class="cl">Matthew</div><div class="cu">canonical</div><div class="ce">personal-agentive</div></div><div class="chip held"><div class="cl">Mark</div><div class="cu">canonical</div><div class="ce">personal-agentive</div></div><div class="chip held"><div class="cl">Luke</div><div class="cu">canonical</div><div class="ce">personal-agentive</div></div><div class="chip held"><div class="cl">John</div><div class="cu">canonical</div><div class="ce">personal-agentive</div></div><div class="chip held"><div class="cl">Paul</div><div class="cu">canonical</div><div class="ce">personal-agentive</div></div><div class="chip mystical"><div class="cl">Thomas (out-of-custody)</div><div class="cu">Gnostic (outside Church)</div><div class="ce">consciousness-first</div></div></div>
+    <div class="verdict v-green"><b>the custodial core holds</b> <em>personal-agentive</em>; the <span class="myst-word">mystical strand</span> (Thomas) breaks toward <em>consciousness-first</em>. Custody protects the core — the mystical turn is what shifts it.</div>
+    <p class="note">V13: six framers — the five canonical (Matthew/Mark/Luke/John/Paul) hold personal-agentive; Thomas, out of custody, breaks toward consciousness-first. Paul matching the gospels answered IRR190&#x27;s hardest counter-case. The break is the mystical strand.</p>
   </div>
   <div class="fig green">
     <div class="fh">
@@ -149,9 +169,9 @@
       <span class="stat st-prot">PROTECTED</span>
     </div>
     <div class="fmeta"><span class="tx">single-custodian (hadith scholars)</span><span class="spread"><i style="width:27%"></i></span><span class="sv">spread 0.27</span></div>
-    <div class="chips"><div class="chip held"><div class="cl">prophetic hadith</div><div class="cu">canonical</div><div class="ce">personal-agentive<span class="dom">voice mode: PROPHETIC</span></div></div><div class="chip held"><div class="cl">hadith qudsi</div><div class="cu">canonical</div><div class="ce">personal-agentive<span class="dom">voice mode: DIVINE</span></div></div></div>
-    <div class="verdict v-green"><b>essence invariant</b> — every portrayal holds <em>personal-agentive</em>. Variance, where it exists, lives in a <em>domain</em> axis, not the essence.</div>
-    <p class="note">V5/V7: essence-axes (epistemic-warrant + ontological-commitment) invariant across all content; variance in the qudsi voice-mode domain axis.</p>
+    <div class="chips"><div class="chip held"><div class="cl">Sunni</div><div class="cu">canonical</div><div class="ce">personal-agentive</div></div><div class="chip held"><div class="cl">Shia</div><div class="cu">canonical</div><div class="ce">personal-agentive</div></div><div class="chip mystical"><div class="cl">Sufi (Nūr Muḥammadī)</div><div class="cu">canonical (Sufi)</div><div class="ce">consciousness-first</div></div></div>
+    <div class="verdict v-green"><b>the custodial core holds</b> <em>personal-agentive</em>; the <span class="myst-word">mystical strand</span> (Sufi (Nūr Muḥammadī)) breaks toward <em>consciousness-first</em>. Custody protects the core — the mystical turn is what shifts it.</div>
+    <p class="note">V15: Sunni and Shia share personal-agentive; the Sufi Nūr Muḥammadī (in custody) breaks toward consciousness-first. Again the mystical strand is the shifter.</p>
   </div>
   <div class="fig green">
     <div class="fh">
@@ -160,7 +180,7 @@
     </div>
     <div class="fmeta"><span class="tx">fragmented but SHARED core (śūnyatā)</span><span class="spread"><i style="width:33%"></i></span><span class="sv">spread 0.33</span></div>
     <div class="chips"><div class="chip held"><div class="cl">Pali (Theravāda)</div><div class="cu">early canon</div><div class="ce">void</div></div><div class="chip held"><div class="cl">Āgama</div><div class="cu">early canon</div><div class="ce">void</div></div><div class="chip held"><div class="cl">Lotus (Mahāyāna)</div><div class="cu">rival school</div><div class="ce">void</div></div></div>
-    <div class="verdict v-green"><b>essence invariant</b> — every portrayal holds <em>void</em>. Variance, where it exists, lives in a <em>domain</em> axis, not the essence.</div>
+    <div class="verdict v-green"><b>essence invariant</b> — every framer holds <em>void</em>. Variance, where it exists, lives in a <em>domain</em> axis, not the essence.</div>
     <p class="note">V10: fragmented custody (Theravāda vs Mahāyāna) but essence PRESERVED — the schools SHARE the void-ontology; only epistemic-warrant varies. The exception that reveals the mechanism.</p>
   </div>
   <div class="fig red">
@@ -179,8 +199,8 @@
       <span class="stat st-cont">CONTESTED</span>
     </div>
     <div class="fmeta"><span class="tx">rival-custodian, NO shared core</span><span class="spread"><i style="width:83%"></i></span><span class="sv">spread 0.83</span></div>
-    <div class="chips"><div class="chip rival"><div class="cl">Analects (Confucian)</div><div class="cu">Confucian</div><div class="ce">impersonal-order</div></div><div class="chip rival"><div class="cl">Zhuangzi (Daoist)</div><div class="cu">Daoist</div><div class="ce">apophatic</div></div></div>
-    <div class="verdict v-red"><b>essence rewritten</b> — rival custody, no shared core: <em>impersonal-order vs apophatic</em>.</div>
+    <div class="chips"><div class="chip held"><div class="cl">Analects (Confucian)</div><div class="cu">Confucian</div><div class="ce">impersonal-order</div></div><div class="chip mystical"><div class="cl">Zhuangzi (Daoist)</div><div class="cu">Daoist</div><div class="ce">apophatic</div></div></div>
+    <div class="verdict v-red"><b>essence rewritten</b> — rival custody, no shared core: <em>impersonal-order</em> — the <span class="myst-word">mystical strand</span> (Zhuangzi (Daoist)) sits at <em>apophatic</em>.</div>
     <p class="note">V6/V11: rival schools rewrite the ontology (impersonal-order → apophatic/process). Full 6-axis Sonnet-hardened coords.</p>
   </div>
   <div class="fig red">
@@ -201,46 +221,70 @@
 <a class="backlink" href="coding-lab.html">← back to the coding lab</a>
 <script>
 (function(){
-  var FIGS = [{"figure": "God", "color": "green", "tx": "single-custodian (Tanakh)", "spread": 0.0, "status": "PROTECTED", "agrees": true, "icv": "personal-agentive", "ports": [{"label": "Genesis P (Gen 1)", "custody": "canonical", "ess": "personal-agentive", "out": false, "dom": "divine mode: TRANSCENDENT"}, {"label": "Genesis J (Gen 2)", "custody": "canonical", "ess": "personal-agentive", "out": false, "dom": "divine mode: IMMANENT"}]}, {"figure": "Jesus", "color": "green", "tx": "single-custodian (Church)", "spread": 0.06, "status": "PROTECTED", "agrees": true, "icv": "personal-agentive", "ports": [{"label": "Matthew", "custody": "canonical", "ess": "personal-agentive", "out": false, "dom": ""}, {"label": "John", "custody": "canonical", "ess": "personal-agentive", "out": false, "dom": ""}, {"label": "Luke", "custody": "canonical", "ess": "personal-agentive", "out": false, "dom": ""}, {"label": "Nag Hammadi (out-of-custody)", "custody": "Gnostic (outside Church)", "ess": "apophatic", "out": true, "dom": ""}]}, {"figure": "Muhammad", "color": "green", "tx": "single-custodian (hadith scholars)", "spread": 0.27, "status": "PROTECTED", "agrees": true, "icv": "personal-agentive", "ports": [{"label": "prophetic hadith", "custody": "canonical", "ess": "personal-agentive", "out": false, "dom": "voice mode: PROPHETIC"}, {"label": "hadith qudsi", "custody": "canonical", "ess": "personal-agentive", "out": false, "dom": "voice mode: DIVINE"}]}, {"figure": "Buddha", "color": "green", "tx": "fragmented but SHARED core (śūnyatā)", "spread": 0.33, "status": "PRESERVED", "agrees": true, "icv": "void", "ports": [{"label": "Pali (Theravāda)", "custody": "early canon", "ess": "void", "out": false, "dom": ""}, {"label": "Āgama", "custody": "early canon", "ess": "void", "out": false, "dom": ""}, {"label": "Lotus (Mahāyāna)", "custody": "rival school", "ess": "void", "out": false, "dom": ""}]}, {"figure": "Socrates", "color": "red", "tx": "no-custodian (contested human)", "spread": 0.67, "status": "CONTESTED (telos + method)", "agrees": true, "icv": "not-asserted", "ports": [{"label": "Plato's Socrates", "custody": "none", "ess": "not-asserted", "out": false, "dom": ""}, {"label": "Xenophon's Socrates", "custody": "none", "ess": "not-asserted", "out": false, "dom": ""}]}, {"figure": "Confucius", "color": "red", "tx": "rival-custodian, NO shared core", "spread": 0.83, "status": "CONTESTED", "agrees": false, "icv": "impersonal-order", "ports": [{"label": "Analects (Confucian)", "custody": "Confucian", "ess": "impersonal-order", "out": false, "dom": ""}, {"label": "Zhuangzi (Daoist)", "custody": "Daoist", "ess": "apophatic", "out": false, "dom": ""}]}, {"figure": "Freud", "color": "red", "tx": "rival-custodian, NO shared core", "spread": 1.0, "status": "CONTESTED", "agrees": false, "icv": "impersonal-order", "ports": [{"label": "Freudian (Freud)", "custody": "Freudian school", "ess": "impersonal-order", "out": false, "dom": ""}, {"label": "Jungian (Jung)", "custody": "Jungian school", "ess": "dual-aspect-monism", "out": false, "dom": ""}]}];
-  var picker=document.getElementById('picker'), stage=document.getElementById('stage'), cap=document.getElementById('scap');
+  var FIGS = [{"figure": "God", "color": "green", "tx": "single-custodian (Tanakh)", "spread": 0.0, "status": "PROTECTED", "all_agree": false, "icv": "personal-agentive", "ports": [{"label": "Genesis P", "custody": "canonical", "ess": "personal-agentive", "out": false, "myst": false, "dom": "divine mode: TRANSCENDENT"}, {"label": "Genesis J", "custody": "canonical", "ess": "personal-agentive", "out": false, "myst": false, "dom": "divine mode: IMMANENT"}, {"label": "Job", "custody": "canonical", "ess": "personal-agentive", "out": false, "myst": false, "dom": ""}, {"label": "Moses", "custody": "canonical", "ess": "personal-agentive", "out": false, "myst": false, "dom": ""}, {"label": "Psalms", "custody": "canonical", "ess": "personal-agentive", "out": false, "myst": false, "dom": ""}, {"label": "Isaiah", "custody": "canonical", "ess": "apophatic", "out": false, "myst": true, "dom": ""}]}, {"figure": "Jesus", "color": "green", "tx": "single-custodian (Church)", "spread": 0.06, "status": "PROTECTED", "all_agree": false, "icv": "personal-agentive", "ports": [{"label": "Matthew", "custody": "canonical", "ess": "personal-agentive", "out": false, "myst": false, "dom": ""}, {"label": "Mark", "custody": "canonical", "ess": "personal-agentive", "out": false, "myst": false, "dom": ""}, {"label": "Luke", "custody": "canonical", "ess": "personal-agentive", "out": false, "myst": false, "dom": ""}, {"label": "John", "custody": "canonical", "ess": "personal-agentive", "out": false, "myst": false, "dom": ""}, {"label": "Paul", "custody": "canonical", "ess": "personal-agentive", "out": false, "myst": false, "dom": ""}, {"label": "Thomas (out-of-custody)", "custody": "Gnostic (outside Church)", "ess": "consciousness-first", "out": true, "myst": true, "dom": ""}]}, {"figure": "Muhammad", "color": "green", "tx": "single-custodian (hadith scholars)", "spread": 0.27, "status": "PROTECTED", "all_agree": false, "icv": "personal-agentive", "ports": [{"label": "Sunni", "custody": "canonical", "ess": "personal-agentive", "out": false, "myst": false, "dom": ""}, {"label": "Shia", "custody": "canonical", "ess": "personal-agentive", "out": false, "myst": false, "dom": ""}, {"label": "Sufi (Nūr Muḥammadī)", "custody": "canonical (Sufi)", "ess": "consciousness-first", "out": false, "myst": true, "dom": ""}]}, {"figure": "Buddha", "color": "green", "tx": "fragmented but SHARED core (śūnyatā)", "spread": 0.33, "status": "PRESERVED", "all_agree": true, "icv": "void", "ports": [{"label": "Pali (Theravāda)", "custody": "early canon", "ess": "void", "out": false, "myst": false, "dom": ""}, {"label": "Āgama", "custody": "early canon", "ess": "void", "out": false, "myst": false, "dom": ""}, {"label": "Lotus (Mahāyāna)", "custody": "rival school", "ess": "void", "out": false, "myst": false, "dom": ""}]}, {"figure": "Socrates", "color": "red", "tx": "no-custodian (contested human)", "spread": 0.67, "status": "CONTESTED (telos + method)", "all_agree": true, "icv": "not-asserted", "ports": [{"label": "Plato's Socrates", "custody": "none", "ess": "not-asserted", "out": false, "myst": false, "dom": ""}, {"label": "Xenophon's Socrates", "custody": "none", "ess": "not-asserted", "out": false, "myst": false, "dom": ""}]}, {"figure": "Confucius", "color": "red", "tx": "rival-custodian, NO shared core", "spread": 0.83, "status": "CONTESTED", "all_agree": false, "icv": "impersonal-order", "ports": [{"label": "Analects (Confucian)", "custody": "Confucian", "ess": "impersonal-order", "out": false, "myst": false, "dom": ""}, {"label": "Zhuangzi (Daoist)", "custody": "Daoist", "ess": "apophatic", "out": false, "myst": true, "dom": ""}]}, {"figure": "Freud", "color": "red", "tx": "rival-custodian, NO shared core", "spread": 1.0, "status": "CONTESTED", "all_agree": false, "icv": "impersonal-order", "ports": [{"label": "Freudian (Freud)", "custody": "Freudian school", "ess": "impersonal-order", "out": false, "myst": false, "dom": ""}, {"label": "Jungian (Jung)", "custody": "Jungian school", "ess": "dual-aspect-monism", "out": false, "myst": false, "dom": ""}]}];
+  var picker=document.getElementById('picker'), stage=document.getElementById('stage'),
+      cap=document.getElementById('scap'), vtog=document.getElementById('vtog');
+  var VIEW='A', CUR=0;                                  // A = core only; B = + mystical outliers
   function xFor(val, uv){ return uv.length<2 ? 50 : 16 + 68*(uv.indexOf(val)/(uv.length-1)); }
   function esc(s){ return String(s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
-  function select(i){
-    Array.prototype.forEach.call(picker.children,function(b,j){ b.classList.toggle('on', j===i); });
-    var f=FIGS[i];
-    var uv=[]; f.ports.forEach(function(p){ if(uv.indexOf(p.ess)<0) uv.push(p.ess); });
-    // clear only the chips (keep axis line + ticks)
+  function uniqEss(ports){ var uv=[]; ports.forEach(function(p){ if(uv.indexOf(p.ess)<0) uv.push(p.ess); }); return uv; }
+  function render(){
+    var f=FIGS[CUR];
+    var shown = f.ports.filter(function(p){ return VIEW==='B' || !p.myst; });  // View A hides mystical outliers
+    var uv=uniqEss(shown);
     Array.prototype.slice.call(stage.querySelectorAll('.sc')).forEach(function(el){ el.remove(); });
+    var isDiverge = (f.color==='red' && !f.all_agree);   // Confucius/Freud: rival custody, no shared core
+    // dynamic vertical spacing so a tall stack of core framers always fits the stage
+    var col={}; shown.forEach(function(p){ var kk=xFor(p.ess,uv).toFixed(1); col[kk]=(col[kk]||0)+1; });
+    var maxStack=1; for(var kk in col){ if(col[kk]>maxStack) maxStack=col[kk]; }
+    var gap = maxStack<2 ? 54 : Math.min(54, Math.floor(176/(maxStack-1)));
     var atX={};
-    f.ports.forEach(function(p){
+    shown.forEach(function(p){
       var x=xFor(p.ess, uv), key=x.toFixed(1);
-      atX[key]=(atX[key]||0); var yoff=atX[key]*58; atX[key]++;
-      var cls = p.out ? 'out' : (f.agrees ? 'held' : (uv.length<2 ? 'held' : 'rival'));
+      atX[key]=(atX[key]||0); var yoff=atX[key]*gap; atX[key]++;
+      // non-mystical chips: held (green) unless this is a rival-custody diverge → rival (red)
+      var cls = p.myst ? 'mystical' : (p.out ? 'out' : (isDiverge ? 'rival' : 'held'));
       var el=document.createElement('div');
       el.className='sc '+cls;
-      el.innerHTML='<b>'+esc(p.label)+'</b><i>'+esc(p.ess)+'</i>'+(p.dom?'<u>'+esc(p.dom)+'</u>':'');
-      el.style.left='50%'; el.style.top=(58+yoff)+'px'; el.style.opacity='0';
+      el.innerHTML='<b>'+esc(p.label)+'</b><i>'+esc(p.ess)+'</i>'+(p.dom?'<u>'+esc(p.dom)+'</u>':'')+(p.myst?'<u class="mtag">mystical strand</u>':'');
+      el.style.left='50%'; el.style.top=(42+yoff)+'px'; el.style.opacity='0';
       stage.appendChild(el);
       void el.offsetWidth;                 // force reflow so the transition triggers reliably
       el.style.left=x+'%'; el.style.opacity='1';
     });
-    var domNote = f.ports.some(function(p){return p.dom;}) ? ' The visible difference sits in a domain axis, not the essence.' : '';
-    var outNote = f.ports.some(function(p){return p.out;}) ? ' Only the out-of-custody reading breaks away \u2014 custody, not sacredness, protects it.' : '';
-    if(f.agrees){
-      cap.className='scap conv';
-      cap.innerHTML='<b>Converges.</b> The custodians hold one essence \u2014 <em>'+esc(f.icv)+'</em>.'+outNote+domNote+'  <span style="opacity:.7">spread '+f.spread.toFixed(2)+'</span>';
-    } else {
+    // caption
+    var mysts = shown.filter(function(p){return p.myst;});
+    var domNote = shown.some(function(p){return p.dom;}) ? ' The visible difference among the core sits in a domain axis, not the essence.' : '';
+    var sp='  <span style="opacity:.7">spread '+f.spread.toFixed(2)+'</span>';
+    if(isDiverge){
       cap.className='scap div';
-      cap.innerHTML='<b>Diverges.</b> Rival custody, no shared core \u2014 <em>'+uv.map(esc).join(' vs ')+'</em>.  <span style="opacity:.7">spread '+f.spread.toFixed(2)+'</span>';
+      var mn2 = mysts.length ? '  The <b class="mw">mystical strand</b> ('+mysts.map(function(p){return esc(p.label.replace(' (Daoist)','').replace(' (out-of-custody)',''));}).join(', ')+') is the apophatic pole.' : '';
+      cap.innerHTML='<b>Diverges.</b> Rival custody, no shared core \u2014 <em>'+uv.map(esc).join(' vs ')+'</em>.'+mn2+sp;
+    } else if(mysts.length){
+      var mn = mysts.map(function(p){return esc(p.label.replace(' (out-of-custody)',''));}).join(', ');
+      var me = mysts.map(function(p){return esc(p.ess);}).filter(function(v,i,a){return a.indexOf(v)===i;}).join(' / ');
+      cap.className='scap myst';
+      cap.innerHTML='<b>The core holds.</b> The custodial framers cluster on one essence \u2014 <em>'+esc(f.icv)+'</em> \u2014 and the <b class="mw">mystical strand</b> ('+mn+') breaks away toward <em>'+me+'</em>. Custody protects the core; the mystical turn is what shifts it.'+sp;
+    } else if(f.color==='red' && f.all_agree){
+      cap.className='scap conv';
+      cap.innerHTML='<b>Converges on the essence.</b> Every framer holds <em>'+esc(f.icv)+'</em> \u2014 the contest is real, but it lives elsewhere ('+esc(f.status).toLowerCase()+'), not in the ontology.'+sp;
+    } else {
+      cap.className='scap conv';
+      cap.innerHTML='<b>Converges.</b> The custodial framers hold one essence \u2014 <em>'+esc(f.icv)+'</em>.'+domNote+sp;
     }
   }
+  function select(i){ CUR=i; Array.prototype.forEach.call(picker.children,function(b,j){ b.classList.toggle('on', j===i); }); render(); }
+  function setView(v){ VIEW=v; Array.prototype.forEach.call(vtog.querySelectorAll('.vbtn'),function(b){ b.classList.toggle('on', b.getAttribute('data-v')===v); }); render(); }
   FIGS.forEach(function(f,i){
     var b=document.createElement('button');
     b.className='pbtn '+(f.color==='green'?'green':'red');
     b.textContent=f.figure; b.onclick=function(){ select(i); };
     picker.appendChild(b);
   });
-  select(0);
+  Array.prototype.forEach.call(vtog.querySelectorAll('.vbtn'),function(b){
+    if(!b.classList.contains('disabled')) b.onclick=function(){ setView(b.getAttribute('data-v')); };
+  });
+  setView('A'); select(0);
 })();
 </script>
 <p class="foot">HOW PRODUCED · design-SB, built by build_transmission.py from reading-SB's feed 2026-07-14 (S147) (FINDINGS ledger V2-V12; Sonnet-hardened runs. N=1 matched pair/figure (demonstrator-grade).). Seed-agnostic + idempotent — regenerates when the feed updates. SCHOLARLY SOURCES · FINDINGS ledger V2-V12; Sonnet-hardened runs. N=1 matched pair/figure (demonstrator-grade).; the FINDINGS ledger V2–V12; the E×O×M×telos×stance×ground coordinate instrument. WHAT NEEDS VERIFICATION · N=1 matched pair per figure (demonstrator-grade); Confucius + Freud carry full 6-axis Sonnet-hardened coords, the others give the essence axis + the domain axis where the finding lives (full 6-axis re-run available on request). Stage 6 = 0.</p>
