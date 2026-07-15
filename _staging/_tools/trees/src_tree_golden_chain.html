@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bidirectional Trace-Tree — the Golden Chain (Romans 8:28–30) · CANDIDATE PILOT</title>
+<style>
+  :root{
+    --paper:#f5f6f4; --ink:#17181d; --indigo:#484a86; --indigo-soft:#6d6fb0;
+    --slate:#5a5f6e; --recon:#9aa0ab; --pivot-bg:#ece3f2; --node-bg:#ffffff;
+    --border:#d8dad5; --card:#fbfbfa; --flag-bg:#fff8e6; --flag-border:#e5cf88;
+    --flag-ink:#6b5310; --chip-bg:#eceef0; --rule:#e2e3df;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#17181d; --ink:#e8e9ec; --indigo:#a3a6e0; --indigo-soft:#8b8ecb;
+      --slate:#a7adba; --recon:#6b7280; --pivot-bg:#26243a; --node-bg:#1f2128;
+      --border:#33353d; --card:#1c1d23; --flag-bg:#2a2415; --flag-border:#5c4d1f;
+      --flag-ink:#e5cf88; --chip-bg:#2a2c33; --rule:#2c2e35;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#17181d; --ink:#e8e9ec; --indigo:#a3a6e0; --indigo-soft:#8b8ecb;
+    --slate:#a7adba; --recon:#6b7280; --pivot-bg:#26243a; --node-bg:#1f2128;
+    --border:#33353d; --card:#1c1d23; --flag-bg:#2a2415; --flag-border:#5c4d1f;
+    --flag-ink:#e5cf88; --chip-bg:#2a2c33; --rule:#2c2e35;
+  }
+  :root[data-theme="light"]{
+    --paper:#f5f6f4; --ink:#17181d; --indigo:#484a86; --indigo-soft:#6d6fb0;
+    --slate:#5a5f6e; --recon:#9aa0ab; --pivot-bg:#ece3f2; --node-bg:#ffffff;
+    --border:#d8dad5; --card:#fbfbfa; --flag-bg:#fff8e6; --flag-border:#e5cf88;
+    --flag-ink:#6b5310; --chip-bg:#eceef0; --rule:#e2e3df;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px; margin:0 auto; padding:40px 28px 80px}
+  .kicker{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--indigo);
+    font-weight:700; margin:0 0 8px}
+  h1{font-size:30px; line-height:1.2; margin:0 0 6px; font-weight:700}
+  h1 .greek{font-style:italic; color:var(--indigo-soft); font-weight:600}
+  .sub{font-size:16px; color:var(--slate); margin:0 0 4px}
+  .meta{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:12.5px; color:var(--slate); margin:14px 0 0}
+  .candidate-banner{
+    display:inline-block; font-family:ui-sans-serif,-apple-system,sans-serif;
+    font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    color:#fff; background:var(--indigo); padding:5px 11px; border-radius:4px; margin-bottom:16px}
+  section{margin-top:44px}
+  h2{font-size:20px; margin:0 0 4px; font-weight:700}
+  h2 .n{color:var(--indigo); font-family:ui-sans-serif,sans-serif; font-size:14px; margin-right:8px}
+  .lede{color:var(--slate); font-size:15px; margin:0 0 20px; max-width:78ch}
+  .card{background:var(--card); border:1px solid var(--border); border-radius:10px; padding:22px 24px}
+  /* review box */
+  .review{background:var(--flag-bg); border:1px solid var(--flag-border); border-radius:10px;
+    padding:22px 26px; color:var(--flag-ink)}
+  .review h2{color:var(--flag-ink)}
+  .review ol{margin:12px 0 0; padding-left:22px}
+  .review li{margin:0 0 11px; font-size:14.5px; line-height:1.5}
+  .review .tag{font-family:ui-sans-serif,sans-serif; font-size:10.5px; font-weight:700;
+    letter-spacing:.05em; text-transform:uppercase; border:1px solid currentColor; border-radius:3px;
+    padding:1px 6px; margin-right:7px; opacity:.85; vertical-align:1px; white-space:nowrap}
+  /* legend */
+  .legend{display:flex; flex-wrap:wrap; gap:20px 30px; font-family:ui-sans-serif,-apple-system,sans-serif;
+    font-size:12.5px; margin:0 0 8px; padding:16px 18px; background:var(--card);
+    border:1px solid var(--border); border-radius:10px}
+  .legend .grp{min-width:180px}
+  .legend .lt{font-weight:700; letter-spacing:.06em; text-transform:uppercase; font-size:10.5px;
+    color:var(--slate); margin-bottom:8px}
+  .legend .row{display:flex; align-items:center; gap:9px; margin:5px 0}
+  .swatch{width:34px; height:0; border-top-width:2.5px; border-top-style:solid; flex:none}
+  .chip-demo{display:inline-block; font-family:ui-sans-serif,sans-serif; font-size:10px; font-weight:700;
+    letter-spacing:.04em; text-transform:uppercase; padding:2px 7px; border-radius:20px;
+    background:var(--chip-bg); color:var(--ink); border:1px solid var(--border)}
+  .diagram-scroll{overflow-x:auto; border:1px solid var(--border); border-radius:10px; background:var(--node-bg)}
+  svg.tree{display:block; width:100%; min-width:760px; height:auto}
+  /* tables */
+  table{border-collapse:collapse; width:100%; font-size:13.5px;
+    font-family:ui-sans-serif,-apple-system,"Segoe UI",sans-serif}
+  .tblscroll{overflow-x:auto}
+  th,td{text-align:left; padding:9px 11px; border-bottom:1px solid var(--rule); vertical-align:top}
+  th{font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--slate);
+    border-bottom:1.5px solid var(--border); position:sticky; top:0; background:var(--card)}
+  td .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px}
+  .gid{font-weight:700; color:var(--indigo)}
+  .badge{display:inline-block; font-family:ui-sans-serif,sans-serif; font-size:10px; font-weight:700;
+    padding:2px 6px; border-radius:3px; letter-spacing:.03em}
+  .b-new{background:var(--indigo); color:#fff}
+  .b-rec{background:var(--chip-bg); color:var(--slate); border:1px solid var(--border)}
+  .recon-note{color:var(--recon); font-style:italic}
+  .footer{margin-top:56px; padding-top:22px; border-top:1px solid var(--rule);
+    font-family:ui-sans-serif,-apple-system,sans-serif; font-size:12px; color:var(--slate)}
+  .footer h3{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--slate);
+    margin:16px 0 6px}
+  .footer p{margin:0 0 6px; line-height:1.5}
+  code{font-family:ui-monospace,Menlo,monospace; font-size:.86em; background:var(--chip-bg);
+    padding:1px 5px; border-radius:3px}
+  a{color:var(--indigo)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="candidate-banner">Candidate pilot · not a finding · Stage 6 = 0</div>
+  <p class="kicker">Bidirectional trace-tree · first run of the backward direction</p>
+  <h1>The Golden Chain — <span class="greek">Romans 8:28–30</span></h1>
+  <p class="sub">Provenance regression (backward) &nbsp;⋈&nbsp; reception (forward), joined at the NT pivot.</p>
+  <p class="meta">
+    Method sources: <code>field_ed/generator_worked_version_romans8_2026-07-08.md</code> (the forward U0–U4 universe + G1–G7) ·
+    <code>DESIGN_bidirectional_trace_backward_forward_2026-07-12.md</code> ·
+    <code>DESIGN_trace_tree_schema_2026-07-12.md</code>.
+    Every node and edge below is a <strong>CANDIDATE</strong> (CLAUDE.md §2.1). Reconstructed/graft edges render dashed &amp; grey and are enumerated in the review box.
+  </p>
+
+  <!-- ============ WHY THIS EXISTS ============ -->
+  <section>
+    <div class="card">
+      <p style="margin:0 0 10px; font-size:15px;"><strong>What this is.</strong> The move-grammar is a directed graph; a directed graph runs both ways. We have only ever run it <em>forward</em> (a text → its readings → reception). This is the <strong>first pilot of the backward direction</strong>: take a later doctrinal formula, decompose its moves, and regress each move back through the interpreters who made it to the NT locus — then down to the Jewish and Greco-Roman roots the NT itself grafts from. This is the same operation Saquib runs tracing a Facebook post back to its origin: <em>provenance-tracing over a citation graph</em>.</p>
+      <p style="margin:0; font-size:15px;"><strong>The anti-teleology rule.</strong> Backward and forward were composed <em>independently</em> and joined only at the pivot (Rom 8:28–30). We did <strong>not</strong> build a forward bridge just because we knew where it had to arrive. Backward regression has failure modes forward never tested — fixed-endpoint teleology is structural here, and pagan-root grafts are the most hallucination-prone edges of all. Those risks are the point of the review box, next.</p>
+    </div>
+  </section>
+
+  <!-- ============ REVIEW BOX (near top, deliberately) ============ -->
+  <section>
+    <div class="review">
+      <h2>⚑ What needs your review</h2>
+      <p style="margin:6px 0 0; font-size:14.5px;">Every speculative link and every judgment call, listed so nothing hides as settled genealogy. Ordered most-fragile first.</p>
+      <ol>
+        <li><span class="tag">reconstructed · graft</span> <strong>Stoic <em>pronoia</em> → Rom 8:28 ("all things work together," <span class="mono">πάντα συνεργεῖ</span>).</strong> Highest-risk edge in the whole tree. Is Paul grafting Stoic cosmic providence, or just using shared Hellenistic vocabulary? No citation exists — this is a coherent hypothesis, drawn dashed. Should it appear at all?</li>
+        <li><span class="tag">reconstructed · graft</span> <strong>Philo / Middle-Platonic mediation → the pivot.</strong> Placed as a possible conduit between Greek concepts and Paul. Entirely inferential; no textual link. Keep, demote, or cut?</li>
+        <li><span class="tag">reconstructed · parallel</span> <strong>Qumran <em>1QS</em> "Two Spirits" (III–IV) → the chain's determinism.</strong> A real Second-Temple predestinarian <em>parallel</em>, but Paul never quotes Qumran. Is this genealogy or shared <em>Zeitgeist</em>? Marked parallel, not citation.</li>
+        <li><span class="tag">attested? · judgment</span> <strong>Hebrew <em>yāda‘</em> (covenantal "knowing," Amos 3:2; Jer 1:5) → "foreknew" (<span class="mono">προέγνω</span>).</strong> Marked <em>attested</em> on lexical-semantic grounds (LXX renders <em>yāda‘</em> with <em>ginōskō</em>). But is it a <em>root</em> the verb grafts, or just semantic background? Provenance-class is a judgment call.</li>
+        <li><span class="tag">judgment</span> <strong>Choice of doctrine to regress.</strong> I started the backward run from the <em>Reformed</em> formula (Dort's Unconditional Election). That is one fork; I could have regressed the <em>Arminian</em> one. Should the pilot regress <em>both</em> forks symmetrically to avoid pre-loading the Reformed reading?</li>
+        <li><span class="tag">judgment</span> <strong>Interpreter selection.</strong> Augustine · Calvin · Arminius · Wesley — four of many. Gottschalk, Aquinas, Beza, Barth are omitted. The mediating path <span class="mono">doctrine→interpreter→verse</span> is only as honest as this roster.</li>
+        <li><span class="tag">judgment</span> <strong>The <em>proginōskō</em> fork (G4) as THE hinge.</strong> The whole left/right split rides on one verb's sense (fore-<em>love</em> vs fore-<em>see</em>-faith). Is that over-loading a single word?</li>
+        <li><span class="tag">structural</span> <strong>Do roots belong "below" the NT at all?</strong> Drawing jewish/pagan roots <em>beneath</em> the pivot visually asserts a downward genealogy. That framing may itself reify a lineage the texts don't license.</li>
+        <li><span class="tag">unvalidated</span> <strong>G4–G7 obligation-marks are the analyst's.</strong> "This absence is obligated" is my judgment, carried verbatim from the worked doc, untested at IRR-B (IRR166) and at coding. Treat as claims to be adjudicated, not results.</li>
+        <li><span class="tag">provenance</span> <strong>Interpreter → pivot edges are drawn <em>attested</em>.</strong> Augustine, Calvin, Arminius, and Wesley each explicitly comment on Rom 8:28–30, so these are solid — but "attested that they read it" is not "attested that their reading is the verse's sense." The solid line means the citation exists, not that it is correct.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ LEGEND ============ -->
+  <section>
+    <h2><span class="n">§</span>Reading the tree</h2>
+    <div class="legend">
+      <div class="grp">
+        <div class="lt">Node type</div>
+        <div class="row"><span class="chip-demo">doctrine</span> later formula / creed line</div>
+        <div class="row"><span class="chip-demo">interpreter</span> a mediating reader</div>
+        <div class="row"><span class="chip-demo">biblical</span> the NT pivot (Rom 8)</div>
+        <div class="row"><span class="chip-demo">jewish-root</span> 2nd-Temple / Hebrew Bible</div>
+        <div class="row"><span class="chip-demo">pagan-root</span> Greco-Roman source</div>
+      </div>
+      <div class="grp">
+        <div class="lt">Edge provenance</div>
+        <div class="row"><span class="swatch" style="border-top-color:var(--slate)"></span> textual / attested (link is real)</div>
+        <div class="row"><span class="swatch" style="border-top-color:var(--recon); border-top-style:dashed"></span> reconstructed (hypothesis — not settled)</div>
+      </div>
+      <div class="grp">
+        <div class="lt">Direction</div>
+        <div class="row"><span style="color:var(--indigo); font-weight:700">▲ forward</span> &nbsp;reception (verse → tradition)</div>
+        <div class="row"><span style="color:var(--slate); font-weight:700">▼ backward</span> &nbsp;provenance (formula → roots)</div>
+        <div class="row" style="color:var(--slate)">Interpreter↔pivot edges are traversed<br>reception-up <em>and</em> regression-down.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE TREE (SVG) ============ -->
+  <section>
+    <div class="diagram-scroll">
+      <svg class="tree" viewBox="0 0 1500 1560" xmlns="http://www.w3.org/2000/svg" role="img"
+           aria-label="Bidirectional trace tree for Romans 8:28-30">
+        <defs>
+          <marker id="arrForward" markerWidth="9" markerHeight="9" refX="6.5" refY="3.2" orient="auto">
+            <path d="M0,0 L7,3.2 L0,6.4 Z" fill="var(--indigo)"/>
+          </marker>
+          <marker id="arrRoot" markerWidth="9" markerHeight="9" refX="6.5" refY="3.2" orient="auto">
+            <path d="M0,0 L7,3.2 L0,6.4 Z" fill="var(--slate)"/>
+          </marker>
+          <marker id="arrRecon" markerWidth="9" markerHeight="9" refX="6.5" refY="3.2" orient="auto">
+            <path d="M0,0 L7,3.2 L0,6.4 Z" fill="var(--recon)"/>
+          </marker>
+        </defs>
+
+        <!-- band labels -->
+        <text x="24" y="40" font-family="ui-sans-serif,sans-serif" font-size="12" font-weight="700"
+              letter-spacing="1.5" fill="var(--indigo)">FORWARD ▲ RECEPTION (tradition-branches)</text>
+        <text x="24" y="738" font-family="ui-sans-serif,sans-serif" font-size="12" font-weight="700"
+              letter-spacing="1.5" fill="var(--indigo)">◆ THE PIVOT — join point (run independently, joined here)</text>
+        <text x="24" y="1010" font-family="ui-sans-serif,sans-serif" font-size="12" font-weight="700"
+              letter-spacing="1.5" fill="var(--slate)">BACKWARD ▼ PROVENANCE — roots the NT grafts from</text>
+
+        <!-- ===== EDGES first (under nodes) ===== -->
+        <!-- LEFT reception chain (bottom->top = nearer->later): pivot -> Augustine -> Calvin -> Dort/Westminster -->
+        <polyline points="500,640 335,500" fill="none" stroke="var(--indigo)" stroke-width="2.2" marker-end="url(#arrForward)"/>
+        <polyline points="332,430 324,370" fill="none" stroke="var(--indigo)" stroke-width="2.2" marker-end="url(#arrForward)"/>
+        <polyline points="300,300 236,226" fill="none" stroke="var(--indigo)" stroke-width="2.2" marker-end="url(#arrForward)"/>
+        <polyline points="352,300 452,226" fill="none" stroke="var(--indigo)" stroke-width="2.2" marker-end="url(#arrForward)"/>
+        <!-- RIGHT reception chain: pivot -> Arminius -> Wesley -> Remonstrance/Methodism -->
+        <polyline points="1000,640 1176,500" fill="none" stroke="var(--indigo)" stroke-width="2.2" marker-end="url(#arrForward)"/>
+        <polyline points="1176,430 1186,370" fill="none" stroke="var(--indigo)" stroke-width="2.2" marker-end="url(#arrForward)"/>
+        <polyline points="1214,300 1330,226" fill="none" stroke="var(--indigo)" stroke-width="2.2" marker-end="url(#arrForward)"/>
+        <polyline points="1162,300 1092,226" fill="none" stroke="var(--indigo)" stroke-width="2.2" marker-end="url(#arrForward)"/>
+
+        <!-- edge labels (reception) -->
+        <text x="392" y="576" font-family="ui-sans-serif,sans-serif" font-size="10.5" fill="var(--indigo)" transform="rotate(-40 392 576)">mediated · attested</text>
+        <text x="1088" y="576" font-family="ui-sans-serif,sans-serif" font-size="10.5" fill="var(--indigo)" transform="rotate(40 1088 576)">mediated · attested</text>
+
+        <!-- ===== GRAFT edges: pivot bottom (y=892) down to roots ===== -->
+        <!-- foreknew -> yada (attested) -->
+        <polyline points="452,892 470,1044" fill="none" stroke="var(--slate)" stroke-width="2" marker-end="url(#arrRoot)"/>
+        <text x="360" y="985" font-family="ui-sans-serif,sans-serif" font-size="10.5" fill="var(--slate)">graft · attested (lexical)</text>
+        <!-- warrant -> Deut (attested) -->
+        <polyline points="750,892 751,1044" fill="none" stroke="var(--slate)" stroke-width="2" marker-end="url(#arrRoot)"/>
+        <text x="758" y="985" font-family="ui-sans-serif,sans-serif" font-size="10.5" fill="var(--slate)">graft · attested</text>
+        <!-- chain -> Qumran (reconstructed/parallel) -->
+        <polyline points="900,892 1042,1044" fill="none" stroke="var(--recon)" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrRecon)"/>
+        <text x="948" y="985" font-family="ui-sans-serif,sans-serif" font-size="10.5" fill="var(--recon)" transform="rotate(46 948 985)">parallel · reconstructed</text>
+        <!-- Rom8:28 -> Stoic pronoia (reconstructed) -->
+        <polyline points="640,892 600,1296" fill="none" stroke="var(--recon)" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrRecon)"/>
+        <text x="470" y="1200" font-family="ui-sans-serif,sans-serif" font-size="10.5" fill="var(--recon)">graft · reconstructed (most fragile)</text>
+        <!-- Rom8 -> Philo (reconstructed) -->
+        <polyline points="820,892 908,1296" fill="none" stroke="var(--recon)" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrRecon)"/>
+        <text x="852" y="1200" font-family="ui-sans-serif,sans-serif" font-size="10.5" fill="var(--recon)">reconstructed</text>
+        <!-- Stoic <-> Philo mediation hint -->
+        <polyline points="732,1341 790,1341" fill="none" stroke="var(--recon)" stroke-width="1.6" stroke-dasharray="4 4"/>
+
+        <!-- ================= NODES ================= -->
+        <!-- ==== FORWARD branches (top) ==== -->
+        <!-- Dort -->
+        <g>
+          <rect x="112" y="150" width="240" height="70" rx="8" fill="var(--node-bg)" stroke="var(--slate)" stroke-width="1.4"/>
+          <text x="124" y="170" font-family="ui-sans-serif,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".5" fill="var(--slate)">DOCTRINE · branch</text>
+          <text x="124" y="190" font-family="Georgia,serif" font-size="13.5" font-weight="700" fill="var(--ink)">Canons of Dort (1619)</text>
+          <text x="124" y="208" font-family="Georgia,serif" font-size="12" fill="var(--ink)">Unconditional Election · Perseverance</text>
+        </g>
+        <!-- Westminster -->
+        <g>
+          <rect x="368" y="150" width="196" height="70" rx="8" fill="var(--node-bg)" stroke="var(--slate)" stroke-width="1.4"/>
+          <text x="380" y="170" font-family="ui-sans-serif,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".5" fill="var(--slate)">DOCTRINE · branch</text>
+          <text x="380" y="190" font-family="Georgia,serif" font-size="13.5" font-weight="700" fill="var(--ink)">Westminster III (1646)</text>
+          <text x="380" y="208" font-family="Georgia,serif" font-size="12" fill="var(--ink)">"Of God's Eternal Decree"</text>
+        </g>
+        <!-- Methodism -->
+        <g>
+          <rect x="980" y="150" width="220" height="70" rx="8" fill="var(--node-bg)" stroke="var(--slate)" stroke-width="1.4"/>
+          <text x="992" y="170" font-family="ui-sans-serif,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".5" fill="var(--slate)">DOCTRINE · branch</text>
+          <text x="992" y="190" font-family="Georgia,serif" font-size="13.5" font-weight="700" fill="var(--ink)">Wesleyan-Methodist</text>
+          <text x="992" y="208" font-family="Georgia,serif" font-size="12" fill="var(--ink)">resistible · losable grace</text>
+        </g>
+        <!-- Remonstrance -->
+        <g>
+          <rect x="1216" y="150" width="240" height="70" rx="8" fill="var(--node-bg)" stroke="var(--slate)" stroke-width="1.4"/>
+          <text x="1228" y="170" font-family="ui-sans-serif,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".5" fill="var(--slate)">DOCTRINE · branch</text>
+          <text x="1228" y="190" font-family="Georgia,serif" font-size="13.5" font-weight="700" fill="var(--ink)">Remonstrance (1610)</text>
+          <text x="1228" y="208" font-family="Georgia,serif" font-size="12" fill="var(--ink)">Conditional Election</text>
+        </g>
+
+        <!-- ==== INTERPRETERS ==== -->
+        <!-- Augustine (lower slot: nearest pivot, earliest interpreter) -->
+        <g>
+          <rect x="240" y="430" width="190" height="66" rx="8" fill="var(--node-bg)" stroke="var(--ink)" stroke-width="1.6"/>
+          <text x="252" y="449" font-family="ui-sans-serif,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".5" fill="var(--indigo)">INTERPRETER</text>
+          <text x="252" y="468" font-family="Georgia,serif" font-size="13.5" font-weight="700" fill="var(--ink)">Augustine (354–430)</text>
+          <text x="252" y="486" font-family="Georgia,serif" font-size="11.5" fill="var(--ink)">late anti-Pelagian · unconditional</text>
+        </g>
+        <!-- Calvin (upper slot) -->
+        <g>
+          <rect x="228" y="300" width="190" height="66" rx="8" fill="var(--node-bg)" stroke="var(--ink)" stroke-width="1.6"/>
+          <text x="240" y="319" font-family="ui-sans-serif,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".5" fill="var(--indigo)">INTERPRETER</text>
+          <text x="240" y="338" font-family="Georgia,serif" font-size="13.5" font-weight="700" fill="var(--ink)">Calvin (1509–64)</text>
+          <text x="240" y="356" font-family="Georgia,serif" font-size="11.5" fill="var(--ink)">Institutes III · the ordo salutis</text>
+        </g>
+        <!-- Arminius (lower slot: nearest pivot) -->
+        <g>
+          <rect x="1078" y="430" width="196" height="66" rx="8" fill="var(--node-bg)" stroke="var(--ink)" stroke-width="1.6"/>
+          <text x="1090" y="449" font-family="ui-sans-serif,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".5" fill="var(--indigo)">INTERPRETER</text>
+          <text x="1090" y="468" font-family="Georgia,serif" font-size="13.5" font-weight="700" fill="var(--ink)">Arminius (1560–1609)</text>
+          <text x="1090" y="486" font-family="Georgia,serif" font-size="11.5" fill="var(--ink)">foreknew = foreseen faith</text>
+        </g>
+        <!-- Wesley (upper slot) -->
+        <g>
+          <rect x="1092" y="300" width="196" height="66" rx="8" fill="var(--node-bg)" stroke="var(--ink)" stroke-width="1.6"/>
+          <text x="1104" y="319" font-family="ui-sans-serif,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".5" fill="var(--indigo)">INTERPRETER</text>
+          <text x="1104" y="338" font-family="Georgia,serif" font-size="13.5" font-weight="700" fill="var(--ink)">Wesley (1703–91)</text>
+          <text x="1104" y="356" font-family="Georgia,serif" font-size="11.5" fill="var(--ink)">prevenient grace · can fall away</text>
+        </g>
+
+        <!-- ==== PIVOT ==== -->
+        <g>
+          <rect x="360" y="640" width="780" height="252" rx="14" fill="var(--pivot-bg)" stroke="var(--indigo)" stroke-width="2.6"/>
+          <text x="386" y="676" font-family="ui-sans-serif,sans-serif" font-size="10.5" font-weight="700" letter-spacing="1" fill="var(--indigo)">BIBLICAL · PIVOT (join point)</text>
+          <text x="386" y="702" font-family="Georgia,serif" font-size="19" font-weight="700" fill="var(--ink)">Romans 8:28–30 — the golden chain</text>
+          <text x="386" y="724" font-family="Georgia,serif" font-size="12.5" font-style="italic" fill="var(--slate)">v.28 "all things work together for good … called according to his purpose"</text>
+
+          <!-- the 5 verb chips -->
+          <!-- foreknew (election move, starred) -->
+          <g>
+            <rect x="386" y="742" width="132" height="118" rx="9" fill="var(--node-bg)" stroke="var(--indigo)" stroke-width="2.2"/>
+            <text x="452" y="762" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="15" fill="var(--indigo)">★</text>
+            <text x="452" y="784" text-anchor="middle" font-family="Georgia,serif" font-size="14.5" font-weight="700" fill="var(--ink)">foreknew</text>
+            <text x="452" y="803" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="var(--slate)">προέγνω</text>
+            <text x="452" y="825" text-anchor="middle" font-family="Georgia,serif" font-size="10.5" fill="var(--slate)">move 1 · v.29</text>
+            <text x="452" y="845" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9.5" font-weight="700" fill="var(--indigo)">ELECTION MOVE</text>
+          </g>
+          <!-- predestined (also election, starred) -->
+          <g>
+            <rect x="528" y="742" width="132" height="118" rx="9" fill="var(--node-bg)" stroke="var(--indigo)" stroke-width="2.2"/>
+            <text x="594" y="762" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="15" fill="var(--indigo)">★</text>
+            <text x="594" y="784" text-anchor="middle" font-family="Georgia,serif" font-size="14.5" font-weight="700" fill="var(--ink)">predestined</text>
+            <text x="594" y="803" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="var(--slate)">προώρισεν</text>
+            <text x="594" y="825" text-anchor="middle" font-family="Georgia,serif" font-size="10.5" fill="var(--slate)">move 2 · v.29–30</text>
+            <text x="594" y="845" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9.5" font-weight="700" fill="var(--indigo)">ELECTION MOVE</text>
+          </g>
+          <!-- called -->
+          <g>
+            <rect x="670" y="742" width="126" height="118" rx="9" fill="var(--node-bg)" stroke="var(--border)" stroke-width="1.6"/>
+            <text x="733" y="790" text-anchor="middle" font-family="Georgia,serif" font-size="14.5" font-weight="700" fill="var(--ink)">called</text>
+            <text x="733" y="809" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="var(--slate)">ἐκάλεσεν</text>
+            <text x="733" y="831" text-anchor="middle" font-family="Georgia,serif" font-size="10.5" fill="var(--slate)">move 3 · v.30</text>
+          </g>
+          <!-- justified -->
+          <g>
+            <rect x="806" y="742" width="126" height="118" rx="9" fill="var(--node-bg)" stroke="var(--border)" stroke-width="1.6"/>
+            <text x="869" y="790" text-anchor="middle" font-family="Georgia,serif" font-size="14.5" font-weight="700" fill="var(--ink)">justified</text>
+            <text x="869" y="809" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" fill="var(--slate)">ἐδικαίωσεν</text>
+            <text x="869" y="831" text-anchor="middle" font-family="Georgia,serif" font-size="10.5" fill="var(--slate)">move 4 · v.30</text>
+          </g>
+          <!-- glorified -->
+          <g>
+            <rect x="942" y="742" width="172" height="118" rx="9" fill="var(--node-bg)" stroke="var(--border)" stroke-width="1.6"/>
+            <text x="1028" y="784" text-anchor="middle" font-family="Georgia,serif" font-size="14.5" font-weight="700" fill="var(--ink)">glorified</text>
+            <text x="1028" y="803" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="var(--slate)">ἐδόξασεν</text>
+            <text x="1028" y="825" text-anchor="middle" font-family="Georgia,serif" font-size="10.5" fill="var(--slate)">move 5 · v.30</text>
+            <text x="1028" y="845" text-anchor="middle" font-family="ui-sans-serif,sans-serif" font-size="9.5" fill="var(--slate)">proleptic aorist (G5)</text>
+          </g>
+        </g>
+        <!-- callout: election move -> G1-G7 table (left margin, clear of grafts) -->
+        <polyline points="240,792 384,792" fill="none" stroke="var(--indigo)" stroke-width="1.6" stroke-dasharray="3 3" marker-end="url(#arrForward)"/>
+        <text x="60" y="770" font-family="ui-sans-serif,sans-serif" font-size="11" font-weight="700" fill="var(--indigo)">★ ELECTION MOVE</text>
+        <text x="60" y="788" font-family="ui-sans-serif,sans-serif" font-size="10.5" font-style="italic" fill="var(--indigo)">the U0–U4 universe +</text>
+        <text x="60" y="804" font-family="ui-sans-serif,sans-serif" font-size="10.5" font-style="italic" fill="var(--indigo)">G1–G7 attach here →</text>
+        <text x="60" y="820" font-family="ui-sans-serif,sans-serif" font-size="10.5" font-style="italic" fill="var(--indigo)">(tables below)</text>
+
+        <!-- ==== JEWISH ROOTS ==== -->
+        <!-- yada -->
+        <g>
+          <rect x="356" y="1048" width="228" height="78" rx="8" fill="var(--node-bg)" stroke="var(--slate)" stroke-width="1.4"/>
+          <text x="368" y="1068" font-family="ui-sans-serif,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".5" fill="var(--slate)">JEWISH-ROOT</text>
+          <text x="368" y="1088" font-family="Georgia,serif" font-size="13.5" font-weight="700" fill="var(--ink)">Hebrew יָדַע <tspan font-style="italic">yāda‘</tspan> — covenant "knowing"</text>
+          <text x="368" y="1106" font-family="Georgia,serif" font-size="11.5" fill="var(--ink)">Amos 3:2 · Jer 1:5 — election, not cognition</text>
+          <text x="368" y="1121" font-family="ui-sans-serif,sans-serif" font-size="10" fill="var(--slate)">LXX: yāda‘ → ginōskō (the lexical bridge)</text>
+        </g>
+        <!-- Deut -->
+        <g>
+          <rect x="626" y="1048" width="250" height="78" rx="8" fill="var(--node-bg)" stroke="var(--slate)" stroke-width="1.4"/>
+          <text x="638" y="1068" font-family="ui-sans-serif,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".5" fill="var(--slate)">JEWISH-ROOT</text>
+          <text x="638" y="1088" font-family="Georgia,serif" font-size="13.5" font-weight="700" fill="var(--ink)">Deuteronomic election-not-by-merit</text>
+          <text x="638" y="1106" font-family="Georgia,serif" font-size="11.5" fill="var(--ink)">Deut 7:7–8 · 9:4–6 — set his love, not for</text>
+          <text x="638" y="1121" font-family="Georgia,serif" font-size="11.5" fill="var(--ink)">their righteousness (the <tspan font-style="italic">warrant</tspan>, G1)</text>
+        </g>
+        <!-- Qumran -->
+        <g>
+          <rect x="918" y="1048" width="248" height="78" rx="8" fill="var(--node-bg)" stroke="var(--recon)" stroke-width="1.4" stroke-dasharray="6 4"/>
+          <text x="930" y="1068" font-family="ui-sans-serif,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".5" fill="var(--recon)">JEWISH-ROOT · reconstructed</text>
+          <text x="930" y="1088" font-family="Georgia,serif" font-size="13.5" font-weight="700" fill="var(--ink)">Qumran — 1QS "Two Spirits"</text>
+          <text x="930" y="1106" font-family="Georgia,serif" font-size="11.5" fill="var(--ink)">Community Rule III–IV · divine determination</text>
+          <text x="930" y="1121" font-family="ui-sans-serif,sans-serif" font-size="10" font-style="italic" fill="var(--recon)">PARALLEL, not citation — Paul never quotes it</text>
+        </g>
+
+        <!-- ==== PAGAN ROOTS ==== -->
+        <!-- Stoic -->
+        <g>
+          <rect x="470" y="1300" width="260" height="82" rx="8" fill="var(--node-bg)" stroke="var(--recon)" stroke-width="1.4" stroke-dasharray="6 4"/>
+          <text x="482" y="1320" font-family="ui-sans-serif,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".5" fill="var(--recon)">PAGAN-ROOT · reconstructed</text>
+          <text x="482" y="1340" font-family="Georgia,serif" font-size="13.5" font-weight="700" fill="var(--ink)">Stoic <tspan font-style="italic">pronoia</tspan> (providence)</text>
+          <text x="482" y="1358" font-family="Georgia,serif" font-size="11.5" fill="var(--ink)">cosmic sympatheia ≈ "all things work together"</text>
+          <text x="482" y="1375" font-family="ui-sans-serif,sans-serif" font-size="10" font-style="italic" fill="var(--recon)">most fragile edge · shared vocab or borrowing?</text>
+        </g>
+        <!-- Philo -->
+        <g>
+          <rect x="792" y="1300" width="238" height="82" rx="8" fill="var(--node-bg)" stroke="var(--recon)" stroke-width="1.4" stroke-dasharray="6 4"/>
+          <text x="804" y="1320" font-family="ui-sans-serif,sans-serif" font-size="9.5" font-weight="700" letter-spacing=".5" fill="var(--recon)">PAGAN-ROOT · reconstructed</text>
+          <text x="804" y="1340" font-family="Georgia,serif" font-size="13.5" font-weight="700" fill="var(--ink)">Philo / Middle-Platonic mediation</text>
+          <text x="804" y="1358" font-family="Georgia,serif" font-size="11.5" fill="var(--ink)">a possible Hellenistic-Jewish conduit</text>
+          <text x="804" y="1375" font-family="ui-sans-serif,sans-serif" font-size="10" font-style="italic" fill="var(--recon)">inferential · no textual link</text>
+        </g>
+      </svg>
+    </div>
+    <p class="lede" style="margin-top:14px">
+      <strong>How to read the split.</strong> The two reception chains fork on one word. Augustine and Calvin (left) read
+      <em>proginōskō</em> as fore-<em>love</em> (election) → Dort's unconditional election. Arminius and Wesley (right) read it as
+      fore-<em>see</em>-faith (conditional) → the Remonstrance and losable grace. That fork <em>is</em> candidate <span class="gid">G4</span>
+      below — the translation-morph the generator derived systematically.
+    </p>
+  </section>
+
+  <!-- ============ U0-U4 UNIVERSE (Step 1) ============ -->
+  <section>
+    <h2><span class="n">A</span>The generated universe at the election move <span style="font-weight:400;color:var(--slate);font-size:14px">— tiered, text-first, cited (Step 1 of the worked doc)</span></h2>
+    <p class="lede">Each slot's possible values, tagged by tier: <strong>U0</strong> passage-local · <strong>U1</strong> Rom 8–11 · <strong>U2</strong> Pauline corpus · <strong>U3</strong> 2nd-Temple/Greco-Roman · <strong>U4</strong> later reception (may <em>suggest</em>, never <em>prove</em> obligation). This table is the auditable input the G-candidates are generated over.</p>
+    <div class="card tblscroll">
+      <table>
+        <thead><tr><th style="width:130px">Slot</th><th>Declared universe of possible values (tiered · cited)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>agent</strong><br><span style="color:var(--slate);font-size:12px">who elects</span></td>
+            <td>God <span class="mono">U0</span> · Christ <span class="mono">U1</span> (8:29 "his Son") · the Spirit <span class="mono">U1</span> (8:26–27) · the human response <span class="mono">U2</span> (Rom 10:9–13) · corporate Israel <span class="mono">U3</span> (Rom 9–11)</td></tr>
+          <tr><td><strong>warrant</strong><br><span style="color:var(--slate);font-size:12px">on what basis</span></td>
+            <td>God's own purpose/grace, <em>not</em> works <span class="mono">U2</span> (Rom 9:11–12; 11:5–6; Eph 1:11) · covenant-love, <em>not</em> Israel's righteousness <span class="mono">U3</span> (Deut 7:7–8; 9:4–6) · foreseen faith <span class="mono">U4</span> · foreseen merit <span class="mono">U4</span> (Pelagius, condemned) — <strong>the passage itself fills NONE</strong></td></tr>
+          <tr><td><strong>scope</strong><br><span style="color:var(--slate);font-size:12px">which set</span></td>
+            <td>"those whom" — bounded <span class="mono">U0</span> · "the called…according to his purpose" <span class="mono">U0</span> · all-who-love-God <span class="mono">U0</span> · the not-chosen / reprobate <span class="mono">U1</span> (raised Rom 9:18–22, not here) · Israel-and-Gentiles corporately <span class="mono">U3</span></td></tr>
+          <tr><td><strong>modality</strong><br><span style="color:var(--slate);font-size:12px">how certain</span></td>
+            <td>certain/necessary — "glorified" as completed past <span class="mono">U0</span> (proleptic aorist) · contingent/losable <span class="mono">U4</span> (perseverance debate) · conditional-on-perseverance <span class="mono">U2</span> (Rom 11:22 "if you continue")</td></tr>
+          <tr><td><strong>sequence</strong><br><span style="color:var(--slate);font-size:12px">link-to-link</span></td>
+            <td>temporal · logical · causal · unbreakable-chain <span class="mono">U0</span> · separable-with-possible-failure <span class="mono">U4</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ G1-G7 CANDIDATES (Step 3) ============ -->
+  <section>
+    <h2><span class="n">B</span>The generator's output — G1–G7 candidate negative-spaces <span style="font-weight:400;color:var(--slate);font-size:14px">(attached at the election move)</span></h2>
+    <p class="lede">Running the operators over the universe above. Each candidate carries operator + kind + universe-tier + obligation-trigger, so an independent coder generates the <em>same</em> list. <strong>Recovered</strong> = matches a hand-picked prior; <strong>NEW</strong> = surfaced by the systematic procedure. Obligation-marks are the analyst's — untested (see review item 9).</p>
+    <div class="card tblscroll">
+      <table>
+        <thead><tr>
+          <th style="width:36px">#</th><th>Candidate negative space</th><th style="width:150px">Operator</th>
+          <th style="width:70px">Tier</th><th style="width:80px">Obligated?</th><th style="width:150px">Status</th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="gid">G1</td><td>the <strong>warrant</strong> of election is unfilled (on what basis these?)</td><td>bounded-contrast-set</td><td class="mono">U2/U3</td><td><strong>yes</strong> — Rom 9:19–20 raises it</td><td><span class="badge b-rec">recovered ✓</span> = basis</td></tr>
+          <tr><td class="gid">G2</td><td>the <strong>reprobate</strong> / not-chosen are unnamed (chain names only the saved)</td><td>scope-boundary</td><td class="mono">U1</td><td><strong>yes</strong> — Rom 9:18–22</td><td><span class="badge b-rec">recovered ✓</span> = reprobation</td></tr>
+          <tr><td class="gid">G3</td><td>the <strong>agency-boundary</strong> (where God's act ends, the human's begins)</td><td>sequence/dependency + warrant</td><td class="mono">U2/U4</td><td><strong>yes</strong> — monergism/synergism</td><td><span class="badge b-rec">recovered ✓</span> = agency</td></tr>
+          <tr><td class="gid">G4</td><td><strong>proginōskō</strong> under-defined — <em>foresaw</em> (cognition) vs <em>fore-loved</em> (election)?</td><td>definition-probe</td><td class="mono">U0/U2</td><td><strong>yes</strong> — the whole basis-fork rides on this verb</td><td><span class="badge b-new">NEW</span> the translation-fork <span class="recon-note">= the left/right split above</span></td></tr>
+          <tr><td class="gid">G5</td><td><strong>modality</strong> of "glorified" — certain (proleptic aorist) or losable?</td><td>modality</td><td class="mono">U0/U2</td><td><strong>yes</strong> — Rom 11:22 "if you continue" pulls back</td><td><span class="badge b-new">NEW</span> Wesley's "can fall away" fills it</td></tr>
+          <tr><td class="gid">G6</td><td>the elect as <strong>individuals vs corporate</strong> (a people) — presupposed, unstated</td><td>presupposition</td><td class="mono">U3</td><td>moderate — NPP fills it; U3-licensed</td><td><span class="badge b-new">NEW</span> the corporate/individual crux</td></tr>
+          <tr><td class="gid">G7</td><td><strong>sequence-mode</strong> — is the chain temporal, logical, causal; can a link fail?</td><td>sequence/dependency</td><td class="mono">U0</td><td>moderate — feeds G3/G5</td><td><span class="badge b-new">NEW</span> the unbreakable-chain question</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <div class="footer">
+    <h3>How produced</h3>
+    <p>reading-SB overnight AFK build, 2026-07-14. A reviewable HTML pilot of the <strong>bidirectional trace-tree</strong> for Romans 8:28–30 — the first rendering of the <em>backward</em> (provenance-regression) direction joined to the <em>forward</em> (reception) direction at the NT pivot. Forward layer (U0–U4 universe + G1–G7) lifted verbatim from <code>field_ed/generator_worked_version_romans8_2026-07-08.md</code>. Node/edge model from <code>DESIGN_trace_tree_schema_2026-07-12.md</code>; bidirectional method + Saquib-provenance parallel from <code>DESIGN_bidirectional_trace_backward_forward_2026-07-12.md</code>. Tree content authored by hand (not generated) so every provenance-class assertion is deliberate and flaggable. Self-contained HTML, inline CSS, theme-aware. No DB writes; not committed.</p>
+    <h3>Scholarly sources</h3>
+    <p>Romans 8:28–30 (KJV / NA28 Greek); Rom 9:11–22, 11:5–6, 22; Eph 1:11; Deut 7:7–8, 9:4–6; Amos 3:2; Jer 1:5. Interpreters: Augustine, <em>De praedestinatione sanctorum</em>; Calvin, <em>Institutes</em> III.21–24; Arminius; Wesley (prevenient grace). Branches: Canons of Dort (1619); Westminster Confession III (1646); Remonstrance (1610). Roots: LXX <em>yāda‘→ginōskō</em>; Qumran <em>1QS</em> III–IV (Two Spirits); Stoic <em>pronoia</em>; Philo. Provenance discipline per IRR182 (citation-span; reconstructed edges never shown as settled genealogy). CLAUDE.md §2.1 (candidates not findings), §2.6, §2.8, §13.</p>
+    <h3>What needs verification</h3>
+    <p>(1) Stage 6 = 0 — candidate generation, not coded findings. (2) All reconstructed/graft edges (Stoic <em>pronoia</em>, Philo, Qumran) are hypotheses drawn dashed/grey — see the review box, items 1–3. (3) Backward regression carries maximal teleological bias by construction; the roots may be post-hoc. (4) The pilot regresses only the Reformed fork; symmetric regression of the Arminian fork is untested. (5) Interpreter roster (4 of many) and the G4-as-hinge reading are judgment calls. (6) G4–G7 obligation-marks await IRR-B (IRR166). (7) Recommendation: a targeted backward-admissibility IRR (scoped to fixed-endpoint teleology · graft-hallucination · mediated-edge attestation · citation-span-sufficiency-backward) before any scaling — per the schema doc, NOT a full re-validation.</p>
+  </div>
+
+</div>
+</body>
+</html>
