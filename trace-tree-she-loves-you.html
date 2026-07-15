@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive trace-tree — "She Loves You" (candidate pilot)</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+  :root{
+    --ink:#17181d; --paper:#f5f6f4; --surface:#ffffff; --muted:#6a6c76; --hair:#e4e5e2;
+    --root:#3f6b4f; --recept:#a8493a; --accent:#484a86;
+    --root-soft:#e7efe9; --recept-soft:#f4e8e4; --accent-soft:#ececf6;
+    --recon:#9a9ca6;
+    --serif:"Charter","Iowan Old Style",Georgia,"Times New Roman",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:"SF Mono","JetBrains Mono",ui-monospace,Menlo,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--ink:#eceded;--paper:#131418;--surface:#1b1d23;--muted:#9b9da7;--hair:#2b2d34;
+      --root:#82b394;--recept:#dc8a79;--accent:#9d9ee6;
+      --root-soft:#1d2822;--recept-soft:#291f1d;--accent-soft:#1f2030;--recon:#5c5e68;}
+  }
+  :root[data-theme="dark"]{--ink:#eceded;--paper:#131418;--surface:#1b1d23;--muted:#9b9da7;--hair:#2b2d34;
+    --root:#82b394;--recept:#dc8a79;--accent:#9d9ee6;--root-soft:#1d2822;--recept-soft:#291f1d;--accent-soft:#1f2030;--recon:#5c5e68;}
+  :root[data-theme="light"]{--ink:#17181d;--paper:#f5f6f4;--surface:#ffffff;--muted:#6a6c76;--hair:#e4e5e2;
+    --root:#3f6b4f;--recept:#a8493a;--accent:#484a86;--root-soft:#e7efe9;--recept-soft:#f4e8e4;--accent-soft:#ececf6;--recon:#9a9ca6;}
+  *{box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.62;font-size:16.5px;
+    -webkit-font-smoothing:antialiased;margin:0}
+  .col{max-width:52rem;margin:0 auto;padding:0 1.5rem}
+  .wide{max-width:64rem}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,4.6vw,2.8rem);line-height:1.08;text-wrap:balance;
+    margin:.5rem 0 .8rem;letter-spacing:-.01em}
+  h2{font-family:var(--serif);font-weight:600;font-size:1.42rem;line-height:1.2;text-wrap:balance;margin:2.4rem 0 .7rem}
+  h3{font-family:var(--sans);font-weight:600;font-size:1rem;margin:1.4rem 0 .3rem}
+  .lede{font-family:var(--serif);font-size:1.24rem;line-height:1.45;color:var(--ink);margin:0 0 1.2rem}
+  p{margin:.65rem 0}
+  a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+  .hero{padding:2.8rem 0 1.1rem;border-bottom:1px solid var(--hair)}
+  .pairbox{background:var(--surface);border:1px solid var(--hair);border-radius:14px;padding:1.2rem 1.4rem;margin:1.4rem 0}
+  .pairbox b{color:var(--accent)}
+  figure{margin:1.4rem 0}
+  .stage{background:var(--surface);border:1px solid var(--hair);border-radius:14px;padding:.5rem}
+  svg{width:100%;height:auto;display:block}
+  .legend{display:flex;gap:1.1rem;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin:.55rem .3rem 0}
+  .swatch{display:inline-block;width:22px;height:0;border-top-width:2px;vertical-align:middle;margin-right:6px}
+  .dot{width:11px;height:11px;border-radius:50%;display:inline-block;vertical-align:-1px;margin-right:5px}
+  #detail{margin:.7rem .1rem 0;min-height:3.4rem;font-size:14px;color:var(--muted);
+    background:var(--paper);border:1px dashed var(--hair);border-radius:10px;padding:.6rem .85rem}
+  #detail b{color:var(--ink)}
+  figcaption{font-size:13px;color:var(--muted);margin-top:.6rem}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:1.1rem 0}
+  .card{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:.85rem 1rem;border-left-width:3px}
+  .card.root{border-left-color:var(--root)} .card.recept{border-left-color:var(--recept)} .card.pivot{border-left-color:var(--accent)}
+  .card .ttl{font-family:var(--serif);font-size:1.08rem;font-weight:600;line-height:1.2}
+  .card .meta{font-size:12px;color:var(--muted);font-family:var(--mono);letter-spacing:.02em;margin:.15rem 0 .4rem}
+  .card .bd{font-size:13.5px}
+  .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:6px;white-space:nowrap}
+  .tag.textual{background:var(--accent-soft);color:var(--accent)}
+  .tag.attested{background:var(--root-soft);color:var(--root)}
+  .tag.reconstructed{background:var(--recept-soft);color:var(--recept)}
+  table.moves{width:100%;border-collapse:collapse;font-size:13px;margin:.8rem 0}
+  table.moves th,table.moves td{text-align:left;padding:.4rem .5rem;border-bottom:1px solid var(--hair);vertical-align:top}
+  table.moves th{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  table.moves td.m{font-family:var(--mono);color:var(--accent);white-space:nowrap}
+  .review{background:var(--recept-soft);border:1px solid var(--recept);border-radius:14px;padding:1.1rem 1.35rem;margin:1.8rem 0}
+  .review h2{margin-top:.2rem;color:var(--recept)}
+  .review ol{margin:.4rem 0 .2rem;padding-left:1.2rem}
+  .review li{margin:.55rem 0;font-size:14.5px}
+  .review .q{font-family:var(--mono);font-size:11px;color:var(--recept);letter-spacing:.05em}
+  .caveat{font-size:13.5px;color:var(--muted);background:var(--paper);border:1px dashed var(--hair);border-radius:10px;padding:.7rem .9rem;margin:1rem 0}
+  .foot{border-top:1px solid var(--hair);margin-top:2.6rem;padding:1.4rem 0 3rem;font-size:13px;color:var(--muted)}
+  .node{cursor:pointer}
+  .node:focus{outline:none}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+  /* ---- gap-state layer (design-SB, Item A part 2) — mirrors the golden-chain grammar ---- */
+  .gapsec{margin:2rem 0}
+  .statekey{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin:.2rem 0 .9rem}
+  .st{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    padding:2px 8px;border-radius:20px;white-space:nowrap}
+  .st.FILLED{background:var(--root-soft);color:var(--root);border:1px solid var(--root)}
+  .st.POSSIBLE{background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent)}
+  .st.PRUNED{background:var(--paper);color:var(--muted);border:1px solid var(--hair)}
+  .gaprow{border:1px solid var(--hair);border-radius:11px;margin:9px 0;overflow:hidden;background:var(--surface)}
+  .gaphead{display:flex;align-items:center;gap:10px;padding:12px 15px;cursor:pointer;font-family:var(--sans)}
+  .gaphead:hover{background:var(--paper)}
+  .gaphead .slot{font-family:var(--serif);font-weight:600;font-size:15px;color:var(--ink)}
+  .gaphead .q{font-size:12.5px;color:var(--muted)}
+  .gaphead .gid{margin-left:auto;font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--recept);
+    border:1px solid var(--recept);border-radius:20px;padding:2px 9px;white-space:nowrap}
+  .gaphead .caret{color:var(--muted);transition:transform .18s}
+  .gaprow.open .caret{transform:rotate(90deg)}
+  .gapfills{display:none;padding:2px 15px 13px}
+  .gaprow.open .gapfills{display:block}
+  .fill{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--hair)}
+  .fill .ftxt{font-size:13.5px}
+  .fill.pruned .flabel{text-decoration:line-through;color:var(--muted)}
+  .fill .flabel{font-weight:600}
+  .fill .fwhy{color:var(--muted);font-size:12.5px;margin-top:2px}
+  .fill .ftier{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-left:6px}
+  .backlink{display:inline-block;margin:1.4rem 0 0;font-family:var(--sans);font-size:13.5px}
+</style>
+</head>
+<body>
+  <div class="col hero">
+    <div class="eyebrow">Grammar of Meaning · trace-tree lab · candidate pilot · §2.1</div>
+    <h1>"She Loves You" — the bidirectional trace-tree</h1>
+    <p class="lede">The same instrument that regresses a church formula back to the New Testament, run on a secular pop song. Backward to its roots, forward to its reception, joined at the song as pivot.</p>
+    <div class="pairbox">
+      <b>Why pair the secular with the sacred.</b> The golden-chain tree traces a sacred formula: doctrine&nbsp;←backward←&nbsp;NT&nbsp;source&nbsp;→forward→&nbsp;reception. This tree is its structural twin on a 1963 pop single — <b>same method, different corpus</b>. If the identical machinery produces a legible tree on "She Loves You," the method is shown to be about the <em>grammar of transmission</em>, not about scripture. That transferability is the claim the pairing is meant to test.
+      <div style="font-size:13px;color:var(--muted);margin-top:.6rem">Every node and every edge below is a <b style="color:var(--recept)">CANDIDATE</b>, not a finding (§2.1). Not written to the DB. Stage 6 = 0.</div>
+    </div>
+  </div>
+
+  <div class="col wide">
+    <figure>
+      <div class="stage">
+        <svg id="tree" viewBox="0 0 940 780" role="img" aria-labelledby="tt td">
+          <title id="tt">Bidirectional trace-tree for "She Loves You"</title>
+          <desc id="td">A three-tier tree: provenance roots at the bottom regress upward into the song at center, and reception fans upward from the song into the canopy. Reconstructed links are dashed and grey; attested links solid; the one textual/formal link indigo.</desc>
+        </svg>
+      </div>
+      <div class="legend">
+        <span><span class="swatch" style="border-top:2px solid var(--accent)"></span>textual — the form is in the words</span>
+        <span><span class="swatch" style="border-top:2px solid var(--root)"></span>attested — a documented music-historical link</span>
+        <span><span class="swatch" style="border-top:2px dashed var(--recon)"></span>reconstructed — coherent but unattested (flag)</span>
+        <span><span class="dot" style="background:var(--recept)"></span>residual gap → reception target</span>
+      </div>
+      <div id="detail">Click any node to read its provenance class, which moves it touches, and what needs your review. The <b>song (1963)</b> is the pivot; backward and forward were reasoned independently and joined here.</div>
+      <figcaption>Backward = provenance (this is the <em>un-run</em> direction — hand-reasoned candidate roots, hallucination-prone by design, per the trace-tree schema). Forward = reception (documented, kept light — a mirror of the golden-chain forward). The two 5/5-cold residual gaps from the 8-move coding glow as reception targets, exactly where history steps in.</figcaption>
+    </figure>
+
+    <h2>The pivot — the 8 moves already coded</h2>
+    <p>The forward/move layer is <b>done</b> (main-Claude reference coding; IRR177 cold-cohort correction applied). The whole song is one <b>meta-move</b>: a third-person love-messenger delivering reassurance. It contains M1–M8, whose production chain (outcome→substrate) and completion cross-links make the song ~80% self-completing — it answers most of its own gaps. The backward tree decomposes <em>these</em> moves and regresses each to a root.</p>
+    <table class="moves">
+      <thead><tr><th>Move</th><th>Operation</th><th>Type</th><th>Regresses to root(s)</th></tr></thead>
+      <tbody>
+        <tr><td class="m">M1</td><td>hurt (past)</td><td>narrate</td><td>R5 girl-group answer-song backstory</td></tr>
+        <tr><td class="m">M2</td><td>suffer</td><td>narrate</td><td>R5 girl-group answer-song backstory</td></tr>
+        <tr><td class="m">M3</td><td>reappraise</td><td>narrate</td><td>R5 girl-group answer-song backstory</td></tr>
+        <tr><td class="m">M4&#9733;</td><td>loves (the core)</td><td>report</td><td>R2 third-person love-report · R1 relay</td></tr>
+        <tr><td class="m">M5</td><td>fear / believe</td><td>assert</td><td>R2 third-person love-report</td></tr>
+        <tr><td class="m">M6</td><td>relay / witness</td><td>report</td><td>R1 message/relay song · R2 report</td></tr>
+        <tr><td class="m">M7</td><td>exhort-feel ("be glad")</td><td>directive</td><td>R3 call-and-response ("yeah yeah yeah")</td></tr>
+        <tr><td class="m">M8</td><td>exhort-act (apologize)</td><td>directive</td><td>R5 answer-song · R4 pop-craft form</td></tr>
+        <tr><td class="m">META</td><td>the friend persuades you to reconcile</td><td>meta</td><td>R1 message/relay song</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Backward — the provenance roots (the un-run direction)</h2>
+    <p>Five candidate roots the song's moves regress toward. This direction has failure modes the forward run never tested — teleological bias is maximal, and provenance hallucination is genre-specific. Handle every one of these as a hypothesis.</p>
+    <div class="grid" id="rootcards"></div>
+
+    <h2>Forward — the reception (kept light)</h2>
+    <p>Three documented reception nodes — a mirror of the golden-chain forward fan. And the two residual gaps the song cannot fill from inside (per the 5/5-cold IRR177 correction): where reception <em>must</em> step in.</p>
+    <div class="grid" id="receptcards"></div>
+
+    <div class="gapsec">
+      <h2>The gap explorer — filled · possible · pruned</h2>
+      <p>The same lens as the golden-chain tree, on the song. Expand a gap to see its fills tagged by state — what the song <b>fills</b> itself (~80%), what stays <b>possible</b> (a reception target only an outside voice completes), and what was <b>pruned</b> (shown, not hidden — the her-voice lens demoted per the IRR177 cold correction, and the deeper roots held as too speculative).</p>
+      <div class="statekey">
+        <span><span class="st FILLED">filled</span> the song fills it</span>
+        <span><span class="st POSSIBLE">possible</span> a reception target / reader-lens</span>
+        <span><span class="st PRUNED">pruned</span> ruled out or demoted — shown</span>
+      </div>
+      <div id="gapexplorer"></div>
+    </div>
+    <div class="review">
+      <h2>What needs your review</h2>
+      <p style="font-size:14px;margin-top:0">Every reconstructed link + every judgment call, surfaced for tomorrow. Dispose each: <b>LOCK / EXTEND / DROP / DEFER</b>.</p>
+      <ol>
+        <li><span class="q">[RECONSTRUCTED EDGE]</span> <b>R2 third-person love-report → M4/M5.</b> The <em>form</em> ("she loves you," a report about a third party rather than first-person "I love you") is textual — it's in the title. But that this form <em>descends from</em> a convention is reconstructed. Is the form-observation enough, or does the lineage claim need an attested source?</li>
+        <li><span class="q">[RECONSTRUCTED EDGE]</span> <b>R5 girl-group answer-song → M1–M3, M8.</b> A plausible <em>form-parallel</em> (the woman's-POV narrative the song reports on), not a documented source for this song. Keep as reconstructed, or is there an attested answer-song link you'd cite?</li>
+        <li><span class="q">[ATTESTED vs RECONSTRUCTED]</span> <b>R3 call-and-response gospel/R&B root.</b> Call-and-response in R&B/doo-wop is attested musicology; the specific gospel-church derivation for <em>this</em> refrain is looser. Tagged attested — downgrade to reconstructed?</li>
+        <li><span class="q">[SCOPE]</span> <b>R1 message/relay song → the META-move.</b> The messenger framing is the strongest backward claim (the meta-move IS a relay). Is "message-song genre" the right root name, or too broad?</li>
+        <li><span class="q">[JUDGMENT — deeper-than-song roots]</span> The trace-tree schema calls for roots <em>below</em> the pivot (the pop equivalent of pagan/Jewish grafts under the NT). Candidates deliberately omitted here as too speculative: African-American gospel structure under R3; Tin-Pan-Alley craft under R4 as itself a graft of earlier song-forms. Add a deeper root tier, or hold?</li>
+        <li><span class="q">[RESIDUAL RELOCATION]</span> The coding's headline residual shifted under cold cohorts: <b>the addressee's foreclosed reciprocity</b> (does HE love her back? — 5/5 touch, 3/5 name) is the reliable form-produced gap; <b>the un-voiced woman</b> (her own voice) is an available reader-lens (1/5 cold), not a form-produced gap. The tree draws reciprocity as the primary reception-target and her-voice as secondary/lensed. Confirm that ordering.</li>
+        <li><span class="q">[MIRROR FIDELITY]</span> Does this tree sit convincingly <em>beside</em> the golden-chain tree — same three tiers, same provenance grammar — such that the secular/sacred pairing reads as one method? Or does the pop corpus need a different node vocabulary?</li>
+        <li><span class="q">[NEXT]</span> This backward direction is un-run by the engine. Recommend a targeted backward-admissibility IRR (scoped to graft-hallucination + fixed-endpoint teleology + citation-span-backward) before any of these edges is trusted, per the schema doc. Draft it?</li>
+      </ol>
+    </div>
+
+    <div class="caveat">Demonstrator-grade. The forward/move layer is the real coded output (IRR177-corrected); the backward roots are hand-reasoned candidates authored directly (not LLM-generated) precisely because provenance hallucination is the named risk for retrodiction — an invented lineage is worse than an honest gap. No lyric text is reproduced beyond the factual title and refrain reference.</div>
+
+    <div class="foot">
+      Grammar of Meaning — a bottom-up comparative study of how meaning gets made across traditions. This page: the bidirectional trace-tree instrument (backward provenance + forward reception, joined at a pivot), run on "She Loves You" as the secular twin of the golden-chain sacred trace. Candidate; §2.1; §2.6; §13; Stage 6 = 0. Not written to the DB; not committed.
+    </div>
+    <a class="backlink" href="coding-lab.html">← back to the coding lab</a>
+  </div>
+
+<script>
+const N = {
+  pivot: {x:470,y:390,r:52,cls:'pivot',label:'"She Loves You"',sub:'the song · 1963',
+    prov:'pivot', moves:'META + M1–M8',
+    detail:'<b>The pivot.</b> The whole song = one meta-move: a third-person love-messenger delivering reassurance ("she loves you — so be glad, and go back to her"). Contains all 8 coded moves; ~80% self-completing. Backward and forward were reasoned independently and joined here (the anti-teleology fix — don\'t build a bridge just because you know where it lands).'},
+  // forward / reception (canopy, top)
+  F1:{x:210,y:90,r:34,cls:'recept',label:'"yeah yeah yeah"',sub:'cultural marker',prov:'attested',moves:'← from META/M7',
+    detail:'<b>Forward · attested.</b> The refrain became shorthand for Beatlemania and the British Invasion — a cultural signature detached from the song\'s argument. Reception amplifies the affective exhortation (M7) into a slogan.'},
+  F2:{x:470,y:78,r:34,cls:'recept',label:'covers & translations',sub:'re-voicing the move',prov:'attested',moves:'← from the whole song',
+    detail:'<b>Forward · attested.</b> Covered and re-recorded across performers and languages (incl. a German-language version, 1964). The same move — friend-relays-her-love — is re-voiced by different singers, a reception mirror of how a doctrine is re-preached.'},
+  F3:{x:730,y:90,r:34,cls:'recept',label:'place in Beatlemania',sub:'a hinge single',prov:'attested',moves:'← from the whole song',
+    detail:'<b>Forward · attested.</b> Among the best-selling UK singles of the 1960s; a hinge of the Beatlemania phenomenon. The song\'s reception is inseparable from a cultural moment — the pop analog of a formula entering the liturgy.'},
+  // backward / provenance roots (bottom)
+  R1:{x:130,y:690,r:34,cls:'root',label:'message / relay song',sub:'the messenger genre',prov:'attested',moves:'→ META, M6',edge:'attested',
+    detail:'<b>Backward · attested.</b> A delivered-message genre (postman / telegram / "tell-her" songs of the early 1960s). Root of the META-move: the friend as messenger, and M6 (relay/witness). The strongest backward claim — the meta-move literally IS a relay.'},
+  R2:{x:305,y:706,r:34,cls:'root',label:'third-person love-report',sub:'"she loves you," not "I love you"',prov:'textual',moves:'→ M4, M5, M6',edge:'textual',
+    detail:'<b>Backward · textual form / reconstructed lineage.</b> The grammatical form — a report ABOUT a third party rather than a first-person avowal — is observable in the title itself (textual). That the form descends from a convention is reconstructed. Root of M4 (report), M5, and M6 (witness). REVIEW #1.'},
+  R3:{x:470,y:712,r:34,cls:'root',label:'call-and-response',sub:'gospel / R&B "yeah yeah yeah"',prov:'attested',moves:'→ M7',edge:'attested',
+    detail:'<b>Backward · attested (with reconstructed depth).</b> Call-and-response affirmation from R&B / doo-wop lineage (with a looser gospel-church derivation). Root of the affective exhortation M7 ("be glad"). The gospel depth-graft is the reconstructed part — REVIEW #3.'},
+  R4:{x:645,y:706,r:34,cls:'root',label:'Brill-Building pop-craft',sub:'Tin Pan Alley construction',prov:'attested',moves:'→ the whole form',edge:'attested',
+    detail:'<b>Backward · attested.</b> Hook-first, compressed songwriting-factory construction (Brill-Building / Tin Pan Alley lineage). Root of the compact 8-move FORM itself — why the whole argument fits in a two-minute single. Candidate for a deeper graft-tier (REVIEW #5).'},
+  R5:{x:820,y:690,r:34,cls:'root',label:'girl-group answer-song',sub:'the woman’s-POV narrative',prov:'reconstructed',moves:'→ M1–M3, M8',edge:'reconstructed',
+    detail:'<b>Backward · reconstructed.</b> A plausible form-parallel: the early-60s answer-song / girl-group storytelling that the song seems to report on (the hurt→suffer→reappraise backstory). NOT a documented source for this song — a hypothesis only. Root of M1–M3 and M8. REVIEW #2.'},
+};
+// residual reception targets (ports on the pivot, glowing, edges up toward forward)
+const RESID = [
+  {x:395,y:342,label:'his reciprocity?',target:'F2',primary:true,
+    detail:'<b>Residual gap · 5/5 cold (form-produced).</b> Does HE love her back? Never stated. The reliable second residual per IRR177 — a gap the FORM produces. A reception target: only an external voice (a cover from his POV, a sequel) fills it.'},
+  {x:545,y:342,label:'friend’s motive?',target:'F1',primary:true,
+    detail:'<b>Residual gap · 5/5 cold (form-produced).</b> Why does the friend/mediator care? The witness\'s stake is never given — confirmed by all five cold cohorts. The meta-move\'s own money-cell gap; a reception target (a jealous-friend reading, a triangulation cover).'},
+  {x:470,y:318,label:'her voice? (lens)',target:'F2',primary:false,
+    detail:'<b>Available reader-lens · 1/5 cold (NOT form-produced).</b> The un-voiced woman — talked about for 8 moves, never speaks. Only 1/5 cohorts surfaced this cold; it is a real reader-supplied lens, not a gap the form foregrounds. Drawn faint/secondary. REVIEW #6.'},
+];
+
+const svg = document.getElementById('tree');
+const NS = 'http://www.w3.org/2000/svg';
+function el(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+function edgeStyle(kind){
+  if(kind==='textual') return {stroke:'var(--accent)',w:2.2,dash:''};
+  if(kind==='attested') return {stroke:'var(--root)',w:2,dash:''};
+  return {stroke:'var(--recon)',w:1.8,dash:'6 5'}; // reconstructed
+}
+
+// ---- draw backward edges (roots -> pivot) ----
+['R1','R2','R3','R4','R5'].forEach(id=>{
+  const n=N[id], s=edgeStyle(n.edge);
+  const midY=(n.y+N.pivot.y)/2;
+  const d=`M ${n.x} ${n.y-n.r} C ${n.x} ${midY}, ${N.pivot.x} ${midY+40}, ${N.pivot.x} ${N.pivot.y+N.pivot.r}`;
+  svg.appendChild(el('path',{d,fill:'none',stroke:s.stroke,'stroke-width':s.w,'stroke-dasharray':s.dash,'stroke-linecap':'round',opacity:.75}));
+});
+// ---- draw forward edges (pivot -> canopy) ----
+['F1','F2','F3'].forEach(id=>{
+  const n=N[id], s=edgeStyle('attested');
+  const midY=(n.y+N.pivot.y)/2;
+  const d=`M ${N.pivot.x} ${N.pivot.y-N.pivot.r} C ${N.pivot.x} ${midY-30}, ${n.x} ${midY}, ${n.x} ${n.y+n.r}`;
+  svg.appendChild(el('path',{d,fill:'none',stroke:s.stroke,'stroke-width':s.w,'stroke-linecap':'round',opacity:.6}));
+});
+// ---- residual reception-target edges (faint, dashed) ----
+RESID.forEach(rz=>{
+  const t=N[rz.target];
+  const d=`M ${rz.x} ${rz.y} C ${rz.x} ${rz.y-60}, ${t.x} ${t.y+90}, ${t.x} ${t.y+t.r}`;
+  svg.appendChild(el('path',{d,fill:'none',stroke:'var(--recept)','stroke-width':rz.primary?1.6:1,'stroke-dasharray':'3 6','stroke-linecap':'round',opacity:rz.primary?.6:.35}));
+});
+
+// zone labels
+function zoneLabel(x,y,txt,color){
+  const g=el('text',{x,y,'text-anchor':'middle','font-family':'var(--mono)','font-size':'11','letter-spacing':'.14em',fill:color,opacity:.85});
+  g.textContent=txt; svg.appendChild(g);
+}
+zoneLabel(470,30,'FORWARD — RECEPTION','var(--recept)');
+zoneLabel(470,760,'BACKWARD — PROVENANCE (UN-RUN)','var(--root)');
+
+const detailEl=document.getElementById('detail');
+function show(html){detailEl.innerHTML=html;}
+
+// ---- draw nodes ----
+function drawNode(id,n){
+  const g=el('g',{class:'node',tabindex:'0',role:'button','aria-label':n.label});
+  let fill='var(--surface)', stroke='var(--accent)';
+  if(n.cls==='root'){stroke='var(--root)';}
+  if(n.cls==='recept'){stroke='var(--recept)';}
+  if(n.cls==='pivot'){fill='var(--accent-soft)';stroke='var(--accent)';}
+  g.appendChild(el('circle',{cx:n.x,cy:n.y,r:n.r,fill,stroke,'stroke-width':n.cls==='pivot'?2.6:1.8}));
+  // label
+  const t1=el('text',{x:n.x,y:n.y-(n.cls==='pivot'?4:2),'text-anchor':'middle',
+    'font-family':'var(--serif)','font-weight':'600','font-size':n.cls==='pivot'?'16':'12.5',fill:'var(--ink)'});
+  t1.textContent=n.label; g.appendChild(t1);
+  const t2=el('text',{x:n.x,y:n.y+(n.cls==='pivot'?16:12),'text-anchor':'middle',
+    'font-family':'var(--sans)','font-size':n.cls==='pivot'?'11.5':'10',fill:'var(--muted)'});
+  t2.textContent=n.sub; g.appendChild(t2);
+  // provenance badge on roots
+  if(n.prov && n.cls==='root'){
+    const bc = n.prov==='textual'?'var(--accent)':(n.prov==='attested'?'var(--root)':'var(--recept)');
+    const bt=el('text',{x:n.x,y:n.y+n.r+14,'text-anchor':'middle','font-family':'var(--mono)','font-size':'9','letter-spacing':'.06em',fill:bc,'text-transform':'uppercase'});
+    bt.textContent=n.prov.toUpperCase(); g.appendChild(bt);
+  }
+  const activate=()=>show(`<b>${n.label}</b> · <span style="font-family:var(--mono);font-size:12px">${n.prov} · ${n.moves}</span><br>${n.detail}`);
+  g.addEventListener('click',activate);
+  g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activate();}});
+  svg.appendChild(g);
+}
+Object.keys(N).forEach(id=>drawNode(id,N[id]));
+
+// residual ports (small glowing dots on the pivot rim)
+RESID.forEach(rz=>{
+  const g=el('g',{class:'node',tabindex:'0',role:'button','aria-label':rz.label});
+  g.appendChild(el('circle',{cx:rz.x,cy:rz.y,r:rz.primary?7:5,fill:'var(--recept)',opacity:rz.primary?.9:.5}));
+  g.appendChild(el('circle',{cx:rz.x,cy:rz.y,r:rz.primary?12:9,fill:'none',stroke:'var(--recept)','stroke-width':.8,opacity:.4}));
+  const lt=el('text',{x:rz.x,y:rz.y-(rz.primary?16:13),'text-anchor':'middle','font-family':'var(--mono)','font-size':'9.5',fill:'var(--recept)'});
+  lt.textContent=rz.label; g.appendChild(lt);
+  const activate=()=>show(rz.detail);
+  g.addEventListener('click',activate);
+  g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activate();}});
+  svg.appendChild(g);
+});
+
+// ---- cards ----
+function card(n,extra){
+  return `<div class="card ${n.cls}">
+    <div class="ttl">${n.label}</div>
+    <div class="meta">${n.sub} · ${n.moves}</div>
+    <div style="margin:.2rem 0 .45rem"><span class="tag ${n.prov}">${n.prov}</span></div>
+    <div class="bd">${n.detail.replace(/<b>.*?<\/b>\s*/,'')}</div>
+  </div>`;
+}
+document.getElementById('rootcards').innerHTML=['R1','R2','R3','R4','R5'].map(id=>card(N[id])).join('');
+document.getElementById('receptcards').innerHTML=
+  ['F1','F2','F3'].map(id=>card(N[id])).join('') +
+  RESID.map(rz=>`<div class="card recept">
+    <div class="ttl">${rz.label}</div>
+    <div class="meta">residual gap · ${rz.primary?'form-produced (reliable)':'reader-lens (secondary)'}</div>
+    <div style="margin:.2rem 0 .45rem"><span class="tag reconstructed">reception target</span></div>
+    <div class="bd">${rz.detail.replace(/<b>.*?<\/b>\s*/,'')}</div>
+  </div>`).join('');
+
+// ---- gap explorer (design-SB, Item A part 2) ----
+var GAPS=[{"slot": "the song fills itself", "q": "~80% self-completing (the 8 moves)", "gap": null, "fills": [{"label": "M1–M3 · hurt → suffer → reappraise (narrate)", "state": "FILLED", "tier": "self", "why": "the backstory the song reports on — it answers its own setup."}, {"label": "M4 · loves — the core (report)", "state": "FILLED", "tier": "self", "why": "the third-person love-report; the song’s money move."}, {"label": "M6 · relay / witness (report)", "state": "FILLED", "tier": "self", "why": "the friend-as-messenger — the meta-move made explicit."}, {"label": "M7 · “be glad” (directive)", "state": "FILLED", "tier": "self", "why": "the call-and-response exhortation (“yeah yeah yeah”)."}, {"label": "M8 · “apologize” (directive)", "state": "FILLED", "tier": "self", "why": "the resolution the song presses toward."}]}, {"slot": "reciprocity", "q": "does HE love her back?", "gap": "5/5 cold", "fills": [{"label": "a cover from his POV · a sequel", "state": "POSSIBLE", "tier": "reception-target", "why": "never stated — a gap the FORM produces (all five cold cohorts touch it, IRR177). Only an external voice fills it."}]}, {"slot": "the messenger’s motive", "q": "why does the friend care?", "gap": "5/5 cold", "fills": [{"label": "a jealous-friend / triangulation reading", "state": "POSSIBLE", "tier": "reception-target", "why": "the witness’s stake is never given — confirmed 5/5 cold. The meta-move’s own money-cell gap."}]}, {"slot": "her voice", "q": "the un-voiced woman", "gap": "1/5 cold", "fills": [{"label": "a reader-supplied lens · a woman’s-POV cover", "state": "POSSIBLE", "tier": "reader-lens", "why": "a real reader-lens — she is talked about for 8 moves, never speaks."}, {"label": "…as a FORM-produced gap", "state": "PRUNED", "tier": "1/5 cold", "why": "demoted per the IRR177 cold correction: only 1/5 cohorts surfaced it cold, so it is a reader-lens, NOT a gap the form foregrounds. Pruned from primary, kept as secondary — the pruning shown, not hidden."}]}, {"slot": "deeper roots (below the pivot)", "q": "the pop equivalent of the NT’s pagan/Jewish grafts", "gap": "omitted", "fills": [{"label": "African-American gospel structure (under R3)", "state": "PRUNED", "tier": "too-speculative", "why": "deliberately omitted as too speculative (review #5) — a deeper graft-tier candidate, held pending the backward-admissibility IRR."}, {"label": "Tin-Pan-Alley craft as itself a graft of earlier song-forms (under R4)", "state": "PRUNED", "tier": "too-speculative", "why": "omitted for the same reason — held for a deeper root tier rather than asserted."}]}];
+(function(){
+  var host=document.getElementById('gapexplorer'); if(!host) return;
+  var html='';
+  GAPS.forEach(function(g){
+    html+='<div class="gaprow"><div class="gaphead" onclick="this.parentNode.classList.toggle(\'open\')">'
+      +'<span class="caret">▸</span><span class="slot">'+g.slot+'</span><span class="q">'+g.q+'</span>'
+      +(g.gap?'<span class="gid">'+g.gap+'</span>':'')+'</div><div class="gapfills">';
+    g.fills.forEach(function(f){
+      html+='<div class="fill'+(f.state==='PRUNED'?' pruned':'')+'"><span class="st '+f.state+'">'+f.state.toLowerCase()+'</span>'
+        +'<div class="ftxt"><span class="flabel">'+f.label+'</span><span class="ftier">'+f.tier+'</span>'
+        +'<div class="fwhy">'+f.why+'</div></div></div>';
+    });
+    html+='</div></div>';
+  });
+  host.innerHTML=html;
+})();
+
+</script>
+</body>
+</html>
