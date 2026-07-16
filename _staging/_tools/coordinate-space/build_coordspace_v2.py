@@ -1,4 +1,76 @@
-<!DOCTYPE html>
+#!/usr/bin/env python3
+"""coordinate-space.html v2 — the reframe: a coordinate ANSWERS one question.
+
+Per reading-SB's BATCH_to_designSB_coordinate_space_reframe_2026-07-15 (PR #2473):
+fix the question ("Why is there suffering?") → spin a coordinate → it answers → the reader
+watches the 6 axes develop into a stance → an "axes doing the work" line teaches what a
+coordinate IS. Occupied → name the real thinkers (from the occupied-tuple data). Gap →
+the generated answer, tagged GENERATED.
+
+⚠️ ACQUISITION PANEL IS HELD (reading-SB's caveat, 2026-07-15): the first acquisition list was
+generated WITHOUT a DB check and 2/6 were already in the corpus; at ~31% coded, an "empty"
+coordinate is usually a CODING gap, not an acquisition gap. A CODE-IT vs ACQUIRE triage engine
+is being built — the panel ships as a visible [pending] placeholder until then, and must never
+assert "we don't have this".
+
+Occupancy is VERIFIED per-stance against DATA_occupied_tuples (not asserted from the payload).
+
+Usage: build_coordspace_v2.py <occupied_tuples.json> <OUTPUT.html>
+"""
+import sys, json
+
+AX=[("epistemic-warrant","E","how it knows"),("ontological-commitment","O","what it takes to be real"),
+    ("inferential-operation","M","how it moves"),("telos","T","what it is for"),
+    ("stance","S","its posture"),("ground-world-relation","G","world-relation")]
+
+QUESTION="Why is there suffering?"
+
+# Payload A — reading-SB's generated stance-answers ($0 Sonnet, temp 0). Verbatim.
+STANCES=[
+ dict(key="augustinian", name="The Augustinian",
+      coord=["revelation","personal-agentive","exegesis","salvation","reverent","creation"],
+      work=["epistemic-warrant","inferential-operation"],
+      workline="epistemic-warrant (revelation) + inferential-operation (exegesis)",
+      answer="Suffering entered a good creation through the free turning of created wills away from God — Adam’s disobedience read in Genesis 3 and unfolded in Romans 5, not a metaphysical necessity but a personal-agentive rupture in a personal-agentive cosmos. What Scripture discloses (and reason cannot deduce) is that suffering is neither God’s design nor the world’s ground, but the wound the salvation-story is written to heal."),
+ dict(key="buddhist", name="The Buddhist / contemplative",
+      coord=["embodied-practice","dependent-arising","analogical-mapping","liberation","reparative","dependent-arising"],
+      work=["ontological-commitment","epistemic-warrant"],
+      workline="ontological-commitment (dependent-arising, doubled as ground) + epistemic-warrant (embodied-practice)",
+      answer="Sit long enough and you watch it happen: a sensation arises, the mind grasps or pushes, and <i>dukkha</i> is the shape that grasping takes — the second and third noble truths are not doctrines but observations any practitioner can re-run. There is no substrate “suffering” behind the arising; it is the same knot the whole conditioned world is — which is exactly why loosening the knot is possible.",
+      flag="design-SB flag for reading-SB: <b>dependent-arising</b> sits here in the <b>ontological-commitment</b> slot, but it is not among the 12 occupied O-values (it <i>is</i> an occupied <i>ground</i> value). The O menu holds 13 values and 12 are occupied — is this the legitimate 13th, or should O be <i>void</i> / <i>process-becoming</i> with dependent-arising as the ground? Not guessed here."),
+ dict(key="materialist", name="The secular-materialist",
+      coord=["observation","material","causal-explanation","knowledge-understanding","reductive","emergence"],
+      work=["inferential-operation","stance"],
+      workline="inferential-operation (causal-explanation) + stance (reductive)",
+      answer="Suffering is what nociceptive signaling, limbic valuation, and predictive-error minimization <i>feel like from the inside</i> in a nervous system complex enough to model itself — an emergent property of evolved tissue, selected because organisms that could be hurt outlived ones that couldn’t. The “why” decomposes into proximate (neurochemistry) and ultimate (fitness gradients) causes; there is no residual “why” once those are given."),
+ dict(key="apophatic", name="The apophatic mystic",
+      coord=["mystical-union","apophatic","dialectical-negation","contemplation","reverent","manifestation"],
+      work=["ontological-commitment","inferential-operation"],
+      workline="ontological-commitment (apophatic) + inferential-operation (dialectical-negation)",
+      answer="To say “there <i>is</i> suffering, and it has a <i>cause</i>” is already to have said too much — both terms belong to the naming-mind that the dark cloud undoes. In the manifestation, what appears as suffering is neither other than the One nor the same as it; the question is not answered but un-said, and the un-saying is itself the contemplative work."),
+ dict(key="gap", name="★ The gap — no one holds this seat", star=True,
+      coord=["embodied-practice","material","induction","liberation","reparative","unspecified"],
+      work=["epistemic-warrant","ontological-commitment"],
+      workline="epistemic-warrant (embodied-practice) + ontological-commitment (material)",
+      answer="Suffering is what accumulates in a body — held tension, trauma imprint, dysregulated nervous system — and what you learn, from working with enough bodies including your own, is that it is <i>material all the way down</i> and yet responsive to practice. No cosmology is required and none is offered; the induction from ten thousand somatic sessions is simply that these patterns can be released, and release is the whole of liberation on offer.",
+      rub="The rub: embodied-practice + liberation + reparative usually co-travel with dependent-arising or manifestation grounds; pairing them with <b>material</b> + <b>unspecified</b> names a live but <b>under-inhabited seat</b>."),
+]
+
+def build(data_path,out):
+    d=json.load(open(data_path))
+    keys=[a for a,_,_ in AX]
+    occ={tuple(t["coord"][a] for a in keys):t for t in d["occupied_tuples"]}
+    # VERIFY occupancy per stance against the real data (never assert from the payload)
+    for s in STANCES:
+        t=occ.get(tuple(s["coord"]))
+        s["occupied"]= t is not None
+        s["n"]= t["n"] if t else 0
+        s["figs"]= t["figures"] if t else []
+    JS=json.dumps({"AX":[{"k":k,"s":sh,"g":g} for k,sh,g in AX],"STANCES":STANCES,
+                   "NOCC":d["n_distinct_occupied_tuples"],"POSSIBLE":d["possible_full_menu"],
+                   "NFIG":d["n_figures"],"PCT":d["occupancy_pct_of_full_menu"],"Q":QUESTION}, ensure_ascii=False)
+
+    HTML="""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -91,7 +163,7 @@
 <p class="foot">HOW PRODUCED · design-SB, build_coordspace_v2.py — the reframe per reading-SB’s BATCH_to_designSB_coordinate_space_reframe_2026-07-15 (researcher: “shouldn’t they all answer a single question — see how the 6 coordinates develop into something”). Stance-answers are reading-SB’s payload (generated $0 Sonnet temp 0), reproduced verbatim. <b>Occupancy is verified per-stance against DATA_occupied_tuples — not asserted from the payload.</b> WHAT NEEDS VERIFICATION · (1) the real-stance answers are the model’s reconstruction — validate vs primary before any claim. (2) The <b>acquisition panel is HELD</b> per reading-SB’s caveat: the first list was generated without a DB check (2/6 were already in the corpus), and at ~31% coded an empty coordinate is usually a <b>coding</b> gap, not an acquisition gap — it ships only after the CODE-IT vs ACQUIRE triage engine + a DB check. (3) The gap answer is generated, never a finding. (4) One coordinate-value query is flagged inline for reading-SB. Stage 6 = 0; nothing written to the DB.</p>
 </div>
 <script>
-var D={"AX": [{"k": "epistemic-warrant", "s": "E", "g": "how it knows"}, {"k": "ontological-commitment", "s": "O", "g": "what it takes to be real"}, {"k": "inferential-operation", "s": "M", "g": "how it moves"}, {"k": "telos", "s": "T", "g": "what it is for"}, {"k": "stance", "s": "S", "g": "its posture"}, {"k": "ground-world-relation", "s": "G", "g": "world-relation"}], "STANCES": [{"key": "augustinian", "name": "The Augustinian", "coord": ["revelation", "personal-agentive", "exegesis", "salvation", "reverent", "creation"], "work": ["epistemic-warrant", "inferential-operation"], "workline": "epistemic-warrant (revelation) + inferential-operation (exegesis)", "answer": "Suffering entered a good creation through the free turning of created wills away from God — Adam’s disobedience read in Genesis 3 and unfolded in Romans 5, not a metaphysical necessity but a personal-agentive rupture in a personal-agentive cosmos. What Scripture discloses (and reason cannot deduce) is that suffering is neither God’s design nor the world’s ground, but the wound the salvation-story is written to heal.", "occupied": true, "n": 34, "figs": ["Mennonite Church USA", "Duke Divinity School", "John Chrysostom", "Francis of Assisi", "Gregory Palamas", "Pico della Mirandola", "Westminster Theological Journal", "Anthony of Padua", "John Calvin", "Book of Common Prayer", "St. John Chrysostom", "The Gospel Coalition", "Tim Keller", "Zacharias Ursinus", "Augustine of Hippo", "Desiring God", "Nouman Ali Khan", "Prophet Muhammad", "John Wesley", "Spelman College Glee Club", "Jonathan Edwards", "Theological Studies (journal)", "Yasir Qadhi", "Andrew of Crete", "Ellen G. White", "Malankara Orthodox Syrian Church", "Robert Kolb", "Rule of Saint Benedict", "Stephen Grellet", "The English Hymnal", "Thomas Hooker", "Athanasius of Alexandria", "Bede the Venerable", "Charles Hodge"]}, {"key": "buddhist", "name": "The Buddhist / contemplative", "coord": ["embodied-practice", "dependent-arising", "analogical-mapping", "liberation", "reparative", "dependent-arising"], "work": ["ontological-commitment", "epistemic-warrant"], "workline": "ontological-commitment (dependent-arising, doubled as ground) + epistemic-warrant (embodied-practice)", "answer": "Sit long enough and you watch it happen: a sensation arises, the mind grasps or pushes, and <i>dukkha</i> is the shape that grasping takes — the second and third noble truths are not doctrines but observations any practitioner can re-run. There is no substrate “suffering” behind the arising; it is the same knot the whole conditioned world is — which is exactly why loosening the knot is possible.", "flag": "design-SB flag for reading-SB: <b>dependent-arising</b> sits here in the <b>ontological-commitment</b> slot, but it is not among the 12 occupied O-values (it <i>is</i> an occupied <i>ground</i> value). The O menu holds 13 values and 12 are occupied — is this the legitimate 13th, or should O be <i>void</i> / <i>process-becoming</i> with dependent-arising as the ground? Not guessed here.", "occupied": false, "n": 0, "figs": []}, {"key": "materialist", "name": "The secular-materialist", "coord": ["observation", "material", "causal-explanation", "knowledge-understanding", "reductive", "emergence"], "work": ["inferential-operation", "stance"], "workline": "inferential-operation (causal-explanation) + stance (reductive)", "answer": "Suffering is what nociceptive signaling, limbic valuation, and predictive-error minimization <i>feel like from the inside</i> in a nervous system complex enough to model itself — an emergent property of evolved tissue, selected because organisms that could be hurt outlived ones that couldn’t. The “why” decomposes into proximate (neurochemistry) and ultimate (fitness gradients) causes; there is no residual “why” once those are given.", "occupied": false, "n": 0, "figs": []}, {"key": "apophatic", "name": "The apophatic mystic", "coord": ["mystical-union", "apophatic", "dialectical-negation", "contemplation", "reverent", "manifestation"], "work": ["ontological-commitment", "inferential-operation"], "workline": "ontological-commitment (apophatic) + inferential-operation (dialectical-negation)", "answer": "To say “there <i>is</i> suffering, and it has a <i>cause</i>” is already to have said too much — both terms belong to the naming-mind that the dark cloud undoes. In the manifestation, what appears as suffering is neither other than the One nor the same as it; the question is not answered but un-said, and the un-saying is itself the contemplative work.", "occupied": true, "n": 1, "figs": ["Pseudo-Dionysius"]}, {"key": "gap", "name": "★ The gap — no one holds this seat", "star": true, "coord": ["embodied-practice", "material", "induction", "liberation", "reparative", "unspecified"], "work": ["epistemic-warrant", "ontological-commitment"], "workline": "epistemic-warrant (embodied-practice) + ontological-commitment (material)", "answer": "Suffering is what accumulates in a body — held tension, trauma imprint, dysregulated nervous system — and what you learn, from working with enough bodies including your own, is that it is <i>material all the way down</i> and yet responsive to practice. No cosmology is required and none is offered; the induction from ten thousand somatic sessions is simply that these patterns can be released, and release is the whole of liberation on offer.", "rub": "The rub: embodied-practice + liberation + reparative usually co-travel with dependent-arising or manifestation grounds; pairing them with <b>material</b> + <b>unspecified</b> names a live but <b>under-inhabited seat</b>.", "occupied": false, "n": 0, "figs": []}], "NOCC": 365, "POSSIBLE": 275184, "NFIG": 512, "PCT": 0.1326, "Q": "Why is there suffering?"};
+var D=__DATA__;
 (function(){
   var AX=D.AX,S=D.STANCES,i=0;
   var coord=document.getElementById('coord'),nm=document.getElementById('nm'),tg=document.getElementById('tg'),
@@ -129,4 +201,11 @@ var D={"AX": [{"k": "epistemic-warrant", "s": "E", "g": "how it knows"}, {"k": "
 })();
 </script>
 </body>
-</html>
+</html>"""
+    HTML=HTML.replace("__DATA__",JS)
+    open(out,"w").write(HTML)
+    nocc=sum(1 for s in STANCES if s["occupied"])
+    print(f"wrote {out} — {len(STANCES)} stances ({nocc} verified-occupied, {len(STANCES)-nocc} generated); acquisition panel HELD")
+
+if __name__=="__main__":
+    build(sys.argv[1],sys.argv[2])
