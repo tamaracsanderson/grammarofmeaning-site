@@ -414,8 +414,141 @@ pre.eq{white-space:pre}
   </table>
   <p class="cap">Source: <code>field_ed/_persona_engine/edge_taxonomy_v2_2026-07-11.md</code>, reconciled from IRR179. <b>Candidate</b> — the v2 codebook has not been piloted; Romans 8 is its first real test.</p></div>
 
-  <div class="vizslot"><div class="vs-h"><span class="vs-id">VIZ-1</span><span class="vs-t">The edge legend, and the song's edges re-drawn</span></div>
-    <div class="vs-b">Your note: <i>"there's no legend that says they are an edge… the color is hard to see… are those the only types of edges, and what does 'production' mean?"</i> <b>Reserved for:</b> a real legend keyed to the v2 taxonomy above, with every arrow drawn in its family's colour, on the 8 moves of "She Loves You" — replacing the current diagram, whose labels (production / completion / reception) are the <b>retired gen-1 names</b>. It will also show which edges the song has <b>none</b> of, which is the thing the old diagram couldn't tell you.</div></div>
+  <div class="viz viz-1" id="viz-1">
+<style>
+/* VIZ-1 — scoped. Uses only locked gom.css tokens; palette is NOT redefined. */
+.viz-1{border:1px solid var(--rule);border-radius:12px;background:var(--paper-3);padding:18px 18px 14px;margin:22px 0}
+.viz-1 .viz-h{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:6px}
+.viz-1 .viz-id{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--paper);background:var(--moss);padding:2px 8px;border-radius:5px}
+.viz-1 .viz-t{font-family:var(--serif);font-size:19px;color:var(--ink)}
+.viz-1 .chip{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:20px;border:1px solid currentColor}
+.viz-1 .chip-cand{color:var(--terracotta)}
+.viz-1 .chip-actual{color:var(--fern)}
+.viz-1 .viz-lede{font-size:14.5px;color:var(--ink-2);margin:6px 0 14px;max-width:82ch;line-height:1.6}
+.viz-1 .retired{font-family:var(--mono);font-size:12.5px;text-decoration:line-through;color:var(--ink-3)}
+.viz-1 .alias{font-family:var(--mono);font-size:.86em;color:var(--ink-3);font-weight:400}
+/* legend */
+.viz-1 .v1-legend{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
+@media(max-width:760px){.viz-1 .v1-legend{grid-template-columns:1fr}}
+.viz-1 .fam{border:1px solid var(--rule);border-radius:9px;padding:9px 11px;background:var(--paper)}
+.viz-1 .fam-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;margin-bottom:5px}
+.viz-1 .fam-h b{font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+.viz-1 .scope{font-size:11px;color:var(--ink-3)}
+.viz-1 .swatch{width:34px;height:0;flex:none;border-top-width:3px;border-top-style:solid}
+.viz-1 .fam-a .swatch{border-top-color:var(--moss);border-top-style:solid}
+.viz-1 .fam-b .swatch{border-top-color:var(--honey);border-top-style:dashed}
+.viz-1 .fam-c .swatch{border-top-color:var(--olive);border-top-style:dotted}
+.viz-1 .fam-d .swatch{border-top-color:var(--terracotta);border-top-style:double;border-top-width:4px}
+.viz-1 .fam-a .fam-h b{color:var(--moss)}.viz-1 .fam-b .fam-h b{color:var(--honey)}
+.viz-1 .fam-c .fam-h b{color:var(--olive)}.viz-1 .fam-d .fam-h b{color:var(--terracotta)}
+.viz-1 .fam-t{display:flex;flex-direction:column}
+.viz-1 .edge{padding:5px 0;border-top:1px solid var(--rule-soft)}
+.viz-1 .e-top{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.viz-1 .e-top b{font-family:var(--mono);font-size:10.5px;letter-spacing:.02em;color:var(--ink)}
+.viz-1 .e-cn{font-size:10.5px;color:var(--ink-3);margin-top:1px;line-height:1.4}
+.viz-1 .ct{margin-left:auto;font-family:var(--mono);font-size:9.5px;text-align:right}
+.viz-1 .ct.yes{color:var(--fern);font-weight:600}
+.viz-1 .ct.no{color:var(--ink-3)}
+.viz-1 .edge.off{opacity:.55}
+.viz-1 .edge.off .e-top b{font-weight:400;color:var(--ink-2)}
+/* svg */
+.viz-1 .v1-scroll{overflow-x:auto;border:1px solid var(--rule-soft);border-radius:9px;background:var(--paper)}
+.viz-1 .v1-svg{display:block;width:100%;min-width:1000px;height:auto}
+.viz-1 .metabox{fill:none;stroke:var(--sage);stroke-width:1.4;stroke-dasharray:2 4}
+.viz-1 .metalab{font-family:var(--mono);font-size:10px;font-weight:600;fill:var(--moss);letter-spacing:.03em}
+.viz-1 .metasub{font-family:var(--sans);font-size:9.5px;fill:var(--ink-3)}
+.viz-1 .node rect{fill:var(--paper-3);stroke:var(--rule);stroke-width:1.3}
+.viz-1 .node.star rect{stroke:var(--fern);stroke-width:2.2;fill:var(--paper-2)}
+.viz-1 .nid{font-family:var(--mono);font-size:8.5px;fill:var(--ink-3);letter-spacing:.03em}
+.viz-1 .node.star .nid{fill:var(--fern);font-weight:600}
+.viz-1 .nop{font-family:var(--serif);font-size:13px;fill:var(--ink)}
+.viz-1 .nwho{font-family:var(--sans);font-size:9px;fill:var(--ink-3)}
+.viz-1 .ntyp{font-family:var(--mono);font-size:8px;fill:var(--ink-3)}
+/* FAMILY A — solid, filled arrowhead */
+.viz-1 .e-feeds{stroke:var(--moss);stroke-width:2.4;fill:none}
+.viz-1 .e-fills{stroke:var(--moss);stroke-width:2;fill:none;stroke-dasharray:9 3}
+.viz-1 .mk-a{fill:var(--moss)}
+/* FAMILY B — dashed, open chevron */
+.viz-1 .e-res{stroke:var(--honey);stroke-width:2.2;fill:none;stroke-dasharray:7 4}
+.viz-1 .mk-b{stroke:var(--honey);stroke-width:1.6}
+.viz-1 .recline{stroke:var(--rule);stroke-width:1;stroke-dasharray:3 5}
+.viz-1 .recband{font-family:var(--mono);font-size:9.5px;fill:var(--ink-3);letter-spacing:.04em}
+.viz-1 .recband .none{color:var(--ink-3);fill:var(--terracotta)}
+.viz-1 .elab{font-family:var(--mono);font-size:10px;letter-spacing:.03em}
+.viz-1 .lab-a,.viz-1 .lab-a2{fill:var(--moss)}
+.viz-1 .lab-b{fill:var(--honey)}
+.viz-1 .bk{fill:var(--terracotta);font-weight:600}
+.viz-1 .moneylab{font-family:var(--mono);font-size:9px;fill:var(--fern);font-weight:600}
+.viz-1 .rolelab{font-family:var(--mono);font-size:8.5px;fill:var(--ink-3);text-anchor:middle}
+.viz-1 .reslab{font-family:var(--serif);font-size:12px;fill:var(--ink);font-weight:600}
+.viz-1 .ressub{font-family:var(--sans);font-size:9px;fill:var(--ink-3)}
+/* the IRR177-removed layer */
+.viz-1 .corrected-layer[hidden]{display:none}
+.viz-1 .e-corrected{stroke:var(--ink-3);stroke-width:1.4;fill:none;stroke-dasharray:2 3;opacity:.75}
+.viz-1 .corrlab{font-family:var(--mono);font-size:8px;fill:var(--ink-3);text-anchor:middle;text-decoration:line-through}
+/* controls + none-of */
+.viz-1 .v1-ctl{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;margin:10px 0 0}
+.viz-1 .v1-btn{font-family:var(--sans);font-size:12.5px;font-weight:600;padding:6px 13px;border-radius:8px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer}
+.viz-1 .v1-btn[aria-pressed=true]{background:var(--moss);color:var(--paper);border-color:var(--moss)}
+.viz-1 .v1-ctl-note{font-size:11.5px;color:var(--ink-3);flex:1;min-width:240px;line-height:1.5}
+.viz-1 .v1-none{margin:14px 0 0;border-left:3px solid var(--terracotta);background:var(--paper-2);border-radius:0 9px 9px 0;padding:11px 14px;font-size:13px;color:var(--ink-2)}
+.viz-1 .v1-none ul{margin:6px 0 0;padding-left:18px}
+.viz-1 .v1-none li{margin:4px 0}
+.viz-1 .viz-src{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin:12px 0 0;line-height:1.65}
+@media(prefers-reduced-motion:reduce){.viz-1 *{transition:none!important;animation:none!important}}
+</style>
+  <div class="viz-h">
+    <span class="viz-id">VIZ-1</span>
+    <span class="viz-t">The edge legend, and the song's edges re-drawn</span>
+    <span class="chip chip-cand">candidate</span>
+    <span class="chip chip-actual">all edges ACTUAL — coded from the text</span>
+  </div>
+  <p class="viz-lede">Every edge the instrument found in "She Loves You", drawn in its family's treatment and named twice — the <b>operational</b> name a coder checks, and the <b>alias</b> a reader reads. The old diagram's labels (<span class="retired">production · completion · reception</span>) were the <b>retired gen-1 names</b>; these are gen-3, post-IRR179. <b>Colour is never the only signal</b> — each family also carries its own dash and arrowhead.</p>
+
+  <div class="v1-legend"><div class="fam fam-a">
+  <div class="fam-h"><span class="swatch"></span><b>FAMILY A · COHERENCE</b><span class="scope">within a text: how its moves build</span></div>
+  <div class="fam-t"><div class="edge on"><div class="e-top"><b>FEEDS</b><span class="alias">/ THEN</span><span class="ct yes">7 on this song</span></div><div class="e-cn">move N → N+1</div></div><div class="edge on"><div class="e-top"><b>FILLS</b><span class="alias">/ ANSWERS</span><span class="ct yes">4 — and they run backward</span></div><div class="e-cn">a later move → an earlier gap</div></div><div class="edge on"><div class="e-top"><b>COMPOSES</b><span class="alias">/ NESTS</span><span class="ct yes">8 — all of them</span></div><div class="e-cn">a move → the meta-move holding it</div></div><div class="edge off"><div class="e-top"><b>ELABORATES</b><span class="ct no">none coded</span></div><div class="e-cn">N+1 → a finished claim N</div></div><div class="edge off"><div class="e-top"><b>SCAFFOLDS</b><span class="ct no">none coded</span></div><div class="e-cn">N → N+1</div></div></div>
+</div><div class="fam fam-b">
+  <div class="fam-h"><span class="swatch"></span><b>FAMILY B · RECEPTION</b><span class="scope">text → later reader</span></div>
+  <div class="fam-t"><div class="edge on"><div class="e-top"><b>RESIDUAL</b><span class="alias">/ BEQUEST</span><span class="ct yes">2 — pointing out of the song</span></div><div class="e-cn">an unresolvable gap → reception</div></div><div class="edge off"><div class="e-top"><b>REINTERPRETS</b><span class="ct no">none — no reception coded</span></div><div class="e-cn">a later reader → a residual</div></div><div class="edge off"><div class="e-top"><b>FORKS</b><span class="alias">/ FORK</span><span class="ct no">none — the song has no interpretive fork</span></div><div class="e-cn">a later reader → a residual</div></div></div>
+</div><div class="fam fam-c">
+  <div class="fam-h"><span class="swatch"></span><b>FAMILY C · CONVERGENCE</b><span class="scope">cross-text: sameness</span></div>
+  <div class="fam-t"><div class="edge off"><div class="e-top"><b>EXACT-STRUCTURAL-MATCH</b><span class="alias">/ RHYME</span><span class="ct no">none — no cross-text pair coded</span></div><div class="e-cn">a move here :: a move there</div></div><div class="edge off"><div class="e-top"><b>CLOSE-MATCH</b><span class="alias">/ COUSIN</span><span class="ct no">none</span></div><div class="e-cn">a near-rhyme</div></div><div class="edge off"><div class="e-top"><b>GENERALIZES</b><span class="ct no">none</span></div><div class="e-cn">a pair → the pattern P both instantiate</div></div><div class="edge off"><div class="e-top"><b>BROADER / NARROWER</b><span class="ct no">none</span></div><div class="e-cn">across texts</div></div><div class="edge off"><div class="e-top"><b>CITE / ECHO</b><span class="ct no">none</span></div><div class="e-cn">a borrower → a source</div></div></div>
+</div><div class="fam fam-d">
+  <div class="fam-h"><span class="swatch"></span><b>FAMILY D · DIVERGENCE</b><span class="scope">cross-text: difference</span></div>
+  <div class="fam-t"><div class="edge off"><div class="e-top"><b>SURFACE-MATCH</b><span class="alias">/ FALSE-FRIEND</span><span class="ct no">none — no cross-text pair coded</span></div><div class="e-cn">same words, different move</div></div><div class="edge off"><div class="e-top"><b>OPPOSES</b><span class="alias">/ COUNTER</span><span class="ct no">none</span></div><div class="e-cn">a deliberate opposite</div></div><div class="edge off"><div class="e-top"><b>INVERTS</b><span class="alias">/ INVERT</span><span class="ct no">none</span></div><div class="e-cn">a reversal</div></div><div class="edge off"><div class="e-top"><b>IRONIC</b><span class="ct no">none</span></div><div class="e-cn">a move → itself</div></div></div>
+</div></div>
+
+  <div class="v1-scroll"><svg class="v1-svg" viewBox="0 0 1130 524" role="img" aria-label="The 8 moves of She Loves You with every coded edge drawn in its family treatment"><defs><marker id="ah-feeds" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" class="mk-a"/></marker><marker id="ah-fills" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" class="mk-a"/></marker><marker id="ah-res" markerWidth="10" markerHeight="10" refX="7" refY="3.4" orient="auto"><path d="M0,0 L7,3.4 L0,6.8" fill="none" class="mk-b"/></marker></defs><rect class="metabox" x="40" y="192" width="1050" height="158" rx="14"/><text class="metalab" x="52" y="212">META-MOVE · the friend PERSUADES you to reconcile (because she loves you)</text><text class="metasub" x="52" y="226">COMPOSES <tspan class="alias">/ NESTS</tspan> — it contains all eight; the edges below are its internal structure</text><line class="e-feeds" x1="148.0" y1="281.0" x2="157.0" y2="281.0" marker-end="url(#ah-feeds)"/><line class="e-feeds" x1="280.0" y1="281.0" x2="289.0" y2="281.0" marker-end="url(#ah-feeds)"/><line class="e-feeds" x1="412.0" y1="281.0" x2="421.0" y2="281.0" marker-end="url(#ah-feeds)"/><line class="e-feeds" x1="544.0" y1="281.0" x2="553.0" y2="281.0" marker-end="url(#ah-feeds)"/><line class="e-feeds" x1="676.0" y1="281.0" x2="685.0" y2="281.0" marker-end="url(#ah-feeds)"/><line class="e-feeds" x1="808.0" y1="281.0" x2="817.0" y2="281.0" marker-end="url(#ah-feeds)"/><line class="e-feeds" x1="940.0" y1="281.0" x2="949.0" y2="281.0" marker-end="url(#ah-feeds)"/><text class="elab lab-a" x="34" y="242">FEEDS <tspan class="alias">/ THEN</tspan> → forward, move to move</text><path class="e-fills" d="M 222 312 C 222 386, 460 386, 460 320" marker-end="url(#ah-fills)"/><text class="rolelab" x="341.0" y="397">DEGREE</text><path class="e-fills" d="M 750 312 C 750 412, 512 412, 512 320" marker-end="url(#ah-fills)"/><text class="rolelab" x="631.0" y="423">WARRANT</text><path class="e-fills" d="M 882 312 C 882 438, 512 438, 512 320" marker-end="url(#ah-fills)"/><text class="rolelab" x="697.0" y="449">OUTCOME</text><path class="e-fills" d="M 1014 312 C 1014 464, 512 464, 512 320" marker-end="url(#ah-fills)"/><text class="rolelab" x="763.0" y="475">OUTCOME</text><text class="elab lab-a2" x="60" y="494">← FILLS <tspan class="alias">/ ANSWERS</tspan> — later moves answering the money-move, running <tspan class="bk">backward</tspan></text><g id="v1-corrected" class="corrected-layer" hidden><path class="e-corrected" d="M 90 250 C 90 204, 466 204, 466 244"/><text class="corrlab" x="278.0" y="201">REASON ✕</text><path class="e-corrected" d="M 354 250 C 354 186, 466 186, 466 244"/><text class="corrlab" x="410.0" y="183">REASON ✕</text><path class="e-corrected" d="M 618 250 C 618 168, 506 168, 506 244"/><text class="corrlab" x="562.0" y="165">RECIPROCITY ✕</text></g><g class="node"><rect x="32.0" y="250" width="116" height="62" rx="9"/><text class="nid" x="41.0" y="265">M1</text><text class="nop" x="90" y="284" text-anchor="middle">hurt (past)</text><text class="nwho" x="90" y="298" text-anchor="middle">you → her</text><text class="ntyp" x="139.0" y="265" text-anchor="end">narrate</text></g><g class="node"><rect x="164.0" y="250" width="116" height="62" rx="9"/><text class="nid" x="173.0" y="265">M2</text><text class="nop" x="222" y="284" text-anchor="middle">suffer</text><text class="nwho" x="222" y="298" text-anchor="middle">she → (self)</text><text class="ntyp" x="271.0" y="265" text-anchor="end">narrate</text></g><g class="node"><rect x="296.0" y="250" width="116" height="62" rx="9"/><text class="nid" x="305.0" y="265">M3</text><text class="nop" x="354" y="284" text-anchor="middle">reappraise</text><text class="nwho" x="354" y="298" text-anchor="middle">she → you (char.)</text><text class="ntyp" x="403.0" y="265" text-anchor="end">narrate</text></g><g class="node star"><rect x="428.0" y="250" width="116" height="62" rx="9"/><text class="nid" x="437.0" y="265">M4 ★</text><text class="nop" x="486" y="284" text-anchor="middle">loves</text><text class="nwho" x="486" y="298" text-anchor="middle">she → you</text><text class="ntyp" x="535.0" y="265" text-anchor="end">report</text></g><g class="node"><rect x="560.0" y="250" width="116" height="62" rx="9"/><text class="nid" x="569.0" y="265">M5</text><text class="nop" x="618" y="284" text-anchor="middle">fear / believe</text><text class="nwho" x="618" y="298" text-anchor="middle">you → (the loss)</text><text class="ntyp" x="667.0" y="265" text-anchor="end">assert</text></g><g class="node"><rect x="692.0" y="250" width="116" height="62" rx="9"/><text class="nid" x="701.0" y="265">M6</text><text class="nop" x="750" y="284" text-anchor="middle">relay / witness</text><text class="nwho" x="750" y="298" text-anchor="middle">I (friend) → you</text><text class="ntyp" x="799.0" y="265" text-anchor="end">report</text></g><g class="node"><rect x="824.0" y="250" width="116" height="62" rx="9"/><text class="nid" x="833.0" y="265">M7</text><text class="nop" x="882" y="284" text-anchor="middle">exhort-feel</text><text class="nwho" x="882" y="298" text-anchor="middle">→ you (be glad)</text><text class="ntyp" x="931.0" y="265" text-anchor="end">directive</text></g><g class="node"><rect x="956.0" y="250" width="116" height="62" rx="9"/><text class="nid" x="965.0" y="265">M8</text><text class="nop" x="1014" y="284" text-anchor="middle">exhort-act</text><text class="nwho" x="1014" y="298" text-anchor="middle">→ you (apologize)</text><text class="ntyp" x="1063.0" y="265" text-anchor="end">directive</text></g><text class="moneylab" x="486" y="242" text-anchor="middle">★ the money-move — every FILLS arrow lands here</text><line class="recline" x1="40" y1="86" x2="1090" y2="86"/><text class="recband" x="52" y="80">RECEPTION — where history would step in · <tspan class="none">none coded on this song</tspan></text><path class="e-res" d="M 486 250 C 486 190, 544 150, 544 96" marker-end="url(#ah-res)"/><text class="reslab" x="552" y="116">the addressee's foreclosed reciprocity</text><text class="ressub" x="552" y="129">does HE love her back? — never stated · 5/5 touch, 3/5 name</text><path class="e-res" d="M 750 192 C 750 132, 808 150, 808 96" marker-end="url(#ah-res)"/><text class="reslab" x="816" y="152">the friend's motive</text><text class="ressub" x="816" y="165">why does the friend care? — the mediator's stake · 5/5 cold</text><text class="elab lab-b" x="60" y="178">RESIDUAL <tspan class="alias">/ BEQUEST</tspan> ↑ — the two gaps the song cannot fill from inside</text></svg></div>
+
+  <div class="v1-ctl">
+    <button type="button" class="v1-btn" id="v1-toggle" aria-pressed="false">Show what IRR177 removed</button>
+    <span class="v1-ctl-note">Five cold coders read the same 8 moves and <b>deleted three arrows the author had drawn</b> — each became a residual. The measurement correcting the reference is the mechanism, so it ships visible.</span>
+  </div>
+
+  <div class="v1-none">
+    <b>What the song has none of</b> — the question the old diagram couldn't answer.
+    <ul>
+      <li><b>No interpretive fork.</b> FORKS and REINTERPRETS are empty: no later reader has been coded closing either residual, so nothing has diverged yet.</li>
+      <li><b>No cross-text edges at all.</b> Families C and D need a <i>pair</i> — a move here and a move there. The song has no cross-text pair coded, so CONVERGENCE and DIVERGENCE are available-and-unused, not absent-from-the-world. This is where the comparative claim would live, and it is not yet made.</li>
+      <li><b>No ELABORATES, no SCAFFOLDS.</b> Both are Family A edges the pilot did not code on this text.</li>
+    </ul>
+  </div>
+
+  <p class="viz-src">Sources — moves, edges and residuals: <code>field_ed/negative_space_pilot_8move_she_loves_you_2026-07-10.md</code> (paraphrase only; no lyric is reproduced). Families, names and coding definitions: the §A6 v2 table above (<code>edge_taxonomy_v2_2026-07-11.md</code>, IRR179). Corrections: IRR177 cold-cohort run. Nothing here is invented; Stage&nbsp;6&nbsp;=&nbsp;0.</p>
+<script>
+(function(){
+  var b=document.getElementById('v1-toggle'), g=document.getElementById('v1-corrected');
+  if(!b||!g) return;
+  b.addEventListener('click',function(){
+    var on=b.getAttribute('aria-pressed')==='true';
+    b.setAttribute('aria-pressed', String(!on));
+    if(on){ g.setAttribute('hidden',''); b.textContent='Show what IRR177 removed'; }
+    else  { g.removeAttribute('hidden');  b.textContent='Hide what IRR177 removed'; }
+  });
+})();
+</script>
+</div>
 
   <details class="dd"><summary>Double-click: IRR179 — the round, the verdict, and what it changed</summary>
     <div class="dd-b">
