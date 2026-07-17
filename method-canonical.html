@@ -1,0 +1,1351 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The Method — canonical — Grammar of Meaning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/gom.css">
+<style>
+/* ── doc-specific only; palette + type come from gom.css ── */
+
+/* layout: sticky contents rail + column */
+.shell{max-width:1180px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:232px minmax(0,1fr);gap:44px;align-items:start}
+@media(max-width:940px){.shell{grid-template-columns:1fr;gap:0}.rail{display:none}}
+.rail{position:sticky;top:74px;max-height:calc(100vh - 96px);overflow-y:auto;padding:18px 0 40px;font-family:var(--sans);font-size:13px}
+.rail h4{font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:18px 0 7px}
+.rail a{display:block;color:var(--ink-2);padding:3px 0 3px 10px;border-left:2px solid var(--rule);line-height:1.4}
+.rail a:hover{color:var(--moss);border-left-color:var(--fern);text-decoration:none}
+.rail a.sub{padding-left:20px;font-size:12.2px;color:var(--ink-3)}
+.col{min-width:0;padding-bottom:80px}
+
+/* section frame */
+.sec{padding:52px 0 8px;border-top:1px solid var(--rule)}
+.sec:first-child{border-top:none}
+.sec-k{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+.sec-k .n{font-family:var(--mono);font-size:12px;color:var(--terracotta);font-weight:600}
+.sec-k h2{font-size:27px}
+.sec-lede{font-size:15.5px;color:var(--ink-2);margin:6px 0 26px;max-width:66ch}
+
+/* ── THE DEFINITION CARD — one fixed shape, used for every term ── */
+.def{background:var(--paper-3);border:1px solid var(--rule);border-radius:10px;padding:0;margin:22px 0;overflow:hidden}
+.def-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:13px 18px;background:var(--paper-2);border-bottom:1px solid var(--rule)}
+.def-id{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink-3)}
+.def-t{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--moss);margin:0}
+.def-q{padding:12px 18px 0;font-family:var(--sans);font-size:13px;color:var(--terracotta);font-weight:600}
+.def-b{padding:4px 18px 16px}
+.def-b dl{display:grid;grid-template-columns:132px minmax(0,1fr);gap:1px 16px;margin:10px 0 0;font-size:14.6px}
+@media(max-width:640px){.def-b dl{grid-template-columns:1fr;gap:0}}
+.def-b dt{font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);padding-top:5px}
+.def-b dd{margin:0 0 9px;color:var(--ink)}
+.def-b dd.op{font-family:var(--serif);font-size:16.5px;line-height:1.5}
+.def-b dd.warn{color:var(--ink-2)}
+code,.m{font-family:var(--mono);font-size:.86em;background:var(--paper-2);border:1px solid var(--rule);border-radius:4px;padding:1px 5px}
+
+/* status badges */
+.st{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.04em;padding:2px 8px;border-radius:999px;border:1px solid}
+.st.locked{color:#2C4A38;background:rgba(63,125,87,.13);border-color:rgba(63,125,87,.4)}
+.st.cand{color:#8a6a12;background:rgba(224,169,59,.16);border-color:rgba(224,169,59,.5)}
+.st.drift{color:#9c3f16;background:rgba(196,96,47,.13);border-color:rgba(196,96,47,.42)}
+.st.dead{color:var(--ink-3);background:var(--paper-2);border-color:var(--rule);text-decoration:line-through}
+
+/* double-click disclosure — the evidence drawer */
+details.dd{margin:11px 0 0;border:1px solid var(--rule);border-radius:8px;background:var(--paper);overflow:hidden}
+details.dd>summary{cursor:pointer;padding:9px 14px;font-family:var(--sans);font-size:12.4px;font-weight:600;color:var(--fern);list-style:none;display:flex;align-items:center;gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:"▸";font-size:10px;transition:transform .15s;color:var(--ink-3)}
+details.dd[open]>summary::before{transform:rotate(90deg)}
+details.dd>summary:hover{background:var(--paper-2)}
+.dd-b{padding:4px 16px 16px;font-size:14px;border-top:1px solid var(--rule)}
+.dd-b p:first-child{margin-top:12px}
+
+/* post-it — Claude's note to the researcher */
+.postit{background:linear-gradient(180deg,#FFF8D6,#FDF2C4);border:1px solid #E6D48A;border-left:3px solid var(--honey);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-family:var(--sans);font-size:13.6px;color:#4a4326;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.postit b{color:#6b5a10}
+.postit .pin{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8a7415;display:block;margin-bottom:4px}
+.postit ul{margin:6px 0 0;padding-left:18px}.postit li{margin:3px 0}
+
+/* drift flag — a real conflict between two locked things */
+.flag{background:rgba(196,96,47,.06);border:1px solid rgba(196,96,47,.3);border-left:3px solid var(--terracotta);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-family:var(--sans);font-size:13.6px}
+.flag .pin{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--terracotta);display:block;margin-bottom:4px}
+
+/* key claim */
+.key{background:rgba(63,125,87,.07);border-left:3px solid var(--fern);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-family:var(--sans);font-size:14px}
+.key b{color:var(--moss)}
+
+/* tables */
+.tbl{width:100%;overflow-x:auto;margin:14px 0}
+table.d{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:13.2px;min-width:520px}
+table.d th{text-align:left;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);font-weight:700;padding:7px 10px;border-bottom:1.5px solid var(--rule);white-space:nowrap;background:var(--paper-2)}
+table.d td{padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink)}
+table.d td.id{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);white-space:nowrap}
+table.d td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+table.d tr:hover td{background:rgba(224,169,59,.05)}
+.cap{font-size:12px;color:var(--ink-3);font-family:var(--sans);margin:5px 0 0}
+
+/* equation block */
+.eq{font-family:var(--mono);font-size:14.5px;background:var(--paper-2);border:1px solid var(--rule);border-radius:8px;padding:16px 18px;margin:14px 0;overflow-x:auto;line-height:1.75;color:var(--moss)}
+pre.eq{white-space:pre}
+
+/* hero */
+.hd{padding:60px 0 30px}
+.hd .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--terracotta);font-weight:600;margin:0}
+.hd h1{font-size:40px;line-height:1.14;margin:10px 0 0;text-wrap:balance;max-width:20ch}
+.hd .sub{font-size:17px;color:var(--ink-2);margin:14px 0 0;max-width:64ch}
+.gate{background:rgba(196,96,47,.08);border:1px solid rgba(196,96,47,.32);border-radius:8px;padding:11px 15px;margin:20px 0 0;font-family:var(--sans);font-size:13.4px;max-width:70ch}
+.gate b{color:var(--terracotta)}
+</style></head><body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brandmark" href="index.html">Grammar of Meaning</a>
+  <nav class="nav">
+    <a href="coding-lab.html">Coding Lab</a>
+    <a class="active" href="method-canonical.html">The Method</a>
+    <a href="glossary.html">Glossary</a>
+  </nav>
+</div></div>
+
+<div class="shell">
+
+<!-- ══════════ CONTENTS RAIL ══════════ -->
+<nav class="rail">
+  <h4>Read in order</h4>
+  <a href="#insights">Thesis-grade insights</a>
+  <a href="#principles">Project principles</a>
+  <h4>A · Grammar</h4>
+  <a class="sub" href="#a-move">A1 · A move</a>
+  <a class="sub" href="#a-frame">A2 · A move sits in a frame</a>
+  <a class="sub" href="#a-core7">A3 · The grammar (7 slots)</a>
+  <a class="sub" href="#a-h">A4 · The hierarchy H0·H1·H2</a>
+  <a class="sub" href="#a-edge">A5 · Edges connect moves</a>
+  <a class="sub" href="#a-tax">A6 · The edge taxonomy</a>
+  <a class="sub" href="#a-sitz">A7 · Sitz · Paradigm</a>
+  <a class="sub" href="#a-meta">A8 · The meta-move</a>
+  <a class="sub" href="#a-ex">A9 · Worked: She Loves You</a>
+  <h4>B · Gap detector</h4>
+  <a class="sub" href="#b-triad">B1 · Said · Unsaid · Alternatives</a>
+  <a class="sub" href="#b-grid">B2 · The 2×2</a>
+  <a class="sub" href="#b-seer">B3 · The three seers</a>
+  <a class="sub" href="#b-door">B4 · Fill · Substitute · Barred</a>
+  <a class="sub" href="#b-alt">B5 · The alternative kinds</a>
+  <a class="sub" href="#b-flavor">B6 · The six flavors</a>
+  <a class="sub" href="#b-slotedge">B7 · Slot-gap vs edge-gap</a>
+  <h4>C · Gap generator</h4>
+  <a class="sub" href="#c-res">C1 · The three resolutions</a>
+  <a class="sub" href="#c-u">C2 · The tiered universe</a>
+  <a class="sub" href="#c-gates">C3 · The two gates</a>
+  <a class="sub" href="#c-branch">C4 · The two branch-kinds</a>
+  <a class="sub" href="#c-trees">C5 · The tree family</a>
+  <h4>D · Morphospace</h4>
+  <a class="sub" href="#d-frame">D1 · A frame is a coordinate</a>
+  <a class="sub" href="#d-axes">D2 · The six axes</a>
+  <a class="sub" href="#d-rfa">D3 · Roster · Frame · Atlas</a>
+  <a class="sub" href="#d-cloud">D4 · Clouds &amp; provenance</a>
+  <a class="sub" href="#d-mca">D5 · The geometry method</a>
+  <a class="sub" href="#d-diag">D6 · Results &amp; diagnostics</a>
+  <a class="sub" href="#d-occ">D7 · Occupied vs coherent</a>
+  <h4>E · The process</h4>
+  <a class="sub" href="#e-steps">E1 · Seven steps</a>
+  <h4>Appendix</h4>
+  <a class="sub" href="#x-lex">Definitions index</a>
+  <a class="sub" href="#x-irr">The IRR ledger</a>
+  <a class="sub" href="#x-q">Open questions</a>
+</nav>
+
+<!-- ══════════ COLUMN ══════════ -->
+<main class="col">
+
+<header class="hd">
+  <p class="eyebrow">Canonical · supersedes the coding lab</p>
+  <h1>The method, end to end</h1>
+  <p class="sub">One page: every term defined once, in the order it is needed; how each was locked, and by which round; the process that assembles them; and the worked examples they were built on.</p>
+  <div class="gate"><b>Status: candidates, not findings. Stage&nbsp;6&nbsp;=&nbsp;0.</b> The corpus coding has not run. Everything below is a <i>validated method</i> producing <i>candidate</i> output. That distinction is load-bearing, and it is the honest position rather than a hedge.</div>
+</header>
+
+<!-- ═══════════════ THESIS-GRADE ═══════════════ -->
+<section class="sec" id="insights">
+  <div class="sec-k"><span class="n">00</span><h2>Thesis-grade insights</h2></div>
+  <p class="sec-lede">Eight things this week produced that are load-bearing for the defense — each one a finding <i>about the method</i>, which is what the thesis actually contributes. Every row links to its evidence.</p>
+
+  <div class="tbl"><table class="d">
+    <tr><th>#</th><th>The insight</th><th>Why it is thesis-grade</th><th>Evidence</th></tr>
+    <tr><td class="id">TG-1</td>
+      <td><b>The coordinate instrument has no clean reliability number yet — and the honest label is neither "failed" nor "established."</b> Two rounds (V27/V28) put Krippendorff α below the 0.667 floor on every axis — but a later correction found they had measured a <i>bespoke</i> scheme, not the real IRR-refined apparatus. The one test on the real apparatus (V8) returned <b>67% mean modal agreement</b> (per-axis 62–73%), which is <i>moderate</i>. No clean α on the real instrument exists. Weakest axis: ontological-commitment (~62%).</td>
+      <td>Every coordinate-dependent claim below inherits this status: <b>reliability-moderate-pending-clean-α</b>. Stating that precisely — rather than either overclaiming a lock or overclaiming a failure — <i>is</i> the defensible position, and the correction itself is evidence the ledger works.</td>
+      <td class="id">V8 · V27 · V28<br>provenance index</td></tr>
+    <tr><td class="id">TG-1b</td>
+      <td><b>Five LLMs are not five raters.</b> IRR182's own reconciliation says it plainly: they are "variants of the same learner" — so a high α may measure <i>shared training bias</i>, not validity. The demanded fix (≥3 human theologians + a knowledge-representation specialist, reporting human–human, human–LLM and LLM–LLM α separately) <b>has never been run</b>, through IRR196.</td>
+      <td>It is the known ceiling on the entire 5-cohort method, named by the method's own cohort. Any committee will ask this; the answer must already be on the page.</td>
+      <td class="id">IRR182</td></tr>
+    <tr><td class="id">TG-2</td>
+      <td><b>"Same structure" is not "independent convergence."</b> <span class="m">RHYME</span> split into <span class="m">STRUCTURAL-MATCH</span> (a codeable edge) and <span class="m">INDEPENDENT-CONVERGENCE</span> (a downstream verdict that must first rule out contact, common ancestry, and base-rate). A new <span class="m">CITE</span> edge exists to <i>disqualify</i> pairs.</td>
+      <td>This is the load-bearing protection for Q2. Without it, inherited traditions get miscounted as independent discoveries and the central claim collapses into perennialism.</td>
+      <td class="id">IRR179 (5/5)</td></tr>
+    <tr><td class="id">TG-3</td>
+      <td><b>The cohorts change the method; they do not ratify it.</b> IRR195 unanimously told us to <i>drop</i> our numeric weighted split. IRR196 returned build-with-changes. IRR194 threw out our PCA prototype.</td>
+      <td>A round that only ever confirms is not measuring anything. The change-rate is the evidence the instrument is live.</td>
+      <td class="id">IRR194 · 195 · 196</td></tr>
+    <tr><td class="id">TG-4</td>
+      <td><b>Not-coded ≠ not-held.</b> Only 536 of 1,717 live voices are coded (31%). An "empty" coordinate is usually a <i>coding gap</i>, not a real absence — two figures we proposed <i>acquiring</i> for an empty seat were already sitting in the corpus, uncoded.</td>
+      <td>It reverses the acquisition priority (code what we own before shopping) and it disciplines every occupancy statistic into a statement about our progress first, the space second.</td>
+      <td class="id">corpus-layers<br>L1–L4</td></tr>
+    <tr><td class="id">TG-5</td>
+      <td><b>The corpus corrects the model's memory.</b> Coding John of the Cross from his actual pastoral prose returned <span class="m">personal-agentive</span> 3/4 — overturning the paraphrase-based coding that had over-stated his apophaticism.</td>
+      <td>This is the empirical case for building the database rather than prompting a model. The paraphrase agreed with the reputation; the text did not.</td>
+      <td class="id">V22 · framer-unit §5.5</td></tr>
+    <tr><td class="id">TG-6</td>
+      <td><b>The truth-judge doubles as a provenance auditor.</b> An independent model (Haiku) judging Sonnet's coordinates caught <i>Bonaventure's</i> Itinerarium mis-linked to Eckhart — a corpus error, not a coding error.</td>
+      <td>A reliability check that pays for itself twice: FALSE verdicts are 3-way ambiguous (mis-link / hallucination / over-rejection) and route to a human queue rather than an auto-fix.</td>
+      <td class="id">S146 probe</td></tr>
+    <tr><td class="id">TG-7</td>
+      <td><b>Transmission structure predicts which axis can vary.</b> <span class="st cand">candidate</span> Where one custodian controls the telling, the essence-axis is protected (Jesus, base spread 0.06); where custody is rival and shares no core, it is contested (Freud vs Jung, 1.00 — every axis differs).</td>
+      <td>If it survives the reliability gate, it is a structural law about how traditions hold variance — reached by coding, not by theology.</td>
+      <td class="id">V2–V12 · <b>gated by TG-1</b></td></tr>
+    <tr><td class="id">TG-8</td>
+      <td><b>The coder's fallback value hijacked the geometry.</b> The first MCA run's largest axis was <span class="m">insufficient-context</span> — an artifact of 13 incompletely-coded figures, not a position. Cross-check 0.37; validation failed at 0.035.</td>
+      <td>It is the cautionary specimen: mass-correction amplifies rare co-occurring categories, so a data-quality defect silently produces a beautiful, wrong picture.</td>
+      <td class="id">V37 · MCA §5</td></tr>
+  </table></div>
+
+  <div class="flag"><span class="pin">Overclaim found while assembling this page — needs your call</span>
+    The live <a href="morphospace.html">morphospace page</a> claims a <b>"validity signal"</b>: that the geometry recovered the apophatic/kataphatic distinction unsupervised, matching a structure "our reading work had independently surfaced," and concludes it "is not an artifact of either."
+    <br><br><b>That conclusion is stronger than the evidence supports, for two reasons.</b> <b>(a)</b> The labels the geometry embeds carry only <i>moderate</i> agreement (TG-1) — the recovery is real, but it is a recovery from labels whose reliability is still pending. <b>(b)</b> More seriously, <b>the confirmation is not independent</b>: the reading work and the coded coordinates share the same emitter (Sonnet) and the same axis vocabulary — a vocabulary that <i>contains the value</i> <span class="m">apophatic</span>. A space built from a menu that includes "apophatic" recovering an apophatic axis is closer to a consistency check than to an independent discovery.
+    <br><br><b>The honest version, which §D is written to:</b> the geometry recovered an interpretable structure that <i>matches</i> our reading — which is a real and non-trivial coherence result — but it is not independent corroboration, and it cannot be until a rater outside this pipeline (ideally a human) reproduces the coding. <b>The live page should be corrected or pulled.</b>
+  </div>
+</section>
+
+<!-- ═══════════════ PRINCIPLES ═══════════════ -->
+<section class="sec" id="principles">
+  <div class="sec-k"><span class="n">01</span><h2>Project principles</h2></div>
+  <p class="sec-lede">The rules that govern what may enter the method at all.</p>
+
+  <div class="def">
+    <div class="def-h"><span class="def-id">P-1</span><h3 class="def-t">Place before spawn</h3><span class="st locked">locked</span></div>
+    <p class="def-q">Q: When something new shows up — a term, a category, a visualisation — where does it go?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">Before introducing anything, ask which existing layer it belongs to. If it fits one, it goes there. Only if it genuinely fits nowhere is that the rare signal that it may be a new layer — and then it enters by a deliberate lock cycle or an IRR round, never an ad-hoc spawn.</dd>
+      <dt>Why it matters</dt><dd>Vocabulary inflation is the failure mode of a method built fast. Every un-placed term is a future conflation. In practice ~99% of new things fit an existing layer.</dd>
+      <dt>What's new</dt><dd>Nothing — this is ordinary taxonomic hygiene, stated as a gate so it is enforced rather than intended.</dd>
+      <dt>Don't confuse with</dt><dd class="warn">A ban on new terms. The rule governs <i>how</i> a term enters, not <i>whether</i>.</dd>
+    </dl></div>
+  </div>
+
+  <div class="def">
+    <div class="def-h"><span class="def-id">P-2</span><h3 class="def-t">Fit or extend</h3><span class="st locked">locked</span></div>
+    <p class="def-q">Q: What happens when a real case doesn't fit any existing category?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">Every taxonomy here is a controlled but open list: a coder must either fit the case to an existing value or extend the list — never silently force a bad fit. An extension earns its place only by having a <i>distinct detection-method</i>; if it shares a test with an existing value it is a relabel, not a new category.</dd>
+      <dt>Why it matters</dt><dd>Fixing a category list in advance encodes the conclusion into the instrument. Letting it grow without a test lets it grow forever. The distinct-test requirement is what keeps it finite.</dd>
+      <dt>Thinkers</dt><dd>Glaser &amp; Strauss (grounded theory: categories emerge); the requirement of a distinct operational test is our addition.</dd>
+      <dt>What's new</dt><dd>The dimensions are fixed; the values emerge. Most coding schemes fix both.</dd>
+      <dt>Don't confuse with</dt><dd class="warn">Free-form coding. The <i>axes</i> never change mid-run — only the values on them.</dd>
+    </dl></div>
+  </div>
+
+  <div class="def">
+    <div class="def-h"><span class="def-id">P-3</span><h3 class="def-t">Real text, not remembered text</h3><span class="st locked">locked</span></div>
+    <p class="def-q">Q: What does the coder actually read?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">A coordinate must be read off corpus-extracted text whenever a clean source exists. Coding a model's paraphrase from memory is demonstrator-grade only. Four gates admit a source: works <i>by</i> the figure (not about); identity not homonym; chunked not stub; model-readable.</dd>
+      <dt>Why it matters</dt><dd>A model's memory reproduces a figure's <i>reputation</i>. Coding John of the Cross's real prose overturned the paraphrase's apophatic label (TG-5). This is the whole argument for building the corpus.</dd>
+      <dt>What's new</dt><dd>The gates are a project artifact, forced by real failures (a biography standing in for the author; Eckhart vs Eckhart Tolle).</dd>
+      <dt>Don't confuse with</dt><dd class="warn">Distrust of models. The model does the reading; the corpus decides what it reads.</dd>
+    </dl></div>
+    <details class="dd"><summary>Double-click: the four extraction gates, and the case that forced them</summary>
+      <div class="dd-b">
+        <p><b>Gate 1 — works BY, not works ABOUT.</b> Rejects biographies, commentary, and editorial apparatus standing in for the author. The specimen: a podcast titled <i>"How to Be Awesome at Your Job"</i> surfaced as a candidate stand-in for the Book of Job.</p>
+        <p><b>Gate 2 — identity, not homonym.</b> Meister Eckhart ≠ Eckhart Tolle.</p>
+        <p><b>Gate 3 — chunked, not stub.</b> A passage must be real text (500–2,200 chars), not a metadata shell.</p>
+        <p><b>Gate 4 — English / model-readable.</b> Honest about what this excludes: it is a live bias-vector, not a neutral filter.</p>
+        <p><b>The worked correction (V22).</b> Śaṅkara validated cleanly on real text (<span class="m">consciousness-first</span>, 4/4). John of the Cross did not: the earlier paraphrase-based coding had over-stated his apophaticism; his actual pastoral prose coded <span class="m">personal-agentive</span> 3/4. The reputation and the text disagreed, and the text won.</p>
+        <p class="cap">Source: <code>pm/30_methodology/method_variant_attestation_framer_unit_2026-07-14.md</code> §5.5.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="postit"><span class="pin">Post-it — I added two principles you didn't list</span>
+    Your PDF listed only <b>Place before Spawn</b> under Project Principles. I promoted two more to sit beside it because they are doing the same job (governing what may enter) and they get invoked constantly further down: <b>Fit-or-extend</b> (P-2) and <b>Real-text-not-remembered-text</b> (P-3). P-3 in particular is the answer to your question <i>"why it matters that we developed a DB, versus just using LLM generation"</i> — it deserves to be a stated principle rather than an aside. <b>Cut either if you disagree.</b>
+  </div>
+</section>
+
+<!-- ═══════════════ A · GRAMMAR ═══════════════ -->
+<section class="sec" id="a-move">
+  <div class="sec-k"><span class="n">A</span><h2>Grammar — the foundation</h2></div>
+  <p class="sec-lede">Everything else in this method is built on one unit and one relation: the <b>move</b> and the <b>edge</b>. Define these two wrongly and every layer above inherits the error. This section defines them, in the order they are needed.</p>
+
+  <div class="def">
+    <div class="def-h"><span class="def-id">A-1</span><h3 class="def-t">A move</h3><span class="st locked">locked</span></div>
+    <p class="def-q">Q: What is the unit we code? What is the atom?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">A move is <b>one operation and its arguments</b> — what the text <i>does</i>, not what it says.</dd>
+      <dt>Why it matters</dt><dd>It is the unit that makes traditions comparable. Two texts sharing no vocabulary, no era, and no contact can still perform the same <i>move</i>; that is the only thing a cross-tradition claim can be made of. Comparing sentences compares languages; comparing moves compares acts.</dd>
+      <dt>Thinkers</dt><dd><b>Fillmore</b> (frame semantics: a verb activates a frame with enumerable slots — the move is a case-grammar of an act). <b>Austin/Searle</b> stand behind "what the text does" but we do not use speech-act taxonomy.</dd>
+      <dt>What's new</dt><dd>Applying case-grammar to <i>interpretive</i> acts across traditions, and then coding what each slot leaves empty.</dd>
+      <dt>Don't confuse with</dt><dd class="warn">The sentence or the line. A move is <b>derived</b>, not the surface string — one sentence can carry two moves, and one move can span a stanza.</dd>
+    </dl></div>
+    <div class="postit"><span class="pin">Post-it — your question: "is there a step before, defining what a move is?"</span>
+      Yes, and it's a real gap: <b>we have no stated segmentation rule.</b> We assert "She Loves You = 8 moves" and "the golden chain = 5 moves" but never say what procedure produced those counts, or how a second coder would reproduce them. Every reliability number below is conditional on a segmentation nobody has specified. <b>I think this is the single biggest hole in the method</b> and it should be the next IRR. Not inventing one tonight.
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="a-frame">
+  <div class="sec-k"><span class="n">A2</span><h2>A move sits in one moment</h2></div>
+  <div class="def">
+    <div class="def-h"><span class="def-id">A-2</span><h3 class="def-t">The freeze-frame</h3><span class="st drift">name in conflict</span></div>
+    <p class="def-q">Q: What does one move hold fixed? Where does time live?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">Each move is a single freeze-frame: one operation, one fixed agent / substrate / outcome, one narrator, one situation. A text is a <i>sequence</i> of these stills (M1→M8).</dd>
+      <dt>Why it matters</dt><dd>Three consequences follow, and each is load-bearing: <b>(1) time lives in the edges, not the slots</b> — a slot is a still, the motion between stills is an edge; <b>(2)</b> "beyond-frame" means literally outside this still's declared world — a value the move cannot hold; <b>(3)</b> every move has <b>three horizons</b>, because three minds stand at three different times — the agent (inside it), the narrator (telling it), the reader (receiving it, possibly centuries later). Those are the three seers (B-3).</dd>
+      <dt>Thinkers</dt><dd><b>Genette</b> (focalisation and diegetic levels → the seers).</dd>
+      <dt>Don't confuse with</dt><dd class="warn">The text (a text is a sequence of these); and — critically — the <i>other</i> sense of "frame" below.</dd>
+    </dl></div>
+  </div>
+
+  <div class="flag"><span class="pin">Your instinct was right — "frame" is overloaded, and both senses are separately locked</span>
+    You wrote: <i>"Should we call it 'in a frame' or in a 'state'? Saquib called it state? Frame I worry a bit, because we might use it in other places (e.g., 'frame cloud')."</i> That worry is correct. <b>"Frame" currently names two different objects, and each was locked by a different decision:</b>
+    <div class="tbl"><table class="d">
+      <tr><th>Sense</th><th>What it names</th><th>Locked where</th><th>Used by</th></tr>
+      <tr><td class="id">frame ①</td><td>one <b>move</b> as a freeze-frame — a moment in time</td><td class="id">DEFINITIONS v1, Part 10</td><td>in-frame · beyond-frame · frame-jump · the era-gate</td></tr>
+      <tr><td class="id">frame ②</td><td>one <b>coordinate</b> in the 6 axes — a possible mind, a seat</td><td class="id">roster/frame/atlas (S138)<br>Decisions 169 · 171</td><td>frame-cloud · morphospace <i>of frames</i> · atlas</td></tr>
+    </table></div>
+    <b>My recommendation (needs your call — I did not act on it):</b> rename sense ① to <b>state</b>, keep <b>frame</b> for sense ②. Reasons: sense ② is baked into three locked terms (frame-cloud, theoretical morphospace of frames, roster/frame/atlas) and is the public-facing object; sense ① appears mainly in one internal spec. And we <i>already</i> borrowed Saquib's situation calculus — <span class="m">do(a,s)</span>, where <i>s</i> is a situation — for the move-tree, so "state" is the term the formalism we're using already supplies. Saquib saying "state" is not a stylistic preference; it's the source formalism.
+    <br><br><b>The cost, stated honestly:</b> it forces renaming <span class="m">in-frame</span> → <span class="m">in-state</span>, <span class="m">beyond-frame</span> → ?, <span class="m">frame-jump</span> → <span class="m">state-jump</span>. That's not free. <b>A cheaper variant worth considering:</b> "beyond-frame" and "in-frame" may actually mean <i>beyond the</i> <b>paradigm</b> — the declared universe a move assumes is precisely what we already call the paradigm (A-7), and the <span class="m">horizon-limit</span> flavor is literally defined as "outside the <i>paradigm</i>'s imaginable." If so, sense ① is only ever used to mean either "one still" (→ state) or "the assumed world" (→ paradigm), and the word "frame" can be retired from the move layer entirely. <b>That is my preferred option, but it is a real rename and it's yours to authorise.</b>
+  </div>
+</section>
+
+<section class="sec" id="a-core7">
+  <div class="sec-k"><span class="n">A3</span><h2>The grammar of a move — seven slots</h2></div>
+  <p class="sec-lede">A move decomposes into seven slots. This is the positive coding: what the text <i>said</i>.</p>
+
+  <pre class="eq">M  =  Narrator[ Operation<sub>type</sub> ( Agent<sub>voice</sub> , Substrate )  →  Outcome ]
+      └─H0──┘   └─H1─┘└H2┘   └─H1─┘└H2┘   └──H1──┘     └─H1─┘</pre>
+  <p>Read aloud: <i>a <b>narrator</b> frames an <b>operation</b> (of a certain <b>type</b>) by which an <b>agent</b> (in a certain <b>voice</b>) acts on a <b>substrate</b> to produce an <b>outcome</b>.</i> M is the whole bracket, not just the agent.</p>
+
+  <div class="tbl"><table class="d">
+    <tr><th>#</th><th>Slot</th><th>H</th><th>Definition — one line</th><th>Values</th><th>M4 "she loves you"</th></tr>
+    <tr><td class="id">1</td><td><b>operation</b></td><td class="id">H1</td><td>the move itself — the verb; what the text DOES</td><td class="id">open</td><td>love</td></tr>
+    <tr><td class="id">2</td><td><b>type</b></td><td class="id">H2</td><td>which KIND of move — rides operation</td><td class="id">transformative · constitutive · deeming · yielding · report</td><td>report</td></tr>
+    <tr><td class="id">3</td><td><b>voice</b></td><td class="id">H2</td><td>the agency-mode — rides agent</td><td class="id">active · middle-passive · null-stative</td><td>active</td></tr>
+    <tr><td class="id">4</td><td><b>agent</b></td><td class="id">H1</td><td>the in-frame ORIGINATOR (not the author); <span class="m">none</span> = agentless</td><td class="id">open</td><td>she</td></tr>
+    <tr><td class="id">5</td><td><b>substrate</b></td><td class="id">H1</td><td>what the move ACTS ON — the input / given</td><td class="id">open</td><td>you</td></tr>
+    <tr><td class="id">6</td><td><b>outcome</b></td><td class="id">H1</td><td>what the move PRODUCES — the output / result</td><td class="id">open</td><td>the bond love yields</td></tr>
+    <tr><td class="id">7</td><td><b>narrator</b></td><td class="id">H0</td><td>teller + point-of-view + the authority they tell on</td><td class="id">argument · revelation · witness · self-positing · none</td><td>the friend, as eyewitness</td></tr>
+  </table>
+  <p class="cap">Field IDs as coded: <code>operation · type · voice · agent · substrate · outcome · narrator</code>. Renamed from "warrant" → <code>narrator</code> at Decision 161.</p></div>
+
+  <div class="key"><b>Two removals, both of which shrink the vocabulary.</b> <b>"Consequence" is not a slot</b> — an outcome only <i>becomes</i> a consequence when it is the substrate of a later move, i.e. <span class="m">outcome(N) = substrate(N+1)</span>. That is an edge (A-5), not a slot. And <b>"warrant" became "narrator"</b> (Decision 161) and moved to H0, because the source-of-authority does not sit inside the proposition — it frames the whole proposition from above.</div>
+</section>
+
+<section class="sec" id="a-h">
+  <div class="sec-k"><span class="n">A4</span><h2>The hierarchy — H0 · H1 · H2</h2></div>
+  <div class="def">
+    <div class="def-h"><span class="def-id">A-4</span><h3 class="def-t">The three layers</h3><span class="st locked">locked</span></div>
+    <p class="def-q">Q: Why are the seven slots not a flat list?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">The slots sit on three layers: <b>H0 narrator</b> — the FRAME layer (who tells it, from what point of view). <b>H1 proposition</b> — the ASSERT layer (operation · agent · substrate · outcome). <b>H2 modifiers</b> — the QUALIFY layer: two riders that sit on H1 slots (type rides operation; voice rides agent).</dd>
+      <dt>Why it matters</dt><dd>H1 is <i>what is asserted</i>; H2 is <i>how it is qualified</i>. "Love" is asserted; that it is a <i>report</i>-type move in the <i>active</i> voice are qualifications of that assertion. Keeping them on separate layers is what lets a coder disagree about the qualification while agreeing about the assertion — which is exactly what the reliability data shows happening.</dd>
+      <dt>Thinkers</dt><dd><b>Van Valin</b> (Role-and-Reference Grammar's layered clause — the H0/H1/H2 architecture is borrowed wholesale).</dd>
+      <dt>Don't confuse with</dt><dd class="warn">Importance. H0 is not "the most important slot" — it is the outermost scope.</dd>
+    </dl></div>
+  </div>
+</section>
+
+<section class="sec" id="a-edge">
+  <div class="sec-k"><span class="n">A5</span><h2>Edges connect moves</h2></div>
+  <div class="def">
+    <div class="def-h"><span class="def-id">A-5</span><h3 class="def-t">An edge</h3><span class="st locked">locked</span></div>
+    <p class="def-q">Q: The grammar codes one move. What codes the relation <i>between</i> moves?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">An edge is a coded relation between two moves. Edges are where <b>time</b>, <b>argument</b>, and <b>comparison</b> live — none of which fit inside a single freeze-frame.</dd>
+      <dt>Why it matters</dt><dd>The slots alone cannot express that Romans 8 <i>builds</i>, or that a later move answers an earlier gap, or that a move here rhymes with a move in another tradition. Every claim the thesis makes is an edge-claim.</dd>
+      <dt>Thinkers</dt><dd><b>SKOS</b> (match-grades: exact / close / related), <b>RST · PDTB · SDRT</b> (discourse relations), <b>Gentner</b> (structure-mapping: correspondence is relational, not surface-similar), <b>Genette</b> (transtextuality), the <b>comparative method</b> in historical linguistics (cognate / borrowed / false-cognate / independent).</dd>
+      <dt>Don't confuse with</dt><dd class="warn">A slot. A slot is a still; an edge is the motion or the correspondence between stills.</dd>
+    </dl></div>
+  </div>
+  <div class="postit"><span class="pin">Post-it — answering "what were those words in the previous diagram?"</span>
+    You spotted that the song diagram says <b>production / completion / reception</b> but the taxonomy says <b>THEN / ANSWERS / BEQUEST</b> and the v2 file says <b>FEEDS / FILLS / RESIDUAL</b>. Those are not three sets of edges. <b>They are three naming generations of the same three edges</b>, laid down over two days:
+    <div class="tbl"><table class="d">
+      <tr><th>Gen</th><th>Where</th><th>Names</th><th>Status</th></tr>
+      <tr><td class="id">gen 1</td><td>DEFINITIONS v1 (07-10)</td><td>production edge · completion edge · reception edge</td><td><span class="st dead">retire</span></td></tr>
+      <tr><td class="id">gen 2</td><td>the edges page (07-11)</td><td>THEN · ANSWERS · BEQUEST</td><td><span class="st cand">keep as alias</span></td></tr>
+      <tr><td class="id">gen 3</td><td>edge taxonomy v2, post-IRR179</td><td><span class="m">FEEDS</span> · <span class="m">FILLS</span> · <span class="m">RESIDUAL</span></td><td><span class="st locked">canonical</span></td></tr>
+    </table></div>
+    <b>I have written this page to gen 3 as canonical, with gen 2 kept as the memorable reading alias (that dual-naming is itself an IRR179 decision), and gen 1 retired.</b> The song diagram is therefore out of date and needs re-rendering. Say the word and I'll spec it to design-SB.
+  </div>
+</section>
+
+<section class="sec" id="a-tax">
+  <div class="sec-k"><span class="n">A6</span><h2>The edge taxonomy — v2</h2></div>
+  <p class="sec-lede">Four families, seventeen edges, each <b>dual-named</b>: an operational name (what a coder checks) and a memorable alias (what a reader reads). The families widen outward — within a text, out of a text, then across texts, where the comparative claim lives.</p>
+
+  <div class="key"><b>How to code an edge: do not code the label.</b> Code the feature dimensions — <span class="m">operation-frame</span> (valency) · <span class="m">role-mapping</span> · <span class="m">outcome</span> · <span class="m">polarity</span> · <span class="m">modality</span> · <span class="m">scope</span> · <span class="m">contact-status</span> — and <i>derive</i> the label. Measure agreement <b>per dimension</b>: a single α for "RHYME" hides which layer actually failed. Edges also <b>compose</b> — a reception-fill can be both a <span class="m">FORKS</span> and an <span class="m">INVERTS</span>; a cross-text pair can be a <span class="m">CLOSE-MATCH</span> <i>and</i> a <span class="m">CITE</span> (and is thereby disqualified from convergence). The label-set is the composition; never choose-one.</div>
+
+  <div class="tbl"><table class="d">
+    <tr><th>Operational</th><th>Alias</th><th>Connects</th><th>Coding definition — what a coder checks</th></tr>
+    <tr><td colspan="4" style="background:rgba(63,125,87,.1);font-family:var(--sans);font-size:10.5px;letter-spacing:.05em;font-weight:700;color:var(--moss)">FAMILY A — COHERENCE · within a text: how its moves build</td></tr>
+    <tr><td class="id"><b>FEEDS</b></td><td class="id">THEN</td><td>move N → N+1</td><td>Does N's output argument become N+1's input argument?</td></tr>
+    <tr><td class="id"><b>FILLS</b></td><td class="id">ANSWERS</td><td>a later move → an earlier gap</td><td>Does N+1 supply a value for an <i>unfilled parameter</i> in N (a valency slot — not thematic resonance)? Can run backward.</td></tr>
+    <tr><td class="id"><b>COMPOSES</b></td><td class="id">NESTS</td><td>a move → the meta-move holding it</td><td>Is N reported as part of the enclosing move's content, at a matching diegetic level (narrator ≠ agent)?</td></tr>
+    <tr><td class="id"><b>ELABORATES</b></td><td class="id">—</td><td>N+1 → a finished claim N</td><td>Does N+1 add detail to an already-complete claim? (Distinct from FILLS, which resolves a <i>needed</i> slot.)</td></tr>
+    <tr><td class="id"><b>SCAFFOLDS</b></td><td class="id">—</td><td>N → N+1</td><td>Does N establish vocabulary/framework N+1 uses — permission without production? (Distinct from FEEDS.)</td></tr>
+    <tr><td colspan="4" style="background:rgba(224,169,59,.14);font-family:var(--sans);font-size:10.5px;letter-spacing:.05em;font-weight:700;color:#7a6410">FAMILY B — RECEPTION · text → later reader</td></tr>
+    <tr><td class="id"><b>RESIDUAL</b></td><td class="id">BEQUEST</td><td>an unresolvable gap → reception</td><td>Is this gap unresolvable within the text's <i>own</i> framework (or explicitly marked "this remains unknown")? Code structural incompleteness, <b>not</b> authorial intent.</td></tr>
+    <tr><td class="id"><b>REINTERPRETS</b></td><td class="id">—</td><td>a later reader → a residual</td><td>Does the later reader fill the residual <i>faithfully</i> — a loyal choice among plausible fills? Models theological schools.</td></tr>
+    <tr><td class="id"><b>FORKS</b></td><td class="id">FORK</td><td>a later reader → a residual</td><td>Does the fill <i>retract a core axiom</i>? → schism (single vs double predestination).</td></tr>
+    <tr><td colspan="4" style="background:rgba(63,125,87,.1);font-family:var(--sans);font-size:10.5px;letter-spacing:.05em;font-weight:700;color:var(--moss)">FAMILY C — CONVERGENCE · cross-text: sameness</td></tr>
+    <tr><td class="id"><b>EXACT-STRUCTURAL-MATCH</b></td><td class="id">RHYME</td><td>a move here :: a move there</td><td>Same operation + full role-mapping, different agent/sitz/voice. <b>A candidate for convergence, not the verdict.</b></td></tr>
+    <tr><td class="id"><b>CLOSE-MATCH</b></td><td class="id">COUSIN</td><td>a near-rhyme</td><td>Same operation, partial role-mapping or divergent outcome. Variable-substitution allowed (priest→shaman).</td></tr>
+    <tr><td class="id"><b>GENERALIZES</b></td><td class="id">—</td><td>a pair → the pattern P both instantiate</td><td>The emergent second-cycle layer, as an edge. Convergence is a <i>typology</i>, not a list of pairings.</td></tr>
+    <tr><td class="id"><b>BROADER / NARROWER</b></td><td class="id">—</td><td>across texts</td><td>Is one move a generalisation / specialisation of the other?</td></tr>
+    <tr><td class="id"><b>CITE / ECHO</b></td><td class="id">—</td><td>a borrower → a source</td><td>Explicit quotation, allusion, or demonstrable borrowing. <b>Its whole job is to DISQUALIFY the pair from independent-convergence.</b></td></tr>
+    <tr><td colspan="4" style="background:rgba(196,96,47,.1);font-family:var(--sans);font-size:10.5px;letter-spacing:.05em;font-weight:700;color:#9c3f16">FAMILY D — DIVERGENCE · cross-text: difference</td></tr>
+    <tr><td class="id"><b>SURFACE-MATCH</b></td><td class="id">FALSE-FRIEND</td><td>same words, different move</td><td>Same vocabulary/motif, <i>different</i> operation. Code surface and operation <b>independently</b>, then relate them.</td></tr>
+    <tr><td class="id"><b>OPPOSES</b></td><td class="id">COUNTER</td><td>a deliberate opposite</td><td><b>Different</b> agents/traditions, opposite valence on the same operation-domain (Calvin vs Arminius).</td></tr>
+    <tr><td class="id"><b>INVERTS</b></td><td class="id">INVERT</td><td>a reversal</td><td>Same operation + role, <i>reversed direction</i> (A loves B / B loves A). Distinct from OPPOSES' opposite valence.</td></tr>
+    <tr><td class="id"><b>IRONIC</b></td><td class="id">—</td><td>a move → itself</td><td>Surface operation ≠ actual operation (unreliable narration).</td></tr>
+  </table>
+  <p class="cap">Source: <code>field_ed/_persona_engine/edge_taxonomy_v2_2026-07-11.md</code>, reconciled from IRR179. <b>Candidate</b> — the v2 codebook has not been piloted; Romans 8 is its first real test.</p></div>
+
+  <details class="dd"><summary>Double-click: IRR179 — the round, the verdict, and what it changed</summary>
+    <div class="dd-b">
+      <p><b>The round.</b> Five independent frontier models (GPT · Haiku · Gemini · DeepSeek · Solar) were handed the v1 nine-edge taxonomy and asked whether it was codeable. <b>Verdict: 5/5 "codeable, with named changes."</b></p>
+      <p class="cap">Prompt: <code>research/00_irr/irr179_edge_taxonomy_5llm_2026-07-11.md</code> · Responses: <code>research/00_irr/irr179_edge_taxonomy_responses/</code> · Reconciliation: <code>research/00_irr/irr179_edge_taxonomy_reconciliation_2026-07-11.md</code></p>
+      <p><b>What changed — the one load-bearing change.</b> <span class="m">RHYME</span> was split in two. "Same structure" is <i>not</i> the same claim as "independent convergence." So RHYME became <b>(1)</b> <span class="m">STRUCTURAL-MATCH</span>, the codeable edge, and <b>(2)</b> <span class="m">INDEPENDENT-CONVERGENCE</span>, a <i>downstream verdict</i> that must first rule out contact, common ancestry, and a universal-task base-rate. Only the verdict is the Q2 claim.</p>
+      <p><b>And a new edge exists to make that verdict possible:</b> <span class="m">CITE / ECHO</span>, whose only job is to disqualify a pair. Augustine quoting Paul is a CITE, not a RHYME. <i>Without it, inherited traditions read as independent discoveries and Q2 collapses.</i> This was the round's #1 finding.</p>
+      <p><b>Other changes.</b> The cross-text family split into Convergence vs Divergence. New edges: <span class="m">ELABORATES</span> · <span class="m">REINTERPRETS</span> · <span class="m">GENERALIZES</span> · <span class="m">IRONIC</span>. <span class="m">FALSE-FRIEND</span> lost its "trap/intent" framing (intent is not codeable; surface-vs-operation is). <span class="m">COUNTER</span> had a real bug fixed — v1 said "same agent," which contradicted its own cross-text family. Every edge gained a dual name.</p>
+      <p><b>What the cohorts told us about method, not just labels:</b> don't code holistic labels — code feature dimensions and derive; grade by SKOS + Gentner systematicity; measure α per dimension. And per §2.1: fix the <i>dimensions</i>, let the <i>values</i> emerge — do not pre-load a closed operation list.</p>
+    </div>
+  </details>
+
+  <div class="flag"><span class="pin">Real conflict between two locked decisions — I could not resolve this myself</span>
+    <b>The edge taxonomy calls all four families "edges." Decision 163 forbids exactly that.</b>
+    <br><br>Decision 163 / IRR184 locked a <b>firewall rule</b>: a within-text relation is a <b>linkage</b> (a fact about one tradition's own logic) and a cross-text relation is a <b>resonance</b> (an <i>analyst's</i> correspondence claim). The rule states: <i>"never call both edge types 'edges,' never share qualifier vocabularies."</i> The reason is serious — calling both "edges" quietly implies the traditions are actually connected, which is the exact error Q2 must avoid.
+    <br><br>But <code>edge_taxonomy_v2</code> (locked one day earlier, by IRR179) puts families A–D <i>all</i> under "edges," including the cross-text ones. <b>Two locks, in direct contradiction.</b>
+    <br><br><b>My read:</b> they are reconcilable, because they were solving the same problem twice and the vocabularies map cleanly — Family A ≈ linkage; Families C+D ≈ resonance; Family B (reception) is a third thing that Decision 163 has no slot for, which is itself informative. <b>My recommendation:</b> keep "edge" as the umbrella (a coder needs one word for "a coded relation"), and enforce the firewall where it actually bites — <b>never share qualifier vocabularies across families, and never let a Family C edge be reported without its contact-status</b>. That preserves 163's substance while keeping 179's structure. <b>Your call; I have written the page to that reading and flagged it here rather than silently picking.</b>
+  </div>
+</section>
+
+<section class="sec" id="a-sitz">
+  <div class="sec-k"><span class="n">A7</span><h2>The context a move sits in — Sitz · Paradigm</h2></div>
+  <p class="sec-lede">Two fields shared across a whole move. Filled once, not per slot. Different axes — do not merge them.</p>
+
+  <div class="tbl"><table class="d">
+    <tr><th>Field</th><th>Definition</th><th>Whose world</th><th>M4 "she loves you"</th><th>Romans 8</th></tr>
+    <tr><td class="id"><b>sitz</b></td><td>the historical SITUATION OF THE TELLING — where / when / how-the-world-was when this was uttered</td><td>the <b>teller's</b> world</td><td>a 1963 pop single; a friend brokering a reconciliation</td><td>Paul, c.57 CE, Jew–Gentile house-churches</td></tr>
+    <tr><td class="id"><b>paradigm</b></td><td>the conceptual FRAME the CONTENT assumes — the governing worldview it takes for granted</td><td>the <b>content's</b> world</td><td>romantic-love-as-reconcilable</td><td>providence / election</td></tr>
+  </table>
+  <p class="cap">Mnemonic: <b>the narrator sits in a sitz; the content sits in a paradigm.</b></p></div>
+
+  <div class="postit"><span class="pin">Post-it — answering your two questions here, because I think they have clean answers</span>
+    <b>1. "Should sitz/paradigm be an H2 on the narrator, or on the agent?"</b> — Neither, but your instinct is pointing at something true. They are not H2 riders (H2 riders qualify a single slot; these are shared across the whole move). But they <i>do</i> attach asymmetrically, exactly as you suspected: <b>sitz belongs to the narrator (H0)</b> — it is the teller's world; <b>paradigm belongs to the proposition (H1)</b> — it is the content's world. That's why they can't merge: they sit on different layers of the same move.
+    <br><br><b>2. "The sitz/paradigm is the same for the whole album, the song, and M4 — how do we make that clear? Is it orthogonal?"</b> — It is <b>inherited down the scale hierarchy</b>, not orthogonal and not re-declared. Fill it once at the highest scale (the album), and every move inside it inherits — <b>unless the move switches narrator, which is the only thing that can change a sitz.</b> That gives a mechanical rule instead of "remember it each time": <i>a move's sitz = its nearest enclosing narrator's sitz.</i> It also explains why a quoted speaker inside a text gets a different sitz — the narrator changed. <b>This is my proposal, not something previously locked. I think it's right and it removes the add-on feeling you flagged.</b>
+  </div>
+</section>
+
+<section class="sec" id="a-meta">
+  <div class="sec-k"><span class="n">A8</span><h2>The meta-move — the scale above</h2></div>
+  <div class="def">
+    <div class="def-h"><span class="def-id">A-8</span><h3 class="def-t">Meta-move</h3><span class="st locked">locked</span></div>
+    <p class="def-q">Q: What do we call the level above a move — a whole album, Romans 1–16?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">The architecture that <b>emerges</b> when you connect a whole set of moves, plus the edges between them, into one structure. It is a <b>scale level</b> — not "moves about moves."</dd>
+      <dt>Why it matters</dt><dd>The grammar is <b>recursive</b>: moves → edges → meta-moves → upward (a letter's meta-moves connect into a tradition's). The same grammar runs at every scale, which is what makes "everything is one tree at scales" a mechanical statement rather than a slogan. Romans 1–16 = individual moves arching into Paul's whole argumentative architecture (sin → law → grace → justification → Israel → ethics).</dd>
+      <dt>Don't confuse with</dt><dd class="warn">A move that comments on another move. A meta-move is <b>the whole assembled from moves + edges</b>. Its edge is <span class="m">COMPOSES</span>/NESTS.</dd>
+    </dl></div>
+  </div>
+  <div class="postit"><span class="pin">Post-it — you asked "we probably should be more precise?" about "meta-move"</span>
+    Good news: <b>it is already locked, and you locked it</b> (S138, researcher-confirmed, in the master lexicon). Your instinct that it was loose is understandable, though — because <i>two</i> definitions of it are in circulation and they are subtly different. The lexicon says a meta-move is <b>the emergent architecture of moves+edges</b> (a scale level). The definitions doc says it is <b>"the whole text read as ONE move"</b> (agent = the component narrator). Those are close but not identical: the first is a <i>structure</i>, the second is a <i>move</i>. <b>I recommend the lexicon's version</b> — the "read as one move" phrasing is a useful reading trick but it collapses the scale distinction the term exists to make. Flagging rather than deciding.
+  </div>
+</section>
+
+<!-- ═══════════════ B · GAP DETECTOR ═══════════════ -->
+<section class="sec" id="b-triad">
+  <div class="sec-k"><span class="n">B</span><h2>The gap detector — what's missing</h2></div>
+  <p class="sec-lede">The grammar (§A) codes what a move <b>said</b>. This section codes what it didn't. The detector runs in <b>three layers, in order</b> — and keeping them in order is what keeps the reliable layer reliable.</p>
+
+  <div class="eq">LAYER A · the grid      WHERE is the gap?     → is it opaque × in-focus?        [binary — detection]
+LAYER B · the door      CAN it be closed?     → AND / INSTEAD / neither         [ternary — the door]
+LAYER C · the flavor    WHY is it opaque?     → one of six                      [graded — classification]</div>
+
+  <div class="key"><b>Read that as the answer to two of your questions at once.</b> The flavors do not live <i>inside</i> a grid cell — they live <b>downstream</b> of it. The grid says "this is a gap" (binary); the flavor says "…of this kind" (graded). That is the trick that keeps the grid's agreement tight while still honouring the honest continuum. The gradation runs <i>across</i> the layers, never <i>across</i> grid cells — we do <b>not</b> make it a 2×3.</div>
+
+  <div class="def">
+    <div class="def-h"><span class="def-id">B-1</span><h3 class="def-t">Said · Unsaid · Alternatives</h3><span class="st locked">locked · D159</span></div>
+    <p class="def-q">Q: What are the three things a move's content space divides into?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">Three <b>different things</b>, which must be kept apart. <b>SAID</b> — the value actually present in the slot (the positive coding; §A). <b>UNSAID</b> — a value that is absent but in-frame; detected, then flavoured (the negative coding; this section). <b>ALTERNATIVES</b> — a <i>specific competing value</i> that could have filled the slot instead (the generation input; §C).</dd>
+      <dt>Why it matters</dt><dd>They live in different layers and feed different engines. The conflation-killer: <b>the opposite of "loves" (hate) is an ALTERNATIVE, not the UNSAID.</b> An absence is not an opposite.</dd>
+      <dt>Thinkers</dt><dd><b>Iser</b> (<i>Leerstellen</i> — the gaps a text leaves for the reader) stands behind UNSAID.</dd>
+      <dt>What's new</dt><dd>Making the absence a coded field with a detection test, rather than a critic's observation.</dd>
+    </dl></div>
+  </div>
+
+  <div class="postit"><span class="pin">Post-it — your question: "are we calling it negative space anymore? I want to retire it"</span>
+    <b>You already retired it — nine days ago, and you locked it yourself (Decision 159).</b> "Negative" and "positive" are <i>out</i> of the coding vocabulary precisely because that one word conflated the unsaid/ground with the opposite/contrary — which is the exact confusion you re-derived from scratch in your PDF. SAID / UNSAID / ALTERNATIVES replaced them.
+    <br><br><b>But you're still right that something is broken,</b> and it's worth being precise about what: <b>the decision retired the term at the field level and nobody ever cleaned up the umbrella.</b> "Negative space" still names the program — in file paths, in ~30 IRR filenames, in page titles, in the lexicon's own prose. So the coding vocabulary is clean and the <i>label on the box</i> is not.
+    <br><br><b>My recommendation:</b> finish the job — retire it as the program name too, since it is now the only place it survives. Your section title <b>"Gap Detector"</b> is better than anything we have: it says what the thing does, it is not borrowed from painting, and it pairs with "Gap Generator." <b>I've used your names for §B and §C throughout this page.</b> If you agree, this becomes a Decision and a rename sweep — I have not renamed any files.
+  </div>
+
+  <div class="flag"><span class="pin">The lexicon contradicts its own decision — a real, fixable error</span>
+    The master lexicon's Decision-159 section still lists <b>three</b> UNSAID flavors (<i>ambiguous · omitted · foreclosed</i>). <b>Decision 160 locked six</b> (omitted · underdetermined · presupposed · suppressed · foreclosed · horizon-limit) after IRR175's three-pass tightening loop took agreement 65% → 78% → ~97%. Other rows of the same lexicon already assume the six. <b>The lexicon was never updated to its own later decision.</b> This is not researcher confusion — it is a stale document. The six are correct; the lexicon needs the fix.
+  </div>
+</section>
+
+<section class="sec" id="b-grid">
+  <div class="sec-k"><span class="n">B2</span><h2>Layer A — the 2×2</h2></div>
+  <p class="sec-lede">Every position — a CORE-7 slot, a frame-role, or a discourse field — is placed on two binary axes.</p>
+
+  <div class="tbl"><table class="d">
+    <tr><th>Axis</th><th>Values</th><th>The test a coder applies</th></tr>
+    <tr><td class="id"><b>visibility</b></td><td class="id">transparent · opaque</td><td>Is the value recoverable from the text? Closed-class (tense, mood) → transparent. Open-class (which love? how much?) → opaque unless a modifier states it.</td></tr>
+    <tr><td class="id"><b>salience</b></td><td class="id">in-focus · out-of-focus</td><td>Would filling it <i>materially</i> change what the addressee is positioned to believe, feel, or do — relative to the <b>fixed QUD</b>? In-focus = yes.</td></tr>
+  </table></div>
+
+  <div class="eq">                    in-focus (matters to the QUD)      out-of-focus (trivial)
+                  ┌────────────────────────────────┬──────────────────────────┐
+   transparent    │           GRAMMAR              │         TRIVIAL          │
+   (recoverable)  │      said &amp; load-bearing        │    said but irrelevant   │
+                  │        agent = "she"           │      voice = active      │
+                  ├────────────────────────────────┼──────────────────────────┤
+   opaque         │        ★ THE GAP ★             │          NOISE           │
+   (unrecoverable)│   the money cell —             │   unrecoverable but      │
+                  │   unsaid AND it matters        │   doesn't matter         │
+                  │   M4's outcome; the warrant    │  sitz = "which 1963 day" │
+                  └────────────────────────────────┴──────────────────────────┘</div>
+
+  <div class="key"><b>You scan all seven slots — but a slot only becomes a gap in one cell.</b> This answers "is there a gap in all 7 parts?" — <b>no.</b> Every position gets <i>classified</i> into one of four cells; only <span class="m">opaque × in-focus</span> becomes a gap. Most moves have 0–2 gaps. M4 (the money move) has ~6. <br><br><b>Worked, on M2 "she suffered badly":</b> agent = "she" and the fact-of-suffering are transparent + in-focus → GRAMMAR, not gaps. Only <i>how much</i> she suffered is opaque + in-focus → <b>one gap</b>, on the operation's <i>Degree</i> role, flavoured <span class="m">underdetermined</span>, which M4 later fills. One move, one gap.</div>
+
+  <details class="dd"><summary>Double-click: how the grid was locked, and the reliability number that is <i>not</i> good</summary>
+    <div class="dd-b">
+      <p><b>IRR176 → IRR176v2</b> (2026-07-10). v1: "GO for a pilot," with four conditions. v2: <b>"LOCK; GO for the 8-move pilot."</b></p>
+      <p class="cap">Prompt: <code>research/00_irr/irr176v2_visibility_salience_grid_5llm_2026-07-10.md</code> · Responses: <code>irr176v2_..._responses/</code> · Reconciliation: <code>irr176v2_..._reconciliation_2026-07-10.md</code></p>
+      <p><b>The reliability came back bimodal, and this matters more than the headline.</b> The AND/INSTEAD (fill vs substitute) test scored <b>κ = 1.0</b> — perfect. But <b>gap-<i>detection</i> scored Fleiss κ ≈ 0.20</b> — near-chance. Coders agreed completely about what <i>kind</i> of thing a gap was, and barely at all about <i>where one gap ended and the next began</i>.</p>
+      <p><b>What changed as a result:</b> Decision 162 introduced the <b>grain-anchor</b> — fixing the enumeration level so coders count the same units. This is a unitizing problem, not a content disagreement, and it recurs (see IRR177 below: gap counts ranged 8–29 across five coders who nonetheless agreed on the content).</p>
+      <p><b>The honest read:</b> the grid reliably classifies a position once you agree what the positions are. It does not yet reliably tell you what the positions are. That is the open edge of the detector, and it is the same hole as the missing segmentation rule (A-1).</p>
+    </div>
+  </details>
+</section>
+
+<section class="sec" id="b-seer">
+  <div class="sec-k"><span class="n">B3</span><h2>The three seers</h2></div>
+  <div class="def">
+    <div class="def-h"><span class="def-id">B-3</span><h3 class="def-t">Seer</h3><span class="st locked">locked</span></div>
+    <p class="def-q">Q: Once a position is in THE GAP — opaque to <i>whom</i>?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">A mind the gap can be opaque to. Three of them, because three minds stand at three different times: the <b>agent</b> (in the move), the <b>narrator</b> (telling it), the <b>reader</b> (receiving it). The seer-tag is applied <b>only</b> to the GAP cell — nothing is barred in GRAMMAR, TRIVIAL, or NOISE.</dd>
+      <dt>Why it matters</dt><dd>It is <b>evidential, not psychological</b>: it asks whom the move <i>licenses attributing knowledge to</i>, not who "probably knows." That distinction is what makes it codeable. And it is what turns a silence into a structural fact: <i>"She Loves You"</i> is a friend relaying a woman's love — the form, a mediated report, <b>structurally forecloses her first-person voice.</b> The silence is produced by the architecture, not chosen by the author.</dd>
+      <dt>Thinkers</dt><dd><b>Genette</b> (focalisation; diegetic levels). <b>Aikhenvald</b> (evidentiality → foreclosure: when the warrant is <i>witness</i>, the first-person interior becomes structurally unreachable).</dd>
+      <dt>Don't confuse with</dt><dd class="warn">The slot. A seer is <i>who sees</i>; a slot is <i>what is seen</i>. The agent and the narrator are both — they are seers, and they are also positions that can themselves be opaque.</dd>
+    </dl></div>
+  </div>
+  <div class="postit"><span class="pin">Post-it — your question: "Does this mean it's 7 slots × 4 quadrants × 3 seers = 84?"</span>
+    No — and the reason is a real economy in the design. Every position gets <b>one</b> cell of the 2×2 (not four), so that's 7 classifications, not 28. And <b>only the GAP cell gets seer-tagged</b>. So a typical move is: 7 positions classified → 0–2 land in THE GAP → only those get the three-seer question. Not 84; usually about 9 decisions. <b>Your PDF's own alternative reading — "or we only ask the 3 seers where we see a gap?" — is the correct one.</b>
+  </div>
+</section>
+
+<section class="sec" id="b-door">
+  <div class="sec-k"><span class="n">B4</span><h2>Layer B — the door: Fill · Substitute · Barred</h2></div>
+  <p class="sec-lede">A detected gap gets one of three values. This is the layer you caught a real bug in.</p>
+
+  <div class="tbl"><table class="d">
+    <tr><th>Value</th><th>The test</th><th>Meaning</th><th>Monotonic?</th></tr>
+    <tr><td class="id"><b>FILL</b></td><td>"…AND X" co-holds</td><td>X <i>completes</i> the move without retracting it</td><td>yes — add → <b>stays in frame</b></td></tr>
+    <tr><td class="id"><b>SUBSTITUTE</b></td><td>"…X INSTEAD" retracts</td><td>X <i>replaces</i> the said value, voiding the premise</td><td>no — subtract+add → <b>jumps frame</b></td></tr>
+    <tr><td class="id"><b>BARRED</b></td><td>can't even propose X</td><td>the move <b>forecloses</b> the knowledge — the coder is evidentially blocked</td><td>n/a — only reception opens it</td></tr>
+  </table>
+  <p class="cap">κ = 1.0 at IRR176v2, replicated 5/5 at IRR177. This is the most reliable single test in the instrument.</p></div>
+
+  <div class="key"><b>The bug you caught.</b> The <span class="m">fill_or_substitute</span> column had entries reading <span class="m">— (foreclosed)</span>, which is neither. That's because the field has <b>three</b> values, not two. <span class="m">— (foreclosed)</span> should read <b>BARRED</b>. A BARRED gap is real — it sits in THE GAP cell — but the coder can offer neither a fill nor a substitute, because the <i>form</i> bars it: the friend cannot vouch for her interior; the song cannot voice her. BARRED always co-occurs with the <span class="m">foreclosed</span> or <span class="m">horizon-limit</span> flavour — <b>those two flavours <i>are</i> the reasons a gap is barred.</b> That is the join between Layer B and Layer C.</div>
+
+  <div class="postit"><span class="pin">Post-it — your question: "why are we saying a 'door' to fill vs a 'gap' to fill?"</span>
+    "Door" is doing a real job, but it was never defined, which is why it reads as decoration. Here's the job: <b>the gap is the hole; the door is whether it opens, and which way.</b> A FILL is a door that stays inside the room; a SUBSTITUTE is a door <i>out</i> of the room into an adjacent one; BARRED is a wall. That's why Layer B is worth a name of its own — it isn't asking "is there a gap" (Layer A) or "why is it opaque" (Layer C), it's asking "can it be closed, and does closing it keep you in the same world?" <b>If the metaphor bothers you, the literal name is "closure-type" — say the word and I'll swap it.</b> I've kept "the door" and defined it explicitly rather than leaving it as an unexplained flourish.
+  </div>
+</section>
+
+<section class="sec" id="b-alt">
+  <div class="sec-k"><span class="n">B5</span><h2>The four alternative-kinds</h2></div>
+  <p class="sec-lede">For any slot, the values that <i>could</i> have gone there sort into four kinds by their relation to the SAID value. Each has a different scholarly parent.</p>
+
+  <div class="eq">SAID = "loves"
+  ├─ CONTRARY      the far pole; same agent + voice, opposite valence   → "hates"           (still engaged)
+  ├─ [BETWEEN]     the bounded spectrum of other nameable values        → "likes / misses"
+  ├─ PRIVATION     the agent/voice WITHDRAWN — the emptied slot         → "is indifferent to"  (the null; origin)
+  └─ BEYOND-FRAME  outside the declared universe — the un-imagined      → flag, don't code</div>
+
+  <div class="key"><b>Why the opposite of love is not hate but indifference.</b> <b>PRIVATION is the null</b> — the slot emptied to zero. Indifference is the <i>origin of the number-line</i>, not its negative pole. Hate is the CONTRARY: the far pole, still fully engaged. Geometry: <b>sign</b> = contrary · <b>magnitude</b> = degree · <b>origin</b> = privation · <b>orthogonal</b> = beyond-frame.<br><br><b>And "she hates you" jumps the frame.</b> Swapping SAID "loves" → CONTRARY "hates" is a <b>SUBSTITUTE</b>: it fails the AND-test (you cannot say "she loves you AND hates you" as one move), so it voids the premise. It doesn't complete <i>this</i> move; it starts a different one. <b>Contrary/substitute = the door OUT of the frame. Fill = the door that stays in.</b> That is the whole engine of divergence.</div>
+
+  <details class="dd"><summary>Double-click: IRR170 — the negation does <i>not</i> code evenly, and this is a real limit</summary>
+    <div class="dd-b">
+      <p><b>The round asked:</b> is negation determinate at every one of the CORE-7 slots? <b>The answer was no</b>, and the unevenness is structural rather than fixable:</p>
+      <div class="tbl"><table class="d">
+        <tr><th>Kind</th><th>Where it codes</th><th>Agreement</th></tr>
+        <tr><td class="id">PRIVATION</td><td>reliably at <b>all 7 slots</b></td><td class="n">~98%</td></tr>
+        <tr><td class="id">CONTRARY</td><td>only at <b>valence-bearing</b> slots</td><td class="n">~90%</td></tr>
+        <tr><td class="id">CONTRARY</td><td>at <b>referential</b> slots — drops to arbitrary</td><td class="n">~52%</td></tr>
+      </table></div>
+      <p><b>What it means.</b> "The opposite of <i>love</i>" is a well-formed question; "the opposite of <i>she</i>" is not. Emptying a slot always makes sense; inverting one only makes sense where the slot carries valence. So the alternative-axis is <b>not uniformly available across the grammar</b> — a coder must check the slot's type before asking for a contrary, and the generator must not offer one at a referential slot. <b>~52% is a coin-flip; that is the honest number and it caps what the substitute engine may attempt.</b></p>
+      <p class="cap">Prompt: <code>research/00_irr/irr170_m4_negative_grammar_determinate_5llm_2026-07-08.md</code> · Reconciliation: <code>irr170_..._reconciliation_2026-07-08.md</code></p>
+    </div>
+  </details>
+
+  <div class="postit"><span class="pin">Post-it — "[BETWEEN]" and "contradictory" are the same kind, under two labels</span>
+    You asked what happened to the four types. They're all live and locked (Decision 159). One naming wrinkle: the lexicon calls the third kind <b>contradictory</b> (parent: Jakobson's paradigmatic axis / Greimas's semiotic square); the working docs write it <b>[BETWEEN]</b> (the bounded spectrum). <b>Same kind, two labels, used interchangeably.</b> I recommend keeping <b>[BETWEEN]</b> as the coder-facing label — "contradictory" is actively misleading here, since in logic a <i>contradictory</i> is the exhaustive negation ("not-loves"), which is much closer to what we call PRIVATION. Using it for the middle-of-the-spectrum kind invites exactly one wrong inference. <b>Recommend: [BETWEEN] canonical, "contradictory" retired.</b>
+  </div>
+</section>
+
+<section class="sec" id="b-flavor">
+  <div class="sec-k"><span class="n">B6</span><h2>Layer C — the six flavors</h2></div>
+  <p class="sec-lede">Once a gap is detected (A) and door-tagged (B), classify <b>why</b> it is opaque. Each flavor has a <i>distinct detection-method</i> — that is what makes the set defensible, and what governs how it may grow.</p>
+
+  <div class="tbl"><table class="d">
+    <tr><th>Flavor</th><th>Family</th><th>Detection-method — the test</th><th>Scholarly parent</th><th>Example</th></tr>
+    <tr><td class="id"><b>omitted</b></td><td class="id">FILL</td><td>a role is left empty; null-instantiation</td><td>Fillmore</td><td>M1 "why you hurt her" — just not said</td></tr>
+    <tr><td class="id"><b>underdetermined</b></td><td class="id">FILL</td><td>constrained but not fixed — a <i>range</i>, not a point</td><td>Pinkal</td><td>M4 "how much she loves you"</td></tr>
+    <tr><td class="id"><b>presupposed</b></td><td class="id">SUBSTITUTE</td><td>taken as common ground; would need contesting</td><td>Stalnaker</td><td>M7 presupposes you're not already glad</td></tr>
+    <tr><td class="id"><b>suppressed</b></td><td class="id">SUBSTITUTE</td><td>a marked absence — actively kept down</td><td>Jakobson (markedness)</td><td>M6 — the unrelayed rest of her words</td></tr>
+    <tr><td class="id"><b>foreclosed</b></td><td class="id">BARRED</td><td>evidentially barred — the frame won't license it</td><td>Aikhenvald</td><td>her interior; his reciprocity</td></tr>
+    <tr><td class="id"><b>horizon-limit</b></td><td class="id">BARRED</td><td>outside the paradigm's imaginable — the un-thought</td><td>Taylor (immanent frame)</td><td>"love" beyond the romantic frame</td></tr>
+  </table>
+  <p class="cap"><b>Locked at Decision 160</b> after IRR175's three-pass loop: 65% → 78% → ~97% agreement. <b>Extensible (fit-or-extend):</b> the six are the current census, not a lockbox. A new pattern earns a flavor only with a <i>distinct detection-method</i> — otherwise it's a relabel. The grid detects (fixed); the flavors grow.</p></div>
+
+  <div class="postit"><span class="pin">Post-it — your hunch here was wrong, and the way it's wrong is useful</span>
+    You wrote: <i>"we did supersede these with fill vs substitute vs barred; so maybe leave out? In some way, it confuses."</i> <b>They were never superseded — they're a different layer.</b> FILL/SUBSTITUTE/BARRED is Layer B (<i>can</i> the gap close?). The six flavors are Layer C (<i>why</i> is it opaque?). Both are locked, both are live, and they <b>join</b>: BARRED always co-occurs with <span class="m">foreclosed</span> or <span class="m">horizon-limit</span> — the two BARRED-family flavours are precisely the <i>reasons</i> a gap is barred. The "Family" column above is that join, made visible.
+    <br><br><b>That said, your confusion is diagnostic and I'd treat it as a finding about the docs, not about you:</b> if the person who locked all three layers reads them back a week later and thinks one superseded another, the layering was never rendered anywhere — it existed only as prose in a spec. That's why the three-layer equation is now at the top of §B. <b>The fix is display, not vocabulary.</b>
+  </div>
+</section>
+
+<section class="sec" id="b-slotedge">
+  <div class="sec-k"><span class="n">B7</span><h2>Two kinds of gap — slot-gap vs edge-gap</h2></div>
+  <p class="sec-lede">The 2×2 finds gaps <i>inside</i> a move. But a gap can also be a missing <b>relation between</b> moves — an arrow the text never draws — and the grid cannot see those.</p>
+
+  <div class="tbl"><table class="d">
+    <tr><th>Kind</th><th>What's missing</th><th>Detected by</th><th>Example</th></tr>
+    <tr><td class="id"><b>slot-gap</b></td><td>an argument <i>within one move</i> — the money cell</td><td>the <b>slot-detector</b> — §B2's 2×2, run on each move</td><td>M4: does <i>his</i> love exist? (the Reciprocity role)</td></tr>
+    <tr><td class="id"><b>edge-gap</b></td><td>a <i>relation between moves</i> the text leaves undrawn</td><td>the <b>edge-detector</b> — a missing-relation pass <i>across</i> moves (not the grid)</td><td>the reciprocity arrow: her love (M4) → your apology (M7–8) leaves <i>your</i> love unstated</td></tr>
+  </table></div>
+
+  <div class="key"><b>Beyond the CORE-7, every operation opens <i>frame-roles</i> — and most gaps actually sit there.</b> A verb implies its own slots (Fillmore/FrameNet): <b>Degree</b> (how much?) · <b>Reason</b> (why?) · <b>Manner</b> (in what way?) · <b>Reciprocity</b> (is it mutual?) · Cause / Duration / … per verb. Plus a universal discourse layer on every move (temporality · evidentiality · modality · reciprocity · interiority). <b>So a gap can sit on a CORE-7 slot, OR a frame-role, OR a discourse field</b> — all three are scannable positions, and all three land in the 2×2.</div>
+</section>
+
+<!-- ═══════════════ C · GAP GENERATOR ═══════════════ -->
+<section class="sec" id="c-res">
+  <div class="sec-k"><span class="n">C</span><h2>The gap generator — what could fill it</h2></div>
+  <p class="sec-lede">Detection names the absence. Generation makes the branches not taken. This section is where the theology gets interesting — and where the method is least settled.</p>
+
+  <div class="def">
+    <div class="def-h"><span class="def-id">C-1</span><h3 class="def-t">The three resolutions — and why they are edges</h3><span class="st locked">locked</span></div>
+    <p class="def-q">Q: A gap is detected. What can happen to it?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">Every gap resolves exactly one of three ways — and two of the three <b>are edges</b>, which is why detection and the graph are the same machine.</dd>
+    </dl>
+    <div class="tbl"><table class="d">
+      <tr><th>Resolution</th><th>Definition</th><th>An edge?</th><th>Example (M4)</th></tr>
+      <tr><td class="id"><b>filled-internally</b></td><td>another move in <i>this</i> text answers it</td><td><b>yes</b> — a <span class="m">FILLS</span> edge. <b>Can run backward</b>: a later move filling an earlier gap <i>is</i> suspense</td><td>M4's warrant ← filled by M6 (the witness)</td></tr>
+      <tr><td class="id"><b>generatable</b></td><td>the text doesn't answer it, but the fill engine can produce a plausible in-frame fill</td><td>not yet — a <b>candidate</b> edge the engine draws</td><td>M4's degree → "a deep, enduring love"</td></tr>
+      <tr><td class="id"><b>RESIDUAL</b></td><td>neither the text nor a monotonic fill closes it — <b>only reception can</b></td><td><b>yes</b> — a <span class="m">RESIDUAL</span> edge, pointing <i>out</i> of the text, forward in history</td><td>the friend's motive; why she loves you</td></tr>
+    </table></div>
+    </div>
+  </div>
+
+  <div class="key"><b>The 400-years-later theologian is the reception edge made literal.</b> A RESIDUAL in Paul — "God foreknew <i>whom</i>?" — is exactly the gap Augustine fills 400 years later and Arminius fills differently 1,500 years later. The text leaves it residual. Reception is the set of later moves, by later agents, that close it. <b>And because they close it with <i>different</i> fills, they fork.</b> The residuals are where the cross-tradition question lives.<br><br><b>Measured on the song:</b> "She Loves You" turns out ~80% self-completing — most of its money-move's gaps are answered by its <i>own</i> later moves, running backward. The few it <i>cannot</i> fill from inside — the addressee's foreclosed reciprocity, the friend's motive — are exactly where history would have to step in.</div>
+
+  <div class="postit"><span class="pin">Post-it — three of your naming objections here, and I agree with all three</span>
+    <b>"I don't love the name RESIDUAL."</b> Nor do I, but it is doing a job no other word does: it means <i>the remainder after both the text and the engine have done all they can</i>. Alternatives I considered and rejected: <i>open</i> (too weak — implies it just wasn't got to), <i>unresolvable</i> (false — reception <i>does</i> resolve it), <i>bequest</i> (its own alias; charming but soft). <b>My best alternative is "reception-target"</b> — it names what the thing is <i>for</i>. Your call.
+    <br><br><b>"Why is RESIDUAL capitalized?"</b> Because it's the headline output — the flag for exactly where history has to step in. It is <i>not</i> a different kind of thing grammatically; the caps is emphasis, marking which value we're hunting. <b>That's a defensible choice but it's a typographic argument, not a conceptual one, and it has confused you twice. Recommend: drop the caps, keep the emphasis in the prose.</b>
+    <br><br><b>"These three names should be more discrete... 'filled internally' is vague, and generable actually applies to any gap — right?"</b> <b>You're right, and this is a real flaw.</b> The three are not parallel: two describe <i>who closed it</i> (the text / reception) and one describes <i>what we could do about it</i> (the engine can generate). "Generatable" is a capability, not a resolution — and as you spotted, we could generate a fill for a gap the text <i>already</i> closed. <b>The clean recut: the resolution field has two values (closed-by-text / closed-by-reception), and "generatable" moves to its own orthogonal flag.</b> I have not made this change — it touches the locked schema — but I think you found a genuine design error.
+  </div>
+</section>
+
+<section class="sec" id="c-u">
+  <div class="sec-k"><span class="n">C2</span><h2>The tiered universe — U0 to U4</h2></div>
+  <div class="def">
+    <div class="def-h"><span class="def-id">C-2</span><h3 class="def-t">U0 · U1 · U2 · U3 · U4</h3><span class="st cand">candidate — never IRR'd</span></div>
+    <p class="def-q">Q: When we generate a candidate fill, where are we allowed to draw it from?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">A tier-tag on every generated candidate, declaring <b>which universe it was drawn from</b> — and requiring a citation at that tier. <b>U0</b> passage-local · <b>U1</b> immediate context · <b>U2</b> the author's corpus · <b>U3</b> the Sitz/paradigm horizon · <b>U4</b> later reception (may <i>suggest</i>, never <i>prove</i>, obligation).</dd>
+      <dt>Why it matters</dt><dd>It exists to answer one specific attack. IRR165 passed the generator 5/5 build-with-changes but named a single point of vulnerability: <b>"declaring the universe of discourse."</b> If you don't say where a candidate came from, you can smuggle a 20th-century idea into a 1st-century text and call it a discovery. The tier-tag makes the smuggle visible: a U4 candidate is <i>allowed</i>, but it can never be evidence that the text was obliged to say it.</dd>
+      <dt>Don't confuse with</dt><dd class="warn">The <b>Sitz</b> (A-7), which is a coded field about the teller's world. U3 <i>points at</i> the Sitz; it is not the Sitz. And not the era-gate (C-3), which is a <i>pass/fail</i>, where U-tiers are a <i>provenance label</i>.</dd>
+    </dl></div>
+  </div>
+
+  <div class="flag"><span class="pin">Honest status — this one has no validation at all, and you should know why</span>
+    <b>U0–U4 is a candidate with no IRR behind it and no Decision-Journal lock.</b> Here is the exact history, because it's instructive: IRR165 demanded the universe be declared → we built the tiered universe as the fix → <b>IRR166 was drafted specifically to critique it</b> ("is the U0–U4 tiering the right cut?") → <b>IRR166 was never fired.</b> The query file still sits at <code>research/00_irr/irr166_generator_worked_output_review_5llm_2026-07-08.md</code> marked <span class="m">DRAFT — PASTE-READY</span>. Its sibling IRR167 (the Beatles coding-calibration round) was never fired either.
+    <br><br>So: the fix for IRR165's one named vulnerability has itself never been reviewed, while being used downstream in the trace-tree work. <b>Firing IRR166 is, I think, the highest-value IRR available right now</b> — it is already written, it is free, and it closes the only open hole in a 5/5 round.
+  </div>
+
+  <div class="postit"><span class="pin">Post-it — your question: "could U0–U4 be defined using our pre-established vocabulary?"</span>
+    Mostly yes, and doing it would remove three of the five terms. Your instinct that "passage / context / corpus / later reception" introduces new vocabulary is correct. Mapping onto what's already locked:
+    <div class="tbl"><table class="d">
+      <tr><th>Tier</th><th>Current gloss</th><th>Says in existing vocabulary</th></tr>
+      <tr><td class="id">U0</td><td>passage-local</td><td><b>this move</b></td></tr>
+      <tr><td class="id">U1</td><td>immediate context</td><td><b>the enclosing meta-move</b> (A-8)</td></tr>
+      <tr><td class="id">U2</td><td>corpus</td><td><b>the narrator's other meta-moves</b> — same narrator, other texts</td></tr>
+      <tr><td class="id">U3</td><td>Sitz/paradigm horizon</td><td><b>the sitz + paradigm</b> (A-7) — already locked, needs no new name</td></tr>
+      <tr><td class="id">U4</td><td>later reception</td><td><b>across a RESIDUAL edge</b> (C-1) — already an edge type</td></tr>
+    </table></div>
+    <b>So U0–U2 are just the scale-ladder (move → meta-move → narrator's corpus), U3 is the Sitz, and U4 is a reception edge.</b> The tiers aren't a new ontology — they're a <i>reading</i> of the existing hierarchy, which is a good sign (it means the grammar was already right). <b>My recommendation: keep the U-labels as a compact citation shorthand (they're genuinely useful on a data table), but define each one in the existing vocabulary exactly as above, so nobody thinks there are five new objects.</b> That's how I've written it here.
+  </div>
+</section>
+
+<section class="sec" id="c-gates">
+  <div class="sec-k"><span class="n">C3</span><h2>The two gates — era-availability × path-coherence</h2></div>
+  <p class="sec-lede">A generated branch is admissible only if it clears <b>both</b>. This is what keeps counterfactual generation scholarship rather than free-association.</p>
+
+  <div class="def">
+    <div class="def-h"><span class="def-id">C-3a</span><h3 class="def-t">Gate 1 — era-availability</h3><span class="st locked">IRR196 · κ ≈ 0.80–0.90</span></div>
+    <p class="def-q">Q: Could this thought have been thought <i>then</i>?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">The branch's governing concept must exist in the era's cited <b>birthdate lexicon</b>. We code the era on a <b>fixed 10-category material substrate</b> and derive which concepts had been born by the date.</dd>
+      <dt>Worked (1963 romantic love)</dt><dd><b>In-frame:</b> emotional-dependency (Fromm 1956) · attachment (Bowlby 1958) · trapped-by-the-other (Sartre 1943) · feminine discontent (Friedan, Feb 1963). <b>Barred:</b> self-actualisation as mass ideal (Maslow/Esalen, late-60s) · enlightenment-as-romance-substitute (1968) · codependency (1980s) · "toxic relationship" (2000s).</dd>
+      <dt>Why a material substrate, not a named era</dt><dd>A named periodization ("the Victorians," Küng's six paradigms) <b>encodes the conclusion into the periodization</b> — the bins already describe the drift you'd be using them to measure. Coding the era on material conditions keeps the reconstruction auditable and the gate non-circular. <b>IRR192 tested this directly and rejected locking Küng's paradigms for exactly this reason.</b></dd>
+      <dt>Thinkers</dt><dd><b>Kuhn</b> (paradigm as community-level shared exemplars → what is <i>thinkable</i> is collective and time-indexed; and why we <i>rejected</i> a progressive periodization — Kuhn's paradigms are incommensurable, not stages). <b>Koselleck</b> (experience/expectation → the Sitz as governor of the gap).</dd>
+    </dl></div>
+  </div>
+
+  <div class="def">
+    <div class="def-h"><span class="def-id">C-3b</span><h3 class="def-t">Gate 2 — path-coherence</h3><span class="st cand">the weak gate · κ ≈ 0.55–0.70</span></div>
+    <p class="def-q">Q: Could this follow from <i>this particular</i> branch?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">The branch must cohere with the world-line it descends from — not merely with the era.</dd>
+      <dt>Worked</dt><dd>Descending from "she is emotionally reliant on you <i>and you enjoy it</i>," the move "you release her freely from your own strength" is <b>era-available</b> (Fromm 1956) but <b>world-incoherent</b> — releasing-from-strength belongs to a different world-line. It is pruned <i>even though the era allows it</i>. A trunk is a coherence-constrained path.</dd>
+      <dt>Why it matters</dt><dd>Without gate 2 the fan generates era-legal nonsense: every 1963-thinkable move dangling off every branch regardless of what that branch established.</dd>
+      <dt>Honest status</dt><dd class="warn"><b>This is the method's weakest named joint.</b> Era-availability reproduces at κ ≈ 0.80–0.90; path-coherence at only <b>≈ 0.55–0.70</b>, against a target of ≥ 0.80. IRR196 named this as the #1 risk and prescribed the fix: <b>path-coherence must become a computed state-constraint</b> (a Manhattan-distance bound on the coordinate-state), <b>not a holistic judgment.</b> That build is approved and not yet done.</dd>
+    </dl></div>
+  </div>
+
+  <details class="dd"><summary>Double-click: IRR196 — the round that validated the gate and named what's broken in it</summary>
+    <div class="dd-b">
+      <p><b>Verdict: 5/5 BUILD-WITH-CHANGES.</b> Verbatim: <i>"the two-gate decomposition (era-availability × path-coherence) is confirmed as exactly right — but is not deployment-ready."</i></p>
+      <p class="cap">Prompt: <code>research/00_irr/irr196_altworld_admissibility_gate_5llm_2026-07-15.md</code> · Responses: <code>irr196_..._responses/</code> · Reconciliation: <code>irr196_..._reconciliation_2026-07-15.md</code></p>
+      <p><b>Confirmed:</b> the two-gate decomposition itself; and the material-substrate + cited-lexicon as the right reproducibility strategy — judged to beat named-era schemes, bespoke per-period lists, and model intuition. Notably, <b>five independent labs re-derived our own substrate</b> when asked how they'd do it.</p>
+      <p><b>What it changed — three named fixes:</b></p>
+      <p><b>1.</b> Path-coherence must be reoperationalised as a <b>computed coordinate-state constraint</b> (Manhattan distance), not a holistic call. This is the #1 risk and the direct cause of the κ ≈ 0.55–0.70.</p>
+      <p><b>2.</b> The lexicon must distinguish a concept's <b>name</b> from its <b>thinkability</b> — a CONCEPT ≠ VOCABULARY layer, with separate lexical / conceptual / discourse dates. The specimen: <b>"codependency" the phenomenon predates the 1980s term.</b> Our current gate would wrongly bar a 1963 character from <i>experiencing</i> codependency because the <i>word</i> arrives in 1980.</p>
+      <p><b>3.</b> Hard eras need <b>confidence-tags per birthdate</b> and an explicit <b>refusal-to-guess rule</b>. 1963 is recent and densely documented; 50 AD Roman Judea is not, and the honest admission is that there we gate on <i>what the surviving sources preserve</i>, not on what the era could think.</p>
+      <p><b>Where coders will disagree most</b> (the round's own answer): not the borderline birthdates — the <b>coherence calls</b>. Which the κ split confirms.</p>
+    </div>
+  </details>
+</section>
+
+<section class="sec" id="c-branch">
+  <div class="sec-k"><span class="n">C4</span><h2>The two branch-kinds</h2></div>
+  <p class="sec-lede">Not every branch is the same kind of thing. Tag each; keep both; never merge them.</p>
+
+  <div class="tbl"><table class="d">
+    <tr><th>Kind</th><th>What varies</th><th>Example</th></tr>
+    <tr><td class="id"><b>[narrative]</b></td><td>an alternative way the <i>story / history</i> could have gone — a contingent event</td><td>she could be angry; the friend could be lying; a tradition could have spread differently</td></tr>
+    <tr><td class="id"><b>[interpretive]</b></td><td>an alternative <i>reading of the same words</i> — a reading divergence</td><td>"foreknew" = foresight vs fore-love; single vs double predestination</td></tr>
+  </table>
+  <p class="cap">Introduced as the 5th admissibility rule after the first pilot over-generated (47 branches on the control song). Later split further: [interpretive] → <i>textual</i> (a reading the words permit) vs <b>ATTESTED</b> (a reading a real tradition actually took).</p></div>
+
+  <div class="key"><b>Different but not separate.</b> Narrative history <i>shapes</i> interpretation — who held power, how a text spread, shapes how the words later get read. So both are kept and rendered distinctly. The rule exists because conflating them over-generated the song's tree: a plot-alternative was masquerading as a reading-branch.</div>
+
+  <div class="postit"><span class="pin">Post-it — your best question of the whole PDF, and the data agrees with you</span>
+    You wrote: <i>"this seems like alternative reception history applied to the beatles song, but I don't really think it works as well? because the song is 'fiction' while paul's letter to romans is theology? Reception history seems to work better in fields where we know people build on each other's thoughts."</i>
+    <br><br><b>The measurement says you're right, and it says so numerically.</b> Counting <b>attested</b>-interpretive branches per move:
+    <div class="tbl"><table class="d">
+      <tr><th>Text</th><th>Attested-interpretive branches, per move</th><th>Max</th><th>Reading</th></tr>
+      <tr><td>"She Loves You"</td><td class="id">[0, 0, 0, 1, 1, 0, 0, 0]</td><td class="n">1</td><td><b>high-narrative, low-interpretive</b> — every branch is plot; it has <i>no</i> real interpretive fork; the song reads one way</td></tr>
+      <tr><td>Romans 8</td><td class="id">[3, 5, 4, 4, 4]</td><td class="n">5</td><td><b>forks</b> — "foreknew whom?" is a genuine interpretive split; the doctrine divides on it</td></tr>
+    </table></div>
+    <b>So the song is not a failed Romans — it's the control.</b> The instrument's job here is to <i>distinguish</i> a text that branches only in plot from one that splits in reading, and the numbers show it does. That is exactly what a control is for, and it means the song earns its place for the opposite of the reason we'd been implying. <b>I think this reframe is worth stating explicitly wherever the song appears</b> — it converts an apparent weakness ("why are you doing reception history on a pop song?") into the demonstration that the measure discriminates.
+    <br><br><b>And your sub-question — "does reception history require there to be a fork?"</b> — <b>No.</b> Two different edges: <span class="m">REINTERPRETS</span> = a later reader fills the residual <i>faithfully</i> (a loyal choice among plausible fills) → that models theological <b>schools</b>. <span class="m">FORKS</span> = the fill <i>retracts a core axiom</i> → that models <b>schisms</b>. Reception without a fork is a school; reception with one is a split.
+  </div>
+</section>
+
+<section class="sec" id="c-trees">
+  <div class="sec-k"><span class="n">C5</span><h2>The tree family — named and defined</h2></div>
+  <p class="sec-lede">You asked: <i>"we have a few versions of trees — fans vs something more tree-like vs something within a move of alternatives vs reception history. These all need to have specific names and definitions."</i> Here they are. <b>Six distinct objects exist. They were not named systematically, and three names currently collide.</b></p>
+
+  <div class="key"><b>The organising cut that makes the family legible: what is the branch's <i>epistemic status</i>?</b> Every one of these objects is answering one of exactly three questions — and that, not shape, is what separates them.
+    <br><br><b>ACTUAL</b> — what the text <i>did</i>. Coded, not generated.<br>
+    <b>ATTESTED</b> — what history <i>did</i>. Cited to a real reader or a real root.<br>
+    <b>GENERATED</b> — what <i>could</i> have been. Produced by the engine; flagged as never-taken; gated by C-3.
+    <br><br>A drawing that mixes the three without marking them is the single most dangerous artifact this project can produce — it renders an invented branch and an attested one in the same ink.</div>
+
+  <div class="tbl"><table class="d">
+    <tr><th>Name</th><th>Status</th><th>Nodes</th><th>Branching rule</th><th>Direction</th><th>Built?</th></tr>
+    <tr><td class="id"><b>move-graph</b><br><span style="font-size:11px;color:var(--ink-3)">(currently filed as "move-tree")</span></td><td><span class="st locked">ACTUAL</span></td><td>a move — <span class="m">do(a, s)</span>, one operation in a situation</td><td>a precondition <span class="m">Poss(a,s)</span> holds → the path continues; fails → dead end. Branches = alternatives not taken</td><td>forward</td><td><b>Yes</b> — but hand-authored + static, <i>not</i> generative. Romans: 5 nodes. Song: 8 nodes.</td></tr>
+    <tr><td class="id"><b>provenance tree</b></td><td><span class="st cand">ATTESTED</span></td><td>the roots a text grafts from — jewish-root · pagan-root · biblical</td><td>a graft: the text draws on a prior source</td><td><b>backward</b></td><td><b>Yes</b> — as half of the trace-tree</td></tr>
+    <tr><td class="id"><b>reception tree</b></td><td><span class="st cand">ATTESTED</span></td><td>later readers — interpreter · doctrine · tradition-branch</td><td>a reader closes a RESIDUAL; different closures diverge</td><td><b>forward</b></td><td><b>Yes</b> — as the other half</td></tr>
+    <tr><td class="id"><b>trace-tree</b></td><td><span class="st cand">ATTESTED</span></td><td>both of the above, joined at a <b>pivot</b> (the source text)</td><td>run the two halves <b>independently</b>, join only at shared nodes — the anti-teleology rule</td><td><b>both</b></td><td><b>Yes</b> — interactive, live: golden chain + song. <b>No IRR.</b></td></tr>
+    <tr><td class="id"><b>substitution fan</b><br><span style="font-size:11px;color:var(--ink-3)">("the full fan")</span></td><td><span class="st drift">GENERATED</span></td><td>a generated move-state</td><td><b>split at every fork</b> (~3 admissible children), each child gated by era-availability × path-coherence</td><td>forward, from one substitution</td><td><b>Yes</b> — <b>485 nodes</b> = 366 in-frame + 119 barred</td></tr>
+    <tr><td class="id"><b>world-line</b></td><td><span class="st drift">GENERATED</span></td><td>one committed state per position</td><td><b>none</b> — a world-line has already chosen at every fork. It is <i>one path through the fan</i></td><td>forward, M1′→M8′</td><td><b>Yes</b> — 6 world-lines × 8 positions = <b>48 rows</b>. 3 of 6 converge on the sung ending.</td></tr>
+    <tr><td class="id"><b>backward funnel</b></td><td><span class="st drift">GENERATED</span></td><td>a state consistent with the ending</td><td>a <b>membership test</b>, not a fork: which antecedent states lead cleanly here?</td><td><b>backward</b>, from the ending</td><td><b>No</b> — "the un-built operational step"</td></tr>
+  </table>
+  <p class="cap">Per-level fan width: 1 → 4 → 12 → 36 → 108 → 324. This is why the fan is undrawable past ~5 levels and why it is <b>held as a dataset, not a diagram</b>.</p></div>
+
+  <div class="key"><b>Fan vs world-line — the distinction you drew out, and the one that unlocked the whole problem.</b> <b>The fan</b> = split at every fork = the whole admissible space (~3<sup>depth</sup>). <b>A world-line</b> = one coherent path through it. They are two views of one object, and the reason "we can't draw 2,000 leaves" stopped being a blocker: <b>the fan is a dataset; only a world-line is a drawing.</b><br><br><b>And the bidirectional object is an intersection, not an identity.</b> <span class="m">forward-fan ∩ backward-funnel</span>. They are different shapes: the sung ending is a <i>wide funnel backward</i> (many antecedents fit) but a <i>narrow target forward</i>. This is the anti-teleology rule made mechanical — <b>you do not invent a bridge to the ending because you know the ending</b>; convergence is a computed intersection, not a story you told. Substituting "healed" for "hurt" removes the injury at the funnel's mouth, so a convergent path must <i>re-introduce</i> it — which is why only half the world-lines land on the apology, and why every one that does shares a single shape: <i>healed → the healer withdraws → a new hurt → apology for the withdrawal</i>.</div>
+
+  <div class="flag"><span class="pin">Six naming problems in this family — all real, none yet fixed</span>
+    <ol style="margin:8px 0 0;padding-left:20px">
+      <li><b>"move-tree" should be "move-graph," by our own ruling.</b> IRR180's verdict was explicit: <i>"do NOT build the naive open recursive TREE; build a bounded, provenance-bearing move GRAPH"</i> — and it specifically instructed us to update the page's framing to "graph." <b>The rename was never executed</b>: the file, the JSON, the results docs, and the live page all still say "tree." A tree cannot show that two paths reconverge on the same state; a graph can — and reconvergence is exactly what the world-line result is about. <b>This is not pedantry; the word is hiding the finding.</b></li>
+      <li><b>"trace-tree" names two structurally different objects.</b> (i) the bidirectional provenance+reception tree above; (ii) a per-move, three-column counterfactual skeleton (left = substitution alternatives, centre = the spine, right = the gaps) with a completely different node schema and a <i>third</i> edge taxonomy. <b>Recommend: (ii) is renamed — it is a <i>substitution skeleton</i>, not a trace of anything.</b></li>
+      <li><b>"bidirectional" names two different composition rules.</b> The trace-tree's = provenance ∩ reception, joined at a textual pivot, with interpreter semantics. The alt-world's = forward-fan ∩ backward-funnel, a pure state-membership intersection with no provenance semantics at all. One doc even cites the trace-tree as evidence for the funnel claim — <b>they are not the same machinery pointed two ways.</b></li>
+      <li><b>"the golden chain" names two rendered artifacts</b> — <code>romans-fork.html</code> (a 5-node move-graph, forks only at "foreknew") and <code>trace-tree-golden-chain.html</code> (the same spine embedded in roots + reception). They cross-link without ever saying they aren't the same object.</li>
+      <li><b>Three unreconciled edge taxonomies are in simultaneous use</b> — <code>edge_taxonomy_v2</code> (IRR179-validated), the trace-tree's <span class="m">direction × kind × provenance_class</span> (unvalidated), and the older <span class="m">flow · warrant · consequence · articulation · rhyme · membership</span> graph schema. A working doc caught itself mid-page inventing "result / recovery / persistence" as edge types — evidence they aren't being cross-checked even within one session. <b>This is the same problem as A-5, one layer up.</b></li>
+      <li><b>Three "altworld" generators produced three different node counts</b> — a 2-trunk hand pass, a fan pass, and the 485-node automated run. An earlier results doc reports <b>28 in-frame leaves at M5′</b>; the automated CSV has <b>245</b>. <b>Those are two different runs, not one dataset with two write-ups</b> — and only the 485-node CSV should be cited.</li>
+    </ol>
+  </div>
+
+  <div class="postit"><span class="pin">Post-it — what I'd propose, in one move</span>
+    Adopt the <b>ACTUAL / ATTESTED / GENERATED</b> cut above as the family's organising axis, and let each object's name say which one it is. That yields: <b>move-graph</b> (actual) · <b>provenance tree</b> + <b>reception tree</b> → joined = <b>trace-tree</b> (attested) · <b>substitution fan</b> → one path = <b>world-line</b>; plus <b>backward funnel</b>; and the bidirectional object = <b>fan ∩ funnel</b> (generated). Six objects, six names, no collisions, and the epistemic status is legible from the name alone. <b>The renames this requires are: move-tree→move-graph (already mandated), trace-tree(ii)→substitution skeleton, full-fan→substitution fan.</b> I have not renamed anything — this is a decision, and it touches file paths.
+  </div>
+</section>
+
+<!-- ═══════════════ D · MORPHOSPACE ═══════════════ -->
+<section class="sec" id="d-frame">
+  <div class="sec-k"><span class="n">D</span><h2>The morphospace of frames</h2></div>
+  <p class="sec-lede">§A–C code <b>texts</b>. This section codes <b>minds</b> — because to generate what a gap <i>could</i> have been filled with, you need something to do the filling, and "a mind" has to be a specifiable object rather than a name you trust the model to impersonate.</p>
+
+  <div class="def">
+    <div class="def-h"><span class="def-id">D-1</span><h3 class="def-t">A frame is a coordinate, not a name</h3><span class="st locked">D169</span></div>
+    <p class="def-q">Q: What is a "lens" or a "position," specified precisely enough to compute with?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">A frame is <b>one point on six categorical axes</b> — a mind described by its commitments rather than by its owner's name. It exists whether or not any real thinker occupies it.</dd>
+      <dt>Why it matters</dt><dd>This is the move that makes the generator honest. Ask a model for "the Aristotle view" and it produces a <b>pastiche</b> — a plausible-sounding impersonation drawn from Aristotle's reputation. Ask it to answer <i>from a coordinate</i>, and it must reason from stated commitments. <b>The persona is the coordinate, not the name.</b> It also buys three things a name cannot: a thinker may occupy several coordinates (Augustine changed his mind); a coordinate may have no occupant at all (and that is a research target); and two thinkers who share a coordinate are <i>measurably</i> near each other.</dd>
+      <dt>Thinkers</dt><dd>The <b>morphospace</b> in theoretical morphology (Raup) — the only established term that formalises <i>actual</i> vs <i>possible-but-unrealised</i> and treats empty regions as generative.</dd>
+      <dt>Don't confuse with</dt><dd class="warn">A persona (a voice), a thinker (who occupies a cloud of frames), or a paradigm (a text's assumed world). And note this is <b>sense ② of "frame"</b> — see the collision at A-2.</dd>
+    </dl></div>
+    <details class="dd"><summary>Double-click: the pastiche problem — the actual specimen that forced this</summary>
+      <div class="dd-b">
+        <p>The engine began as a "rolodex" — ask a named thinker related to our DB (Aristotle, Jung) to answer a gap. The answers were <b>nice, but pastiche</b>. Here is a real one, on the song's M8:</p>
+        <p style="border-left:2px solid var(--rule);padding-left:14px;font-style:italic;color:var(--ink-2)">"Augustine reads the conspicuous silence as itself a datum: <i>superbia</i> (M8) is precisely the disposition that occludes one's own loves from oneself. The addressee's uncertainty about his love is therefore not exculpatory but symptomatic — pride hides the heart from itself… The <i>ordo amoris</i> does not ask 'do you feel love?' but 'is your love ordered rightly toward the good?'"</p>
+        <p>That is <i>good</i>. It is also unfalsifiable, and it is what the model already believes "Augustine" sounds like. Nothing in it is traceable to a coded commitment, and nothing in it could come out differently.</p>
+        <p><b>The fix was to reverse-engineer it:</b> stop asking "what would Augustine say" and start asking "what does a mind that knows by <i>revelation</i>, holds a <i>personal-agentive</i> ground, and reasons by <i>exegesis</i> say?" Then Augustine is a <i>location</i> in that space rather than a voice to imitate — <b>and we are generating from his frame, not from his personality or his greatest hits.</b></p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section class="sec" id="d-axes">
+  <div class="sec-k"><span class="n">D2</span><h2>The six axes — and every value on them</h2></div>
+  <p class="sec-lede">You asked for four things here: what each axis is, how we got to six, what the values are, and how each value is defined. This is all six, with live counts from the coded corpus.</p>
+
+  <div class="tbl"><table class="d">
+    <tr><th>Axis</th><th>The question it asks</th><th>Values</th><th>Status</th></tr>
+    <tr><td class="id"><b>E</b> · epistemic-warrant</td><td>How does it know? What licenses a claim?</td><td class="n">9</td><td><span class="st locked">8 green + 1 cand</span></td></tr>
+    <tr><td class="id"><b>O</b> · ontological-commitment</td><td>What's real? (substance <b>only</b>, since D168)</td><td class="n">13</td><td><span class="st locked">10 green + 3 cand</span></td></tr>
+    <tr><td class="id"><b>M</b> · inferential-operation</td><td>How does it reason?</td><td class="n">7</td><td><span class="st locked">all green</span></td></tr>
+    <tr><td class="id"><b>T</b> · telos</td><td>What is it for?</td><td class="n">7</td><td><span class="st cand">all candidate</span></td></tr>
+    <tr><td class="id"><b>S</b> · stance</td><td>What posture does it take toward its object?</td><td class="n">6</td><td><span class="st cand">all candidate</span></td></tr>
+    <tr><td class="id"><b>G</b> · ground-world-relation</td><td>How does the ground relate to the world?</td><td class="n">8</td><td><span class="st locked">all green</span></td></tr>
+  </table>
+  <p class="cap">9 × 13 × 7 × 7 × 6 × 8 = <b>275,184</b> theoretical coordinates. Values live in the DB table <code>exom_axis_vocabulary</code>, never hardcoded — a genuinely novel value proposed by a coder auto-registers as <span class="m">candidate</span> (that is fit-or-extend, P-2, implemented).</p></div>
+
+  <div class="flag"><span class="pin">Two honesty flags on this table</span>
+    <b>1. Telos and stance are still <span class="m">candidate</span> in the live vocabulary — they were never promoted.</b> IRR183 added telos (unanimous) and flagged stance as the strongest new-axis candidate (4/5), and explicitly called for a <b>stance mini-round before stance→green</b>. That round never ran. <b>But both axes are being used as though locked</b> — they are in the 275,184 denominator and in the geometry. E/O/M/G went through empirical MECE-diagnostics; T and S did not.
+    <br><br><b>2. The master lexicon names the 6th axis "derivation." That is wrong.</b> The 6th axis is <span class="m">ground-world-relation</span>. <span class="m">derivation</span> is a <i>value</i> on the M axis (21 figures sit on it). The lexicon also still states "~40K possible," which is the <b>5-axis</b> count (34,398) from before G existed. Both are stale; the data is the arbiter.
+  </div>
+
+  <details class="dd"><summary>Double-click: every value on every axis, with counts from the 512 coded figures</summary>
+    <div class="dd-b">
+      <p><b>E · epistemic-warrant</b> — 8 of 9 occupied. The first six are the researcher's original list; <span class="m">noetic-intuition</span> and <span class="m">mystical-union</span> were added by IRR183 (unanimous); <span class="m">embodied-practice</span> is a Haiku SOLO candidate.</p>
+      <div class="tbl"><table class="d"><tr><th>Value</th><th>Definition</th><th>Figures</th></tr>
+        <tr><td class="id">revelation</td><td>revealed authority — sacred text or divine disclosure as the ground of knowing</td><td class="n">125</td></tr>
+        <tr><td class="id">testimony</td><td>you trust what witnesses and others report</td><td class="n">108</td></tr>
+        <tr><td class="id">embodied-practice</td><td>insight won through bodily training <i>(candidate — overlaps "practice"; see flag)</i></td><td class="n">78</td></tr>
+        <tr><td class="id">observation</td><td>empirical observation — measurement and evidence</td><td class="n">62</td></tr>
+        <tr><td class="id">reason</td><td>unaided reason — argument, logic, principle</td><td class="n">46</td></tr>
+        <tr><td class="id">mystical-union</td><td>union with the object of knowledge (Eckhart; Sufi <i>dhawq</i>)</td><td class="n">38</td></tr>
+        <tr><td class="id">practice</td><td>disciplined contemplative or bodily training</td><td class="n">31</td></tr>
+        <tr><td class="id">noetic-intuition</td><td>direct intellectual apprehension (Plato's <i>nous</i>)</td><td class="n">24</td></tr>
+        <tr><td class="id">divination</td><td>oracular signs, casting, interpreted omens</td><td class="n">0</td></tr>
+      </table></div>
+      <p><b>You asked specifically: "what does divination mean, and how did we come up with that?"</b> — It is from your own original S138 list, unchanged by any IRR. It means knowledge sought through oracular signs, casting, and interpreted omens. <b>And it is the one E-value with zero occupants</b>, which is a finding about the corpus, not about religion: we hold almost no primary texts from divinatory traditions (Ifá, I Ching practice, oracle literature). <b>That empty value is a shopping list.</b></p>
+
+      <p><b>O · ontological-commitment</b> — 12 of 13 occupied. Restructured by IRR186 + IRR187 to be <b>substance only</b>; five older values were retired and decomposed into a substance + a G-value.</p>
+      <div class="tbl"><table class="d"><tr><th>Value</th><th>Definition</th><th>Figures</th></tr>
+        <tr><td class="id">personal-agentive</td><td>a personal will/agent is fundamental (the substance-half of theism)</td><td class="n">232</td></tr>
+        <tr><td class="id">not-asserted</td><td>abstention — the passage takes no ontological position (the "Hadot catch")</td><td class="n">90</td></tr>
+        <tr><td class="id">consciousness-first</td><td>awareness/mind is fundamental (Yogācāra, Advaita)</td><td class="n">76</td></tr>
+        <tr><td class="id">process-becoming</td><td>events/flux are primary (Heraclitus, Bergson, Whitehead)</td><td class="n">36</td></tr>
+        <tr><td class="id">material</td><td>matter is fundamental</td><td class="n">26</td></tr>
+        <tr><td class="id">apophatic</td><td>the ground is beyond all categories (Plotinus, Dionysius) <i>(candidate)</i></td><td class="n">19</td></tr>
+        <tr><td class="id">void</td><td>emptiness / no-substance ground (śūnyatā, Nāgārjuna)</td><td class="n">12</td></tr>
+        <tr><td class="id">impersonal-order</td><td>impersonal law / pattern (Dao, Logos-as-order)</td><td class="n">8</td></tr>
+        <tr><td class="id">dual-aspect-monism</td><td>one substance, two aspects <i>(candidate — deferred pending a 4-case probe)</i></td><td class="n">6</td></tr>
+        <tr><td class="id">epoche</td><td>active ontological <i>refusal</i> held as a position (Pyrrhonist suspension)</td><td class="n">3</td></tr>
+        <tr><td class="id">dualism-pluralism</td><td>≥2 irreducible co-fundamentals (Descartes, Sāṃkhya, Jain)</td><td class="n">3</td></tr>
+        <tr><td class="id">panpsychism</td><td>mind is ubiquitous <i>(candidate — NOT promoted; IRR186 4/5 against)</i></td><td class="n">1</td></tr>
+        <tr><td class="id">insufficient-context</td><td><b>the coder's fallback — not a position.</b> Dropped from the geometry (TG-8)</td><td class="n">—</td></tr>
+      </table></div>
+      <p><b>The <span class="m">epoche</span> / <span class="m">not-asserted</span> distinction is load-bearing and easy to lose:</b> <i>epoche</i> is a genuine refusal-move held <i>as</i> a position (so the figure still has a method, a telos, a stance — you fill the other axes normally). <i>not-asserted</i> is a passive absence — the text is simply about ethics or practice and takes no ontological view. Neither may be used merely because the substance is implicit-but-inferable.</p>
+
+      <p><b>M · inferential-operation</b> — all 7 occupied. <span class="m">abduction</span> (Peirce) and <span class="m">induction</span> (Hume) added by IRR183.</p>
+      <div class="tbl"><table class="d"><tr><th>Value</th><th>Figures</th><th></th><th>Value</th><th>Figures</th></tr>
+        <tr><td class="id">exegesis</td><td class="n">162</td><td></td><td class="id">induction</td><td class="n">57</td></tr>
+        <tr><td class="id">analogical-mapping</td><td class="n">116</td><td></td><td class="id">derivation</td><td class="n">21</td></tr>
+        <tr><td class="id">causal-explanation</td><td class="n">85</td><td></td><td class="id">abduction</td><td class="n">13</td></tr>
+        <tr><td class="id">dialectical-negation</td><td class="n">58</td><td></td><td></td><td></td></tr>
+      </table></div>
+
+      <p><b>T · telos</b> (all candidate) — <span class="m">salvation</span> 145 · <span class="m">liberation</span> 128 (Gutiérrez) · <span class="m">flourishing</span> 108 · <span class="m">knowledge-understanding</span> 66 · <span class="m">contemplation</span> 42 (Aquinas) · <span class="m">harmony</span> 14 · <span class="m">power-mastery</span> 9 (Bacon).</p>
+      <p><b>S · stance</b> (all candidate; parents = <b>Ricoeur</b> suspicion/restoration + <b>Sedgwick</b> paranoid/reparative) — <span class="m">reverent</span> 211 · <span class="m">reparative</span> 179 · <span class="m">suspicious</span> 60 · <span class="m">charitable</span> 57 · <span class="m">reductive</span> 3 · <span class="m">paranoid</span> 2.</p>
+      <p><b>G · ground-world-relation</b> (all green; created by D168 to absorb the retired O-values) — <span class="m">creation</span> 157 · <span class="m">unspecified</span> 97 · <span class="m">participation</span> 85 · <span class="m">manifestation</span> 54 · <span class="m">emergence</span> 41 · <span class="m">dependent-arising</span> 29 · <span class="m">identity</span> 29 · <span class="m">emanation</span> 20.</p>
+      <p class="cap">Source: <code>DATA_occupied_tuples_for_designSB_2026-07-15.json</code>, computed on the 512 fully-coded figures.</p>
+    </div>
+  </details>
+
+  <div class="postit"><span class="pin">Post-it — "are we doing the types bottom-up, or top-down, or both?"</span>
+    <b>Both, in sequence — and the honest label is "top-down origin, bottom-up re-cutting."</b> That's a defensible answer, and the chain is citable:
+    <br><br><b>1. Top-down origin.</b> The base E/O/M reels are marked in the code, verbatim, as <i>"the known values (researcher's list, S138)."</i> You authored them. They were not induced from data.
+    <br><b>2. A taxonomy round (IRR183).</b> Still top-down — five models reasoning about what axes <i>should</i> exist. Verdict: lock-with-named-changes. Added telos; flagged stance; added specific E/O/M values unanimously.
+    <br><b>3. The bottom-up turn (IRR186).</b> Triggered by <i>real coding failures</i> — an O-axis split-rate diagnostic on actual coded text. Verdict: <b>"PROCEED WITH RESTRUCTURING — 5/5. No cohort endorsed the 8-value set as-is."</b> Root cause: O was conflating <i>what is real</i> with <i>how it relates to the world</i>.
+    <br><b>4. Bottom-up again, harder (IRR187).</b> Triggered by a bigger diagnostic: n=43, <b>42% O-disagreement</b>. Verdict: decompose O into substance-only + wire <span class="m">ground-world-relation</span> as a 6th coordinate. → Decision 168. <b>This is where the 6th axis came from — it was forced by a measured failure, not designed.</b>
+    <br><b>5. A statistical check.</b> Cramér's V (a measure of association between two categorical variables — 0 = independent, 1 = perfectly predictable from each other) on 160 real coordinates found O × derivation moderately collinear at <b>V = 0.52</b> — "defensible but not clean; watch it; re-test on the full run." This closed IRR183's own action item: <i>test orthogonality statistically, don't assert it conceptually.</i>
+    <br><br><b>So "how we came up with those 6" has a real answer: four of them you proposed, one (telos) a cohort added unanimously, and one (ground-world-relation) was forced on us by a 42% disagreement rate that no amount of definition-tightening could fix.</b> That last one is the strongest single piece of evidence that the axes are found rather than imposed — and it is worth saying at the defense.
+  </div>
+</section>
+
+<section class="sec" id="d-rfa">
+  <div class="sec-k"><span class="n">D3</span><h2>Roster · Frame · Atlas — and where the numbers come from</h2></div>
+  <p class="sec-lede">Three words that kept blurring, now locked. Mnemonic: <b>guest list → seat → seating chart.</b></p>
+
+  <div class="tbl"><table class="d">
+    <tr><th>Term</th><th>What it is</th><th>Where it lives</th><th>Count</th><th>Verified</th></tr>
+    <tr><td class="id"><b>roster</b></td><td><i>Who we hold</i> — named thinkers. A <b>guest list</b>. Not yet placed in coordinate space.</td><td class="id">canonical_voices</td><td class="n"><b>1,717</b> live<br><span style="font-size:11px;color:var(--ink-3)">1,850 − 133 merged</span></td><td class="id">live query ✓</td></tr>
+    <tr><td class="id"><b>frame</b></td><td><i>A coordinate</i> — one point in the 6 axes. A <b>seat</b>. Exists with or without an occupant.</td><td class="id">(axis combinations)</td><td class="n">275,184</td><td class="id">9·13·7·7·6·8 ✓</td></tr>
+    <tr><td class="id"><b>atlas</b></td><td><i>The map</i> — real thinkers <b>classified</b> at their frame + cross-checked. The <b>seating chart</b>.</td><td class="id">figure_exom</td><td class="n"><b>536</b> rows<br><b>512</b> fully coded</td><td class="id">live query ✓</td></tr>
+  </table>
+  <p class="cap">Occupied distinct coordinates: <b>365</b> — <b>0.13%</b> of the theoretical space.</p></div>
+
+  <div class="key"><b>Answering "512 feels like a mathematical combinatorial number — how does it relate to the actual thinkers in our DB?"</b> — <b>It isn't combinatorial at all. It is a literal row count, and the numbers nest:</b>
+  <div class="eq">1,850   all canonical_voices ever
+  └ 1,717   LIVE roster            (133 deprecated as duplicates)
+      └ 536   seated in the atlas   (figure_exom rows — 31% of the roster)
+          └ 512   FULLY coded       (all 6 axes; insufficient-context dropped)
+              └ 365   distinct coordinates occupied   ( = 0.13% of 275,184 )</div>
+  <b>512 is the subset of 536 that has all six axes coded cleanly.</b> They are not two independent counts. And 275,184 has nothing to do with how many thinkers exist — it is the size of the grid those 512 are scattered across.</div>
+
+  <div class="flag"><span class="pin">A number we have been citing is not grounded — do not use it</span>
+    <b>"1,181 metadata-only voices" does not survive checking.</b> It looks like it came from 1,717 − 536. But that arithmetic is wrong, because <code>figure_exom</code> is <b>polymorphic</b> — its rows can be a source or a tradition, not only a figure. Running the actual join (<code>canonical_voices LEFT JOIN figure_exom ON canonical_voice_id</code>, live voices only) gives <b>1,419 metadata-only and only 298 linked</b> — not 1,181 / 536.
+    <br><br>So the corpus-layer story ("L1 coded / L2 metadata-only / L3 secondary-reachable / L4 true gap") is <b>directionally right and numerically wrong</b>. The headline it supports — <b>not-coded ≠ not-held</b> (TG-4) — survives and gets <i>stronger</i> (the uncoded pool is larger than we said). But the specific number must be re-derived before it appears anywhere. <b>I have not used 1,181 on this page.</b>
+  </div>
+</section>
+
+<section class="sec" id="d-cloud">
+  <div class="sec-k"><span class="n">D4</span><h2>Clouds, provenance, and how a coordinate is actually made</h2></div>
+
+  <div class="def">
+    <div class="def-h"><span class="def-id">D-4a</span><h3 class="def-t">point-cloud — a thinker is a set, not a point</h3><span class="st locked">D168 amdt</span></div>
+    <p class="def-q">Q: What about a person whose mind changed, or who holds two things at once?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">A <b>work</b> sits at one coordinate. A <b>thinker spans</b> — a set of coordinate-instances, one per work or life-phase. Multiplicity is the <b>feature</b>, not a reliability defect.</dd>
+      <dt>Why it matters</dt><dd>It is what lets a coordinate stay a stable "it" while a person remains a changing "who" — your own formulation. Jung legitimately occupies ≥2 (early-analytical vs late-symbolic). More of the frame-space mapped = richer generation. And it dissolved a false alarm: a 50% "abstention" regression turned out to be thinkers who <i>span</i>, not coders who failed.</dd>
+      <dt>Don't confuse with</dt><dd class="warn">Error. The discipline is: <b>distinguish ERROR from MULTIPLICITY — fix the error, keep the multiplicity.</b></dd>
+    </dl></div>
+  </div>
+
+  <div class="def">
+    <div class="def-h"><span class="def-id">D-4b</span><h3 class="def-t">voice_provenance — whose voice is it, really?</h3><span class="st locked">D170</span></div>
+    <p class="def-q">Q: Jesus wrote nothing. Merleau-Ponty is in copyright. How do we seat them honestly?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">A first-class tag on every seated frame: <b>authored</b> (the figure wrote it — Paul) · <b>attributed</b> (a quote of the figure embedded in a secondary source — Merleau-Ponty quoted in an academic PDF) · <b>reported</b> (wrote nothing; mediated by others — Jesus via the evangelists, Socrates via Plato) · <b>about/reception</b> (discussion of the figure, not their voice).</dd>
+      <dt>Why it matters</dt><dd>Rigor descends <b>authored &gt; attributed &gt; reported &gt; about</b>, and the tag keeps the tiers from ever being silently mixed. <b>This is the answer to your copyright question:</b> an in-copyright thinker is seated from <span class="m">attributed</span> quotes in secondary sources — included and tagged, never excluded. And it is what makes honest seating of reported-voice figures possible at all: <b>Matthew's-Jesus ≠ John's-Jesus</b>, and the tag is what lets us say so.</dd>
+    </dl></div>
+  </div>
+
+  <div class="def">
+    <div class="def-h"><span class="def-id">D-4c</span><h3 class="def-t">frame-cloud — the work you flagged as missing</h3><span class="st cand">candidate · gated by TG-1</span></div>
+    <p class="def-q">Q: What happens when a whole tradition holds several portrayals of its central figure?</p>
+    <div class="def-b"><dl>
+      <dt>What it is</dt><dd class="op">Three terms, never conflated. <b>Variant Attestation</b> = the study (the workstream). <b>frame-cloud</b> = the object — a central figure's portrayal-cloud, each portrayal a provenance-tagged frame. <b>multiplicity-posture</b> = the finding — how a tradition <i>manages</i> its own variance: <b>harmonize · grade · hold-open</b>.</dd>
+      <dt>Why it matters</dt><dd>"Multiplicity-posture" was judged the genuinely novel move by the prior-art round — a tradition's <i>immune-system response to its own variants</i>. It is also the natural home for the tests you remembered.</dd>
+    </dl></div>
+    <details class="dd"><summary>Double-click: the seven-figure transmission-structure result — Jesus · God · Muhammad · Buddha · Confucius · Socrates · Freud</summary>
+      <div class="dd-b">
+        <p><b>This is the work you flagged as missing, and you were right that it is nowhere on the site.</b> The claim, in one sentence: <b>the depth of the variance is set by the figure's transmission structure — who controls the telling.</b></p>
+        <div class="tbl"><table class="d">
+          <tr><th>Figure</th><th>Transmission structure</th><th>Essence-axis</th><th>Base spread</th></tr>
+          <tr><td>Jesus</td><td>single-custodian (the Church)</td><td>PROTECTED</td><td class="n">0.06</td></tr>
+          <tr><td>God (Genesis P/J)</td><td>single-custodian (the Tanakh)</td><td>PROTECTED</td><td class="n">0.00–0.17</td></tr>
+          <tr><td>Muhammad (hadith)</td><td>single-custodian</td><td>PROTECTED</td><td class="n">~0.27</td></tr>
+          <tr><td>Buddha (Pali/Āgama/Lotus)</td><td>fragmented, but <b>shares a core</b> (śūnyatā)</td><td>PRESERVED</td><td class="n">0.33</td></tr>
+          <tr><td>Confucius (vs Daoist)</td><td>rival-custodian, no shared core</td><td>CONTESTED</td><td class="n">0.50–0.83</td></tr>
+          <tr><td>Socrates (Plato vs Xenophon)</td><td><b>no</b> custodian</td><td>telos/method contested</td><td class="n">0.50–0.67</td></tr>
+          <tr><td>Freud (vs Jung)</td><td>rival-custodian, no shared core</td><td>CONTESTED</td><td class="n"><b>1.00</b></td></tr>
+        </table></div>
+        <p><b>Read the shape:</b> where one custodian controls the telling, the essence-axis is protected no matter how much peripheral variation exists. Where custody is rival <i>and</i> shares no core, the essence itself is contested. Buddhism is the interesting middle — custody is fragmented but a shared core (śūnyatā) preserves the essence anyway, which means it is <b>not</b> custody-count that does the work; it is whether the custodians agree on what the essence <i>is</i>. Freud/Jung is the limit case: <b>every axis differs</b>. And the coder independently recovered Ricoeur's "hermeneutics of suspicion vs the numinous" split without being told about it.</p>
+        <p><b>Why it is not on the site, honestly:</b> <b>(1)</b> it is <b>N=1 matched pair per figure</b> — demonstrator-grade, explicitly. <b>(2)</b> It is gated by TG-1: these are single-coder (Sonnet) results whose reliability is moderate-pending. <b>(3)</b> Socrates was run on a <i>small local model</i> (mistral-small), and the script itself flags that Socratic irony is exactly what a small model flattens. <b>(4)</b> The visualisation was spec'd for design-SB and never built.</p>
+        <p><b>My view:</b> this is the most interesting thing in the drawer, and it is <i>one clean re-run</i> away from being publishable as a candidate — the hardened version (matched-QUD + per-axis weighted cited anchors, all seven figures) is already specified. <b>You called it "a bit orthogonal to the definitions and process, but very useful as a theological tool." I'd go further: it is the best evidence the coordinate frame measures something real</b>, because the ordering (Jesus 0.06 → Freud 1.00) is one no one designed and it tracks a structural fact about custody rather than about theology.</p>
+        <p class="cap"><code>field_ed/_persona_engine/CASE_STUDY_transmission_structure_seven_figures_2026-07-14.md</code> · data feed <code>DATA_seven_figures_coordinates_for_designSB_2026-07-14.json</code></p>
+      </div>
+    </details>
+    <details class="dd"><summary>Double-click: Augustine changes his mind — the trajectory, on his own Latin</summary>
+      <div class="dd-b">
+        <p>Three of Augustine's own works on the <i>same</i> locus (Romans 9, Jacob/Esau), coded strictly from his Latin, N=3 per work. The prompt pins him to the text: <i>"Reason as Augustine of Hippo, grounded STRICTLY in your OWN Latin words below… do not import positions from your other works."</i></p>
+        <div class="tbl"><table class="d">
+          <tr><th>Work</th><th>Era</th><th>Election ground</th><th>The door</th></tr>
+          <tr><td>Expositio §52</td><td>~394 · early</td><td><b>CONDITIONAL</b> 3/3</td><td>FILL 3/3</td></tr>
+          <tr><td>Ad Simplicianum §2.18</td><td>396 · the pivot</td><td><b>UNCONDITIONAL</b> 3/3</td><td>mixed</td></tr>
+          <tr><td>De correptione et gratia</td><td>426 · late</td><td><b>UNCONDITIONAL</b> 3/3</td><td>BARRED 2/3</td></tr>
+        </table></div>
+        <p><b>The finding, and it is a lovely one:</b> the <i>ground</i> flips at 396 and stays flipped. But <b>the door hardens later than the ground flips</b> — he is still offering fills in 396, and only by 426 is the question barred. <b>The conviction changed before the confidence did.</b></p>
+        <p>This is the concrete case for D-4a: one man, three coordinates, thirty-two years. A person changes; a coordinate is an "it," not a "who" — so we seat the works, and the thinker is the cloud of them.</p>
+        <p class="cap"><code>field_ed/_persona_engine/RESULTS_augustine_reversal_2026-07-11.md</code> · raw model outputs preserved at <code>out/augustine/augustine_reversal_raws_2026-07-11.jsonl</code></p>
+      </div>
+    </details>
+  </div>
+
+  <div class="def">
+    <div class="def-h"><span class="def-id">D-4d</span><h3 class="def-t">How a coordinate is actually made — the real prompt</h3><span class="st locked">production</span></div>
+    <p class="def-q">Q: "What are the primary texts it is reading, to then generate a 6-coordinate frame for Aristotle?"</p>
+    <div class="def-b"><dl>
+      <dt>Straight answer</dt><dd class="op"><b>For Aristotle specifically: nothing. He has no coordinate.</b> There is no <code>figure_exom</code> row for Aristotle — your example is hypothetical. But the pipeline that <i>would</i> seat him is real, ran 525 of the 536 rows, and is shown verbatim below.</dd>
+    </dl></div>
+    <details class="dd"><summary>Double-click: the exact SQL, the exact prompt, the model, and the check</summary>
+      <div class="dd-b">
+        <p><b>Step 1 — find the figure's works.</b> Not the model's memory: real passages, linked to the figure through the corpus.</p>
+        <pre class="eq">SELECT DISTINCT svl.source_id FROM canonical_voices cv
+JOIN source_voice_links svl ON svl.canonical_voice_name = cv.name
+JOIN passages p ON p.source_id = svl.source_id
+WHERE cv.name = ?
+  AND LENGTH(p.passage_text) BETWEEN 500 AND 2200
+  AND p.passage_text NOT LIKE '%PDF-1.%'</pre>
+        <p>Then, per work, take the single longest qualifying passage. Up to <b>6 works per figure</b>, sampled evenly across the corpus so early and late phases both get represented (that's what makes the cloud possible). A grounding ledger records exactly which <span class="m">(source_id, passage_id)</span> produced each coordinate — <b>so any coordinate can be traced back to the passage that made it.</b></p>
+        <p><b>Step 2 — the emit prompt</b> (model: <b>Sonnet</b>, via the Max SDK — $0):</p>
+        <div style="border-left:2px solid var(--fern);padding-left:14px;font-family:var(--mono);font-size:12.2px;color:var(--ink-2);white-space:pre-wrap">You are mapping a THINKER onto a coordinate space. This is ONE work by {name}. Emit the coordinate this WORK exhibits (a thinker spans MULTIPLE coordinates across works/phases — that multiplicity is expected and good; do not force a single global label). Pick one value per axis from the menu.
+
+ontological-commitment (O) = SUBSTANCE only (what KIND of thing is the ultimate ground). Put the ground↔world RELATION on ground-world-relation. INFER the implicit substance. TWO special O values: `epoche` = the work's own MOVE is genuine ontological REFUSAL held as a POSITION … this is a first-class stance, so STILL fill the other axes (a refuser has a method, a telos, a stance). `not-asserted` = the work simply takes no ontological position … a passive absence, NOT a refusal-move. Do NOT use either merely because the substance is implicit-but-inferable.
+
+## WORK BY: {name}
+## TEXT
+{text[:1900]}
+## MENU
+{menu}
+
+## ANSWER — exactly one line per axis:
+epistemic-warrant: &lt;value&gt;
+ontological-commitment: &lt;value&gt;
+inferential-operation: &lt;value&gt;
+telos: &lt;value&gt;
+stance: &lt;value&gt;
+ground-world-relation: &lt;value&gt;
+PHASE: &lt;≤6-word work/phase tag&gt;</div>
+        <p><b>The menu is not written into the prompt by hand</b> — it is read from <code>exom_axis_vocabulary</code> on every run, so the vocabulary is data, not code, and a novel value auto-registers as a candidate.</p>
+        <p><b>Step 3 — the truth-judge</b> (model: <b>Haiku</b> — deliberately <i>not</i> the emitter):</p>
+        <div style="border-left:2px solid var(--terracotta);padding-left:14px;font-family:var(--mono);font-size:12.2px;color:var(--ink-2);white-space:pre-wrap">Scholarly judgment. Is the following coordinate DEFENSIBLY TRUE to {name} — i.e., does {name} (in some work or life-phase) genuinely occupy this position? A thinker legitimately spans multiple positions across their corpus, so 'yes' does not require it be their ONLY position — only that it is genuinely THEM, not a misreading.
+
+VERDICT: TRUE | FALSE
+WHY: &lt;one sentence — if FALSE, name what {name} actually holds&gt;</div>
+        <p><b>What happens to a FALSE.</b> It is not discarded and it is not auto-fixed. It goes to a human triage queue with a 3-way bucket: <b>provenance mis-link</b> (fix the corpus) / <b>emit hallucination</b> (fix the emitter) / <b>judge over-rejection</b> (fix the judge). This is what caught Bonaventure's <i>Itinerarium</i> mis-filed under Eckhart (TG-6) — <b>a corpus error found by a reliability check.</b></p>
+        <p class="cap"><code>scripts/pipeline/probe_generative_multiplicity_s146.py</code> (the prompts) · <code>scripts/pipeline/seat_atlas_cloud_s146.py</code> (production; 525 rows)</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section class="sec" id="d-mca">
+  <div class="sec-k"><span class="n">D5</span><h2>The geometry — how you make a map out of words</h2></div>
+  <p class="sec-lede">You marked the old version of this section "gibberish." It was. Here it is in plain English; the technical names are kept, but they come <i>after</i> the idea, not instead of it.</p>
+
+  <div class="key"><b>The problem, stated plainly.</b> A figure is not "6.3 on epistemic-warrant." A figure is <span class="m">revelation</span>, or <span class="m">reason</span>. Those are <b>names, not quantities</b>. But to draw a map you need <b>distances</b> — the whole point of a map is that near means similar. So the question the geometry has to answer is uncomfortable: <b>how far is "revelation" from "reason"?</b> There is no ruler. The method is whatever answers that question without inventing a ruler.</div>
+
+  <h3 style="font-size:17px;margin:26px 0 4px">What we tried first, and threw away</h3>
+  <p><b>PCA on one-hot vectors.</b> "One-hot" means turning each category into its own yes/no column: <i>is-revelation</i> = 1, <i>is-reason</i> = 0, and so on. Then run PCA (principal component analysis — the standard workhorse for finding the main directions of variation in <i>numeric</i> data). <b>The problem: PCA treats those 1s and 0s as if they were measurements on a ruler.</b> It will cheerfully compute that the midpoint between "revelation" and "reason" is 0.5, which is not a position any mind holds. Distances that come out of it are arithmetic on labels. <b>Five cohorts rejected it unanimously — including rejecting our own working prototype.</b></p>
+  <p><b>UMAP and t-SNE.</b> These make the prettiest pictures, and they are what most people reach for. Rejected for two reasons: they <b>distort global distance</b> (two clusters far apart on screen may not be far apart in the data — these methods preserve who your neighbours are, not how far away the strangers are), and they are <b>not reproducible</b> (re-run with a different seed, get a different picture). <b>Both are fatal here, because our claim is literally "these two are close."</b> A method that rearranges the room each time cannot support that sentence.</p>
+
+  <h3 style="font-size:17px;margin:26px 0 4px">What we use, and why</h3>
+  <p><b>MCA — Multiple Correspondence Analysis.</b> It is the standard method for exactly our data shape: several categorical variables, many cases, no numbers anywhere. Three properties earn it the job:</p>
+  <ul style="font-family:var(--sans);font-size:14.5px">
+    <li><b>It is native to nominal data.</b> It never pretends a category is a quantity. Distance is derived from <i>co-occurrence patterns</i> — two values are close if the figures holding them tend to hold the same other things. That is a real answer to "how far is revelation from reason," and it is an answer the data gives rather than one we impose.</li>
+    <li><b>It corrects for category mass.</b> A rare value is not drowned by a common one — <span class="m">panpsychism</span> (1 figure) still gets to say something next to <span class="m">personal-agentive</span> (232). <b>This is also the property that bit us</b> — see the data-quality catch below.</li>
+    <li><b>Its axes are interpretable.</b> You can read what a dimension <i>means</i> off which categories load onto it. That is why the results section can name the axes in English instead of calling them "dimension 1."</li>
+  </ul>
+  <p><b>Cross-checked against Gower + PCoA.</b> A second, independent route: Gower distance is a way of measuring how different two mixed-type records are, computed pairwise and directly; PCoA then lays those distances out in space. It puts <b>the distance metric first</b>, where MCA derives distance from structure. <b>The point of running both: if two methods that work on different principles still agree about who is near whom, the nearness is more likely to be real than an artifact of either.</b></p>
+  <p><b>And we report Greenacre-adjusted inertias, never naive MCA percentages.</b> "Inertia" is MCA's word for <i>how much of the structure this dimension accounts for</i> — the analogue of "variance explained." Raw MCA percentages are known to <b>understate</b> badly for a mechanical reason, and Greenacre's correction is the standard fix. We report the corrected number because the uncorrected one would flatter us in the other direction, and a number that flatters is a number nobody can check.</p>
+
+  <div class="postit"><span class="pin">Post-it — why this section matters more than it looks</span>
+    This is the part a quantitative examiner will go at hardest, and it is the part where <b>the strongest thing we can say is what we <i>rejected</i></b>: we had a working PCA prototype, the cohorts said it was invalid, and we threw it away. A method that can name the tool it abandoned and why is much harder to attack than one that only ever reports what worked. <b>That's the argument this section should make, and the old version buried it under vocabulary.</b>
+  </div>
+</section>
+
+<section class="sec" id="d-diag">
+  <div class="sec-k"><span class="n">D6</span><h2>The result — and the diagnostics that let you contest it</h2></div>
+  <p class="sec-lede">Run on the 512 cleanly-coded figures. <b>We did not tell it what to look for.</b></p>
+
+  <div class="tbl"><table class="d">
+    <tr><th>Dim</th><th>Share of structure</th><th>What it turned out to be</th><th>Loads on</th></tr>
+    <tr><td class="id">1</td><td class="n"><b>47.1%</b></td><td><b>Secular ↔ Religious.</b> The single largest axis of variation in the whole space.</td><td class="id">material · observation · reductive · epoche</td></tr>
+    <tr><td class="id">2</td><td class="n"><b>22.5%</b></td><td><b>Personal-theist ↔ Impersonal / Void.</b> The Buddhist/Advaita pole against the personal-agentive one.</td><td class="id">void · dependent-arising · noetic-intuition · identity</td></tr>
+    <tr><td class="id">3</td><td class="n"><b>10.9%</b></td><td><b>Kataphatic ↔ Apophatic.</b> The negative-theology pole.</td><td class="id">apophatic · mystical-union · contemplation</td></tr>
+  </table>
+  <p class="cap">Together: <b>80.5%</b> of the adjusted structure sits in three dimensions — which is <i>why</i> the space is renderable at all.</p></div>
+
+  <div class="tbl"><table class="d">
+    <tr><th>Diagnostic</th><th>Value</th><th>What the number means, and the honest read</th></tr>
+    <tr><td class="id">adjusted inertia (3D)</td><td class="n">80.5%</td><td><b>Good.</b> Most of the structure fits in three dimensions, so a 3D picture isn't hiding much.</td></tr>
+    <tr><td class="id">MCA vs Gower/PCoA</td><td class="n">0.696</td><td><b>Moderate.</b> The two independent methods broadly agree about distances — but this is not a tight lock. Acceptable for a scholarly visualisation; <b>not</b> a strong claim. If it were 0.9 we could lean on it; at 0.7 we can only say the picture isn't an artifact of one method's quirks.</td></tr>
+    <tr><td class="id">held-out silhouette (O)</td><td class="n">0.125</td><td><b>Weak-positive.</b> Silhouette measures how <i>clumped</i> things are: 1 = tidy separate clusters, 0 = no clustering at all. At 0.125, ontological-commitment contributes to the geometry but nowhere near dominates it. <b>The clusters are loose.</b></td></tr>
+  </table></div>
+
+  <div class="key"><b>Read that last row properly, because it cuts against the tidy story.</b> A low silhouette means the traditions do <b>not</b> sit in neat separable clumps. <b>The space is a continuum; positions bleed.</b> That is consistent with everything the close reading kept showing — and it is the honest finding. <b>A method that reported clean clusters here would be reporting its own wishes.</b> If someone wants to attack this work, 0.125 is where they should aim, and it is on the page because they should be able to.</div>
+
+  <div class="flag"><span class="pin">And the claim we should NOT make about dimension 3</span>
+    It is tempting to say: dimension 3 <i>is</i> the apophatic/kataphatic distinction, the same structure our reading independently surfaced, so the geometry recovered it unsupervised and it can't be an artifact of either. <b>That is the claim currently on the live morphospace page, and it is too strong.</b>
+    <br><br><b>Why:</b> the axis menu the geometry runs on <i>contains the value</i> <span class="m">apophatic</span>, and both the coding and the reading came from the same emitter with the same vocabulary. A space built from a menu including "apophatic" recovering an apophatic axis is a <b>coherence check</b>, not an independent discovery. It says the coding is internally consistent — real and worth reporting — but it cannot corroborate itself.
+    <br><br><b>What we can honestly say:</b> the geometry recovered three interpretable dimensions, unsupervised, and the third matches a distinction our reading had already surfaced. <b>Whether that is discovery or consistency cannot be settled from inside this pipeline</b> — it needs a rater outside it, ideally human (TG-1b).
+  </div>
+
+  <details class="dd"><summary>Double-click: the data-quality catch — how a fallback value hijacked the largest axis</summary>
+    <div class="dd-b">
+      <p><b>The first run's dimension 1 was dominated by</b> <span class="m">insufficient-context</span> — <b>the coder's fallback value. Not a position. A shrug.</b></p>
+      <p><b>The mechanism, and it is exactly the property we praised MCA for:</b> mass-correction amplifies rare co-occurring categories. Thirteen incompletely-coded figures all shrugged on the same axes at once, so the correction treated their shared shrug as a strong, rare signal — and they formed a spurious outlier cluster that captured the largest axis of the entire space. Cross-check fell to <b>0.37</b>; validation failed at <b>0.035</b>.</p>
+      <p><b>The fix:</b> drop those 13 (532 → 512) while <b>keeping</b> <span class="m">not-asserted</span> and <span class="m">unspecified</span>, which are legitimate positions — a text really can take no ontological view. That distinction is the whole fix: <b>"I don't know" is data about the coder; "it doesn't say" is data about the text.</b> Dropping the first and keeping the second produced the clean 512-figure result.</p>
+      <p><b>Why this is recorded rather than quietly fixed:</b> it is the specimen of the failure mode this method most needs to fear — <b>a data-quality defect that silently produces a beautiful, wrong picture.</b> Nothing about the first run looked broken. It had three interpretable axes and a good headline number. It was wrong, and the only reason we know is that the cross-check disagreed.</p>
+    </div>
+  </details>
+</section>
+
+<section class="sec" id="d-occ">
+  <div class="sec-k"><span class="n">D7</span><h2>Occupied vs unoccupied-but-coherent — and the flywheel</h2></div>
+  <p class="sec-lede">The point of a morphospace is not the occupied points. It is the empty ones.</p>
+
+  <div class="eq">275,184   coherent coordinates in the theoretical space
+      365   occupied by a real coded figure           ( 0.13% )
+  274,819   unoccupied
+             ├── a CODING GAP      — someone is there, we haven't coded them   ← most of these
+             ├── an ACQUISITION GAP — nobody is there in our corpus; go shop
+             └── a REAL absence     — nobody has ever been there               ← the only interesting one</div>
+
+  <div class="key"><b>The caveat that governs every occupancy claim on this page.</b> Only <b>536 of 1,717</b> live voices are coded — <b>31%</b>. So this is the geometry of <b>what has been coded</b>, not of <b>what we hold</b>, and certainly not of what exists. <b>An "empty" coordinate is usually a coding gap, not a real absence.</b> The proof isn't theoretical: two figures we recently proposed <i>acquiring</i> to fill an empty seat turned out to be <b>sitting in the corpus already, uncoded.</b> Occupancy statistics are statements about our coding progress first, and about the space second.</div>
+
+  <div class="postit"><span class="pin">Post-it — your question: "is this about (A) occupied in our DB, (B) occupied in the universe, or (C) both? Those are different things"</span>
+    <b>This is the sharpest methodological question in your PDF, and the current page conflates exactly what you say it conflates.</b> The three-way split above is my answer to it, and the distinction has real consequences — <i>each kind of emptiness routes somewhere different</i>:
+    <div class="tbl"><table class="d">
+      <tr><th>Kind of empty</th><th>What it means</th><th>What it routes to</th><th>Thesis value</th></tr>
+      <tr><td class="id"><b>coding gap</b></td><td>we hold the text; nobody coded it</td><td><b>code it</b> — free, we own it</td><td>none — it's just work</td></tr>
+      <tr><td class="id"><b>acquisition gap</b></td><td>we don't hold the text; it exists</td><td><b>shop</b> — or use a substitute (an encyclopedia entry, if copyright bars the primary)</td><td>none — it's a purchase order</td></tr>
+      <tr><td class="id"><b>real absence</b></td><td>coherent, but nobody has ever stood there</td><td><b>the generator</b> — and a question: <i>why has no one thought this?</i></td><td><b>the whole point</b></td></tr>
+    </table></div>
+    <b>And here is the hard part: today we cannot tell them apart.</b> At 31% coded, virtually every empty coordinate is a coding gap wearing a real-absence costume. <b>So the "unoccupied-but-coherent" finding — the one that would be genuinely thesis-grade — is not available yet, and won't be until the roster is mostly seated.</b> That is the single strongest argument for prioritising coding over acquisition, and it is why TG-4 reverses the shopping priority. <b>Your instinct that these "have different implications" is exactly right; I'd add that the ordering of the work follows from it.</b>
+  </div>
+
+  <div class="postit"><span class="pin">Post-it — on "the flywheel," and why I've written it as a loop with a gate</span>
+    The flywheel you described — <i>gaps → acquire more sources → fill the DB → find more gaps</i> — is real, but as stated it has no brake, and the brake matters. Per the above, the loop should be: <b>read the empty seats → triage each into coding-gap / acquisition-gap / real-absence → code the first, shop the second, generate from the third.</b> Without the triage step, the flywheel <b>always</b> says "go shopping," because an uncoded figure and an absent figure look identical from the map. That is precisely the error we made and caught (TG-4).
+    <br><br><b>Status, honestly:</b> the triage engine is spec'd and was spawned; the coding-gap-vs-acquisition ratio it was meant to report <b>has not come back</b>. Until it does, the flywheel is a diagram, not a machine.
+  </div>
+</section>
+
+<!-- ═══════════════ E · PROCESS ═══════════════ -->
+<section class="sec" id="e-steps">
+  <div class="sec-k"><span class="n">E</span><h2>The process, end to end</h2></div>
+  <p class="sec-lede">Everything above, assembled, in the order it runs. <b>You asked for three insertions and better step-names; both are here.</b> The table is the spine: each step is defined by <i>the fields it adds</i>, which is the discipline that stops the vocabulary from drifting.</p>
+
+  <div class="key"><b>Why this table and not a diagram.</b> Your instinct — <i>"show step by step how this is done in a data table, so we see how it expands, or what fields are added… it'll keep us more honest and not get verbose, or add names"</i> — is exactly right, and it is the single best structural idea in your review. <b>A step that cannot name the field it writes is not a step; it's a paragraph.</b> Two rows below fail that test, and the table is what made them visible.</div>
+
+  <div class="tbl"><table class="d">
+    <tr><th>Step</th><th>Name</th><th>What it does</th><th>Fields it writes</th><th>Status</th></tr>
+    <tr><td class="id">S0</td><td><b>SEGMENT</b></td><td>the text → a sequence of moves</td><td class="id">move_id · move_index · paraphrase</td><td><span class="st drift">no rule exists</span></td></tr>
+    <tr><td class="id">S1</td><td><b>DECOMPOSE</b></td><td>each move → the CORE-7 grammar</td><td class="id">operation · type · voice · agent · substrate · outcome · narrator</td><td><span class="st locked">IRR168v2 · ~92%</span></td></tr>
+    <tr><td class="id">S2</td><td><b>SITUATE</b></td><td>attach the surround — inherited from the enclosing scale</td><td class="id">sitz · paradigm</td><td><span class="st locked">IRR169v2 · ~97%</span></td></tr>
+    <tr><td class="id">S3</td><td><b>CONNECT</b></td><td>moves → edges; the edges → the meta-move</td><td class="id">edge_type · from_move · to_move · contact_status</td><td><span class="st cand">IRR179 · not piloted</span></td></tr>
+    <tr><td class="id">S4</td><td><b>DETECT</b></td><td>place every position on the 2×2; seer-tag the gaps</td><td class="id">position · visibility · salience · cell · seer</td><td><span class="st drift">κ=1.0 cell / κ≈0.20 unit</span></td></tr>
+    <tr><td class="id">S5</td><td><b>CLASSIFY</b></td><td>the door, then the flavor</td><td class="id">door · flavor</td><td><span class="st locked">D160 · κ=1.0 door</span></td></tr>
+    <tr><td class="id">S6</td><td><b>RESOLVE</b></td><td>who closes the gap — the text, or history?</td><td class="id">resolution · resolved_by</td><td><span class="st drift">field is mis-cut</span></td></tr>
+    <tr><td class="id">S7</td><td><b>GENERATE</b></td><td>run the engines: fills stay in frame, substitutes jump it</td><td class="id">candidate · alternative_kind · u_tier · citation</td><td><span class="st cand">1 of 2 engines built</span></td></tr>
+    <tr><td class="id">S8</td><td><b>GATE</b></td><td>prune by era-availability × path-coherence</td><td class="id">concept · concept_birth · era_gate · path_coherence</td><td><span class="st cand">IRR196 · gate 2 weak</span></td></tr>
+    <tr><td class="id">S9</td><td><b>CONVERGE</b></td><td>forward-fan ∩ backward-funnel</td><td class="id">world_line · terminal_verdict</td><td><span class="st drift">funnel not built</span></td></tr>
+  </table>
+  <p class="cap">Your 7 steps map to S1 · S4 · S5 · S6 · S7 · S8 · S9. The three insertions are <b>S0</b> (you asked: "is there a step before, defining what a move is?"), <b>S3</b> (you asked: "I think we need a step between 1 and 2 where we connect the edges"), and the engine-naming you asked to sit between 4 and 5 — which I've folded into S7 rather than making it its own step, since naming an engine isn't a coding action that writes a field.</p></div>
+
+  <div class="flag"><span class="pin">The table exposes three holes — all three were invisible in the prose version</span>
+    <b>1. S0 has no rule.</b> We assert the song is 8 moves and the golden chain is 5, but there is <b>no stated segmentation procedure</b> — so no second coder can reproduce the units, and every reliability number downstream is conditional on units nobody specified. <b>This is why S4's unitizing κ ≈ 0.20 while its cell-classification κ = 1.0: coders agree about what a gap <i>is</i> and disagree about where one ends.</b> The two facts are the same fact. <b>S0 is the root, and it is the highest-value missing piece in the whole method.</b>
+    <br><br><b>2. S6's field is mis-cut</b> (your catch, C-1): <span class="m">resolution</span> mixes <i>who closed it</i> with <i>what we could do about it</i>. "Generatable" is a capability, not a resolution.
+    <br><br><b>3. S9's second half doesn't exist.</b> The backward funnel is unbuilt, so the intersection is currently <b>eyeballed, not computed</b> — the 3-of-6 converging world-lines were read off by hand. The method doc says so itself: <i>"the intersection should be COMPUTED (state-matching) once both directions run, not eyeballed."</i>
+  </div>
+
+  <div class="postit"><span class="pin">Post-it — your step-naming questions, answered</span>
+    <b>"What do we want to call this step? Just 'decompose'?"</b> — Yes; I've used single imperative verbs throughout (SEGMENT · DECOMPOSE · SITUATE · CONNECT · DETECT · CLASSIFY · RESOLVE · GENERATE · GATE · CONVERGE) so each names an <i>action on the data</i>. <b>"We probably want to name the scholar we got 'decompose' from"</b> — that's <b>Fillmore</b> (frame semantics: a verb activates a frame whose slots are enumerable); the layering is <b>Van Valin</b>.
+    <br><br><b>"Do we like 'find the gap' as this step? Or something more specific?"</b> — I've split your "find the gap" into <b>DETECT</b> (S4, the 2×2 — <i>where</i>) and <b>CLASSIFY</b> (S5, door + flavor — <i>what kind</i>), because they have different reliabilities and reporting them as one step hides that S4 is the weak one.
+    <br><br><b>"Do we call this step 'fan forward'? Do we call this the counterfactual (that feels like a new word)?"</b> — <b>Neither.</b> "Counterfactual" is a new word for us and carries philosophical baggage we don't want to inherit; "fan forward" names a shape, not an action. <b>GENERATE</b> + <b>GATE</b> says what happens: make candidates, then prune them. The fan is the <i>output</i> of S7+S8, not the step.
+    <br><br><b>"We need a better name for this step [resolutions], that's more parallel to how we describe the previous steps."</b> — Agreed: <b>RESOLVE</b>.
+  </div>
+
+  <details class="dd"><summary>Double-click: the engines — what is actually built, honestly</summary>
+    <div class="dd-b">
+      <div class="tbl"><table class="d">
+        <tr><th>Engine</th><th>Job</th><th>Status</th></tr>
+        <tr><td class="id"><b>detector</b></td><td><i>names the absence</i> — which gaps, which cell, which flavor</td><td><b>✅ built + reliability-locked</b> (IRR176v2 grid; IRR177 cold pilot)</td></tr>
+        <tr><td class="id"><b>substitute engine</b></td><td>generates the <b>forks</b> — the door OUT</td><td><b>⚙️ exists</b> (<code>negative_space_generator_v1.py</code>) — needs the salience filter wrapped on</td></tr>
+        <tr><td class="id"><b>fill engine</b></td><td>generates <i>what-could-be still in frame</i> — the branches not taken (the money cell)</td><td><b>📝 spec'd, NOT built</b></td></tr>
+      </table></div>
+      <p><b>The distinction that matters:</b> detection = naming the absence. Generation = making what could-have-been that is <i>still in the frame</i>. On "God foreknew": the <b>fill engine</b> articulates the in-frame fills the text leaves open (<i>Whom? On what basis?</i>); the <b>substitute engine</b> articulates the forks (single vs double predestination); and <b>reception</b> — Augustine, Arminius — shows which branch each tradition actually took. <b>Detection finds the residual; generation populates the branches; reception picks among them; convergence across traditions is the rhyme across those picks.</b></p>
+      <p><b>So the honest headline is: the money engine is the unbuilt one.</b> The fill engine — the one that produces the branches-not-taken that are still in frame — is the whole theological payoff, and it is a spec.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ═══════════════ APPENDIX ═══════════════ -->
+<section class="sec" id="x-lex">
+  <div class="sec-k"><span class="n">X1</span><h2>Definitions index</h2></div>
+  <p class="sec-lede">Every term on this page, one line each, with what it must not be confused with. <b>When a term feels fuzzy, this is the arbiter.</b></p>
+  <div class="tbl"><table class="d">
+    <tr><th>Term</th><th>Definition</th><th>Don't confuse with</th><th>§</th></tr>
+    <tr><td class="id">move</td><td>one operation + its arguments; what the text DOES</td><td>the sentence (a move is derived, not the string)</td><td class="id">A-1</td></tr>
+    <tr><td class="id">operation</td><td>the move's verb — what's done</td><td>the outcome (verb vs result)</td><td class="id">A-3</td></tr>
+    <tr><td class="id">type</td><td>which KIND of move; rides operation</td><td>the operation itself</td><td class="id">A-3</td></tr>
+    <tr><td class="id">voice</td><td>agency-mode; rides agent</td><td>grammatical voice alone — includes null-stative</td><td class="id">A-3</td></tr>
+    <tr><td class="id">agent</td><td>the in-frame originator</td><td>the author — the agent is <i>in</i> the frame</td><td class="id">A-3</td></tr>
+    <tr><td class="id">substrate</td><td>what the move acts on — the input</td><td>the outcome (input vs output)</td><td class="id">A-3</td></tr>
+    <tr><td class="id">outcome</td><td>what the move produces — the output</td><td>consequence (= outcome-as-next-substrate; an edge)</td><td class="id">A-3</td></tr>
+    <tr><td class="id">narrator</td><td>teller + POV + authority-source (was "warrant")</td><td>agent (the narrator tells; the agent acts)</td><td class="id">A-3</td></tr>
+    <tr><td class="id">sitz</td><td>the historical situation of the TELLING</td><td>paradigm (sitz = the teller's world)</td><td class="id">A-7</td></tr>
+    <tr><td class="id">paradigm</td><td>the conceptual frame the CONTENT assumes</td><td>sitz (paradigm = the content's world)</td><td class="id">A-7</td></tr>
+    <tr><td class="id">meta-move</td><td>the architecture that emerges from moves + edges; a scale level</td><td>"moves about moves"</td><td class="id">A-8</td></tr>
+    <tr><td class="id">edge</td><td>a coded relation between two moves</td><td>a slot (a slot is a still; an edge is the motion)</td><td class="id">A-5</td></tr>
+    <tr><td class="id">SAID</td><td>the value present in the slot</td><td>UNSAID</td><td class="id">B-1</td></tr>
+    <tr><td class="id">UNSAID</td><td>a value absent but in-frame; detected + flavored</td><td>ALTERNATIVE (unsaid = absence; alternative = a competing value)</td><td class="id">B-1</td></tr>
+    <tr><td class="id">ALTERNATIVE</td><td>a specific value that could've filled the slot instead</td><td>UNSAID</td><td class="id">B-1</td></tr>
+    <tr><td class="id">visibility</td><td>binary: is the value recoverable from the text?</td><td>salience (visibility = recoverability)</td><td class="id">B-2</td></tr>
+    <tr><td class="id">salience</td><td>binary: would filling it change the QUD stance?</td><td>visibility (salience = relevance)</td><td class="id">B-2</td></tr>
+    <tr><td class="id">THE GAP</td><td>the money cell: opaque × in-focus</td><td>the other 3 cells (GRAMMAR/TRIVIAL/NOISE)</td><td class="id">B-2</td></tr>
+    <tr><td class="id">seer</td><td>a mind a gap can be opaque-to (evidential, not psychological)</td><td>the slot (seer = who sees; slot = what's seen)</td><td class="id">B-3</td></tr>
+    <tr><td class="id">FILL</td><td>a value that completes the move (AND-holds)</td><td>SUBSTITUTE (a fill stays in frame)</td><td class="id">B-4</td></tr>
+    <tr><td class="id">SUBSTITUTE</td><td>a value that replaces the SAID, voiding it (INSTEAD-retracts)</td><td>FILL (a substitute jumps frame)</td><td class="id">B-4</td></tr>
+    <tr><td class="id">BARRED</td><td>a gap the form forecloses — neither fill nor substitute</td><td>FILL/SUBSTITUTE (barred = no door)</td><td class="id">B-4</td></tr>
+    <tr><td class="id">contrary</td><td>the far pole — same agent/voice, opposite valence</td><td>privation (a contrary is still engaged)</td><td class="id">B-5</td></tr>
+    <tr><td class="id">privation</td><td>the slot's agent/voice withdrawn to zero — the null</td><td>contrary (privation = the origin, not the opposite pole)</td><td class="id">B-5</td></tr>
+    <tr><td class="id">beyond-frame</td><td>a value outside the declared universe; flag, don't code</td><td>opaque (beyond-frame = un-thinkable, not merely unrecovered)</td><td class="id">B-5</td></tr>
+    <tr><td class="id">flavor</td><td>WHY a gap is opaque — six, by detection-method</td><td>the cell (the flavor is downstream of the grid)</td><td class="id">B-6</td></tr>
+    <tr><td class="id">RESIDUAL</td><td>a gap only reception can close — the headline output</td><td>filled-internally (residual = the text can't)</td><td class="id">C-1</td></tr>
+    <tr><td class="id">U0–U4</td><td>the tier a generated candidate was drawn from</td><td>the sitz (U3 points at it); the era-gate (a pass/fail)</td><td class="id">C-2</td></tr>
+    <tr><td class="id">era-availability</td><td>gate 1: was the governing concept born by the date?</td><td>path-coherence (gate 2)</td><td class="id">C-3</td></tr>
+    <tr><td class="id">path-coherence</td><td>gate 2: does it cohere with <i>this</i> branch?</td><td>era-availability (era-legal ≠ world-coherent)</td><td class="id">C-3</td></tr>
+    <tr><td class="id">move-graph</td><td>the text's actual moves + edges</td><td>the fan (the graph is ACTUAL; the fan is GENERATED)</td><td class="id">C-5</td></tr>
+    <tr><td class="id">trace-tree</td><td>provenance (backward) + reception (forward), joined at a pivot</td><td>the substitution skeleton (a different object, same name)</td><td class="id">C-5</td></tr>
+    <tr><td class="id">substitution fan</td><td>the whole admissible space — split at every fork</td><td>a world-line (one path through it)</td><td class="id">C-5</td></tr>
+    <tr><td class="id">world-line</td><td>one coherent path through the fan</td><td>the fan (the fan is a dataset; a world-line is a drawing)</td><td class="id">C-5</td></tr>
+    <tr><td class="id">backward funnel</td><td>the states from which an ending is reachable</td><td>the fan (the funnel is a membership test, not a fork)</td><td class="id">C-5</td></tr>
+    <tr><td class="id">frame ②</td><td>one coordinate on the 6 axes — a possible mind, a seat</td><td><b>frame ① (a move as a freeze-frame) — see A-2</b></td><td class="id">D-1</td></tr>
+    <tr><td class="id">roster</td><td>WHO we hold — the guest list (1,717)</td><td>the atlas (the roster isn't placed yet)</td><td class="id">D-3</td></tr>
+    <tr><td class="id">atlas</td><td>real thinkers classified at their frame — the seating chart (536)</td><td>the roster</td><td class="id">D-3</td></tr>
+    <tr><td class="id">point-cloud</td><td>a thinker = a SET of coordinates (one per work/phase)</td><td>error (distinguish error from multiplicity)</td><td class="id">D-4a</td></tr>
+    <tr><td class="id">voice_provenance</td><td>authored &gt; attributed &gt; reported &gt; about</td><td>— never mix the tiers silently</td><td class="id">D-4b</td></tr>
+    <tr><td class="id">frame-cloud</td><td>a central figure's portrayal-cloud (Matthew's-Jesus ≠ John's-Jesus)</td><td>point-cloud (that's one thinker across works)</td><td class="id">D-4c</td></tr>
+    <tr><td class="id">multiplicity-posture</td><td>how a tradition manages its variance: harmonize / grade / hold-open</td><td>the frame-cloud (that's the object; this is the finding)</td><td class="id">D-4c</td></tr>
+    <tr><td class="id">morphospace</td><td>the space of all possible frames</td><td>the atlas (the atlas is the occupied part)</td><td class="id">D-1</td></tr>
+  </table></div>
+</section>
+
+<section class="sec" id="x-irr">
+  <div class="sec-k"><span class="n">X2</span><h2>The IRR ledger</h2></div>
+  <p class="sec-lede">Every round that bears on this page: the verdict, and <b>what it changed</b>. The change column is the point — <i>a round that only ever confirms is a round that isn't measuring anything.</i></p>
+
+  <div class="tbl"><table class="d">
+    <tr><th>#</th><th>Topic</th><th>Verdict</th><th>What it changed</th></tr>
+    <tr><td class="id">165</td><td>generator design gate</td><td>5/5 build-with-changes</td><td>Named the one vulnerability: <b>declaring the universe of discourse</b> → produced U0–U4</td></tr>
+    <tr><td class="id"><b>166</b></td><td>the generator's Romans-8 output</td><td><span class="st drift">NEVER FIRED</span></td><td><b>Nothing — drafted to critique U0–U4, never sent. Still paste-ready.</b></td></tr>
+    <tr><td class="id"><b>167</b></td><td>Beatles coding calibration</td><td><span class="st drift">NEVER FIRED</span></td><td><b>Nothing — still paste-ready.</b></td></tr>
+    <tr><td class="id">168 → v2</td><td>full-grammar coding of the song</td><td>~84% → <b>~92%, gate cleared</b></td><td>type 72→94% · agent 78→97%. The two failing slots were fixed by definition-tightening</td></tr>
+    <tr><td class="id">169 → v2</td><td>the Sitz construct on Album 2</td><td>validated 5/5; ~95→~97%</td><td>Paradigm construct validated; <b>Sitz only <i>partially</i> travels — 7 of 10 categories</b></td></tr>
+    <tr><td class="id">170</td><td>is negation determinate at every slot?</td><td>no</td><td>PRIVATION codes at all 7 (~98%); <b>CONTRARY only at valence-bearing slots (~90%), arbitrary at referential ones (~52%)</b></td></tr>
+    <tr><td class="id">171</td><td>is the generator invented?</td><td>no — it's named methods</td><td>Reframed as Saussure/Jakobson paradigmatic substitution + Zwicky morphological analysis (mode A); Kauffman's adjacent possible + Koselleck (mode B)</td></tr>
+    <tr><td class="id">173/174</td><td>the UNSAID coding method</td><td><b>GO — build the engine</b></td><td>All five cohorts independently built <b>the same algorithm</b>. The UNSAID is a replicable function of the coded fields, not a fresh arbitrary list</td></tr>
+    <tr><td class="id">175 → v3</td><td>the UNSAID equation reliability</td><td><b>LOCK</b> (~97%)</td><td>Three-pass tightening: <b>65% → 78% → 97%</b> → Decision 160, the six-flavor lock</td></tr>
+    <tr><td class="id">176 → v2</td><td>the visibility × salience grid</td><td><b>LOCK; GO for the pilot</b></td><td>Door test κ=1.0; <b>but gap-detection κ≈0.20</b> → Decision 162, the grain-anchor</td></tr>
+    <tr><td class="id">177</td><td>5 cold coders vs the author's read</td><td><b>GO</b></td><td>Amended the pilot live: demoted "her own voice" to a reader-supplied lens (1/5 cold); promoted the addressee's foreclosed reciprocity to co-headline (5/5)</td></tr>
+    <tr><td class="id">179</td><td>the edge taxonomy</td><td>5/5 codeable-with-changes</td><td><b>Split RHYME → structural-match + independent-convergence; added the CITE edge.</b> Protects Q2 (TG-2)</td></tr>
+    <tr><td class="id">180</td><td>the recursive move-tree</td><td>sound-with-changes</td><td><b>"Do NOT build the naive open recursive TREE; build a bounded, provenance-bearing move GRAPH."</b> Rename never executed</td></tr>
+    <tr><td class="id">182</td><td>move-graph admissibility</td><td>sound-with-changes</td><td>Type-purified the state schema; <b>demanded a human-expert baseline — "5 LLMs are variants of the same learner"</b> (TG-1b). Never done</td></tr>
+    <tr><td class="id">183</td><td>the persona axis-set</td><td>lock-with-changes</td><td>Added telos (unanimous); flagged stance as the top new-axis candidate; added noetic-intuition, mystical-union, void, consciousness-first, abduction, induction. <b>Called for a stance mini-round — never run</b></td></tr>
+    <tr><td class="id">184</td><td>convergence-detection horse-race</td><td>method + vocabulary lock</td><td>→ Decision 163: the <b>linkage / resonance firewall</b> (which now conflicts with 179 — see A-6)</td></tr>
+    <tr><td class="id">186</td><td>the O axis value-set</td><td><b>5/5 restructure — none endorsed it as-is</b></td><td>O was conflating <i>substance</i> with <i>derivation</i>. Triggered by real coding failures</td></tr>
+    <tr><td class="id">187</td><td>O ground-boundary reliability</td><td>5/5 hybrid</td><td><b>Triggered by a 42% O-disagreement rate (n=43) → split O into substance-only + created the 6th axis</b> (D-2)</td></tr>
+    <tr><td class="id">189</td><td>variant-attestation prior art</td><td><span class="st drift">4/5 — GPT null</span></td><td>Multiplicity-posture confirmed the novel move. <b>GPT said it would web-research and returned no survey; reported as 4/5, not 5/5</b></td></tr>
+    <tr><td class="id">190</td><td>variant-attestation reliability</td><td>replicates</td><td>The finding replicates; <b>3 fixes demanded before scaling the causal law</b></td></tr>
+    <tr><td class="id">192</td><td>the era-scheme (Küng)</td><td><b>do NOT lock Küng</b></td><td>Circularity: <b>"the bins encode the drift they're meant to measure"</b> → per-tradition periodizations + a shared material axis (C-3a)</td></tr>
+    <tr><td class="id"><b>193</b></td><td>register → telos law</td><td><span class="st drift">PRELIMINARY — Solar never landed</span></td><td>Downgraded the "law" to a probabilistic regularity. <b>Never finalized; 4 cohorts</b></td></tr>
+    <tr><td class="id">194</td><td>the morphospace geometry</td><td>MCA primary</td><td><b>Rejected our own PCA-on-one-hot prototype; rejected UMAP/t-SNE</b> (D-5)</td></tr>
+    <tr><td class="id">195</td><td>multiplicity coding unit</td><td><b>do NOT ship the weighted split</b></td><td>Drop the numeric weight; use a coarse ordinal, derive numbers downstream (TG-3)</td></tr>
+    <tr><td class="id">196</td><td>the admissibility gate</td><td>5/5 build-with-changes</td><td>Two-gate decomposition confirmed "exactly right" but not deployment-ready; <b>path-coherence must become computed</b>; CONCEPT ≠ VOCABULARY; confidence-tags for hard eras (C-3)</td></tr>
+  </table>
+  <p class="cap">Cohorts: GPT-5 · Claude Haiku 4.5 · Gemini 2.5 Pro · DeepSeek · Solar Pro. Each round's prompt, five raw responses, and reconciliation are on disk at <code>research/00_irr/irr&lt;N&gt;_*</code>.</p></div>
+
+  <div class="flag"><span class="pin">Four rounds are not what they appear — flagged so nothing gets cited as a 5/5 lock that isn't</span>
+    <b>IRR166 + IRR167: drafted, never fired.</b> Both still marked <span class="m">DRAFT — PASTE-READY</span>. IRR166 is the one that matters: it exists specifically to critique U0–U4, which is otherwise unvalidated. <b>IRR189: effectively 4/5</b> — GPT returned an outline promising web research, no survey. <b>IRR193: never finalized</b> — Solar never landed; the register/telos "law" rests on 4 cohorts and is preliminary.
+    <br><br><b>Firing IRR166 and IRR167 is free — they are already written.</b> That is, I think, the cheapest available increase in defensibility on the whole board.
+  </div>
+</section>
+
+<section class="sec" id="x-novel">
+  <div class="sec-k"><span class="n">X3</span><h2>What exists, and what is actually new</h2></div>
+  <p class="sec-lede">Four Deep Research rounds asked what prior art exists for each part of this. <b>The consistent answer: every component has a parent; no one has assembled them.</b> Verbatim verdicts.</p>
+
+  <div class="tbl"><table class="d">
+    <tr><th>The question</th><th>The verdict</th><th>The nearest thing that exists</th></tr>
+    <tr><td><b>The whole pipeline</b> — move grammar + gap detection + persona ensembles + edge taxonomy, on comparative religion</td><td>"<b>No single work in the published literature successfully combines all five, or even four, of the proposed components</b>… adjacent-but-unassembled, rendering the overall architecture <b>highly novel</b>… The pipeline is fundamentally original."</td><td><b>"hermeneutichools"</b> (SemEval-2026 Task 4) — 31 LLM personas, rejects a single ground truth. Has personas + interpretive plurality; <b>lacks</b> the move grammar, gap-detection, and the CITE edge</td></tr>
+    <tr><td><b>The morphospace</b> — a space of thought-modes on qualitative axes, with unoccupied regions treated as generative</td><td>"an intellectually coherent synthesis… <b>However, it represents a structural void within academia itself</b>… the direct application of gap-analysis to systematically invent new philosophies, theological stances, or methods of inference <b>remains entirely unexplored</b>."</td><td><b>Database of Religious History</b> (Slingerland) — codes ~400 religious <i>groups</i>, not individual framers, and does not treat gaps as generative. Also Noichl's citation-UMAP maps; Seshat</td></tr>
+    <tr><td><b>Geometric reception history</b> — mapping an author's stance toward a figure as a quantified distance</td><td>"There is <b>no established precedent</b> in reception history or historical theology for mapping an author's stance across a quantified, multidimensional geometric space… The translation of a holistic theological portrayal into a quantified spatial distance is <b>entirely unprecedented</b>."</td><td><b>DW-NOMINATE</b> (political-science ideal-points) — but it <i>induces</i> dimensions from votes rather than coding against a pre-defined schema</td></tr>
+    <tr><td><b>Era-gated counterfactual generation</b> — simulating the historically plausible adjacent possible</td><td>"an emerging, highly theoretical area at the bleeding edge… the precise task of simulating the historically plausible 'adjacent possible' of a specific era <b>remains largely unexplored in mainstream AI</b>."</td><td><b>Kirsch &amp; Kirsch's shape-grammar of Diebenkorn's <i>Ocean Park</i></b> — 42 recursive rules; the generated works <b>Diebenkorn briefly mistook for his own</b>. Also the Cultural Alien Sampler</td></tr>
+  </table></div>
+
+  <div class="key"><b>The five differentiators, as locked in the triage:</b> <b>(1)</b> personas fill a <i>structural gap identified in a move graph</i> — they don't classify a whole text; <b>(2)</b> the gap is <i>the object</i>, not an error to correct; <b>(3)</b> the <b>CITE edge / homoplasy control</b> — ruling out inheritance before counting convergence; <b>(4)</b> comparative religion as the domain; <b>(5)</b> the blinded-discriminability test.</div>
+
+  <div class="postit"><span class="pin">Post-it — the answer to "why does it matter that we built a DB, versus just using LLM generation?"</span>
+    <b>This has a cited, locked answer, and it is one line in the provenance index:</b> <i>"paraphrase-coding = demonstrator-grade + confirmation-bias; <b>corpus text confirmed one finding and corrected another</b>."</i>
+    <br><br>That is the whole argument, and it is empirical rather than principled: coding Śaṅkara from real text <b>confirmed</b> the apophatic reading (4/4). Coding John of the Cross from real text <b>corrected</b> it — his actual pastoral prose came back <span class="m">personal-agentive</span> 3/4, overturning the paraphrase that had over-stated his apophaticism. <b>The model's memory reproduces the reputation. The corpus disagreed with the reputation, and the corpus was right.</b>
+    <br><br>You can only run that test if you have the corpus. <b>Without the DB, we would have shipped the reputation and called it a finding</b> — and it would have been a <i>nice</i> finding, exactly like the Augustine pastiche at D-1. <b>That's the case, and I'd make it in one sentence at the defense: the database is not infrastructure, it is the control condition.</b>
+  </div>
+
+  <div class="flag"><span class="pin">Housekeeping — 7 Deep Research reports are sitting untracked in the repo root</span>
+    Six are <b>duplicates</b> of reports already filed in <code>research/10_dr/reports/</code> and can be deleted once you confirm. <b>One is not: "Geometric Reception History Methodology.txt" has no filed counterpart</b> — its query was drafted and the report came back, but it was never saved into the reports tree. <b>It is the source of the "entirely unprecedented" verdict quoted above</b> — i.e. the single strongest novelty claim we have is currently sitting loose in the project root, untracked and un-triaged. It should be moved and triaged, not deleted.
+  </div>
+</section>
+
+<section class="sec" id="x-q">
+  <div class="sec-k"><span class="n">X4</span><h2>Open questions — all of them, in one place</h2></div>
+  <p class="sec-lede">Everything I could not decide myself, ranked by how much it costs to leave open. Nothing here blocked v1 of this page.</p>
+
+  <h3 style="font-size:17px;margin:24px 0 8px">Decisions only you can make — ranked</h3>
+  <div class="tbl"><table class="d">
+    <tr><th>#</th><th>The question</th><th>My recommendation</th><th>§</th></tr>
+    <tr><td class="id">Q1</td><td><b>"Frame" names two different locked objects.</b> A move-as-freeze-frame, and a coordinate-in-the-6-axes.</td><td>Retire "frame" from the move layer. The two things it means there are already named: <b>state</b> (one still — Saquib's own term, from the formalism we borrowed) and <b>paradigm</b> (the assumed world). Keep <b>frame</b> = the coordinate, since frame-cloud / morphospace-of-frames / roster-frame-atlas all depend on it.</td><td class="id">A-2</td></tr>
+    <tr><td class="id">Q2</td><td><b>IRR179 and Decision 163 contradict each other.</b> 163's firewall says never call both within-text and cross-text relations "edges"; the edge taxonomy calls all four families edges.</td><td>Keep "edge" as the umbrella; enforce the firewall where it bites — <b>never share qualifier vocabularies across families; never report a cross-text edge without its contact-status.</b></td><td class="id">A-6</td></tr>
+    <tr><td class="id">Q3</td><td><b>Retire "negative space" as the program name?</b> You already retired it at the coding layer (D159); it survives only as the label on the box.</td><td><b>Yes.</b> Use your own names: <b>Gap Detector</b> and <b>Gap Generator</b>. They say what the things do. This page already does.</td><td class="id">B-1</td></tr>
+    <tr><td class="id">Q4</td><td><b>The tree family has six objects and three colliding names.</b></td><td>Adopt <b>ACTUAL / ATTESTED / GENERATED</b> as the organising cut, and rename: move-tree→<b>move-graph</b> (already mandated by IRR180), trace-tree(ii)→<b>substitution skeleton</b>, full-fan→<b>substitution fan</b>.</td><td class="id">C-5</td></tr>
+    <tr><td class="id">Q5</td><td><b>The <span class="m">resolution</span> field is mis-cut</b> — your catch. It mixes "who closed it" with "what we could do about it."</td><td>Split it: <b>resolution</b> = closed-by-text / closed-by-reception. <b>generatable</b> becomes its own orthogonal flag. Touches a locked schema, so it's yours.</td><td class="id">C-1</td></tr>
+    <tr><td class="id">Q6</td><td><b>Correct or pull the live morphospace page?</b> Its "validity signal" claim is stronger than the evidence.</td><td><b>Correct it</b> to the D6 wording. The result is still worth reporting — it just isn't independent corroboration.</td><td class="id">D-6</td></tr>
+    <tr><td class="id">Q7</td><td><b>Drop the caps on RESIDUAL?</b> It has confused you twice.</td><td>Yes — keep the emphasis in prose. And consider <b>reception-target</b> as the name: it says what the thing is for.</td><td class="id">C-1</td></tr>
+    <tr><td class="id">Q8</td><td><b>"[BETWEEN]" vs "contradictory"</b> — same kind, two labels.</td><td><b>[BETWEEN]</b> canonical. In logic a "contradictory" is the exhaustive negation, which is nearer our PRIVATION — the label invites exactly one wrong inference.</td><td class="id">B-5</td></tr>
+    <tr><td class="id">Q9</td><td><b>Does this page replace <code>coding-lab.html</code>, or sit beside it?</b></td><td>Replace — that's what you asked for. I've deployed it to a <b>new URL</b> so nothing is destroyed and you can compare. Swapping it into <code>coding-lab.html</code> is one command once you approve.</td><td class="id">—</td></tr>
+  </table></div>
+
+  <h3 style="font-size:17px;margin:30px 0 8px">Choices I made so v1 could ship — reverse any of them</h3>
+  <div class="tbl"><table class="d">
+    <tr><th>What I chose</th><th>Why</th><th>§</th></tr>
+    <tr><td>Promoted <b>fit-or-extend</b> and <b>real-text-not-remembered-text</b> to Project Principles</td><td>They govern what may enter, same as place-before-spawn — and P-3 is the answer to "why the DB and not just an LLM"</td><td class="id">P-2/3</td></tr>
+    <tr><td>Wrote edges to the <b>v2 operational names</b>, kept gen-2 as reading aliases, retired gen-1 (production/completion/reception)</td><td>Three naming generations were in circulation for the same three edges. The dual-naming is itself an IRR179 decision</td><td class="id">A-5</td></tr>
+    <tr><td>Ruled that <b>sitz is inherited from the nearest enclosing narrator</b>, and only a narrator-switch changes it</td><td>Answers your "we have to remember it each time" — it gives a mechanical rule. <b>This is my proposal, not previously locked</b></td><td class="id">A-7</td></tr>
+    <tr><td>Kept <b>"the door"</b> for Layer B, but defined it explicitly</td><td>It was doing real work while never being defined, which is why it read as decoration. The literal name is "closure-type" if you prefer</td><td class="id">B-4</td></tr>
+    <tr><td>Added <b>S0 SEGMENT</b> and <b>S3 CONNECT</b> to the process, and renamed all steps to single imperative verbs</td><td>You asked for both insertions. Naming steps after the field they write is what exposed the holes</td><td class="id">E</td></tr>
+    <tr><td>Recommended the lexicon's <b>meta-move</b> definition over the definitions-doc's "the whole text read as ONE move"</td><td>The latter is a useful reading trick but it collapses the scale distinction the term exists to make</td><td class="id">A-8</td></tr>
+    <tr><td>Did <b>not</b> use the number <b>1,181</b> anywhere</td><td>It doesn't survive the actual join. The claim it supported survives and gets stronger</td><td class="id">D-3</td></tr>
+  </table></div>
+
+  <h3 style="font-size:17px;margin:30px 0 8px">Holes I found that nobody had logged</h3>
+  <div class="tbl"><table class="d">
+    <tr><th>The hole</th><th>Why it matters</th><th>Cost to fix</th></tr>
+    <tr><td><b>S0 has no segmentation rule.</b> We assert 8 moves / 5 moves and never say how</td><td><b>The biggest one.</b> Every reliability number is conditional on units nobody specified — and it explains why gap-detection κ≈0.20 while cell-classification κ=1.0. Same fact, twice</td><td>An IRR. <b>I'd fire this next</b></td></tr>
+    <tr><td><b>IRR166 + IRR167 were drafted and never fired</b></td><td>IRR166 exists <i>specifically</i> to critique U0–U4, which is otherwise entirely unvalidated — the fix for IRR165's one named vulnerability has never been reviewed</td><td><b>Free — they're written</b></td></tr>
+    <tr><td><b>Telos and stance are still <span class="m">candidate</span></b>, never promoted, used as though locked</td><td>They're in the 275,184 denominator and in the geometry. IRR183 called for a stance mini-round; it never ran</td><td>One mini-round</td></tr>
+    <tr><td><b>The human-baseline has never been run</b> — through IRR196</td><td>IRR182 said it plainly: 5 LLMs are "variants of the same learner"; a high α may be shared training bias, not validity. <b>A committee will ask this first</b></td><td>Real — needs humans</td></tr>
+    <tr><td><b>The master lexicon contradicts its own Decision 160</b> (lists 3 flavors, not 6) and <b>mis-names the 6th axis</b> ("derivation" — that's an M-value)</td><td>The lexicon is the arbiter; when the arbiter is stale, every downstream doc inherits it</td><td>Minutes</td></tr>
+    <tr><td><b>The 485-node fan and an older 28-leaf run are both being cited</b></td><td>Two different runs, not one dataset with two write-ups. Only the 485-node CSV should be cited</td><td>Minutes</td></tr>
+    <tr><td><b>The strongest novelty verdict we own is untracked in the repo root</b></td><td>"Geometric Reception History Methodology.txt" — the "entirely unprecedented" finding — was never filed</td><td>Minutes</td></tr>
+    <tr><td><b>Three edge taxonomies are in simultaneous use</b>; a working doc caught itself inventing a fourth mid-page</td><td>Same problem as the tree names, one layer up. They aren't being cross-checked even within a session</td><td>A reconciliation</td></tr>
+    <tr><td><b>The gap-triage engine never reported back</b></td><td>Until it does, the flywheel is a diagram, not a machine — and it will keep saying "go shopping"</td><td>Chase the spawn</td></tr>
+  </table></div>
+
+  <div class="postit"><span class="pin">Post-it — the one thing I'd say if you only read this box</span>
+    Reading all 72 pages against the actual files, the striking thing is <b>how little of what you flagged was a real methodological problem, and how much was a display problem.</b> Meta-move: locked, you locked it. Negative space: retired, you retired it. The six flavors: not superseded, just never rendered next to the layer you thought had replaced them. The song-vs-Romans worry: the measurement already agrees with you and nobody had put the number in front of you.
+    <br><br><b>The method is in better shape than the documentation of it.</b> The genuine problems are narrower and sharper than the mess suggests: <b>a missing segmentation rule (S0)</b>, <b>two unfired IRRs that are already written</b>, <b>no human baseline</b>, and <b>one word ("frame") doing two jobs</b>. Everything else on this page is bookkeeping.
+  </div>
+
+  <div class="gom-foot" style="margin-top:44px">Grammar of Meaning · the method, canonical · assembled 2026-07-17 · reading-SB.<br>
+  Candidates, not findings. Stage 6 = 0. Every number on this page was verified against the live database or its producing file; where a number could not be verified it has been removed and flagged.</div>
+</section>
+
+</main>
+</div>
+</body></html>
