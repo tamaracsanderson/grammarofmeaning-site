@@ -172,47 +172,97 @@ pre.eq{white-space:pre}
 <!-- ═══════════════ THESIS-GRADE ═══════════════ -->
 <section class="sec" id="insights">
   <div class="sec-k"><span class="n">00</span><h2>Thesis-grade insights</h2></div>
-  <p class="sec-lede">Eight things this week produced that are load-bearing for the defense — each one a finding <i>about the method</i>, which is what the thesis actually contributes. Every row links to its evidence.</p>
+  <p class="sec-lede">You asked for two things here: split these by <b>type</b>, and say what "finding" vs "insight" means. Both done.</p>
+
+  <div class="key"><b>Finding vs insight, and the two types.</b> An <b>insight</b> is a realisation about <i>how the method works</i> — a design or rigor observation (most of what's below: a control, a caught bug, an honest limit). A <b>finding</b> is a result <i>about the world the method studies</i> — a claim about meaning-making or religion, which must clear the reliability gate before it counts. <b>Almost everything we have right now is the first kind</b> — and that is the honest state of a project at Stage&nbsp;6&nbsp;=&nbsp;0: the instrument and its controls are real; the substantive findings are still candidates, gated. That split <i>is</i> the thesis contribution — the method, made auditable — so it's worth showing plainly.</div>
+
+  <div class="key" style="border-left-color:var(--terracotta)"><b>Which "coding"? — your recurring question, answered once.</b> The project has <b>two different coding operations</b>, and they're at very different stages. Keeping them apart is essential:
+    <div class="tbl"><table class="d">
+      <tr><th>Coding</th><th>What it does</th><th>Where</th><th>Status</th></tr>
+      <tr><td class="id"><b>figure-coding</b></td><td>place a <i>figure</i> at a coordinate on the six axes (E·O·M·T·S·G) — the atlas</td><td class="id">figure_exom</td><td><b>31%</b> (536 / 1,715)</td></tr>
+      <tr><td class="id"><b>passage-coding</b></td><td>code an individual <i>passage</i> with tradition-internal first-cycle codes — Stage 6</td><td class="id">passage_codes</td><td><b>0%</b> (Stage 6 = 0)</td></tr>
+    </table></div>
+    <b>The "coding that isn't done" is passage-coding (Stage 6 = 0)</b>; the 6-coordinate figure-coding you guessed is the one that's <i>partly</i> done (31%). And its gap is mostly a <b>coding</b> gap, not a no-source gap (TG-4) — we hold the texts, we haven't coded them; only for a few figures is it secondary-sources-only (the Merleau-Ponty case) or true absence. <b>Semantic indexing is neither</b> — it's how you <i>find</i> a passage (full-text + embeddings search), a retrieval precondition, not a coding step. So: figure-coding places minds, passage-coding reads texts, semantic indexing fetches them.</div>
 
   <div class="tbl"><table class="d">
-    <tr><th>#</th><th>The insight</th><th>Why it is thesis-grade</th><th>Evidence</th></tr>
+    <tr><th>#</th><th>The point</th><th>Why it matters</th><th>Evidence</th></tr>
+    <tr><td colspan="4" style="background:rgba(63,125,87,.1);font-family:var(--sans);font-size:10.5px;letter-spacing:.05em;font-weight:700;color:var(--moss)">TYPE 1 — METHOD · the instrument, its controls, its honest limits (insights, not findings)</td></tr>
     <tr><td class="id">TG-1</td>
-      <td><b>The coordinate instrument has no clean reliability number yet — and the honest label is neither "failed" nor "established."</b> Two rounds (V27/V28) put Krippendorff α below the 0.667 floor on every axis — but a later correction found they had measured a <i>bespoke</i> scheme, not the real IRR-refined apparatus. The one test on the real apparatus (V8) returned <b>67% mean modal agreement</b> (per-axis 62–73%), which is <i>moderate</i>. No clean α on the real instrument exists. Weakest axis: ontological-commitment (~62%).</td>
-      <td>Every coordinate-dependent claim below inherits this status: <b>reliability-moderate-pending-clean-α</b>. Stating that precisely — rather than either overclaiming a lock or overclaiming a failure — <i>is</i> the defensible position, and the correction itself is evidence the ledger works.</td>
-      <td class="id">V8 · V27 · V28<br>provenance index</td></tr>
+      <td><b>The coordinate instrument has no clean reliability number yet — the honest label is neither "failed" nor "established."</b> V27/V28 put Krippendorff α below the 0.667 floor on every axis, but measured a <i>bespoke</i> scheme, not the real apparatus. The one test on the real apparatus (V8) returned <b>67% mean modal agreement</b> (per-axis 62–73%) — <i>moderate</i>. Weakest axis: ontological-commitment (~62%). <b>See the drawer below</b> for the full reliability picture (the cohorts, why not humans, the workarounds).</td>
+      <td>Every coordinate claim inherits this: <b>reliability-moderate-pending-clean-α</b>. Stating it precisely is the defensible position; the correction itself is evidence the ledger works.</td>
+      <td class="id">V8 · V27 · V28</td></tr>
     <tr><td class="id">TG-1b</td>
-      <td><b>Five LLMs are not five raters.</b> IRR182's own reconciliation says it plainly: they are "variants of the same learner" — so a high α may measure <i>shared training bias</i>, not validity. The demanded fix (≥3 human theologians + a knowledge-representation specialist, reporting human–human, human–LLM and LLM–LLM α separately) <b>has never been run</b>, through IRR196.</td>
-      <td>It is the known ceiling on the entire 5-cohort method, named by the method's own cohort. Any committee will ask this; the answer must already be on the page.</td>
+      <td><b>Five LLMs are not five raters.</b> IRR182: they are "variants of the same learner" — a high α may measure <i>shared training bias</i>, not validity. The demanded human baseline has never been run. (Drawer below.)</td>
+      <td>The known ceiling on the whole 5-cohort method, named by the method's own cohort. A committee will ask this first.</td>
       <td class="id">IRR182</td></tr>
     <tr><td class="id">TG-2</td>
-      <td><b>"Same structure" is not "independent convergence."</b> <span class="m">RHYME</span> split into <span class="m">STRUCTURAL-MATCH</span> (a codeable edge) and <span class="m">INDEPENDENT-CONVERGENCE</span> (a downstream verdict that must first rule out contact, common ancestry, and base-rate). A new <span class="m">CITE</span> edge exists to <i>disqualify</i> pairs.</td>
-      <td>This is the load-bearing protection for Q2. Without it, inherited traditions get miscounted as independent discoveries and the central claim collapses into perennialism.</td>
-      <td class="id">IRR179 (5/5)</td></tr>
+      <td><b>"Same structure" is not "independent convergence."</b> <span class="m">RHYMES</span> (a codeable edge) is split from independent-convergence (a downstream verdict that must first rule out contact + common ancestry + base-rate). The <span class="m">CITES</span> edge disqualifies borrowed pairs. <b>But contact is a spectrum, not a gate</b> — see the drawer.</td>
+      <td>The load-bearing protection for Q2 against perennialism — without over-claiming "no contact," which is often unverifiable.</td>
+      <td class="id">IRR179</td></tr>
     <tr><td class="id">TG-3</td>
-      <td><b>The cohorts change the method; they do not ratify it.</b> IRR195 unanimously told us to <i>drop</i> our numeric weighted split. IRR196 returned build-with-changes. IRR194 threw out our PCA prototype.</td>
-      <td>A round that only ever confirms is not measuring anything. The change-rate is the evidence the instrument is live.</td>
-      <td class="id">IRR194 · 195 · 196</td></tr>
+      <td><b>The cohorts change the method; they do not ratify it.</b> IRR195 dropped our weighted split; IRR196 build-with-changes; IRR194 threw out our PCA prototype.</td>
+      <td>A round that only ever confirms isn't measuring anything. The change-rate is the evidence the instrument is live.</td>
+      <td class="id">IRR194·195·196</td></tr>
     <tr><td class="id">TG-4</td>
-      <td><b>Not-coded ≠ not-held.</b> Only 536 of 1,715 live voices are coded (31%). An "empty" coordinate is usually a <i>coding gap</i>, not a real absence — two figures we proposed <i>acquiring</i> for an empty seat were already sitting in the corpus, uncoded.</td>
-      <td>It reverses the acquisition priority (code what we own before shopping) and it disciplines every occupancy statistic into a statement about our progress first, the space second.</td>
-      <td class="id">corpus-layers<br>L1–L4</td></tr>
+      <td><b>Not-coded ≠ not-held.</b> Only 536 of 1,715 live voices are coded (31%). An "empty" coordinate is usually a <i>coding gap</i>, not a real absence — two figures we proposed acquiring were already in the corpus, uncoded.</td>
+      <td>Reverses the acquisition priority (code what we own first) and disciplines every occupancy stat into a progress statement.</td>
+      <td class="id">corpus-layers</td></tr>
     <tr><td class="id">TG-5</td>
-      <td><b>The corpus corrects the model's memory.</b> Coding John of the Cross from his actual pastoral prose returned <span class="m">personal-agentive</span> 3/4 — overturning the paraphrase-based coding that had over-stated his apophaticism.</td>
-      <td>This is the empirical case for building the database rather than prompting a model. The paraphrase agreed with the reputation; the text did not.</td>
-      <td class="id">V22 · framer-unit §5.5</td></tr>
+      <td><b>The corpus corrects the model's memory.</b> Coding John of the Cross from his actual prose returned <span class="m">personal-agentive</span> 3/4 — overturning the paraphrase that over-stated his apophaticism.</td>
+      <td>The empirical case for building the database, not prompting a model. The paraphrase agreed with the reputation; the text didn't.</td>
+      <td class="id">V22</td></tr>
     <tr><td class="id">TG-6</td>
       <td><b>The truth-judge doubles as a provenance auditor.</b> An independent model (Haiku) judging Sonnet's coordinates caught <i>Bonaventure's</i> Itinerarium mis-linked to Eckhart — a corpus error, not a coding error.</td>
-      <td>A reliability check that pays for itself twice: FALSE verdicts are 3-way ambiguous (mis-link / hallucination / over-rejection) and route to a human queue rather than an auto-fix.</td>
+      <td>A reliability check that pays twice: FALSE verdicts route to a human queue, catching corpus errors for free.</td>
       <td class="id">S146 probe</td></tr>
-    <tr><td class="id">TG-7</td>
-      <td><b>Transmission structure predicts which axis can vary.</b> <span class="st cand">candidate</span> (The <b>essence-axis</b> = <b>ontological-commitment</b>, the O axis — what a figure holds to be fundamentally real; it is the axis "essence" means here, not a new one.) Where one custodian controls the telling, the essence-axis is protected (Jesus, base spread 0.06); where custody is rival and shares no core, it is contested (Freud vs Jung, 1.00 — every axis differs).</td>
-      <td>If it survives the reliability gate, it is a structural law about how traditions hold variance — reached by coding, not by theology.</td>
-      <td class="id">V2–V12 · <b>gated by TG-1</b></td></tr>
     <tr><td class="id">TG-8</td>
       <td><b>The coder's fallback value hijacked the geometry.</b> The first MCA run's largest axis was <span class="m">insufficient-context</span> — an artifact of 13 incompletely-coded figures, not a position. Cross-check 0.37; validation failed at 0.035.</td>
-      <td>It is the cautionary specimen: mass-correction amplifies rare co-occurring categories, so a data-quality defect silently produces a beautiful, wrong picture.</td>
-      <td class="id">V37 · MCA §5</td></tr>
+      <td>The cautionary specimen: a data-quality defect silently produces a beautiful, wrong picture.</td>
+      <td class="id">V37 · §D6</td></tr>
+    <tr><td colspan="4" style="background:rgba(224,169,59,.14);font-family:var(--sans);font-size:10.5px;letter-spacing:.05em;font-weight:700;color:#7a6410">TYPE 2 — SUBSTANTIVE · candidate findings about meaning-making (gated by TG-1)</td></tr>
+    <tr><td class="id">TG-7</td>
+      <td><b>Transmission structure predicts which axis can vary.</b> <span class="st cand">candidate</span> (The <b>essence-axis</b> = <b>ontological-commitment</b>, the O axis — what a figure holds to be fundamentally real; not a new axis.) Single-custodian → the essence-axis is protected (Jesus, spread 0.06); rival custody with no shared core → contested (Freud vs Jung, 1.00).</td>
+      <td>If it clears the gate, it's a structural law about how traditions hold variance — reached by coding, not theology. <b>The one genuine finding-about-religion we have — and it's still a candidate.</b></td>
+      <td class="id">V2–V12 · <b>gated by TG-1</b></td></tr>
+    <tr><td class="id">TG-9</td>
+      <td><b>The geometry recovers an apophatic ↔ kataphatic axis on its own.</b> <span class="st cand">candidate</span> Unsupervised, MCA's third dimension is the negative-theology contrast — matching what the reading independently surfaced. <b>But not independent corroboration</b> (same emitter + a vocabulary that contains "apophatic" — §D6).</td>
+      <td>A real coherence result (two methods agree) — but it becomes a <i>finding</i> only when a rater outside the pipeline reproduces the coding.</td>
+      <td class="id">§D6 · <b>gated by TG-1</b></td></tr>
   </table></div>
+
+  <details class="dd"><summary>Double-click: the full reliability picture — the five cohorts, why not humans, and the workarounds</summary>
+    <div class="dd-b">
+      <p><b>The five cohorts, and why these five.</b> The IRR ensemble is <b>GPT-5 · Claude (Haiku/Opus) · Gemini · DeepSeek · Solar Pro</b>. They were chosen deliberately, not for convenience: to be <b>not US-specific</b> (DeepSeek is Chinese; Solar Pro is Korean) and to be <b>strong on our task on testing</b>. Two we tried and dropped: <b>qwen</b> was often blocked from responding on religious content, and <b>mistral</b> gave mixed results — so the five are a tested set, not a default one.</p>
+      <p class="postit" style="margin:10px 0"><span class="pin">Flag — one claim here needs a receipt before the thesis</span> <b>"qwen is often blocked on religion" is an observation, not a documented run.</b> If it goes in the defense it needs to be a recorded test (a few religious prompts, qwen's refusals logged), not a recollection — otherwise it's exactly the plausible-but-uncited claim the method exists to catch.</p>
+      <p><b>Method vs coding — the distinction that scopes the whole problem.</b> There are two very different things you can ask an LLM to do here, and they have opposite reliability profiles:</p>
+      <ul>
+        <li><b>Critique the method</b> (the IRR rounds) — "is this segmentation rule reproducible? is MCA the right embedding?" On this, an LLM ensemble is <i>plausibly stronger</i> than a human panel: broad literature recall, no single-discipline blind spot, five independent angles. This is most of what the IRRs do, and it's where the ensemble is at its best.</li>
+        <li><b>Code the texts</b> (apply the instrument to real passages) — "what is this figure's ontological-commitment?" This is where the human-baseline gap bites, and it applies to only a handful of rounds. Interpretation of a specific text is exactly where five variants-of-one-learner may share a blind spot.</li>
+      </ul>
+      <p>So the "five LLMs aren't five raters" caveat (TG-1b) is <b>real but scoped</b>: it's a ceiling on the <i>coding</i>, much less on the <i>method critique</i>. The page shouldn't let the caveat swallow the whole ensemble.</p>
+      <p><b>Right now, the human coder is the researcher.</b> A solo MDiv student can't fund a human inter-rater panel (≥3 theologians + a KR specialist) — that's outside the cost constraint, honestly stated. So this is marked as a <b>limitation</b>, not papered over.</p>
+      <p><b>The honest counter, which belongs in the defense:</b> individual human coders are <i>also</i> trained on overlapping material and arrive with strong priors and gaps — "independent human raters" is itself an idealization. The LLM ensemble trades one correlated-error problem for another; the honest move is to <i>name where the LLM is stronger</i> (scale, cost, breadth, no single-tradition allegiance) and <i>where it may miss</i> (shared training bias, interpretation of a hard text), rather than pretend either panel is clean.</p>
+      <p><b>The workarounds — how to get partial human signal within the constraint:</b></p>
+      <ul>
+        <li><b>One human coder (the researcher), on a bounded set — pre-registered.</b> Code a limited, pre-declared sample (e.g. Romans) by hand, report human–LLM agreement on it as the thesis's reliability probe. Small-N but real, and pre-registration keeps it honest.</li>
+        <li><b>An external benchmark:</b> compare our seatings against an independent coded corpus — the <b>Database of Religious History</b> (Slingerland) codes ~400 traditions on its own scheme. Agreement with a corpus we didn't build is a validity signal that doesn't cost a panel.</li>
+        <li><b>Report the disagreement <i>structure</i>, not just an α.</b> We already know the models disagree (that's what the IRRs measure); <i>where</i> they disagree (which axis, which figure-type) is itself data, and the truth-judge cross-model check (TG-6) already turns disagreement into a provenance signal. Lean into that rather than chasing a single number.</li>
+      </ul>
+      <p class="cap">Sources: IRR182 (the "variants of the same learner" caveat); the provenance index (V8 · V27 · V28); Decision 75 (Solar's domain-conditional role); the DRH as an external benchmark.</p>
+    </div>
+  </details>
+
+  <details class="dd"><summary>Double-click: TG-2 — the Jung case, and why contact is a spectrum, not a gate</summary>
+    <div class="dd-b">
+      <p><b>Your question: "can we have a rhyme that's a structural match but not independent-convergence — like Jungian analysis, which has some Eastern religion in it?"</b> Yes — exactly. That's the case the split was built for:</p>
+      <ul>
+        <li>Jung's individuation and a Buddhist liberation move can be a genuine <b>RHYMES</b> (same operation, different agent/voice) — a real structural match.</li>
+        <li>But Jung <i>read</i> Eastern texts, so the pair also carries a <b>CITES</b> edge (demonstrable contact). That disqualifies it from <b>independent</b>-convergence — while leaving the rhyme itself intact and interesting.</li>
+      </ul>
+      <p>So a pair can be a real rhyme <i>and</i> not independent. The rhyme is still a finding; it's just a finding about influence, not about two traditions arriving somewhere separately.</p>
+      <p><b>And your caution is right, and it's now on the page:</b> <i>"I don't want to over-emphasize no-contact — there's often more contact than assumed (trade routes, merchants, colonialism), and requiring 'no contact' is (1) hard to verify and (2) only somewhat interesting."</i> Agreed. So the framing is <b>contact is a spectrum, not a gate</b>: cognate / borrowed / false-cognate / independent, from the comparative method. We <i>score the contact-status</i> and report it with every resonance edge (that's the firewall in A-6) — we do <b>not</b> require "no contact" as a pass/fail. The interesting claim is rarely "these two never touched"; it's "here is the move, here is the contact-status, judge the rhyme accordingly." That's more defensible <i>and</i> more honest than a purity test no historical record could satisfy.</p>
+    </div>
+  </details>
 
   <div class="flag"><span class="pin">Overclaim found while assembling this page — needs your call</span>
     The live <a href="morphospace.html">morphospace page</a> claims a <b>"validity signal"</b>: that the geometry recovered the apophatic/kataphatic distinction unsupervised, matching a structure "our reading work had independently surfaced," and concludes it "is not an artifact of either."
