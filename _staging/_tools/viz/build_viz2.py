@@ -39,12 +39,12 @@ STEPS = [
  dict(s="S6", name="RESOLVE", does="who closes the gap — the text, or history?", status="field is mis-cut", hole=True,
       hole_txt="<b>S6's field is mis-cut</b> (your catch): <code>resolution</code> mixes <i>who closed it</i> with <i>what we could do about it</i>. “Generatable” is a capability, not a resolution. The pilot ran its three-way resolution on M4's gaps, not M1's — so this row is doubly empty: the field is wrong <i>and</i> unrecorded here.",
       fields=[("resolution",UNREC),("resolved_by",UNREC)]),
- dict(s="S7", name="GENERATE", does="run the engines: fills stay in frame, substitutes jump it", status="1 of 2 engines built",
+ dict(s="S7", name="GENERATE", does="run the engines: fills stay in the state, substitutes jump it", status="1 of 2 engines built",
       fields=[("candidate","you healed her"),("alternative_kind","CONTRARY"),("u_tier",UNREC),("citation",UNREC)],
       sub=True,
-      note="The <b>fill engine is a spec, not code</b> — the one that makes the branches-not-taken that stay in frame. The built one is the substitute engine, which is what you see here."),
+      note="The <b>fill engine is a spec, not code</b> — the one that makes the branches-not-taken that stay in the state. The built one is the substitute engine, which is what you see here."),
  dict(s="S8", name="GATE", does="prune by era-availability × path-coherence", status="IRR196 · gate 2 weak",
-      fields=[("concept","contrary of hurt"),("concept_birth","perennial"),("era_gate","IN-FRAME"),("path_coherence",UNREC)],
+      fields=[("concept","contrary of hurt"),("concept_birth","perennial"),("era_gate","in-paradigm"),("path_coherence",UNREC)],
       note="Gate 1 (era) is real and computed. Gate 2 (path-coherence) is the weak one — the SPA says so."),
  dict(s="S9", name="CONVERGE", does="forward-fan ∩ backward-funnel", status="funnel not built", hole=True,
       hole_txt="<b>S9's second half doesn't exist.</b> The backward funnel is unbuilt, so the intersection is <b>eyeballed, not computed</b> — the 3-of-6 converging world-lines were read off by hand. The method doc says so itself: “the intersection should be COMPUTED (state-matching) once both directions run, not eyeballed.”",
@@ -132,6 +132,14 @@ BLOCK = '''<div class="viz viz-2" id="viz-2">
 .viz-2 .c7v{font-size:10.5px;color:var(--ink-2);margin-top:2px}
 .viz-2 .c7n{font-size:9.5px;margin-top:3px;color:var(--honey)}
 .viz-2 .c7n.subtle{color:var(--ink-3);font-style:italic}
+.viz-2 .v2-layers{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:9px 0 0}
+@media(max-width:680px){.viz-2 .v2-layers{grid-template-columns:1fr}}
+.viz-2 .lyr{font-size:11.5px;line-height:1.5;border-radius:7px;padding:8px 10px}
+.viz-2 .lyr b{font-family:var(--mono);font-size:10.5px}
+.viz-2 .lyr-jump{background:var(--paper-2);border:1px solid var(--honey);color:var(--ink-2)}
+.viz-2 .lyr-jump b{color:var(--honey)}
+.viz-2 .lyr-wall{background:var(--paper-2);border:1px solid var(--terracotta);color:var(--ink-2)}
+.viz-2 .lyr-wall b{color:var(--terracotta)}
 .viz-2 .holes{margin:12px 0 0;border-left:3px solid var(--terracotta);background:var(--paper-2);border-radius:0 9px 9px 0;padding:10px 13px;font-size:12.5px;color:var(--ink-2)}
 .viz-2 .holes b{color:var(--terracotta)}
 .viz-2 .viz-src{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);margin:12px 0 0;line-height:1.65}
@@ -201,7 +209,7 @@ BLOCK = '''<div class="viz viz-2" id="viz-2">
       if(st.hole) h+='<div class="v2-hole">⚠ '+st.hole_txt+'</div>';
       now.innerHTML=h;
     }
-    subw.innerHTML = (i>=0 && S[i].sub) ? '<div class="v2-sub"><div class="v2-sub-h"><b>The substitution runs on one slot — but every slot could generate.</b> Here only <b>operation</b> is swapped (<i>hurt</i> → <i>healed</i>), which is the illustration, not a limit of the grammar. The other six are marked as equally substitutable so the picture cannot imply otherwise.</div><div class="c7row">'+CORE7HTML+'</div></div>' : '';
+    subw.innerHTML = (i>=0 && S[i].sub) ? '<div class="v2-sub"><div class="v2-sub-h"><b>The substitution runs on one slot — but every slot could generate.</b> Here only <b>operation</b> is swapped (<i>hurt</i> → <i>healed</i>), which is the illustration, not a limit of the grammar. The other six are marked as equally substitutable so the picture cannot imply otherwise.</div><div class="c7row">'+CORE7HTML+'</div><div class="v2-layers"><span class="lyr lyr-jump"><b>state-jump</b> — a SUBSTITUTE moves to a neighbouring move <i>inside the same paradigm</i> (S7). It voids the premise, so it does not complete this state — it starts a different one.</span><span class="lyr lyr-wall"><b>beyond-paradigm</b> — a value the world of the text cannot hold at all is a <i>wall, not a jump</i>: flagged, not coded. The era-gate (S8) is what decides <b>in-paradigm</b> vs <b>barred</b>.</span></div></div>' : '';
     var total=0; for(var k=0;k<=i&&i>=0;k++) total+=S[k].fields.length;
     cnt.textContent = (i<0?'0':(i+1))+' / '+S.length+' steps · '+total+' fields written';
     document.getElementById('v2-prev').disabled=(i<0);
@@ -220,9 +228,14 @@ def build(path):
     chips, core7, data = build_block()
     block = BLOCK.replace("__CHIPS__", chips).replace("__DATA__", data).replace("__C7__", json.dumps(core7))
     h = open(path, encoding="utf-8").read()
-    pat = re.compile(r'<div class="vizslot"[^>]*>\s*<div class="vs-h"><span class="vs-id">VIZ-2</span>.*?</div>\s*</div>', re.S)
-    assert pat.search(h), "VIZ-2 vizslot not matched"
-    h2 = pat.sub(lambda _: block, h, count=1)
+    slot = re.compile(r'<div class="vizslot"[^>]*>\s*<div class="vs-h"><span class="vs-id">VIZ-2</span>.*?</div>\s*</div>', re.S)
+    built = re.compile(r'<div class="viz viz-2" id="viz-2">.*?</script>\s*</div>', re.S)
+    if slot.search(h):
+        h2 = slot.sub(lambda _: block, h, count=1)
+    elif built.search(h):
+        h2 = built.sub(lambda _: block, h, count=1)   # idempotent re-render of an already-built VIZ-2
+    else:
+        raise AssertionError("neither VIZ-2 vizslot nor built block matched")
     open(path, "w", encoding="utf-8").write(h2)
     nf = sum(len(s["fields"]) for s in STEPS)
     left = h2.count('class="vizslot"')
