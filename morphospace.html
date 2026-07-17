@@ -41,7 +41,7 @@
 
 <div class="wrap">
   <div class="eyebrow">Grammar of Meaning · canonical · the geometry</div>
-  <h1>The morphospace: what happens when you let 512 thinkers find their own axes</h1>
+  <h1>The morphospace: what happens when you let 483 thinkers find their own axes</h1>
   <p class="lede">Every figure is a 6-tuple on a fixed frame. Embed all of them in a geometric space and ask what the space's <b>own</b> structure turns out to be. The answer is the most interesting result we have — and its honest diagnostics are the second-most interesting.</p>
 
   <h2>1 · What it is</h2>
@@ -53,40 +53,40 @@
   <p>The verdict: <strong>Multiple Correspondence Analysis</strong> — native to nominal data, corrects for category mass (a rare value isn't drowned by a common one), and yields <em>interpretable</em> axes you can read off the category loadings. Cross-checked against <strong>Gower distance + PCoA</strong>, which puts the distance metric first. Report <strong>Greenacre-adjusted inertias</strong>, never naive MCA percentages.</p>
 
   <h2>3 · The result — three axes the space found by itself</h2>
-  <p>We did not tell it what to look for. Running MCA on 512 cleanly-coded figures, the geometry recovered three interpretable dimensions:</p>
+  <p>We did not tell it what to look for. Running MCA on 483 cleanly-coded figures, the geometry recovered three interpretable dimensions:</p>
 
-  <div class="axis"><span class="n">dim 1 · 47.1% adjusted inertia</span><div class="t">Secular ↔ Religious</div>
+  <div class="axis"><span class="n">dim 1 · 46.9% adjusted inertia</span><div class="t">Secular ↔ Religious</div>
     <div class="p">Loads on <code>material</code> · <code>observation</code> · <code>reductive</code> · <code>epoche</code> — the materialist/empirical/skeptical pole against the religious one. <b>The single largest axis of variation in the entire space.</b></div></div>
   <div class="axis"><span class="n">dim 2 · 22.5%</span><div class="t">Personal-theist ↔ Impersonal / Void</div>
     <div class="p">Loads on <code>void</code> · <code>dependent-arising</code> · <code>noetic-intuition</code> · <code>identity</code>(non-dual) — the Buddhist/Advaita/impersonal-ground pole against the personal-agentive one.</div></div>
-  <div class="axis"><span class="n">dim 3 · 10.9%</span><div class="t">Kataphatic ↔ Apophatic</div>
+  <div class="axis"><span class="n">dim 3 · 10.6%</span><div class="t">Kataphatic ↔ Apophatic</div>
     <div class="p">Loads on <code>apophatic</code> · <code>mystical-union</code> · <code>contemplation</code> — the negative-theology pole.</div></div>
 
-  <div class="key"><b>The validity signal.</b> Dimension 3 <i>is</i> the apophatic/kataphatic distinction — the same structure our reading work had independently surfaced (canon holds the personal God; mystical reception relocates the essence). <b>The geometry recovered it unsupervised, without being told it existed.</b> A structure that shows up both in close reading and in an unsupervised embedding of 512 coordinates is not an artifact of either.</div>
-  <p>Together the three dimensions hold <strong>80.5%</strong> of the adjusted inertia — most of the space's structure fits in 3D, which is why the space is renderable at all.</p>
+  <div class="key"><b>A coherence result — stated honestly (corrected 2026-07-17).</b> Dimension 3 <i>is</i> the apophatic/kataphatic distinction — the same structure our reading work had independently surfaced (canon holds the personal God; mystical reception relocates the essence). The geometry recovered it unsupervised, which is a real and non-trivial <b>coherence</b> result. <b>But it is not independent corroboration</b>, for two reasons: the coded coordinates and the reading share the same emitter (Sonnet) and the same axis vocabulary — a vocabulary that <i>contains the value</i> <code>apophatic</code>, so a space built from that menu recovering an apophatic axis is closer to a consistency check than a discovery; and the labels themselves carry only moderate agreement (reliability-pending). The honest claim: an interpretable structure that <i>matches</i> our reading — which becomes a <i>finding</i> only when a rater outside this pipeline (ideally a human) reproduces the coding.</div>
+  <p>Together the three dimensions hold <strong>80.0%</strong> of the adjusted inertia — most of the space's structure fits in 3D, which is why the space is renderable at all.</p>
 
   <h2>4 · The honest diagnostics</h2>
   <p>The numbers that would let someone contest this:</p>
   <table>
     <tr><th>Diagnostic</th><th>Value</th><th>Honest read</th></tr>
-    <tr><td class="n">adjusted inertia (3D)</td><td class="n">80.5%</td><td>Good — most structure is in three dimensions.</td></tr>
-    <tr><td class="n">MCA vs Gower/PCoA</td><td class="n">0.696</td><td><b>Moderate.</b> The two methods broadly agree on distances — not a tight lock. Acceptable for a scholarly viz; not a strong claim.</td></tr>
-    <tr><td class="n">held-out O-silhouette</td><td class="n">0.125</td><td><b>Weak-positive.</b> Ontological-commitment contributes to the geometry but doesn't dominate it. The clusters are <b>loose</b> — the space is continuous and fuzzy, not clumped into tidy families.</td></tr>
+    <tr><td class="n">adjusted inertia (3D)</td><td class="n">80.0%</td><td>Good — most structure is in three dimensions.</td></tr>
+    <tr><td class="n">MCA vs Gower/PCoA</td><td class="n">0.702</td><td><b>Moderate.</b> The two methods broadly agree on distances — not a tight lock. Acceptable for a scholarly viz; not a strong claim.</td></tr>
+    <tr><td class="n">held-out O-silhouette</td><td class="n">0.147</td><td><b>Weak-positive.</b> Ontological-commitment contributes to the geometry but doesn't dominate it. The clusters are <b>loose</b> — the space is continuous and fuzzy, not clumped into tidy families.</td></tr>
   </table>
   <div class="caveat"><b>Read that last row properly, because it cuts against a tidy story.</b> A low silhouette means the traditions do <i>not</i> sit in neat separable clumps. That's consistent with what the coding kept showing — the space is a continuum, positions bleed. A method that reported clean clusters here would be reporting its own wishes.</div>
 
   <h2>5 · A data-quality catch worth recording</h2>
-  <p>The first run's dimension 1 was dominated by <code>insufficient-context</code> — <em>the coder's fallback value</em>, not a real position. MCA's mass-correction amplifies rare co-occurring categories, so 13 incompletely-coded figures formed a spurious outlier cluster and hijacked the largest axis (cross-check 0.37; validation failed at 0.035). Dropping those 13 — while <em>keeping</em> <code>not-asserted</code> and <code>unspecified</code>, which are legitimate positions — produced the clean 512-figure result above.</p>
+  <p>The first run's dimension 1 was dominated by <code>insufficient-context</code> — <em>the coder's fallback value</em>, not a real position. MCA's mass-correction amplifies rare co-occurring categories, so 13 incompletely-coded figures formed a spurious outlier cluster and hijacked the largest axis (cross-check 0.37; validation failed at 0.035). Dropping those 13 — while <em>keeping</em> <code>not-asserted</code> and <code>unspecified</code>, which are legitimate positions — produced the clean result above (512 at the time of the catch; 483 after the later post-dedup re-run).</p>
   <p>Recorded because it's the kind of thing that silently produces a beautiful, wrong picture.</p>
 
   <h2>6 · Occupancy — and the caveat that governs it</h2>
-  <p>The theoretical space is 9 × 13 × 7 × 7 × 6 × 8 = <strong>275,184</strong> coordinates. The corpus occupies <strong>365 distinct ones — 0.13%</strong>. The most-occupied single coordinate holds 34 figures (<code>revelation · personal-agentive · exegesis · salvation · reverent · creation</code> — the mainstream-Christian position), which is itself a visible record of corpus skew rather than a finding about religion.</p>
+  <p>The theoretical space is 9 × 13 × 7 × 7 × 6 × 8 = <strong>275,184</strong> coordinates. The corpus occupies <strong>342 distinct ones — 0.124%</strong>. The most-occupied single coordinate holds 34 figures (<code>revelation · personal-agentive · exegesis · salvation · reverent · creation</code> — the mainstream-Christian position), which is itself a visible record of corpus skew rather than a finding about religion.</p>
   <div class="caveat"><b>The caveat that governs every occupancy claim:</b> only <b>536 of 1717 live voices are coded (31%)</b>. So this is the geometry of <b>what has been coded</b>, not of <b>what we hold</b> — and certainly not of what exists. An "empty" coordinate is usually a <b>coding gap</b>, not a real absence: two figures we recently proposed <i>acquiring</i> for an empty seat turned out to be sitting in the corpus already, uncoded. Occupancy statistics are statements about our coding progress first, and about the space second.</div>
 
   <h2>7 · What is not claimed</h2>
   <p>Stage 6 = 0. This is a <strong>method-validated baseline</strong>, not a finding: the embedding method was cohort-validated, the axes are interpretable and honestly reported, and the diagnostics are middling-to-weak in exactly the ways stated above. Multi-label figures will later enter as <strong>fuzzy indicators</strong> — one weighted point per figure, never two points (which would inflate N and reintroduce the essentialism the frame exists to avoid). The current data is single-label, so this is the clean starting line.</p>
 
-  <footer>reading-SB · 2026-07-15 · canonical. Grounds: the MCA build on 512 coded figures (Greenacre-adjusted inertias · Gower/PCoA cross-check · held-out-axis validation); IRR194 (geometry-method round: MCA primary, PCA-on-one-hot and UMAP rejected, fuzzy indicators for multi-label); the occupied-tuple distribution (365 / 275,184); the corpus-layers finding (31% coded). Candidates, not findings; Stage 6 = 0.</footer>
+  <footer>reading-SB · 2026-07-15 · canonical. Grounds: the MCA build on 483 coded figures (Greenacre-adjusted inertias · Gower/PCoA cross-check · held-out-axis validation); IRR194 (geometry-method round: MCA primary, PCA-on-one-hot and UMAP rejected, fuzzy indicators for multi-label); the occupied-tuple distribution (342 / 275,184); the corpus-layers finding (31% coded). Candidates, not findings; Stage 6 = 0.</footer>
 </div>
 
 </body>
