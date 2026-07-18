@@ -44,26 +44,26 @@ RESIDUALS = [
 # ── the four families, from the §A6 v2 table. present=coded on this song ──
 FAMILIES = [
     dict(key="A", name="COHERENCE", scope="within a text: how its moves build", cls="fam-a",
-         edges=[("FEEDS","THEN","move N → N+1","7 on this song",True),
-                ("FILLS","ANSWERS","a later move → an earlier gap","4 — and they run backward",True),
-                ("COMPOSES","NESTS","a move → the meta-move holding it","8 — all of them",True),
-                ("ELABORATES","—","N+1 → a finished claim N","none coded",False),
-                ("SCAFFOLDS","—","N → N+1","none coded",False)]),
-    dict(key="B", name="RECEPTION", scope="text → later reader", cls="fam-b",
-         edges=[("RESIDUAL","BEQUEST","an unresolvable gap → reception","2 — pointing out of the song",True),
-                ("REINTERPRETS","—","a later reader → a residual","none — no reception coded",False),
-                ("FORKS","FORK","a later reader → a residual","none — the song has no interpretive fork",False)]),
+         edges=[("FEEDS","move N → N+1","7 on this song",True),
+                ("FILLS","a later move → an earlier gap","4 — and they run backward",True),
+                ("COMPOSES","a move → the whole that holds it","8 — all of them",True),
+                ("ELABORATES","N+1 → a finished claim N","none coded",False),
+                ("SCAFFOLDS","N → N+1","none coded",False)]),
+    dict(key="B", name="RECEPTION", scope="a text → its own later readers", cls="fam-b",
+         edges=[("BEQUEATHS","an unresolvable gap → reception","2 — pointing out of the song",True),
+                ("REINTERPRETS","a later reader → a bequeathed gap","none — no reception coded",False),
+                ("FORKS","a later reader → a bequeathed gap","none — the song has no interpretive fork",False)]),
     dict(key="C", name="CONVERGENCE", scope="cross-text: sameness", cls="fam-c",
-         edges=[("EXACT-STRUCTURAL-MATCH","RHYME","a move here :: a move there","none — no cross-text pair coded",False),
-                ("CLOSE-MATCH","COUSIN","a near-rhyme","none",False),
-                ("GENERALIZES","—","a pair → the pattern P both instantiate","none",False),
-                ("BROADER / NARROWER","—","across texts","none",False),
-                ("CITE / ECHO","—","a borrower → a source","none",False)]),
+         edges=[("RHYMES","a move here :: a move there","none — no cross-text pair coded",False),
+                ("COUSINS","a near-rhyme","none",False),
+                ("GENERALISES","a pair → the pattern P both instantiate","none",False),
+                ("GENERALISES / SPECIALISES","across texts (directional)","none",False),
+                ("CITES","a borrower → a source","none",False)]),
     dict(key="D", name="DIVERGENCE", scope="cross-text: difference", cls="fam-d",
-         edges=[("SURFACE-MATCH","FALSE-FRIEND","same words, different move","none — no cross-text pair coded",False),
-                ("OPPOSES","COUNTER","a deliberate opposite","none",False),
-                ("INVERTS","INVERT","a reversal","none",False),
-                ("IRONIC","—","a move → itself","none",False)]),
+         edges=[("FALSE-FRIEND","same words, different move","none — no cross-text pair coded",False),
+                ("COUNTERS","a deliberate opposite","none",False),
+                ("INVERTS","a reversal","none",False),
+                ("IRONIC","a move → itself","none",False)]),
 ]
 
 def mx(mid):
@@ -77,13 +77,13 @@ def build_svg():
     # meta-move box (COMPOSES/NESTS holds all eight)
     s.append(f'<rect class="metabox" x="40" y="{NY-58}" width="{W-80}" height="{NH+96}" rx="14"/>')
     s.append(f'<text class="metalab" x="52" y="{NY-38}">META-MOVE · the friend PERSUADES you to reconcile (because she loves you)</text>')
-    s.append(f'<text class="metasub" x="52" y="{NY-24}">COMPOSES <tspan class="alias">/ NESTS</tspan> — it contains all eight; the edges below are its internal structure</text>')
+    s.append(f'<text class="metasub" x="52" y="{NY-24}">COMPOSES — it contains all eight; the edges below are its internal structure</text>')
 
     # FEEDS chain (solid, forward)
     for a, b in zip(MOVES, MOVES[1:]):
         x1, x2 = a["x"] + NW/2, b["x"] - NW/2
         s.append(f'<line class="e-feeds" x1="{x1}" y1="{NY+NH/2}" x2="{x2-7}" y2="{NY+NH/2}" marker-end="url(#ah-feeds)"/>')
-    s.append(f'<text class="elab lab-a" x="34" y="{NY-8}">FEEDS <tspan class="alias">/ THEN</tspan> → forward, move to move</text>')
+    s.append(f'<text class="elab lab-a" x="34" y="{NY-8}">FEEDS → forward, move to move</text>')
 
     # FILLS arcs — BACKWARD onto M4 (drawn beneath, arrowhead into M4)
     tx = mx("M4")
@@ -93,7 +93,7 @@ def build_svg():
         s.append(f'<path class="e-fills" d="M {fx} {NY+NH} C {fx} {NY+NH+depth}, {x2} {NY+NH+depth}, {x2} {NY+NH+8}" marker-end="url(#ah-fills)"/>')
         midx = (fx + x2)/2
         s.append(f'<text class="rolelab" x="{midx}" y="{NY+NH+depth+11}">{f["role"]}</text>')
-    s.append(f'<text class="elab lab-a2" x="60" y="{NY+NH+182}">← FILLS <tspan class="alias">/ ANSWERS</tspan> — later moves answering the money-move, running <tspan class="bk">backward</tspan></text>')
+    s.append(f'<text class="elab lab-a2" x="60" y="{NY+NH+182}">← FILLS — later moves answering the money-move, running <tspan class="bk">backward</tspan></text>')
 
     # IRR177-corrected edges (toggleable ghost layer)
     s.append('<g id="v1-corrected" class="corrected-layer" hidden>')
@@ -124,7 +124,7 @@ def build_svg():
         s.append(f'<path class="e-res" d="M {x} {y0} C {x} {y0-60}, {x+58} {150}, {x+58} {96}" marker-end="url(#ah-res)"/>')
         s.append(f'<text class="reslab" x="{x+66}" y="{ylab}">{r["label"]}</text>')
         s.append(f'<text class="ressub" x="{x+66}" y="{ylab+13}">{r["sub"]}</text>')
-    s.append(f'<text class="elab lab-b" x="60" y="{178}">RESIDUAL <tspan class="alias">/ BEQUEST</tspan> ↑ — the two gaps the song cannot fill from inside</text>')
+    s.append(f'<text class="elab lab-b" x="60" y="{178}">BEQUEATHS ↑ — the two gaps the song cannot fill from inside</text>')
 
     defs = ('<defs>'
       '<marker id="ah-feeds" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto"><path d="M0,0 L7,3.2 L0,6.4 Z" class="mk-a"/></marker>'
@@ -137,11 +137,10 @@ def build_legend():
     out = []
     for f in FAMILIES:
         rows = []
-        for op, alias, connects, count, present in f["edges"]:
+        for op, connects, count, present in f["edges"]:
             cls = "edge on" if present else "edge off"
-            al = '<span class="alias">/ ' + alias + '</span>' if alias != "—" else ''
             ct = '<span class="ct ' + ('yes' if present else 'no') + '">' + count + '</span>'
-            rows.append('<div class="' + cls + '"><div class="e-top"><b>' + op + '</b>' + al + ct + '</div>'
+            rows.append('<div class="' + cls + '"><div class="e-top"><b>' + op + '</b>' + ct + '</div>'
                         '<div class="e-cn">' + connects + '</div></div>')
         out.append(f'''<div class="fam {f["cls"]}">
   <div class="fam-h"><span class="swatch"></span><b>FAMILY {f["key"]} · {f["name"]}</b><span class="scope">{f["scope"]}</span></div>
@@ -238,7 +237,7 @@ BLOCK = '''<div class="viz viz-1" id="viz-1">
     <span class="chip chip-cand">candidate</span>
     <span class="chip chip-actual">all edges ACTUAL — coded from the text</span>
   </div>
-  <p class="viz-lede">Every edge the instrument found in "She Loves You", drawn in its family's treatment and named twice — the <b>operational</b> name a coder checks, and the <b>alias</b> a reader reads. The old diagram's labels (<span class="retired">production · completion · reception</span>) were the <b>retired gen-1 names</b>; these are gen-3, post-IRR179. <b>Colour is never the only signal</b> — each family also carries its own dash and arrowhead.</p>
+  <p class="viz-lede">Every edge the instrument found in "She Loves You", drawn in its family's treatment and <b>named once</b> — the current canonical name, keyed to the §A6 taxonomy above. The reader-facing aliases (<span class="retired">THEN · ANSWERS · NESTS · BEQUEST</span>) have been retired — <b>one name per edge</b> (D173) — as were the earlier gen-1 labels (<span class="retired">production · completion · reception</span>). <b>Colour is never the only signal</b> — each family also carries its own dash and arrowhead.</p>
 
   <div class="v1-legend">__LEGEND__</div>
 
@@ -276,10 +275,14 @@ BLOCK = '''<div class="viz viz-1" id="viz-1">
 def build(path):
     h = open(path, encoding="utf-8").read()
     block = BLOCK.replace("__LEGEND__", build_legend()).replace("__SVG__", build_svg())
-    pat = re.compile(r'<div class="vizslot"[^>]*>\s*<div class="vs-h"><span class="vs-id">VIZ-1</span>.*?</div>\s*</div>', re.S)
-    assert pat.search(h), "VIZ-1 vizslot not matched"
-    h2 = pat.sub(lambda _: block, h, count=1)
-    assert 'class="vizslot"' in h2, "other slots must survive"
+    slot = re.compile(r'<div class="vizslot"[^>]*>\s*<div class="vs-h"><span class="vs-id">VIZ-1</span>.*?</div>\s*</div>', re.S)
+    built = re.compile(r'<div class="viz viz-1" id="viz-1">.*?</script>\s*</div>', re.S)
+    if slot.search(h):
+        h2 = slot.sub(lambda _: block, h, count=1)
+    elif built.search(h):
+        h2 = built.sub(lambda _: block, h, count=1)
+    else:
+        raise AssertionError("neither VIZ-1 vizslot nor built block matched")
     open(path, "w", encoding="utf-8").write(h2)
     left = h2.count('class="vizslot"')
     print(f"VIZ-1 installed · {len(MOVES)} moves · {len(FILLS)} FILLS · {len(CORRECTED)} corrected · {len(RESIDUALS)} residuals · slots left: {left}")
