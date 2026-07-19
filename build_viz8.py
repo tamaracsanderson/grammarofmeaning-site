@@ -9,17 +9,29 @@ explanation, which is what the brief asks for.
 WHY: "MCA" keeps reading as if it WERE the morphospace. It is one layer of four. This is
 CLAUDE.md §2.15 (input -> black box -> output) applied to our own pipeline.
 
-⚠ NUMBERS. The brief's three numbers are live-as-of-2026-07-19 and WILL move. They are
-rendered with a visible "as of" stamp per the brief's option (b). They are NOT DB-rendered
-because they are not reproducible from data/project.db:
-  - lattice 301,056 = 2^11 x 3 x 7^2 -> only ONE factor of 3, so it cannot contain two
-    9-value axes; observed distinct values give 6 axes = 9*9*8*17*7*8 = 616,896.
-    => the brief's lattice uses a CONTROLLED VOCAB, not observed values.
-  - 512 figures / 365 distinct: not reproducible by any plausible filter
-    (all=536/312; not-non_person=507/303; entity_type='figure'=0).
-  - 1.6% evidence coverage: REPRODUCES (52/3202 = 1.62%). ✓
-Discrepancy reported to reading-SB, who owns the numbers (brief lane). Not substituted here
-(R1 — never invent/swap a datum).
+⚠ NUMBERS — corrected 2026-07-19 after reading-SB's reconciliation.
+The lattice is the product of the ACTIVE CONTROLLED VOCABULARY on the six canonical axes,
+NOT of values observed in the codings:
+    SELECT axis_name, COUNT(*) FROM exom_axis_vocabulary
+     WHERE (sub_level IS NULL OR sub_level != '_axis')   -- drop per-axis sentinel rows
+       AND status NOT IN ('retired','held')              -- green + candidate are ACTIVE
+       AND axis_name IN (the six)                        -- <-- REQUIRED; see note
+  -> [E 9, M 13, O 7, T 7, S 6, G 8] = 275,184   (matches §D3 exactly ✓)
+Verified against data/project.db 2026-07-19.
+
+  NOTE / bug flagged to reading-SB: without the axis-set restriction the same rule also
+  returns a 7th axis `temporal` (2 candidate values), giving 550,368 -- double. The
+  v_exom_active_vocabulary view needs the restriction (or `temporal` needs status='held').
+
+Layer-2 counts, same date, same six-axis rule with 'insufficient-context' dropped:
+    536 figure_exom rows; 512 complete on all six; 365 distinct occupied coordinates;
+    evidence coverage 52/3202 = 1.62%.
+  512 and 365 REPRODUCE exactly -> they were correct in reading-SB's brief. §D3's
+  "483 fully coded / 342 occupied" is an earlier snapshot (D3 self-dates a 2026-07-17 run)
+  and is the STALE side of the page's disagreement. Flagged; D3 is reading-SB's to refresh.
+
+Kept under the "NUMBERS AS OF" stamp until v_exom_active_vocabulary is applied to Neon,
+after which this should be DB-rendered rather than stamped.
 
 ⚠ PALETTE. The brief specifies gray/coral/purple/teal. gom.css has NO purple or teal and R6
 forbids redefining the palette, so the ROLE SEMANTICS are mapped onto house tokens, keeping
@@ -39,9 +51,9 @@ AS_OF = "2026-07-19"
 # (n, layer, subtitle, output_main, output_note, role_key, role_label)
 LAYERS = [
     (1, "the lattice", "possible space, pure combinatorics",
-     "301,056 coordinates", "no data needed", "def", "definitional"),
+     "275,184 coordinates", "no data needed", "def", "definitional"),
     (2, "the coding", "measurement — truth enters here",
-     "512 figures, 365 distinct", "1.6% carry an evidence quote", "meas", "measurement"),
+     "536 figures &middot; 512 complete on all six", "365 distinct coordinates &middot; 1.6% carry an evidence quote", "meas", "measurement"),
     (3, "the ordination <span class='v8-mca'>(MCA)</span>", "categories become geometry",
      "positions and distances", "describes only what is occupied", "comp", "computation"),
     (4, "the rendering", "the picture that gets drawn",
@@ -169,7 +181,7 @@ SECTION = f'''<!-- ══ VIZ-8 FOUR-LAYER STACK (built) ══ -->
 
   <div class="v8-asof">
     <span class="v8-asof-k">numbers as of {AS_OF}</span>
-    <span>These three figures are <b>live counts, not constants</b>, and they are expected to move: the <b>lattice</b> grows to roughly <b>774,144</b> if the axis restructure lands (6&nbsp;→&nbsp;7 axes, telos revised), and the <b>occupancy</b> and <b>evidence coverage</b> both move with the pending evidence-based re-code. Read them as a dated snapshot; the <b>structure</b> of the four layers is what is stable.</span>
+    <span>These figures are <b>live counts, not constants</b>, and they are expected to move: the <b>lattice</b> grows when the axis restructure lands (6&nbsp;→&nbsp;7 axes), and the <b>occupancy</b> and <b>evidence coverage</b> both move with the pending evidence-based re-code. Read them as a dated snapshot; the <b>structure</b> of the four layers is what is stable. The lattice is the product of the <b>active controlled vocabulary</b> on the six axes (9&#183;13&#183;7&#183;7&#183;6&#183;8), not of the values observed in the codings.</span>
   </div>
 
   <div class="v8-chain">
