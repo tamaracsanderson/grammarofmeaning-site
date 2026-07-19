@@ -44,6 +44,10 @@ WORK_MAX_DIM = 1400        # process at this scale for speed; paper ran on iPad
 LAB_K_EXEMPLAR = 15        # paper: "split the pixels inside the circle into 15 groups"
 LAB_K_LAYERS = 30          # paper: "separated into 30 groups" for depth ordering
 GRABCUT_ITERS = 5          # paper: "GrabCut with five iterations"
+# Smallest accepted object = (h*w)/MIN_AREA_DIV, floored. Defaults suit balloon-scale
+# objects; a flecked/stippled ground needs a much larger divisor (--fine).
+MIN_AREA_DIV = 20000
+MIN_AREA_FLOOR = 20
 
 
 # ----------------------------------------------------------------------------
@@ -174,7 +178,7 @@ def find_similar(img: np.ndarray, exemplar_mask: np.ndarray,
     them GrabCut's global GMM cannot separate the objects from a multi-modal ground.
     """
     h, w = img.shape[:2]
-    min_area = max(20, (h * w) // 20000)
+    min_area = max(MIN_AREA_FLOOR, (h * w) // MIN_AREA_DIV)
     exemplars = _components(exemplar_mask, min_area)
     for e in exemplars:
         e.is_exemplar = True
@@ -197,7 +201,10 @@ def find_similar(img: np.ndarray, exemplar_mask: np.ndarray,
         return exemplars, exemplars
 
     fg = np.where((gc == cv2.GC_FGD) | (gc == cv2.GC_PR_FGD), 255, 0).astype(np.uint8)
-    fg = cv2.morphologyEx(fg, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
+    # A 3x3 open erases objects only a few pixels across, so skip it when the
+    # objects ARE only a few pixels across.
+    if min_area > 12:
+        fg = cv2.morphologyEx(fg, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
     candidates = _components(fg, min_area)
 
     # iterative quartile filtering, seeded from the exemplars' area/aspect
@@ -225,6 +232,64 @@ def find_similar(img: np.ndarray, exemplar_mask: np.ndarray,
     return found, exemplars
 
 
+def find_similar_by_colour(img: np.ndarray, exemplar_mask: np.ndarray
+                           ) -> tuple[list[Obj], list[Obj]]:
+    """Stage B, ALTERNATIVE — nearest-centroid colour classification, no graph cut.
+
+    NOT the paper's method. Added because the paper's Stage B has a scale floor:
+    GrabCut's smoothness term penalises many tiny isolated foreground islands, so on a
+    flecked/stippled ground it returns almost nothing (measured: 0.18% foreground, 5
+    surviving components on the folio margin). This substitute keeps the paper's
+    exemplar-driven premise — the user still circles a few objects, and the colour model
+    is still learned from those circles — but replaces the graph cut with a per-pixel
+    nearest-centroid decision, which has no scale floor.
+
+    Run both and compare: the delta isolates how much of the pipeline's failure is
+    attributable specifically to GrabCut.
+    """
+    h, w = img.shape[:2]
+    min_area = max(MIN_AREA_FLOOR, (h * w) // MIN_AREA_DIV)
+    exemplars = _components(exemplar_mask, min_area)
+    for e in exemplars:
+        e.is_exemplar = True
+    if not exemplars:
+        return [], []
+
+    lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB).astype(np.float32)
+    crit = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 20, 1.0)
+
+    fg_px = lab[exemplar_mask > 0]
+    bg_px = lab[exemplar_mask == 0]
+    if len(fg_px) < 10:
+        return exemplars, exemplars
+    # subsample the background — we only need its palette, not every pixel
+    if len(bg_px) > 60000:
+        bg_px = bg_px[np.random.default_rng(0).choice(len(bg_px), 60000, replace=False)]
+
+    _, _, fg_c = cv2.kmeans(fg_px.astype(np.float32), min(3, len(fg_px)), None,
+                            crit, 3, cv2.KMEANS_PP_CENTERS)
+    _, _, bg_c = cv2.kmeans(bg_px.astype(np.float32), min(6, len(bg_px)), None,
+                            crit, 3, cv2.KMEANS_PP_CENTERS)
+
+    flat = lab.reshape(-1, 3)
+    d_fg = np.min(np.linalg.norm(flat[:, None, :] - fg_c[None, :, :], axis=2), axis=1)
+    d_bg = np.min(np.linalg.norm(flat[:, None, :] - bg_c[None, :, :], axis=2), axis=1)
+    fg = ((d_fg < d_bg).reshape(h, w).astype(np.uint8)) * 255
+
+    candidates = _components(fg, min_area)
+    # same quartile filtering as the paper's Stage B, on area + aspect
+    areas = np.array([o.area for o in exemplars])
+    aspects = np.array([o.aspect for o in exemplars])
+    aq1, aq3 = np.percentile(areas, [25, 75])
+    air = max(aq3 - aq1, areas.mean() * 0.5)
+    sq1, sq3 = np.percentile(aspects, [25, 75])
+    sir = max(sq3 - sq1, 0.4)
+    keep = [o for o in candidates
+            if (aq1 - 2.0 * air) <= o.area <= (aq3 + 2.0 * air)
+            and (sq1 - 2.0 * sir) <= o.aspect <= (sq3 + 2.0 * sir)]
+    return (keep or candidates), exemplars
+
+
 # ----------------------------------------------------------------------------
 # Stage C — Inpainting
 # ----------------------------------------------------------------------------
@@ -235,8 +300,16 @@ def inpaint_background(img: np.ndarray, objs: list[Obj]) -> np.ndarray:
     mask = np.zeros(img.shape[:2], np.uint8)
     for o in objs:
         mask |= (o.mask > 0).astype(np.uint8) * 255
-    mask = cv2.dilate(mask, np.ones((7, 7), np.uint8), iterations=2)
-    return cv2.inpaint(img, mask, 5, cv2.INPAINT_TELEA)
+
+    # Dilation must scale to the OBJECTS, not be a fixed 7x7. On a stippled ground
+    # (thousands of ~3px flecks) a fixed kernel merges every mask into one blob covering
+    # most of the frame, and Telea then "inpaints" the whole plate from almost no valid
+    # source — which returns mush. Size the kernel off the median object radius.
+    med_area = float(np.median([o.area for o in objs])) if objs else 25.0
+    radius = max(1, int(round(math.sqrt(med_area) / 2)))
+    k = int(np.clip(2 * radius + 1, 3, 9))
+    mask = cv2.dilate(mask, np.ones((k, k), np.uint8), iterations=1)
+    return cv2.inpaint(img, mask, min(5, max(2, radius + 1)), cv2.INPAINT_TELEA)
 
 
 # ----------------------------------------------------------------------------
@@ -368,7 +441,14 @@ def schedule_emissions(n_target: int, duration: float, dt: float, lifetime: floa
         else:
             x = float(np.clip(n_target - n, -30, 30))
             p = Pd * (2.0 * math.exp(x) / (math.exp(x) + 1.0))
-        if rng.random() < min(p, 1.0):
+
+        # The paper notes P_e "could exceed 1.0 when δ is large" but that they sample
+        # fast enough that it never does. With a few hundred target objects (a flecked
+        # ground rather than a dozen balloons) it *does*, so a single Bernoulli draw
+        # would silently cap the scene at ~1 emission per tick and never reach N.
+        # Emit the integer part outright and the remainder stochastically.
+        n_emit = int(p) + (1 if rng.random() < (p - int(p)) else 0)
+        for _ in range(n_emit):
             if last_pt is None:
                 pt = rng.randrange(n_emit_points)
             else:
@@ -449,10 +529,9 @@ def composite(bg: np.ndarray, sprite: Sprite, cx: float, cy: float,
 
 def render(bg: np.ndarray, sprites: list[Sprite], objs: list[Obj], motion: np.ndarray,
            emitter: tuple[np.ndarray, np.ndarray], out_dir: Path, fps: int,
-           n_layers: int, seed: int, granular: float) -> int:
+           n_layers: int, seed: int, granular: float, lifetime: float = 4.0) -> int:
     rng = random.Random(seed)
     n_target = len(objs)
-    lifetime = 4.0
     dt = 1.0 / fps
     n_emit_points = 24
 
@@ -537,7 +616,19 @@ def main() -> None:
     ap.add_argument("--fps", type=int, default=20)
     ap.add_argument("--granular", type=float, default=0.5, help="rotation jitter 0-1")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--stage-b", choices=["grabcut", "colour"], default="grabcut",
+                    dest="stage_b", help="grabcut = the paper's method; "
+                                         "colour = nearest-centroid substitute (no scale floor)")
+    ap.add_argument("--fine", action="store_true",
+                    help="tiny objects (flecks/stipple): lower the min-area threshold")
+    ap.add_argument("--lifetime", type=float, default=4.0, help="particle lifetime, seconds")
+    ap.add_argument("--max-objects", type=int, default=400, dest="max_objects",
+                    help="render-cost cap on animated objects; truncation is logged")
     args = ap.parse_args()
+
+    if args.fine:
+        global MIN_AREA_DIV, MIN_AREA_FLOOR
+        MIN_AREA_DIV, MIN_AREA_FLOOR = 400000, 4
 
     args.out.mkdir(parents=True, exist_ok=True)
     img, scale = load_image(args.image)
@@ -557,8 +648,12 @@ def main() -> None:
                 cv2.bitwise_and(img, img, mask=ex_mask))
 
     bg_marks = parse_circles(args.bg) if args.bg else []
-    print(f"[B] searching for similar objects ({len(bg_marks)} bg mark(s))…")
-    objs, exemplars = find_similar(img, ex_mask, bg_marks)
+    print(f"[B] searching for similar objects — mode={args.stage_b} "
+          f"({len(bg_marks)} bg mark(s))…")
+    if args.stage_b == "colour":
+        objs, exemplars = find_similar_by_colour(img, ex_mask)
+    else:
+        objs, exemplars = find_similar(img, ex_mask, bg_marks)
     print(f"    exemplars={len(exemplars)}  similar found={len(objs)}")
     if not objs:
         raise SystemExit("no objects found — try different circles")
@@ -570,8 +665,21 @@ def main() -> None:
                                                cv2.CHAIN_APPROX_SIMPLE)[0], -1, colour, 2)
     cv2.imwrite(str(args.out / "b_similar.png"), vis)
 
+    # EVERY detected object is inpainted out — otherwise the un-animated remainder stays
+    # burnt into the plate and the drift is invisible against a ground that still has the
+    # objects on it. The cap below is a RENDER budget only; it must not reach Stage C.
     print("[C] inpainting background…")
     bg = inpaint_background(img, objs)
+
+    # Render cost is O(frames x particles); a stippled ground can yield thousands of
+    # objects. Cap what we ANIMATE, and SAY SO — a silent truncation would read as
+    # "we animated everything" when we did not.
+    if len(objs) > args.max_objects:
+        rng = random.Random(args.seed)
+        print(f"    ⚠ CAP: {len(objs)} detected + inpainted; animating a random "
+              f"{args.max_objects} ({100*args.max_objects/len(objs):.0f}%) — "
+              f"render budget, not a detection limit")
+        objs = rng.sample(objs, args.max_objects)
     cv2.imwrite(str(args.out / "c_background.png"), bg)
 
     print(f"[D] assigning {args.layers} depth layers…")
@@ -581,7 +689,7 @@ def main() -> None:
     sprites = cut_sprites(img, objs)
     emitter = build_emitter(objs, motion, img.shape)
     n = render(bg, sprites, objs, motion, emitter, args.out, args.fps,
-               args.layers, args.seed, args.granular)
+               args.layers, args.seed, args.granular, args.lifetime)
     print(f"    rendered {n} frames")
 
     gif = args.out / "animation.gif"

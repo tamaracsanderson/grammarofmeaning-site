@@ -106,7 +106,8 @@
   <h1>Method Test-Bed — replications on archive material 🔬</h1>
   <div class="sub">A <b>lab notebook</b>, not a gallery. Each entry takes one published method, runs it on real material from the corpus, and records what actually happened — including the failures, which are usually the informative part. The moodboards collect <i>references</i>; this collects <i>attempts</i>.</div>
   <div class="note"><b>Five bays per test, always the same.</b> ① the <b>paper</b> · ② the <b>input</b> (what we fed it) · ③ the <b>interaction</b> (the gestures/parameters we actually supplied) · ④ the <b>output</b> (what came back) · ⑤ the <b>post-mortem</b> — written for the next LLM that has to reproduce this on a different image, and phrased as instructions, not narrative.</div>
-  <div class="note" style="border-left-color:var(--red)"><b>Honesty rule for this page.</b> Runs are reported at the parameters that produced them, with recall stated. Where a method under-performs we say so and name the cause — a tuned-until-it-looks-good result with the tuning hidden is worse than no result. Two of the three runs below are partial or failed; that is the finding.</div>
+  <div class="note" style="border-left-color:var(--red)"><b>Honesty rule for this page.</b> Runs are reported at the parameters that produced them, with recall stated. Where a method under-performs we say so and name the cause — a tuned-until-it-looks-good result with the tuning hidden is worse than no result. Of the three runs below, one works, one is partial, one fails — <b>the range is the finding</b>, not any single run.<br><br>
+    <b>This page has already been corrected once.</b> Test 01's verdict originally read "the machinery all works," which let <i>the pipeline ran</i> stand in for <i>the result is good</i>. It isn't: the birds read as sliding cut-outs. The researcher caught it; the panel is rewritten and the original wording is quoted in place rather than removed. Corrections stay visible on this page.</div>
   <div class="note"><b>Renders anywhere.</b> Source images are <b>Met Open Access, public domain</b> (objects 451725 and 57120), so unlike the copyright-bound design captures on this shelf, these <i>can</i> be republished — this page needs no "open it on your own machine" caveat.</div>
   <div class="legend">
     <span class="chip" style="background:var(--l-paper)">① PAPER</span>
@@ -121,6 +122,7 @@
   <a href="#paper01">① Paper — Animating Static Pictures</a>
   <a href="#t01">Test 01 · Concourse of the Birds</a>
   <a href="#t02">Test 02 · Swallow and Camellia</a>
+  <a href="#t03">Test 03 · The ceiling test ★</a>
   <a href="#postmortem">⑤ Post-mortem — notes for the next LLM</a>
   <a href="#code">Code</a>
   <a href="#repro">Reproduce</a>
@@ -208,7 +210,10 @@
         <span class="lab out">④ OUTPUT</span>
         <img src="anim_lab_2026-07-19/birds_anim.gif" alt="animated Concourse of the Birds, seamless loop">
         <div class="cap">Seamless loop, birds ascending toward the mountain. Emitted at the density of the source (the paper's <i>N</i>-targeting controller), scaled along the path, three depth layers moving at different speeds.</div>
-        <div class="verdict"><b>Verdict — partial, and legitimately so.</b> The machinery all works: extraction, inpainting, layering, emission, and a genuinely seamless loop. But we recovered roughly <b>10 of ~25 birds</b>, and several cut-outs are incomplete. The limiter is Stage B, not the animation: GrabCut fits <i>one</i> global colour model, and a polychrome bird population on a five-colour ground is more than one model can hold. Getting from 7 exemplars to 10 objects took <b>five runs</b> — the first four failed on gesture placement and palette coverage, both documented below.</div>
+        <div class="verdict bad"><b>Verdict — the pipeline ran; the result does not read as flight.</b> <i>(Revised after review — the first draft of this panel said "the machinery all works" and let that stand in for a good result. It isn't one.)</i> The birds slide across the sky as rigid cut-outs, passing <i>over</i> the tree and mountain like stickers on glass. Five causes, and they are not equally fixable:<br>
+          <b>Method–material mismatch (not fixable here):</b> <b>(1)</b> the source birds are <b>perched, not flying</b> — every one is standing, wading or roosting, so what translates across the sky is a standing-goose silhouette. You cannot get flight from a posture the still image does not contain; that is an information problem, not a tuning problem. <b>(2)</b> Rigid sprites cannot articulate — real flight is wing motion, and the paper lists mesh deformation as future work. <b>(3)</b> With ~10 sprites the emitter visibly recycles the same goose.<br>
+          <b>Our implementation gaps (fixable):</b> <b>(4)</b> no occlusion layer, so nothing passes <i>behind</i> the rock or tree — the paper's own Fig. 2 layer stack puts the castle between balloon layers, and we put all three layers in front. <b>(5)</b> Ragged masks leave halos.<br>
+          <b>The real error was selection, not execution.</b> We matched on "does this image have many discrete repeating elements?" (yes, ~25) and never asked <b>"is this element's real-world motion rigid translation?"</b> Every successful example in the paper — balloons, lanterns, snowflakes, raindrops, polka dots — is a <b>rigid body that drifts</b>. That is the method's actual verb: <b>drift, not flight</b>. Birds are the one item in the paper's own opening list that violates it. See Test 03, which puts that reading to the test.</div>
       </div>
 
     </div>
@@ -272,6 +277,65 @@
   </div>
 </section>
 
+<!-- ===================== TEST 03 ===================== -->
+<section id="t03">
+  <h2>Test 03 — the ceiling test: the margin we threw away<span class="st ok">WORKS</span></h2>
+  <div class="pat">Test 01 concluded the method's verb is <i>drift, not flight</i>. This tests that claim on the strictest available control — <b>the same folio</b>, same pipeline, same afternoon. Only the element type changes, so artist, era, medium and scan quality are all held constant. The one variable that moves is the one under test.</div>
+
+  <div class="run">
+    <div class="hd">
+      <h3>The gold-flecked margin of the same <i>Mantiq al-Tayr</i> folio — the part Test 01 cropped off as noise</h3>
+      <div class="meta">Habiballah of Sava, ca. 1600 · Met 63.210.11, same object as Test 01 · gold fleck on lapis ground · run 2026-07-19, ~16 s</div>
+    </div>
+    <div class="bays">
+
+      <div class="bay">
+        <span class="lab in">② INPUT</span>
+        <img src="anim_lab_2026-07-19/drift_input.jpg" alt="gold-flecked blue margin">
+        <div class="cap">A banner from the folio's border. Hundreds of near-identical <b>rigid</b> gold flecks on a <b>uniform</b> lapis ground — the method's home turf on both counts, and the exact opposite of the painting inside it.<br><br><b>The irony is the point:</b> Test 01 discarded this region as segmentation noise. It is the best-suited part of the entire folio.</div>
+      </div>
+
+      <div class="bay">
+        <span class="lab inter">③ INTERACTION</span>
+        <div class="gest"><b>4 circle gestures</b> — one fleck each. No palette-spanning needed: they are all the same gold.</div>
+        <div class="gest"><b>0 background marks.</b> The ground is genuinely uniform, so the crutch Test 01 required is unnecessary here.</div>
+        <div class="gest"><b>1 motion stroke</b> — upper-left → lower-right. Falling, with a lateral drift.</div>
+        <div class="gest"><b>Run twice</b>, identical in every respect except Stage B: once with the paper's GrabCut, once with a nearest-centroid colour classifier.</div>
+        <pre class="params">--circles "0.12,0.30,0.010; 0.35,0.55,0.010;
+           0.62,0.25,0.010; 0.80,0.70,0.010"
+--motion  "0.05,0.08 0.95,0.92"
+--fine --lifetime 6 --layers 3 --max-objects 300
+--stage-b grabcut   |   --stage-b colour</pre>
+      </div>
+
+      <div class="bay">
+        <span class="lab stage">PIPELINE · THE CONTROLLED COMPARISON</span>
+        <div class="strip">
+          <figure><img src="anim_lab_2026-07-19/drift_b_grabcut.jpg" alt="GrabCut finds almost nothing"><figcaption><b>B · GrabCut</b><br>(the paper)<br><b style="color:var(--red)">17 objects</b></figcaption></figure>
+          <figure><img src="anim_lab_2026-07-19/drift_b_colour.jpg" alt="colour classifier finds thousands"><figcaption><b>B · colour</b><br>(substitute)<br><b style="color:var(--ok)">3,692 objects</b></figcaption></figure>
+          <figure><img src="anim_lab_2026-07-19/drift_c.jpg" alt="cleanly inpainted lapis ground"><figcaption><b>C</b> ground cleared<br>of all 3,692</figcaption></figure>
+        </div>
+        <div class="cap"><b>A 217× difference on identical input with identical gestures.</b> The only thing that changed is Stage B.</div>
+        <div class="nums">
+          <span>GrabCut <b>17</b></span><span>colour <b>3,692</b></span>
+          <span>ratio <b>217×</b></span><span>animated <b>300</b> (8%, capped)</span>
+          <span>frames <b>231</b></span><span>seam <b>1.1×</b></span>
+        </div>
+      </div>
+
+      <div class="bay">
+        <span class="lab out">④ OUTPUT</span>
+        <img src="anim_lab_2026-07-19/drift_anim.gif" alt="gold flecks drifting across a lapis ground">
+        <div class="cap">Gold drifting across cleared lapis — three depth layers at different speeds, scaled along the path. This is the method working as designed.</div>
+        <div class="verdict"><b>Verdict — the drift reading holds, and it localises the fault precisely.</b> Same folio, same pipeline, same gestures: <b>rigid drifting elements work; articulated flying ones do not.</b> That is a property of the <i>method</i>, not of Persian miniatures, of the Met's scanning, or of our parameter choices — the control rules those out.<br>
+          <b>And the 217× isolates the cause.</b> GrabCut has a <b>scale floor</b>: its smoothness term penalises many tiny isolated foreground islands, so on a stippled ground it returns almost nothing (0.18% foreground, 5 surviving components). Swap that one stage for a classifier with no scale floor and the same four gestures yield 3,692 objects. This is a <i>second, independent</i> line of evidence for Test 01's conclusion that <b>Stage B is the binding constraint</b> — there arriving via polychrome objects, here via sub-scale ones.<br>
+          <b>Caveats, stated.</b> The colour classifier is <b>not the paper's method</b> — it is a deliberate substitution to isolate the variable, and it would fail where GrabCut succeeds (objects whose colour overlaps the ground, which the graph cut resolves via spatial coherence). Only 300 of 3,692 are animated, a render budget and not a detection limit; all 3,692 are inpainted. Two implementation bugs surfaced and were fixed here: a fixed 7×7 dilation that merged thousands of masks into a full-frame blob and returned mush, and a 3×3 morphological open that erased objects a few pixels across.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- ===================== POST-MORTEM ===================== -->
 <section id="postmortem">
   <h2>⑤ Post-mortem — notes for the next LLM</h2>
@@ -311,12 +375,33 @@
     <li><b>The motion stroke is an interpretive claim. Record why you drew it that way.</b><span class="sev note">NOTE</span>
       <span class="why">We sent the birds up toward the mountain because <i>Mantiq al-Tayr</i> is an ascent narrative. A different stroke would have made a different reading of the same plate — birds scattering, or descending to water. The paper concedes the point; for our purposes the stroke should be logged alongside the parameters, because it is an argument about the image, not a setting.</span></li>
 
+    <li><b>Ask what the element's real motion IS before choosing the method — drift or articulation?</b><span class="sev block">BLOCKING</span>
+      <span class="why">The selection error behind Test 01. "Many discrete repeating elements" is <i>not</i> the criterion; <b>"is this element a rigid body whose real motion is translation?"</b> is. Drift-shaped: snow, rain, petals, embers, sparks, bubbles, leaves, lanterns, balloons, stars, flecks. Articulation-shaped and therefore out of scope: birds in flight, running animals, flames, water, cloth, smoke. A perched bird can never be made to fly by this method — the still frame does not contain the wing-extended pose, so it is an information problem, not a tuning one.</span></li>
+
+    <li><b>GrabCut has a scale floor. Below it, replace the stage rather than tune it.</b><span class="sev big">HIGH</span>
+      <span class="why">Measured in Test 03: on a stippled ground GrabCut returns 0.18% foreground and 17 objects, because its smoothness term penalises many tiny isolated foreground islands. A nearest-centroid colour classifier on the identical input with the identical gestures returns <b>3,692</b> — a 217× difference. If your objects are only a few pixels across, do not tune GrabCut; substitute the stage and say that you did. (The reverse also holds: the colour classifier fails where object and ground share a colour, which the graph cut resolves via spatial coherence. Neither dominates.)</span></li>
+
+    <li><b>Scale morphology and dilation to the objects — never use fixed kernels.</b><span class="sev big">HIGH</span>
+      <span class="why">Two separate bugs from this, both found in Test 03. A fixed 3×3 morphological open <i>erased</i> objects a few pixels across (halved the detection count). A fixed 7×7 dilation ×2 on the inpaint mask merged thousands of small masks into one blob covering most of the frame, so Telea "inpainted" the whole plate from almost no valid source and returned mush. Derive kernel size from the median object radius; skip the open entirely when objects are near kernel scale.</span></li>
+
+    <li><b>Cap what you render, never what you inpaint — and log the cap.</b><span class="sev big">HIGH</span>
+      <span class="why">Render cost is O(frames × particles), so thousands of objects need a budget. But if the cap reaches Stage C, the un-animated remainder stays burnt into the plate and the drift becomes invisible against a ground that still has the objects on it (this happened, and looked like "the animation didn't work"). Inpaint <i>all</i> detections; animate a subset; print the truncation. A silent cap reads as "we animated everything."</span></li>
+
+    <li><b>Measure the loop seam; don't eyeball it.</b><span class="sev note">NOTE</span>
+      <span class="why">Compare mean |Δ| across the seam (last→first) against the mean |Δ| between adjacent frames. Ratio under ~2× is imperceptible; well above means a visible jump. Measured here: drift <b>1.1×</b> and birds <b>1.3×</b> (both genuinely seamless), swallow <b>2.6×</b> (visibly jumps). Two lines of code, and it converts a claim into a number.</span></li>
+
+    <li><b>Hold the plate constant when you want to test the method.</b><span class="sev note">NOTE</span>
+      <span class="why">Test 03 could have used a Hiroshige snow print, but then artist, era, medium, palette and scan quality would all have moved at once and any difference would be uninterpretable. Using the <i>margin of the same folio</i> changes only the element type. When the question is "is this a property of the method or of the material?", find the control that already exists inside the image you have.</span></li>
+
     <li><b>Work at ~1400 px on the long edge.</b><span class="sev note">NOTE</span>
       <span class="why">Full museum scans are 2600×3900+. Downscaling costs nothing in segmentation quality, and the whole pipeline then runs in ~20 s, which is what makes five iterations affordable in one sitting.</span></li>
   </ol>
 
   <div class="verdict" style="max-width:1020px;margin-top:18px">
-    <b>The one-line finding.</b> The method survives contact with pre-photographic artwork, but only partially, and the reason is specific rather than general: <b>GrabCut's single global colour model is the binding constraint</b>, and illuminated manuscript painting violates its assumptions in both directions at once — the objects are polychrome and the ground is multi-modal. Everything downstream of segmentation (layering, emission, scaling, looping) worked on the first try. <b>If we want this mechanic for the garden, the thing to replace is Stage B, not the animation.</b> A modern class-agnostic segmenter (SAM-style) seeded by the same circle gestures would likely lift recall from ~40% to near-complete while leaving stages C–E untouched.
+    <b>The finding, in the shape the three runs give it.</b> The method has <b>one verb and one binding constraint</b>, and the range across the three tests isolates both.<br><br>
+    <b>The verb is drift.</b> <span style="color:var(--ok)"><b>Works</b></span> on rigid elements whose real motion is translation (gold flecks — Test 03). <span style="color:var(--partial)"><b>Partial</b></span> on articulated motion, where a perched bird can never be made to fly because the still frame lacks the pose (Test 01). <span style="color:var(--red)"><b>Fails</b></span> at N=1, which is a different problem needing oscillation, not an emitter (Test 02). Test 03 establishes this as a property of the <i>method</i> rather than of the material, because it holds the plate constant — same folio, same gestures, only the element type moves.<br><br>
+    <b>The constraint is Stage B</b>, reached independently from two directions: polychrome objects on a multi-modal ground defeat GrabCut's single global colour model (Test 01), and sub-scale objects fall through its smoothness prior entirely (Test 03, 17 vs 3,692 — 217×). Everything <i>downstream</i> — inpainting, layering, emission, scaling, looping — worked essentially first time in all three runs, and the loop seam measures as genuinely seamless in two of them.<br><br>
+    <b>So: if this mechanic is wanted for the garden, replace Stage B and keep C–E.</b> A class-agnostic segmenter (SAM-style) seeded by the same circle gestures is the obvious candidate — untested here, and flagged as speculation. And choose plates by the verb: the garden's drift-shaped material (petals, embers, snow, stars, flecked grounds) is where this pays off, not its birds.
   </div>
 </section>
 
@@ -371,7 +456,7 @@ python animate_static.py --image birds_crop.jpg \
   <b>Method Test-Bed</b> · started S153, 2026-07-19 · entry 01 of an ongoing series. New replications append as new <code>&lt;section&gt;</code> blocks using the same five-bay run panel; the post-mortem list is cumulative across entries where notes generalise.<br><br>
   <b>HOW PRODUCED.</b> S153 (2026-07-19), at researcher request — read Willett et al. UIST 2018 and practise implementing it on archive material, then record the attempt as a browseable test-case page in the moodboard idiom. Both source images fetched from the Met Open Access API with researcher permission and provenance-logged to <code>data/media_cache/manifest.jsonl</code>.
   <b>SCHOLARLY SOURCES.</b> Willett, Kazi, Chen, Fitzmaurice, Finkelstein &amp; Grossman, <i>A Mixed-Initiative Interface for Animating Static Pictures</i>, UIST '18, doi:10.1145/3242587.3242612; Rother, Kolmogorov &amp; Blake, <i>GrabCut</i>, ACM TOG 23(3), 2004; Barnes et al., <i>PatchMatch</i>, ACM TOG 28(3), 2009; Telea, <i>An Image Inpainting Technique Based on the Fast Marching Method</i>, 2004; Kazi et al., <i>Draco</i>, CHI '14 (kinetic textures). Met objects 451725 (Habiballah of Sava) and 57120 (Itō Jakuchū), both public domain. House style per <code>STYLE.md</code> and the S138 moodboard.
-  <b>WHAT NEEDS VERIFICATION.</b> (1) Bird recall is eyeballed at ~10/25 — no hand-annotated ground truth was made, so treat it as an estimate, not a measurement. (2) The <code>cv2.inpaint</code>-for-PatchMatch substitution has not been quality-compared against a real PatchMatch. (3) The SAM-style Stage-B replacement proposed in the finding is untested speculation. (4) The 0.72 multi-cluster threshold was tuned on two images and has no principled basis. (5) Loop seamlessness was verified by eye, not by measuring first/last-frame difference.
+  <b>WHAT NEEDS VERIFICATION.</b> (1) Bird recall is eyeballed at ~10/25 — no hand-annotated ground truth was made, so treat it as an estimate, not a measurement. The 3,692 fleck count is a component count, not validated against a hand count either. (2) The <code>cv2.inpaint</code>-for-PatchMatch substitution has not been quality-compared against a real PatchMatch. (3) The SAM-style Stage-B replacement proposed in the finding is untested speculation. (4) The 0.72 multi-cluster threshold was tuned on two images and has no principled basis. (5) <s>Loop seamlessness was verified by eye</s> — <b>now measured</b> as seam ÷ adjacent-frame difference: drift 1.1×, birds 1.3×, swallow 2.6×. (6) The colour-classifier Stage B is a substitution, not the paper's method; its failure mode (object colour overlapping ground colour) was reasoned about but never tested. (7) Test 03's "same folio" control removes artist/era/medium/scan confounds but not object <i>size</i> — flecks are both rigid AND tiny, so drift-vs-articulation and large-vs-small are not fully separated; a large rigid drifting object (lanterns, balloons) would disentangle them.
 </footer>
 
 </body>
