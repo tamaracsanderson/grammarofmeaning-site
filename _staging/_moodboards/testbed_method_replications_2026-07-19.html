@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grammar of Meaning — Method Test-Bed (replications on archive material)</title>
+<style>
+  :root{--vellum:#f6f1e3;--vellum2:#efe7d3;--ink:#2b2620;--muted:#8a7f6a;
+    --gold:#b8923b;--gold-deep:#8a6d24;--red:#9e3b2e;--rule:#d9cdb0;
+    --l-inter:#3d6b7a;--l-post:#7a5a8a;--l-paper:#6a7a3d;--l-in:#9e6b3b;--l-out:#b8923b;
+    --ok:#4a7c59;--partial:#b8923b;--fail:#9e3b2e;}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--vellum);color:var(--ink);font-family:Georgia,serif;line-height:1.5}
+  code,kbd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em}
+  header.top{padding:26px 24px 16px;border-bottom:2px solid var(--gold);
+    background:linear-gradient(180deg,var(--vellum2),var(--vellum))}
+  header.top h1{font-size:25px;margin:0 0 5px}
+  header.top .sub{color:var(--muted);font-style:italic;font-size:13px;max-width:930px}
+  header.top .note{margin-top:9px;font-size:11.5px;color:var(--muted);
+    border-left:3px solid var(--gold);padding-left:10px;max-width:930px}
+  .legend{margin-top:11px;font-size:11px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .chip{border-radius:10px;padding:2px 9px;color:#fff;font-size:10px;white-space:nowrap;font-style:normal}
+  nav.toc{position:sticky;top:0;z-index:30;background:rgba(246,241,227,.97);backdrop-filter:blur(4px);
+    border-bottom:1px solid var(--rule);padding:9px 18px;display:flex;flex-wrap:wrap;gap:6px;font-size:11.5px}
+  nav.toc a{color:var(--gold-deep);text-decoration:none;border:1px solid var(--rule);
+    background:#fff;border-radius:12px;padding:2px 10px;white-space:nowrap}
+  nav.toc a:hover{border-color:var(--gold)}
+  section{padding:22px 22px 6px;max-width:1500px}
+  section h2{font-size:18px;margin:6px 0 2px;border-bottom:2px solid var(--gold);
+    padding-bottom:3px;display:inline-block}
+  section .pat{font-size:12.5px;color:var(--muted);font-style:italic;margin:5px 0 14px;max-width:940px}
+  .st{font-size:9.5px;color:#fff;border-radius:9px;padding:2px 8px;margin-left:8px;
+    vertical-align:middle;font-style:normal;letter-spacing:.4px}
+  .st.ok{background:var(--ok)} .st.partial{background:var(--partial)} .st.fail{background:var(--fail)}
+
+  /* the run panel: one test = one bordered slab, five labelled bays */
+  .run{background:#fff;border:1px solid var(--rule);border-radius:6px;
+    box-shadow:0 1px 3px rgba(80,60,20,.09);margin:0 0 24px;overflow:hidden}
+  .run > .hd{background:var(--vellum2);border-bottom:1px solid var(--rule);padding:10px 14px}
+  .run > .hd h3{margin:0;font-size:16px}
+  .run > .hd .meta{font-size:11px;color:var(--muted);font-style:italic;margin-top:2px}
+  .bays{display:grid;grid-template-columns:minmax(210px,1fr) minmax(250px,1.25fr) minmax(280px,1.5fr) minmax(230px,1.1fr);
+    gap:0}
+  @media(max-width:1180px){.bays{grid-template-columns:1fr 1fr}}
+  @media(max-width:680px){.bays{grid-template-columns:1fr}}
+  .bay{padding:12px 14px 14px;border-right:1px solid var(--rule)}
+  .bay:last-child{border-right:0}
+  .bay > .lab{font-size:9.5px;letter-spacing:1.1px;text-transform:uppercase;
+    font-weight:bold;margin:0 0 7px;display:inline-block;border-radius:9px;padding:2px 8px;color:#fff}
+  .lab.in{background:var(--l-in)} .lab.inter{background:var(--l-inter)}
+  .lab.out{background:var(--l-out)} .lab.stage{background:var(--muted)}
+  .bay img{width:100%;display:block;border:1px solid var(--rule);border-radius:3px;background:var(--vellum2)}
+  .bay .cap{font-size:10.5px;color:var(--muted);margin-top:5px;line-height:1.4}
+  .strip{display:flex;gap:6px}
+  .strip figure{margin:0;flex:1}
+  .strip figcaption{font-size:9px;color:var(--muted);text-align:center;margin-top:3px;line-height:1.3}
+  .gest{font-size:11px;margin:0 0 8px}
+  .gest b{color:var(--gold-deep)}
+  .gest ul{margin:4px 0 0;padding-left:16px}
+  .gest li{margin-bottom:3px}
+  pre.params{background:var(--vellum2);border:1px solid var(--rule);border-radius:3px;
+    padding:7px 8px;font-size:9.5px;line-height:1.45;overflow-x:auto;margin:6px 0 0;
+    white-space:pre}
+  .nums{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 0}
+  .nums span{font-size:10px;background:var(--vellum2);border:1px solid var(--rule);
+    border-radius:10px;padding:2px 8px}
+  .nums span b{color:var(--gold-deep)}
+  .verdict{font-size:11.5px;background:var(--vellum2);border-radius:3px;padding:7px 9px;margin-top:9px}
+  .verdict b{color:var(--gold-deep)}
+  .verdict.bad{background:#fbeeec;border:1px solid #e6cdc8}
+  .verdict.bad b{color:var(--red)}
+
+  /* post-mortem list */
+  ol.pm{max-width:1020px;padding-left:20px;margin:0}
+  ol.pm > li{margin-bottom:13px;font-size:13px}
+  ol.pm > li > b{color:var(--gold-deep)}
+  ol.pm .why{color:var(--muted);font-size:12px;display:block;margin-top:2px}
+  .sev{font-size:9px;color:#fff;border-radius:8px;padding:1px 7px;margin-left:6px;
+    vertical-align:middle;letter-spacing:.4px}
+  .sev.block{background:var(--red)} .sev.big{background:var(--gold-deep)} .sev.note{background:var(--muted)}
+
+  table.stages{border-collapse:collapse;font-size:12px;margin:8px 0 0;max-width:960px;width:100%}
+  table.stages th,table.stages td{border:1px solid var(--rule);padding:5px 8px;text-align:left;vertical-align:top}
+  table.stages th{background:var(--vellum2);font-size:11px;letter-spacing:.4px}
+  table.stages td:first-child{white-space:nowrap;font-weight:bold;color:var(--gold-deep)}
+
+  .papercard{background:#fff;border:1px solid var(--rule);border-left:4px solid var(--l-paper);
+    border-radius:5px;padding:13px 16px;max-width:990px;box-shadow:0 1px 3px rgba(80,60,20,.08)}
+  .papercard .cite{font-size:13px;margin:0 0 4px}
+  .papercard .cite b{font-size:14px}
+  .papercard .doi{font-size:10.5px;color:var(--muted);font-style:italic}
+  .papercard .why{font-size:12px;margin-top:9px;background:var(--vellum2);border-radius:3px;padding:7px 9px}
+
+  pre.repro{background:#2b2620;color:#e8dfc9;border-radius:5px;padding:12px 14px;
+    font-size:10.5px;line-height:1.55;overflow-x:auto;max-width:1020px}
+  pre.repro .c{color:#8a7f6a}
+  footer{padding:22px 24px 46px;font-size:11px;color:var(--muted);
+    border-top:2px solid var(--gold);margin-top:22px;max-width:980px}
+  footer b{color:var(--gold-deep)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>Method Test-Bed — replications on archive material 🔬</h1>
+  <div class="sub">A <b>lab notebook</b>, not a gallery. Each entry takes one published method, runs it on real material from the corpus, and records what actually happened — including the failures, which are usually the informative part. The moodboards collect <i>references</i>; this collects <i>attempts</i>.</div>
+  <div class="note"><b>Five bays per test, always the same.</b> ① the <b>paper</b> · ② the <b>input</b> (what we fed it) · ③ the <b>interaction</b> (the gestures/parameters we actually supplied) · ④ the <b>output</b> (what came back) · ⑤ the <b>post-mortem</b> — written for the next LLM that has to reproduce this on a different image, and phrased as instructions, not narrative.</div>
+  <div class="note" style="border-left-color:var(--red)"><b>Honesty rule for this page.</b> Runs are reported at the parameters that produced them, with recall stated. Where a method under-performs we say so and name the cause — a tuned-until-it-looks-good result with the tuning hidden is worse than no result. Two of the three runs below are partial or failed; that is the finding.</div>
+  <div class="note"><b>Renders anywhere.</b> Source images are <b>Met Open Access, public domain</b> (objects 451725 and 57120), so unlike the copyright-bound design captures on this shelf, these <i>can</i> be republished — this page needs no "open it on your own machine" caveat.</div>
+  <div class="legend">
+    <span class="chip" style="background:var(--l-paper)">① PAPER</span>
+    <span class="chip" style="background:var(--l-in)">② INPUT</span>
+    <span class="chip" style="background:var(--l-inter)">③ INTERACTION</span>
+    <span class="chip" style="background:var(--l-out)">④ OUTPUT</span>
+    <span class="chip" style="background:var(--l-post)">⑤ POST-MORTEM</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#paper01">① Paper — Animating Static Pictures</a>
+  <a href="#t01">Test 01 · Concourse of the Birds</a>
+  <a href="#t02">Test 02 · Swallow and Camellia</a>
+  <a href="#postmortem">⑤ Post-mortem — notes for the next LLM</a>
+  <a href="#code">Code</a>
+  <a href="#repro">Reproduce</a>
+</nav>
+
+<!-- ===================== PAPER ===================== -->
+<section id="paper01">
+  <h2>① The paper</h2>
+  <div class="pat">Method 01 — animating the repeating elements of a still picture from a few sketched gestures.</div>
+
+  <div class="papercard">
+    <p class="cite"><b>A Mixed-Initiative Interface for Animating Static Pictures</b><br>
+      Nora S. Willett, Rubaiat Habib Kazi, Michael Chen, George Fitzmaurice, Adam Finkelstein, Tovi Grossman</p>
+    <div class="doi">UIST 2018, Berlin · Princeton / Autodesk Research / Toronto · doi:10.1145/3242587.3242612</div>
+
+    <p style="font-size:12.5px;margin:11px 0 0">The premise: many pictures contain <b>repeating elements</b> — balloons, lanterns, snowflakes, raindrops, <i>birds</i>. If you can extract those elements, you can re-emit them as a <b>kinetic texture</b> and the still becomes a seamless loop that still looks like the original. The user supplies only a few scribbles; algorithms do the segmentation, depth-layering, and animation tuning. "Mixed-initiative" is the claim: neither fully automatic (too ambiguous) nor fully manual (too tedious).</p>
+
+    <table class="stages">
+      <tr><th>Stage</th><th>What it does</th><th>User's gesture</th></tr>
+      <tr><td>A · Exemplar</td><td>LAB <i>k</i>-means (k=15) inside each circled area; the group furthest from the background groups seeds GrabCut (5 iterations)</td><td>circle 3–8 objects</td></tr>
+      <tr><td>B · Similar</td><td>GrabCut over the <i>whole</i> image seeded from those exemplars; connected components filtered on area + aspect by iterative quartile outlier rejection</td><td>optional refine brushes</td></tr>
+      <tr><td>C · Inpaint</td><td>PatchMatch fills the object holes → a clean background plate</td><td>optional inpaint brush</td></tr>
+      <tr><td>D · Layers</td><td><i>k</i>-means on object area → depth layers; layer speed ∝ mean layer area ÷ mean overall area (small = far = slow)</td><td>reorder layers</td></tr>
+      <tr><td>E · Animate</td><td>Motion stroke → emitter line; stochastic emission under a logistic controller; auto-scale along the path; loop-seam search</td><td>draw one motion path</td></tr>
+    </table>
+
+    <div class="why"><b>Why we tried it.</b> The archive is full of images whose <i>elements repeat</i> — birds, flames, lotuses, stars, angels, pilgrims. If a still plate can be made to breathe from a few gestures, that is a candidate mechanic for the garden's reading surface: motion that is <i>derived from the source image itself</i> rather than imposed on it. The question this test answers is not "is the paper good" (it is) but <b>"does it survive contact with pre-photographic artwork?"</b></div>
+  </div>
+</section>
+
+<!-- ===================== TEST 01 ===================== -->
+<section id="t01">
+  <h2>Test 01 — The Concourse of the Birds<span class="st partial">PARTIAL</span></h2>
+  <div class="pat">The near-ideal case on paper: ~25 discrete, non-overlapping birds on a broadly uniform lavender ground. The paper's balloon/lantern scenario, four centuries early.</div>
+
+  <div class="run">
+    <div class="hd">
+      <h3>Habiballah of Sava — "The Concourse of the Birds", Folio 11r from a <i>Mantiq al-Tayr</i> (Language of the Birds)</h3>
+      <div class="meta">ca. 1600, Isfahan · opaque watercolour/gold/silver on paper · Met 63.210.11 (obj 451725) · public domain · tradition <code>ABR-ISL-SUF</code> · run 2026-07-19, ~21 s</div>
+    </div>
+    <div class="bays">
+
+      <div class="bay">
+        <span class="lab in">② INPUT</span>
+        <img src="anim_lab_2026-07-19/birds_input.jpg" alt="Concourse of the Birds, painting area">
+        <div class="cap">Cropped to the <b>painting area</b>. The full Met scan includes the folio's gold-flecked blue margin — thousands of tiny high-contrast specks that Stage B reads as "similar objects." Cropping first is not cosmetic; it is a correctness step.</div>
+      </div>
+
+      <div class="bay">
+        <span class="lab inter">③ INTERACTION</span>
+        <div class="gest">
+          <b>6 circle gestures</b> — deliberately spanning the <i>palette</i>, not the class:
+          <ul>
+            <li>white rooster · black crow · green parrot</li>
+            <li>brown falcon · white gull · spotted hoopoe</li>
+          </ul>
+        </div>
+        <div class="gest"><b>9 background-brush marks</b> — one per distinct ground: gold sky ×2, tree canopy, trunk, blue-grey rock, lavender ground ×2, tan rock, dark stream.</div>
+        <div class="gest"><b>1 motion stroke</b> — bottom-left → upper-right, toward the mountain.
+          <span style="color:var(--muted)">An <i>interpretive</i> choice, not a default: Attar's poem is the birds' ascent through seven valleys, so they fly up and inward. The paper says as much — the motion decision "relies on artistic intuition or storytelling goals."</span></div>
+        <pre class="params">--circles "0.52,0.35,0.028; 0.76,0.65,0.022; 0.83,0.61,0.020;
+           0.29,0.81,0.026; 0.10,0.63,0.024; 0.77,0.53,0.018"
+--bg      "0.42,0.56,0.020; 0.62,0.58,0.018; 0.13,0.75,0.020;
+           0.20,0.90,0.020; 0.30,0.05,0.020; 0.55,0.13,0.018;
+           0.47,0.25,0.018; 0.42,0.72,0.016; 0.20,0.10,0.018"
+--motion  "0.30,0.95 0.72,0.12"   --layers 3   --fps 15</pre>
+      </div>
+
+      <div class="bay">
+        <span class="lab stage">PIPELINE</span>
+        <div class="strip">
+          <figure><img src="anim_lab_2026-07-19/birds_a.jpg" alt="extracted exemplars"><figcaption><b>A</b> exemplars cut</figcaption></figure>
+          <figure><img src="anim_lab_2026-07-19/birds_b.jpg" alt="similar objects found"><figcaption><b>B</b> green=exemplar<br>magenta=found similar</figcaption></figure>
+          <figure><img src="anim_lab_2026-07-19/birds_c.jpg" alt="inpainted background"><figcaption><b>C</b> background plate</figcaption></figure>
+        </div>
+        <div class="cap">Stage C is the cheapest early warning in the whole pipeline: if birds are still visible here, the extraction failed and every emitted copy will be a fragment. Inspect it <i>before</i> rendering 125 frames.</div>
+        <div class="nums">
+          <span>exemplars <b>7</b></span><span>similar found <b>10</b></span>
+          <span>recall ≈ <b>10/25</b></span><span>layers <b>3</b></span>
+          <span>frames <b>125</b></span><span>loop <b>8.3 s</b></span>
+        </div>
+      </div>
+
+      <div class="bay">
+        <span class="lab out">④ OUTPUT</span>
+        <img src="anim_lab_2026-07-19/birds_anim.gif" alt="animated Concourse of the Birds, seamless loop">
+        <div class="cap">Seamless loop, birds ascending toward the mountain. Emitted at the density of the source (the paper's <i>N</i>-targeting controller), scaled along the path, three depth layers moving at different speeds.</div>
+        <div class="verdict"><b>Verdict — partial, and legitimately so.</b> The machinery all works: extraction, inpainting, layering, emission, and a genuinely seamless loop. But we recovered roughly <b>10 of ~25 birds</b>, and several cut-outs are incomplete. The limiter is Stage B, not the animation: GrabCut fits <i>one</i> global colour model, and a polychrome bird population on a five-colour ground is more than one model can hold. Getting from 7 exemplars to 10 objects took <b>five runs</b> — the first four failed on gesture placement and palette coverage, both documented below.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TEST 02 ===================== -->
+<section id="t02">
+  <h2>Test 02 — Swallow and Camellia<span class="st fail">FAILED BY DESIGN</span></h2>
+  <div class="pat">Run deliberately as a boundary case — to locate where the method stops applying, which is more useful to know than another success.</div>
+
+  <div class="run">
+    <div class="hd">
+      <h3>Itō Jakuchū — <i>Swallow and Camellia</i></h3>
+      <div class="meta">ca. 1900 impression after Jakuchū (1716–1800) · polychrome woodblock print · Met obj 57120 · public domain · tradition <code>EAS-SHN</code> · run 2026-07-19, ~18 s</div>
+    </div>
+    <div class="bays">
+
+      <div class="bay">
+        <span class="lab in">② INPUT</span>
+        <img src="anim_lab_2026-07-19/swallow_input.jpg" alt="Swallow and Camellia">
+        <div class="cap">One swallow. One camellia. A flat near-black ground — which <i>should</i> be the easy case for segmentation, and in one sense is: the ground is perfectly uniform, unlike the miniature's.</div>
+      </div>
+
+      <div class="bay">
+        <span class="lab inter">③ INTERACTION</span>
+        <div class="gest"><b>1 circle gesture</b> — the swallow (large radius, 0.115; the bird's wingspan covers a third of the plate).</div>
+        <div class="gest"><b>5 background marks</b> — the dark ground, well clear of both bird and flower.</div>
+        <div class="gest"><b>1 motion stroke</b> — upper-left → lower-right, following the dive toward the camellia. Two layers.</div>
+        <pre class="params">--circles "0.33,0.27,0.115"
+--bg      "0.70,0.15,0.05; 0.20,0.55,0.05; 0.78,0.52,0.05;
+           0.10,0.88,0.04; 0.55,0.38,0.04"
+--motion  "0.30,0.22 0.72,0.62"   --layers 2   --fps 15</pre>
+        <div class="cap" style="margin-top:9px">There is no gesture that fixes this image. That is the point of running it.</div>
+      </div>
+
+      <div class="bay">
+        <span class="lab stage">PIPELINE</span>
+        <div class="strip">
+          <figure><img src="anim_lab_2026-07-19/swallow_a.jpg" alt="extracted exemplar: partial swallow"><figcaption><b>A</b> body only —<br>wings amputated</figcaption></figure>
+          <figure><img src="anim_lab_2026-07-19/swallow_b.jpg" alt="similar objects: none found"><figcaption><b>B</b> 1 found<br>(nothing to find)</figcaption></figure>
+          <figure><img src="anim_lab_2026-07-19/swallow_c.jpg" alt="background with ghost wings"><figcaption><b>C</b> ★ ghost limbs —<br>wings + tail left behind</figcaption></figure>
+        </div>
+        <div class="cap"><b>Panel C is the diagnostic.</b> The body was extracted; the wings and tail were not, so they stay welded to the "background." Everything downstream inherits the amputation.</div>
+        <div class="nums">
+          <span>exemplars <b>1</b></span><span>similar found <b>1</b></span>
+          <span>repetition <b>none</b></span><span>frames <b>180</b></span>
+        </div>
+      </div>
+
+      <div class="bay">
+        <span class="lab out">④ OUTPUT</span>
+        <img src="anim_lab_2026-07-19/swallow_anim.gif" alt="failed animation: a flock of swallow fragments">
+        <div class="cap">A flock of body-fragments wheeling over a pair of disembodied wings. Instructive, and rather beautiful in a way the method did not intend.</div>
+        <div class="verdict bad"><b>Three distinct failures, worth separating.</b>
+          <b>(1) N=1.</b> Kinetic textures are a statistical device; with one object there is no texture to synthesize, so the emitter just clones. <b>(2) Partial extraction.</b> The swallow's pale body and dark wings are separate LAB clusters; keeping only the furthest cluster amputated it. <b>(3) Ghost limbs.</b> Because the mask was partial, the inpainted plate retained wings and tail, so every copy flies past its own abandoned parts.<br>
+          <b>The real lesson:</b> <i>N=1 is not a small case of N=many — it is a different problem.</i> A single object wants oscillation on a depth layer (the paper's own Fig. 15e frog), not an emitter. Reaching for the emitter here is a category error, and no amount of parameter tuning corrects it.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== POST-MORTEM ===================== -->
+<section id="postmortem">
+  <h2>⑤ Post-mortem — notes for the next LLM</h2>
+  <div class="pat">Written as instructions for whoever runs this on the next image, in rough order of how much time each one saves. Severity: <span class="sev block">BLOCKING</span> gets you nothing without it · <span class="sev big">HIGH</span> costs you runs · <span class="sev note">NOTE</span> quality/efficiency.</div>
+
+  <ol class="pm">
+    <li><b>Crop to the plate before anything else.</b><span class="sev block">BLOCKING</span>
+      <span class="why">Museum scans include mat, margin and frame. This folio's gold-flecked blue border is thousands of tiny high-contrast specks, and Stage B classes them as "similar objects" — the animation then emits <i>margin flecks</i>. Crop to the painted area first, always.</span></li>
+
+    <li><b>Never guess coordinates off a thumbnail — render a percentage grid and look at it.</b><span class="sev block">BLOCKING</span>
+      <span class="why">Three of the five bird runs failed because my circles landed on ground rather than on birds; the "exemplars" came back as discs of rock. One grid render (red lines every 5%, labelled) let me read positions off directly and fixed it immediately. This single step is worth more than any parameter.</span></li>
+
+    <li><b>Choose exemplars that span the object <i>palette</i>, not the object <i>class</i>.</b><span class="sev block">BLOCKING</span>
+      <span class="why">GrabCut fits ONE global colour model. I first circled five white birds and Stage B returned 2.2% foreground — it had faithfully learned "find white things." Circle a white bird AND a black crow AND a green parrot AND a brown hawk. The paper states this in its own Limitations: <i>"if objects vary in color and the user only circles objects of one color, we will miss labeling differently colored objects as foreground."</i> Highest-leverage parameter in the whole pipeline.</span></li>
+
+    <li><b>On artwork, the background brush is mandatory — not the optional refinement the paper implies.</b><span class="sev big">HIGH</span>
+      <span class="why">The paper's inputs are photographs and cartoons with simple skies. A miniature's ground is multi-modal — gold sky, blue-grey rock, tan rock, tree canopy, water — and GrabCut's global GMM cannot separate objects from a five-mode background unsupervised. Place one explicit background mark per distinct ground region. Without them: ~2% foreground. With them: usable.</span></li>
+
+    <li><b>Sample the ground from the annulus <i>outside</i> the circle, not from the drawn stroke.</b><span class="sev big">HIGH</span>
+      <span class="why">The paper marks pixels under the circle stroke as background. That is fragile — a stroke that clips the object poisons the background model. Cluster the ring outside the circle separately (k≈8) and pick the in-circle groups furthest from those centres. This change alone took the birds from 3 exemplars to 10.</span></li>
+
+    <li><b>Allow more than one foreground cluster per circle.</b><span class="sev big">HIGH</span>
+      <span class="why">A bird with a white body and a dark wing is two LAB clusters. Keeping only the single furthest cluster <i>amputates</i> it — precisely what mutilated the swallow. Keep every cluster within ~72% of the best distance. Watch for the opposite failure too: too loose a threshold swallows the ground.</span></li>
+
+    <li><b>Check the inpainted background plate before rendering a single frame.</b><span class="sev big">HIGH</span>
+      <span class="why">Stage C is the cheapest diagnostic available. If objects (or parts of them) are still visible there, the extraction is partial and every emitted copy will be a fragment flying past its own leftovers. Ten seconds of looking saves several minutes of rendering and a misleading result.</span></li>
+
+    <li><b>Report recall; do not tune until it looks good and then call it a success.</b><span class="sev big">HIGH</span>
+      <span class="why">We found ~10 of ~25 birds. The animation looks acceptable because the emitter re-uses what it has — which means <b>the output's plausibility is not evidence the extraction worked</b>. Always state found-vs-actual. A method that recovers 40% of objects and says so is more useful than one that hides it.</span></li>
+
+    <li><b>Decide whether the image is an N=many or an N=1 problem <i>first</i>, and pick the technique accordingly.</b><span class="sev block">BLOCKING</span>
+      <span class="why">This method is built for repetition; its entire machinery is repeating-element extraction plus stochastic re-emission. For one object, use single-object oscillation on a depth layer (paper Fig. 15e). Running the emitter on N=1 produces cloning, not animation. Ask "how many of the thing are there?" before choosing the method.</span></li>
+
+    <li><b>PatchMatch matters more than it looks; <code>cv2.inpaint</code> is a stand-in with a known cost.</b><span class="sev note">NOTE</span>
+      <span class="why">Telea inpainting is fine on smooth grounds (the lavender worked) and smears on textured ones. If the background is doing visual work — pattern, brush texture, gold leaf — budget a real PatchMatch implementation rather than accepting the smear.</span></li>
+
+    <li><b>The motion stroke is an interpretive claim. Record why you drew it that way.</b><span class="sev note">NOTE</span>
+      <span class="why">We sent the birds up toward the mountain because <i>Mantiq al-Tayr</i> is an ascent narrative. A different stroke would have made a different reading of the same plate — birds scattering, or descending to water. The paper concedes the point; for our purposes the stroke should be logged alongside the parameters, because it is an argument about the image, not a setting.</span></li>
+
+    <li><b>Work at ~1400 px on the long edge.</b><span class="sev note">NOTE</span>
+      <span class="why">Full museum scans are 2600×3900+. Downscaling costs nothing in segmentation quality, and the whole pipeline then runs in ~20 s, which is what makes five iterations affordable in one sitting.</span></li>
+  </ol>
+
+  <div class="verdict" style="max-width:1020px;margin-top:18px">
+    <b>The one-line finding.</b> The method survives contact with pre-photographic artwork, but only partially, and the reason is specific rather than general: <b>GrabCut's single global colour model is the binding constraint</b>, and illuminated manuscript painting violates its assumptions in both directions at once — the objects are polychrome and the ground is multi-modal. Everything downstream of segmentation (layering, emission, scaling, looping) worked on the first try. <b>If we want this mechanic for the garden, the thing to replace is Stage B, not the animation.</b> A modern class-agnostic segmenter (SAM-style) seeded by the same circle gestures would likely lift recall from ~40% to near-complete while leaving stages C–E untouched.
+  </div>
+</section>
+
+<!-- ===================== CODE ===================== -->
+<section id="code">
+  <h2>The code</h2>
+  <div class="pat">One file, image-agnostic — gestures are normalised 0–1 so they are resolution-independent and portable between plates.</div>
+  <div class="papercard" style="border-left-color:var(--l-post)">
+    <p class="cite"><b><a href="anim_lab_2026-07-19/animate_static.py" style="color:var(--gold-deep)">animate_static.py</a></b> · ~470 lines · Python + OpenCV + ffmpeg</p>
+    <p style="font-size:12px;margin:8px 0 0">All five stages, faithful to the paper's actual mathematics rather than a gesture at it: the two-phase emission probability with its logistic controller, the scale-over-path linear fit, and the loop-seam distance. Two acknowledged substitutions: <code>cv2.inpaint</code> (Telea) for PatchMatch, and the outside-annulus background sampling described in note 5 above, which departs from the paper because the paper's version failed on this material.</p>
+    <pre class="params" style="font-size:10px">// the paper's emission controller — Stage E
+P_e(t_i) = P_d(t_i - t_{i-1})              if t_i &lt; D/v     // fill the pipeline
+         = P_d(t_i - t_{i-1}) · C(n)       otherwise        // steady state
+P_d(δ)   = N·v·δ / D
+C(n)     = 2e^x/(e^x + 1),   x = N - n     // N = target count from the source image
+
+// the loop-seam search — find where the animation can cut and rejoin
+D_ij = Σ_{k=0}^{K-1} (K-k)/K · ( |(t_{i+k}-t_i) - (t_{j+k}-t_j)| + |e_{i+k}-e_{j+k}| )
+       minimised over pairs, interval constrained to 2×–4× particle lifetime</pre>
+    <div class="why" style="margin-top:10px"><b>Status: exploratory.</b> Lives in the scratchpad, not in <code>scripts/</code>, and carries no methodology footer yet — it is a <i>diverge</i> artifact. If this mechanic gets adopted, it consolidates into <code>scripts/</code> with the footer and a seed-agnostic CLI at that point, not before.</div>
+  </div>
+</section>
+
+<!-- ===================== REPRODUCE ===================== -->
+<section id="repro">
+  <h2>Reproduce</h2>
+  <div class="pat">Exact commands, in order. Both source images are in the media cache with provenance rows in <code>manifest.jsonl</code>.</div>
+  <pre class="repro"><span class="c"># deps</span>
+uv add opencv-python-headless        <span class="c"># ffmpeg via homebrew</span>
+
+<span class="c"># inputs — Met Open Access, fetched 2026-07-19, provenance appended to manifest.jsonl</span>
+<span class="c">#   obj 451725 → data/media_cache/77cdb0cc6f7610eb.jpg  (Concourse of the Birds)</span>
+<span class="c">#   obj  57120 → data/media_cache/d8c7fa67133e8c99.jpg  (Swallow and Camellia)</span>
+
+<span class="c"># step 1 — crop to the painted area (NOT optional, see post-mortem note 1)</span>
+<span class="c"># step 2 — render a labelled percentage grid and LOOK at it (post-mortem note 2)</span>
+<span class="c"># step 3 — read circle/bg coordinates off the grid, then:</span>
+
+python animate_static.py --image birds_crop.jpg \
+  --circles "0.52,0.35,0.028; 0.76,0.65,0.022; 0.83,0.61,0.020; \
+             0.29,0.81,0.026; 0.10,0.63,0.024; 0.77,0.53,0.018" \
+  --bg      "0.42,0.56,0.020; 0.62,0.58,0.018; 0.13,0.75,0.020; \
+             0.20,0.90,0.020; 0.30,0.05,0.020; 0.55,0.13,0.018; \
+             0.47,0.25,0.018; 0.42,0.72,0.016; 0.20,0.10,0.018" \
+  --motion  "0.30,0.95 0.72,0.12" --out ./run_birds --layers 3 --fps 15
+
+<span class="c"># outputs: a_exemplars.png b_similar.png c_background.png frames/ animation.gif animation.mp4 run.json</span>
+<span class="c"># CHECK c_background.png BEFORE trusting the gif (post-mortem note 7)</span></pre>
+</section>
+
+<footer>
+  <b>Method Test-Bed</b> · started S153, 2026-07-19 · entry 01 of an ongoing series. New replications append as new <code>&lt;section&gt;</code> blocks using the same five-bay run panel; the post-mortem list is cumulative across entries where notes generalise.<br><br>
+  <b>HOW PRODUCED.</b> S153 (2026-07-19), at researcher request — read Willett et al. UIST 2018 and practise implementing it on archive material, then record the attempt as a browseable test-case page in the moodboard idiom. Both source images fetched from the Met Open Access API with researcher permission and provenance-logged to <code>data/media_cache/manifest.jsonl</code>.
+  <b>SCHOLARLY SOURCES.</b> Willett, Kazi, Chen, Fitzmaurice, Finkelstein &amp; Grossman, <i>A Mixed-Initiative Interface for Animating Static Pictures</i>, UIST '18, doi:10.1145/3242587.3242612; Rother, Kolmogorov &amp; Blake, <i>GrabCut</i>, ACM TOG 23(3), 2004; Barnes et al., <i>PatchMatch</i>, ACM TOG 28(3), 2009; Telea, <i>An Image Inpainting Technique Based on the Fast Marching Method</i>, 2004; Kazi et al., <i>Draco</i>, CHI '14 (kinetic textures). Met objects 451725 (Habiballah of Sava) and 57120 (Itō Jakuchū), both public domain. House style per <code>STYLE.md</code> and the S138 moodboard.
+  <b>WHAT NEEDS VERIFICATION.</b> (1) Bird recall is eyeballed at ~10/25 — no hand-annotated ground truth was made, so treat it as an estimate, not a measurement. (2) The <code>cv2.inpaint</code>-for-PatchMatch substitution has not been quality-compared against a real PatchMatch. (3) The SAM-style Stage-B replacement proposed in the finding is untested speculation. (4) The 0.72 multi-cluster threshold was tuned on two images and has no principled basis. (5) Loop seamlessness was verified by eye, not by measuring first/last-frame difference.
+</footer>
+
+</body>
+</html>
