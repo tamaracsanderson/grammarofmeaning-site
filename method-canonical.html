@@ -2161,6 +2161,166 @@ WHY: &lt;one sentence — if FALSE, name what {name} actually holds&gt;</div>
   <div class="sec-k"><span class="n">D5</span><h2>The geometry — how you make a map out of words</h2></div>
   <p class="sec-lede">You marked the old version of this section "gibberish." It was. Here it is in plain English; the technical names are kept, but they come <i>after</i> the idea, not instead of it.</p>
 
+<!-- ══ VIZ-8 FOUR-LAYER STACK (built) ══ -->
+<div class="viz viz-8" id="viz-8">
+<style>
+.viz-8{border:1px solid var(--rule);border-radius:12px;background:var(--paper-3);padding:18px 18px 14px;margin:18px 0 22px}
+.viz-8 .viz-h{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:6px}
+.viz-8 .viz-id{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--paper);background:var(--moss);padding:2px 8px;border-radius:5px}
+.viz-8 .viz-t{font-family:var(--serif);font-size:19px;color:var(--ink)}
+.viz-8 .viz-lede{font-size:14.5px;color:var(--ink-2);margin:6px 0 12px;max-width:82ch;line-height:1.6}
+/* role colours — house tokens standing in for the brief's gray/coral/purple/teal (R6) */
+.viz-8 .v8-def{--rc:var(--ink-3)}
+.viz-8 .v8-meas{--rc:var(--terracotta)}
+.viz-8 .v8-comp{--rc:var(--olive)}
+.viz-8 .v8-pres{--rc:var(--fern)}
+/* legend */
+.viz-8 .v8-legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:0 0 14px;font-size:12px;color:var(--ink-2)}
+.viz-8 .v8-lg{display:flex;align-items:center;gap:6px}
+.viz-8 .v8-lsw{width:12px;height:12px;border-radius:3px;background:var(--rc);flex:none}
+/* stack */
+.viz-8 .v8-stack{display:flex;flex-direction:column;align-items:stretch}
+.viz-8 .v8-row{display:grid;grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr);align-items:stretch;gap:0}
+@media(max-width:680px){.viz-8 .v8-row{grid-template-columns:1fr;gap:6px}.viz-8 .v8-arrow{transform:rotate(90deg);height:18px}}
+.viz-8 .v8-box{border:1px solid var(--rule);border-radius:9px;background:var(--paper);padding:10px 13px}
+.viz-8 .v8-layer{border-left:4px solid var(--rc);display:flex;align-items:center;gap:10px;position:relative}
+.viz-8 .v8-n{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--paper);background:var(--rc);width:21px;height:21px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none}
+.viz-8 .v8-lt{flex:1;min-width:0}
+.viz-8 .v8-name{font-family:var(--serif);font-size:15.5px;color:var(--ink);line-height:1.25}
+.viz-8 .v8-mca{font-family:var(--mono);font-size:.8em;color:var(--olive)}
+.viz-8 .v8-sub{font-size:11.5px;color:var(--ink-3);margin-top:1px}
+.viz-8 .v8-role{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--rc);border:1px solid var(--rc);border-radius:20px;padding:1px 6px;flex:none;align-self:flex-start}
+.viz-8 .v8-arrow{display:flex;align-items:center;justify-content:center;color:var(--rc);font-size:15px}
+.viz-8 .v8-out{background:var(--paper-2);display:flex;flex-direction:column;justify-content:center}
+.viz-8 .v8-omain{font-size:13.5px;color:var(--ink);font-weight:600;line-height:1.3}
+.viz-8 .v8-has-num .v8-omain{font-family:var(--mono);font-size:12.5px}
+.viz-8 .v8-onote{font-size:11.5px;color:var(--ink-3);font-style:italic;margin-top:2px}
+.viz-8 .v8-down{width:2px;height:13px;background:var(--rule);margin:0 0 0 26px}
+/* the pedagogical callout */
+.viz-8 .v8-point{border:1px solid var(--rule);border-left:4px solid var(--terracotta);border-radius:0 9px 9px 0;background:var(--paper-2);padding:10px 14px;margin:14px 0 0;font-size:13px;color:var(--ink-2);line-height:1.55}
+.viz-8 .v8-point b{color:var(--ink)}
+.viz-8 .v8-point .hl{color:var(--terracotta);font-weight:700}
+/* as-of stamp */
+.viz-8 .v8-asof{display:flex;gap:8px;align-items:flex-start;border:1px dashed var(--rule);border-radius:9px;background:var(--paper);padding:9px 13px;margin:12px 0 0;font-size:12px;color:var(--ink-2);line-height:1.5}
+.viz-8 .v8-asof-k{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--paper);background:var(--ink-3);padding:2px 7px;border-radius:4px;white-space:nowrap;flex:none}
+.viz-8 .v8-asof b{color:var(--ink)}
+/* invalidation chain */
+.viz-8 .v8-chain{margin:16px 0 0;border-top:1px solid var(--rule);padding-top:12px}
+.viz-8 .v8-ch-h{font-family:var(--serif);font-size:15px;color:var(--ink);margin:0 0 3px}
+.viz-8 .v8-ch-lede{font-size:12.5px;color:var(--ink-3);margin:0 0 9px;line-height:1.5;max-width:80ch}
+.viz-8 .v8-crow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:6px 0;border-bottom:1px solid var(--rule);font-size:12.5px}
+.viz-8 .v8-crow:last-child{border-bottom:0}
+.viz-8 .v8-ctrig{color:var(--ink-2);min-width:200px}
+.viz-8 .v8-carr{color:var(--rc);font-weight:700}
+.viz-8 .v8-csteps{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.viz-8 .v8-cstep{font-family:var(--mono);font-size:11px;color:var(--rc);border:1px solid var(--rc);border-radius:20px;padding:1px 8px}
+.viz-8 .v8-cstep-sep{color:var(--ink-3);font-size:11px}
+/* terminology */
+.viz-8 .v8-term{margin:14px 0 0;border:1px solid var(--rule);border-radius:9px;background:var(--paper);padding:10px 14px;font-size:12.5px;color:var(--ink-2);line-height:1.55}
+.viz-8 .v8-term b{color:var(--ink)}
+.viz-8 .v8-term .gloss{color:var(--moss);font-style:italic}
+@media(prefers-reduced-motion:reduce){.viz-8 *{transition:none!important}}
+</style>
+
+  <div class="viz-h">
+    <span class="viz-id">VIZ-8</span>
+    <span class="viz-t">How a coordinate is made — the four layers</span>
+  </div>
+  <p class="viz-lede"><b>"MCA" is not the morphospace.</b> It is <i>one of four layers</i>, and collapsing them is what makes this section hard to hold. Each layer below declares its own <b>inputs&nbsp;→&nbsp;transformation&nbsp;→&nbsp;outputs</b>, so you can see exactly where each part of the map comes from — and, crucially, <b>where truth enters</b>.</p>
+
+  <div class="v8-legend">
+    <span class="v8-lg v8-def"><span class="v8-lsw"></span> definitional</span>
+    <span class="v8-lg v8-meas"><span class="v8-lsw"></span> measurement</span>
+    <span class="v8-lg v8-comp"><span class="v8-lsw"></span> computation</span>
+    <span class="v8-lg v8-pres"><span class="v8-lsw"></span> presentation</span>
+  </div>
+
+  <div class="v8-stack">
+    <div class="v8-row v8-def">
+      <div class="v8-box v8-layer">
+        <div class="v8-n">1</div>
+        <div class="v8-lt">
+          <div class="v8-name">the lattice</div>
+          <div class="v8-sub">possible space, pure combinatorics</div>
+        </div>
+        <span class="v8-role">definitional</span>
+      </div>
+      <div class="v8-arrow" aria-hidden="true">&rarr;</div>
+      <div class="v8-box v8-out v8-has-num">
+        <div class="v8-omain">301,056 coordinates</div>
+        <div class="v8-onote">no data needed</div>
+      </div>
+    </div>
+    <div class="v8-down" aria-hidden="true"></div>
+    <div class="v8-row v8-meas">
+      <div class="v8-box v8-layer">
+        <div class="v8-n">2</div>
+        <div class="v8-lt">
+          <div class="v8-name">the coding</div>
+          <div class="v8-sub">measurement — truth enters here</div>
+        </div>
+        <span class="v8-role">measurement</span>
+      </div>
+      <div class="v8-arrow" aria-hidden="true">&rarr;</div>
+      <div class="v8-box v8-out v8-has-num">
+        <div class="v8-omain">512 figures, 365 distinct</div>
+        <div class="v8-onote">1.6% carry an evidence quote</div>
+      </div>
+    </div>
+    <div class="v8-down" aria-hidden="true"></div>
+    <div class="v8-row v8-comp">
+      <div class="v8-box v8-layer">
+        <div class="v8-n">3</div>
+        <div class="v8-lt">
+          <div class="v8-name">the ordination <span class='v8-mca'>(MCA)</span></div>
+          <div class="v8-sub">categories become geometry</div>
+        </div>
+        <span class="v8-role">computation</span>
+      </div>
+      <div class="v8-arrow" aria-hidden="true">&rarr;</div>
+      <div class="v8-box v8-out ">
+        <div class="v8-omain">positions and distances</div>
+        <div class="v8-onote">describes only what is occupied</div>
+      </div>
+    </div>
+    <div class="v8-down" aria-hidden="true"></div>
+    <div class="v8-row v8-pres">
+      <div class="v8-box v8-layer">
+        <div class="v8-n">4</div>
+        <div class="v8-lt">
+          <div class="v8-name">the rendering</div>
+          <div class="v8-sub">the picture that gets drawn</div>
+        </div>
+        <span class="v8-role">presentation</span>
+      </div>
+      <div class="v8-arrow" aria-hidden="true">&rarr;</div>
+      <div class="v8-box v8-out ">
+        <div class="v8-omain">the map you look at</div>
+        <div class="v8-onote">colour, layout, interaction</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="v8-point"><b>The whole point of the colour:</b> <span class="hl">only layer&nbsp;2 is measurement.</span> Everything <b>above</b> it is <b>definitional</b> — the lattice exists on paper before a single figure is read; it needs no data to be true. Everything <b>below</b> it is <b>derived</b> — the ordination and the picture can only ever restate what the coding found. So the map is exactly as good as layer&nbsp;2, and no better.</div>
+
+  <div class="v8-asof">
+    <span class="v8-asof-k">numbers as of 2026-07-19</span>
+    <span>These three figures are <b>live counts, not constants</b>, and they are expected to move: the <b>lattice</b> grows to roughly <b>774,144</b> if the axis restructure lands (6&nbsp;→&nbsp;7 axes, telos revised), and the <b>occupancy</b> and <b>evidence coverage</b> both move with the pending evidence-based re-code. Read them as a dated snapshot; the <b>structure</b> of the four layers is what is stable.</span>
+  </div>
+
+  <div class="v8-chain">
+    <p class="v8-ch-h">What breaks what — the invalidation chain</p>
+    <p class="v8-ch-lede">The practical payoff of separating the layers: a change at one layer only invalidates the layers <i>below</i> it. This is why the lock-cycle gates the geometry — changing the axes reaches all the way down.</p>
+      <div class="v8-crow v8-pres"><span class="v8-ctrig">change colour / layout / 2D&#8596;3D</span><span class="v8-carr">&rarr;</span><span class="v8-csteps"><span class="v8-cstep">re-render</span></span></div>
+      <div class="v8-crow v8-meas"><span class="v8-ctrig">change the <b>coding</b></span><span class="v8-carr">&rarr;</span><span class="v8-csteps"><span class="v8-cstep">re-ordinate</span><span class="v8-cstep-sep">&rarr;</span><span class="v8-cstep">re-render</span></span></div>
+      <div class="v8-crow v8-def"><span class="v8-ctrig">change the <b>axes</b></span><span class="v8-carr">&rarr;</span><span class="v8-csteps"><span class="v8-cstep">re-code</span><span class="v8-cstep-sep">&rarr;</span><span class="v8-cstep">re-ordinate</span><span class="v8-cstep-sep">&rarr;</span><span class="v8-cstep">re-render</span></span></div>
+  </div>
+
+  <div class="v8-term"><b>Ordination</b> — the established term (ecology &amp; palaeobiology) for the family of methods that turn a table of codings into a map: PCA, MCA, CA, PCoA, NMDS. It is worth using because <b>morphospace</b> is borrowed from the same literature, so the vocabulary stays coherent. In plain words it is <span class="gloss">the projection step — how the map gets made</span>. Note in passing that <b>LCA is not an ordination</b>: it is a latent-type model, answering a different question (which hidden <i>groups</i> exist), not a geometric one (where does each figure <i>sit</i>).</div>
+</div>
+<!-- ══ /VIZ-8 ══ -->
+
+
   <div class="key"><b>The problem, stated plainly.</b> A figure is not "6.3 on epistemic-warrant." A figure is <span class="m">revelation</span>, or <span class="m">reason</span>. Those are <b>names, not quantities</b>. But to draw a map you need <b>distances</b> — the whole point of a map is that near means similar. So the question the geometry has to answer is uncomfortable: <b>how far is "revelation" from "reason"?</b> There is no ruler. The method is whatever answers that question without inventing a ruler.</div>
 
   <h3 style="font-size:17px;margin:26px 0 4px">What we tried first, and threw away</h3>
