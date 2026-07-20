@@ -106,6 +106,10 @@ pre.eq{white-space:pre}
 .gate{background:rgba(196,96,47,.08);border:1px solid rgba(196,96,47,.32);border-radius:8px;padding:11px 15px;margin:20px 0 0;font-family:var(--sans);font-size:13.4px;max-width:70ch}
 .gate b{color:var(--terracotta)}
 </style></head><body>
+<div style="background:#8a2f22;color:#FCFBF7;padding:13px 22px;font-family:Inter,system-ui,sans-serif;font-size:13.5px;line-height:1.6;position:sticky;top:0;z-index:999">
+<b>FROZEN — this is the version the readability crit was run against.</b> Commit <code style="background:rgba(255,255,255,.15);padding:1px 6px;border-radius:4px">55446bf</code>, 2026-07-20 13:27. The three personas wrote at 14:15–14:16, so this is what they read. <b>It is not current and is not maintained</b> — kept so the crit findings can be held against the rendering that produced them. → <a href="method-canonical.html" style="color:#FCFBF7;text-decoration:underline">the live page</a>
+</div>
+
 
 <div class="topbar"><div class="wrap">
   <a class="brandmark" href="index.html">Grammar of Meaning</a>
@@ -2105,8 +2109,8 @@ pre.eq{white-space:pre}
     <tr><td class="id"><b>2</b></td><td><b>Ask what the song's own edge demands</b></td><td>Not "what could come next?" but "what does <i>this</i> edge require?" The source's structure sets the question; the engine does not invent one.<br><span class="c6-warn"><b>A declared narrowing:</b> the engine holds <b>the forward spine only</b> — one <span class="m">FEEDS</span> edge per position. The song actually carries three families at once (<a href="#viz-1">VIZ-1</a>): <span class="m">FEEDS</span> forward, <span class="m">FILLS</span> running <i>backward</i>, and <span class="m">COMPOSES</span> from every move to the whole. So no generated world can contain a move that <i>answers an earlier gap</i> — a capability the source demonstrably has. <b>The alt tree is edge-poorer than the song by construction.</b> Acceptable for run&nbsp;A; recorded here because it is a narrowing, not a neutral simplification.</span></td></tr>
     <tr><td class="id"><b>3</b></td><td><b>Generate</b> — and it differs by depth <span class="st locked">IRR201 · D186</span></td><td><b>At depth&nbsp;1</b> (the substitution itself) the alternative-kinds below apply: <span class="m">you hurt her</span> → <span class="m">you healed her</span> is a <b>CONTRARY</b>, anchored in the real text.<br><b>At depth&nbsp;≥2 they do not.</b> Generation is by <b>explicit axis perturbation</b> anchored to the <b>source's</b> slot at that position — <i>"the epistemic warrant shifts from testimony to speculation, holding telos: harmony, satisfying the FEEDS edge."</i><br><b>Never</b> "a move at distance&nbsp;2" (that scores the instruction, not the move — distance is measured <i>afterwards</i>) and <b>never</b> "the contrary of the previous move": beyond depth&nbsp;1 the thing you would take the contrary <i>of</i> is your own previous guess. <b>The trunk anchors every branch; branches never anchor to each other.</b></td></tr>
     <tr><td class="id"><b>4</b></td><td><b>Run the four checks</b><br><span class="c6-once">two prune · one shapes · one only measures</span></td><td><b>"Gate" is the wrong word for all four</b> — they do different jobs, and the difference is the part most easily misread:<br>· <b>Sitz</b> — <i>prevents and prunes.</i> The barred lexicon is in the prompt, so the model is told upfront; anything returned <span class="m">BARRED</span> is dropped anyway.<br>· <b>branch-state</b> — <i>prunes.</i> A <span class="m">contradiction</span> is dropped.<br>· <b>path-coherence</b> — <i>shapes, prunes nothing.</i> It is the anchoring to the source's slot, so it changes what gets generated and leaves less to throw away.<br>· <b>frame / paradigm</b> — <i>prunes nothing at all.</i> It only assigns the tier. <b>It is a ruler, not a filter</b> (IRR199&nbsp;U4).</td></tr>
-    <tr><td class="id"><b>5</b></td><td><b>Measure the distance, assign a tier</b><br><span class="c6-once">Hamming · denominator 4</span></td><td><b>Distance is a count of how many axes differ</b> — Hamming, not metric. No magnitudes, no weighting. Two of them: <b>cumulative</b> (differing from <b>the source</b> — <i>where has this path ended up?</i>) and <b>step</b> (differing from <b>the parent</b> — <i>a small turn, or a lurch?</i>). The tier is cut on <b>cumulative</b>.<br><b>The denominator is 4, not 7</b> — the gate measures <span class="m">E</span>·<span class="m">T</span>·<span class="m">S1</span>·<span class="m">S2</span>. A bare "distance 2" without that denominator is not a number.<br><b>The order matters — the first test outranks the rest:</b> <span class="m">doorway</span> if <b>E</b> leaves the naturalistic set for <span class="m">revelation</span>·<span class="m">mystical-union</span>·<span class="m">divination</span> · else <span class="m">expected</span> at 0 · <span class="m">nuanced</span> at 1–2 · <span class="m">far-in-frame</span> at 3–4. <b>A doorway is not "very far" — it is somewhere else</b> (D178).</td></tr>
-    <tr><td class="id"><b>6</b></td><td><b>Grow, or terminate</b></td><td><b>Three distinct ways a chain ends, and only two are terminations.</b> (1) <b>No admissible move exists</b> — the model writes <span class="m">TERMINATED&nbsp;|&nbsp;none</span>; <i>self-declared</i>, the same weakness as Sitz and branch-state. (2) <b>Everything here was pruned</b> — candidates were generated and the gates removed all of them. (3) <b>Reached M8′</b> — a <i>finished path</i>, not a termination; conflating it with the other two would misreport the run.<br><b>A chain that exhausts simply ends.</b> That is an expected outcome, not a failure — <b>ragged depth is information</b>. Whether a short chain means the alternative world is <i>thinner</i> is an interpretation reached afterwards from the pattern across many chains, never a label applied at generation time.</td></tr>
+    <tr><td class="id"><b>5</b></td><td><b>Measure the distance, assign a tier</b></td><td>A <b>computed</b> coordinate distance from the source's frame (§C3), placing the branch in a tier. This is measured, not asserted.</td></tr>
+    <tr><td class="id"><b>6</b></td><td><b>Grow or stop</b></td><td>Continue the path to the next fork, or terminate it — and record which, and why.</td></tr>
   </table></div>
 
   <div class="flag" style="border-left-color:var(--terracotta)"><span class="pin">A known weakness in two of the four checks</span>
@@ -2187,8 +2191,8 @@ pre.eq{white-space:pre}
   <div class="tbl"><table class="d">
     <tr><th>Axis</th><th>The question it asks</th><th>Values</th><th>Status</th></tr>
     <tr><td class="id"><b>E</b> · epistemic-warrant</td><td>How does it know? What licenses a claim?</td><td class="n">9</td><td><span class="st locked">8 green + 1 cand</span></td></tr>
-    <tr><td class="id"><b>M</b> · ontological-commitment</td><td>What's real? (substance <b>only</b>, since D168)</td><td class="n">13</td><td><span class="st locked">10 green + 3 cand</span></td></tr>
-    <tr><td class="id"><b>O</b> · inferential-operation</td><td>How does it reason?</td><td class="n">7</td><td><span class="st locked">all green</span></td></tr>
+    <tr><td class="id"><b>O</b> · ontological-commitment</td><td>What's real? (substance <b>only</b>, since D168)</td><td class="n">13</td><td><span class="st locked">10 green + 3 cand</span></td></tr>
+    <tr><td class="id"><b>M</b> · inferential-operation</td><td>How does it reason?</td><td class="n">7</td><td><span class="st locked">all green</span></td></tr>
     <tr><td class="id"><b>T</b> · telos</td><td>What is it for?</td><td class="n">9</td><td><span class="st locked">locked · CLC</span></td></tr>
     <tr><td class="id"><b>S1</b> · evaluative-stance</td><td>What posture does it take toward its <i>object</i>?</td><td class="n">4</td><td><span class="st locked">locked · CLC</span></td></tr>
     <tr><td class="id"><b>S2</b> · hermeneutic-posture</td><td>How does it <i>read</i> — what does it do with a text?</td><td class="n">3</td><td><span class="st locked">locked · CLC</span></td></tr>
@@ -3461,8 +3465,7 @@ WHY: &lt;one sentence — if FALSE, name what {name} actually holds&gt;</div>
   <p class="xw-sub"><b>2a · the black box</b></p>
   <div class="xw-box">
     <div class="xw-decl"><b>declared once per run — not a loop step</b>
-      <div class="xw-hv"><span class="xw-hvk">VARIED</span> four axes — <span class="m">E</span> · <span class="m">T</span> · <span class="m">S1</span> · <span class="m">S2</span>, one axis at a time, one step, from the parent's value <span class="xw-note">(run B varies all seven — that difference <i>is</i> the A/B test)</span>
-      <div class="xw-runb"><b>⚠ Run B is not ready to fire.</b> The gate measures <b>four</b> axes; run B perturbs <b>seven</b>. A perturbation of <span class="m">O</span>, <span class="m">M</span> or <span class="m">G</span> would score <b>distance 0</b> and tier as <b>expected</b> — <i>invisible</i>. Run B cannot be interpreted until the gate is extended and the cuts re-derived, since 0 / 1–2 / 3–4 was set against a denominator of 4 and does not transfer unchanged to 7.</div></div>
+      <div class="xw-hv"><span class="xw-hvk">VARIED</span> four axes — <span class="m">E</span> · <span class="m">T</span> · <span class="m">S1</span> · <span class="m">S2</span>, one axis at a time, one step, from the parent's value <span class="xw-note">(run B varies all seven — that difference <i>is</i> the A/B test)</span></div>
       <div class="xw-hv"><span class="xw-hvk xw-hvh">HELD</span> the other three axes (<span class="m">M</span> · <span class="m">O</span> · <span class="m">G</span>) · the song's edge at each position · the source's structural slot at each depth · the Sitz ceiling (≤1963) · the tier cuts · the vocabulary</div>
     </div>
     <ol class="xw-steps">
@@ -3470,24 +3473,10 @@ WHY: &lt;one sentence — if FALSE, name what {name} actually holds&gt;</div>
       <li><b>Hold the song's edge</b> at this position. <span class="xw-note">Forward spine only — backward <span class="m">FILLS</span> and whole-text <span class="m">COMPOSES</span> are not yet carried. A declared narrowing, not a neutral one.</span></li>
       <li><b>Generate</b> — alternative-kinds at <b>depth&nbsp;1</b>; <b>axis perturbation anchored to the source's slot</b> at depth&nbsp;≥2. <span class="xw-note">Distance is never asked for.</span></li>
       <li><b>Run the four checks</b> — <span class="m">Sitz</span> <i>prevents and prunes</i> · <span class="m">branch-state</span> <i>prunes</i> · <span class="m">path-coherence</span> <i>shapes, prunes nothing</i> · <span class="m">frame</span> <i>prunes nothing — it only assigns the tier</i>. <span class="xw-note"><b>The frame check is a ruler, not a filter.</b></span></li>
-      <li><b>Measure the distance</b> — a <b>count of how many axes differ</b> (Hamming; no magnitudes, no weighting). <b>cumulative</b> from the source, <b>step</b> from the parent. <span class="xw-note"><b>Denominator 4</b> — the gate measures E·T·S1·S2 only. The origin is the song's own coordinate: <span class="m">testimony</span> · <span class="m">harmony</span> · <span class="m">charitable</span> · <span class="m">reparative-integrative</span>.</span></li>
-      <li><b>Assign the tier — in this order</b>, because the first test outranks the rest:
-        <div class="xw-tier"><span class="xw-t1">1 · doorway</span> <b>E</b> leaves the naturalistic set {testimony · observation · reason · noetic-intuition · practice · embodied-practice} for the frame-exiting set <b>{revelation · mystical-union · divination}</b>. <i>A doorway is not "very far" — it is somewhere else</i> (D178).</div>
-        <div class="xw-tier"><span class="xw-t2">2 · expected</span> cumulative <b>0</b></div>
-        <div class="xw-tier"><span class="xw-t2">3 · nuanced</span> cumulative <b>1–2</b></div>
-        <div class="xw-tier"><span class="xw-t2">4 · far-in-frame</span> cumulative <b>3–4</b> — distant, but still inside the song's frame</div>
-      </li>
-      <li><b>Grow, or terminate</b> — <b>three ways a chain ends, only two of them terminations</b>: (1) no admissible move exists — the model writes <span class="m">TERMINATED | none</span>, <i>self-declared</i>; (2) everything here was pruned; (3) reached M8′ — a <b>finished path</b>, not a termination. <span class="xw-note">A chain that exhausts <b>simply ends</b>. Expected, not a failure — <b>ragged depth is information</b>. Whether a short chain means a <i>thinner</i> world is an interpretation reached afterwards across many chains, never a label applied at generation time.</span></li>
+      <li><b>Measure distance, assign tier</b> — computed, never asked for. <span class="xw-note">Two numbers: <b>step</b> (from the parent) and <b>cumulative</b> (from the song).</span></li>
+      <li><b>Grow, or terminate</b> — and record which, and why.</li>
     </ol>
-    <div class="xw-out"><b>out</b> — and <b>nothing here is thrown away</b>:
-      <div class="tbl"><table class="d" style="margin-top:7px"><tr><th style="width:22%">output</th><th style="width:26%">trigger</th><th>what it means</th></tr>
-        <tr><td class="id"><b>complete paths</b></td><td class="id">reached M8′ unpruned</td><td>A whole alternative world, eight moves. <b>The deliverable.</b></td></tr>
-        <tr><td class="id"><b>Pile A</b></td><td class="id">Sitz → <span class="m">BARRED</span></td><td><b>A different world could hold it.</b> The move is coherent; its governing concept simply was not available by 1963 — Maslow, codependency, online-validation. <b>Kept as a finding.</b></td></tr>
-        <tr><td class="id"><b>Pile B</b></td><td class="id">branch-state → <span class="m">contradiction</span></td><td><b>It doesn't follow in any world.</b> Not a period problem — the move does not cohere with what precedes it. <b>Kept as a finding.</b></td></tr>
-      </table>
-      <p class="cap"><b>Pile A is a boundary of the era; Pile B is a boundary of coherence.</b> One tells you what 1963 could not think; the other tells you what nothing can think. Keeping them apart is the whole point of having two piles — and <b>neither is discarded</b>: "set aside" would read as thrown away, and Pile A in particular is the direct evidence that the Sitz ceiling is doing work.</p>
-      <p class="cap" style="color:var(--terracotta)"><b>And doorways are not pruned either.</b> They are kept and bundled by the frame they exit onto. A doorway is the most interesting thing the engine produces — a reader arriving off the word "gate" will assume it was filtered out, and it was not.</p></div>
-    </div>
+    <div class="xw-out"><b>out</b> → complete paths + <b>Pile A</b> (another world could hold it) + <b>Pile B</b> (doesn't follow)</div>
   </div>
 
   <div class="key" style="border-left-color:var(--terracotta)"><b>How generation works — and it differs by depth. <span class="st locked">IRR201 · 5/5</span></b>
@@ -3593,10 +3582,6 @@ the same for every branch at that depth, <b>never taken from the generated paren
   #x-working .xw-p{font-size:13.5px;color:var(--ink-2);line-height:1.6;max-width:86ch;margin:6px 0 10px}
   #x-working .xw-note{font-size:11.5px;color:var(--ink-3);font-style:italic}
   #x-working .xw-box{border:1px solid var(--rule);border-radius:9px;background:var(--paper);padding:13px 15px;margin:8px 0 12px}
-  #x-working .xw-tier{font-size:12px;color:var(--ink-2);margin:5px 0 0;line-height:1.5;padding-left:2px}
-  #x-working .xw-t1{font-family:var(--mono);font-size:10px;color:var(--paper);background:var(--terracotta);border-radius:4px;padding:1px 7px;margin-right:6px}
-  #x-working .xw-t2{font-family:var(--mono);font-size:10px;color:var(--ink-2);background:var(--paper-2);border:1px solid var(--rule);border-radius:4px;padding:1px 7px;margin-right:6px}
-  #x-working .xw-runb{margin-top:7px;font-size:11.5px;color:var(--ink-2);background:rgba(196,96,47,.08);border-left:2px solid var(--terracotta);border-radius:0 5px 5px 0;padding:7px 10px;line-height:1.5}
   #x-working .xw-two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:8px 0}
   @media(max-width:760px){#x-working .xw-two{grid-template-columns:1fr}}
   #x-working .mt-hist{margin:6px 0}
