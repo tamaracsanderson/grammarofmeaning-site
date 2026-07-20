@@ -2092,25 +2092,29 @@ pre.eq{white-space:pre}
     <div class="tbl"><table class="d">
       <tr><th style="width:16%">Stage</th><th>What it is</th></tr>
       <tr><td class="id"><b>INPUT</b></td><td><b>Three things.</b> (1) The song <b>analyzed to its grammar</b> — eight moves, their edges, its Sitz, its paradigm, its frame coordinate. (2) <b>One substitution at the root</b>: M1 <span class="m">hurt</span> → <span class="m">healed</span>, a <i>contrary</i>. (3) The instruction to run.</td></tr>
-      <tr><td class="id"><b>BLACK BOX</b></td><td>Seven steps, below. At every fork the engine asks what the song's <i>own edge</i> demands, generates the codeable kinds, gates them, measures the distance, and either grows the path or stops it.</td></tr>
+      <tr><td class="id"><b>BLACK BOX</b></td><td>A declaration, then six steps in a loop. At every fork the engine asks what the song's <i>own edge</i> demands, generates by <b>axis perturbation anchored to the source's slot</b>, runs the four checks, measures the distance, and either grows the path or terminates it.</td></tr>
       <tr><td class="id"><b>OUTPUT</b></td><td>Every complete alternate world as a <b>full eight-move path written as a paragraph</b> — a readable sentence, not a row of codes. Plus the two piles that fall <i>outside</i> the tree, which are the interesting part.</td></tr>
     </table>
     <p class="cap"><b>How big is the space?</b> It is a branching count, not a measurement: with three options per fork the space is <b>3<sup>7</sup> = 2,187</b> complete paths; with four, <b>4<sup>7</sup> = 16,384</b>. Gating reduces what is admissible from there. The realised figure arrives with the run.</p></div>
 
-  <h3 class="c6-h">The seven steps</h3>
+  <h3 class="c6-h">One declaration, then six steps in a loop</h3>
   <div class="tbl"><table class="d">
     <tr><th style="width:6%">#</th><th style="width:26%">Step</th><th>What happens</th></tr>
-    <tr><td class="id"><b>1</b></td><td><b>Declare the contract</b></td><td>State what is <b>HELD</b> and what is <b>VARIED</b>. Everything downstream is only interpretable against this declaration.</td></tr>
-    <tr><td class="id"><b>2</b></td><td><b>Stand at a fork</b></td><td>Take the path so far — the moves already committed — as the situation the next move must follow from.</td></tr>
-    <tr><td class="id"><b>3</b></td><td><b>Ask what the song's own edge demands</b></td><td>Not "what could come next?" but "what does <i>this</i> edge require?" The source's structure sets the question; the engine does not invent one.</td></tr>
-    <tr><td class="id"><b>4</b></td><td><b>Generate the codeable kinds</b></td><td>The three below — contrary, between, privation — plus anything that lands <i>beyond</i> the paradigm, which is flagged rather than coded.</td></tr>
-    <tr><td class="id"><b>5</b></td><td><b>Gate on four checks</b></td><td>Era (Sitz) · paradigm · path-coherence · state. A failure does not always mean discard — <i>which</i> check failed decides which pile it lands in.</td></tr>
-    <tr><td class="id"><b>6</b></td><td><b>Measure the distance, assign a tier</b></td><td>A <b>computed</b> coordinate distance from the source's frame (§C3), placing the branch in a tier. This is measured, not asserted.</td></tr>
-    <tr><td class="id"><b>7</b></td><td><b>Grow or stop</b></td><td>Continue the path to the next fork, or terminate it — and record which, and why.</td></tr>
+    <tr class="c6-decl"><td class="id"><b>0</b></td><td><b>Declare what's held and what's varied</b><br><span class="c6-once">once per run — not a loop step</span></td><td><b>VARIED (run&nbsp;A):</b> four axes — <span class="m">E</span> · <span class="m">T</span> · <span class="m">S1</span> · <span class="m">S2</span>, one axis at a time, one step, from the parent's value.<br><b>HELD:</b> the other three axes (<span class="m">M</span> · <span class="m">O</span> · <span class="m">G</span>) · the song's edge at each position · the source's structural slot at each depth · the Sitz ceiling (≤1963) · the tier cuts · the vocabulary.<br><span class="c6-note-i">Run&nbsp;B varies all seven — that difference <i>is</i> the A/B test. The held set is much larger and differently shaped than the varied set, which is why this is a <b>declaration</b> rather than a step: it sits above the loop and is not re-negotiated at each fork.</span></td></tr>
+    <tr><td class="id"><b>1</b></td><td><b>Stand at a fork</b></td><td>Take the path so far — the moves already committed — as the situation the next move must follow from.</td></tr>
+    <tr><td class="id"><b>2</b></td><td><b>Ask what the song's own edge demands</b></td><td>Not "what could come next?" but "what does <i>this</i> edge require?" The source's structure sets the question; the engine does not invent one.<br><span class="c6-warn"><b>A declared narrowing:</b> the engine holds <b>the forward spine only</b> — one <span class="m">FEEDS</span> edge per position. The song actually carries three families at once (<a href="#viz-1">VIZ-1</a>): <span class="m">FEEDS</span> forward, <span class="m">FILLS</span> running <i>backward</i>, and <span class="m">COMPOSES</span> from every move to the whole. So no generated world can contain a move that <i>answers an earlier gap</i> — a capability the source demonstrably has. <b>The alt tree is edge-poorer than the song by construction.</b> Acceptable for run&nbsp;A; recorded here because it is a narrowing, not a neutral simplification.</span></td></tr>
+    <tr><td class="id"><b>3</b></td><td><b>Generate</b> — and it differs by depth <span class="st locked">IRR201 · D186</span></td><td><b>At depth&nbsp;1</b> (the substitution itself) the alternative-kinds below apply: <span class="m">you hurt her</span> → <span class="m">you healed her</span> is a <b>CONTRARY</b>, anchored in the real text.<br><b>At depth&nbsp;≥2 they do not.</b> Generation is by <b>explicit axis perturbation</b> anchored to the <b>source's</b> slot at that position — <i>"the epistemic warrant shifts from testimony to speculation, holding telos: harmony, satisfying the FEEDS edge."</i><br><b>Never</b> "a move at distance&nbsp;2" (that scores the instruction, not the move — distance is measured <i>afterwards</i>) and <b>never</b> "the contrary of the previous move": beyond depth&nbsp;1 the thing you would take the contrary <i>of</i> is your own previous guess. <b>The trunk anchors every branch; branches never anchor to each other.</b></td></tr>
+    <tr><td class="id"><b>4</b></td><td><b>Run the four checks</b><br><span class="c6-once">two prune · one shapes · one only measures</span></td><td><b>"Gate" is the wrong word for all four</b> — they do different jobs, and the difference is the part most easily misread:<br>· <b>Sitz</b> — <i>prevents and prunes.</i> The barred lexicon is in the prompt, so the model is told upfront; anything returned <span class="m">BARRED</span> is dropped anyway.<br>· <b>branch-state</b> — <i>prunes.</i> A <span class="m">contradiction</span> is dropped.<br>· <b>path-coherence</b> — <i>shapes, prunes nothing.</i> It is the anchoring to the source's slot, so it changes what gets generated and leaves less to throw away.<br>· <b>frame / paradigm</b> — <i>prunes nothing at all.</i> It only assigns the tier. <b>It is a ruler, not a filter</b> (IRR199&nbsp;U4).</td></tr>
+    <tr><td class="id"><b>5</b></td><td><b>Measure the distance, assign a tier</b></td><td>A <b>computed</b> coordinate distance from the source's frame (§C3), placing the branch in a tier. This is measured, not asserted.</td></tr>
+    <tr><td class="id"><b>6</b></td><td><b>Grow or stop</b></td><td>Continue the path to the next fork, or terminate it — and record which, and why.</td></tr>
   </table></div>
 
-  <h3 class="c6-h">The three codeable kinds — and their geometry</h3>
-  <p class="c6-note">These are the <a href="#b-alt">§B5</a> alternative kinds, with the shape each one has relative to the move it replaces. The geometry column is the part worth holding: they are not three flavours of "different," they differ along <i>different dimensions</i>.</p>
+  <div class="flag" style="border-left-color:var(--terracotta)"><span class="pin">A known weakness in two of the four checks</span>
+    <b>Sitz and branch-state prune on the model's own self-report</b> — it answers <span class="m">sitz:IN|BARRED</span> and <span class="m">state:ok|contradiction</span> about its own output. That is the same failure IRR201 named for distance: <b>asking a model to report a property of its answer scores its compliance with the instruction, not the property.</b> The frame check does <i>not</i> have this problem, because the coordinate is computed from the text afterwards. <b>Flagged, fix pending</b> — the honest version, and the more interesting one.
+  </div>
+
+  <h3 class="c6-h">The three codeable kinds — and their geometry <span class="c6-sup">depth&nbsp;1 only</span></h3>
+  <p class="c6-note">These are the <a href="#b-alt">§B5</a> alternative kinds, with the shape each one has relative to the move it replaces. The geometry column is the part worth holding: they are not three flavours of "different," they differ along <i>different dimensions</i>.<br><br><b class="c6-supx">Superseded beyond depth&nbsp;1 — kept because the change is itself method content.</b> This taxonomy was the generation rule <i>at every fork</i> until IRR201 (Decision&nbsp;186) found unanimously that it degrades from depth&nbsp;2 onward — the thing you would take the contrary of is your own previous guess, and <i>"the contrary of a guess is a double-guess."</i> It still governs <b>depth&nbsp;1</b>, where the anchor is the real text. Beyond that, see step&nbsp;4.</p>
   <div class="tbl"><table class="d">
     <tr><th style="width:20%">Kind</th><th>What it is</th><th style="width:20%">Geometry</th></tr>
     <tr><td class="id"><b>CONTRARY</b></td><td>The far pole — still engaged with the same relation, pointing the other way.</td><td class="id"><b>sign</b></td></tr>
@@ -2149,6 +2153,12 @@ pre.eq{white-space:pre}
   </div>
 
   <style>
+  #c-engine .c6-decl{background:rgba(224,169,59,.09)}
+  #c-engine .c6-once{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.03em}
+  #c-engine .c6-note-i{font-size:11.5px;color:var(--ink-3);display:block;margin-top:5px;line-height:1.5}
+  #c-engine .c6-warn{display:block;margin-top:6px;font-size:12px;color:var(--ink-2);background:rgba(196,96,47,.07);border-left:2px solid var(--terracotta);padding:6px 9px;border-radius:0 5px 5px 0;line-height:1.5}
+  #c-engine .c6-sup{font-family:var(--mono);font-size:10px;color:var(--paper);background:var(--terracotta);border-radius:20px;padding:2px 8px;vertical-align:middle}
+  #c-engine .c6-supx{color:var(--terracotta)}
   #c-engine .c6-h{font-family:var(--serif);font-size:17px;color:var(--ink);margin:26px 0 3px}
   #c-engine .c6-note{font-size:13px;color:var(--ink-3);margin:2px 0 10px;max-width:84ch;line-height:1.55}
   #c-engine .c6-piles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0 4px}
@@ -3405,21 +3415,19 @@ WHY: &lt;one sentence — if FALSE, name what {name} actually holds&gt;</div>
 
   <p class="xw-sub"><b>2a · the black box</b></p>
   <div class="xw-box">
-    <div class="xw-flow">
-      <span class="xw-n">1</span> declare the contract — what is <b>HELD</b>, what is <b>VARIED</b>
-      <span class="xw-ar">↓</span>
-      <span class="xw-n">2</span> hold the <b>song's own edge</b> at this position
-      <span class="xw-ar">↓</span>
-      <span class="xw-n">3</span> generate — <i>see the depth rule below; this is the part IRR201 changed</i>
-      <span class="xw-ar">↓</span>
-      <span class="xw-n">4</span> gate on four checks — <b>Sitz · paradigm · path-coherence · branch-state</b>
-      <span class="xw-ar">↓</span>
-      <span class="xw-n">5</span> measure distance, assign tier <span class="xw-note">(computed, never asked for)</span>
-      <span class="xw-ar">↓</span>
-      <span class="xw-n">6</span> grow, or <b>terminate</b>
-      <span class="xw-ar">↓</span>
-      <span class="xw-n">7</span> out → complete paths + <b>Pile A</b> (another world could hold it) + <b>Pile B</b> (doesn't follow)
+    <div class="xw-decl"><b>declared once per run — not a loop step</b>
+      <div class="xw-hv"><span class="xw-hvk">VARIED</span> four axes — <span class="m">E</span> · <span class="m">T</span> · <span class="m">S1</span> · <span class="m">S2</span>, one axis at a time, one step, from the parent's value <span class="xw-note">(run B varies all seven — that difference <i>is</i> the A/B test)</span></div>
+      <div class="xw-hv"><span class="xw-hvk xw-hvh">HELD</span> the other three axes (<span class="m">M</span> · <span class="m">O</span> · <span class="m">G</span>) · the song's edge at each position · the source's structural slot at each depth · the Sitz ceiling (≤1963) · the tier cuts · the vocabulary</div>
     </div>
+    <ol class="xw-steps">
+      <li><b>Stand at a fork</b> — the path so far is the situation the next move must follow from.</li>
+      <li><b>Hold the song's edge</b> at this position. <span class="xw-note">Forward spine only — backward <span class="m">FILLS</span> and whole-text <span class="m">COMPOSES</span> are not yet carried. A declared narrowing, not a neutral one.</span></li>
+      <li><b>Generate</b> — alternative-kinds at <b>depth&nbsp;1</b>; <b>axis perturbation anchored to the source's slot</b> at depth&nbsp;≥2. <span class="xw-note">Distance is never asked for.</span></li>
+      <li><b>Run the four checks</b> — <span class="m">Sitz</span> <i>prevents and prunes</i> · <span class="m">branch-state</span> <i>prunes</i> · <span class="m">path-coherence</span> <i>shapes, prunes nothing</i> · <span class="m">frame</span> <i>prunes nothing — it only assigns the tier</i>. <span class="xw-note"><b>The frame check is a ruler, not a filter.</b></span></li>
+      <li><b>Measure distance, assign tier</b> — computed, never asked for. <span class="xw-note">Two numbers: <b>step</b> (from the parent) and <b>cumulative</b> (from the song).</span></li>
+      <li><b>Grow, or terminate</b> — and record which, and why.</li>
+    </ol>
+    <div class="xw-out"><b>out</b> → complete paths + <b>Pile A</b> (another world could hold it) + <b>Pile B</b> (doesn't follow)</div>
   </div>
 
   <div class="key" style="border-left-color:var(--terracotta)"><b>How generation works — and it differs by depth. <span class="st locked">IRR201 · 5/5</span></b>
@@ -3504,6 +3512,13 @@ the same for every branch at that depth, <b>never taken from the generated paren
   #x-working .xw-p{font-size:13.5px;color:var(--ink-2);line-height:1.6;max-width:86ch;margin:6px 0 10px}
   #x-working .xw-note{font-size:11.5px;color:var(--ink-3);font-style:italic}
   #x-working .xw-box{border:1px solid var(--rule);border-radius:9px;background:var(--paper);padding:13px 15px;margin:8px 0 12px}
+  #x-working .xw-decl{background:rgba(224,169,59,.10);border-radius:7px;padding:9px 12px;margin-bottom:10px;font-size:12px;color:var(--ink-2)}
+  #x-working .xw-hv{margin-top:6px;line-height:1.55}
+  #x-working .xw-hvk{font-family:var(--mono);font-size:9.5px;font-weight:700;color:var(--paper);background:var(--olive);border-radius:4px;padding:1px 7px;margin-right:6px}
+  #x-working .xw-hvh{background:var(--moss)}
+  #x-working .xw-steps{margin:0;padding-left:22px;display:grid;gap:7px}
+  #x-working .xw-steps li{font-size:13px;color:var(--ink-2);line-height:1.55}
+  #x-working .xw-out{margin-top:10px;padding-top:9px;border-top:1px dashed var(--rule);font-size:13px;color:var(--ink-2)}
   #x-working .xw-flow{font-size:13px;color:var(--ink-2);line-height:1.9}
   #x-working .xw-n{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--paper);background:var(--moss);border-radius:50%;padding:1px 6px;margin-right:5px}
   #x-working .xw-ar{color:var(--fern);margin:0 8px}
