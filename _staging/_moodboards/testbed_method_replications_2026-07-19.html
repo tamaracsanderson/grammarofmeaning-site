@@ -106,7 +106,7 @@
   <h1>Method Test-Bed — replications on archive material 🔬</h1>
   <div class="sub">A <b>lab notebook</b>, not a gallery. Each entry takes one published method, runs it on real material from the corpus, and records what actually happened — including the failures, which are usually the informative part. The moodboards collect <i>references</i>; this collects <i>attempts</i>.</div>
   <div class="note"><b>Five bays per test, always the same.</b> ① the <b>paper</b> · ② the <b>input</b> (what we fed it) · ③ the <b>interaction</b> (the gestures/parameters we actually supplied) · ④ the <b>output</b> (what came back) · ⑤ the <b>post-mortem</b> — written for the next LLM that has to reproduce this on a different image, and phrased as instructions, not narrative.</div>
-  <div class="note" style="border-left-color:var(--red)"><b>Honesty rule for this page.</b> Runs are reported at the parameters that produced them, with recall stated. Where a method under-performs we say so and name the cause — a tuned-until-it-looks-good result with the tuning hidden is worse than no result. Of the three runs below, one works, one is partial, one fails — <b>the range is the finding</b>, not any single run.<br><br>
+  <div class="note" style="border-left-color:var(--red)"><b>Honesty rule for this page.</b> Runs are reported at the parameters that produced them, with recall stated. Where a method under-performs we say so and name the cause — a tuned-until-it-looks-good result with the tuning hidden is worse than no result. Across the four runs below — <b>two methods</b>, entry 01 in three runs and entry 02 in one — the results span works · partial · fails · works. <b>The range is the finding</b>, not any single run.<br><br>
     <b>This page has already been corrected once.</b> Test 01's verdict originally read "the machinery all works," which let <i>the pipeline ran</i> stand in for <i>the result is good</i>. It isn't: the birds read as sliding cut-outs. The researcher caught it; the panel is rewritten and the original wording is quoted in place rather than removed. Corrections stay visible on this page.</div>
   <div class="note"><b>Renders anywhere.</b> Source images are <b>Met Open Access, public domain</b> (objects 451725 and 57120), so unlike the copyright-bound design captures on this shelf, these <i>can</i> be republished — this page needs no "open it on your own machine" caveat.</div>
   <div class="legend">
@@ -123,6 +123,9 @@
   <a href="#t01">Test 01 · Concourse of the Birds</a>
   <a href="#t02">Test 02 · Swallow and Camellia</a>
   <a href="#t03">Test 03 · The ceiling test ★</a>
+  <a href="#paper02">① Paper 02 — Voronoi Stippling</a>
+  <a href="#t04">Test 04 · 'Abdu'l-Bahá, 1868</a>
+  <a href="#rules">Cross-entry rules</a>
   <a href="#postmortem">⑤ Post-mortem — notes for the next LLM</a>
   <a href="#code">Code</a>
   <a href="#repro">Reproduce</a>
@@ -337,9 +340,115 @@
 </section>
 
 <!-- ===================== POST-MORTEM ===================== -->
+<!-- ===================== ENTRY 02 — PAPER ===================== -->
+<section id="paper02">
+  <h2>① Paper 02 — Weighted Voronoi Stippling</h2>
+  <div class="pat">Method 02 — reproducing a photograph's tonal range using nothing but uniformly-sized dots.</div>
+
+  <div class="papercard">
+    <p class="cite"><b>Weighted Voronoi Stippling</b> — Adrian Secord<br>
+      <span style="font-size:12px">run via Mike Bostock's implementation, <a href="https://observablehq.com/@mbostock/voronoi-stippling" target="_blank" rel="noopener">Voronoi Stippling</a></span></p>
+    <div class="doi">NPAR 2002 (Symposium on Non-Photorealistic Animation and Rendering) · notebook: observablehq.com/@mbostock/voronoi-stippling</div>
+
+    <p style="font-size:12.5px;margin:11px 0 0">Scatter <i>n</i> points over an image, then repeatedly move each point to the <b>luminance-weighted centroid</b> of its Voronoi cell — Lloyd's algorithm, with darkness as the weight. Dark regions pull harder, so the points settle at a density proportional to image darkness. The result reproduces a full tonal range using <b>only uniform dots</b>: no greys, no line weight, no hatching. It is the mathematics of a 19th-century engraver's stipple.</p>
+
+    <table class="stages">
+      <tr><th>Step</th><th>What it does</th><th>Constant</th></tr>
+      <tr><td>1 · Density</td><td>Image → luminance → darkness field in [0,1]</td><td>—</td></tr>
+      <tr><td>2 · Seed</td><td>Rejection sampling: random position accepted with p = density</td><td>max 30 tries/point</td></tr>
+      <tr><td>3 · Assign</td><td>Every weighted pixel goes to its nearest point (= its Voronoi cell)</td><td>—</td></tr>
+      <tr><td>4 · Move</td><td>Each point → weighted centroid of its cell, <b>over-relaxed past it</b>, plus annealed jitter to escape local minima</td><td>×1.8; jitter (k+1)<sup>−0.8</sup>·10</td></tr>
+      <tr><td>5 · Repeat</td><td>Iterate to convergence</td><td>80 iterations</td></tr>
+    </table>
+
+    <div class="why"><b>Why we tried it, and how it differs from entry 01.</b> Entry 01 is <i>mixed-initiative</i> — it cannot run without human gestures. This one is <b>fully automatic</b>: no circles, no strokes, only parameters. That contrast is the reason to have both on the shelf. And the mechanic is a candidate for the garden's own idiom: stippling renders a subject as a <b>density field</b>, which is formally what the project already does to texts when it places passages as points in a morphospace. Same move, different substrate.</div>
+  </div>
+</section>
+
+<!-- ===================== TEST 04 ===================== -->
+<section id="t04">
+  <h2>Test 04 — a photograph, not a painting<span class="st ok">WORKS</span></h2>
+  <div class="pat">The first test on a <b>photograph</b> from the archive rather than an artwork — and the first fully-automatic method, so there are no gestures to get wrong.</div>
+
+  <div class="run">
+    <div class="hd">
+      <h3>'Abdu'l-Bahá ('Abbás Effendi), studio portrait, 1868</h3>
+      <div class="meta">albumen-era studio photograph · already in the media cache (Wikimedia, public domain) · tradition <code>ABR-BAH</code> · 227×283 px source · run 2026-07-19, ~4 s for 30,000 points × 80 iterations</div>
+    </div>
+    <div class="bays">
+
+      <div class="bay">
+        <span class="lab in">② INPUT</span>
+        <img src="anim_lab_2026-07-19/stip_input.jpg" alt="1868 studio portrait of 'Abdu'l-Bahá">
+        <div class="cap">Chosen deliberately: a real <b>photograph</b> (the higher-resolution "portraits" in the cache are all paintings), and stippling is a <b>19th-century reproduction idiom</b> — so technique and source are era-matched. Small at 227×283, which turns out not to matter: stippling is a low-frequency reconstruction.</div>
+        <div class="verdict" style="margin-top:9px"><b>A note on this image, recorded before more of these are run.</b> Bahá'í practice distinguishes sharply here: photographs of <b>'Abdu'l-Bahá are freely and widely reproduced</b> in Bahá'í literature and official media — this image is appropriate to use. Images of <b>Bahá'u'lláh and the Báb are treated with particular reverence</b> and shown only in specific contexts, not displayed casually. The cache is Bahá'í-heavy, so this is on the record now rather than discovered later.</div>
+      </div>
+
+      <div class="bay">
+        <span class="lab inter">③ INTERACTION</span>
+        <div class="gest"><b>No gestures at all.</b> Unlike entry 01, nothing is circled or drawn — the method is fully automatic. The whole interaction surface is parameters.</div>
+        <div class="gest"><b>30,000 points</b> · density field 620 px wide · 80 iterations · dot radius 0.80.</div>
+        <div class="gest"><b>Tone curve: p5–p95 stretch, γ1.4.</b> <span style="color:var(--red)"><b>Not optional</b></span> — see the pipeline bay. This is the one genuinely interpretive parameter, and it is logged rather than folded into a nicer-looking result.</div>
+        <pre class="params">--points 30000 --width 620 --iterations 80
+--stretch "5,95" --gamma 1.4 --floor 0.02 --dot 0.80</pre>
+        <div class="cap" style="margin-top:9px">Bostock's constants used unchanged: 30-try rejection sampling, over-relaxation 1.8, annealed jitter. One substitution — scipy <code>cKDTree</code> for <code>d3-delaunay.find()</code>; same nearest-point assignment, different index structure.</div>
+      </div>
+
+      <div class="bay">
+        <span class="lab stage">PIPELINE · THE TONE-CURVE FINDING</span>
+        <div class="strip">
+          <figure><img src="anim_lab_2026-07-19/stip_density.jpg" alt="darkness density field"><figcaption><b>1</b> density field<br>(white = more dots)</figcaption></figure>
+          <figure><img src="anim_lab_2026-07-19/stip_naive.jpg" alt="naive stipple, illegible"><figcaption><b>2</b> ★ <span style="color:var(--red)">naive run</span><br>faithful → illegible</figcaption></figure>
+        </div>
+        <div class="cap"><b>The naive run is the finding.</b> Same 30,000 points, same 80 iterations, no tone curve — and the portrait dissolves. The histogram says why: the lit face sits at darkness ≈<b>0.24–0.31</b> and the studio backdrop at ≈<b>0.20</b>. About <b>0.05 apart</b>. Only hair, beard and clothing separate at all.<br><br>Stippling reproduces tone <i>faithfully</i> — so a low-contrast photograph yields a low-contrast, unreadable stipple. <b>Faithfulness and legibility are in tension here</b>, and the method cannot resolve that on its own.</div>
+        <div class="nums">
+          <span>points <b>30,000</b></span><span>iterations <b>80</b></span>
+          <span>face−ground Δ <b>≈0.05</b></span><span>runtime <b>~4 s</b></span>
+        </div>
+      </div>
+
+      <div class="bay">
+        <span class="lab out">④ OUTPUT</span>
+        <img src="anim_lab_2026-07-19/stip_final.jpg" alt="Voronoi stipple of the 1868 portrait">
+        <img src="anim_lab_2026-07-19/stip_convergence.gif" alt="Lloyd's relaxation converging over 80 iterations" style="margin-top:7px">
+        <div class="cap">Above: the finished stipple. Below: the relaxation converging — iteration 1 is the raw rejection-sampled cloud, clumped and noisy; by iteration 12 the tonal structure has emerged; by 80 the dot spacing is even <i>and</i> density still tracks tone. That evenness is what the over-relaxation and the annealed jitter buy.</div>
+        <div class="verdict"><b>Verdict — works, and the interesting part is the parameter that isn't a parameter.</b> The method does exactly what it claims, quickly, with no gestures to get wrong. But it only becomes legible after a tone curve, and <b>that curve is an interpretive act rather than a setting</b>: it decides which tonal relationships survive into the reproduction. An engraver working from this same photograph would have made the same decision by hand and called it judgment. Recording it as an explicit, logged parameter is the honest version.<br><br>
+          <b>It also rhymes with entry 01.</b> There the method needed the <i>elements</i> to have a property (rigidity). Here it needs the <i>image</i> to have one (tonal separation). Both entries fail in the same shape — see the cross-entry rules below.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CROSS-ENTRY RULES ===================== -->
+<section id="rules">
+  <h2>Cross-entry rules</h2>
+  <div class="pat">Rules that survived contact with more than one method. The per-entry post-mortems below are specific to entry 01; these are the ones that generalise, and they are the page's actual output.</div>
+
+  <ol class="pm" style="max-width:1020px">
+    <li><b>Ask what property the method requires of the material — and check the material has it — BEFORE running.</b><span class="sev block">SELECTION-TIME</span>
+      <span class="why">Both entries fail in this exact shape. Entry 01 needs elements whose real motion is <b>rigid translation</b>; perched birds don't have it, and no tuning supplies it. Entry 02 needs an image with <b>tonal separation</b>; a low-contrast studio portrait doesn't have it, and faithfully reproducing what isn't there yields mush. <b>Material properties gate the method.</b> This is a selection-time rule, not a reporting-time one — it prevents the run rather than explaining it afterwards, which is why it sits first.</span></li>
+
+    <li><b>The output's plausibility is not evidence the process worked.</b><span class="sev block">ALWAYS</span>
+      <span class="why">Entry 01's bird animation looked like an animation while recovering only ~10 of ~25 objects — the emitter re-uses whatever it has, so a thin extraction still yields a full-looking scene. A result that looks right is not a measurement. State recall, state the cap, state what was substituted.</span></li>
+
+    <li><b>Some parameters are interpretive claims wearing the costume of settings.</b><span class="sev big">HIGH</span>
+      <span class="why">Entry 01's motion stroke decides what the picture is <i>about</i> (we sent the birds up the mountain because Attar's poem is an ascent). Entry 02's tone curve decides which tonal relationships survive into the reproduction. Neither is a default with a right answer. Log them, and say why they were chosen — a reader can argue with a stated choice and cannot argue with a hidden one.</span></li>
+
+    <li><b>Never truncate silently — window, or flag.</b><span class="sev big">HIGH</span>
+      <span class="why">A cap that leaves no trace in its own output reads as completeness. Entry 01's Test 03 animates 300 of 3,692 detected objects and <i>prints</i> that, because a silent cap would read as "we animated everything." The same failure has a nastier form: a <b>negative result inherits the completeness of the search that produced it</b> — "not found" is only ever as strong as "looked everywhere," so a truncated search reports a false absence with total confidence. Applies to greps and branch lists exactly as it applies to object counts.</span></li>
+
+    <li><b>Hold everything constant except the variable under test.</b><span class="sev big">HIGH</span>
+      <span class="why">When the question is "is this a property of the method or of the material?", find the control that already exists inside the material you have. Test 03 used the <i>margin of the same folio</i> rather than a different print, so artist, era, medium and scan quality could not explain the difference. A second plate would have been a second anecdote.</span></li>
+
+    <li><b>Corrections stay visible.</b><span class="sev note">PRACTICE</span>
+      <span class="why">Test 01's verdict originally read "the machinery all works." It's rewritten, and the original wording is <b>quoted in place rather than deleted</b>. A page that silently improves its own past claims is not a lab notebook. This is the habit that earns the honesty rule at the top instead of merely asserting it.</span></li>
+  </ol>
+</section>
+
 <section id="postmortem">
-  <h2>⑤ Post-mortem — notes for the next LLM</h2>
-  <div class="pat">Written as instructions for whoever runs this on the next image, in rough order of how much time each one saves. Severity: <span class="sev block">BLOCKING</span> gets you nothing without it · <span class="sev big">HIGH</span> costs you runs · <span class="sev note">NOTE</span> quality/efficiency.</div>
+  <h2>⑤ Post-mortem — notes for the next LLM <span style="font-weight:normal;font-size:13px;color:var(--muted)">· entry 01 (animating static pictures)</span></h2>
+  <div class="pat">Specific to entry 01 — written as instructions for whoever runs <i>that</i> method on the next image, in rough order of how much time each one saves. The rules that generalise across methods are in <a href="#rules">cross-entry rules</a> above. Severity: <span class="sev block">BLOCKING</span> gets you nothing without it · <span class="sev big">HIGH</span> costs you runs · <span class="sev note">NOTE</span> quality/efficiency.</div>
 
   <ol class="pm">
     <li><b>Crop to the plate before anything else.</b><span class="sev block">BLOCKING</span>
@@ -408,9 +517,9 @@
 <!-- ===================== CODE ===================== -->
 <section id="code">
   <h2>The code</h2>
-  <div class="pat">One file, image-agnostic — gestures are normalised 0–1 so they are resolution-independent and portable between plates.</div>
+  <div class="pat">One file per entry, both image-agnostic — parameters are normalised so they are resolution-independent and portable between plates.</div>
   <div class="papercard" style="border-left-color:var(--l-post)">
-    <p class="cite"><b><a href="anim_lab_2026-07-19/animate_static.py" style="color:var(--gold-deep)">animate_static.py</a></b> · ~470 lines · Python + OpenCV + ffmpeg</p>
+    <p class="cite"><b><a href="anim_lab_2026-07-19/animate_static.py" style="color:var(--gold-deep)">animate_static.py</a></b> · entry 01 · 717 lines · Python + OpenCV + ffmpeg</p>
     <p style="font-size:12px;margin:8px 0 0">All five stages, faithful to the paper's actual mathematics rather than a gesture at it: the two-phase emission probability with its logistic controller, the scale-over-path linear fit, and the loop-seam distance. Two acknowledged substitutions: <code>cv2.inpaint</code> (Telea) for PatchMatch, and the outside-annulus background sampling described in note 5 above, which departs from the paper because the paper's version failed on this material.</p>
     <pre class="params" style="font-size:10px">// the paper's emission controller — Stage E
 P_e(t_i) = P_d(t_i - t_{i-1})              if t_i &lt; D/v     // fill the pipeline
@@ -422,6 +531,18 @@ C(n)     = 2e^x/(e^x + 1),   x = N - n     // N = target count from the source i
 D_ij = Σ_{k=0}^{K-1} (K-k)/K · ( |(t_{i+k}-t_i) - (t_{j+k}-t_j)| + |e_{i+k}-e_{j+k}| )
        minimised over pairs, interval constrained to 2×–4× particle lifetime</pre>
     <div class="why" style="margin-top:10px"><b>Status: exploratory.</b> Lives in the scratchpad, not in <code>scripts/</code>, and carries no methodology footer yet — it is a <i>diverge</i> artifact. If this mechanic gets adopted, it consolidates into <code>scripts/</code> with the footer and a seed-agnostic CLI at that point, not before.</div>
+  </div>
+
+  <div class="papercard" style="border-left-color:var(--l-post);margin-top:14px">
+    <p class="cite"><b><a href="anim_lab_2026-07-19/stipple.py" style="color:var(--gold-deep)">stipple.py</a></b> · entry 02 · ~200 lines · Python + NumPy + SciPy + ffmpeg</p>
+    <p style="font-size:12px;margin:8px 0 0">Bostock's constants used unchanged — 30-try rejection sampling, 80 iterations, over-relaxation 1.8, annealed jitter. One substitution: scipy <code>cKDTree</code> replaces <code>d3-delaunay.find()</code> for nearest-point assignment (same result, different index). The tone curve is an <i>addition</i>, not in the original, and is exposed as a logged CLI parameter precisely because it is the interpretive step.</p>
+    <pre class="params" style="font-size:10px">// weighted Lloyd's relaxation — the whole method
+assign:   each weighted pixel → nearest point (its Voronoi cell)
+centroid: cᵢ = Σ(w · p) / Σw          over the pixels of cell i
+move:     pᵢ ← pᵢ + (cᵢ − pᵢ) · 1.8 + jitter    // 1.8 = over-relax PAST the centroid
+jitter:   uniform ±w/2,  w = (k+1)^−0.8 · 10    // annealed: large early, ~0 late
+repeat 80×</pre>
+    <div class="why" style="margin-top:10px"><b>Why over-relaxation ×1.8 matters.</b> Moving exactly <i>to</i> the centroid (×1.0) is plain Lloyd's and converges slowly. Overshooting converges in tens of iterations rather than hundreds — which is what makes a 30,000-point stipple a 4-second operation rather than a coffee break, and therefore what makes iterating on the tone curve practical at all.</div>
   </div>
 </section>
 
@@ -453,10 +574,10 @@ python animate_static.py --image birds_crop.jpg \
 </section>
 
 <footer>
-  <b>Method Test-Bed</b> · started S153, 2026-07-19 · entry 01 of an ongoing series. New replications append as new <code>&lt;section&gt;</code> blocks using the same five-bay run panel; the post-mortem list is cumulative across entries where notes generalise.<br><br>
+  <b>Method Test-Bed</b> · started S153, 2026-07-19 · <b>entries 01–02</b>, ongoing. New methods append as a paper card + run panels using the same five-bay structure; per-entry post-mortems stay scoped to their entry, and anything that survives contact with a second method graduates to <a href="#rules">cross-entry rules</a>.<br><br>
   <b>HOW PRODUCED.</b> S153 (2026-07-19), at researcher request — read Willett et al. UIST 2018 and practise implementing it on archive material, then record the attempt as a browseable test-case page in the moodboard idiom. Both source images fetched from the Met Open Access API with researcher permission and provenance-logged to <code>data/media_cache/manifest.jsonl</code>.
-  <b>SCHOLARLY SOURCES.</b> Willett, Kazi, Chen, Fitzmaurice, Finkelstein &amp; Grossman, <i>A Mixed-Initiative Interface for Animating Static Pictures</i>, UIST '18, doi:10.1145/3242587.3242612; Rother, Kolmogorov &amp; Blake, <i>GrabCut</i>, ACM TOG 23(3), 2004; Barnes et al., <i>PatchMatch</i>, ACM TOG 28(3), 2009; Telea, <i>An Image Inpainting Technique Based on the Fast Marching Method</i>, 2004; Kazi et al., <i>Draco</i>, CHI '14 (kinetic textures). Met objects 451725 (Habiballah of Sava) and 57120 (Itō Jakuchū), both public domain. House style per <code>STYLE.md</code> and the S138 moodboard.
-  <b>WHAT NEEDS VERIFICATION.</b> (1) Bird recall is eyeballed at ~10/25 — no hand-annotated ground truth was made, so treat it as an estimate, not a measurement. The 3,692 fleck count is a component count, not validated against a hand count either. (2) The <code>cv2.inpaint</code>-for-PatchMatch substitution has not been quality-compared against a real PatchMatch. (3) The SAM-style Stage-B replacement proposed in the finding is untested speculation. (4) The 0.72 multi-cluster threshold was tuned on two images and has no principled basis. (5) <s>Loop seamlessness was verified by eye</s> — <b>now measured</b> as seam ÷ adjacent-frame difference: drift 1.1×, birds 1.3×, swallow 2.6×. (6) The colour-classifier Stage B is a substitution, not the paper's method; its failure mode (object colour overlapping ground colour) was reasoned about but never tested. (7) Test 03's "same folio" control removes artist/era/medium/scan confounds but not object <i>size</i> — flecks are both rigid AND tiny, so drift-vs-articulation and large-vs-small are not fully separated; a large rigid drifting object (lanterns, balloons) would disentangle them.
+  <b>SCHOLARLY SOURCES.</b> Willett, Kazi, Chen, Fitzmaurice, Finkelstein &amp; Grossman, <i>A Mixed-Initiative Interface for Animating Static Pictures</i>, UIST '18, doi:10.1145/3242587.3242612; Rother, Kolmogorov &amp; Blake, <i>GrabCut</i>, ACM TOG 23(3), 2004; Barnes et al., <i>PatchMatch</i>, ACM TOG 28(3), 2009; Telea, <i>An Image Inpainting Technique Based on the Fast Marching Method</i>, 2004; Kazi et al., <i>Draco</i>, CHI '14 (kinetic textures). <b>Entry 02:</b> Adrian Secord, <i>Weighted Voronoi Stippling</i>, NPAR 2002; Mike Bostock, <i>Voronoi Stippling</i> (observablehq.com/@mbostock/voronoi-stippling); Lloyd, <i>Least squares quantization in PCM</i>, IEEE Trans. Inf. Theory 28(2), 1982. Met objects 451725 (Habiballah of Sava) and 57120 (Itō Jakuchū) and the 1868 'Abdu'l-Bahá studio portrait (Wikimedia), all public domain. House style per <code>STYLE.md</code> and the S138 moodboard.
+  <b>WHAT NEEDS VERIFICATION.</b> (1) Bird recall is eyeballed at ~10/25 — no hand-annotated ground truth was made, so treat it as an estimate, not a measurement. The 3,692 fleck count is a component count, not validated against a hand count either. (2) The <code>cv2.inpaint</code>-for-PatchMatch substitution has not been quality-compared against a real PatchMatch. (3) The SAM-style Stage-B replacement proposed in the finding is untested speculation. (4) The 0.72 multi-cluster threshold was tuned on two images and has no principled basis. (5) <s>Loop seamlessness was verified by eye</s> — <b>now measured</b> as seam ÷ adjacent-frame difference: drift 1.1×, birds 1.3×, swallow 2.6×. (6) The colour-classifier Stage B is a substitution, not the paper's method; its failure mode (object colour overlapping ground colour) was reasoned about but never tested. (7) Test 03's "same folio" control removes artist/era/medium/scan confounds but not object <i>size</i> — flecks are both rigid AND tiny, so drift-vs-articulation and large-vs-small are not fully separated; a large rigid drifting object (lanterns, balloons) would disentangle them, and is the obvious next run. <b>(8, entry 02)</b> The p5–p95 / γ1.4 tone curve was chosen by eye from a 7-config matrix, not by any principled criterion — a different curve yields a defensibly different portrait, and no ground truth adjudicates between them. <b>(9, entry 02)</b> Stippling was run on exactly ONE photograph; nothing here establishes how it behaves on the archive's more common material (paintings, manuscript pages, textiles), where "tonal separation" may mean something different. <b>(10, entry 02)</b> The 227×283 source is small; whether a higher-resolution photograph would want proportionally more points was not tested.
 </footer>
 
 </body>
