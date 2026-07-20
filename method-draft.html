@@ -1,0 +1,216 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The method, in ten minutes — Grammar of Meaning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/gom.css">
+<style>
+/* ── doc-specific only; palette + type come from gom.css ── */
+
+/* layout: sticky contents rail + column */
+.shell{max-width:1180px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:232px minmax(0,1fr);gap:44px;align-items:start}
+@media(max-width:940px){.shell{grid-template-columns:1fr;gap:0}.rail{display:none}}
+.rail{position:sticky;top:74px;max-height:calc(100vh - 96px);overflow-y:auto;padding:18px 0 40px;font-family:var(--sans);font-size:13px}
+.rail h4{font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:18px 0 7px}
+.rail a{display:block;color:var(--ink-2);padding:3px 0 3px 10px;border-left:2px solid var(--rule);line-height:1.4}
+.rail a:hover{color:var(--moss);border-left-color:var(--fern);text-decoration:none}
+.rail a.sub{padding-left:20px;font-size:12.2px;color:var(--ink-3)}
+.rail a.viz-link{padding-left:20px;font-size:11.8px;line-height:1.35;padding-top:4px;padding-bottom:4px}
+.rail a.viz-link b{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--moss);letter-spacing:.02em;margin-right:4px}
+.rail a.viz-link:hover b{color:var(--fern)}
+.rail a.viz-link .vl-s{font-family:var(--mono);font-size:9.5px;color:var(--ink-3);opacity:.75;margin-left:3px;white-space:nowrap}
+.col{min-width:0;padding-bottom:80px}
+
+/* section frame */
+.sec{padding:52px 0 8px;border-top:1px solid var(--rule)}
+.sec:first-child{border-top:none}
+.sec-k{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+.sec-k .n{font-family:var(--mono);font-size:12px;color:var(--terracotta);font-weight:600}
+.sec-k h2{font-size:27px}
+.sec-lede{font-size:15.5px;color:var(--ink-2);margin:6px 0 26px;max-width:66ch}
+
+/* ── THE DEFINITION CARD — one fixed shape, used for every term ── */
+.def{background:var(--paper-3);border:1px solid var(--rule);border-radius:10px;padding:0;margin:22px 0;overflow:hidden}
+.def-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:13px 18px;background:var(--paper-2);border-bottom:1px solid var(--rule)}
+.def-id{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink-3)}
+.def-t{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--moss);margin:0}
+.def-q{padding:12px 18px 0;font-family:var(--sans);font-size:13px;color:var(--terracotta);font-weight:600}
+.def-b{padding:4px 18px 16px}
+.def-b dl{display:grid;grid-template-columns:132px minmax(0,1fr);gap:1px 16px;margin:10px 0 0;font-size:14.6px}
+@media(max-width:640px){.def-b dl{grid-template-columns:1fr;gap:0}}
+.def-b dt{font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);padding-top:5px}
+.def-b dd{margin:0 0 9px;color:var(--ink)}
+.def-b dd.op{font-family:var(--serif);font-size:16.5px;line-height:1.5}
+.def-b dd.warn{color:var(--ink-2)}
+code,.m{font-family:var(--mono);font-size:.86em;background:var(--paper-2);border:1px solid var(--rule);border-radius:4px;padding:1px 5px}
+
+/* status badges */
+.st{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.04em;padding:2px 8px;border-radius:999px;border:1px solid}
+.st.locked{color:#2C4A38;background:rgba(63,125,87,.13);border-color:rgba(63,125,87,.4)}
+.st.cand{color:#8a6a12;background:rgba(224,169,59,.16);border-color:rgba(224,169,59,.5)}
+.st.drift{color:#9c3f16;background:rgba(196,96,47,.13);border-color:rgba(196,96,47,.42)}
+.st.dead{color:var(--ink-3);background:var(--paper-2);border-color:var(--rule);text-decoration:line-through}
+
+/* double-click disclosure — the evidence drawer */
+details.dd{margin:11px 0 0;border:1px solid var(--rule);border-radius:8px;background:var(--paper);overflow:hidden}
+details.dd>summary{cursor:pointer;padding:9px 14px;font-family:var(--sans);font-size:12.4px;font-weight:600;color:var(--fern);list-style:none;display:flex;align-items:center;gap:8px}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::before{content:"▸";font-size:10px;transition:transform .15s;color:var(--ink-3)}
+details.dd[open]>summary::before{transform:rotate(90deg)}
+details.dd>summary:hover{background:var(--paper-2)}
+.dd-b{padding:4px 16px 16px;font-size:14px;border-top:1px solid var(--rule)}
+.dd-b p:first-child{margin-top:12px}
+
+/* post-it — Claude's note to the researcher */
+.postit{background:linear-gradient(180deg,#FFF8D6,#FDF2C4);border:1px solid #E6D48A;border-left:3px solid var(--honey);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-family:var(--sans);font-size:13.6px;color:#4a4326;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.postit b{color:#6b5a10}
+.postit .pin{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8a7415;display:block;margin-bottom:4px}
+.postit ul{margin:6px 0 0;padding-left:18px}.postit li{margin:3px 0}
+
+/* drift flag — a real conflict between two locked things */
+.flag{background:rgba(196,96,47,.06);border:1px solid rgba(196,96,47,.3);border-left:3px solid var(--terracotta);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-family:var(--sans);font-size:13.6px}
+.flag .pin{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--terracotta);display:block;margin-bottom:4px}
+
+/* key claim */
+.key{background:rgba(63,125,87,.07);border-left:3px solid var(--fern);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-family:var(--sans);font-size:14px}
+.key b{color:var(--moss)}
+
+/* tables */
+.tbl{width:100%;overflow-x:auto;margin:14px 0}
+table.d{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:13.2px;min-width:520px}
+table.d th{text-align:left;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);font-weight:700;padding:7px 10px;border-bottom:1.5px solid var(--rule);white-space:nowrap;background:var(--paper-2)}
+table.d td{padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink)}
+table.d td.id{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);white-space:nowrap}
+table.d td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+table.d tr:hover td{background:rgba(224,169,59,.05)}
+.cap{font-size:12px;color:var(--ink-3);font-family:var(--sans);margin:5px 0 0}
+
+/* equation block */
+.eq{font-family:var(--mono);font-size:14.5px;background:var(--paper-2);border:1px solid var(--rule);border-radius:8px;padding:16px 18px;margin:14px 0;overflow-x:auto;line-height:1.75;color:var(--moss)}
+pre.eq{white-space:pre}
+
+/* viz slot — a reserved berth; design-SB replaces the whole block */
+.vizslot{border:1.5px dashed var(--rule);border-radius:10px;background:repeating-linear-gradient(45deg,transparent,transparent 9px,rgba(201,190,159,.09) 9px,rgba(201,190,159,.09) 18px);
+  padding:20px 22px;margin:20px 0;font-family:var(--sans)}
+.vizslot .vs-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.vizslot .vs-id{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--terracotta);background:var(--paper-3);border:1px solid var(--rule);border-radius:999px;padding:2px 9px}
+.vizslot .vs-t{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--moss)}
+.vizslot .vs-b{font-size:13.4px;color:var(--ink-2)}
+.vizslot .vs-b b{color:var(--ink)}
+
+/* hero */
+.hd{padding:60px 0 30px}
+.hd .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--terracotta);font-weight:600;margin:0}
+.hd h1{font-size:40px;line-height:1.14;margin:10px 0 0;text-wrap:balance;max-width:20ch}
+.hd .sub{font-size:17px;color:var(--ink-2);margin:14px 0 0;max-width:64ch}
+.gate{background:rgba(196,96,47,.08);border:1px solid rgba(196,96,47,.32);border-radius:8px;padding:11px 15px;margin:20px 0 0;font-family:var(--sans);font-size:13.4px;max-width:70ch}
+.gate b{color:var(--terracotta)}
+</style><style>
+/* argument page — narrow measure, no rail, one column. gom tokens only. */
+body{background:var(--paper)}
+.wrap{max-width:720px;margin:0 auto;padding:0 24px 90px}
+.banner{background:#3F5E4A;color:#FCFBF7;padding:12px 22px;font-family:var(--sans);font-size:13px;line-height:1.6;position:sticky;top:0;z-index:99}
+.banner a{color:#FCFBF7;text-decoration:underline}
+.hd{padding:56px 0 26px;border-bottom:1px solid var(--rule)}
+.hd .eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px}
+.hd h1{font-family:var(--serif);font-size:38px;line-height:1.15;color:var(--ink);margin:0 0 14px;letter-spacing:-.01em}
+.hd .sub{font-size:16.5px;line-height:1.65;color:var(--ink-2);margin:0 0 18px}
+.gate{background:var(--paper-2);border-left:3px solid var(--olive);border-radius:0 8px 8px 0;padding:12px 15px;font-size:13.5px;line-height:1.6;color:var(--ink-2)}
+.sec{padding:38px 0 6px}
+.sec-k{display:flex;align-items:baseline;gap:12px;margin:0 0 14px}
+.sec-k .n{font-family:var(--mono);font-size:12px;color:var(--paper);background:var(--moss);width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none}
+.sec-k h2{font-family:var(--serif);font-size:25px;line-height:1.25;color:var(--ink);margin:0;letter-spacing:-.005em}
+.sec p{font-size:16px;line-height:1.72;color:var(--ink-2);margin:0 0 15px}
+.sec p b{color:var(--ink)}
+.m{font-family:var(--mono);font-size:.88em;color:var(--moss)}
+.call{background:var(--paper-2);border-left:3px solid var(--terracotta);border-radius:0 8px 8px 0;padding:13px 16px;font-size:14.5px;line-height:1.68;color:var(--ink-2);margin:20px 0}
+.call b{color:var(--ink)}
+ul.four{margin:0 0 15px;padding-left:20px}
+ul.four li{font-size:15.5px;line-height:1.65;color:var(--ink-2);margin-bottom:9px}
+.ref{font-size:13px!important;color:var(--ink-3)!important;border-top:1px solid var(--rule);padding-top:11px;margin-top:20px!important}
+.ref a{color:var(--fern)}
+.debt{background:var(--paper-3);border:1px solid var(--rule);border-radius:10px;padding:6px 18px 2px;margin:6px 0 20px}
+.debt p{font-size:14.5px;line-height:1.65;margin:14px 0}
+.closing{font-size:16.5px!important;line-height:1.7!important;color:var(--ink)!important;border-left:3px solid var(--fern);padding-left:16px;margin-top:26px!important}
+@media(max-width:640px){.hd h1{font-size:30px}.sec-k h2{font-size:21px}}
+</style></head>
+<body>
+<div class="banner"><b>DRAFT — the rebuilt argument page, for review.</b> ~1,900 words against the 10-minute bar. Nothing is deployed over the live page. Compare with <a href="method-canonical-deprecated.html">the pre-rebuild SPA</a> (~38,000 words) and <a href="method-canonical.html">the current live page</a>. Reference links point at a sibling page that does not exist yet.</div>
+<div class="wrap">
+<header class="hd">
+  <p class="eyebrow">The argument · ~10 minutes</p>
+  <h1>How meaning gets made, and how to measure it</h1>
+  <p class="sub">A method for reading what a text <i>does</i>, what it <i>leaves unsaid</i>, and what a different mind could have said instead — worked end to end on one song. The apparatus behind every claim here lives in <a href="reference.html">the reference</a>; this page is the argument.</p>
+  <div class="gate"><b>Status: a validated method producing candidate output.</b> The corpus coding has not run (Stage&nbsp;6&nbsp;=&nbsp;0). Nothing below is a finding about religion. What is claimed is that the instrument works and that its failures are legible — <a href="#debt">the open debt is summed at the end</a>, not scattered.</div>
+</header>
+
+<section class="sec" id="one">
+  <div class="sec-k"><span class="n">1</span><h2>A text is a sequence of moves, not a sequence of sentences</h2></div>
+  <p>Take the Beatles' <i>She Loves You</i> — chosen because it is short, secular, and nobody's scripture, so the method can be checked without reverence getting in the way.</p>
+  <p>Read as sentences it is a boy telling another boy some news. Read as <b>moves</b> — one operation performed by an agent on something — it is eight distinct acts. Someone <span class="m">hurt</span> her. She <span class="m">suffered</span>. She <span class="m">reappraised</span>. She <span class="m">loves</span> you. You <span class="m">fear</span> the loss. The friend <span class="m">relays</span> it. He <span class="m">exhorts</span> you to be glad, then to act.</p>
+  <p>The unit matters because it is what makes two texts comparable. Sentences do not travel across languages, genres or centuries; <b>operations do</b>. "She reappraised him" and a Confucian text's account of revised judgement are the same operation with different furniture — and that, not shared vocabulary, is what a comparison would have to be built on.</p>
+  <p>Coding a move records who acts, on what, and by what warrant. It also records the edges between moves: which move <b>feeds</b> the next, which <b>fills</b> an earlier gap, which <b>composes</b> into the whole. In this song those edges are lopsided in a way worth noticing — seven feed forward, but <b>four run backward, and all four land on the same move</b>: <i>she loves you</i>. Five of the eight moves exist partly to answer it. That is a structural fact about the text, not an impression of it.</p>
+  <p class="ref">→ the seventeen edge types, their coding definitions, and this song's full edge diagram: <a href="reference.html#edges">reference · edges</a></p>
+</section>
+
+<section class="sec" id="two">
+  <div class="sec-k"><span class="n">2</span><h2>Then code what the text does <i>not</i> say</h2></div>
+  <p>This is the part that is unusual, and it is the reason for the method.</p>
+  <p>Every move leaves things open. <i>She loves you</i> does not say <b>why</b> she loves you, <b>how much</b>, whether <b>you love her back</b>, or <b>how the friend knows</b>. Those are not omissions in the sense of sloppiness; they are <b>structured silences</b> — the text's own shape determines which of them it can close and which it cannot.</p>
+  <p>So each gap is coded on two questions: is it <b>opaque</b> (the text genuinely does not supply it) and is it <b>in focus</b> (the text draws attention to it)? A gap that is both is where the interesting work is. Then: can the text close it from inside itself?</p>
+  <p>Run the song's central move through that and the answer is <b>mostly yes</b>. <i>How much</i> is answered by her suffering. <i>How the friend knows</i> is answered by his having met her. Roughly four-fifths of what the move leaves open, the other seven moves quietly supply. <b>The song is very nearly a self-completing object.</b></p>
+  <p>What it cannot close is the finding. Three gaps survive: <b>whether he loves her back</b> — never stated; <b>why the friend cares</b> — his stake is never given; and <b>the positive ground of her love</b> — the song removes an obstacle to it without ever supplying a reason for it. Those are not our observations about the song. They are what the form produces, and they are exactly where a later reader would have to step in.</p>
+  <div class="call"><b>One correction worth keeping visible.</b> The first coding of this song was done by the same author who built the method, and it named a fourth residual — the woman never speaks. Five independent coders, given the same eight moves and no context, did not find it: one of five. They found the addressee's silence instead. The un-voiced woman is a real reading, but it is <b>a reader's lens, not a gap the form produces</b> — and the primed author could not tell the difference. The measurement corrected the author; that is the mechanism working, so it ships visible.</div>
+  <p class="ref">→ the 2×2 grid, the six opacity kinds, the three seers, and the full cold-coder round: <a href="reference.html#gaps">reference · the gap detector</a></p>
+</section>
+
+<section class="sec" id="three">
+  <div class="sec-k"><span class="n">3</span><h2>Change one move, and generate the worlds that follow</h2></div>
+  <p>If the method has understood the text, it should be able to say what a <i>different</i> text would have had to do. So: change one move at the root and walk forward.</p>
+  <p><span class="m">you hurt her</span> becomes <span class="m">you healed her</span> — the contrary. Everything downstream is then regenerated, position by position, and the question at each fork is not "what could happen next?" but <b>"what does this song's own structure require here, in a world where the wound was never made?"</b></p>
+  <p>At every fork after the root the engine makes exactly five attempts: <b>one control</b> that changes nothing, and <b>four perturbations</b> that each move a single dimension of the mind doing the talking and hold the rest still. The dimension is chosen systematically; only its new value is the model's invention. <b>Distance is never requested</b> — asking a model for "something further away" measures its obedience, not the thing. Distance is measured afterwards, from the result.</p>
+  <p>The control is not a spare option. Without it every path is forced to drift a little at every step, and the world in which <i>nothing about the mind needed to change</i> becomes unreachable — which would be an artifact of the generator, not a fact about the text.</p>
+  <p>What comes back is a fan of alternative worlds. In one, the healed woman becomes reliant, the healer feels trapped, withdraws, and inflicts a <i>new</i> wound — and the song's apology arrives after all, for a different injury. In another, she reads Friedan, outgrows the couple, and leaves: <b>no apology is available, because no injury was done</b>. Same substitution, different ending.</p>
+  <p class="ref">→ the generation rule, the alternative kinds, the fan as data and drawn: <a href="reference.html#generation">reference · the engine</a></p>
+</section>
+
+<section class="sec" id="four">
+  <div class="sec-k"><span class="n">4</span><h2>Most of what it generates is wrong — the gates say <i>how</i></h2></div>
+  <p>A generator that produces only plausible continuations has been tuned until it looks good, and has therefore stopped being evidence. This one keeps what it rejects, and sorts it.</p>
+  <p>Four checks run, and they do <b>four different jobs</b> — which is why calling them all "gates" misleads:</p>
+  <ul class="four">
+    <li><b>Era.</b> Was the governing idea available in 1963? <i>"She started antidepressants"</i> is coherent and unborn. <b>Prunes.</b></li>
+    <li><b>State.</b> Does the move contradict what already happened on this path? After a healing, a move that needs the wound still open does not follow. <b>Prunes.</b></li>
+    <li><b>Structure.</b> Does it keep the relation the source had at this position? This <b>shapes what gets generated</b> and removes nothing.</li>
+    <li><b>Worldview.</b> How far is this from the mind the song was speaking from? <b>It removes nothing at all — it only measures.</b> A ruler, not a filter.</li>
+  </ul>
+  <p>What fails sorts into two piles, and keeping them apart is the whole point. <b>One says a different world could hold this</b> — the move is coherent, its idea simply was not available here. <b>The other says this does not follow in any world.</b> One is a boundary of the era; the other is a boundary of coherence. Collapse them and the doorways go out with the nonsense.</p>
+  <p>Because the first pile is not garbage — it is <b>the most interesting output the method produces</b>. A branch barred because its idea belongs to Sufi metamorphosis is pointing at a tradition, from inside a pop song, without anyone having asked it to.</p>
+  <p class="ref">→ the four checks in detail, the tier cuts and their denominator, the known weakness in two of them: <a href="reference.html#gates">reference · admissibility</a></p>
+</section>
+
+<section class="sec" id="five">
+  <div class="sec-k"><span class="n">5</span><h2>"How far" needs a space to be far <i>in</i></h2></div>
+  <p>The worldview check is doing something the other three are not: it compares <b>minds</b>, not moves. That requires minds to be specifiable objects rather than names.</p>
+  <p>So a mind is described by its commitments — how it knows, what it takes to be real, how it reasons, what it is for, how it regards its object, what it does with a text, how it relates ground to world. <b>Seven dimensions.</b> A choice on each is a <b>coordinate</b>, and a coordinate is a possible mind, whether or not anyone ever held it. The space of all of them is the <b>morphospace</b> — a term borrowed from theoretical morphology, where it names the space of shapes an organism <i>could</i> take, and where the empty regions are treated as real.</p>
+  <p>That is what makes the earlier question answerable. <b>"Has this drifted out of the song's worldview" is a distance between two coordinates</b> — nothing more mysterious than counting how many of the seven commitments have changed. And it buys three things a name cannot: one thinker can occupy several coordinates as they change their mind; two thinkers who share one are <i>measurably</i> near each other; and a coordinate can be coherent with nobody standing on it.</p>
+  <p>That last case is the point of the whole apparatus. An unoccupied but coherent position is either a mind nobody has held — or a gap in what we have read. <b>The method cannot yet tell those apart</b>, and saying which is which is the work.</p>
+  <p class="ref">→ the seven axes, every value and its definition, how categories become geometry, and what the results do and do not support: <a href="reference.html#morphospace">reference · the morphospace</a></p>
+</section>
+
+<section class="sec" id="debt">
+  <div class="sec-k"><span class="n">6</span><h2>What is not shown</h2></div>
+  <p>Summed here rather than distributed, so it can be read in one go.</p>
+  <div class="debt">
+    <p><b>The comparative claim is unexercised.</b> Every cross-text relation — rhyme, cousin, citation, and the contact-check that would rule out borrowing — has <b>zero coded instances</b>. The instrument is built for comparison and has not yet made one. This is the largest gap and it is not a technicality.</p>
+    <p><b>Reliability is moderate and pending.</b> There is no clean inter-rater figure yet. The multi-coder rounds have corrected the author more than once, which is evidence the check works, not evidence the coding is settled.</p>
+    <p><b>The corpus coding has not run.</b> Stage&nbsp;6&nbsp;=&nbsp;0. Figure-level coding exists on a small roster; passage-level coding does not exist.</p>
+    <p><b>Three axes were settled by judgement, not diagnostics.</b> Four of the seven passed empirical separation tests. Three did not — they were resolved in a lock-cycle, which is a weaker warrant, and is recorded as one.</p>
+    <p><b>Roughly forty smaller open items</b> are flagged in place through the reference. They are listed, not hidden; the count is given here so the total is not something a reader has to assemble themselves.</p>
+  </div>
+  <p class="closing">The claim of this page is narrow and, I think, defensible: <b>the instrument reads a text, finds what it cannot say, generates what it might have said instead, and can tell the difference between an alternative that is merely distant and one that belongs to somebody else's world.</b> Whether that produces anything true about religion is a question this page does not answer, and does not pretend to.</p>
+</section>
+
+</div>
+</body>
+</html>
