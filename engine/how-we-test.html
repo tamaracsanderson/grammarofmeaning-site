@@ -1,0 +1,76 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>How we test this — Grammar of Meaning</title>
+<style>
+:root{--bg:#faf9f7;--fg:#1c1b19;--muted:#6b6862;--line:#d9d5cc;--card:#fff;--eng:#221a8f;--out:#e2762c;--in:#c4602f;--warn:#c0492b}
+@media(prefers-color-scheme:dark){:root{--bg:#171614;--fg:#eceae5;--muted:#a29d94;--line:#3a3833;--card:#211f1c;--eng:#6f7ae8;--out:#e2884c;--in:#d97a44}}
+:root[data-theme=dark]{--bg:#171614;--fg:#eceae5;--muted:#a29d94;--line:#3a3833;--card:#211f1c;--eng:#6f7ae8;--out:#e2884c;--in:#d97a44}
+:root[data-theme=light]{--bg:#faf9f7;--fg:#1c1b19;--muted:#6b6862;--line:#d9d5cc;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:40px 22px 80px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:26px;margin:4px 0 6px}
+.lede{color:var(--muted);font-size:14px;max-width:72ch;margin:0 0 8px}
+a.back{color:var(--in);font-size:13px;text-decoration:none;font-weight:600}
+a.back:hover{text-decoration:underline}
+h2{font-size:15px;margin:30px 0 3px}
+h2 .q{color:var(--muted);font-weight:400;font-style:italic}
+.grp{color:var(--muted);font-size:12.5px;margin:0 0 10px}
+table{width:100%;border-collapse:collapse;margin:0 0 4px}
+td{border-top:1px solid var(--line);padding:11px 12px;vertical-align:top;font-size:13.5px}
+td.name{width:230px;font-weight:650;color:var(--fg)}
+td.body{color:var(--fg)}
+b{color:var(--fg)}
+.note{border-top:2px solid var(--line);margin-top:36px;padding-top:16px;color:var(--muted);font-size:13px;max-width:74ch}
+.note b{color:var(--fg)}
+.themebtn{position:fixed;top:14px;right:14px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12px;cursor:pointer;color:var(--fg)}
+</style></head><body>
+<button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">theme</button>
+<div class="wrap">
+<div class="eyebrow">Grammar of Meaning · Validation</div>
+<h1>How we test this</h1>
+<p class="lede">The method is the contribution — so how we know it <i>works</i> is the argument, not housekeeping. Every result is checkable, organized by the question a reader asks: <i>how do you know that?</i> A generative engine is graded on aggregate behavior across runs; a deterministic step, on exact reproduction.</p>
+<p><a class="back" href="schema.html">&larr; back to the schema</a></p>
+
+<h2>Do independent coders agree, from the same logic? <span class="q">— reliability</span></h2>
+<div class="grp">Does locked-method × locked-model reproduce a coding?</div>
+<table>
+<tr><td class="name">Reliability / R-grades</td><td class="body">R1 (high) / R2 (medium) / R3 (low) per <b>(passage × dimension)</b> cell — one passage can be R1 on one dimension, R3 on another. <b>Generative</b> steps graded on aggregate rates across runs, deterministic steps per-cell. <i>Ex:</i> Romans 8 — a silence was agreed <i>present</i> (&alpha;&approx;0.59) but not <i>obligated</i> (&alpha;&approx;0.03).</td></tr>
+<tr><td class="name">IRR family — 5IRR / 3IRR / 3P</td><td class="body">Whether <b>independent</b> LLM cohorts converge (they never see each other's answers). 5IRR = 5 web-UI cohorts → consensus buckets; 3IRR = 3 local models (cheap); 3P = 3-persona (insider / comparativist / practitioner). They compose (3P×5IRR = 15 reads). <i>Ex:</i> IRR167.</td></tr>
+</table>
+
+<h2>Does it hold beyond its home domain? <span class="q">— instrument vs. domain</span></h2>
+<div class="grp">Is a result a property of the instrument, or of the theology?</div>
+<table>
+<tr><td class="name">Out-of-domain replication</td><td class="body">Religion is the proof-of-concept domain; secular corpora (a pop lyric, a translation set, a book vs. a passage) are <b>confound-free test-beds</b> — a clean test-bed is a <i>floor</i>, not a difficulty proxy. <i>Ex:</i> the Romans-8 present-vs-obligated split <b>reproduced on a Beatles pop lyric</b> (IRR167, 5/5), turning a suspected theology problem into a demonstrated instrument problem. Replication <i>failures</i> are findings, not embarrassments.</td></tr>
+</table>
+
+<h2>Is the data + spec sound, and actually built? <span class="q">— audit</span></h2>
+<div class="grp">Does the code match the claim, and the data match the schema?</div>
+<table>
+<tr><td class="name">Internal audits</td><td class="body">Data integrity + spec-vs-reality drift, run nightly / pre-commit / per-sprint: db-hygiene, state-audit, the <b>spec-vs-implementation gap audit</b> (specs with no code behind them), the nightly <b>doc-drift auditor</b>. Dashboards read the <b>DB, not narration</b> — they can't be talked past.</td></tr>
+<tr><td class="name">XT — programmatic tests</td><td class="body">An empirical question run at $0, producing <b>data</b> (vs. an IRR, which produces <i>judgments</i>). <i>Ex:</i> XT1 cross-model persona (<i>frame dominates, not model</i>), XT4 move-segmentation reliability.</td></tr>
+</table>
+
+<h2>Does an independent re-derivation reproduce it? <span class="q">— clean-room</span></h2>
+<div class="grp">Can someone else get the same result, without our framing?</div>
+<table>
+<tr><td class="name">Clean-room review</td><td class="body">A <i>finished artifact</i> checked by an independent party who does <b>not</b> see the author's framing — catches contamination and bias. <i>Ex:</i> the schema field-definitions review.</td></tr>
+<tr><td class="name">Clean-room implementation</td><td class="body">Whether the method reproduces from its <b>written spec alone</b>, no tacit knowledge — an independent coder builds from the logic, outputs compared. The "logic, then code from it" test; it proves the method is <b>not idiosyncratic</b>.</td></tr>
+</table>
+
+<h2>Does the generated map match reality? <span class="q">— predictive</span></h2>
+<div class="grp">Do the outputs predict what actually happened?</div>
+<table>
+<tr><td class="name">Round-trip / predictive validity</td><td class="body">Reverse-coding (code → back to text) + whether Engine 3's <i>possible</i> answer-space <b>predicts</b> Engine 4's <i>attested</i> reception. The generated field is the controlled variable; the attested record is the observed one. <i>(Designed — Engines 3/4 not yet built.)</i></td></tr>
+</table>
+
+<h2>Is a claimed past decision real? <span class="q">— ghost-protection</span></h2>
+<div class="grp">Guarding against fabricated provenance.</div>
+<table>
+<tr><td class="name">Citation-or-don't-claim + adversarial spot-checks</td><td class="body">Any "we decided X at session N" must cite a specific Decision / Proposal / journal entry, or it is flagged unverified. Adversarial verifiers are prompted to <i>refute</i>, not confirm. The dashboards above are the primary deterministic ghost-detector.</td></tr>
+</table>
+
+<div class="note"><b>Why this is a contribution, not a checklist.</b> Most comparative work publishes findings and withholds the apparatus. This project publishes the apparatus — so the checks <i>are</i> the open-methodology claim. Its honest counterpart is on the schema itself: the <b>&#9888; undefined</b> counts. Showing the gaps and showing the test suite are the same commitment.</div>
+</div></body></html>
