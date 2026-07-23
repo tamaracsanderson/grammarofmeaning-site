@@ -29,9 +29,10 @@ h1{font-family:var(--serif);font-size:30px;font-weight:600;letter-spacing:-.01em
 .pillcap{color:var(--muted);font-family:var(--serif);font-size:13px;margin-top:8px;max-width:56ch;margin-left:auto;margin-right:auto}
 .center{text-align:center}
 .engbar{background:var(--eng);color:#FFFDF6;border-radius:9px 9px 0 0;padding:13px 16px;margin:12px 0 0}
+.engbar .ehd{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:2px 10px}
 .engbar .en{font-family:var(--sans);font-weight:600;font-size:15px;letter-spacing:.01em}
 .engbar .egloss{display:block;border:none;border-radius:0;padding:0;font-family:var(--serif);font-style:italic;font-size:13.5px;color:#DCE7DC;margin-top:4px}
-.engbar .nb{float:right;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;opacity:.7}
+.engbar .nb{flex:0 0 auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;opacity:.7;white-space:nowrap}
 .engwrap{background:var(--paper2);border:1px solid var(--line);border-top:none;border-radius:0 0 9px 9px;padding:9px;margin-bottom:4px}
 .subrow{display:flex;gap:8px;flex-wrap:wrap}
 .subbox{flex:1 1 150px;background:var(--sub);color:#FFFDF6;border:none;border-radius:7px;padding:12px 12px;
@@ -42,7 +43,90 @@ h1{font-family:var(--serif);font-size:30px;font-weight:600;letter-spacing:-.01em
 .arrow{text-align:center;color:var(--muted);font-size:18px;margin:2px 0}
 .parallel{display:flex;gap:10px}.parallel>div{flex:1}
 .outs{display:flex;gap:10px;margin-top:6px}
-.outpill{flex:1;background:var(--out);color:#FFFDF6;border-radius:999px;padding:11px 10px;text-align:center;font-size:13px;font-weight:600}
+.outpill{flex:1;background:var(--out);color:#FFFDF6;border:none;border-radius:999px;padding:11px 10px;text-align:center;
+ font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.outpill:hover{filter:brightness(1.08)}
+.outpill .dia{opacity:.75;margin-right:5px;font-weight:400}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Ported from the Lovable reference (src/routes/index.tsx, S154). All classes
+   below are prefixed (.lg- .ms- .mock- .arw .ribbon .gloss) to avoid colliding
+   with the existing chip/table styles above — see the .tag incident.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* lane groupings — Preparation (always runs) vs Recomposition (pick an output) */
+.lg{border:1px dashed var(--line);border-radius:10px;padding:11px}
+.lg-prep{background:color-mix(in srgb,var(--tbd) 12%,transparent)}
+.lg-recomp{background:color-mix(in srgb,var(--honey) 9%,transparent)}
+.lg-hd{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:4px}
+.lg-k{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.lg-n{font-family:var(--serif);font-style:italic;font-size:12px;color:var(--muted)}
+.lg .engbar{margin-top:8px}
+
+/* flow arrows — centred inside the column they connect, never inside .wrap */
+.arw{display:flex;justify-content:center;padding:7px 0}
+.arw svg{display:block}
+.fanarw{padding:4px 0}
+.fanarw svg{display:block;width:100%;height:58px}
+
+/* Morphospace — the shared reference layer beside Engine 0, tied to 0.C Frame */
+.prep-row{display:flex;gap:12px;align-items:stretch}
+.prep-main{flex:1;min-width:0}
+.ms{display:flex;align-items:stretch;flex:0 0 318px}
+.ms-link{display:flex;flex-direction:column;align-items:center;justify-content:center;padding-right:6px}
+.ms-lab{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.ms-card{flex:1;text-align:left;border:2px dashed var(--out);border-radius:8px;font:inherit;color:var(--fg);
+ background:color-mix(in srgb,var(--out) 12%,var(--card));padding:11px 12px;cursor:pointer}
+.ms-card:hover{background:color-mix(in srgb,var(--out) 20%,var(--card))}
+.ms-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.ms-title{font-family:var(--serif);font-size:19px;font-weight:600;color:var(--eng);line-height:1.15}
+.ms-gloss{font-family:var(--serif);font-size:12px;line-height:1.38;margin:6px 0 0}
+.ms-scatter{position:relative;height:42px;margin-top:9px;border:1px solid var(--line);border-radius:5px;background:var(--bg);overflow:hidden}
+.ms-scatter i{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--sub);opacity:.75}
+.ms-scatter i.nw{width:8px;height:8px;background:var(--out);opacity:1}
+@media(max-width:1000px){.ms{display:none}}
+
+/* real vs imagined — an imagined mock must never read as a real result */
+.ribbon{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:4px 11px;
+ font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+.ribbon.real{border:1px solid var(--sub);background:color-mix(in srgb,var(--sub) 15%,transparent);color:var(--eng)}
+.ribbon.imagined{border:1px dashed var(--out);background:color-mix(in srgb,var(--out) 10%,transparent);color:var(--out)}
+
+/* output mock diagrams (inside the output drawers) */
+.mock{margin-top:14px;border:1px solid var(--line);border-radius:9px;background:var(--bg);padding:14px}
+.mock.imagined{border:2px dashed var(--line);background:color-mix(in srgb,var(--honey) 8%,transparent);opacity:.94}
+.mock svg{display:block;width:100%;height:auto}
+.mock-cap{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--muted);text-align:center;margin:11px 0 0}
+.mock-disc{font-family:var(--sans);font-size:12px;line-height:1.5;color:var(--out);text-align:center;margin:9px auto 0;max-width:62ch;border-top:1px dashed var(--out);padding-top:8px}
+.mock-tal{display:grid;grid-template-columns:1fr 1.6fr 1fr;gap:9px}
+.mock-tal2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}
+.gloss{border:1px solid var(--line);border-radius:6px;background:var(--paper2);padding:7px 8px}
+.gloss-t{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--out);margin-bottom:3px}
+.gloss-b{font-family:var(--serif);font-size:12px;line-height:1.35;margin:0}
+.mock-qud{display:flex;align-items:center;justify-content:center}
+.mock-qud>div{width:100%;border:1px solid var(--line);border-radius:6px;background:var(--card);padding:18px 14px;text-align:center}
+.mock-qud .qk{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.mock-qud p{font-family:var(--serif);font-size:14px;line-height:1.35;color:var(--eng);margin:0}
+.mock-hm{display:grid;grid-template-columns:86px repeat(6,1fr)}
+.mock-hm .hh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:center;padding-bottom:7px}
+.mock-hm .rl{font-family:var(--serif);font-size:13px;padding-right:10px;display:flex;align-items:center}
+.mock-cell{height:30px;border:1px solid var(--line)}
+.mock-cell.c{background:color-mix(in srgb,var(--sub) 72%,var(--bg))}
+.mock-cell.m{background:color-mix(in srgb,var(--out) 72%,var(--bg))}
+.mock-cell.o{background:var(--paper2)}
+.mock-key{display:flex;flex-wrap:wrap;gap:14px;margin-top:11px;
+ font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+.mock-key span{display:inline-flex;align-items:center;gap:6px}
+.mock-key i{width:12px;height:12px;border:1px solid var(--line);display:inline-block}
+
+/* narrow screens: stack the four recomposition columns + their output pills, so the
+   page never scrolls sideways (the reference does the same via grid-cols-1 md:grid-cols-4) */
+@media(max-width:760px){
+  .parallel,.outs{flex-wrap:wrap}
+  .parallel>div,.outs>.outpill{flex:1 1 100%}
+  .mock-tal{grid-template-columns:1fr}
+  .mock-hm{grid-template-columns:70px repeat(6,1fr)}
+}
 dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--fg);max-width:860px;width:92%;padding:0}
 dialog::backdrop{background:rgba(0,0,0,.45)}
 .dh{padding:16px 20px 10px;border-bottom:1px solid var(--line)}
@@ -89,8 +173,7 @@ recomposition changes what it means.</p>
 defined yet show as <span class="undef">⚠ undefined</span>.</p>
 <p class="testlink"><a href="how-we-test.html">How we test this &rarr;</a></p>
 
-<div class="lane"><div class="lanelab">INPUTS</div><div class="lanebody center"><span class="pill">Text</span><div class="pillcap">A song, a story, a verse, a book &mdash; or several at once (like the four gospels).</div></div></div>
-<div class="arrow">▼</div>
+<div class="lane"><div class="lanelab">INPUTS</div><div class="lanebody center"><span class="pill">Text</span><div class="pillcap">A song, a story, a verse, a book &mdash; or several at once (like the four gospels).</div><div id="in-arrow"></div></div></div>
 <div class="lane"><div class="lanelab">ENGINES</div><div class="lanebody" id="engines"></div></div>
 <div class="lane"><div class="lanelab">OUTPUTS</div><div class="lanebody"><div class="outs" id="outs"></div></div></div>
 </div>
@@ -102,6 +185,138 @@ const P={"stages": [{"eng": "0", "engname": "SITUATE", "sub": "A", "name": "Sitz
 const esc=s=>(''+(s==null?'':s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const byEng={}; P.stages.forEach((s,i)=>{(byEng[s.eng]=byEng[s.eng]||[]).push(Object.assign({i},s));});
 
+/* ══ OUTPUTS — one drawer per output pill, each with its diagram ══════════════
+   Engine 2's Alternative World Tree is a REAL output (built, run on live text).
+   Engines 3/4/5 are DESIGNED-not-built: their diagrams are IMAGINED — drawn to
+   show the shape we're aiming at. They carry the ◇ ribbon + a dashed, washed-out
+   frame so a mock can never be mistaken for a result. Ported from the Lovable
+   reference (ImaginedRibbon / RealRibbon + the four *Mock components). */
+const OUT_REAL={'2':true,'3':false,'4':false,'5':false};
+const OUT_TAG={'2':"What else the text could have said.",'3':"The gaps, filled in prose.",
+               '4':"What the text became.",'5':"Several texts, one frame."};
+const OUT_WHAT={
+ '2':"A branching tree of near-neighbour variants — the substitutions the text did not make, laid out beside the "
+    +"one it did. Each branch is a coherent alternative world, with the swaps that produced it named.",
+ '3':"A running commentary that fills the gaps Analyze surfaced — supplying the missing referents, presuppositions "
+    +"and stage directions the text leaves implicit.",
+ '4':"A downstream tree of later texts, readings and uses that inherit from this one — every citation, echo and "
+    +"repurposing as a child node.",
+ '5':"A side-by-side reading of two or more texts run through the same fields, so that agreements, silences and "
+    +"contradictions surface as columns of the same table."};
+
+// Output 2 — Alternative World Tree (REAL): seed → ripple/fan/bundle → leaves, one terracotta outcome path
+function mockTree(){
+  return `<svg viewBox="0 0 520 240">`
+   +`<g stroke="var(--eng)" stroke-width="1.25" fill="none">`
+   +`<path d="M260 30 L120 100"/><path d="M260 30 L260 100"/><path d="M260 30 L400 100"/>`
+   +`<path d="M120 100 L70 190"/><path d="M120 100 L170 190"/><path d="M260 100 L260 190"/><path d="M400 100 L350 190"/></g>`
+   +`<path d="M260 30 L400 100 L450 190" stroke="var(--out)" stroke-width="2" fill="none"/>`
+   +`<circle cx="260" cy="30" r="10" fill="var(--eng)"/>`
+   +[[120,100,8],[260,100,8],[400,100,8],[70,190,7],[170,190,7],[260,190,7],[350,190,7]]
+     .map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="var(--sub)"/>`).join('')
+   +`<circle cx="450" cy="190" r="8" fill="var(--out)"/>`
+   +`<g font-family="var(--serif)" font-size="11" fill="var(--fg)" opacity=".85">`
+   +`<text x="260" y="15" text-anchor="middle">seed</text><text x="120" y="86" text-anchor="middle">ripple</text>`
+   +`<text x="260" y="86" text-anchor="middle">fan</text><text x="400" y="86" text-anchor="middle">bundle</text>`
+   +`<text x="450" y="212" text-anchor="middle" fill="var(--out)">outcome</text></g></svg>`;
+}
+// Output 3 — Commentary (IMAGINED): a Talmud-style page, glosses ringing one gap-question
+const GLOSSES=[["Augustine · providence","&ldquo;All things&rdquo; bound by God&rsquo;s foreknown election."],
+ ["Chrysostom · synergy","Cooperation of grace and human effort."],
+ ["Aquinas · causality","God as first cause ordering secondary causes."],
+ ["Luther · consolation","Comfort for the elect, not a metaphysical claim."],
+ ["Barth · covenant","Bounded by Christ, in whom all things cohere."],
+ ["K&auml;semann · apocalyptic","&ldquo;All things&rdquo; = the cosmos under God&rsquo;s coming reign."]];
+const gcard=g=>`<div class="gloss"><div class="gloss-t">${g[0]}</div><p class="gloss-b">${g[1]}</p></div>`;
+function mockCommentary(){
+  return `<div class="mock-tal"><div>`+GLOSSES.slice(0,2).map(gcard).join('')+`</div>`
+   +`<div class="mock-qud"><div><div class="qk">gap-question</div>`
+   +`<p>Rom 8:28 &mdash; how, if at all, are &ldquo;all things&rdquo; bounded?</p></div></div>`
+   +`<div>`+GLOSSES.slice(2,4).map(gcard).join('')+`</div></div>`
+   +`<div class="mock-tal2">`+GLOSSES.slice(4,6).map(gcard).join('')+`</div>`;
+}
+// Output 4 — Reception History Tree (IMAGINED): a horizontal timeline that forks
+function mockTimeline(){
+  const nodes=[[60,"Origen",240],[160,"Augustine",412],[300,"Trent",1546],[420,"Wesley",1738]];
+  return `<svg viewBox="0 0 500 180">`
+   +`<path d="M20 100 H480" stroke="var(--eng)" stroke-width="1.5"/>`
+   +`<path d="M160 100 L230 60" stroke="var(--eng)" stroke-width="1" fill="none"/>`
+   +`<path d="M160 100 L230 140" stroke="var(--eng)" stroke-width="1" fill="none"/>`
+   +`<path d="M300 100 L380 55" stroke="var(--out)" stroke-width="1.25" fill="none"/>`
+   +`<path d="M300 100 L380 145" stroke="var(--eng)" stroke-width="1" fill="none"/>`
+   +`<circle cx="230" cy="60" r="4" fill="var(--sub)"/><circle cx="230" cy="140" r="4" fill="var(--sub)"/>`
+   +`<circle cx="380" cy="55" r="4" fill="var(--out)"/><circle cx="380" cy="145" r="4" fill="var(--sub)"/>`
+   +nodes.map(([x,n,y])=>`<circle cx="${x}" cy="100" r="7" fill="var(--eng)"/>`
+     +`<text x="${x}" y="88" text-anchor="middle" font-family="var(--serif)" font-size="11" fill="var(--fg)">${n}</text>`
+     +`<text x="${x}" y="120" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="var(--fg)" opacity=".6">${y}</text>`).join('')
+   +`<text x="20" y="170" font-family="var(--mono)" font-size="9" fill="var(--fg)" opacity=".55">&larr; ancient</text>`
+   +`<text x="480" y="170" text-anchor="end" font-family="var(--mono)" font-size="9" fill="var(--fg)" opacity=".55">modern &rarr;</text></svg>`;
+}
+// Output 5 — Comparative analysis (IMAGINED): conserved / mutated / omitted heatmap
+function mockHeatmap(){
+  const rows=["Matthew","Mark","Luke","John"];
+  const grid=[["c","c","c","m","c","o"],["c","c","c","c","o","o"],
+              ["c","m","c","c","m","c"],["m","o","m","c","m","c"]];
+  let g=`<div class="mock-hm"><div></div>`;
+  for(let i=0;i<6;i++) g+=`<div class="hh">M${i+1}</div>`;
+  rows.forEach((r,ri)=>{ g+=`<div class="rl">${r}</div>`
+    +grid[ri].map(v=>`<div class="mock-cell ${v}"></div>`).join(''); });
+  g+=`</div><div class="mock-key">`
+   +`<span><i class="mock-cell c"></i> conserved</span><span><i class="mock-cell m"></i> mutated</span>`
+   +`<span><i class="mock-cell o"></i> omitted</span></div>`;
+  return g;
+}
+const OUT_MOCK={'2':mockTree,'3':mockCommentary,'4':mockTimeline,'5':mockHeatmap};
+const OUT_CAP={'2':"One text, its alternate readings — each path is one world.",
+ '3':"Many voices answering one silence.",
+ '4':"What the text became, traced through time.",
+ '5':"Where tellings agree, and where one makes a distinctive move."};
+
+function openOutput(e){
+  const real=OUT_REAL[e];
+  document.getElementById('d-title').textContent=P.outputs[e];
+  document.getElementById('d-what').textContent=OUT_TAG[e];
+  document.getElementById('d-tbl').textContent=`output of Engine ${e}`;
+  document.getElementById('d-body').innerHTML=
+    `<p style="margin:2px 0 0"><span class="ribbon ${real?'real':'imagined'}">`
+    +(real?'<span aria-hidden="true">&#9679;</span> Real output'
+          :'<span aria-hidden="true">&#9671;</span> Imagined output &mdash; not built yet')+`</span></p>`
+   +`<div class="tldr" style="margin-top:12px"><div class="t-row"><span class="t-k">what it is</span>`
+   +`<div class="t-v">${esc(OUT_WHAT[e])}</div></div></div>`
+   +`<div class="mock ${real?'':'imagined'}">`+OUT_MOCK[e]()
+   +`<p class="mock-cap">${OUT_CAP[e]}</p>`
+   // HONESTY (S154): the imagined mocks carry invented illustrative content — named figures, dated nodes and
+   // grid cells that were never coded. The ◇ ribbon says the OUTPUT isn't built; this says the CONTENT itself
+   // is placeholder, so no reader mistakes "Augustine · providence" for a result we produced. §13.
+   +(real?'':`<p class="mock-disc">Illustrative placeholder. The names, dates and text in this sketch show the `
+             +`<i>form</i> this output will take &mdash; they are not coded results from the corpus.</p>`)
+   +`</div>`;
+  document.getElementById('dlg').showModal();
+}
+function openMorphospace(){
+  document.getElementById('d-title').textContent='Morphospace';
+  document.getElementById('d-what').textContent=
+    'A shared reference layer. Every text we code feeds it (an output); it situates the next text against '
+   +'everything coded so far (an input).';
+  document.getElementById('d-tbl').textContent='shared reference layer · not a pipeline stage';
+  document.getElementById('d-body').innerHTML=
+    `<div class="tldr"><div class="t-row"><span class="t-k">not a stage</span><div class="t-v">It doesn&rsquo;t sit `
+   +`in the pipeline. It sits alongside as a persistent map, tied to <code>0.C Frame</code> by a double-headed link.`
+   +`</div></div><div class="t-row"><span class="t-k">feeds &harr; fed</span><div class="t-v">Frame reads from it to `
+   +`place the new text among coded neighbours; each newly-named frame lands back in it, so tomorrow&rsquo;s texts `
+   +`are situated against a fuller map.</div></div></div>`
+   +`<div class="mock"><svg viewBox="0 0 500 220">`
+   +[[60,60],[80,90],[110,70],[95,120],[140,100],[220,50],[260,80],[240,120],[280,60],[300,110],
+     [380,60],[410,100],[440,80],[400,140],[460,130],[200,180],[250,200],[300,190]]
+     .map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5" fill="var(--sub)" opacity=".7"/>`).join('')
+   +`<circle cx="270" cy="130" r="8" fill="var(--out)"/>`
+   +`<text x="270" y="113" text-anchor="middle" font-family="var(--serif)" font-size="11" fill="var(--out)">new frame</text>`
+   +`<circle cx="270" cy="130" r="50" fill="none" stroke="var(--out)" stroke-dasharray="3 3" opacity=".6"/></svg>`
+   +`<p class="mock-cap">A 2-D scatter of coded frames, clustered by family. Frame draws its candidate set from a `
+   +`neighbourhood; a newly-named frame lands as a new point.</p></div>`;
+  document.getElementById('dlg').showModal();
+}
+
 function box(s){
   const gap = s.table ? (s.undefined? `${s.undefined}/${s.nfields} undefined` : `${s.nfields} fields`) : 'not built';
   return `<button class="subbox ${s.table?'':'tbd'}" onclick="openStage(${s.i})">${s.sub?s.sub+'. ':''}${esc(s.name)}<span class="gap">${gap}</span></button>`;
@@ -110,20 +325,64 @@ function box(s){
 function engbar(e){
   const built = byEng[e].some(s=>s.table);
   const tag = (P.taglines||{})[e] || '';
-  return `<div class="engbar"><span class="en">Engine ${e}: ${esc(byEng[e][0].engname)}</span>`
-    + (built?'':`<span class="nb">NOT BUILT</span>`)
+  return `<div class="engbar"><div class="ehd"><span class="en">Engine ${e}: ${esc(byEng[e][0].engname)}</span>`
+    + (built?'':`<span class="nb">NOT BUILT</span>`) + `</div>`
     + (tag?`<span class="egloss">${esc(tag)}</span>`:'') + `</div>`;
 }
-// sequential engines 0,1 then the parallel 2-5
+// ── flow arrows. Drawn as SVG inside the column they connect, so they centre on
+//    the column and not on the page (the lane label used to push them off-centre).
+const ARW=`<div class="arw" aria-hidden="true"><svg width="18" height="20" viewBox="0 0 18 20" fill="none">`
+ +`<path d="M9 1 V15" stroke="var(--muted)" stroke-width="1.25"/>`
+ +`<path d="M3 13 L9 19 L15 13" stroke="var(--muted)" stroke-width="1.25" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`;
+function fanArw(n){                       // trunk → bar → n evenly-spaced heads
+  const W=800,H=64,MY=22,step=W/n; let g='';
+  for(let i=0;i<n;i++){const x=step*(i+0.5);
+    g+=`<path d="M${x} ${MY} V${H-8}" stroke="var(--muted)" stroke-width="1.5"/>`
+      +`<path d="M${x-6} ${H-14} L${x} ${H-4} L${x+6} ${H-14}" stroke="var(--muted)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;}
+  return `<div class="fanarw" aria-hidden="true"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">`
+   +`<path d="M${W/2} 0 V${MY}" stroke="var(--muted)" stroke-width="1.5"/>`
+   +`<path d="M${step/2} ${MY} H${W-step/2}" stroke="var(--muted)" stroke-width="1.5"/>`+g+`</svg></div>`;
+}
+document.getElementById('in-arrow').innerHTML=ARW;
+
+// ── Morphospace: not a stage. Sits alongside 0.C Frame, tied by a double-headed link.
+const MS_DOTS=[[12,22],[28,58],[44,32],[62,18],[70,64],[38,74],[80,42],[22,80],[54,48],[86,74],[18,44],[64,84]];
+const MS_PANEL=`<aside class="ms"><div class="ms-link" aria-hidden="true">`
+ +`<div class="ms-lab">0.C Frame</div>`
+ +`<svg width="72" height="16" viewBox="0 0 72 16">`
+ +`<path d="M8 8 H64" stroke="var(--out)" stroke-width="1.5"/>`
+ +`<path d="M12 3 L4 8 L12 13" stroke="var(--out)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`
+ +`<path d="M60 3 L68 8 L60 13" stroke="var(--out)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+ +`<div class="ms-lab">feeds &harr; fed</div></div>`
+ +`<button class="ms-card" onclick="openMorphospace()">`
+ +`<div class="ms-eyebrow">shared reference layer &middot; input + output</div>`
+ +`<div class="ms-title">Morphospace</div>`
+ +`<p class="ms-gloss">A shared reference layer. Every text we code feeds it (an output); it situates the next text `
+ +`against everything coded so far (an input).</p>`
+ +`<div class="ms-scatter">`+MS_DOTS.map(([x,y])=>`<i style="left:${x}%;top:${y}%"></i>`).join('')
+ +`<i class="nw" style="left:48%;top:42%"></i></div></button></aside>`;
+
+// ── the map: Preparation lane (0 + Morphospace → 1), fan-out, Recomposition lane (2-5)
+function engblock(e){
+  return engbar(e)+`<div class="engwrap"><div class="subrow">${byEng[e].map(box).join('')}</div></div>`;
+}
 let h='';
-['0','1'].forEach(e=>{
-  h+=engbar(e)+`<div class="engwrap"><div class="subrow">${byEng[e].map(box).join('')}</div></div><div class="arrow">▼</div>`;
-});
-h+='<div class="parallel">'+['2','3','4','5'].map(e=>
-  `<div>`+engbar(e)+`<div class="engwrap">`
-  +byEng[e].map(s=>`<div class="subrow">${box(s)}</div>`).join('')+`</div></div>`).join('')+'</div>';
+h+=`<div class="lg lg-prep"><div class="lg-hd"><span class="lg-k">Preparation &mdash; always runs</span>`
+  +`<span class="lg-n">runs for every output</span></div>`
+  +`<div class="prep-row"><div class="prep-main">`+engblock('0')+`</div>`+MS_PANEL+`</div>`
+  +ARW+engblock('1')+`</div>`;
+h+=fanArw(4);
+h+=`<div class="lg lg-recomp"><div class="lg-hd"><span class="lg-k">Recomposition &mdash; pick your output</span>`
+  +`<span class="lg-n">each runs independently on the prepared text</span></div>`
+  +`<div class="parallel">`+['2','3','4','5'].map(e=>
+      `<div>`+engbar(e)+`<div class="engwrap">`
+      +byEng[e].map(s=>`<div class="subrow">${box(s)}</div>`).join('')+`</div></div>`).join('')+`</div>`
+  +`<div class="parallel">`+['2','3','4','5'].map(()=>`<div>${ARW}</div>`).join('')+`</div></div>`;
 document.getElementById('engines').innerHTML=h;
-document.getElementById('outs').innerHTML=['2','3','4','5'].map(e=>`<div class="outpill">${esc(P.outputs[e])}</div>`).join('');
+document.getElementById('outs').innerHTML=['2','3','4','5'].map(e=>
+  `<button class="outpill" onclick="openOutput('${e}')">`
+  +(OUT_REAL[e]?'':'<span class="dia" aria-hidden="true">&#9671;</span>')
+  +`${esc(P.outputs[e])}</button>`).join('');
 
 function ftable(fields,label){
   if(!fields.length) return '';
@@ -136,7 +395,9 @@ function ftable(fields,label){
 function openStage(i){
   const s=P.stages[i];
   document.getElementById('d-title').textContent=`Engine ${s.eng} ${s.engname} — ${s.sub?s.sub+'. ':''}${s.name}`;
-  document.getElementById('d-what').textContent=s.what||'';
+  // `what` is authored HTML we control (it carries <b>/<i> emphasis) — render it, don't print the tags.
+  // Everything DB-derived stays escaped via esc() below.
+  document.getElementById('d-what').innerHTML=s.what||'';
   document.getElementById('d-tbl').textContent=s.table?`table: ${s.table}`+(s.also?` · + ${s.also}`:''):'';
   let b='';
   // ── the TL;DR header: what · why · logic · status · code ──
