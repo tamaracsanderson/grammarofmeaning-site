@@ -200,6 +200,21 @@ function moveTip(e){const p=12;let x=e.clientX+p,y=e.clientY+p;
   if(y+tip.offsetHeight>innerHeight)y=e.clientY-tip.offsetHeight-p;tip.style.left=x+'px';tip.style.top=y+'px';}
 function hideTip(){tip.style.opacity=0;}
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// SVG <text> does not wrap. Break a label on WHITESPACE into at most `max` lines of ~`w` chars, so the song's
+// own words stay readable instead of being clipped mid-word. If it still doesn't fit, mark it with … rather
+// than silently cutting (S154).
+function wrapLabel(s,w,max){
+  const words=String(s||'').trim().split(/\s+/).filter(Boolean);
+  const out=[]; let cur='';
+  for(let i=0;i<words.length;i++){
+    const cand=cur?cur+' '+words[i]:words[i];
+    if(cand.length<=w||!cur){ cur=cand; }
+    else if(out.length<max-1){ out.push(cur); cur=words[i]; }
+    else { cur=cur+'…'; break; }
+  }
+  if(cur) out.push(cur);
+  return out.length?out.slice(0,max):[''];
+}
 
 document.getElementById('subline').innerHTML=
  'Seed <b>'+esc(P.seed_move)+'</b> → substitute “'+esc(P.sub)+'”. Each perturbation holds the fact + operation fixed and turns one frame-axis; the gate lets a branch run unless it double-backs or leaves the path.';
@@ -297,7 +312,7 @@ function shapeFor(band,cx,cy,r){
   return `<polygon points="${cx},${cy-r-1.5} ${cx+r+1.5},${cy} ${cx},${cy+r+1.5} ${cx-r-1.5},${cy}"/>`;
 }
 (function(){
-  const BASE_H=96;                       // room at the top for the axis + the baseline (the actual text)
+  const BASE_H=114;                      // room for the axis + the baseline; fits a 3-line wrapped label (S154)
   const L=layout(P.nodes), padX=230,padR=40,rowH=20,top=24+BASE_H, W=1180;
   // the axis spans the whole SONG arc (the baseline), even past the depth the fan has actually branched to
   const BLmax=Math.max(0,...(P.baseline||[]).map(b=>b.depth));
@@ -330,9 +345,14 @@ function shapeFor(band,cx,cy,r){
   for(let d=0;d<=AXD;d++){
     const b=byD[d]; if(!b) continue; const beyond=d>L.maxd;
     axis+=`<circle cx="${X(d)}" cy="${blY}" r="6" fill="#1b2559" stroke="var(--bg)" stroke-width="1.2"${beyond?' opacity=".5"':''}/>`;
-    const t=(b.text||'').slice(0,34);
-    axis+=`<rect x="${X(d)-58}" y="${blY+11}" width="116" height="19" rx="4" fill="color-mix(in srgb,#f5d90a ${beyond?'15%':'30%'},transparent)"${beyond?' stroke="var(--line)" stroke-dasharray="3 2"':''}/>`
-        + `<text x="${X(d)}" y="${blY+24}" text-anchor="middle" font-size="11" fill="var(--fg)"${beyond?' opacity=".7"':''}>${esc(t)}</text>`;
+    // WRAP the song's own words instead of clipping them mid-word (S154 researcher review: "so apologize to h").
+    // SVG <text> doesn't wrap, so break on whitespace into at most 3 lines and grow the label box to fit.
+    const lines=wrapLabel(b.text||'', 21, 3);
+    const lh=13, boxH=8+lines.length*lh, boxW=124;
+    axis+=`<rect x="${X(d)-boxW/2}" y="${blY+11}" width="${boxW}" height="${boxH}" rx="4" fill="color-mix(in srgb,#f5d90a ${beyond?'15%':'30%'},transparent)"${beyond?' stroke="var(--line)" stroke-dasharray="3 2"':''}/>`
+        + `<text x="${X(d)}" y="${blY+23}" text-anchor="middle" font-size="11" fill="var(--fg)"${beyond?' opacity=".75"':''}>`
+        + lines.map((ln,i)=>`<tspan x="${X(d)}" dy="${i?lh:0}">${esc(ln)}</tspan>`).join('')
+        + `</text>`;
   }
   // the FORK: shared world (left) splits into baseline (up) and the fan root (down)
   const fx=X(0)-120, fy=(blY+Y(L.root.y))/2;
