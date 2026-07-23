@@ -46,6 +46,8 @@ h1{font-family:var(--serif);font-size:30px;font-weight:600;letter-spacing:-.01em
 .outpill{flex:1;background:var(--out);color:#FFFDF6;border:none;border-radius:999px;padding:11px 10px;text-align:center;
  font:inherit;font-size:13px;font-weight:600;cursor:pointer}
 .outpill:hover{filter:brightness(1.08)}
+.outpill{display:flex;align-items:center;justify-content:center;gap:7px}
+.oglyph{flex:0 0 auto;opacity:.85}
 .outpill .dia{opacity:.75;margin-right:5px;font-weight:400}
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -379,10 +381,28 @@ h+=`<div class="lg lg-recomp"><div class="lg-hd"><span class="lg-k">Recompositio
       +byEng[e].map(s=>`<div class="subrow">${box(s)}</div>`).join('')+`</div></div>`).join('')+`</div>`
   +`<div class="parallel">`+['2','3','4','5'].map(()=>`<div>${ARW}</div>`).join('')+`</div></div>`;
 document.getElementById('engines').innerHTML=h;
+// A tiny monochrome glyph per output — the SHAPE of what it produces, so the four outputs are legible at a
+// glance instead of only on click (the Morphospace panel already previews itself with its dot-scatter). Each
+// glyph echoes that output's full mock: branching tree · ringed page · timeline · grid. (S154)
+const OUT_GLYPH={
+  '2':'<path d="M13 2 L5 9 M13 2 L13 9 M13 2 L21 9 M5 9 L2 15 M5 9 L8 15 M13 9 L13 15 M21 9 L18 15 M21 9 L24 15"'
+      +' stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round"/>',
+  '3':'<rect x="9" y="5" width="8" height="7" rx="1" fill="currentColor"/>'
+      +'<rect x="2" y="3" width="5" height="11" rx="1" fill="currentColor" opacity=".55"/>'
+      +'<rect x="19" y="3" width="5" height="11" rx="1" fill="currentColor" opacity=".55"/>',
+  '4':'<path d="M2 12 H24" stroke="currentColor" stroke-width="1.3"/>'
+      +'<circle cx="5" cy="12" r="2.1" fill="currentColor"/><circle cx="12" cy="12" r="2.1" fill="currentColor"/>'
+      +'<circle cx="20" cy="12" r="2.1" fill="currentColor"/>'
+      +'<path d="M12 12 L16 5 M20 12 L23 6" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>',
+  '5':'<g fill="currentColor">'
+      +'<rect x="2" y="3" width="6" height="4" rx="1"/><rect x="10" y="3" width="6" height="4" rx="1" opacity=".4"/><rect x="18" y="3" width="6" height="4" rx="1"/>'
+      +'<rect x="2" y="9" width="6" height="4" rx="1" opacity=".4"/><rect x="10" y="9" width="6" height="4" rx="1"/><rect x="18" y="9" width="6" height="4" rx="1" opacity=".4"/>'
+      +'</g>'};
 document.getElementById('outs').innerHTML=['2','3','4','5'].map(e=>
   `<button class="outpill" onclick="openOutput('${e}')">`
+  +`<svg class="oglyph" viewBox="0 0 26 17" width="26" height="17" aria-hidden="true">${OUT_GLYPH[e]||''}</svg>`
   +(OUT_REAL[e]?'':'<span class="dia" aria-hidden="true">&#9671;</span>')
-  +`${esc(P.outputs[e])}</button>`).join('');
+  +`<span>${esc(P.outputs[e])}</span></button>`).join('');
 
 function ftable(fields,label){
   if(!fields.length) return '';
