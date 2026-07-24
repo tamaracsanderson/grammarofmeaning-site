@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Engine 2 fan (gate-v2) — She Loves You · M1</title>
+<style>
+:root{
+  --bg:#faf9f7; --fg:#1c1b19; --muted:#6b6862; --line:#d9d5cc; --card:#ffffff;
+  --v-continue:#3f7d4e; --v-bar:#c0492b; --v-terminal:#4a6fa5;
+  --sub:#8e44ad; --ctrl:#5b5751; --d1:#2e7d32; --d2:#1565c0; --d3:#ad6800;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#171614; --fg:#eceae5; --muted:#a29d94; --line:#3a3833; --card:#211f1c;
+  --v-continue:#6fbf7f; --v-bar:#e8836b; --v-terminal:#7fa8d9;
+  --sub:#c88ce0; --ctrl:#a29d94; --d1:#7fce88; --d2:#7fb3e8; --d3:#e6b84a;
+}}
+:root[data-theme=dark]{
+  --bg:#171614; --fg:#eceae5; --muted:#a29d94; --line:#3a3833; --card:#211f1c;
+  --v-continue:#6fbf7f; --v-bar:#e8836b; --v-terminal:#7fa8d9;
+  --sub:#c88ce0; --ctrl:#a29d94; --d1:#7fce88; --d2:#7fb3e8; --d3:#e6b84a;
+}
+:root[data-theme=light]{
+  --bg:#faf9f7; --fg:#1c1b19; --muted:#6b6862; --line:#d9d5cc; --card:#ffffff;
+  --v-continue:#3f7d4e; --v-bar:#c0492b; --v-terminal:#4a6fa5;
+  --sub:#8e44ad; --ctrl:#5b5751; --d1:#2e7d32; --d2:#1565c0; --d3:#ad6800;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1440px;margin:0 auto;padding:26px 24px 90px}
+.ver{font-family:var(--mono);font-size:14px;color:var(--out);border:1px solid var(--out);border-radius:5px;padding:1px 7px;vertical-align:middle;margin-left:4px}
+.srclinks{font-size:12.5px;margin:2px 0 6px;color:var(--muted)}
+.srclinks a{color:var(--out);font-weight:600;text-decoration:none;border-bottom:1px solid var(--out)}
+.srclinks a:hover{background:color-mix(in srgb,var(--out) 12%,transparent)}
+.srclinks .dot{margin:0 5px;opacity:.5}
+.srcnote{display:block;font-size:11.5px;font-style:italic;margin-top:3px;max-width:70ch}
+.vswitch{font-size:12px;margin:0 0 14px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.vswitch a{display:inline-block;color:inherit;text-decoration:none;border:1px solid var(--line);border-radius:5px;padding:1px 8px;margin-right:3px}
+.vswitch a:hover{border-color:var(--fg);color:var(--fg)}
+.vswitch a[aria-current=page]{border-color:var(--fg);color:var(--fg);font-weight:600}
+.verline{font-size:12.5px;line-height:1.5;color:var(--muted);max-width:74ch;margin:4px 0 14px}
+h1{font-size:22px;margin:0 0 4px;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:13.5px;margin:0 0 8px}
+.caption{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 16px;margin:14px 0 24px;font-size:13px}
+.caption b{color:var(--fg)}
+.sec{margin:30px 0 6px;font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.sec .hint{font-weight:400;text-transform:none;letter-spacing:0}
+.orig{background:var(--card);border:1px solid var(--ctrl);border-left:4px solid var(--ctrl);border-radius:12px;
+  padding:12px 16px;display:flex;flex-wrap:wrap;align-items:stretch;gap:0}
+.orig .ostep{padding:6px 14px 6px 0;margin-right:14px;border-right:1px solid var(--line);min-width:120px}
+.orig .ostep:last-child{border-right:none;margin-right:0}
+.orig .od{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.orig .ot{font-size:13.5px;line-height:1.45;margin-top:2px}
+.orig .oop{font-size:10.5px;color:var(--muted);font-style:italic}
+.shbox{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--muted);border-radius:12px;padding:15px 18px}
+.shbox .sh-simple{font-size:16px;line-height:1.68}
+.shbox .sh-todo{font-size:13px;color:var(--muted);font-style:italic;margin-bottom:8px}
+.shbox .sh-full{margin-top:12px;border-top:1px dashed var(--line);padding-top:9px}
+.shbox .sh-full summary{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;cursor:pointer}
+.shbox .sh-fulltext{font-size:13.5px;line-height:1.6;color:var(--muted);margin-top:8px}
+.fork{margin:10px 0 0;padding:9px 14px;font-size:12.5px;color:var(--muted);border-left:3px solid var(--sub);
+  background:color-mix(in srgb,var(--sub) 6%,transparent);border-radius:0 8px 8px 0}
+.fork b{color:var(--fg)}
+.detail{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;min-height:70px}
+.detail .dempty{color:var(--muted);font-style:italic}
+.detail .dh{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:10px}
+.detail .did{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.detail .dpath{font-size:12px;color:var(--sub);font-weight:600}
+.detail .dv{font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.detail .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.detail .fld{border:1px solid var(--line);border-radius:8px;padding:9px 11px}
+.detail .fld .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.detail .fld .val{font-size:14px;margin-top:3px;line-height:1.45}
+.detail .fld.move .val{font-style:italic}
+.basin li{cursor:pointer} .basin li:hover{color:var(--fg)}
+.basin .trace{font-size:10.5px;color:var(--sub);font-family:ui-monospace,Menlo,monospace}
+.reads{display:grid;grid-template-columns:1fr;gap:14px}
+.read{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.read.control{border-color:var(--ctrl);border-left:4px solid var(--ctrl)}
+.read.E{border-left:4px solid var(--d2)} .read.T{border-left:4px solid var(--d3)}
+.read.S1{border-left:4px solid var(--d1)} .read.S2{border-left:4px solid var(--sub)}
+.read .rh{display:flex;align-items:baseline;gap:10px;margin-bottom:2px}
+.read .rl{font-weight:700;font-size:14px} .read .rg{color:var(--muted);font-size:12px}
+.read .tier{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-top:6px}
+.read .tno{display:inline-block;font-weight:700;color:var(--sub);margin-right:4px}
+.read .t2{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+.read .t2 summary{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;cursor:pointer}
+.read .narr{font-size:15px;line-height:1.62;margin:8px 0 0;font-style:normal}
+.read .narr-todo{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:8px}
+.read .prose{font-size:15.5px;line-height:1.62;margin:9px 0 2px}
+.read .prose b{color:var(--sub);font-weight:600}
+.read .verd{font-size:11.5px;color:var(--muted);margin-top:7px}
+.read .verd .bar{color:var(--v-bar);font-weight:600}
+.chain{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.chip{font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid var(--line);color:var(--muted)}
+.chip.d1{border-left:3px solid var(--d1)} .chip.d2{border-left:3px solid var(--d2)} .chip.d3{border-left:3px solid var(--d3)}
+.chip.sub{border-left:3px solid var(--sub);color:var(--fg);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px;overflow-x:auto}
+/* ── the 3-column stage: shared world | canvas (baseline + fan) | the 3 readings ── */
+.stage{display:grid;grid-template-columns:250px minmax(0,1fr) 300px;gap:16px;align-items:start}
+.collab{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px;font-weight:700}
+.col-shared .sharedtext{background:color-mix(in srgb,#f5d90a 22%,transparent);border-radius:8px;padding:11px 13px;
+  font-size:13.5px;line-height:1.62}
+.forkmark{margin-top:12px;font-size:11.5px;color:var(--muted);border-left:3px solid var(--sub);padding:6px 10px;
+  background:color-mix(in srgb,var(--sub) 6%,transparent);border-radius:0 7px 7px 0}
+.forkmark b{color:var(--fg)}
+.canvashint{font-size:12px;color:var(--muted);margin-bottom:6px}
+.howto{font-size:14px;line-height:1.55;max-width:78ch;margin:2px 0 12px;padding:12px 14px;background:color-mix(in srgb,var(--sub) 6%,transparent);border-left:3px solid var(--sub);border-radius:0 8px 8px 0}
+.worlds{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;margin-bottom:8px}
+.wcard{border:1px solid var(--line);border-radius:9px;padding:11px 13px;cursor:pointer;background:var(--card)}
+.wcard:hover{border-color:var(--sub)}
+.wcard .waxes{font-family:var(--mono,monospace);font-size:11.5px;color:var(--sub);margin-bottom:4px}
+.wcard .wread{font-size:13.5px;line-height:1.45;white-space:pre-line}
+.wcard .wn{float:right;font-size:11px;color:var(--muted)}
+.col-read{position:sticky;top:12px;display:flex;flex-direction:column;gap:12px;max-height:92vh;overflow-y:auto}
+.rdbox{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:11px 13px}
+.rdid{font-family:var(--mono);font-size:10.5px;color:var(--muted);font-weight:400;margin-left:6px}
+.rdh{font-weight:700;font-size:13.5px}
+.rdsub{font-size:11px;color:var(--muted);margin:1px 0 8px;line-height:1.35}
+.rdbody{font-size:13.5px;line-height:1.55}
+.rdbody .rp-empty{color:var(--muted);font-style:italic;font-size:12.5px}
+.rdbody .wc{display:block;font-size:10.5px;color:var(--muted);margin-top:6px;font-family:ui-monospace,Menlo,monospace}
+@media(max-width:1100px){.stage{grid-template-columns:1fr}.col-read{position:static;max-height:none}}
+.fanrow{display:flex;gap:14px;align-items:flex-start}
+.fanrow .card{flex:1 1 auto;min-width:0}
+.readpanel{flex:0 0 320px;position:sticky;top:14px;max-height:88vh;overflow-y:auto;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px}
+.rp-empty{color:var(--muted);font-style:italic;font-size:13px;line-height:1.5}
+.rp-h{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+.rp-path{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--sub);margin-bottom:10px;word-break:break-word}
+.rp-shared{font-size:12px;color:var(--muted);border-left:3px solid var(--muted);padding:5px 9px;margin:0 0 10px;
+  background:color-mix(in srgb,var(--muted) 6%,transparent);border-radius:0 6px 6px 0}
+.rp-shared b{color:var(--fg)}
+.rp-step{padding:6px 9px;border-radius:7px;margin:5px 0;font-size:13.5px;line-height:1.45}
+.rp-op{float:right;margin-left:8px;font-family:ui-monospace,Menlo,monospace;font-size:10px;text-transform:none;
+ letter-spacing:0;opacity:.62;border:1px solid currentColor;border-radius:4px;padding:0 5px}
+.rp-step .rl{font-size:10.5px;text-transform:uppercase;letter-spacing:.03em;display:block;margin-bottom:1px;opacity:.8}
+.rp-step.sub{border-left:3px solid var(--sub);background:color-mix(in srgb,var(--sub) 10%,transparent);font-weight:600}
+.rp-step.d1{border-left:3px solid var(--d1);background:color-mix(in srgb,var(--d1) 9%,transparent)}
+.rp-step.d2{border-left:3px solid var(--d2);background:color-mix(in srgb,var(--d2) 9%,transparent)}
+.rp-step.d3{border-left:3px solid var(--d3);background:color-mix(in srgb,var(--d3) 9%,transparent)}
+.rp-end{margin-top:10px;font-size:11.5px;color:var(--muted)}
+.rp-end.bar{color:var(--v-bar);font-weight:600}
+svg{display:block;width:100%;height:auto}
+svg .edge.lit{stroke:var(--sub);stroke-width:2}
+svg .nd.dim{opacity:.28} svg .nd.lit{opacity:1}
+@media(max-width:820px){.fanrow{flex-direction:column}.readpanel{flex-basis:auto;width:100%;position:static;max-height:none}}
+.nodeid{margin:0 0 10px;min-height:20px}
+.nodeid code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--card);
+ border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--fg);font-weight:600}
+.idnote{font-size:11.5px;color:var(--muted);margin-left:8px;font-style:italic}
+.legrow{flex-basis:100%;margin:6px 0 2px;font-size:12px;color:var(--muted)}
+.legrow b{color:var(--fg)}.legrow i{font-size:11px}
+.axtog{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:12px;cursor:pointer;
+ border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:transparent;color:var(--muted)}
+.axtog.on{background:#e8f0e7;border-color:#8AA88B;color:var(--fg)}
+@media(prefers-color-scheme:dark){.axtog.on{background:#22301f;border-color:#4d6b4d}}
+.axtog .sw{width:11px;height:11px;border-radius:3px;flex:0 0 auto}
+h1{font-size:30px;letter-spacing:-.01em}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin:10px 2px 0;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+.tip{position:fixed;pointer-events:none;background:var(--fg);color:var(--bg);padding:7px 10px;border-radius:7px;
+  font-size:12.5px;max-width:340px;opacity:0;transition:opacity .08s;z-index:9;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+.cats{display:flex;flex-direction:column;gap:16px}
+.cat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.cat .ch{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.cat .ct{font-weight:650;font-size:14px}
+.cat .cc{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px}
+.rdg{display:flex;gap:10px;align-items:baseline;padding:6px 8px;border-radius:7px;cursor:pointer}
+.rdg:hover{background:color-mix(in srgb,var(--sub) 8%,transparent)}
+.rnum{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--sub);font-weight:700;min-width:30px}
+.rtxt{font-size:14px;line-height:1.4}
+.rtrace{display:block;font-family:ui-monospace,Menlo,monospace;font-size:10.5px;color:var(--muted);margin-top:1px}
+.basins{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.basin{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 13px}
+.basin .bh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px}
+.basin .bt{font-weight:600;font-size:13px} .basin .bc{font-size:18px;font-weight:700}
+.basin .chipb{font-size:10.5px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 7px}
+.basin ul{margin:6px 0 0;padding-left:16px;font-size:12px;color:var(--muted)} .basin li{margin:3px 0}
+.themebtn{position:fixed;top:14px;right:14px;border:1px solid var(--line);background:var(--card);color:var(--fg);
+  border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer}
+body{background:#f3f0f7}
+@media(prefers-color-scheme:dark){body{background:#1a171e}}
+:root[data-theme=dark] body{background:#1a171e}
+:root[data-theme=light] body{background:#f3f0f7}
+</style></head>
+<body>
+<button class="themebtn" onclick="tgl()">theme</button>
+<div class="wrap">
+<h1>Engine 2 · the fan — <em>She Loves You</em> (1963) <span class="ver">vR</span></h1>
+<p class="srclinks">The seed text &mdash;
+  <a href="https://www.youtube.com/watch?v=nGbWU8S3vzs" target="_blank" rel="noopener">listen</a>
+  <span class="dot">&middot;</span>
+  <a href="https://share.google/MKOgAbQgZBTW1tkrg" target="_blank" rel="noopener">read the lyrics</a>
+  <span class="srcnote">The page quotes no lyrics: every line shown is a coding paraphrase of what a move <i>does</i>, never the words themselves.</span></p>
+<p class="verline">The RELATIONAL run (S154) — the first fan that ever turned the relational axis. Every previous fan varied 4 of the 7 frame axes; O, I and G could not be stored at all, so every alternative world the instrument had produced held the RELATION fixed. IRR216 voted 4/5 to unfreeze that axis and IRR217's five lenses supplied the social vocabulary. Depth 2, six branches per node. The 45 relational values are CANDIDATES, not locked — this is a probe, not a result.</p>
+<p class="vswitch">runs: <a href="fan-v2.html">v2</a><a href="fan-v3.html">v3</a><a href="fan-r.html" aria-current="page">vR</a></p>
+<p class="howto" id="howto"></p>
+<p class="sub" id="subline"></p>
+<div class="caption" id="cap"></div>
+
+<div class="stage">
+  <aside class="col-shared">
+    <div class="collab">Shared World</div>
+    <div class="sharedtext" id="shared"></div>
+    <div class="forkmark" id="fork"></div>
+  </aside>
+  <main class="col-canvas">
+    <div class="canvashint">Hover any node in the fan — its line lights up and fills the three readings on the right. Click to pin it.</div>
+    <div class="card" id="treecard"></div>
+    <div class="legend" id="legend"></div>
+  </main>
+  <aside class="col-read">
+    <div id="nodeid" class="nodeid"></div>
+    <div class="rdbox"><div class="rdh">1 · the chain</div><div class="rdsub">every depth, stamped with the axis it turned</div><div class="rdbody" id="r1"><span class="rp-empty">hover a node</span></div></div>
+    <div class="rdbox"><div class="rdh">2 · poetic</div><div class="rdsub">the world, said whole</div><div class="rdbody" id="r2"><span class="rp-empty">&mdash;</span></div></div>
+    <div class="rdbox"><div class="rdh">3 · simplified</div><div class="rdsub">the same world, plainly</div><div class="rdbody" id="r3"><span class="rp-empty">&mdash;</span></div></div>
+    <div class="rdbox"><div class="rdh">4 · the full telling</div><div class="rdsub">shared world + alternative world, joined</div><div class="rdbody" id="r4"><span class="rp-empty">&mdash;</span></div></div>
+  </aside>
+</div>
+
+<div class="sec">The alternative worlds <span class="hint">— the top variations of the flipped claim, bundled (near-duplicate lines collapsed into one world). Click a world to light a line + read it on the right.</span></div>
+<div class="worlds" id="worlds"></div>
+
+
+<div class="sec">Node detail <span class="hint">— click any node in the fan (or a basin example) to see its four fields here</span></div>
+<div class="detail" id="detail"><span class="dempty">Click a node in the fan above, or a basin example, to inspect it.</span></div>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+const P = {"tree_id": "FAN-SLY-1963-91fe23", "seed_move": "M1", "sub": "she hates you", "counts": {"nodes": 43, "leaves": 36, "verdicts": {"continue": 7, "terminal": 35, "bar": 1}, "bands": {"near": 3, "mid": 39, "door": 1}}, "original": {"seed": {"label": "M1", "op": "loves", "para": "The friend proclaims the headline news: her love for you still holds."}, "heads": [{"label": "M9", "op": "know", "para": "The friend attributes to you the recognition that this cannot be a bad thing.", "depth": 1}, {"label": "M11", "op": "know", "para": "The friend attributes to you the recognition that gladness is the fitting response.", "depth": 2}, {"label": "M19", "op": "know", "para": "The friend attributes to you the recognition that the decision falls on your shoulders.", "depth": 3}, {"label": "M21", "op": "think", "para": "The friend enters his own voice for the first time to venture an opinion.", "depth": 4}, {"label": "M23", "op": "can-hurt", "para": "The friend issues a general warning: pride, too, can wound its bearer.", "depth": 5}, {"label": "M24", "op": "apologize", "para": "The friend issues the directive that answers the standing question: make the apology to her.", "depth": 6}]}, "shared": [{"label": "M2", "op": "think", "para": "The friend attributes to you the mistaken belief that your love is gone."}, {"label": "M3", "op": "lost", "para": "The believed content: you have lost your love."}, {"label": "M4", "op": "saw", "para": "The friend establishes his authority to correct you: he saw her, in person, the day before."}, {"label": "M5", "op": "thinkin' of", "para": "Contrary to your belief, her mind is oriented toward you."}, {"label": "M6", "op": "told", "para": "She commissioned the friend as her messenger, giving him words to relay."}, {"label": "M7", "op": "says", "para": "She says — in her own voice — that she loves you."}, {"label": "M8", "op": "loves", "para": "The content of her declaration: she loves you."}, {"label": "M13", "op": "said", "para": "She reported that you had wounded her severely."}, {"label": "M14", "op": "hurt", "para": "The content of her claim: you wounded her, and severely."}, {"label": "M15", "op": "almost-lost-mind", "para": "The friend describes the severity of her past state: she nearly went out of her mind."}, {"label": "M16", "op": "says", "para": "She now voices a revised view: she has come to know something new about you."}, {"label": "M17", "op": "knows", "para": "The content of what she voices: she has come to a settled recognition about your character."}, {"label": "M18", "op": "not-hurting-kind", "para": "The content of that knowledge: you are not, in essence, the sort who wounds."}], "shared_full": "The friend attributes to you the mistaken belief that your love is gone (think). The believed content: you have lost your love (lost). The friend establishes his authority to correct you: he saw her, in person, the day before (saw). Contrary to your belief, her mind is oriented toward you (thinkin' of). She commissioned the friend as her messenger, giving him words to relay (told). She says — in her own voice — that she loves you (says). The content of her declaration: she loves you (loves). She reported that you had wounded her severely (said). The content of her claim: you wounded her, and severely (hurt). The friend describes the severity of her past state: she nearly went out of her mind (almost-lost-mind). She now voices a revised view: she has come to know something new about you (says). The content of what she voices: she has come to a settled recognition about your character (knows). The content of that knowledge: you are not, in essence, the sort who wounds (not-hurting-kind).", "shared_simple": null, "nodes": [{"id": "FAN-SLY-1963-91fe23-n0", "parent": null, "depth": 0, "axis": "control", "para": "she hates you", "verdict": "continue", "which_gate": null, "term": null, "band": "near", "d": 0, "axis_value": null, "operation": "loves", "rationale": "seed (operation:polarity)", "path": "control"}, {"id": "FAN-SLY-1963-91fe23-n1", "parent": "FAN-SLY-1963-91fe23-n0", "depth": 1, "axis": "control", "para": "you know what it is, and it is bad", "verdict": "continue", "which_gate": null, "term": null, "band": "near", "d": 0, "axis_value": null, "operation": "evaluate", "rationale": "parent frame: obvious-good common sense delivers the plain verdict on the fact", "path": "control › control"}, {"id": "FAN-SLY-1963-91fe23-n2", "parent": "FAN-SLY-1963-91fe23-n0", "depth": 1, "axis": "E", "para": "someone else tells you, and they say it is bad", "verdict": "continue", "which_gate": null, "term": null, "band": "mid", "d": 1, "axis_value": "testimony", "operation": "evaluate", "rationale": "E shifted to testimony: the badness is warranted by a living witness, not your own common sense", "path": "control › E"}, {"id": "FAN-SLY-1963-91fe23-n3", "parent": "FAN-SLY-1963-91fe23-n0", "depth": 1, "axis": "T", "para": "for the sake of being loosed, this is good", "verdict": "continue", "which_gate": null, "term": null, "band": "mid", "d": 1, "axis_value": "liberation", "operation": "evaluate", "rationale": "T shifted to liberation: the end is freedom from the bond, so the same fact reads as good", "path": "control › T"}, {"id": "FAN-SLY-1963-91fe23-n4", "parent": "FAN-SLY-1963-91fe23-n0", "depth": 1, "axis": "S1", "para": "with a gentle regard, this is sad for her", "verdict": "continue", "which_gate": null, "term": null, "band": "mid", "d": 1, "axis_value": "tender", "operation": "evaluate", "rationale": "S1 shifted to tender: the posture cherishes her, so the fact reads as her pain rather than your loss", "path": "control › S1"}, {"id": "FAN-SLY-1963-91fe23-n5", "parent": "FAN-SLY-1963-91fe23-n0", "depth": 1, "axis": "S2", "para": "look under the words, and it is not what it seems", "verdict": "continue", "which_gate": null, "term": null, "band": "mid", "d": 1, "axis_value": "dig beneath it for what is really going on", "operation": "evaluate", "rationale": "S2 shifted to reductive-deconstructive: the surface verdict is set aside for the hidden mechanism underneath", "path": "control › S2"}, {"id": "FAN-SLY-1963-91fe23-n6", "parent": "FAN-SLY-1963-91fe23-n0", "depth": 1, "axis": "R", "para": "the two of you no longer hold, and that is bad", "verdict": "continue", "which_gate": null, "term": null, "band": "mid", "d": 1, "axis_value": "the bond is broken and stays broken", "operation": "evaluate", "rationale": "R shifted to a severed, non-mending topology: the shape of the relation is a clean break, and the badness is that shape", "path": "control › R"}, {"id": "FAN-SLY-1963-91fe23-n7", "parent": "FAN-SLY-1963-91fe23-n1", "depth": 2, "axis": "control", "para": "You already know. Grieve her, mate.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "near", "d": 0, "axis_value": null, "operation": "command", "rationale": "parent frame communion + charitable + reparative: the fitting response to a broken bond is honest sorrow, and the mate already knows this", "path": "control › control › control"}, {"id": "FAN-SLY-1963-91fe23-n8", "parent": "FAN-SLY-1963-91fe23-n1", "depth": 2, "axis": "E", "para": "One and one is two. Let her go.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 1, "axis_value": "reason", "operation": "command", "rationale": "warrant shifts from a mate's testimony to plain inference: the response is what follows, not what he was told", "path": "control › control › E"}, {"id": "FAN-SLY-1963-91fe23-n9", "parent": "FAN-SLY-1963-91fe23-n1", "depth": 2, "axis": "T", "para": "For your own freedom, walk clear of her.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 1, "axis_value": "liberation", "operation": "command", "rationale": "end shifts from communion (mourn the bond) to release (be done with her): the response the mate is owed is his own life back, not more grief", "path": "control › control › T"}, {"id": "FAN-SLY-1963-91fe23-n10", "parent": "FAN-SLY-1963-91fe23-n1", "depth": 2, "axis": "S1", "para": "Get your back up. She does not get the last word.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 1, "axis_value": "defiant", "operation": "command", "rationale": "stance shifts from charitable (feel it, accept it) to defiant (stand up to it): the response is refusal, not receiving", "path": "control › control › S1"}, {"id": "FAN-SLY-1963-91fe23-n11", "parent": "FAN-SLY-1963-91fe23-n1", "depth": 2, "axis": "S2", "para": "Dig under what she said. Find the real reason.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 1, "axis_value": "reductive-deconstructive", "operation": "command", "rationale": "posture shifts from reparative (take her word and grieve) to reductive (her words hide the mechanism): the response is to go under them and find what is actually driving it", "path": "control › control › S2"}, {"id": "FAN-SLY-1963-91fe23-n12", "parent": "FAN-SLY-1963-91fe23-n1", "depth": 2, "axis": "R", "para": "You aren't alone in this. Come sit with the lads.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 1, "axis_value": "communal-symmetric-solidarity", "operation": "command", "rationale": "shape shifts from a dyadic mate-to-mate diagnostic to a communal bond that closes ranks around him: the response is not solo grief but being carried by the group", "path": "control › control › R"}, {"id": "FAN-SLY-1963-91fe23-n13", "parent": "FAN-SLY-1963-91fe23-n2", "depth": 2, "axis": "control", "para": "Take the news to heart and let yourself hurt over her.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 1, "axis_value": null, "operation": "urge", "rationale": "Under the parent frame (testimony + charitable + reparative + communion): trust the friend's report and feel the ache honestly, staying in the bond even as it aches.", "path": "control › E › control"}, {"id": "FAN-SLY-1963-91fe23-n14", "parent": "FAN-SLY-1963-91fe23-n2", "depth": 2, "axis": "E", "para": "Don't take his word alone. Go see her yourself first.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 1, "axis_value": "observation", "operation": "urge", "rationale": "Warrant shifts from a middleman's report to direct sight: the response fitted to the fact is only warranted after your own eyes have met hers.", "path": "control › E › E"}, {"id": "FAN-SLY-1963-91fe23-n15", "parent": "FAN-SLY-1963-91fe23-n2", "depth": 2, "axis": "T", "para": "For your own freedom, walk away and be done with her.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "liberation", "operation": "urge", "rationale": "Telos shifts from communion to freedom-from: the response is not to grieve the bond but to be free of it, and the command aims at your release, not repair.", "path": "control › E › T"}, {"id": "FAN-SLY-1963-91fe23-n16", "parent": "FAN-SLY-1963-91fe23-n2", "depth": 2, "axis": "S1", "para": "Don't take that verdict lying down. Refuse it flat.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "defiant", "operation": "urge", "rationale": "Stance shifts from charitable good-faith to open defiance: the warranted response is to reject the report rather than take it in.", "path": "control › E › S1"}, {"id": "FAN-SLY-1963-91fe23-n17", "parent": "FAN-SLY-1963-91fe23-n2", "depth": 2, "axis": "S2", "para": "Don't take the hate straight. Ask what she's really after.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "reductive-deconstructive", "operation": "urge", "rationale": "Hermeneutic shifts from reparative reading to reading-under: the warranted response is not to feel the surface but to hunt the interest hiding under it.", "path": "control › E › S2"}, {"id": "FAN-SLY-1963-91fe23-n18", "parent": "FAN-SLY-1963-91fe23-n2", "depth": 2, "axis": "R", "para": "It isn't just you and her now. Come back among your mates.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "communal — the bond widens from the dyad (you-and-her) to a wider we (you-and-your-mates); the response is held by the group, not answered to her", "operation": "urge", "rationale": "Relational shape shifts from a two-person tie to a wider circle: the fitting response is being held by the mates rather than being addressed back to her.", "path": "control › E › R"}, {"id": "FAN-SLY-1963-91fe23-n19", "parent": "FAN-SLY-1963-91fe23-n3", "depth": 2, "axis": "control", "para": "So then, take the news as good and walk out light.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 1, "axis_value": null, "operation": "counsel", "rationale": "Under the parent frame (charitable testimony, reparative, telos of release), the plain warranted response is a warm, freeing directive that ratifies the release the prior line named.", "path": "control › T › control"}, {"id": "FAN-SLY-1963-91fe23-n20", "parent": "FAN-SLY-1963-91fe23-n3", "depth": 2, "axis": "E", "para": "See for yourself. Look at how much lighter you already stand.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "observation", "operation": "counsel", "rationale": "Shifts the warrant from being told to looking; the command's authority moves from the friend's report to what the mate can verify on his own body. Still a command, still fitting-emotional-response, still 1963-appropriate.", "path": "control › T › E"}, {"id": "FAN-SLY-1963-91fe23-n21", "parent": "FAN-SLY-1963-91fe23-n3", "depth": 2, "axis": "T", "para": "For the sake of what you owe, hold your post and keep faith with your work.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 1, "axis_value": "fidelity-service", "operation": "counsel", "rationale": "Shifts telos from release to duty; the warranted response is no longer to walk out light but to stay steady in obligations. Coherent with the fact (she hates you) even if it pivots away from the release the prior line named.", "path": "control › T › T"}, {"id": "FAN-SLY-1963-91fe23-n22", "parent": "FAN-SLY-1963-91fe23-n3", "depth": 2, "axis": "S1", "para": "Stand against it. Refuse the news and do not bend.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "defiant", "operation": "counsel", "rationale": "Shifts posture from charitable acceptance to oppositional refusal; the warranted response is not to receive the news well but to push back on it. Still a command inside deontic-affect (a mate telling a mate what stance to take).", "path": "control › T › S1"}, {"id": "FAN-SLY-1963-91fe23-n23", "parent": "FAN-SLY-1963-91fe23-n3", "depth": 2, "axis": "S2", "para": "Look under it. Ask what her hate is really guarding.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "reductive-deconstructive", "operation": "counsel", "rationale": "Shifts from reparative reading (take the news as it stands) to digging beneath (the surface hides something). Era-fits a savvy 1963 mate; still a command about what response is warranted.", "path": "control › T › S2"}, {"id": "FAN-SLY-1963-91fe23-n24", "parent": "FAN-SLY-1963-91fe23-n3", "depth": 2, "axis": "R", "para": "I have said my last on this. You carry it on your own from here.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "refused bond — the ongoing counsel-tie between friend and friend is closed off; the response is carried alone", "operation": "counsel", "rationale": "Shifts relational shape from an intact, ongoing peer-counsel bond to a bond being refused / closed. Still a command (you carry it), still 1963-appropriate mate-talk, but the shape between speaker and hearer changes from continuous accompaniment to severance.", "path": "control › T › R"}, {"id": "FAN-SLY-1963-91fe23-n25", "parent": "FAN-SLY-1963-91fe23-n4", "depth": 2, "axis": "control", "para": "with a soft hand, hold her lightly and keep the door open", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 1, "axis_value": null, "operation": "counsel-tenderness", "rationale": "under a tender regard and a communion telos, the fitting response is a gentle hold that leaves the way back in.", "path": "control › S1 › control"}, {"id": "FAN-SLY-1963-91fe23-n26", "parent": "FAN-SLY-1963-91fe23-n4", "depth": 2, "axis": "E", "para": "as our fathers did, hold her softly and wish her well", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "tradition", "operation": "counsel-tenderness", "rationale": "warrant shifts from a mate's telling to the practice that came down before you — the command carries the weight of what's always been done, not one voice's advice.", "path": "control › S1 › E"}, {"id": "FAN-SLY-1963-91fe23-n27", "parent": "FAN-SLY-1963-91fe23-n4", "depth": 2, "axis": "T", "para": "for your own freedom, put this down and walk clear", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "liberation", "operation": "counsel-tenderness", "rationale": "end shifts from keeping the bond to being free of it — the fitting response is to let it fall so you go on unencumbered.", "path": "control › S1 › T"}, {"id": "FAN-SLY-1963-91fe23-n28", "parent": "FAN-SLY-1963-91fe23-n4", "depth": 2, "axis": "S1", "para": "with your feet planted, don't give her an inch", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 1, "axis_value": "defiant", "operation": "counsel-tenderness", "rationale": "stance shifts from tender-toward-her to standing-against — the fitting response is to refuse to bend under her hate.", "path": "control › S1 › S1"}, {"id": "FAN-SLY-1963-91fe23-n29", "parent": "FAN-SLY-1963-91fe23-n4", "depth": 2, "axis": "S2", "para": "look beneath it. the hate isn't the real thing. find what is.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "reductive-deconstructive", "operation": "counsel-tenderness", "rationale": "hermeneutic shifts from repairing the surface to digging under it — the fitting response is to seek the real cause the plain hate is hiding.", "path": "control › S1 › S2"}, {"id": "FAN-SLY-1963-91fe23-n30", "parent": "FAN-SLY-1963-91fe23-n4", "depth": 2, "axis": "R", "para": "not alone. bring your people in and let them carry it with you.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "communal", "operation": "counsel-tenderness", "rationale": "shape shifts from a dyadic you-and-her bond held between two mates to a communal one — the fitting response is to gather the ones around you rather than sit with it solo.", "path": "control › S1 › R"}, {"id": "FAN-SLY-1963-91fe23-n31", "parent": "FAN-SLY-1963-91fe23-n5", "depth": 2, "axis": "control", "para": "take it from me. hold her, mate. she is hurting under it.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 1, "axis_value": null, "operation": "command", "rationale": "parent frame: friend's testimony + charitable read + dig beneath + aim at the bond → the warranted response is to hold her and mend it.", "path": "control › S2 › control"}, {"id": "FAN-SLY-1963-91fe23-n32", "parent": "FAN-SLY-1963-91fe23-n5", "depth": 2, "axis": "E", "para": "see for yourself, mate. watch her face when she says it.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "observation", "operation": "command", "rationale": "how-known shifts from the friend's word to the mate's own eyes; the command is grounded in what he can plainly look at, not in what he is being told.", "path": "control › S2 › E"}, {"id": "FAN-SLY-1963-91fe23-n33", "parent": "FAN-SLY-1963-91fe23-n5", "depth": 2, "axis": "T", "para": "get free of her, mate. walk away and be done.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "liberation", "operation": "command", "rationale": "aim shifts from bond to freedom from it; the warranted response is not to mend the tie but to be released from it.", "path": "control › S2 › T"}, {"id": "FAN-SLY-1963-91fe23-n34", "parent": "FAN-SLY-1963-91fe23-n5", "depth": 2, "axis": "S1", "para": "square up to it, mate. don't take it lying down.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "defiant", "operation": "command", "rationale": "posture shifts from charitable to resisting; the warranted response is to stand against her declaration, not to read it in the best light.", "path": "control › S2 › S1"}, {"id": "FAN-SLY-1963-91fe23-n35", "parent": "FAN-SLY-1963-91fe23-n5", "depth": 2, "axis": "S2", "para": "take her at her word, mate. believe what she said.", "verdict": "bar", "which_gate": "path-coherence", "term": "schism", "band": "mid", "d": 1, "axis_value": "literal", "operation": "command", "rationale": "what you do with the text shifts from digging beneath to taking the surface as the meaning; this contradicts move 2's 'look under', so coheres_parent is false, but the shift is fully literal and answers the same question.", "path": "control › S2 › S2"}, {"id": "FAN-SLY-1963-91fe23-n36", "parent": "FAN-SLY-1963-91fe23-n5", "depth": 2, "axis": "R", "para": "cut it clean, mate. don't answer her at all.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "refused", "operation": "command", "rationale": "relation shape shifts from being-mended to refused; the warranted response is to break the bond, not to keep it open.", "path": "control › S2 › R"}, {"id": "FAN-SLY-1963-91fe23-n37", "parent": "FAN-SLY-1963-91fe23-n6", "depth": 2, "axis": "control", "para": "Sit with the hurt. Let it hurt as long as it hurts.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 1, "axis_value": null, "operation": "grieve", "rationale": "Under the parent frame (charitable, reparative, communion telos), the fitting response to a broken bond you still honor is plain grief, taken at its own pace.", "path": "control › R › control"}, {"id": "FAN-SLY-1963-91fe23-n38", "parent": "FAN-SLY-1963-91fe23-n6", "depth": 2, "axis": "E", "para": "Wait for what's given you. Take what comes and don't ask why.", "verdict": "terminal", "which_gate": "paradigm", "term": "resolution", "band": "door", "d": 2, "axis_value": "revelation", "operation": "grieve", "rationale": "Shifts warrant from what the mate already knows (testimony) to what is disclosed from outside; the right response is one you receive passively, not one you work out.", "path": "control › R › E"}, {"id": "FAN-SLY-1963-91fe23-n39", "parent": "FAN-SLY-1963-91fe23-n6", "depth": 2, "axis": "T", "para": "Now to get free of her. Walk out and don't come back.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "liberation", "operation": "grieve", "rationale": "Shifts the end from restored union to release; the warranted response is not to mourn the bond but to be done with it.", "path": "control › R › T"}, {"id": "FAN-SLY-1963-91fe23-n40", "parent": "FAN-SLY-1963-91fe23-n6", "depth": 2, "axis": "S1", "para": "Push back on it. She doesn't get to name you, so don't let her.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "defiant", "operation": "grieve", "rationale": "Shifts posture from good-faith reading to oppositional; the response is not to accept her verdict but to stand against it.", "path": "control › R › S1"}, {"id": "FAN-SLY-1963-91fe23-n41", "parent": "FAN-SLY-1963-91fe23-n6", "depth": 2, "axis": "S2", "para": "Get under it. Her hate is covering something else, so go find that.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 2, "axis_value": "reductive-deconstructive", "operation": "grieve", "rationale": "Shifts from repairing the surface to digging beneath it; the warranted response is investigation of what her hate is really doing, not felt response to it.", "path": "control › R › S2"}, {"id": "FAN-SLY-1963-91fe23-n42", "parent": "FAN-SLY-1963-91fe23-n6", "depth": 2, "axis": "R", "para": "Hold your end of it. Love her anyway.", "verdict": "terminal", "which_gate": null, "term": "max-depth", "band": "mid", "d": 1, "axis_value": "asymmetric-one-sided (the bond persists from your side alone; her hatred does not unmake yours)", "operation": "grieve", "rationale": "Shifts the bond's shape from mutually-broken to unilaterally-held; the response is to keep the tie alive from one side, which her hatred does not have the power to cancel.", "path": "control › R › R"}], "categories": [{"cat": "in between", "items": [{"num": 5, "id": "FAN-SLY-1963-91fe23-n14", "cat": "in between", "final": "Don't take his word alone. Go see her yourself first.", "path": "control › E › E", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 6, "id": "FAN-SLY-1963-91fe23-n15", "cat": "in between", "final": "For your own freedom, walk away and be done with her.", "path": "control › E › T", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 7, "id": "FAN-SLY-1963-91fe23-n16", "cat": "in between", "final": "Don't take that verdict lying down. Refuse it flat.", "path": "control › E › S1", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 8, "id": "FAN-SLY-1963-91fe23-n17", "cat": "in between", "final": "Don't take the hate straight. Ask what she's really after.", "path": "control › E › S2", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 9, "id": "FAN-SLY-1963-91fe23-n18", "cat": "in between", "final": "It isn't just you and her now. Come back among your mates.", "path": "control › E › R", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 11, "id": "FAN-SLY-1963-91fe23-n20", "cat": "in between", "final": "See for yourself. Look at how much lighter you already stand.", "path": "control › T › E", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 12, "id": "FAN-SLY-1963-91fe23-n21", "cat": "in between", "final": "For the sake of what you owe, hold your post and keep faith with your work.", "path": "control › T › T", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 13, "id": "FAN-SLY-1963-91fe23-n22", "cat": "in between", "final": "Stand against it. Refuse the news and do not bend.", "path": "control › T › S1", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 14, "id": "FAN-SLY-1963-91fe23-n23", "cat": "in between", "final": "Look under it. Ask what her hate is really guarding.", "path": "control › T › S2", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 15, "id": "FAN-SLY-1963-91fe23-n24", "cat": "in between", "final": "I have said my last on this. You carry it on your own from here.", "path": "control › T › R", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 17, "id": "FAN-SLY-1963-91fe23-n26", "cat": "in between", "final": "as our fathers did, hold her softly and wish her well", "path": "control › S1 › E", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 18, "id": "FAN-SLY-1963-91fe23-n27", "cat": "in between", "final": "for your own freedom, put this down and walk clear", "path": "control › S1 › T", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 19, "id": "FAN-SLY-1963-91fe23-n28", "cat": "in between", "final": "with your feet planted, don't give her an inch", "path": "control › S1 › S1", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 20, "id": "FAN-SLY-1963-91fe23-n29", "cat": "in between", "final": "look beneath it. the hate isn't the real thing. find what is.", "path": "control › S1 › S2", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 21, "id": "FAN-SLY-1963-91fe23-n30", "cat": "in between", "final": "not alone. bring your people in and let them carry it with you.", "path": "control › S1 › R", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 23, "id": "FAN-SLY-1963-91fe23-n32", "cat": "in between", "final": "see for yourself, mate. watch her face when she says it.", "path": "control › S2 › E", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 24, "id": "FAN-SLY-1963-91fe23-n33", "cat": "in between", "final": "get free of her, mate. walk away and be done.", "path": "control › S2 › T", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 25, "id": "FAN-SLY-1963-91fe23-n34", "cat": "in between", "final": "square up to it, mate. don't take it lying down.", "path": "control › S2 › S1", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 27, "id": "FAN-SLY-1963-91fe23-n36", "cat": "in between", "final": "cut it clean, mate. don't answer her at all.", "path": "control › S2 › R", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 30, "id": "FAN-SLY-1963-91fe23-n39", "cat": "in between", "final": "Now to get free of her. Walk out and don't come back.", "path": "control › R › T", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 31, "id": "FAN-SLY-1963-91fe23-n40", "cat": "in between", "final": "Push back on it. She doesn't get to name you, so don't let her.", "path": "control › R › S1", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 32, "id": "FAN-SLY-1963-91fe23-n41", "cat": "in between", "final": "Get under it. Her hate is covering something else, so go find that.", "path": "control › R › S2", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}, {"num": 33, "id": "FAN-SLY-1963-91fe23-n42", "cat": "in between", "final": "Hold your end of it. Love her anyway.", "path": "control › R › R", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 2}]}, {"cat": "stayed closest to the song — most obvious", "items": [{"num": 1, "id": "FAN-SLY-1963-91fe23-n10", "cat": "stayed closest to the song — most obvious", "final": "Get your back up. She does not get the last word.", "path": "control › control › S1", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 1}, {"num": 2, "id": "FAN-SLY-1963-91fe23-n11", "cat": "stayed closest to the song — most obvious", "final": "Dig under what she said. Find the real reason.", "path": "control › control › S2", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 1}, {"num": 3, "id": "FAN-SLY-1963-91fe23-n12", "cat": "stayed closest to the song — most obvious", "final": "You aren't alone in this. Come sit with the lads.", "path": "control › control › R", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 1}, {"num": 4, "id": "FAN-SLY-1963-91fe23-n13", "cat": "stayed closest to the song — most obvious", "final": "Take the news to heart and let yourself hurt over her.", "path": "control › E › control", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 1}, {"num": 10, "id": "FAN-SLY-1963-91fe23-n19", "cat": "stayed closest to the song — most obvious", "final": "So then, take the news as good and walk out light.", "path": "control › T › control", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 1}, {"num": 16, "id": "FAN-SLY-1963-91fe23-n25", "cat": "stayed closest to the song — most obvious", "final": "with a soft hand, hold her lightly and keep the door open", "path": "control › S1 › control", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 1}, {"num": 22, "id": "FAN-SLY-1963-91fe23-n31", "cat": "stayed closest to the song — most obvious", "final": "take it from me. hold her, mate. she is hurting under it.", "path": "control › S2 › control", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 1}, {"num": 28, "id": "FAN-SLY-1963-91fe23-n37", "cat": "stayed closest to the song — most obvious", "final": "Sit with the hurt. Let it hurt as long as it hurts.", "path": "control › R › control", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 1}, {"num": 34, "id": "FAN-SLY-1963-91fe23-n7", "cat": "stayed closest to the song — most obvious", "final": "You already know. Grieve her, mate.", "path": "control › control › control", "band": "near", "term": "max-depth", "verdict": "terminal", "npert": 0}, {"num": 35, "id": "FAN-SLY-1963-91fe23-n8", "cat": "stayed closest to the song — most obvious", "final": "One and one is two. Let her go.", "path": "control › control › E", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 1}, {"num": 36, "id": "FAN-SLY-1963-91fe23-n9", "cat": "stayed closest to the song — most obvious", "final": "For your own freedom, walk clear of her.", "path": "control › control › T", "band": "mid", "term": "max-depth", "verdict": "terminal", "npert": 1}]}, {"cat": "settled on its own", "items": [{"num": 29, "id": "FAN-SLY-1963-91fe23-n38", "cat": "settled on its own", "final": "Wait for what's given you. Take what comes and don't ask why.", "path": "control › R › E", "band": "door", "term": "resolution", "verdict": "terminal", "npert": 2}]}, {"cat": "didn't make it — the gate stopped it", "items": [{"num": 26, "id": "FAN-SLY-1963-91fe23-n35", "cat": "didn't make it — the gate stopped it", "final": "take her at her word, mate. believe what she said.", "path": "control › S2 › S2", "band": "mid", "term": "schism", "verdict": "bar", "npert": 2}]}], "baseline": [{"depth": 0, "move": "M1", "text": "The friend proclaims the headline news: her love for you still holds."}, {"depth": 1, "move": "M9", "text": "The friend attributes to you the recognition that this cannot be a bad thing."}, {"depth": 2, "move": "M11", "text": "The friend attributes to you the recognition that gladness is the fitting response."}, {"depth": 3, "move": "M19", "text": "The friend attributes to you the recognition that the decision falls on your shoulders."}, {"depth": 4, "move": "M21", "text": "The friend enters his own voice for the first time to venture an opinion."}, {"depth": 5, "move": "M23", "text": "The friend issues a general warning: pride, too, can wound its bearer."}, {"depth": 6, "move": "M24", "text": "The friend issues the directive that answers the standing question: make the apology to her."}], "leaf_bundle": {}, "node_leaf": {"FAN-SLY-1963-91fe23-n0": "FAN-SLY-1963-91fe23-n7", "FAN-SLY-1963-91fe23-n1": "FAN-SLY-1963-91fe23-n7", "FAN-SLY-1963-91fe23-n2": "FAN-SLY-1963-91fe23-n13", "FAN-SLY-1963-91fe23-n3": "FAN-SLY-1963-91fe23-n19", "FAN-SLY-1963-91fe23-n4": "FAN-SLY-1963-91fe23-n25", "FAN-SLY-1963-91fe23-n5": "FAN-SLY-1963-91fe23-n31", "FAN-SLY-1963-91fe23-n6": "FAN-SLY-1963-91fe23-n37", "FAN-SLY-1963-91fe23-n7": "FAN-SLY-1963-91fe23-n7", "FAN-SLY-1963-91fe23-n8": "FAN-SLY-1963-91fe23-n8", "FAN-SLY-1963-91fe23-n9": "FAN-SLY-1963-91fe23-n9", "FAN-SLY-1963-91fe23-n10": "FAN-SLY-1963-91fe23-n10", "FAN-SLY-1963-91fe23-n11": "FAN-SLY-1963-91fe23-n11", "FAN-SLY-1963-91fe23-n12": "FAN-SLY-1963-91fe23-n12", "FAN-SLY-1963-91fe23-n13": "FAN-SLY-1963-91fe23-n13", "FAN-SLY-1963-91fe23-n14": "FAN-SLY-1963-91fe23-n14", "FAN-SLY-1963-91fe23-n15": "FAN-SLY-1963-91fe23-n15", "FAN-SLY-1963-91fe23-n16": "FAN-SLY-1963-91fe23-n16", "FAN-SLY-1963-91fe23-n17": "FAN-SLY-1963-91fe23-n17", "FAN-SLY-1963-91fe23-n18": "FAN-SLY-1963-91fe23-n18", "FAN-SLY-1963-91fe23-n19": "FAN-SLY-1963-91fe23-n19", "FAN-SLY-1963-91fe23-n20": "FAN-SLY-1963-91fe23-n20", "FAN-SLY-1963-91fe23-n21": "FAN-SLY-1963-91fe23-n21", "FAN-SLY-1963-91fe23-n22": "FAN-SLY-1963-91fe23-n22", "FAN-SLY-1963-91fe23-n23": "FAN-SLY-1963-91fe23-n23", "FAN-SLY-1963-91fe23-n24": "FAN-SLY-1963-91fe23-n24", "FAN-SLY-1963-91fe23-n25": "FAN-SLY-1963-91fe23-n25", "FAN-SLY-1963-91fe23-n26": "FAN-SLY-1963-91fe23-n26", "FAN-SLY-1963-91fe23-n27": "FAN-SLY-1963-91fe23-n27", "FAN-SLY-1963-91fe23-n28": "FAN-SLY-1963-91fe23-n28", "FAN-SLY-1963-91fe23-n29": "FAN-SLY-1963-91fe23-n29", "FAN-SLY-1963-91fe23-n30": "FAN-SLY-1963-91fe23-n30", "FAN-SLY-1963-91fe23-n31": "FAN-SLY-1963-91fe23-n31", "FAN-SLY-1963-91fe23-n32": "FAN-SLY-1963-91fe23-n32", "FAN-SLY-1963-91fe23-n33": "FAN-SLY-1963-91fe23-n33", "FAN-SLY-1963-91fe23-n34": "FAN-SLY-1963-91fe23-n34", "FAN-SLY-1963-91fe23-n35": "FAN-SLY-1963-91fe23-n35", "FAN-SLY-1963-91fe23-n36": "FAN-SLY-1963-91fe23-n36", "FAN-SLY-1963-91fe23-n37": "FAN-SLY-1963-91fe23-n37", "FAN-SLY-1963-91fe23-n38": "FAN-SLY-1963-91fe23-n38", "FAN-SLY-1963-91fe23-n39": "FAN-SLY-1963-91fe23-n39", "FAN-SLY-1963-91fe23-n40": "FAN-SLY-1963-91fe23-n40", "FAN-SLY-1963-91fe23-n41": "FAN-SLY-1963-91fe23-n41", "FAN-SLY-1963-91fe23-n42": "FAN-SLY-1963-91fe23-n42"}, "bundles": []};
+const VC={continue:'var(--v-continue)',bar:'var(--v-bar)',terminal:'var(--v-terminal)'};
+const tip=document.getElementById('tip');
+function showTip(e,h){tip.innerHTML=h;tip.style.opacity=1;moveTip(e);}
+function moveTip(e){const p=12;let x=e.clientX+p,y=e.clientY+p;
+  if(x+tip.offsetWidth>innerWidth)x=e.clientX-tip.offsetWidth-p;
+  if(y+tip.offsetHeight>innerHeight)y=e.clientY-tip.offsetHeight-p;tip.style.left=x+'px';tip.style.top=y+'px';}
+function hideTip(){tip.style.opacity=0;}
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// SVG <text> does not wrap. Break a label on WHITESPACE into at most `max` lines of ~`w` chars, so the song's
+// own words stay readable instead of being clipped mid-word. If it still doesn't fit, mark it with … rather
+// than silently cutting (S154).
+function wrapLabel(s,w,max){
+  const words=String(s||'').trim().split(/\s+/).filter(Boolean);
+  const out=[]; let cur='';
+  for(let i=0;i<words.length;i++){
+    const cand=cur?cur+' '+words[i]:words[i];
+    if(cand.length<=w||!cur){ cur=cand; }
+    else if(out.length<max-1){ out.push(cur); cur=words[i]; }
+    else { cur=cur+'…'; break; }
+  }
+  if(cur) out.push(cur);
+  return out.length?out.slice(0,max):[''];
+}
+
+document.getElementById('subline').innerHTML=
+ 'Seed <b>'+esc(P.seed_move)+'</b> → substitute “'+esc(P.sub)+'”. Each perturbation holds the fact + operation fixed and turns one frame-axis; the gate lets a branch run unless it double-backs or leaves the path.';
+document.getElementById('howto').innerHTML=
+ '<b>How to read this.</b> We take the song’s central claim — <i>she loves you</i> — and <b>flip</b> it to <i>'+esc(P.sub)+'</i>. Then we <b>ripple</b>: which of the song’s other moves lean on that claim? Those are the ones that must change; everything else — the friend’s visit, the message, the hurt — stays put, and that is the <b>shared world</b> on the left. The moves that must change are bundled into <b>units</b> (a claim and what it says count as one unit), and the fan walks them one unit per depth. The fork is at the <i>claim</i>, not a moment in time — <i>she loves you</i> is the song’s headline, not its first event, so we split on what it asserts, not on chronology.';
+const c=P.counts,vv=c.verdicts;
+document.getElementById('cap').innerHTML=
+ '<b>'+c.nodes+' nodes · '+c.leaves+' leaves.</b> verdicts { continue '+(vv.continue||0)+' · terminal '+(vv.terminal||0)+' · bar '+(vv.bar||0)+' } · '
+ +'bands { near '+(c.bands.near||0)+' · mid '+(c.bands.mid||0)+' · far '+(c.bands.far||0)+' · door '+(c.bands.door||0)+' }. '
+ +'<b>The gate barred only '+(vv.bar||0)+' of '+c.nodes+'</b> — it lets branches run and stops only a genuine break (schism / sitz).';
+
+// node lookup + the detail panel (click any node → its four fields)
+const NODE={}; P.nodes.forEach(n=>NODE[n.id]=n);
+function showDetail(id){
+  const n=NODE[id]; if(!n) return;
+  const vc = n.verdict==='bar' ? `bar · ${esc(n.which_gate||'')}` : (n.verdict+(n.term?' · '+esc(n.term):''));
+  document.getElementById('detail').innerHTML =
+    `<div class="dh"><span class="did">${esc(n.id.split('-').pop())}</span>`
+    +`<span class="dpath">${esc(n.path||'')}</span>`
+    +`<span class="dv">d${n.depth} · ${esc(n.band)} band</span>`
+    +`<span class="dv">${vc}</span></div>`
+    +`<div class="grid">`
+    +`<div class="fld"><div class="k">coordinate (axis · value)</div><div class="val">${esc(n.axis||'control')} · ${esc(n.axis_value||'—')}</div></div>`
+    +`<div class="fld"><div class="k">operation (what it does · held)</div><div class="val">${esc(n.operation||'—')}</div></div>`
+    +`<div class="fld move"><div class="k">move (the telling · L2)</div><div class="val">${esc(n.para||'—')}</div></div>`
+    +`<div class="fld"><div class="k">rationale (why it follows)</div><div class="val">${esc(n.rationale||'—')}</div></div>`
+    +`</div>`;
+  // (no scrollIntoView — pinning a node must NOT move the reader's place in the fan; researcher S154)
+}
+
+// the SHARED stem as a PARAGRAPH — ② simplified (if generated) + ① the tagged move-chain
+(function(){
+  const simple = P.shared_simple;
+  const full = P.shared_full || '';
+  document.getElementById('shared').innerHTML =
+    (simple ? `<div class="sh-simple">${esc(simple)}</div>` : `<div class="sh-todo">② simplified read generates from the SDK — the plain-English version of the paragraph below.</div>`)
+    + `<details class="sh-full"${simple?'':' open'}><summary>the raw coding behind this paragraph (for reference)</summary><div class="sh-fulltext">${esc(full)}</div></details>`;
+  document.getElementById('fork').innerHTML =
+    `<b>The fork.</b> That paragraph is the same in both worlds — the friend brings you word. At the seed <b>${esc(P.seed_move)}</b> it splits: `
+    +`↑ <b>she loves you</b> (the original, below) &nbsp;·&nbsp; ↓ <b>${esc(P.sub)}</b> (the fan). `
+    +`Only the seed + the recognitions that depend on it differ.`;
+})();
+
+// (the ORIGINAL strip is superseded: the baseline is drawn INSIDE the diagram, sharing the depth axis)
+
+// follow-a-line: light the path root→node in the fan + read it back as a chain on the right
+function litPath(id){
+  const set=new Set(); let cur=NODE[id]; while(cur){set.add(cur.id);cur=NODE[cur.parent];}
+  document.querySelectorAll('.nd').forEach(g=>{const on=set.has(g.dataset.id);g.classList.toggle('lit',on);g.classList.toggle('dim',!on);});
+  document.querySelectorAll('.edge').forEach(e=>e.classList.toggle('lit',set.has(e.dataset.to)));
+}
+const BUNDLE={}; (P.bundles||[]).forEach(b=>BUNDLE[b.id]=b);
+const wc=s=>s?(' · '+s.trim().split(/\s+/).length+'w'):'';
+function fillReading(id){
+  const n=NODE[id]; if(!n) return;
+  const path=[]; let cur=n; while(cur){path.push(cur);cur=NODE[cur.parent];} path.reverse();
+  // ── Reading 1: all the depths in one place (the alternative world's own lines) ──
+  const steps = path.map((m,i)=>{
+    const cls = i===0?'sub':('d'+Math.min(m.depth,3));
+    const av = m.axis_value ? (' → '+String(m.axis_value).split(/[(—;:]/)[0].trim()) : '';
+    // S154: 'control' alone told a reader nothing — what is it holding? Now it names the frame it
+    // kept, so a control step is legible as a step rather than a blank. And the HELD operation is
+    // shown on every step, because 'held' was invisible on a page that displays only content.
+    const ax = m.axis || 'control';
+    const lbl = i===0 ? 'the fork'
+      : (ax==='control' ? ('d'+m.depth+' · control — nothing turned; the frame stands as it was')
+                        : ('d'+m.depth+' · '+ax+av));
+    const op = m.operation ? `<span class="rp-op" title="the move-kind, held across all branches at this depth">held: ${esc(m.operation)}</span>` : '';
+    return `<div class="rp-step ${cls}"><span class="rl">${esc(lbl)}${op}</span>${esc(m.para)}</div>`;
+  }).join('');
+  const end = n.verdict==='bar' ? `<div class="rp-end bar">✕ the gate stopped it — ${esc(n.term)}</div>`
+    : (n.term==='resolution' ? `<div class="rp-end">✓ it settles here</div>`
+    : `<div class="rp-end">↦ runs to the depth cap</div>`);
+  document.getElementById('r1').innerHTML =
+    `<div class="rp-path">${path.map(m=>m.axis||'control').join(' › ')}</div>`+steps+end;
+  // ── Readings 2 + 3: this line's WORLD (its bundle), simplified · and combined with the shared world ──
+  // resolve via node→leaf so an INTERMEDIATE node fills these too (its line's completed world). S154.
+  const leafId = (P.node_leaf||{})[id] || id;
+  const b = BUNDLE[(P.leaf_bundle||{})[leafId]];
+  const miss = `<span class="rp-empty">— no simplified reading for this line yet</span>`;
+  // the node id, on every reading — so a reader can name what they are looking at and find it again
+  // ONE id label above all three readings: the LEAF node's id, which names the whole chain
+  // (each node has exactly one parent, so a leaf identifies its path D0..Dn uniquely).
+  const idl=document.getElementById('nodeid');
+  if(idl) idl.innerHTML = n ? `<code>${esc(n.id.split('-').pop())}</code>`
+    +`<span class="idnote">this line &mdash; the leaf names the whole chain D0&ndash;D${n.depth}</span>` : '';
+  document.getElementById('r2').innerHTML = b && b.r2
+    ? `${esc(b.r2)}<span class="wc">${esc(b.id)} · ${b.n} reading(s)${wc(b.r2)}</span>` : miss;
+  document.getElementById('r4').innerHTML = b && b.r4
+    ? `${esc(b.r4)}<span class="wc">${esc(b.id)}${wc(b.r4)}</span>` : miss;
+  document.getElementById('r3').innerHTML = b && b.r3
+    ? `${esc(b.r3)}<span class="wc">${esc(b.id)}${wc(b.r3)}</span>` : miss;
+}
+
+// fan tree
+function layout(nodes){
+  const by={}; nodes.forEach(n=>by[n.id]=Object.assign({},n,{kids:[]}));
+  let root=null;
+  nodes.forEach(n=>{ if(n.parent&&by[n.parent]) by[n.parent].kids.push(by[n.id]); else root=by[n.id]; });
+  let leaf=0; const maxd=Math.max(...nodes.map(n=>n.depth));
+  (function assign(n){ n.x=n.depth;
+    if(n.kids.length===0){ n.y=leaf++; } else{ n.kids.forEach(assign); n.y=(n.kids[0].y+n.kids[n.kids.length-1].y)/2; }
+  })(root);
+  return {root,all:Object.values(by),leaves:leaf,maxd};
+}
+// one hue per axis. control is deliberately neutral — it is the unperturbed baseline.
+const AXC={control:'#9aa0a6',E:'#3F7D57',T:'#C4602F',S1:'#E0A93B',S2:'#5B6BA8'};
+function shapeFor(band,cx,cy,r){
+  if(band==='near') return `<circle cx="${cx}" cy="${cy}" r="${r}"/>`;
+  if(band==='mid')  return `<rect x="${cx-r}" y="${cy-r}" width="${2*r}" height="${2*r}" rx="1.5"/>`;
+  if(band==='far')  return `<polygon points="${cx},${cy-r-1} ${cx+r+1},${cy+r} ${cx-r-1},${cy+r}"/>`;
+  return `<polygon points="${cx},${cy-r-1.5} ${cx+r+1.5},${cy} ${cx},${cy+r+1.5} ${cx-r-1.5},${cy}"/>`;
+}
+(function(){
+  const BASE_H=150;                      // room for the axis + the baseline; fits a 3-line wrapped label (S154)
+  const L=layout(P.nodes), padX=230,padR=40,rowH=20,top=24+BASE_H, W=1180;
+  // the axis spans the whole SONG arc (the baseline), even past the depth the fan has actually branched to
+  const BLmax=Math.max(0,...(P.baseline||[]).map(b=>b.depth));
+  const AXD=Math.max(L.maxd, BLmax);
+  const colW=(W-padX-padR)/(AXD||1), H=top+ (L.leaves-1)*rowH+40;
+  const X=d=>padX+d*colW, Y=y=>top+y*rowH; let edges='',dots='';
+  L.all.forEach(n=>n.kids.forEach(k=>{const x1=X(n.x),y1=Y(n.y),x2=X(k.x),y2=Y(k.y),mx=(x1+x2)/2;
+    edges+=`<path class="edge" data-to="${esc(k.id)}" d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none" stroke="var(--line)" stroke-width="1"/>`;}));
+  // ── CHANNEL REASSIGNMENT (S154 viz audit) ────────────────────────────────────
+  // Before: colour=gate_verdict, size=constant, and `perturbed_axis` — the experiment's
+  // INDEPENDENT VARIABLE — had no visual channel at all. Colour was also ~97% predictable
+  // from x-position (continue ⟺ internal node, terminal ⟺ leaf), so it spent the strongest
+  // channel restating the layout. Now:
+  //    colour ← perturbed_axis   (what was actually varied; the thing you came to see)
+  //    size   ← frame_d          (how far this node's frame sits from the source, 0-4)
+  //    ring   ← the few nodes that did something other than hit the depth cap
+  L.all.forEach(n=>{const cx=X(n.x),cy=Y(n.y);
+    const r=n.depth===0?7:(3.2+1.1*(n.d||0));                 // size = frame distance, not constant
+    const col=AXC[n.axis]||'#9aa0a6';                          // colour = the axis that was turned
+    const acted=(n.verdict==='bar')||(n.term&&n.term!=='max-depth');
+    const ring=acted?`stroke:${n.verdict==='bar'?'var(--warn)':'var(--eng)'};stroke-width:1.8;`
+                    :'stroke:var(--bg);stroke-width:.8;';
+    const meta=JSON.stringify({para:n.para,axis:n.axis,band:n.band,verdict:n.verdict,gate:n.which_gate||'',term:n.term||'',depth:n.depth}).replace(/"/g,'&quot;');
+    dots+=`<g class="nd" data-id="${esc(n.id)}" data-m="${meta}" style="fill:${col};${ring}cursor:pointer">${`<circle cx="${cx}" cy="${cy}" r="${r}"/>`}</g>`;});
+  const rx=X(0)-11, ry=Y(L.root.y);
+  // (the old up-branching fork is superseded: the baseline is now drawn IN the diagram, below)
+  const rootlabel=`<text x="${rx}" y="${ry+16}" text-anchor="end" font-size="11.5" fill="var(--sub)">&#9670; ${esc(P.sub.length>26?P.sub.slice(0,26)+'…':P.sub)}</text>`;
+  // ── the DEPTH · MOVE axis + the BASELINE (the actual text, read straight) ──
+  const BL=(P.baseline||[]); const byD={}; BL.forEach(b=>byD[b.depth]=b);
+  const blY=64;
+  let axis='<text x="'+(X(0)-14)+'" y="'+(blY+4)+'" text-anchor="end" font-size="11.5" font-weight="700" fill="var(--fg)">Baseline</text>';
+  for(let d=0;d<=AXD;d++){
+    const mv=byD[d]?byD[d].move:''; const beyond=d>L.maxd;
+    axis+=`<text x="${X(d)}" y="26" text-anchor="middle" font-size="10.5" fill="var(--muted)"${beyond?' opacity=".6"':''}>d${d}</text>`
+        + (mv?`<text x="${X(d)}" y="40" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--fg)"${beyond?' opacity=".55"':''}>${esc(mv)}</text>`:'');
+  }
+  // the baseline spine: SOLID where the fan has branched, DASHED past it (the song continues, fan not run yet)
+  axis+=`<path d="M${X(0)},${blY} L${X(L.maxd)},${blY}" stroke="var(--v-bar)" stroke-width="2" fill="none" opacity=".85"/>`;
+  if(AXD>L.maxd){
+    axis+=`<path d="M${X(L.maxd)},${blY} L${X(AXD)},${blY}" stroke="var(--v-bar)" stroke-width="2" fill="none" opacity=".45" stroke-dasharray="5 4"/>`
+        + `<text x="${(X(L.maxd)+X(AXD))/2}" y="${blY-13}" text-anchor="middle" font-size="10" font-style="italic" fill="var(--muted)">the song continues — the fan has not been run past d${L.maxd} yet</text>`;
+  }
+  for(let d=0;d<=AXD;d++){
+    const b=byD[d]; if(!b) continue; const beyond=d>L.maxd;
+    axis+=`<circle cx="${X(d)}" cy="${blY}" r="6" fill="#1b2559" stroke="var(--bg)" stroke-width="1.2"${beyond?' opacity=".5"':''}/>`;
+    // WRAP the song's own words instead of clipping them mid-word (S154 researcher review: "so apologize to h").
+    // SVG <text> doesn't wrap, so break on whitespace into at most 3 lines and grow the label box to fit.
+    // S154: 21x3 clipped the analytic paraphrases, which are now the baseline text after the
+    // song-idiom rendering was withheld for reproducing another work's lyrics. 24x5 fits them.
+    // S154: the baseline paraphrases all open 'The friend attributes to you the recognition that…',
+    // which is analytic scaffolding repeated seven times, not information. Strip the stock openers so
+    // the label carries what DIFFERS between depths.
+    const bt=(b.text||'')
+      .replace(/^The friend attributes to you the recognition that\s*/i,'')
+      .replace(/^The friend (proclaims|issues|enters|describes|establishes|reports)[^:]*:\s*/i,'')
+      .replace(/^The (content|believed content)[^:]*:\s*/i,'')
+      .replace(/^\w/, c=>c.toUpperCase());
+    const lines=wrapLabel(bt, 24, 5);
+    const lh=13, boxH=8+lines.length*lh, boxW=124;
+    axis+=`<rect x="${X(d)-boxW/2}" y="${blY+11}" width="${boxW}" height="${boxH}" rx="4" fill="color-mix(in srgb,#f5d90a ${beyond?'15%':'30%'},transparent)"${beyond?' stroke="var(--line)" stroke-dasharray="3 2"':''}/>`
+        + `<text x="${X(d)}" y="${blY+23}" text-anchor="middle" font-size="11" fill="var(--fg)"${beyond?' opacity=".75"':''}>`
+        + lines.map((ln,i)=>`<tspan x="${X(d)}" dy="${i?lh:0}">${esc(ln)}</tspan>`).join('')
+        + `</text>`;
+  }
+  // the FORK: shared world (left) splits into baseline (up) and the fan root (down)
+  const fx=X(0)-120, fy=(blY+Y(L.root.y))/2;
+  axis+=`<path d="M${fx},${fy} C${fx+40},${fy} ${fx+40},${blY} ${X(0)-8},${blY}" stroke="var(--v-bar)" stroke-width="1.4" fill="none" stroke-dasharray="4 3"/>`
+      + `<path d="M${fx},${fy} C${fx+40},${fy} ${fx+40},${Y(L.root.y)} ${X(0)-8},${Y(L.root.y)}" stroke="var(--v-bar)" stroke-width="1.4" fill="none" stroke-dasharray="4 3"/>`
+      + `<text x="${fx-6}" y="${fy+4}" text-anchor="end" font-size="10.5" fill="var(--muted)">shared world</text>`
+      + `<text x="${X(0)-14}" y="${Y(L.root.y)+4}" text-anchor="end" font-size="11.5" font-weight="700" fill="var(--sub)">Alternative</text>`;
+  document.getElementById('treecard').innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="fan tree">${axis}${edges}${rootlabel}${dots}</svg>`;
+  // S154: the legend described the OLD channels (colour=verdict) after colour was reassigned to
+  // perturbed_axis. It now matches the marks — and the axis chips are TOGGLES, so you can isolate
+  // one axis and see only its branches.
+  const AXLABEL={control:'control (nothing turned)',E:'E · how it knows',T:'T · what it is for',
+                 S1:'S1 · how it regards',S2:'S2 · how it reads',R:'R · the shape of the relation'};
+  document.getElementById('legend').innerHTML=
+    `<div class="legrow"><b>colour = the axis turned</b> <i>click to isolate</i></div>`
+   +Object.keys(AXLABEL).filter(k=>P.nodes.some(n=>(n.axis||'control')===k)).map(k=>
+      `<button class="axtog on" data-ax="${k}"><span class="sw" style="background:${AXC[k]}"></span>${AXLABEL[k]}</button>`).join('')
+   +`<div class="legrow"><b>bigger dot</b> = further from the original &mdash; how many of the `
+   +`frame&rsquo;s axes this node has turned away from the source (0 to 4). `
+   +`<b>ringed dot</b> = the gate acted on it: it was stopped, or it settled, rather than just `
+   +`running out of depth (${P.nodes.filter(n=>n.verdict==='bar'||(n.term&&n.term!=='max-depth')).length} of ${P.nodes.length}).</div>`;
+  document.querySelectorAll('.axtog').forEach(btn=>btn.addEventListener('click',()=>{
+    btn.classList.toggle('on');
+    const off=new Set([...document.querySelectorAll('.axtog:not(.on)')].map(b=>b.dataset.ax));
+    document.querySelectorAll('.nd').forEach(g=>{
+      const n=NODE[g.dataset.id]; g.style.opacity = off.has(n.axis||'control') ? .12 : 1;});
+  }));
+  document.querySelectorAll('.nd').forEach(g=>{
+    g.addEventListener('mouseenter',e=>{litPath(g.dataset.id); fillReading(g.dataset.id);});
+    g.addEventListener('click',()=>{litPath(g.dataset.id); fillReading(g.dataset.id); showDetail(g.dataset.id);});});
+})();
+
+document.getElementById('cats').innerHTML=P.categories.map(g=>
+  `<div class="cat"><div class="ch"><span class="ct">${esc(g.cat)}</span><span class="cc">${g.items.length}</span></div>`
+  +g.items.map(r=>
+     `<div class="rdg" onclick="litPath('${esc(r.id)}');fillReading('${esc(r.id)}');showDetail('${esc(r.id)}')">`
+     +`<span class="rnum">R${r.num}</span><span class="rtxt">${esc(r.final)}<span class="rtrace">${esc(r.path)} · ${esc(r.band)}${r.verdict==='bar'?' · '+esc(r.term):''}</span></span></div>`).join('')
+  +`</div>`).join('');
+
+// top alternative worlds (bundled) — the distinct variations, most-collapsed first (S154)
+(function(){
+  const lb=P.leaf_bundle||{}, rep={};
+  for(const k in lb){ if(!rep[lb[k]]) rep[lb[k]]=k; }   // bundle id → a representative leaf
+  const top=(P.bundles||[]).slice().sort((a,b)=>(b.n||0)-(a.n||0)).slice(0,8);
+  const el=document.getElementById('worlds'); if(!el) return;
+  el.innerHTML=top.map(b=>{
+    const leaf=rep[b.id];
+    const axes=esc((b.world||'').replace(/=/g,' ').replace(/ \+ /g,'  ·  '));
+    const read=esc((b.r2||'').trim());
+    return `<div class="wcard"${leaf?` onclick="litPath('${esc(leaf)}');fillReading('${esc(leaf)}');showDetail('${esc(leaf)}')"`:''}>`
+      +`<span class="wn">${b.n} line${b.n===1?'':'s'}</span><div class="waxes">${axes}</div>`
+      +`<div class="wread">${read}</div></div>`;
+  }).join('');
+})();
+
+function tgl(){const r=document.documentElement;
+  const cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+  r.setAttribute('data-theme',cur==='dark'?'light':'dark');}
+</script>
+</body></html>
