@@ -1,0 +1,136 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>The data-dictionary audit — Grammar of Meaning</title>
+<style>
+:root{--bg:#faf9f7;--fg:#1c1b19;--muted:#6b6862;--line:#d9d5cc;--card:#fff;--eng:#221a8f;--out:#e2762c;--in:#c4602f;--warn:#c0492b}
+@media(prefers-color-scheme:dark){:root{--bg:#171614;--fg:#eceae5;--muted:#a29d94;--line:#3a3833;--card:#211f1c;--eng:#6f7ae8;--out:#e2884c;--in:#d97a44}}
+:root[data-theme=dark]{--bg:#171614;--fg:#eceae5;--muted:#a29d94;--line:#3a3833;--card:#211f1c;--eng:#6f7ae8;--out:#e2884c;--in:#d97a44}
+:root[data-theme=light]{--bg:#faf9f7;--fg:#1c1b19;--muted:#6b6862;--line:#d9d5cc;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:40px 22px 80px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:26px;margin:4px 0 6px}
+.lede{color:var(--muted);font-size:14px;max-width:72ch;margin:0 0 8px}
+a.back{color:var(--in);font-size:13px;text-decoration:none;font-weight:600}
+a.back:hover{text-decoration:underline}
+h2{font-size:15px;margin:30px 0 3px}
+h2 .q{color:var(--muted);font-weight:400;font-style:italic}
+.grp{color:var(--muted);font-size:12.5px;margin:0 0 10px}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 4px}
+table{width:100%;border-collapse:collapse;margin:0}
+td,th{border-top:1px solid var(--line);padding:11px 12px;vertical-align:top;font-size:13.5px;
+ overflow-wrap:anywhere}
+th{text-align:left;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);
+ font-weight:650;border-top:none;padding-bottom:6px}
+td.name{width:230px;font-weight:650;color:var(--fg)}
+td.body{color:var(--fg)}
+table.lens{min-width:520px}
+table.lens td:first-child,table.lens th:first-child{width:20%;font-weight:650;color:var(--fg)}
+table.lens td:nth-child(2),table.lens th:nth-child(2){width:40%}
+@media(max-width:620px){
+ .tw{overflow-x:visible}
+ table.lens{min-width:0}
+ table.lens thead,table.lens tr:first-child{display:none}
+ table.lens,table.lens tbody,table.lens tr,table.lens td{display:block;width:auto}
+ table.lens tr{border-top:1px solid var(--line);padding:10px 0 4px}
+ table.lens td{border-top:none;padding:2px 0 6px}
+ table.lens td:first-child{width:auto;font-size:14px}
+ table.lens td:nth-child(2),table.lens td:nth-child(3){width:auto;color:var(--muted)}
+ table.lens td:nth-child(2)::before{content:"saw: ";color:var(--fg);font-weight:650}
+ table.lens td:nth-child(3)::before{content:"caught: ";color:var(--fg);font-weight:650}
+}
+b{color:var(--fg)}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;
+ background:color-mix(in srgb,var(--line) 40%,transparent);padding:1px 4px;border-radius:3px;
+ overflow-wrap:anywhere}
+.note{border-top:2px solid var(--line);margin-top:36px;padding-top:16px;color:var(--muted);font-size:13px;max-width:74ch}
+.note b{color:var(--fg)}
+.themebtn{position:fixed;top:14px;right:14px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12px;cursor:pointer;color:var(--fg)}
+.finding{border-left:3px solid var(--line);padding:2px 0 2px 14px;margin:12px 0}
+.finding.bad{border-left-color:var(--warn)}
+.finding.good{border-left-color:var(--eng)}
+.pull{font-size:17px;line-height:1.45;margin:22px 0;padding:14px 0;border-top:1px solid var(--line);
+ border-bottom:1px solid var(--line);color:var(--fg)}
+.rule{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin:22px 0}
+.rule h3{margin-top:0}
+h3{font-size:14px;margin:24px 0 4px}
+p{max-width:74ch;overflow-wrap:break-word}
+li{max-width:72ch;margin:0 0 7px;overflow-wrap:break-word}
+a.sib{color:var(--out);font-weight:650;text-decoration:none;border-bottom:1.5px solid var(--out)}
+a.sib:hover{background:color-mix(in srgb,var(--out) 12%,transparent)}
+</style></head><body>
+<button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">theme</button>
+<div class="wrap">
+<div class="eyebrow">Grammar of Meaning · Validation · Case study</div>
+<h1>The data-dictionary audit</h1>
+<p class="lede">What happened when we handed our own field definitions to three readers who could not see each
+other&rsquo;s work &mdash; and, in one case, could not see anything but the definitions themselves. 23 July 2026.</p>
+<p><a class="back" href="how-we-test.html">&larr; back to How we test</a></p>
+
+<p class="pull">We ran a clean-room audit against our own data dictionary and <b>led with the result rather than
+fixing it quietly</b>, because a schema that shows what&rsquo;s wrong with it is worth more than one that looks
+finished.</p>
+
+<h2>The three lenses <span class="q">&mdash; each able to fail differently</span></h2>
+<div class="grp">Three independent auditors, none seeing the others&rsquo; work.</div>
+<div class="tw">
+<table class="lens">
+<tr><th>lens</th><th>what it was allowed to see</th><th>what only it could catch</th></tr>
+<tr><td>vs. code</td><td>the SQL, the CHECK constraints, and every script that writes a column</td><td>definitions that claim what the code doesn&rsquo;t do; columns defined but never written</td></tr>
+<tr><td>cross-document</td><td>lexicon, decision journals, IRR reconciliations, design docs</td><td>one term carrying two senses; a definition contradicted by a later lock</td></tr>
+<tr><td>naive reader</td><td><b>only the definitions file</b> &mdash; no code, no docs, no project brief</td><td>anything only intelligible to someone who already knows the project</td></tr>
+</table>
+</div>
+
+<h2>What it found <span class="q">&mdash; ~40 problems in 129 fields</span></h2>
+<p>Including <b>two factual errors introduced that same evening</b>. The most consequential:</p>
+
+<div class="finding bad"><b>Nothing in the engine tables is validated, and the schema never said so.</b>
+<code>coding_status</code> was undefined on all seven tables &mdash; while being the field that carries the
+answer: <b>100% of 2,600 rows are <code>engine-proposed</code>; zero are <code>cold-confirmed</code>.</b></div>
+
+<div class="finding bad"><b>Two primary-key definitions were false.</b> Written hours earlier from a single
+template, they claimed &ldquo;one row per source text&rdquo; for tables holding <b>12.25</b> and <b>10.00</b> rows
+per source.</div>
+
+<div class="finding bad"><b>A field wrong for the third consecutive time.</b> <code>perturbed_axis</code> had
+already been hand-corrected twice; the audit showed it still listed three axes the CHECK constraint makes
+unstorable.</div>
+
+<div class="finding bad"><b>A self-contradiction.</b> One definition was annotated &ldquo;the draft hallucinated
+this vocabulary &mdash; wrong&rdquo;; the definition two lines below still cited that same vocabulary.</div>
+
+<div class="finding bad"><b>Vocabularies controlled in intent, enforced nowhere.</b> The Sitz fields pass LLM
+output through unvalidated &mdash; conforming by luck, not by constraint.</div>
+
+<h2>Why three lenses and not one</h2>
+<p>The naive reader caught that two fields were indistinguishable; the code lens caught <i>why</i> &mdash; they
+hold byte-identical values in all 1,817 rows. Neither alone gives you the fix. And where the researcher&rsquo;s
+own walk, the naive reader, and the cross-document lens <b>independently flagged the same two fields</b>, that
+convergence is evidence the finding is real rather than one reader&rsquo;s confusion.</p>
+
+<div class="rule">
+<h3>The generalizable rule this produced</h3>
+<p><i>A verification marker must live in the code that changed, not in the data it displays.</i> A check proposed
+during this round would have passed against the <b>old</b> build, because the strings it searched for were
+present in both. <b>A check that cannot fail is not a check.</b></p>
+</div>
+
+<h2>Where this sits among the tests <span class="q">&mdash; the pairing</span></h2>
+<p>This is a clean-room <b>review</b>: a finished artifact handed to readers who did not see the author&rsquo;s
+framing. It answers <i>is what we wrote true?</i></p>
+<p>Its sibling is a clean-room <b>implementation</b> &mdash;
+<a class="sib" href="case-clean-room-test.html">the engine reproduction</a> &mdash; which answers a harder
+question: <i>can someone else rebuild the method from the written spec alone?</i> A review can pass on a method
+that only its author can run. Only the implementation test can catch that.</p>
+<p>Read together they bracket the claim: the dictionary audit checks the <b>description</b>, the engine
+reproduction checks the <b>method</b>.</p>
+
+<div class="note"><b>Source.</b> This page is the readable form of
+<code>pm/50_audits/CASE_data_dictionary_audit_2026-07-23.md</code>, which carries the methodology footer.
+The &ldquo;~40&rdquo; figure counts audit findings, not distinct defects &mdash; some overlap; the 129-field
+figure is the draft the audit ran against, before the schema settled at its current field count. The clean-room
+review test is defined on <a class="back" href="how-we-test.html">How we test</a>.</div>
+</div>
+</body></html>

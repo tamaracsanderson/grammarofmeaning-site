@@ -12,16 +12,28 @@ body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 -apple-system,
 .eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 h1{font-size:26px;margin:4px 0 6px}
 .lede{color:var(--muted);font-size:14px;max-width:72ch;margin:0 0 8px}
-a.case{display:inline-block;margin-top:7px;color:var(--out);font-weight:650;font-size:12.5px;text-decoration:none;border-bottom:1.5px solid var(--out);padding-bottom:1px}
+a.case{color:var(--out);font-weight:650;text-decoration:none;
+ border-bottom:1.5px solid var(--out);padding-bottom:1px;
+ max-width:100%;overflow-wrap:anywhere}
 a.case:hover{background:color-mix(in srgb,var(--out) 12%,transparent)}
+.caseintro{font-size:13.5px;max-width:74ch;margin:18px 0 6px}
+ul.cases{list-style:none;padding:0;margin:0 0 4px}
+ul.cases li{max-width:74ch;margin:0 0 10px;font-size:13.5px;line-height:1.5}
+ul.cases .cd{color:var(--muted)}
 a.back{color:var(--in);font-size:13px;text-decoration:none;font-weight:600}
 a.back:hover{text-decoration:underline}
 h2{font-size:15px;margin:30px 0 3px}
 h2 .q{color:var(--muted);font-weight:400;font-style:italic}
 .grp{color:var(--muted);font-size:12.5px;margin:0 0 10px}
 table{width:100%;border-collapse:collapse;margin:0 0 4px}
-td{border-top:1px solid var(--line);padding:11px 12px;vertical-align:top;font-size:13.5px}
+td{border-top:1px solid var(--line);padding:11px 12px;vertical-align:top;font-size:13.5px;
+ overflow-wrap:break-word}
 td.name{width:230px;font-weight:650;color:var(--fg)}
+@media(max-width:620px){
+ table,tbody,tr,td{display:block;width:auto}
+ td.name{border-top:1px solid var(--line);padding-bottom:0}
+ td.body{border-top:none;padding-top:4px}
+}
 td.body{color:var(--fg)}
 b{color:var(--fg)}
 code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:color-mix(in srgb,var(--line) 40%,transparent);padding:1px 4px;border-radius:3px}
@@ -35,7 +47,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;ba
 <div class="wrap">
 <div class="eyebrow">Grammar of Meaning · Validation</div>
 <h1>How we test this</h1>
-<p class="lede">The method is the contribution — so how we know it <i>works</i> is the argument, not housekeeping. Every result is checkable, organized by the question a reader asks: <i>how do you know that?</i> A generative engine is graded on aggregate behavior across runs; a deterministic step, on exact reproduction.</p>
+<p class="lede">The method is the contribution — so how we know it <i>works</i> is the argument, not housekeeping. Every result is checkable, organized by the question a reader asks: <i>how do you know that?</i> Nothing here is graded on one run's fate: a generative engine is graded on aggregate behavior across runs; a deterministic step, on exact reproduction.</p>
 <p><a class="back" href="schema.html">&larr; back to the schema</a></p>
 
 <h2>Do independent coders agree, from the same logic? <span class="q">— reliability</span></h2>
@@ -61,9 +73,15 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;ba
 <h2>Does an independent re-derivation reproduce it? <span class="q">— clean-room</span></h2>
 <div class="grp">Can someone else get the same result, without our framing?</div>
 <table>
-<tr><td class="name">Clean-room review</td><td class="body">A <i>finished artifact</i> checked by an independent party who does <b>not</b> see the author's framing — catches contamination and bias. <i>Ex:</i> the schema field-definitions review.</td></tr>
-<tr><td class="name">Clean-room implementation</td><td class="body">Whether the method reproduces from its <b>written spec alone</b>, no tacit knowledge — an independent coder builds from the logic, outputs compared. The "logic, then code from it" test; it proves the method is <b>not idiosyncratic</b>. <a class="case" href="case-clean-room-test.html">&rarr; Case study: we ran it, 23&ndash;24 July 2026 &mdash; it halted at stage 1.A</a></td></tr>
+<tr><td class="name">Clean-room review</td><td class="body">A <i>finished artifact</i> checked by an independent party who does <b>not</b> see the author's framing — catches contamination and bias. It answers <i>is what we wrote true?</i></td></tr>
+<tr><td class="name">Clean-room implementation</td><td class="body">Whether the method reproduces from its <b>written spec alone</b>, no tacit knowledge — an independent coder builds from the logic, outputs compared. The "logic, then code from it" test; its value is that it proves the method is <b>not idiosyncratic</b> — someone else can run it.</td></tr>
 </table>
+<p class="caseintro"><b>Two worked cases, on separate pages</b> — they test different things, and both are long enough to read on their own:</p>
+<ul class="cases">
+<li><a class="case" href="case-data-dictionary-audit.html">The data-dictionary audit</a> <span class="cd">&mdash; a clean-room <i>review</i>. Three blind lenses against our own field definitions; ~40 problems in 129 fields, two of them introduced that same evening.</span></li>
+<li><a class="case" href="case-clean-room-test.html">The engine reproduction</a> <span class="cd">&mdash; a clean-room <i>implementation</i>. Whether Engines 0&ndash;2 rebuild from the written spec alone. They reproduce through Engine 0 and stop at Engine 1.</span></li>
+</ul>
+<p class="sib">The pairing is the point: the first checks whether our <b>description</b> is true, the second whether the <b>method</b> is reproducible by someone who isn't us. An artifact can pass the first and fail the second.</p>
 
 <h2>Does the generated map match reality? <span class="q">— predictive</span></h2>
 <div class="grp">Do the outputs predict what actually happened?</div>
