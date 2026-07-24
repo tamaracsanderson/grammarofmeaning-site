@@ -1,0 +1,217 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>The clean-room test — Grammar of Meaning</title>
+<style>
+:root{--bg:#faf9f7;--fg:#1c1b19;--muted:#6b6862;--line:#d9d5cc;--card:#fff;--eng:#221a8f;--out:#e2762c;--in:#c4602f;--warn:#c0492b}
+@media(prefers-color-scheme:dark){:root{--bg:#171614;--fg:#eceae5;--muted:#a29d94;--line:#3a3833;--card:#211f1c;--eng:#6f7ae8;--out:#e2884c;--in:#d97a44}}
+:root[data-theme=dark]{--bg:#171614;--fg:#eceae5;--muted:#a29d94;--line:#3a3833;--card:#211f1c;--eng:#6f7ae8;--out:#e2884c;--in:#d97a44}
+:root[data-theme=light]{--bg:#faf9f7;--fg:#1c1b19;--muted:#6b6862;--line:#d9d5cc;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:40px 22px 80px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:26px;margin:4px 0 6px}
+.lede{color:var(--muted);font-size:14px;max-width:72ch;margin:0 0 8px}
+a.back{color:var(--in);font-size:13px;text-decoration:none;font-weight:600}
+a.back:hover{text-decoration:underline}
+h2{font-size:15px;margin:30px 0 3px}
+h2 .q{color:var(--muted);font-weight:400;font-style:italic}
+.grp{color:var(--muted);font-size:12.5px;margin:0 0 10px}
+table{width:100%;border-collapse:collapse;margin:0 0 4px}
+td{border-top:1px solid var(--line);padding:11px 12px;vertical-align:top;font-size:13.5px}
+td.name{width:230px;font-weight:650;color:var(--fg)}
+td.body{color:var(--fg)}
+b{color:var(--fg)}
+.note{border-top:2px solid var(--line);margin-top:36px;padding-top:16px;color:var(--muted);font-size:13px;max-width:74ch}
+.note b{color:var(--fg)}
+.themebtn{position:fixed;top:14px;right:14px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12px;cursor:pointer;color:var(--fg)}
+</style><style>
+.kicker{color:var(--out);font-weight:650}
+h3{font-size:14px;margin:24px 0 4px}
+.finding{border-left:3px solid var(--line);padding:2px 0 2px 14px;margin:12px 0}
+.finding.bad{border-left-color:var(--warn)}
+.finding.good{border-left-color:var(--eng)}
+pre{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 14px;overflow-x:auto;
+ font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fg)}
+blockquote{margin:12px 0;padding:2px 0 2px 14px;border-left:3px solid var(--out);color:var(--fg);font-style:italic}
+.pull{font-size:17px;line-height:1.45;margin:22px 0;padding:14px 0;border-top:1px solid var(--line);
+ border-bottom:1px solid var(--line);color:var(--fg)}
+.lw{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin:22px 0}
+.lw h3{margin-top:0}
+p{max-width:74ch}
+li{max-width:72ch;margin:0 0 5px}
+td.n{width:120px;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+</style></head><body>
+<button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">theme</button>
+<div class="wrap">
+<div class="eyebrow">Grammar of Meaning · Validation · Case study</div>
+<h1>The clean-room test</h1>
+<p class="lede">What happened when we gave the written specification to someone who had never seen the project,
+told them to build from it, and asked them to report where it ran out. 23–24 July 2026.</p>
+<p><a class="back" href="how-we-test.html">&larr; back to How we test</a></p>
+
+<p class="pull">We ran four independent audits and one clean-room implementation test against our own pipeline in
+a single night. The test <b>halted at Engine 1.A</b> — the stage that turns a text into moves. In diagnosing
+why, it found a live data bug in three of seven coded texts, and a parameter bug that had silently invalidated
+the temperature arm of <i>every</i> reliability study the project has run. Separately, a controlled re-run
+<b>retracted our headline finding about the fan</b>.</p>
+
+<h2>Why we ran it <span class="q">— the one test we described and had never performed</span></h2>
+<p>The project's claim is not <i>here are some findings about religion</i>. It is <b>here is a method, and you
+can pick it up and run it</b>. That claim has a test, and it was sitting on our own validation page, undone:</p>
+<blockquote>Clean-room implementation. Whether the method reproduces from its written spec alone, with no tacit
+knowledge. Its value is that it proves the method is <b>not idiosyncratic</b> — someone else can run it.</blockquote>
+<p>So an agent was given the specs, the corpus, and a target text it had never seen — the Parable of the
+Prodigal Son. It was told explicitly that <b>&ldquo;the method does not reproduce past stage X&rdquo; would be the
+single most valuable result it could return</b>, because a test that can only succeed is not a test.</p>
+
+<div class="lw">
+<h3>An aside on Sol LeWitt</h3>
+<p>LeWitt wrote instructions and other people drew them. <i>Wall Drawing #118</i> is a paragraph: place fifty
+points at random on any continuous stretch of wall, connect them all with straight lines. Draftsmen execute it;
+each execution looks different; the work survives being painted over and redrawn somewhere else. As he put it,
+<b>the idea becomes a machine that makes the art</b>. The certificate and the instructions are the work — the
+drawing on the wall is one instantiation of it.</p>
+<p>That is exactly the shape of a clean-room test, and it is why the analogy is worth more than a flourish: the
+<b>spec is the work</b>, the execution is by someone else, and the divergence between executions is information
+rather than noise.</p>
+<p><b>But the disanalogy is where the methodology actually lives.</b> LeWitt <i>declares</i> his latitude — &ldquo;any
+continuous stretch of wall,&rdquo; &ldquo;at random&rdquo; — so variation between draftsmen is part of the work.
+Our spec had latitude too, and it was <b>undeclared</b>: three inputs that decide the quality of a coding run
+(the source key, which text to feed, what question to code against) turned out to be operator judgment calls
+that no document constrained. Undeclared latitude is not a work that encompasses its variations; it is an
+instrument that cannot tell you where its variance came from. <b>The test's real finding is not that the
+pipeline broke — it is which of our freedoms we had never written down.</b></p>
+</div>
+
+<h2>What it found <span class="q">— stage by stage</span></h2>
+<table>
+<tr><td class="n">0.A Sitz</td><td class="body">✅ ran, wrote 1 row</td></tr>
+<tr><td class="n">0.B Paradigm</td><td class="body">✅ ran, wrote 9 rows — <b>and gave us a free reliability read</b>: run twice on identical input, the dominant paradigm reproduced exactly, <code>relation_to_dominant</code> agreed 8/8, but <code>stance</code> agreed only 5/8. The enforcement is on the wrong field: the stable one has no constraint, the unstable one does.</td></tr>
+<tr><td class="n">0.C Frame</td><td class="body">✅ ran, wrote 14 rows</td></tr>
+<tr><td class="n">1.A Grammar</td><td class="body"><b>❌ two full runs, 33 minutes each, nothing written.</b></td></tr>
+<tr><td class="n">1.B → 2.x</td><td class="body">unreachable</td></tr>
+</table>
+<p>The agent did <b>not</b> edit the engine to force it through. Its own words: <i>&ldquo;Making 1.A pass would have
+destroyed the result being measured.&rdquo;</i> That instinct is why the result is worth anything.</p>
+
+<h3>A wall-clock ceiling nobody could see</h3>
+<p>Two constants — a 2,000-character segment cap and a 300-second timeout — were <b>mutually inconsistent</b>, and
+neither was reachable from the command line:</p>
+<pre>   568 chars  (~12 moves)   ✅ succeeds
+ 1,985 chars  (~40 moves)   ❌ times out
+ 2,623 chars  (~50 moves)   ❌ times out</pre>
+<p>The segmenter was licensed to build work the timeout could not finish, and <b>no configuration a faithful
+implementer could supply would make it pass</b>. Worse, the timeout reported itself to the operator as
+<code>EMPTY response (0 chars)</code> — pointing at the model instead of at the clock, so a debugger would spend
+their time in the wrong place entirely.</p>
+<p>There is a second layer. The &ldquo;length-aware front door,&rdquo; built in an earlier session
+<i>specifically for this text</i> — its own docstring names the Prodigal as the motivating case — <b>never
+fired</b>. It splits on blank lines; our corpus stores scripture one verse per line, with none. The fix was real,
+the text was the reason for it, and the corpus's own storage format defeated it.</p>
+
+<h3>A data bug, and a correction to our first account of it</h3>
+<p>The move-extractor's cross-segment renumbering read a key the model never emits, so on any text long enough to
+need more than one segment, local move-labels were never rewritten to global ones. Nine references dangled across
+three texts.</p>
+<div class="finding bad"><b>Our first diagnosis was wrong, and the data corrected it.</b> We called it a rename
+artifact and said one text passed the integrity check while being wrong. Neither held. The nine references were
+<b>multi-move extents crushed into a single-value column</b> — one of them referenced a speech spanning
+<i>sixteen</i> moves. Fixing the column name alone would have kept the first and silently discarded fifteen
+correct observations. The repair stores the head <i>and</i> the full extent, and synthesises no edges, because an
+extent is a range and not a containment tree.</div>
+<p>This matters more than the bug. <b>A plausible, specific, mechanistic diagnosis is still fiction until you run
+the data</b> — and ours was one more instance of exactly the failure mode this document is about.</p>
+
+<h3>A parameter accepted, propagated, printed — and deleted</h3>
+<pre>del max_tokens, temperature   # not exposed by ClaudeAgentOptions v0.2.82</pre>
+<p>Every engine passes a temperature. None has ever applied one.</p>
+<ul>
+<li>Every <i>&ldquo;temperature 0.0 determinism check&rdquo;</i> and every <i>&ldquo;temperature 0.7 independent
+sample&rdquo;</i> in the project ran at the same setting. <b>The two arms of those studies were one condition.</b></li>
+<li>The token-sizing logic of the length-aware front door is a no-op; the printed <code>max_tokens</code> was cosmetic.</li>
+<li>It re-read results from the same evening: two comparisons we had described as temperature-0 determinism
+failures are <b>ordinary sampling variance</b>.</li>
+</ul>
+<p><i>A parameter that is accepted, propagated, printed, and then discarded is worse than one that does not
+exist</i> — because everything downstream reasons as though it worked.</p>
+
+<h2>What it did to the fan <span class="q">— two findings retracted</span></h2>
+<h3>The control was false</h3>
+<p>The fan's method is <i>hold everything, turn one frame-axis, see what world follows</i>. The page said so, and
+the node panel printed <code>OPERATION (WHAT IT DOES · HELD)</code>. <b>It was held in 1 of 31 sibling sets.</b>
+The prompt instructed the model to hold it; the response schema simultaneously invited it to emit a new one; it
+emitted a new one every time. Each branch changed the axis <i>and</i> the verb, so no difference between two
+branches could be attributed to the axis.</p>
+<table>
+<tr><td class="n"></td><td class="body"><b>before</b> &nbsp;·&nbsp; <b>after</b></td></tr>
+<tr><td class="n">operation held</td><td class="body">1 of 31 &nbsp;·&nbsp; <b>25 of 25</b></td></tr>
+<tr><td class="n">content unique</td><td class="body">95.5% &nbsp;·&nbsp; <b>94.4%</b></td></tr>
+</table>
+<p><b>The variation survived, and it is now attributable.</b> Five branches from one parent, same verb throughout:</p>
+<pre>control →  grieve her, and let her go
+E       →  do what the sign says: walk away
+T       →  do not carry this alone; name what she did, so the next fellow is warned
+S1      →  do not take the verdict; refuse it, and hold your ground
+S2      →  ask what she is really angry about, and who taught her to call it hate</pre>
+
+<h3>…which retracted our headline finding</h3>
+<p>Before the fix, the fan appeared to show that <b>the axis selects the action</b> — one axis produced <i>walk
+away</i>, another <i>hold your ground</i>, another <i>dig underneath</i>. It was the most interesting result we
+had. With the operation genuinely held, <b>it collapsed</b>: every axis now produces the same verb, because that
+is what &ldquo;held&rdquo; means. The signature was the uncontrolled variable moving.</p>
+<div class="finding bad"><b>A second retraction, the same night, by the same logic.</b> We had recorded the fan
+as <i>structurally reliable</i> on the stability of its door-band bar rate. But <code>door</code> turned out to be
+perfectly confounded with one axis — 35 of 35 door nodes have it somewhere in their path — and the rate was
+stable at 100% under the old gate <i>because the old gate's own rule barred every door node</i>. The metric
+measured the gate, not the song, and did not survive the gate's revision (100% → 4.2%).</div>
+<p>Both retractions have one shape: <b>a result that was an artifact of the instrument, not a fact about the
+text</b>. Neither was catchable by looking at output.</p>
+
+<h2>What is working <span class="q">— the parts that survived</span></h2>
+<ul>
+<li><b>Reading a single world end-to-end.</b> Click a leaf and the fork, each depth's axis and value, the
+resulting line, and the <i>rationale</i> read back as a chain. Every auditor named this independently as the
+strongest thing on the page — it shows the reasoning, not just the output, which is what makes an interpretive
+move auditable.</li>
+<li><b>The unit rule</b> — a reporting move plus its nested content is one unit — verified correct against code
+and data.</li>
+<li><b>The ripple</b> — the transitive closure over the dependency graph is real computation, and it is what
+makes the seed non-random.</li>
+<li><b>The question read-off</b> — each unit's question is derived deterministically from the typed edge, not
+guessed. Called &ldquo;the strongest link in the chain&rdquo; by the code audit.</li>
+<li><b>The fail-loud guards.</b> When 1.A could not complete it wrote <b>nothing</b> and said so. No partial
+write, no silent success. That is why we have a clean result instead of a corrupted table.</li>
+</ul>
+
+<h2>What generalises <span class="q">— beyond this pipeline</span></h2>
+<div class="finding good"><b>(a) An instrument's failures are only visible from outside it.</b> Every finding
+came from a reader who could not see the author's framing — an agent given only the definitions, only the code,
+only the live page. The audits that read <i>our own explanations</i> found far less.</div>
+<div class="finding good"><b>(b) A check that cannot fail is not a check.</b> Mid-session we proposed verifying
+a deploy by searching for a phrase present in <i>both</i> the old and new builds. It would have &ldquo;confirmed&rdquo;
+the new build against the old one. The rule: <b>the discriminator must live in the code that changed, never in
+the data it displays.</b></div>
+<div class="finding good"><b>(c) Silent degradation is the dominant failure mode.</b> Six instances in one
+session: a constraint violation that fell back to a stale tree; a <code>git stash</code> that swallowed untracked
+work; a label truncated mid-word; a scheduled job installed but never loaded; a 0-byte database answering
+&ldquo;no such table&rdquo;; the corruption above. <b>Every one produced a normal-looking result.</b></div>
+<div class="finding good"><b>(d) Warnings must fire only on absences that are problems.</b> Our schema flagged
+16 fields as undefined; all 16 were primary keys. It flagged retired vocabulary for lacking definitions it should
+not have. Three false alarms train a reader to ignore the fourth — which is real.</div>
+
+<h2>The honest summary</h2>
+<p>We ran the one test our own methodology described and had never performed. It failed at stage 1.A, found a
+corruption affecting three of seven texts, invalidated a parameter every reliability study depended on, and cost
+us two findings we had recorded as results.</p>
+<p class="pull">That is a <b>good night</b>, and the reason is worth saying plainly: <i>the tree was clean that
+morning, and it was wrong.</i> A demo that works proves nothing about a method. What we have now is an instrument
+that has been measured against itself, a list of what it gets wrong, and — for the first time — a reason to
+believe the parts that survived.</p>
+
+<div class="note"><b>Source.</b> This page is the readable form of
+<code>pm/50_audits/POSTMORTEM_clean_room_test_2026-07-24.md</code>, which carries the full fix-order and the
+methodology footer. The clean-room implementation test is defined on
+<a class="back" href="how-we-test.html">How we test</a>.</div>
+</div>
+</body></html>
