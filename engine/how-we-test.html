@@ -24,6 +24,18 @@ td.body{color:var(--fg)}
 b{color:var(--fg)}
 .note{border-top:2px solid var(--line);margin-top:36px;padding-top:16px;color:var(--muted);font-size:13px;max-width:74ch}
 .note b{color:var(--fg)}
+h3{font-size:13.5px;margin:22px 0 6px;color:var(--fg)}
+.ex{border-left:3px solid var(--line);padding:2px 0 2px 15px;margin:0 0 4px}
+.ex p{font-size:13.5px;max-width:74ch;margin:0 0 10px}
+table.lens td{font-size:12.5px;padding:9px 12px 9px 0}
+table.lens td:first-child{width:150px;font-weight:650;white-space:nowrap}
+table.lens td:nth-child(2){width:38%;color:var(--muted)}
+ul.finds{margin:0 0 10px;padding-left:18px;max-width:74ch}
+ul.finds li{font-size:13.5px;margin:0 0 7px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:color-mix(in srgb,var(--line) 40%,transparent);padding:1px 4px;border-radius:3px}
+.rule{border-top:1px solid var(--line);margin-top:12px;padding-top:11px;font-size:13.5px;max-width:74ch}
+.sib{color:var(--muted);font-size:13px;max-width:74ch;margin:8px 0 0}
+.sib b{color:var(--fg)}
 .themebtn{position:fixed;top:14px;right:14px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12px;cursor:pointer;color:var(--fg)}
 </style></head><body>
 <button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">theme</button>
@@ -56,15 +68,43 @@ b{color:var(--fg)}
 <h2>Does an independent re-derivation reproduce it? <span class="q">— clean-room</span></h2>
 <div class="grp">Can someone else get the same result, without our framing?</div>
 <table>
-<tr><td class="name">Clean-room review</td><td class="body">A <i>finished artifact</i> checked by an independent party who does <b>not</b> see the author's framing — catches contamination and bias. <i>Ex:</i> the schema field-definitions review.</td></tr>
+<tr><td class="name">Clean-room review</td><td class="body">A <i>finished artifact</i> checked by an independent party who does <b>not</b> see the author's framing — catches contamination and bias. Worked example below.</td></tr>
 <tr><td class="name">Clean-room implementation</td><td class="body">Whether the method reproduces from its <b>written spec alone</b>, no tacit knowledge — an independent coder builds from the logic, outputs compared. The "logic, then code from it" test; it proves the method is <b>not idiosyncratic</b>.</td></tr>
 </table>
+
+<h3>Worked example — the data-dictionary audit, 2026-07-23</h3>
+<div class="ex">
+<p>We ran a clean-room audit against our own data dictionary and <b>led with the result rather than fixing it quietly</b>, because a schema that shows what's wrong with it is worth more than one that looks finished. Three independent auditors, each given a lens that could fail differently, none seeing the others' work:</p>
+<table class="lens">
+<tr><td>lens</td><td>what it was allowed to see</td><td>what only it could catch</td></tr>
+<tr><td>vs. code</td><td>the SQL, the CHECK constraints, and every script that writes a column</td><td>definitions that claim what the code doesn't do; columns defined but never written</td></tr>
+<tr><td>cross-document</td><td>lexicon, decision journals, IRR reconciliations, design docs</td><td>one term carrying two senses; a definition contradicted by a later lock</td></tr>
+<tr><td>naive reader</td><td><b>only the definitions file</b> — no code, no docs, no CLAUDE.md</td><td>anything only intelligible to someone who already knows the project</td></tr>
+</table>
+<p><b>It found ~40 problems in 129 fields, including two factual errors introduced that same evening.</b> The most consequential:</p>
+<ul class="finds">
+<li><b>Nothing in the engine tables is validated, and the schema never said so.</b> <code>coding_status</code> was undefined on all seven tables — while being the field that carries the answer: <b>100% of 2,600 rows are <code>engine-proposed</code>; zero are <code>cold-confirmed</code>.</b></li>
+<li><b>Two primary-key definitions were false.</b> Written hours earlier from a single template, they claimed "one row per source text" for tables holding <b>12.25</b> and <b>10.00</b> rows per source.</li>
+<li><b>A field wrong for the third consecutive time.</b> <code>perturbed_axis</code> had already been hand-corrected twice; the audit showed it still listed three axes the CHECK constraint makes unstorable.</li>
+<li><b>A self-contradiction.</b> One definition was annotated "the draft hallucinated this vocabulary — wrong"; the definition two lines below still cited that same vocabulary.</li>
+<li><b>Vocabularies controlled in intent, enforced nowhere.</b> The Sitz fields pass LLM output through unvalidated — conforming by luck, not by constraint.</li>
+</ul>
+<p><b>Why three lenses and not one.</b> The naive reader caught that two fields were indistinguishable; the code lens caught <i>why</i> — they hold byte-identical values in all 1,817 rows. Neither alone gives you the fix. And where the researcher's own walk, the naive reader, and the cross-document lens <b>independently flagged the same two fields</b>, that convergence is evidence the finding is real rather than one reader's confusion.</p>
+<div class="rule"><b>The generalizable rule this produced:</b> <i>a verification marker must live in the code that changed, not in the data it displays.</i> A check proposed during this round would have passed against the <b>old</b> build, because the strings it searched for were present in both. A check that cannot fail is not a check.</div>
+</div>
 
 <h2>Does the generated map match reality? <span class="q">— predictive</span></h2>
 <div class="grp">Do the outputs predict what actually happened?</div>
 <table>
 <tr><td class="name">Round-trip / predictive validity</td><td class="body">Reverse-coding (code → back to text) + whether Engine 3's <i>possible</i> answer-space <b>predicts</b> Engine 4's <i>attested</i> reception. The generated field is the controlled variable; the attested record is the observed one. <i>(Designed — Engines 3/4 not yet built.)</i></td></tr>
 </table>
+
+<h2>Could this check have failed? <span class="q">— discrimination</span></h2>
+<div class="grp">Guards against silent fallback — could this check have failed?</div>
+<table>
+<tr><td class="name">Discriminating-check rule</td><td class="body">Guards against <b>silent fallback</b> — a step fails, the system substitutes something plausible, and the output still looks normal. The guard is one question asked of every check: <i>could this have failed?</i> A verification whose marker lives in the <b>data being displayed</b> rather than in the <b>code that changed</b> will pass against the old build and the new one alike. Fires whenever a fix is verified. Instances caught in a single session (2026-07-23): a constraint violation that made the pipeline fall back to a stale tree; a <code>git stash</code> that swallowed untracked work; a label truncated mid-word by a silent <code>[:34]</code>; a scheduled job installed but never loaded, so it had never once run; a 0-byte database file that answered "no such table" instead of "this file is empty." Each degraded quietly and kept producing plausible output.</td></tr>
+</table>
+<p class="sib">Sibling to ghost-protection below: that one catches <b>fabricated</b> claims; this one catches <b>unfalsifiable checks</b> and <b>quiet degradation</b>.</p>
 
 <h2>Is a claimed past decision real? <span class="q">— ghost-protection</span></h2>
 <div class="grp">Guarding against fabricated provenance.</div>
