@@ -279,6 +279,8 @@ tr.t3{opacity:.6}
 .modebtn{position:fixed;top:14px;right:82px;z-index:60;display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card);font-family:var(--mono);font-size:11px}
 .modebtn button{background:transparent;color:var(--fg);border:0;padding:6px 12px;font:inherit;cursor:pointer;letter-spacing:.02em}
 .modebtn button.on{background:var(--sub);color:#FFFDF6;font-weight:600}
+.audit-badge{display:none;margin-left:8px;font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 7px;vertical-align:middle}
+body[data-mode="audit"] #engines .audit-badge{display:inline-block}
 body[data-mode="reader"] #engines .nb,
 body[data-mode="reader"] #engines .gap-audit{display:none}
 </style></head><body data-mode="reader">
@@ -487,7 +489,7 @@ function engbar(e){
   const built = byEng[e].some(s=>s.table);
   const tag = (P.taglines||{})[e] || '';
   return `<div class="engbar"><div class="ehd"><span class="en">Engine ${e}: ${esc(byEng[e][0].engname)}</span>`
-    + (built?'':`<span class="nb">NOT BUILT</span>`) + `</div>`
+    + (built?'':`<span class="nb">NOT BUILT</span>`) + `<span class="audit-badge">${byEng[e].filter(s=>s.table).length}/${byEng[e].length} built</span></div>`
     + (tag?`<span class="egloss">${esc(tag)}</span>`:'') + `</div>`;
 }
 // ── flow arrows. Drawn as SVG inside the column they connect, so they centre on
