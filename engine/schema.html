@@ -283,7 +283,7 @@ commentary on its silences, as the readings history gave it, and as its variants
 recomposition changes what it means.</p>
 <p class="sub1 mech"><b>Click any stage</b> to see its fields — each definition, and whether the values are
 <b>open</b> (read off the text) or <b>closed</b> (from a controlled list, values defined). Fields we haven't
-defined yet show as <span class="undef">⚠ undefined</span>.</p>
+defined yet show as <span class="undef">not yet defined</span>.</p>
 <p class="testlink"><a href="how-we-test.html">How we test this &rarr;</a></p>
 
 <div class="lane"><div class="lanelab">INPUTS</div><div class="lanebody center"><span class="pill">Text</span><div class="pillcap">A song, a story, a verse, a book &mdash; or several at once (like the four gospels).</div><div id="in-arrow"></div></div></div>
@@ -621,7 +621,7 @@ document.getElementById('outs').innerHTML=['2','3','4','5'].map(e=>
 function ftable(fields,label){
   if(!fields.length) return '';
   const rows=fields.map((f,i)=>`${tierHead(f,fields[i-1])}<tr class="t${f.tier||0}"><td class="f">${esc(f.field)}</td>`
-     +`<td>${f.desc?(f.draft?`<span class="draftd">${f.desc}</span> <span class="tag draft">draft</span>`:f.desc):'<span class="undef">⚠ undefined</span>'}`
+     +`<td>${f.desc?(f.draft?`<span class="draftd">${f.desc}</span> <span class="tag draft">draft</span>`:f.desc):'<span class="undef">not yet defined</span>'}`
        +(f.caveat?`<div class="caveat"><b>caveat</b> ${f.caveat}</div>`:'')+`</td>`
      +`<td>${valcell(f)}</td></tr>`).join('');
   // The column headers must sit DIRECTLY above the first data row. Emitting them before the first
