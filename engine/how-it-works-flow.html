@@ -1,0 +1,128 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>How the instrument works — the system</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet"><style>
+:root{--paper:#FCFBF7;--paper2:#EFE7D3;--paper3:#FFFFFF;--line:#C9BE9F;--ink:#24302A;--ink2:#4A5952;--ink3:#7C8478;
+--fern:#3F7D57;--moss:#2C4A38;--sage:#8BA888;--olive:#6E7B3A;--orange:#C4602F;--honey:#E0A93B}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+.topbar{position:sticky;top:0;z-index:40;display:flex;justify-content:space-between;align-items:center;
+  background:var(--moss);color:var(--paper);padding:10px 20px}
+.tb-sub{color:#cdd8cf;font-weight:400;font-size:13px}
+.modeswitch{display:flex;border:1px solid rgba(255,255,255,.4);border-radius:20px;overflow:hidden}
+.modeswitch button{background:transparent;color:var(--paper);border:0;padding:5px 16px;font:inherit;font-size:13px;cursor:pointer}
+.modeswitch button.on{background:var(--paper);color:var(--moss);font-weight:600}
+.stickyflow{position:sticky;top:44px;z-index:30;background:var(--paper);border-bottom:2px solid var(--line);padding:16px 20px 20px;box-shadow:0 6px 14px -12px rgba(40,48,42,.5)}
+.flowhint{font-size:13.5px;color:var(--ink2);margin:0 0 14px;max-width:96ch}
+.chart{display:flex;align-items:stretch;gap:6px;overflow-x:auto;padding-bottom:8px}
+.phase{display:flex;flex-direction:column;gap:7px;min-width:0}
+.plab{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.08em;color:var(--ink3);text-transform:uppercase}
+.par{color:var(--fern)}
+.arrow{align-self:center;color:var(--fern);font-size:26px;flex:none;padding:0 2px}
+.node{background:var(--paper2);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;font-weight:600;font-size:14px;
+  display:flex;flex-direction:column;gap:3px;justify-content:center;min-height:76px}
+.node .peek{font-weight:400;font-size:11px;color:var(--ink3)}
+.objbox{border-color:var(--moss);background:#eef3ee}
+.engwrap{display:flex;gap:8px}
+.ebox{background:var(--paper3);border:1.5px solid var(--fern);border-radius:11px;padding:9px 10px;min-width:150px}
+.ebox.eng{border-color:var(--fern)}
+.ehead{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--moss);font-weight:600;margin-bottom:7px;letter-spacing:.02em}
+.circrow{display:flex;flex-direction:column;gap:5px}
+.circ{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:7px;background:rgba(63,125,87,.07);border:1px solid rgba(63,125,87,.3);
+  border-radius:8px;padding:5px 8px;font:inherit;cursor:pointer;text-align:left;transition:background .12s}
+.circ:hover,.circ.sel{background:rgba(63,125,87,.16);border-color:var(--fern)}
+.cnum{width:19px;height:19px;border-radius:50%;background:var(--fern);color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:11px;
+  display:flex;align-items:center;justify-content:center;font-weight:600}
+.cname{font-size:12.5px;font-weight:600;color:var(--ink)}
+.cbadge{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.04em;text-transform:uppercase;padding:1px 6px;border-radius:20px;border:1px solid currentColor;white-space:nowrap}
+.st-live{color:var(--fern)}.st-pilot{color:var(--olive)}.st-des{color:var(--ink3)}
+.cpeek{grid-column:1/-1;font-size:10.5px;color:var(--ink3);line-height:1.35;display:none}
+.morpho{margin-top:9px;font-size:10.5px;color:var(--olive);background:rgba(110,123,58,.09);border:1px dashed var(--olive);border-radius:8px;padding:6px 9px}
+.recomprow,.outrow{display:flex;gap:6px}
+.ebox.recomp{border-color:var(--fern);cursor:pointer;min-width:118px;display:flex;flex-direction:column;gap:5px;transition:background .12s}
+.ebox.recomp:hover,.ebox.recomp.sel{background:rgba(63,125,87,.1)}
+.ename{font-size:13px;font-weight:700;color:var(--moss)}
+.subbits{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink3)}
+.onode{background:rgba(196,96,47,.09);border:1.5px solid var(--orange);border-radius:11px;padding:9px 11px;cursor:pointer;
+  min-width:132px;display:flex;flex-direction:column;gap:3px;text-align:left;font:inherit;transition:background .12s}
+.onode:hover,.onode.sel{background:rgba(196,96,47,.18)}
+.oname{font-size:12.5px;font-weight:700;color:var(--orange)}
+.opeek{font-size:10px;color:var(--ink3);line-height:1.35}
+.detail{max-width:1080px;margin:0 auto;padding:20px}
+.detail-empty{color:var(--ink3);font-style:italic;font-size:14px;padding:16px 0}
+.panel{display:none;background:var(--paper3);border:1px solid var(--line);border-left:4px solid var(--fern);border-radius:0 10px 10px 0;padding:14px 18px;margin:0 0 12px}
+.panel.show{display:block}
+.p-h{display:flex;align-items:center;gap:9px;margin-bottom:6px;font-size:15px;color:var(--ink)}
+.p-what{font-size:14.5px;line-height:1.6;color:var(--ink2);margin:0 0 9px}
+.p-box{font-size:13px;color:var(--ink2);background:var(--paper2);border-radius:7px;padding:8px 11px}
+.p-prov{color:var(--ink3);font-style:italic}
+.oname-inline{color:var(--orange);font-weight:700}
+.p-note{font-size:12px;color:var(--ink3);line-height:1.5;margin:8px 0 0}
+#p-out-subst,#p-out-fill,#p-out-beq,#p-out-comp{border-left-color:var(--orange)}
+.foot{max-width:1080px;margin:0 auto;padding:8px 20px 60px;font-size:12px;color:var(--ink3);line-height:1.6}
+/* AUDIT MODE — flip visibly transforms the map */
+body[data-mode="reader"] .cbadge{display:none}
+body[data-mode="reader"] .subbits{display:none}
+body[data-mode="audit"] .cpeek{display:block}
+body[data-mode="audit"] .rd-hide{display:none}
+body[data-mode="audit"] .stickyflow{background:#fbf7ef}
+body[data-mode="audit"] .circ{background:rgba(110,123,58,.1)}
+@media(max-width:900px){.chart{align-items:flex-start}}
+</style></head><body data-mode="reader">
+<div class="topbar">
+  <div class="tb-l"><b>How the instrument works — the system</b> <span class="tb-sub">· first-cut flowchart</span></div>
+  <div class="modeswitch" role="group" aria-label="view mode">
+    <button id="m-reader" class="on">Reader</button><button id="m-audit">Audit</button>
+  </div>
+</div>
+
+<div class="stickyflow" id="flow">
+  <p class="flowhint"><b>One text goes in. Two engines read it, then five recompose it.</b> <span class="rd-hide">Flip to <b>Audit</b> to see status + field-peek on the map. </span>Click any circle → its detail opens below, in place.</p>
+
+  <div class="chart">
+    <div class="phase inputs">
+      <div class="plab">INPUT</div>
+      <div class="node inbox">a text<span class="peek">a song · a passage · a poem</span></div>
+    </div>
+
+    <div class="arrow">&#8594;</div>
+
+    <div class="phase decompose">
+      <div class="plab">DECOMPOSE <span class="par">‖ parallel</span></div>
+      <div class="engwrap">
+        <div class="ebox eng"><div class="ehead">Engine 0 · Situate</div><div class="circrow"><button class="circ" data-panel="situate-sitz" data-status="live"><span class="cnum">1</span><span class="cname">Sitz</span><span class="cbadge st-live">live</span><span class="cpeek">the world the telling sits in — when, where, into what</span></button><button class="circ" data-panel="situate-para" data-status="live"><span class="cnum">2</span><span class="cname">Paradigm</span><span class="cbadge st-live">live</span><span class="cpeek">the frame the content takes for granted</span></button><button class="circ" data-panel="situate-frame" data-status="pilot"><span class="cnum">3</span><span class="cname">Frame</span><span class="cbadge st-pilot">pilot</span><span class="cpeek">the mind behind it, as a coordinate in the morphospace</span></button></div></div>
+        <div class="ebox eng"><div class="ehead">Engine 1 · Analyze</div><div class="circrow"><button class="circ" data-panel="analyze-gram" data-status="live"><span class="cnum">1</span><span class="cname">Grammar</span><span class="cbadge st-live">live</span><span class="cpeek">the moves — each an operation an agent performs</span></button><button class="circ" data-panel="analyze-gaps" data-status="live"><span class="cnum">2</span><span class="cname">Gaps</span><span class="cbadge st-live">live</span><span class="cpeek">what the text leaves unsaid, coded as structured silence</span></button><button class="circ" data-panel="analyze-crux" data-status="pilot"><span class="cnum">3</span><span class="cname">Crux</span><span class="cbadge st-pilot">pilot</span><span class="cpeek">seed-ranking: which move the structure turns on</span></button></div></div>
+      </div>
+      <div class="morpho">◇ Morphospace — a sub-process, in &amp; out: every coded object feeds it; each new text is read against it</div>
+    </div>
+
+    <div class="arrow">&#8594;</div>
+
+    <div class="phase object">
+      <div class="plab">CODED OBJECT</div>
+      <div class="node objbox">one coded object<span class="peek">moves · gaps · frame · Sitz</span></div>
+    </div>
+
+    <div class="arrow">&#8594;</div>
+
+    <div class="phase recompose">
+      <div class="plab">RECOMPOSE</div>
+      <div class="recomprow"><button class="ebox recomp" data-panel="re-subst" data-status="pilot"><span class="ename">Substitute</span><span class="subbits">Ripple · Fan · Bundle</span><span class="cbadge st-pilot">pilot</span></button><button class="ebox recomp" data-panel="re-fill" data-status="designed"><span class="ename">Fill</span><span class="cbadge st-des">designed</span></button><button class="ebox recomp" data-panel="re-beq" data-status="designed"><span class="ename">Bequeath</span><span class="cbadge st-des">designed</span></button><button class="ebox recomp" data-panel="re-comp" data-status="designed"><span class="ename">Compare</span><span class="cbadge st-des">designed</span></button></div>
+    </div>
+
+    <div class="arrow">&#8594;</div>
+
+    <div class="phase outputs">
+      <div class="plab">OUTPUTS</div>
+      <div class="outrow"><button class="onode" data-panel="out-subst"><span class="oname">alternative-world tree</span><span class="opeek">a branching tree of the near-neighbour variants the text did not make</span></button><button class="onode" data-panel="out-fill"><span class="oname">commentary</span><span class="opeek">a running commentary supplying what the text leaves implicit</span></button><button class="onode" data-panel="out-beq"><span class="oname">reception tree</span><span class="opeek">a downstream tree of later readings and uses</span></button><button class="onode" data-panel="out-comp"><span class="oname">comparison</span><span class="opeek">a cross-text alignment (the contact-firewalled Q2 comparison)</span></button></div>
+    </div>
+  </div>
+</div>
+
+<div class="detail" id="detail">
+  <div class="detail-empty" id="detail-empty">Click a circle, engine, or output above — its detail unfolds here, and the diagram stays put.</div>
+  <div class="panel" id="p-situate-sitz"><div class="p-h"><b>SITUATE · 1 · Sitz</b><span class="cbadge st-live">live</span></div><p class="p-what">the world the telling sits in — when, where, into what</p><div class="p-box"><b>input</b> → <b>transformation</b> → <b>output</b> · <span class="p-prov">provenance + status carried per field</span></div><p class="p-note">First-cut panel — the full black-box contract (unit · statistic · N · what the coder was handed) ports from the schema drawer next pass.</p></div><div class="panel" id="p-situate-para"><div class="p-h"><b>SITUATE · 2 · Paradigm</b><span class="cbadge st-live">live</span></div><p class="p-what">the frame the content takes for granted</p><div class="p-box"><b>input</b> → <b>transformation</b> → <b>output</b> · <span class="p-prov">provenance + status carried per field</span></div><p class="p-note">First-cut panel — the full black-box contract (unit · statistic · N · what the coder was handed) ports from the schema drawer next pass.</p></div><div class="panel" id="p-situate-frame"><div class="p-h"><b>SITUATE · 3 · Frame</b><span class="cbadge st-pilot">pilot</span></div><p class="p-what">the mind behind it, as a coordinate in the morphospace</p><div class="p-box"><b>input</b> → <b>transformation</b> → <b>output</b> · <span class="p-prov">provenance + status carried per field</span></div><p class="p-note">First-cut panel — the full black-box contract (unit · statistic · N · what the coder was handed) ports from the schema drawer next pass.</p></div><div class="panel" id="p-analyze-gram"><div class="p-h"><b>ANALYZE · 1 · Grammar</b><span class="cbadge st-live">live</span></div><p class="p-what">the moves — each an operation an agent performs</p><div class="p-box"><b>input</b> → <b>transformation</b> → <b>output</b> · <span class="p-prov">provenance + status carried per field</span></div><p class="p-note">First-cut panel — the full black-box contract (unit · statistic · N · what the coder was handed) ports from the schema drawer next pass.</p></div><div class="panel" id="p-analyze-gaps"><div class="p-h"><b>ANALYZE · 2 · Gaps</b><span class="cbadge st-live">live</span></div><p class="p-what">what the text leaves unsaid, coded as structured silence</p><div class="p-box"><b>input</b> → <b>transformation</b> → <b>output</b> · <span class="p-prov">provenance + status carried per field</span></div><p class="p-note">First-cut panel — the full black-box contract (unit · statistic · N · what the coder was handed) ports from the schema drawer next pass.</p></div><div class="panel" id="p-analyze-crux"><div class="p-h"><b>ANALYZE · 3 · Crux</b><span class="cbadge st-pilot">pilot</span></div><p class="p-what">seed-ranking: which move the structure turns on</p><div class="p-box"><b>input</b> → <b>transformation</b> → <b>output</b> · <span class="p-prov">provenance + status carried per field</span></div><p class="p-note">First-cut panel — the full black-box contract (unit · statistic · N · what the coder was handed) ports from the schema drawer next pass.</p></div><div class="panel" id="p-re-subst"><div class="p-h"><b>RECOMPOSE · Substitute</b><span class="cbadge st-pilot">pilot</span></div><p class="p-what">swap one move; regenerate the worlds that follow.</p><p class="p-note"><b>Sub-steps:</b> Ripple → Fan → Bundle — these run <i>under</i> Substitute, not beside the outputs.</p><div class="p-box"><b>produces →</b> <span class="oname-inline">alternative-world tree</span>: a branching tree of the near-neighbour variants the text did not make</div></div><div class="panel" id="p-out-subst"><div class="p-h"><b>OUTPUT · alternative-world tree</b></div><p class="p-what">a branching tree of the near-neighbour variants the text did not make.</p><p class="p-note">Produced by <b>Substitute</b>. Green engine → orange output.</p></div><div class="panel" id="p-re-fill"><div class="p-h"><b>RECOMPOSE · Fill</b><span class="cbadge st-des">designed</span></div><p class="p-what">fill the gaps Analyze surfaced — the missing referents &amp; presuppositions.</p><div class="p-box"><b>produces →</b> <span class="oname-inline">commentary</span>: a running commentary supplying what the text leaves implicit</div></div><div class="panel" id="p-out-fill"><div class="p-h"><b>OUTPUT · commentary</b></div><p class="p-what">a running commentary supplying what the text leaves implicit.</p><p class="p-note">Produced by <b>Fill</b>. Green engine → orange output.</p></div><div class="panel" id="p-re-beq"><div class="p-h"><b>RECOMPOSE · Bequeath</b><span class="cbadge st-des">designed</span></div><p class="p-what">trace the reception — later texts that inherit from this one.</p><div class="p-box"><b>produces →</b> <span class="oname-inline">reception tree</span>: a downstream tree of later readings and uses</div></div><div class="panel" id="p-out-beq"><div class="p-h"><b>OUTPUT · reception tree</b></div><p class="p-what">a downstream tree of later readings and uses.</p><p class="p-note">Produced by <b>Bequeath</b>. Green engine → orange output.</p></div><div class="panel" id="p-re-comp"><div class="p-h"><b>RECOMPOSE · Compare</b><span class="cbadge st-des">designed</span></div><p class="p-what">align the tellings — the same move across texts.</p><div class="p-box"><b>produces →</b> <span class="oname-inline">comparison</span>: a cross-text alignment (the contact-firewalled Q2 comparison)</div></div><div class="panel" id="p-out-comp"><div class="p-h"><b>OUTPUT · comparison</b></div><p class="p-what">a cross-text alignment (the contact-firewalled Q2 comparison).</p><p class="p-note">Produced by <b>Compare</b>. Green engine → orange output.</p></div>
+</div>
+
+<div class="foot">
+  <b>First cut — rough but standing.</b> Green = the reading/recomposition engines · orange = what comes out · arrows carry the flow.
+  Counts are static. <b>Two term notes for the PI</b> (not silently renamed): the live page names Analyze's 3rd step <b>Crux</b> (your plan said "seed-ranking"), and it has <b>no "resituate" engine</b> — recompose is Substitute · Fill · Bequeath · Compare. Ripple/Fan/Bundle are sub-steps <i>under Substitute</i>, as asked.
+</div>
+<script>var b=document.body;document.getElementById("m-reader").onclick=function(){b.dataset.mode="reader";this.classList.add("on");document.getElementById("m-audit").classList.remove("on")};document.getElementById("m-audit").onclick=function(){b.dataset.mode="audit";this.classList.add("on");document.getElementById("m-reader").classList.remove("on")};function sel(el){document.querySelectorAll(".circ.sel,.ebox.recomp.sel,.onode.sel").forEach(x=>x.classList.remove("sel"));document.querySelectorAll(".panel.show").forEach(x=>x.classList.remove("show"));var id=el.getAttribute("data-panel");var p=document.getElementById("p-"+id);var e=document.getElementById("detail-empty");if(e)e.style.display="none";if(p){p.classList.add("show");el.classList.add("sel");}}document.querySelectorAll("[data-panel]").forEach(el=>el.addEventListener("click",()=>sel(el)));</script></body></html>
