@@ -366,6 +366,23 @@ tr.t3{opacity:.6}
 .tippy-box[data-theme~='gom']{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px -12px rgba(40,48,42,.5);font-family:var(--sans);font-size:12.5px;line-height:1.45}
 .tippy-box[data-theme~='gom'] .tippy-content{padding:9px 12px}
 .tippy-box[data-theme~='gom'][data-placement^='top']>.tippy-arrow::before{border-top-color:var(--line)}
+
+/* revamp: compact phase boxes + facet click-targets + 6 output lanes */
+.phasebox{background:var(--card);border:1.5px solid var(--sub);border-radius:12px;padding:12px 14px}
+.phase-h{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--eng);margin-bottom:10px}
+.phase-gl{font-weight:400;color:var(--muted);font-style:italic;font-family:var(--serif);font-size:13px}
+.facetrow{display:flex;gap:8px;flex-wrap:wrap}
+.facet{flex:1 1 110px;text-align:left;background:var(--sub);color:#FFFDF6;border:none;border-radius:8px;padding:9px 11px;cursor:pointer;font:inherit;display:flex;flex-direction:column;gap:2px}
+.facet:hover{filter:brightness(1.08)}
+.facet b{font-size:13.5px;font-weight:600}
+.facet-gl{font-size:10.5px;opacity:.85;font-weight:400;line-height:1.3}
+.reclanes{display:flex;gap:8px;align-items:stretch}
+.reclane{flex:1 1 0;display:flex}
+.outlane{flex:1;background:rgba(196,96,47,.08);border:1.5px solid var(--out);border-radius:11px;padding:11px 10px;cursor:pointer;font:inherit;text-align:left;display:flex;flex-direction:column;gap:5px}
+.outlane:hover{background:rgba(196,96,47,.16)}
+.outname{font-size:14px;font-weight:700;color:var(--out)}
+.outwhat{font-size:11px;color:var(--fg);opacity:.82;line-height:1.35}
+.lg-gl{font-weight:400;font-family:var(--serif);font-style:italic;color:var(--muted);font-size:12px}
 </style></head><body>
 <button class="themebtn" onclick="tgl()">theme</button>
 <div class="wrap">
@@ -378,12 +395,12 @@ recomposition changes what it means.</p>
 <p class="sub1 mech"><b>Click any stage</b> to see its fields — each definition, and whether the values are
 <b>open</b> (read off the text) or <b>closed</b> (from a controlled list, values defined). Fields we haven't
 defined yet show as <span class="undef">⚠ undefined</span>.</p>
-<p class="testlink"><a href="how-we-test.html">How we test this &rarr;</a></p>
+<p class="testlink"><a href="how-we-test.html">How we test this &rarr;</a> &nbsp;&middot;&nbsp; <a href="coverage-matrix.html">what&rsquo;s been run through what &rarr;</a></p>
 
 <div class="lane"><div class="lanelab">INPUTS</div><div class="lanebody center"><span class="pill">Text</span><div class="pillcap">A song, a story, a verse, a book &mdash; or several at once (like the four gospels).</div><div id="in-arrow"></div></div></div>
 <div class="lane"><div class="lanelab">ENGINES</div><div class="lanebody" id="engines"></div></div>
-<div class="lane"><div class="lanelab">OUTPUTS</div><div class="lanebody"><div class="outs" id="outs"></div></div></div>
-<div class="mapnodes"><button class="mapnode" onclick="openRecompose()"><b>&#8250; How the six recompositions relate</b><span>the perturbation triad &mdash; hold two, vary one</span></button><button class="mapnode" onclick="openTesting()"><b>&#8250; How we test it</b><span>each stage&rsquo;s experiment + report</span></button></div>
+</div>
+<div class="mapnodes"><button class="mapnode" onclick="openRecompose()"><b>&#8250; How the six recompositions relate</b><span>the perturbation triad &mdash; hold two, vary one</span></button></div>
 </div>
 <dialog id="dlg"><div class="dh"><button class="close" onclick="document.getElementById('dlg').close()">close</button>
 <h3 id="d-title"></h3><div class="w" id="d-what"></div><div class="tbl" id="d-tbl"></div></div>
@@ -590,7 +607,7 @@ function box(s){
   // the sub-stage box says WHAT THE STAGE IS, not how many columns its table has —
 // a field count told a reader nothing about the method (researcher walk S154).
 const gap = s.tag || (s.table ? `${s.nfields} fields` : 'not built');
-  return `<button class="subbox ${s.table?'':'tbd'}" onclick="openStage(${s.i})">${s.sub?s.eng+'.'+s.sub+' ':''}${esc(s.name)}<span class="gap">${gap}</span></button>`;
+  return `<button class="subbox ${s.table?'':'tbd'}" onclick="openStage(${s.i})">${esc(s.name)}<span class="gap">${gap}</span></button>`;
 }
 // an engine header: name + its one-line gloss, and NOT BUILT when nothing under it has a table
 function engbar(e){
@@ -619,7 +636,7 @@ document.getElementById('in-arrow').innerHTML=ARW;
 // ── Morphospace: not a stage. Sits alongside 0.C Frame, tied by a double-headed link.
 const MS_DOTS=[[12,22],[28,58],[44,32],[62,18],[70,64],[38,74],[80,42],[22,80],[54,48],[86,74],[18,44],[64,84]];
 const MS_PANEL=`<aside class="ms"><div class="ms-link" aria-hidden="true">`
- +`<div class="ms-lab">0.C Frame</div>`
+ +`<div class="ms-lab">Frame</div>`
  +`<svg width="72" height="16" viewBox="0 0 72 16">`
  +`<path d="M8 8 H64" stroke="var(--out)" stroke-width="1.5"/>`
  +`<path d="M12 3 L4 8 L12 13" stroke="var(--out)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`
@@ -703,22 +720,20 @@ function valcell(f){
 function engblock(e){
   return engbar(e)+`<div class="engwrap"><div class="subrow">${byEng[e].map(box).join('')}</div></div>`;
 }
+function facet(s){ return `<button class="facet" onclick="openStage(${s.i})"><b>${esc(s.name)}</b><span class="facet-gl">${esc(s.tag||'')}</span></button>`; }
 let h='';
-h+=`<div class="lg lg-prep"><div class="lg-hd"><span class="lg-k">Situate &#8741; Analyze &mdash; concurrent</span>`
-  +`<span class="lg-n">two reads of one text, at once (macro &#8741; micro)</span></div>`
-  +`<div class="prep-par"><div class="prep-lane"><div class="lane-tag">macro &mdash; the whole text&rsquo;s bearings</div>`+engblock('0')+`</div>`
-  +`<div class="prep-lane"><div class="lane-tag">micro &mdash; clause by clause into moves</div>`+engblock('1')+`</div></div>`
-  +`<div class="ms-below">`+MS_PANEL+`</div>`
-  +ARW
-  +`<button class="coded-object" onclick="openCodedObject()"><span class="co-k">Coded Object</span><span class="co-d">one text, two reads converged &mdash; its bearings (Situate) + its moves (Analyze). &#8250; live corpus counts</span></button>`
-  +`</div>`;
-h+=fanArw(4);
-h+=`<div class="lg lg-recomp"><div class="lg-hd"><span class="lg-k">Recompose &mdash; pick an output</span>`
-  +`<span class="lg-n">each runs independently on the prepared text</span></div>`
-  +`<div class="parallel">`+['2','3','4','5'].map(e=>
-      `<div>`+engbar(e)+`<div class="engwrap">`
-      +byEng[e].map(s=>`<div class="subrow">${box(s)}</div>`).join('')+`</div></div>`).join('')+`</div>`
-  +`<div class="parallel">`+['2','3','4','5'].map(()=>`<div>${ARW}</div>`).join('')+`</div></div>`;
+h+=`<div class="lg lg-prep"><div class="lg-hd"><span class="lg-k">Situate &#8741; Analyze</span><span class="lg-n">two reads of one text, at once (macro &#8741; micro)</span></div>`
+ +`<div class="prep-par">`
+ +`<div class="prep-lane"><div class="phasebox"><div class="phase-h">Situate <span class="phase-gl">&mdash; where the text stands</span></div><div class="facetrow">`+byEng['0'].map(facet).join('')+`</div></div>`+MS_PANEL+`</div>`
+ +`<div class="prep-lane"><div class="phasebox"><div class="phase-h">Analyze <span class="phase-gl">&mdash; its grammar + silences</span></div><div class="facetrow">`+byEng['1'].map(facet).join('')+`</div></div></div>`
+ +`</div>`
+ +ARW
+ +`<button class="coded-object" onclick="openCodedObject()"><span class="co-k">Coded text</span><span class="co-d"><i>(taken apart into moves)</i> &mdash; one text, two reads converged: its bearings + its moves. &#8250; live corpus counts</span></button>`
+ +`</div>`;
+h+=fanArw(6);
+var __LANES=[['2','Fan','the worlds it could have been'],['R','Resituation','the same text under a changed world'],['3','Gloss','commentary on its silences'],['4','Reception','the readings history gave it'],['5','Comparison','several tellings, one frame'],['C','Constellation','the coded text as a non-linear field']];
+h+=`<div class="lg lg-recomp"><div class="lg-hd"><span class="lg-k">Recompose <span class="lg-gl">(put the moves back, differently)</span></span><span class="lg-n">pick an output</span></div>`
+ +`<div class="parallel reclanes">`+__LANES.map(function(L){var st=(OUT_STATE[L[0]]||'').toLowerCase();return `<div class="reclane"><button class="outlane" onclick="openOutput('${L[0]}')"><span class="outname">${L[1]}</span><span class="outwhat">${L[2]}</span>`+(OUT_STATE[L[0]]?`<span class="epi ${st}">${OUT_STATE[L[0]]}</span>`:'')+`</button></div>`;}).join('')+`</div></div>`;
 document.getElementById('engines').innerHTML=h;
 // A tiny monochrome glyph per output — the SHAPE of what it produces, so the four outputs are legible at a
 // glance instead of only on click (the Morphospace panel already previews itself with its dot-scatter). Each
@@ -739,11 +754,7 @@ const OUT_GLYPH={
       +'<rect x="2" y="3" width="6" height="4" rx="1"/><rect x="10" y="3" width="6" height="4" rx="1" opacity=".4"/><rect x="18" y="3" width="6" height="4" rx="1"/>'
       +'<rect x="2" y="9" width="6" height="4" rx="1" opacity=".4"/><rect x="10" y="9" width="6" height="4" rx="1"/><rect x="18" y="9" width="6" height="4" rx="1" opacity=".4"/>'
       +'</g>'};
-document.getElementById('outs').innerHTML=['2','R','3','4','5','C'].map(e=>
-  `<button class="outpill" onclick="openOutput('${e}')">`
-  +`<svg class="oglyph" viewBox="0 0 26 17" width="26" height="17" aria-hidden="true">${OUT_GLYPH[e]||''}</svg>`
-  +(OUT_REAL[e]?'':'<span class="dia" aria-hidden="true">&#9671;</span>')
-  +`<span>${esc(P.outputs[e])}</span><span class="epi ${(OUT_STATE[e]||'').toLowerCase()}">${OUT_STATE[e]||''}</span></button>`).join('');
+/* output bar removed — outputs terminate each recompose lane (revamp #1) */
 
 function ftable(fields,label){
   if(!fields.length) return '';
@@ -764,7 +775,7 @@ function ftable(fields,label){
 }
 function openStage(i){
   const s=P.stages[i];
-  document.getElementById('d-title').textContent=`${s.engname} — ${s.sub?s.eng+'.'+s.sub+' ':''}${s.name}`;
+  document.getElementById('d-title').textContent=`${s.engname} — ${s.name}`;
   // The header subtitle takes the one-line TAG, not `what`. It used to take `what` — which the TL;DR
   // then printed again a few lines below, so every stage said the same thing twice, and once the
   // descriptions grew tables (0.C's seven axes, 2.A's five flips, 2.B's gate) it was duplicating whole
