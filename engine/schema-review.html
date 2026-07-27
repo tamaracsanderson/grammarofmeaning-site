@@ -361,13 +361,18 @@ tr.t3{opacity:.6}
 .lm-cap{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .logic-mermaid .mermaid{overflow-x:auto;text-align:center}
 .logic-mermaid svg{max-width:100%;height:auto}
+
+.irrc[data-tip]{cursor:help;border-bottom:1px dotted currentColor}
+.tippy-box[data-theme~='gom']{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px -12px rgba(40,48,42,.5);font-family:var(--sans);font-size:12.5px;line-height:1.45}
+.tippy-box[data-theme~='gom'] .tippy-content{padding:9px 12px}
+.tippy-box[data-theme~='gom'][data-placement^='top']>.tippy-arrow::before{border-top-color:var(--line)}
 </style></head><body>
 <button class="themebtn" onclick="tgl()">theme</button>
 <div class="wrap">
 <h1>What a text is made of</h1>
 <p class="claimlink">A schema of the instrument. <a href="the-claim.html">What it is <i>for</i>, and what it claims &rarr;</a></p>
 <p class="sub1">One text goes in. We situate it, take it apart into the <b>moves</b> it's built from — what it says,
-and what it leaves unsaid — then recompose those moves four ways: as the alternatives it could have been, as
+and what it leaves unsaid — then recompose those moves several ways: as the alternatives it could have been, as
 commentary on its silences, as the readings history gave it, and as its variants across tellings. Each
 recomposition changes what it means.</p>
 <p class="sub1 mech"><b>Click any stage</b> to see its fields — each definition, and whether the values are
@@ -918,7 +923,19 @@ function injectLogicMermaid(){
     if(window.mermaid&&window.__mermaidReady){ mermaid.run({nodes:[pre]}); }
   }catch(e){}
 }
-function __afterDrawer(){ injectLogicMermaid(); }
+
+var IRR_SUM={"167": "Negative-space coding calibrated on a clean Beatles test-bed — structurally sound but only 'partly reliable' (the present-vs-obligated split).", "177": "The cold 8-move reliability run on 'She Loves You' — MAJORITY consensus.", "181": "Romans roster E×O×M coordinates — sound with named changes (5/5): add a 4th axis, fix ~5 coordinates, reframe as 3 tiers.", "184": "Convergence-detection method horse-race + grade rubric — UNANIMOUS.", "194": "Geometry for the categorical morphospace — MCA (a linear method), NOT PCA-on-one-hot (5/5).", "195": "The multiplicity coding unit — drop the numeric weight; use a coarse ordinal (Single · Lean · Dual) (5/5).", "202": "Move recurrence / nesting — does NOT lock yet; the Argument-Shift test is too strong (5/5).", "205": "Subordinate clauses are modifiers, not nested moves — the 0-nested run was right (5/5).", "208": "Gap-role labels → shortest questions (+ a 'manner' ruling) — MAJORITY.", "211": "The 7-axis value definitions — UNANIMOUS (5/5).", "213": "Read the fan's questions OFF the grammar's typed edges — ADOPT (5/5).", "216": "Carry the relational dimension by UNFREEZING G, not adding a new axis — 4/5.", "217": "LENS-4 re-fire (Islamic & Sufi) — promote / demote / relocate axis values."};
+function initIrrTips(root){ if(!window.tippy) return;
+  (root||document).querySelectorAll('.irrc:not([data-tip])').forEach(function(el){
+    var m=(el.textContent||'').match(/IRR(\d+)/); if(!m) return; var s=IRR_SUM[m[1]]; if(!s) return;
+    el.setAttribute('data-tip','1');
+    tippy(el,{content:'<b>IRR'+m[1]+'</b> &mdash; '+s, allowHTML:true, theme:'gom', maxWidth:330, placement:'top', delay:[80,0]});
+  });
+}
+function __afterDrawer(){ injectLogicMermaid(); initIrrTips(document.getElementById('d-body')); }
 </script><script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <script>try{mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'IBM Plex Mono, ui-monospace, monospace',fontSize:'12px',lineColor:'#3F7D57',primaryColor:'#e7f3ea',primaryBorderColor:'#2e7d47',primaryTextColor:'#24302A',secondaryColor:'#dfeee3'}});window.__mermaidReady=true;}catch(e){}</script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+<script>window.addEventListener("load",function(){try{initIrrTips(document);}catch(e){}});</script>
 </body></html>
