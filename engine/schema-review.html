@@ -893,8 +893,8 @@ function logicToMermaid(t){
     parts[lab]=m?m[1].replace(/→/g,' ').replace(/\s+/g,' ').trim():'';
   });
   if(!(parts.IN&&parts.BOX&&parts.OUT)) return '';
-  function q(s){ return '"'+String(s).replace(/"/g,"'").replace(/[\[\]{}()<>#;|]/g,'').slice(0,88).trim()+'"'; }
-  var L=['flowchart LR'];
+  function q(s){ s=String(s).replace(/"/g,"'").replace(/[\[\]{}()<>#;|]/g,'').trim(); if(s.length>66) s=s.slice(0,64).replace(/\s+\S*$/,'')+'…'; return '"'+s+'"'; }
+  var L=['flowchart TB'];
   L.push('  IN(['+q(parts.IN)+']) --> BOX['+q(parts.BOX)+']');
   L.push('  BOX --> OUT(['+q(parts.OUT)+'])');
   if(parts.NEXT) L.push('  OUT --> NXT['+q('→ '+parts.NEXT)+']');
