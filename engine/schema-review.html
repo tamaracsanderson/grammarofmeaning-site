@@ -383,6 +383,15 @@ tr.t3{opacity:.6}
 .outname{font-size:14px;font-weight:700;color:var(--out)}
 .outwhat{font-size:11px;color:var(--fg);opacity:.82;line-height:1.35}
 .lg-gl{font-weight:400;font-family:var(--serif);font-style:italic;color:var(--muted);font-size:12px}
+
+.ms-band{margin:10px 0 0}
+.ms-band .ms{width:auto;max-width:none}
+.fan-steps{margin:14px 0 2px;padding:11px 13px;background:var(--bg);border:1px solid var(--line);border-radius:10px}
+.fs-cap{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.fs-flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.fs-step{display:flex;flex-direction:column;background:var(--sub);color:#FFFDF6;border-radius:8px;padding:6px 10px;font-size:12px;line-height:1.25}
+.fs-step b{font-weight:600}.fs-step span{font-size:10px;opacity:.85}
+.fs-arw{color:var(--sub);font-weight:700}
 </style></head><body>
 <button class="themebtn" onclick="tgl()">theme</button>
 <div class="wrap">
@@ -553,6 +562,7 @@ const OUT_CAP={'C':"One coded text, seen whole — a field to move through, not 
  '5':"The same story in four hands — what each conserves, changes, or leaves out."};
 
 function openOutput(e){
+  window.__outE=e;
   const real=OUT_REAL[e];
   document.getElementById('d-title').textContent=P.outputs[e];
   document.getElementById('d-what').textContent=OUT_TAG[e];
@@ -724,9 +734,10 @@ function facet(s){ return `<button class="facet" onclick="openStage(${s.i})"><b>
 let h='';
 h+=`<div class="lg lg-prep"><div class="lg-hd"><span class="lg-k">Situate &#8741; Analyze</span><span class="lg-n">two reads of one text, at once (macro &#8741; micro)</span></div>`
  +`<div class="prep-par">`
- +`<div class="prep-lane"><div class="phasebox"><div class="phase-h">Situate <span class="phase-gl">&mdash; where the text stands</span></div><div class="facetrow">`+byEng['0'].map(facet).join('')+`</div></div>`+MS_PANEL+`</div>`
+ +`<div class="prep-lane"><div class="phasebox"><div class="phase-h">Situate <span class="phase-gl">&mdash; where the text stands</span></div><div class="facetrow">`+byEng['0'].map(facet).join('')+`</div></div>`+`</div>`
  +`<div class="prep-lane"><div class="phasebox"><div class="phase-h">Analyze <span class="phase-gl">&mdash; its grammar + silences</span></div><div class="facetrow">`+byEng['1'].map(facet).join('')+`</div></div></div>`
  +`</div>`
+ +`<div class="ms-band">`+MS_PANEL+`</div>`
  +ARW
  +`<button class="coded-object" onclick="openCodedObject()"><span class="co-k">Coded text</span><span class="co-d"><i>(taken apart into moves)</i> &mdash; one text, two reads converged: its bearings + its moves. &#8250; live corpus counts</span></button>`
  +`</div>`;
@@ -774,6 +785,7 @@ function ftable(fields,label){
   return `${lead}<table>${body}</table>`;
 }
 function openStage(i){
+  window.__outE=null;
   const s=P.stages[i];
   document.getElementById('d-title').textContent=`${s.engname} — ${s.name}`;
   // The header subtitle takes the one-line TAG, not `what`. It used to take `what` — which the TL;DR
@@ -943,7 +955,9 @@ function initIrrTips(root){ if(!window.tippy) return;
     tippy(el,{content:'<b>IRR'+m[1]+'</b> &mdash; '+s, allowHTML:true, theme:'gom', maxWidth:330, placement:'top', delay:[80,0]});
   });
 }
-function __afterDrawer(){ injectLogicMermaid(); initIrrTips(document.getElementById('d-body')); }
+var FAN_STEPS_HTML="<div class="fan-steps"><div class="fs-cap">the Fan&rsquo;s internal steps</div><div class="fs-flow"><span class="fs-step"><b>swap</b><span>a slot</span></span><span class="fs-arw">&#8594;</span><span class="fs-step"><b>ripple</b><span>the consequences</span></span><span class="fs-arw">&#8594;</span><span class="fs-step"><b>fan</b><span>the alternatives</span></span><span class="fs-arw">&#8594;</span><span class="fs-step"><b>bundle</b><span>same-world ones</span></span></div></div>";
+function injectFanSteps(){ try{ if(window.__outE!=='2') return; var b=document.getElementById('d-body'); if(!b||b.querySelector('.fan-steps')) return; b.insertAdjacentHTML('beforeend', FAN_STEPS_HTML); }catch(e){} }
+function __afterDrawer(){ injectLogicMermaid(); initIrrTips(document.getElementById('d-body')); injectFanSteps(); }
 </script><script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <script>try{mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base',themeVariables:{fontFamily:'IBM Plex Mono, ui-monospace, monospace',fontSize:'12px',lineColor:'#3F7D57',primaryColor:'#e7f3ea',primaryBorderColor:'#2e7d47',primaryTextColor:'#24302A',secondaryColor:'#dfeee3'}});window.__mermaidReady=true;}catch(e){}</script>
 <script src="https://unpkg.com/@popperjs/core@2"></script>
