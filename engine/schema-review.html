@@ -380,7 +380,7 @@ tr.t3{opacity:.6}
 .facet-gl{font-size:12.5px;opacity:.75;font-weight:400;line-height:1.35}
 .reclanes{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-items:start}
 .reclane{display:flex;flex-direction:column;gap:6px}
-.outlane{flex:1;min-height:78px;background:color-mix(in oklab, var(--out) 5%, var(--bg));border:1px solid color-mix(in oklab, var(--out) 55%, var(--line));border-radius:4px;padding:12px;cursor:pointer;font:inherit;text-align:left;display:flex;flex-direction:column;gap:8px}
+.outlane{flex:1;min-height:78px;background:var(--card);border:1px solid color-mix(in oklab, var(--out) 55%, var(--line));border-radius:4px;padding:12px;cursor:pointer;font:inherit;text-align:left;display:flex;flex-direction:column;gap:8px}
 .outlane:hover{background:rgba(196,96,47,.16)}
 .outname{font-family:var(--serif);font-size:15.5px;font-weight:600;color:var(--out)}
 .outwhat{font-size:12.5px;color:var(--fg);opacity:.75;line-height:1.4;flex:1}
@@ -402,8 +402,8 @@ tr.t3{opacity:.6}
 .ms-mini-dots{position:relative;height:20px;margin-top:2px}
 .ms-mini-dots i{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--sub);transform:translate(-50%,-50%)}
 
-.ms-band2{width:100%;display:flex;align-items:center;gap:16px;text-align:left;background:color-mix(in oklab, var(--out) 5%, var(--bg));border:1px dashed var(--out);border-radius:6px;padding:10px 14px;margin-bottom:14px;cursor:pointer;font-family:var(--sans)}
-.ms-band2:hover{background:color-mix(in oklab, var(--out) 11%, var(--bg))}
+.ms-band2{width:100%;display:flex;align-items:center;gap:16px;text-align:left;background:var(--card);border:1px solid color-mix(in oklab, var(--out) 55%, var(--line));border-radius:6px;padding:10px 14px;margin-bottom:14px;cursor:pointer;font-family:var(--sans)}
+.ms-band2:hover{background:color-mix(in oklab, var(--out) 4%, var(--bg));border-color:var(--out)}
 .msb-l{flex:0 0 auto}
 .msb-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--out);opacity:.85}
 .msb-title{font-size:14px;font-weight:700;color:var(--out)}
@@ -450,6 +450,7 @@ defined yet show as <span class="undef">⚠ undefined</span>.</p>
 
 <div class="lane"><div class="lanelab">INPUTS</div><div class="lanebody center"><span class="pill">Text</span><div class="pillcap">A song, a story, a verse, a book &mdash; or several at once (like the four gospels).</div><div id="in-arrow"></div></div></div>
 <div class="lane"><div class="lanelab">ENGINES</div><div class="lanebody" id="engines"></div></div>
+<div class="lane"><div class="lanelab">OUTPUTS</div><div class="lanebody" id="outputs"></div></div>
 </div>
 
 </div>
@@ -778,9 +779,9 @@ h+=`<div class="lg lg-prep"><div class="lg-hd"><span class="lg-k">Situate &#8741
  +`</div>`;
 h+=`<div class="fanman"><div class="fanman-rail"></div><div class="fanman-stem"></div><div class="fanman-drops">`+[0,1,2,3,4,5].map(function(){return `<div class="fanman-drop"><div class="fanman-dropline"></div><svg width="10" height="8" viewBox="0 0 10 8" aria-hidden="true"><path d="M1 1 L5 7 L9 1" stroke="#6E7B3A" stroke-width="1.25" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`;}).join('')+`</div></div>`;
 var __LANES=[['2','Fan','the worlds it could have been'],['R','Resituation','the same text under a changed world'],['3','Gloss','commentary on its silences'],['4','Reception','the readings history gave it'],['5','Comparison','several tellings, one frame'],['C','Constellation','the coded text as a non-linear field']];
-h+=`<div class="lg lg-recomp"><div class="lg-hd"><span class="lg-k">Recompose <span class="lg-gl">(put the moves back, differently)</span></span><span class="lg-n">pick an output</span></div>`
+document.getElementById('engines').innerHTML=h;var ho='';ho+=`<div class="lg lg-recomp"><div class="lg-hd"><span class="lg-k">Recompose <span class="lg-gl">(put the moves back, differently)</span></span><span class="lg-n">pick an output</span></div>`
  +`<div class="parallel reclanes">`+__LANES.map(function(L){var st=(OUT_STATE[L[0]]||'').toLowerCase();return `<div class="reclane"><button class="outlane" onclick="openOutput('${L[0]}')"><span class="outname">${L[1]}</span><span class="outwhat">${L[2]}</span>`+(OUT_STATE[L[0]]?`<span class="epi ${st}">${OUT_STATE[L[0]]}</span>`:'')+`</button>`+outArtChips(L[0])+`</div>`;}).join('')+`</div></div>`;
-document.getElementById('engines').innerHTML=h;
+document.getElementById('outputs').innerHTML=ho;
 // A tiny monochrome glyph per output — the SHAPE of what it produces, so the four outputs are legible at a
 // glance instead of only on click (the Morphospace panel already previews itself with its dot-scatter). Each
 // glyph echoes that output's full mock: branching tree · ringed page · timeline · grid. (S154)
