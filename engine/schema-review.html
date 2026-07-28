@@ -519,6 +519,12 @@ tr.t3{opacity:.6}
 .ms-tip-a{font-family:var(--mono);font-size:9.5px;color:var(--muted);margin-top:3px}
 .ms-legend-h{font-family:var(--sans);font-size:10.5px;font-weight:600;color:var(--muted);margin-top:9px}
 .ms-legend-h+.ms-legend{margin-top:3px}
+
+.prov-tabs{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:11px}
+.prov-tabs-l{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-right:2px}
+.prov-tab{font-family:var(--sans);font-size:11px;padding:3px 11px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--muted);cursor:pointer}
+.prov-tab:hover{border-color:var(--eng);color:var(--eng)}
+.prov-tab.on{background:var(--eng);color:#fff;border-color:var(--eng)}
 </style></head><body>
 <button class="themebtn" onclick="tgl()">theme</button>
 <div class="wrap">
@@ -654,16 +660,17 @@ const OUT_WHAT={
     +"hands</b> &mdash; where changing <i>who tells it</i> changes what gets said and what gets left unsaid."};
 
 
-const PROV_KEYS={'2':'SLY-1963'};
+const PROV_KEYS={'2':['SLY-1963','ALIH-1964']};
 const PROV_DIAL={'2':'fan','R':'resituation','3':'gloss','4':'reception','5':'comparison','C':'constellation'};
-const PROV_TITLE={'2':'She Loves You (1963)'};
+const PROV_TITLE={'SLY-1963':'She Loves You (1963)','ALIH-1964':'And I Love Her (1964)'};
 function provEsc(s){return esc(String(s==null?'':s));}
-function provShell(){var e=window.__outE,key=PROV_KEYS[e];if(!key)return '';return '<details class="provpanel"><summary>&#9656; Full coded data <span class="prov-sub">(provenance)</span></summary><div class="prov-body" data-provkey="'+key+'" data-oute="'+e+'"><div class="prov-loading">loading the coded object…</div></div></details>';}
+function provShell(){var e=window.__outE,keys=PROV_KEYS[e];if(!keys)return '';keys=[].concat(keys);var tabs=keys.length>1?'<div class="prov-tabs"><span class="prov-tabs-l">coded object:</span>'+keys.map(function(k,i){return '<button class="prov-tab'+(i===0?' on':'')+'" onclick="provSwitch(this,\''+k+'\')">'+esc(PROV_TITLE[k]||k)+'</button>';}).join('')+'</div>':'';return '<details class="provpanel"><summary>&#9656; Full coded data <span class="prov-sub">(provenance)</span></summary><div class="prov-wrap">'+tabs+'<div class="prov-body" data-provkey="'+keys[0]+'" data-oute="'+e+'"><div class="prov-loading">loading the coded object…</div></div></div></details>';}
+function provSwitch(btn,key){var wrap=btn.closest('.prov-wrap');[].forEach.call(wrap.querySelectorAll('.prov-tab'),function(b){b.classList.remove('on');});btn.classList.add('on');var el=wrap.querySelector('.prov-body');el.dataset.provkey=key;el.dataset.loaded='';el.innerHTML='<div class="prov-loading">loading the coded object…</div>';loadProv();}
 function provSec(n,title,cnt,body){return '<div class="prov-sec"><div class="prov-h"><span class="prov-n">'+n+'</span>'+title+(cnt!=null?' <span class="prov-cnt">'+cnt+'</span>':'')+'</div><div class="prov-cbody">'+body+'</div></div>';}
 function provGap(reason){return '<div class="prov-gap">&mdash; not yet &middot; '+provEsc(reason)+'</div>';}
 function renderProv(j,e){
   var s=j.sections||{},cov=j.coverage||{};
-  var friendly=PROV_TITLE[e]||j.source_key;
+  var friendly=PROV_TITLE[j.source_key]||j.source_key;
   var out=[];
   var sz=s['1_sitz']||{},cats='';
   try{cats=(JSON.parse(sz.categories||'[]')||[]).map(function(c){return '<span class="prov-chip">'+provEsc(c)+'</span>';}).join('');}catch(_){}
