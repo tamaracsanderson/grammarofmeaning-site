@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reception graph — Romans 8:28-30 (PROTOTYPE)</title>
+<style>
+:root{
+  --bg:#faf9f5; --fg:#1a1a1a; --muted:#6b6b6b; --line:#e3e0d6; --card:#fff;
+  --green:#2e7d47; --greenbg:#e7f3ea; --coffee:#b8860b;
+  --node:#3a5a40; --node-text:#5a7a50; --node-attested:#7a6a4a; --node-anselm:#9a7a3a;
+  --type-cites:#4a6fa5; --type-refutes:#c0392b; --type-reframes:#8e44ad; --type-extends:#2e7d47;
+  --inferred:#b3b0a6;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#14140f; --fg:#ececec; --muted:#9a9a9a; --line:#33322b; --card:#1c1c16;
+  --green:#5fce86; --greenbg:#16311f; --coffee:#e0b45a;
+  --node:#6b9a72; --node-attested:#b09a6a; --node-anselm:#c8a24a;
+  --type-cites:#7fa8dd; --type-refutes:#e07a6b; --type-reframes:#c08fd8; --type-extends:#5fce86;
+  --inferred:#55534a;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:1.5rem 1.25rem}
+h1{font-size:1.35rem;margin:0 0 .2rem} .sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+.tag{display:inline-block;border:1px solid var(--coffee);color:var(--coffee);border-radius:20px;
+  padding:.05rem .55rem;font-size:.66rem;letter-spacing:.06em;vertical-align:middle;margin-left:.4rem}
+.wrap{display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-start}
+.stage{flex:1 1 640px;min-width:320px;border:1px solid var(--line);border-radius:12px;background:var(--card);
+  overflow:hidden;position:relative}
+svg{display:block;width:100%;height:auto;touch-action:none;cursor:grab}
+svg:active{cursor:grabbing}
+.side{flex:1 1 300px;min-width:280px;max-width:420px}
+.panel{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:.9rem 1rem;font-size:.86rem}
+.panel h2{font-size:.95rem;margin:.1rem 0 .5rem} .panel .era{color:var(--muted);font-size:.78rem}
+.panel .rd{margin:.5rem 0 .3rem;line-height:1.5} .panel .work{color:var(--muted);font-style:italic;font-size:.8rem}
+.legend{margin-top:1rem;font-size:.8rem;line-height:1.9}
+.legend b{font-weight:600}
+.chip{display:inline-flex;align-items:center;gap:.35rem;margin-right:.9rem;white-space:nowrap}
+.swatch{width:26px;height:0;border-top-width:3px;border-top-style:solid;display:inline-block}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+.foot{color:var(--muted);font-size:.76rem;margin-top:1.1rem;line-height:1.6;max-width:60rem}
+.count{font-weight:600}
+edge-label{}
+.hint{color:var(--muted);font-size:.76rem;margin:.3rem 0 0}
+</style>
+</head>
+<body>
+<h1>Reception of Romans 8:28-30 &mdash; the golden chain <span class="tag">PROTOTYPE</span></h1>
+<p class="sub">Engine #4 &middot; RECEPTION &middot; a typed-edge graph of how the passage was read across history.
+Solid = <b>grounded</b> reception relationship; dashed = <b>inferred</b> (plausible, not verified). Click a node to read its reading.</p>
+
+<div class="wrap">
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 900 640" preserveAspectRatio="xMidYMid meet" aria-label="reception graph"></svg>
+    <p class="hint" style="padding:0 .8rem .6rem">Drag nodes to rearrange &middot; drag background to pan.</p>
+  </div>
+  <div class="side">
+    <div class="panel" id="panel">
+      <h2 id="p-label">Romans 8:28-30</h2>
+      <div class="era" id="p-era">c. 57 CE &middot; the text</div>
+      <div class="work" id="p-work"></div>
+      <div class="rd" id="p-reading">Click any reader to see how they received the golden chain.</div>
+    </div>
+    <div class="legend panel" style="margin-top:1rem">
+      <div style="margin-bottom:.45rem"><b>Edge type</b></div>
+      <span class="chip"><span class="swatch" style="border-top-color:var(--type-cites)"></span>cites</span>
+      <span class="chip"><span class="swatch" style="border-top-color:var(--type-refutes)"></span>refutes</span>
+      <span class="chip"><span class="swatch" style="border-top-color:var(--type-reframes)"></span>reframes</span>
+      <span class="chip"><span class="swatch" style="border-top-color:var(--type-extends)"></span>extends</span>
+      <span class="chip"><span class="swatch" style="border-top-color:var(--muted)"></span>reads</span>
+      <div style="margin:.7rem 0 .45rem"><b>Confidence</b></div>
+      <span class="chip"><span class="swatch" style="border-top-color:var(--fg)"></span>grounded (solid)</span>
+      <span class="chip"><span class="swatch" style="border-top-color:var(--inferred);border-top-style:dashed"></span>inferred (dashed)</span>
+      <div style="margin:.7rem 0 .45rem"><b>Node</b></div>
+      <span class="chip"><span class="dot" style="background:var(--node)"></span>seated in Gloss run</span>
+      <span class="chip"><span class="dot" style="background:var(--node-attested)"></span>attested receptor</span>
+      <span class="chip"><span class="dot" style="background:var(--green)"></span>the text</span>
+    </div>
+  </div>
+</div>
+
+<p class="foot" id="foot"></p>
+
+<script>
+const DATA = {"prototype": true, "title": "Reception graph — Romans 8:28-30 (the golden chain)", "engine": "RECEPTION (#4)", "generated": "2026-07-27", "session": "S156", "anti_fabrication": "Every reader->text and reader->reader edge is tagged grounded or inferred. Inferred edges are plausible reception relationships NOT verified for this passage; they are not asserted as fact.", "grounding_key": {"seated": "Seated on own DB text in the S156 Gloss run (Engine 3); reading grounded in coded corpus data.", "attested": "Well-attested historical receptor of Romans 8 from the documentary record.", "text": "The passage itself."}, "clusters": {"text": {"label": "the text", "angle": null}, "latin-predestination": {"label": "Latin predestination"}, "reformation": {"label": "Reformation / justification"}, "synergist": {"label": "Synergist / foreseen-faith"}, "greek-theosis": {"label": "Greek / theosis"}, "modern": {"label": "Modern"}}, "counts": {"nodes": 12, "edges": 24, "grounded_edges": 18, "inferred_edges": 6}, "nodes": [{"id": "ROM8", "label": "Romans 8:28-30", "kind": "text", "grounding": "text", "reads_tag": null, "era": "c. 57 CE", "cluster": "text", "reading": "The 'golden chain': foreknew -> predestined -> called -> justified -> glorified."}, {"id": "augustine", "label": "Augustine", "kind": "reader", "grounding": "seated", "reads_tag": "grounded", "era": "c. 397-430", "cluster": "latin-predestination", "work": "De praedestinatione sanctorum; De dono perseverantiae", "reading": "Foreknowledge = gratuitous election, NOT foreseen merit; grace works through the will; vocatio congrua."}, {"id": "luther", "label": "Luther", "kind": "reader", "grounding": "seated", "reads_tag": "grounded", "era": "1515-1516", "cluster": "reformation", "work": "Lectures on Romans (Divi Pauli ... ad Romanos)", "reading": "Reads the chain through sola fide / justification: alien righteousness, simul iustus et peccator, assurance on the promise."}, {"id": "calvin", "label": "Calvin", "kind": "reader", "grounding": "seated", "reads_tag": "grounded", "era": "1539-1559", "cluster": "reformation", "work": "Commentary on Romans; Institutes III.21-24", "reading": "Eternal unconditional election is the fountainhead of the whole chain; effectual calling; assurance rests on the immutable decree."}, {"id": "arminius", "label": "Arminius", "kind": "reader", "grounding": "seated", "reads_tag": "grounded", "era": "c. 1600-1609", "cluster": "synergist", "work": "Examination of Perkins; Declaration of Sentiments", "reading": "Foreknowledge = prescience of faith, not an absolute decree; calling is resistible; the 'those' are foreseen believers."}, {"id": "athanasius", "label": "Athanasius", "kind": "reader", "grounding": "seated", "reads_tag": "grounded", "era": "c. 335-360", "cluster": "greek-theosis", "work": "Orations against the Arians; De Incarnatione", "reading": "'Firstborn among many brethren' (v29) = the Word made flesh so many share His sonship; conformity = theosis, incorruption regained."}, {"id": "anselm", "label": "Anselm", "kind": "reader", "grounding": "seated", "reads_tag": "inferred", "era": "c. 1098", "cluster": "latin-predestination", "work": "Cur Deus Homo (applied framework)", "reading": "Frames the chain's instrument as satisfactio: the God-Man's rendered debt is what justifies and glorifies. (Applies satisfaction; not a dedicated exegesis of these verses.)"}, {"id": "origen", "label": "Origen", "kind": "reader", "grounding": "attested", "reads_tag": "grounded", "era": "c. 246", "cluster": "synergist", "work": "Commentarii in Romanos (bk 7)", "reading": "Earliest Romans commentary: foreknowledge is God's prescience of each soul's free response/merit — the fountainhead of the foreseen-faith reading."}, {"id": "chrysostom", "label": "John Chrysostom", "kind": "reader", "grounding": "attested", "reads_tag": "grounded", "era": "c. 391", "cluster": "synergist", "work": "Homilies on Romans (Hom. 15)", "reading": "Reads foreknowledge non-deterministically: calling honours human willingness; predestination follows foreseen assent, guarding free choice."}, {"id": "pelagius", "label": "Pelagius", "kind": "reader", "grounding": "attested", "reads_tag": "grounded", "era": "c. 405-410", "cluster": "synergist", "work": "Expositio in Romanos", "reading": "Foreknowledge attaches to those God foresaw would believe by free will; the chain rewards foreseen faith — the reading Augustine forms his election doctrine against."}, {"id": "aquinas", "label": "Aquinas", "kind": "reader", "grounding": "attested", "reads_tag": "grounded", "era": "c. 1272", "cluster": "latin-predestination", "work": "Super Epistolam ad Romanos (c.8 lect.6)", "reading": "Predestination as the ratio of the ordering to grace+glory in the divine mind; harmonises election with secondary causes; cites Augustine throughout."}, {"id": "barth", "label": "Karl Barth", "kind": "reader", "grounding": "attested", "reads_tag": "grounded", "era": "1922 / 1942", "cluster": "modern", "work": "Der Roemerbrief; Church Dogmatics II/2", "reading": "Reworks election Christologically: Christ is both the electing God and the elect human; predestination is God's Yes in Christ, not a fixed roster of individuals."}], "edges": [{"s": "augustine", "t": "ROM8", "type": "reads", "tag": "grounded", "note": "De praedestinatione sanctorum & De dono perseverantiae exegete 8:28-30 as election."}, {"s": "augustine", "t": "pelagius", "type": "refutes", "tag": "grounded", "note": "Augustine's gratuitous-election reading of 8:28-30 was forged in the anti-Pelagian controversy against Pelagius's free-will reading."}, {"s": "augustine", "t": "origen", "type": "refutes", "tag": "inferred", "note": "Augustine's election reading opposes the foreseen-merit tradition Origen founded, but his direct polemical target was Pelagius, not Origen by name."}, {"s": "luther", "t": "ROM8", "type": "reads", "tag": "grounded", "note": "1515-16 Lectures on Romans treat ch. 8 at length."}, {"s": "luther", "t": "augustine", "type": "extends", "tag": "grounded", "note": "Luther the Augustinian friar; De servo arbitrio grounds the bondage-of-will reading in Augustine's anti-Pelagian grace."}, {"s": "calvin", "t": "ROM8", "type": "reads", "tag": "grounded", "note": "Romans commentary + Institutes III cite these verses for the ordo salutis."}, {"s": "calvin", "t": "augustine", "type": "extends", "tag": "grounded", "note": "Institutes III.21-24 build the doctrine of unconditional election explicitly on Augustine, citing him repeatedly."}, {"s": "calvin", "t": "luther", "type": "extends", "tag": "grounded", "note": "Calvin builds on Luther's justification-by-faith Reformation reading, then presses the predestinarian logic further."}, {"s": "arminius", "t": "ROM8", "type": "reads", "tag": "grounded", "note": "Examination of Perkins engages Rom 8-9 predestination directly."}, {"s": "arminius", "t": "calvin", "type": "refutes", "tag": "grounded", "note": "Arminius's whole project contests the Bezan/Calvinist unconditional-decree reading; conditional vs unconditional election."}, {"s": "arminius", "t": "augustine", "type": "reframes", "tag": "grounded", "note": "Arminius reframes 'foreknew' as prescience of foreseen faith against Augustine's gratuitous election."}, {"s": "arminius", "t": "origen", "type": "extends", "tag": "inferred", "note": "Arminius revives the foreseen-faith reading Origen originated; a direct textual dependence on Origen is plausible but not verified."}, {"s": "arminius", "t": "chrysostom", "type": "cites", "tag": "inferred", "note": "Arminius/the Remonstrants appealed to Greek-father synergism for support; a specific citation of Chrysostom on these verses is inferred, not confirmed here."}, {"s": "athanasius", "t": "ROM8", "type": "reads", "tag": "grounded", "note": "Orations against the Arians deploy 'firstborn among many brethren' (v29)."}, {"s": "anselm", "t": "ROM8", "type": "reads", "tag": "inferred", "note": "Applies the Cur Deus Homo satisfaction framework; no dedicated commentary on these verses survives."}, {"s": "origen", "t": "ROM8", "type": "reads", "tag": "grounded", "note": "Commentarii in Romanos bk 7 treats 8:28-30 and the foreknowledge question."}, {"s": "chrysostom", "t": "ROM8", "type": "reads", "tag": "grounded", "note": "Homilies on Romans, Homily 15, expounds 8:28ff."}, {"s": "pelagius", "t": "ROM8", "type": "reads", "tag": "grounded", "note": "Expositio in Romanos covers 8:28-30 with a free-will reading."}, {"s": "aquinas", "t": "ROM8", "type": "reads", "tag": "grounded", "note": "Super Rom. c.8 lect.6 is a sustained exposition of the chain."}, {"s": "aquinas", "t": "augustine", "type": "cites", "tag": "grounded", "note": "Aquinas's Romans commentary and the predestination questions (ST I q.23) cite Augustine as the authority."}, {"s": "aquinas", "t": "anselm", "type": "extends", "tag": "inferred", "note": "Aquinas develops Anselm's satisfaction soteriology — a general lineage, not a documented link at 8:28-30 specifically."}, {"s": "barth", "t": "ROM8", "type": "reads", "tag": "grounded", "note": "Der Roemerbrief on ch. 8 + CD II/2 doctrine of election engage the passage."}, {"s": "barth", "t": "calvin", "type": "reframes", "tag": "grounded", "note": "CD II/2 self-consciously reworks the Reformed (Calvinist) doctrine of election into Christological election."}, {"s": "barth", "t": "luther", "type": "reframes", "tag": "inferred", "note": "Der Roemerbrief engages the whole Reformation reading of Romans; a targeted Barth-on-Luther link for this passage is general/inferred."}]};
+const svg = document.getElementById('svg');
+const NS = 'http://www.w3.org/2000/svg';
+const W = 900, H = 640;
+
+// resolve a CSS var to a concrete colour for SVG stroke
+function cssv(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim();}
+const TYPE_VAR = {cites:'--type-cites',refutes:'--type-refutes',reframes:'--type-reframes',extends:'--type-extends',reads:'--muted'};
+
+// node colour by grounding
+function nodeColor(n){
+  if(n.kind==='text') return cssv('--green');
+  if(n.grounding==='attested') return cssv('--node-attested');
+  return cssv('--node');
+}
+
+// ---- seed positions: text at centre, readers on a circle grouped by cluster ----
+const clusterOrder = ['synergist','greek-theosis','reformation','latin-predestination','modern'];
+const nodes = DATA.nodes.map(n=>({...n}));
+const byId = Object.fromEntries(nodes.map(n=>[n.id,n]));
+nodes.forEach(n=>{
+  if(n.kind==='text'){ n.x=W/2; n.y=H/2; }
+});
+const readers = nodes.filter(n=>n.kind!=='text');
+// order readers around the circle grouped by cluster
+readers.sort((a,b)=> clusterOrder.indexOf(a.cluster)-clusterOrder.indexOf(b.cluster));
+readers.forEach((n,i)=>{
+  const ang = (i/readers.length)*2*Math.PI - Math.PI/2;
+  n.x = W/2 + Math.cos(ang)*250 + (Math.random()-.5)*30;
+  n.y = H/2 + Math.sin(ang)*230 + (Math.random()-.5)*30;
+});
+
+const edges = DATA.edges.map(e=>({...e, source:byId[e.s], target:byId[e.t]}));
+
+// ---- tiny force layout ----
+function tick(){
+  // repulsion
+  for(let i=0;i<nodes.length;i++){
+    const a=nodes[i]; if(a.fixed) continue;
+    for(let j=0;j<nodes.length;j++){
+      if(i===j) continue; const b=nodes[j];
+      let dx=a.x-b.x, dy=a.y-b.y; let d2=dx*dx+dy*dy+.01; let d=Math.sqrt(d2);
+      const rep = (a.kind==='text'||b.kind==='text')? 42000 : 26000;
+      const f=rep/d2; a.vx=(a.vx||0)+dx/d*f*0.0006; a.vy=(a.vy||0)+dy/d*f*0.0006;
+    }
+  }
+  // spring on edges
+  edges.forEach(e=>{
+    const a=e.source,b=e.target; let dx=b.x-a.x, dy=b.y-a.y; let d=Math.sqrt(dx*dx+dy*dy)+.01;
+    const target = e.type==='reads'? 220 : 150; const k=(d-target)*0.01;
+    const fx=dx/d*k, fy=dy/d*k;
+    if(!a.fixed){a.vx=(a.vx||0)+fx; a.vy=(a.vy||0)+fy;}
+    if(!b.fixed){b.vx=(b.vx||0)-fx; b.vy=(b.vy||0)-fy;}
+  });
+  // integrate + centre pull
+  nodes.forEach(n=>{
+    if(n.fixed) return;
+    n.vx=(n.vx||0)+(W/2-n.x)*0.0009; n.vy=(n.vy||0)+(H/2-n.y)*0.0009;
+    n.vx*=0.82; n.vy*=0.82;
+    n.x+=n.vx; n.y+=n.vy;
+    n.x=Math.max(60,Math.min(W-60,n.x)); n.y=Math.max(40,Math.min(H-40,n.y));
+  });
+}
+for(let i=0;i<450;i++) tick();
+
+// ---- render ----
+// defs: arrow markers per type
+const defs = document.createElementNS(NS,'defs');
+Object.entries(TYPE_VAR).forEach(([type,v])=>{
+  ['g','i'].forEach(g=>{
+    const m=document.createElementNS(NS,'marker');
+    m.setAttribute('id',`arw-${type}-${g}`); m.setAttribute('viewBox','0 0 10 10');
+    m.setAttribute('refX','9'); m.setAttribute('refY','5'); m.setAttribute('markerWidth','7');
+    m.setAttribute('markerHeight','7'); m.setAttribute('orient','auto-start-reverse');
+    const p=document.createElementNS(NS,'path'); p.setAttribute('d','M0,0 L10,5 L0,10 z');
+    p.setAttribute('fill', g==='i'? cssv('--inferred') : cssv(v));
+    m.appendChild(p); defs.appendChild(m);
+  });
+});
+svg.appendChild(defs);
+
+const gRoot = document.createElementNS(NS,'g'); svg.appendChild(gRoot);
+const edgeLayer=document.createElementNS(NS,'g'); gRoot.appendChild(edgeLayer);
+const labelLayer=document.createElementNS(NS,'g'); gRoot.appendChild(labelLayer);
+const nodeLayer=document.createElementNS(NS,'g'); gRoot.appendChild(nodeLayer);
+
+const edgeEls=[];
+edges.forEach(e=>{
+  const line=document.createElementNS(NS,'path');
+  const col = e.tag==='inferred'? cssv('--inferred') : cssv(TYPE_VAR[e.type]);
+  line.setAttribute('stroke',col);
+  line.setAttribute('stroke-width', e.type==='reads'? 1.3 : 2.1);
+  line.setAttribute('fill','none');
+  line.setAttribute('opacity', e.type==='reads'? .5 : .9);
+  if(e.tag==='inferred') line.setAttribute('stroke-dasharray','6 5');
+  line.setAttribute('marker-end',`url(#arw-${e.type}-${e.tag==='inferred'?'i':'g'})`);
+  const title=document.createElementNS(NS,'title');
+  title.textContent=`${e.s} ${e.type} ${e.t} [${e.tag}] — ${e.note}`;
+  line.appendChild(title);
+  edgeLayer.appendChild(line);
+  // type label for reader->reader edges only
+  let lbl=null;
+  if(e.type!=='reads'){
+    lbl=document.createElementNS(NS,'text');
+    lbl.setAttribute('font-size','9.5'); lbl.setAttribute('text-anchor','middle');
+    lbl.setAttribute('fill',col); lbl.setAttribute('font-weight','600');
+    lbl.setAttribute('paint-order','stroke'); lbl.setAttribute('stroke',cssv('--card'));
+    lbl.setAttribute('stroke-width','3'); lbl.textContent=e.type;
+    labelLayer.appendChild(lbl);
+  }
+  edgeEls.push({e,line,lbl});
+});
+
+const nodeEls=[];
+nodes.forEach(n=>{
+  const g=document.createElementNS(NS,'g'); g.style.cursor='pointer';
+  const isText=n.kind==='text';
+  const r=isText?30:19;
+  const c=document.createElementNS(NS,'circle');
+  c.setAttribute('r',r); c.setAttribute('fill',nodeColor(n));
+  c.setAttribute('stroke',cssv('--card')); c.setAttribute('stroke-width','2.5');
+  if(n.reads_tag==='inferred'){ c.setAttribute('stroke-dasharray','4 3'); c.setAttribute('stroke',cssv('--inferred')); }
+  g.appendChild(c);
+  const t=document.createElementNS(NS,'text');
+  t.setAttribute('text-anchor','middle'); t.setAttribute('dy', isText? 4 : r+13);
+  t.setAttribute('font-size', isText? 11 : 11.5);
+  t.setAttribute('font-weight', isText? 700 : 600);
+  t.setAttribute('fill', isText? '#fff' : cssv('--fg'));
+  t.setAttribute('paint-order','stroke'); t.setAttribute('stroke', isText?'none':cssv('--bg')); t.setAttribute('stroke-width','3');
+  t.textContent=n.label;
+  g.appendChild(t);
+  nodeLayer.appendChild(g);
+  nodeEls.push({n,g,c});
+  g.addEventListener('click',()=>showPanel(n));
+  makeDraggable(g,n);
+});
+
+function edgePath(e){
+  const a=e.source,b=e.target;
+  const dx=b.x-a.x, dy=b.y-a.y, d=Math.sqrt(dx*dx+dy*dy)||1;
+  const rB = b.kind==='text'?32:21, rA=a.kind==='text'?32:21;
+  const sx=a.x+dx/d*rA, sy=a.y+dy/d*rA;
+  const ex=b.x-dx/d*rB, ey=b.y-dy/d*rB;
+  // slight curve to separate reciprocal / bundled edges
+  const mx=(sx+ex)/2 - dy/d*18, my=(sy+ey)/2 + dx/d*18;
+  return {d:`M${sx},${sy} Q${mx},${my} ${ex},${ey}`, mx, my};
+}
+function redraw(){
+  edgeEls.forEach(({e,line,lbl})=>{
+    const p=edgePath(e); line.setAttribute('d',p.d);
+    if(lbl){ lbl.setAttribute('x',p.mx); lbl.setAttribute('y',p.my); }
+  });
+  nodeEls.forEach(({n,g})=> g.setAttribute('transform',`translate(${n.x},${n.y})`));
+}
+redraw();
+
+function showPanel(n){
+  document.getElementById('p-label').textContent=n.label;
+  const cl = DATA.clusters[n.cluster]? DATA.clusters[n.cluster].label : n.cluster;
+  const grd = n.grounding==='seated'?'seated in Gloss run':(n.grounding==='attested'?'attested receptor':'the text');
+  document.getElementById('p-era').textContent=`${n.era} · ${cl} · ${grd}`;
+  document.getElementById('p-work').textContent=n.work||'';
+  let rd=n.reading||'';
+  if(n.reads_tag==='inferred') rd+=' ⚠ engagement with THIS passage is inferred, not documented.';
+  document.getElementById('p-reading').textContent=rd;
+}
+
+// ---- drag nodes + pan ----
+let vb={x:0,y:0,w:W,h:H};
+function pt(evt){const r=svg.getBoundingClientRect();return {x:(evt.clientX-r.left)/r.width*vb.w+vb.x,y:(evt.clientY-r.top)/r.height*vb.h+vb.y};}
+function makeDraggable(g,n){
+  g.addEventListener('pointerdown',ev=>{
+    ev.stopPropagation(); g.setPointerCapture(ev.pointerId); n.fixed=true;
+    const move=e=>{const p=pt(e); n.x=p.x; n.y=p.y; redraw();};
+    const up=e=>{g.releasePointerCapture(ev.pointerId);g.removeEventListener('pointermove',move);g.removeEventListener('pointerup',up);};
+    g.addEventListener('pointermove',move); g.addEventListener('pointerup',up);
+  });
+}
+// pan background
+svg.addEventListener('pointerdown',ev=>{
+  if(ev.target!==svg) return; const start=pt(ev); const x0=vb.x,y0=vb.y;
+  const move=e=>{const p=pt(e); vb.x=x0-(p.x-start.x); vb.y=y0-(p.y-start.y); svg.setAttribute('viewBox',`${vb.x} ${vb.y} ${vb.w} ${vb.h}`);};
+  const up=()=>{svg.removeEventListener('pointermove',move);svg.removeEventListener('pointerup',up);};
+  svg.addEventListener('pointermove',move); svg.addEventListener('pointerup',up);
+});
+
+document.getElementById('foot').innerHTML =
+  `<span class="count">${DATA.counts.nodes} nodes · ${DATA.counts.edges} edges</span> `+
+  `(${DATA.counts.grounded_edges} grounded, ${DATA.counts.inferred_edges} inferred). `+
+  `PROTOTYPE — Engine #4 (RECEPTION), session ${DATA.session}, generated ${DATA.generated}. `+
+  `The 6 seated personas (Augustine, Luther, Calvin, Arminius, Athanasius, Anselm) commented on this exact passage in the S156 Gloss run, so their readings are grounded in coded corpus data. `+
+  `Inferred edges are plausible reception relationships not verified for these specific verses — they are not asserted as fact.`;
+</script>
+</body>
+</html>
