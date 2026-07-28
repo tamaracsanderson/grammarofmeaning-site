@@ -1,0 +1,54 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RESITUATE — sensitivity analysis</title>
+<style>
+  :root { --bg:#faf9f5; --fg:#1a1a1a; --muted:#6b6b6b; --line:#e3e0d6; --card:#fff;
+    --robust:#2e7d47; --robustbg:#e7f3ea; --contingent:#b8860b; --contingentbg:#faf3e0;
+    --floor:#8a8a8a; --floorbg:#f0efe9; }
+  @media (prefers-color-scheme:dark) { :root { --bg:#14140f; --fg:#ececec; --muted:#9a9a9a; --line:#33322b;
+    --card:#1c1c16; --robust:#5fce86; --robustbg:#16311f; --contingent:#e0b45a; --contingentbg:#2e2712;
+    --floor:#8a8a8a; --floorbg:#22221c; } }
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);
+    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:2rem 1.25rem}
+  .wrap{max-width:920px;margin:0 auto}
+  h1{font-size:1.5rem;margin:0 0 .25rem} .lede{color:var(--muted);margin:0 0 1.5rem;max-width:70ch}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.1rem 1.2rem;margin:0 0 1.25rem;overflow-x:auto}
+  .card h2{font-size:1.1rem;margin:0 0 .1rem} .sub{color:var(--muted);margin:0 0 .8rem;font-size:.9rem}
+  table{border-collapse:collapse;width:100%;min-width:560px}
+  th,td{padding:.45rem .5rem;text-align:center;border-bottom:1px solid var(--line);font-size:.86rem}
+  th{color:var(--muted);font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em}
+  td.lv,th.lv{text-align:left;max-width:230px} td.verdict,th.verdict{text-align:left}
+  td.rm span{font-size:1.15rem;line-height:1}
+  .rm.plaus span{color:var(--robust)} .rm.mixed span{color:var(--contingent)}
+  .rm.fanfic span{color:#c0392b} .rm.none span{color:var(--muted);opacity:.5}
+  td.agr{color:var(--muted);font-variant-numeric:tabular-nums;font-size:.8rem}
+  td.verdict{font-size:.8rem}
+  tr.robust td.verdict{color:var(--robust);font-weight:600}
+  tr.contingent td.verdict{color:var(--contingent);font-weight:600}
+  tr.floor td.verdict,tr.floor td.lv{color:var(--floor)}
+  tr.floorrow{background:var(--floorbg)} tr.floorrow td.lv{font-style:italic}
+  tr.robust{background:var(--robustbg)} tr.contingent{background:var(--contingentbg)}
+  .legend{display:flex;gap:1.25rem;flex-wrap:wrap;color:var(--muted);font-size:.82rem;margin:.5rem 0 1.5rem}
+  .legend b{color:var(--fg)} .foot{color:var(--muted);font-size:.82rem;border-top:1px solid var(--line);padding-top:1rem;margin-top:.5rem;max-width:78ch}
+  .foot b{color:var(--fg)}
+</style></head><body><div class="wrap">
+<h1>RESITUATE — the sensitivity analysis</h1>
+<p class="lede">Perturb <b>one documented Sitz lever</b>, regenerate in three independent rooms, and see which of
+the text's moves survive. Levers that reorganize plausibly in <b>all three rooms</b> are <b style="color:var(--robust)">robust</b>
+— structural to the text. Levers that bend are <b style="color:var(--contingent)">contingent</b> on their world.
+The multi-lever <b>floor test</b> should collapse — and it does, which is the proof the method <b>discriminates</b>.</p>
+<div class="legend">
+  <span><span style="color:var(--robust);font-size:1.1rem">●</span> plausible reorganization</span>
+  <span><span style="color:var(--contingent);font-size:1.1rem">◐</span> mixed</span>
+  <span><span style="color:#c0392b;font-size:1.1rem">○</span> fan-fiction</span>
+  <span><span style="color:var(--muted);font-size:1.1rem">·</span> undecided</span>
+  <span><b>robust</b> = 3/3 · <b>contingent</b> = bends · <b>floor</b> = collapse is correct</span>
+</div>
+<section class="card"><h2>Luther, 95 Theses (1517)</h2><p class="sub">perturb the conditions of the Reformation&#x27;s spark</p><table><thead><tr><th class="lv">lever perturbed</th><th>R1</th><th>R2</th><th>R3</th><th class="agr">agree</th><th class="verdict">reading</th></tr></thead><tbody><tr class="lever robust"><td class="lv">communication-media</td><td class="rm plaus" title="Room 1: plausible reorganization (medium)"><span>●</span></td><td class="rm plaus" title="Room 2: plausible reorganization (medium)"><span>●</span></td><td class="rm plaus" title="Room 3: plausible reorganization (medium)"><span>●</span></td><td class="agr">3/3</td><td class="verdict robust">ROBUST — survives every room; structural to the text</td></tr><tr class="lever robust"><td class="lv">economic-material</td><td class="rm plaus" title="Room 1: plausible reorganization (medium)"><span>●</span></td><td class="rm plaus" title="Room 2: plausible reorganization (high)"><span>●</span></td><td class="rm plaus" title="Room 3: plausible reorganization (high)"><span>●</span></td><td class="agr">3/3</td><td class="verdict robust">ROBUST — survives every room; structural to the text</td></tr><tr class="lever contingent"><td class="lv">interreligious/intra-confessional contact (the polemical other)</td><td class="rm mixed" title="Room 1: mixed (medium)"><span>◐</span></td><td class="rm plaus" title="Room 2: plausible reorganization (medium)"><span>●</span></td><td class="rm plaus" title="Room 3: plausible reorganization (medium)"><span>●</span></td><td class="agr">2/3</td><td class="verdict contingent">CONTINGENT — bends under perturbation; artifact of conditions</td></tr><tr class="lever contingent"><td class="lv">political-institutional (protection)</td><td class="rm plaus" title="Room 1: plausible reorganization (medium)"><span>●</span></td><td class="rm none" title="Room 2: no verdict"><span>·</span></td><td class="rm plaus" title="Room 3: plausible reorganization (medium)"><span>●</span></td><td class="agr">2/3</td><td class="verdict contingent">CONTINGENT — bends under perturbation; artifact of conditions</td></tr></tbody></table></section><section class="card"><h2>Nicaea (325 CE)</h2><p class="sub">the Nicene Creed — perturb the conditions of the council</p><table><thead><tr><th class="lv">lever perturbed</th><th>R1</th><th>R2</th><th>R3</th><th class="agr">agree</th><th class="verdict">reading</th></tr></thead><tbody><tr class="lever robust"><td class="lv">demographic (party balance)</td><td class="rm plaus" title="Room 1: plausible reorganization (medium)"><span>●</span></td><td class="rm plaus" title="Room 2: plausible reorganization (medium)"><span>●</span></td><td class="rm plaus" title="Room 3: plausible reorganization (high)"><span>●</span></td><td class="agr">3/3</td><td class="verdict robust">ROBUST — survives every room; structural to the text</td></tr><tr class="lever robust"><td class="lv">interreligious-contact (the polemical other)</td><td class="rm plaus" title="Room 1: plausible reorganization (medium)"><span>●</span></td><td class="rm plaus" title="Room 2: plausible reorganization (high)"><span>●</span></td><td class="rm plaus" title="Room 3: plausible reorganization (high)"><span>●</span></td><td class="agr">3/3</td><td class="verdict robust">ROBUST — survives every room; structural to the text</td></tr><tr class="lever robust"><td class="lv">political-institutional (enforcement)</td><td class="rm plaus" title="Room 1: plausible reorganization (medium)"><span>●</span></td><td class="rm plaus" title="Room 2: plausible reorganization (medium)"><span>●</span></td><td class="rm plaus" title="Room 3: plausible reorganization (medium)"><span>●</span></td><td class="agr">3/3</td><td class="verdict robust">ROBUST — survives every room; structural to the text</td></tr><tr class="lever robust"><td class="lv">temporal-development</td><td class="rm plaus" title="Room 1: plausible reorganization (high)"><span>●</span></td><td class="rm plaus" title="Room 2: plausible reorganization (high)"><span>●</span></td><td class="rm plaus" title="Room 3: plausible reorganization (high)"><span>●</span></td><td class="agr">3/3</td><td class="verdict robust">ROBUST — survives every room; structural to the text</td></tr><tr class="lever floor floorrow"><td class="lv">NEGATIVE CONTROL (multi-lever — floor test)</td><td class="rm none" title="Room 1: no verdict"><span>·</span></td><td class="rm mixed" title="Room 2: mixed (high)"><span>◐</span></td><td class="rm mixed" title="Room 3: mixed (high)"><span>◐</span></td><td class="agr">2/3</td><td class="verdict floor">floor test — collapse = method discriminates</td></tr><tr class="lever contingent"><td class="lv">communication-media</td><td class="rm plaus" title="Room 1: plausible reorganization (high)"><span>●</span></td><td class="rm plaus" title="Room 2: plausible reorganization (high)"><span>●</span></td><td class="rm mixed" title="Room 3: mixed (high)"><span>◐</span></td><td class="agr">2/3</td><td class="verdict contingent">CONTINGENT — bends under perturbation; artifact of conditions</td></tr></tbody></table></section>
+<p class="foot"><b>The honest limit:</b> defensible only as sensitivity-analysis-on-a-model, never a claim about what
+actually happened. <b>The decoration-counter it beats ("this is counterfactual fan-fiction"):</b> each perturbation
+moves exactly ONE documented lever, and every room's output is scored by an adversarial skeptic that defaults to
+FAN-FICTION-if-uncertain — so only grounded reorganizations of documented forces survive, and the negative-control
+floor test collapsing to MIXED proves the skeptic isn't rubber-stamping. Data: the §2.13 <code>resituate_result</code>
++ <code>resituate_convergence</code> tables (Luther + Nicene), S156.</p>
+</div></body></html>
