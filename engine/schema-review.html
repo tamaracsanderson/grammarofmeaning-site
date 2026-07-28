@@ -498,6 +498,17 @@ tr.t3{opacity:.6}
 .prov-ev,.prov-para{font-size:11px;color:var(--muted);font-style:italic;margin-top:2px}
 .prov-edge{padding:2px 0;font-size:11px}
 .prov-sub2{font-family:var(--mono);font-size:10px;color:var(--muted);margin:7px 0 3px;text-transform:uppercase;letter-spacing:.05em}
+
+.ms-howto{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
+.ms-howto>summary{cursor:pointer;font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--eng);list-style:none;user-select:none}
+.ms-howto>summary::-webkit-details-marker{display:none}
+.ms-howto>summary::before{content:"\25b8  ";color:var(--muted)}
+.ms-howto[open]>summary::before{content:"\25be  "}
+.ms-howto-b{font-family:var(--sans);font-size:11.5px;line-height:1.55;color:var(--fg);margin-top:6px}
+.ms-howto-b p{margin:4px 0}
+.ms-howto-l{margin:6px 0;padding-left:18px}
+.ms-howto-l li{margin:3px 0}
+.ms-axes{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px}
 </style></head><body>
 <button class="themebtn" onclick="tgl()">theme</button>
 <div class="wrap">
@@ -720,7 +731,7 @@ function msAtlas(){
   return '<div class="ms-atlas"><div class="ms-atlas-hd"><b>Frame Atlas</b><span class="ms-prov">provisional</span></div>'
     +svg
     +'<div class="ms-legend">'+leg+'</div>'+'<div class="ms-flag">&#9888; <b>DHR/Dharmic</b> and <b>ABR/Abrahamic</b> are the same family tagged two ways (code vs name) — a normalization we owe; '+Math.round(nUn/MS_PTS.length*100)+'% of reads have no family yet.</div>'
-    +'<div class="ms-cap"><b>210 coded reads · early.</b> First two dims hold 31.6% of the variance (20.7% + 10.9%); ~41% in 3D — the 3D map preserves only ~55% of pairwise structure (N=210). A legitimate baseline that captures a minority of the spread: <b>the map wants more reads.</b></div></div>';
+    +'<div class="ms-cap"><b>210 coded reads · early.</b> First two dims hold 31.6% of the variance (20.7% + 10.9%); ~41% in 3D — the 3D map preserves only ~55% of pairwise structure (N=210). A legitimate baseline that captures a minority of the spread: <b>the map wants more reads.</b></div>'+'<details class="ms-howto"><summary>How to read this map</summary><div class="ms-howto-b"><p>The two axes aren&rsquo;t 2 of our 8 coded dimensions &mdash; they&rsquo;re <b>composites</b>. The method (MCA) takes all 8 categorical axes and finds the two directions that spread the 210 reads the most, so the map is a flattened shadow of the full 8-axis space.</p><ul class="ms-howto-l"><li><b>Horizontal (dim 1 &middot; 20.7%)</b> &mdash; driven most by the <i>God-relation + purpose</i> axes: creation, intercession, covenant, a transcendent-personal God, salvation-telos.</li><li><b>Vertical (dim 2 &middot; 10.9%)</b> &mdash; driven by <i>this-worldly relation</i>: hospitality, harmony, reciprocity, filial bonds (plus a catalogue/promotional stance).</li><li>The <b>percentages</b> are how much of the total variation each captures: <b>31.6% in this 2-D view, ~41% with a third dimension.</b> The rest lives in dimensions we can&rsquo;t draw flat &mdash; which is why the map wants more reads.</li></ul><p class="ms-axes"><b>The 8 coded axes:</b> epistemic-warrant &middot; evaluative-stance &middot; hermeneutic-posture &middot; inferential-operation &middot; ontological-commitment &middot; r_condition &middot; r_topology &middot; telos.</p></div></details>'+'</div>';
 }
 function openMorphospace(){
   document.getElementById('d-title').textContent='Morphospace';
