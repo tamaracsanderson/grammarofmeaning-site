@@ -955,7 +955,7 @@ function initIrrTips(root){ if(!window.tippy) return;
     tippy(el,{content:'<b>IRR'+m[1]+'</b> &mdash; '+s, allowHTML:true, theme:'gom', maxWidth:330, placement:'top', delay:[80,0]});
   });
 }
-var FAN_STEPS_HTML="<div class="fan-steps"><div class="fs-cap">the Fan&rsquo;s internal steps</div><div class="fs-flow"><span class="fs-step"><b>swap</b><span>a slot</span></span><span class="fs-arw">&#8594;</span><span class="fs-step"><b>ripple</b><span>the consequences</span></span><span class="fs-arw">&#8594;</span><span class="fs-step"><b>fan</b><span>the alternatives</span></span><span class="fs-arw">&#8594;</span><span class="fs-step"><b>bundle</b><span>same-world ones</span></span></div></div>";
+var FAN_STEPS_HTML=`<div class="fan-steps"><div class="fs-cap">the Fan&rsquo;s internal steps</div><div class="fs-flow"><span class="fs-step"><b>swap</b><span>a slot</span></span><span class="fs-arw">&#8594;</span><span class="fs-step"><b>ripple</b><span>the consequences</span></span><span class="fs-arw">&#8594;</span><span class="fs-step"><b>fan</b><span>the alternatives</span></span><span class="fs-arw">&#8594;</span><span class="fs-step"><b>bundle</b><span>same-world ones</span></span></div></div>`;
 function injectFanSteps(){ try{ if(window.__outE!=='2') return; var b=document.getElementById('d-body'); if(!b||b.querySelector('.fan-steps')) return; b.insertAdjacentHTML('beforeend', FAN_STEPS_HTML); }catch(e){} }
 function __afterDrawer(){ injectLogicMermaid(); initIrrTips(document.getElementById('d-body')); injectFanSteps(); }
 </script><script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
