@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compare — Gospel resurrection variant graph (CollateX)</title>
+<style>
+:root{--bg:#F6F1E4;--panel:#FBF7EC;--ink:#26302A;--ink-soft:#5b6b60;--line:#d9d0bc;
+ --line-soft:#e7ded0;--green:#3f6b4e;--green-bright:#4a7c59;--green-soft:#e3ecdf;
+ --spine:#3f6b4e;--omit:#a9a294;--cell:#fffdf6;--badge:#e8efe3;
+ --shadow:0 1px 2px rgba(40,50,44,.06),0 4px 14px rgba(40,50,44,.05);}
+@media (prefers-color-scheme:dark){:root{--bg:#1B211D;--panel:#222a25;--ink:#e7ece7;
+ --ink-soft:#9db0a3;--line:#374039;--line-soft:#2c342e;--green:#7bbf93;--green-bright:#8ed0a6;
+ --green-soft:#26332b;--spine:#8ed0a6;--omit:#68746b;--cell:#232b26;--badge:#28332b;
+ --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25);}}
+:root[data-theme="dark"]{--bg:#1B211D;--panel:#222a25;--ink:#e7ece7;--ink-soft:#9db0a3;
+ --line:#374039;--line-soft:#2c342e;--green:#7bbf93;--green-bright:#8ed0a6;--green-soft:#26332b;
+ --spine:#8ed0a6;--omit:#68746b;--cell:#232b26;--badge:#28332b;
+ --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25);}
+:root[data-theme="light"]{--bg:#F6F1E4;--panel:#FBF7EC;--ink:#26302A;--ink-soft:#5b6b60;
+ --line:#d9d0bc;--line-soft:#e7ded0;--green:#3f6b4e;--green-bright:#4a7c59;--green-soft:#e3ecdf;
+ --spine:#3f6b4e;--omit:#a9a294;--cell:#fffdf6;--badge:#e8efe3;
+ --shadow:0 1px 2px rgba(40,50,44,.06),0 4px 14px rgba(40,50,44,.05);}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+ line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:32px 24px 80px}
+h1{font-family:Georgia,"Iowan Old Style",Charter,serif;font-weight:600;font-size:27px;margin:0 0 4px}
+.sub{color:var(--ink-soft);font-size:14.5px;margin:0 0 18px;max-width:800px}
+.eyebrow{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);
+ font-weight:700;margin:0 0 6px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+ padding:22px 22px 20px;box-shadow:var(--shadow);margin-bottom:22px}
+.panel h2{font-family:Georgia,serif;font-weight:600;font-size:19px;margin:0 0 4px}
+.panel .lede{color:var(--ink-soft);font-size:13.5px;margin:0 0 16px;max-width:840px}
+.scroll{overflow-x:auto;padding:6px 2px 12px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-soft);margin:4px 0 2px}
+.legend b{color:var(--ink)}
+.lk{display:inline-flex;align-items:center;gap:6px}
+.lk .sw{width:15px;height:15px;border-radius:50%;border:3px solid var(--spine)}
+.lk .sw.full{background:var(--spine)}
+.lk .sw.part{background:var(--bg);border-style:dashed}
+.native{background:var(--cell);border:1px dashed var(--line);border-radius:10px;padding:12px}
+.native svg{max-width:none}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:18px;margin-top:8px}
+.branchcard{background:var(--cell);border:1px solid var(--line-soft);border-left:4px solid var(--gc);
+ border-radius:12px;padding:16px 18px}
+.bhead{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:8px}
+.bhead h3{margin:0;font-family:Georgia,serif;font-size:16px;font-weight:600}
+.gdot{width:13px;height:13px;border-radius:50%}
+.bmeta{font-size:11.5px;color:var(--ink-soft);margin-left:auto;font-weight:600}
+.bsig{font-size:12.8px;color:var(--ink-soft);margin:0 0 12px;line-height:1.55}
+.beyebrow{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin:0 0 4px}
+.bsvg{background:var(--panel);border:1px solid var(--line-soft);border-radius:8px;padding:6px 8px;margin-bottom:10px}
+.bdet{font-size:12.3px;margin-top:6px;border-top:1px solid var(--line-soft);padding-top:6px}
+.bdet summary{cursor:pointer;color:var(--gc);font-weight:600;list-style:none}
+.bdet summary::-webkit-details-marker{display:none}
+.bdet summary::before{content:"\25B8 ";color:var(--ink-soft)}
+.bdet[open] summary::before{content:"\25BE "}
+.bdet ul{margin:6px 0 4px;padding-left:18px;color:var(--ink-soft)}
+.bdet li{margin:3px 0;line-height:1.45}
+.toggle{position:fixed;top:14px;right:16px;z-index:20;background:var(--panel);
+ border:1px solid var(--line);color:var(--ink-soft);border-radius:999px;padding:7px 12px;
+ font:inherit;font-size:12px;cursor:pointer;box-shadow:var(--shadow)}
+.note{font-size:12px;color:var(--ink-soft);margin-top:12px;padding-top:10px;border-top:1px solid var(--line-soft)}
+.prov{font-size:11.5px;color:var(--ink-soft);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+</style></head><body>
+<button class="toggle" onclick="(function(){var r=document.documentElement;var d=(r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));var n=d==='dark'?'light':'dark';r.setAttribute('data-theme',n);})()">◐ theme</button>
+<div class="wrap">
+ <div class="eyebrow">Engine 5 · COMPARE · CollateX variant graph</div>
+ <h1>The resurrection, as a spine with branches</h1>
+ <p class="sub">Four gospel resurrection accounts collated by <b>move</b> (not raw words) through
+   CollateX's Gothenburg variant-graph model. Where all four narrate the same beat, the paths
+   <b>merge into one spine node</b>. Where a gospel drops a beat or inserts its own, the path
+   <b>branches</b>. The spine below is computed by CollateX; the branch nodes are the coded
+   signature moves quoted from the audit.</p>
+
+ <div class="panel">
+   <h2>The shared spine</h2>
+   <p class="lede">10 beats are carried by <b>all four</b> gospels (solid nodes); 6 by three,
+     4 by two (dashed = partial spine). The lower strip shows, per beat, which gospels carry it —
+     a filled dot = carries, a struck dot = omits. Read left → right; hover any node for the full
+     coded beat + note.</p>
+   <div class="legend">
+     <span class="lk"><span class="sw full"></span> carried by all 4 (spine)</span>
+     <span class="lk"><span class="sw part"></span> carried by 2–3 (partial / divergence)</span>
+     <span class="lk"><b>·</b> struck dot in the strip = that gospel omits the beat</span>
+   </div>
+   <div class="scroll"><svg viewBox="0 0 1964 470" width="1964" height="470" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica,Arial,sans-serif"><line x1="60" y1="150" x2="1884" y2="150" stroke="var(--spine)" stroke-width="4" stroke-linecap="round"/><circle cx="60" cy="150" r="15" fill="var(--spine)" stroke="var(--spine)" stroke-width="3"/><text x="60" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--bg)">1</text><title>Beat 1: female follower(s) travel to the tomb early on the first day
+carried by JOHN, LUKE, MARK, MATT
+MATT names two Marys; MARK three women with spices; LUKE a group with spices; JOHN Mary Magdalene alone</title><text x="60" y="125" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(-28 60 125)">female follower(s) travel…</text><circle cx="60" cy="300" r="5.5" fill="#c58a3d" opacity="1"/><circle cx="60" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="60" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="60" cy="360" r="5.5" fill="#7a5aa0" opacity="1"/><circle cx="156" cy="150" r="15" fill="var(--spine)" stroke="var(--spine)" stroke-width="3"/><text x="156" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--bg)">2</text><title>Beat 2: the sealing stone is found/made displaced from the tomb entrance
+carried by JOHN, LUKE, MARK, MATT
+MATT dramatizes an angel rolling it in real time; MARK/LUKE/JOHN find it already moved (divine passive)</title><text x="156" y="187" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(28 156 187)">the sealing stone is…</text><circle cx="156" cy="300" r="5.5" fill="#c58a3d" opacity="1"/><circle cx="156" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="156" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="156" cy="360" r="5.5" fill="#7a5aa0" opacity="1"/><circle cx="252" cy="150" r="12" fill="var(--bg)" stroke="var(--spine)" stroke-width="3" stroke-dasharray="3 3"/><text x="252" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--spine)">3</text><title>Beat 3: the women/witness(es) enter or peer into the tomb
+carried by JOHN, LUKE, MARK
+MARK and LUKE enter bodily; JOHN has the disciples enter and Mary bend down to look; MATT omits an interior entry</title><text x="252" y="128" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(-28 252 128)">the women/witness(es)…</text><circle cx="252" cy="300" r="5.5" fill="var(--line)" opacity="0.35"/><line x1="248" y1="300" x2="256" y2="300" stroke="var(--bg)" stroke-width="1.4"/><circle cx="252" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="252" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="252" cy="360" r="5.5" fill="#7a5aa0" opacity="1"/><circle cx="348" cy="150" r="15" fill="var(--spine)" stroke="var(--spine)" stroke-width="3"/><text x="348" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--bg)">4</text><title>Beat 4: the body of Jesus is discovered absent from its burial place
+carried by JOHN, LUKE, MARK, MATT
+framed as angelic declaration in MATT/MARK/LUKE and as empirical discovery-then-report in JOHN</title><text x="348" y="187" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(28 348 187)">the body of Jesus is…</text><circle cx="348" cy="300" r="5.5" fill="#c58a3d" opacity="1"/><circle cx="348" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="348" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="348" cy="360" r="5.5" fill="#7a5aa0" opacity="1"/><circle cx="444" cy="150" r="15" fill="var(--spine)" stroke="var(--spine)" stroke-width="3"/><text x="444" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--bg)">5</text><title>Beat 5: one or more numinous figures (angel/young man/two men) are present at the tomb
+carried by JOHN, LUKE, MARK, MATT
+MATT one angel outside; MARK one young man inside; LUKE and JOHN two figures; JOHN&#x27;s appear only in Mary&#x27;s second visit</title><text x="444" y="125" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(-28 444 125)">one or more numinous…</text><circle cx="444" cy="300" r="5.5" fill="#c58a3d" opacity="1"/><circle cx="444" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="444" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="444" cy="360" r="5.5" fill="#7a5aa0" opacity="1"/><circle cx="540" cy="150" r="15" fill="var(--spine)" stroke="var(--spine)" stroke-width="3"/><text x="540" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--bg)">6</text><title>Beat 6: the numinous figure(s) are visually marked by whiteness/dazzling appearance
+carried by JOHN, LUKE, MARK, MATT
+lightning/snow (MATT), white robe (MARK), dazzling clothes (LUKE), white (JOHN)</title><text x="540" y="187" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(28 540 187)">the numinous figure(s) are…</text><circle cx="540" cy="300" r="5.5" fill="#c58a3d" opacity="1"/><circle cx="540" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="540" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="540" cy="360" r="5.5" fill="#7a5aa0" opacity="1"/><circle cx="636" cy="150" r="15" fill="var(--spine)" stroke="var(--spine)" stroke-width="3"/><text x="636" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--bg)">7</text><title>Beat 7: the witnesses react with fear, dread, or bewilderment
+carried by JOHN, LUKE, MARK, MATT
+MATT guards struck down + women&#x27;s mingled fear/joy; MARK alarm/terror; LUKE terror + bowing; JOHN grief rather than terror</title><text x="636" y="125" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(-28 636 125)">the witnesses react with…</text><circle cx="636" cy="300" r="5.5" fill="#c58a3d" opacity="1"/><circle cx="636" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="636" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="636" cy="360" r="5.5" fill="#7a5aa0" opacity="1"/><circle cx="732" cy="150" r="15" fill="var(--spine)" stroke="var(--spine)" stroke-width="3"/><text x="732" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--bg)">8</text><title>Beat 8: the figure(s) address the witnesses with a speech-act interpreting the empty tomb
+carried by JOHN, LUKE, MARK, MATT
+MATT/MARK a commission; LUKE a rhetorical rebuke + reminder; JOHN only a &#x27;why do you weep&#x27; question</title><text x="732" y="187" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(28 732 187)">the figure(s) address the…</text><circle cx="732" cy="300" r="5.5" fill="#c58a3d" opacity="1"/><circle cx="732" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="732" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="732" cy="360" r="5.5" fill="#7a5aa0" opacity="1"/><circle cx="828" cy="150" r="12" fill="var(--bg)" stroke="var(--spine)" stroke-width="3" stroke-dasharray="3 3"/><text x="828" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--spine)">9</text><title>Beat 9: the sought one is identified as the crucified Jesus
+carried by LUKE, MARK, MATT
+MATT/MARK by the angelic naming, LUKE embedded in the passion-prediction; JOHN never verbalizes crucifixion in this scene</title><text x="828" y="128" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(-28 828 128)">the sought one is…</text><circle cx="828" cy="300" r="5.5" fill="#c58a3d" opacity="1"/><circle cx="828" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="828" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="828" cy="360" r="5.5" fill="var(--line)" opacity="0.35"/><line x1="824" y1="360" x2="832" y2="360" stroke="var(--bg)" stroke-width="1.4"/><circle cx="924" cy="150" r="12" fill="var(--bg)" stroke="var(--spine)" stroke-width="3" stroke-dasharray="3 3"/><text x="924" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--spine)">10</text><title>Beat 10: his absence from the tomb is explicitly declared (&#x27;he is not here&#x27;)
+carried by LUKE, MARK, MATT
+formulaic in the synoptics; JOHN dramatizes absence but never states the formula</title><text x="924" y="184" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(28 924 184)">his absence from the tomb…</text><circle cx="924" cy="300" r="5.5" fill="#c58a3d" opacity="1"/><circle cx="924" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="924" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="924" cy="360" r="5.5" fill="var(--line)" opacity="0.35"/><line x1="920" y1="360" x2="928" y2="360" stroke="var(--bg)" stroke-width="1.4"/><circle cx="1020" cy="150" r="12" fill="var(--bg)" stroke="var(--spine)" stroke-width="3" stroke-dasharray="3 3"/><text x="1020" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--spine)">11</text><title>Beat 11: his resurrected/raised status is announced (typically as divine passive)
+carried by LUKE, MARK, MATT
+MATT/MARK/LUKE via the figures&#x27; proclamation; JOHN gestures at it only through the beloved disciple&#x27;s belief and a scriptural aside</title><text x="1020" y="128" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(-28 1020 128)">his resurrected/raised…</text><circle cx="1020" cy="300" r="5.5" fill="#c58a3d" opacity="1"/><circle cx="1020" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="1020" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="1020" cy="360" r="5.5" fill="var(--line)" opacity="0.35"/><line x1="1016" y1="360" x2="1024" y2="360" stroke="var(--bg)" stroke-width="1.4"/><circle cx="1116" cy="150" r="15" fill="var(--spine)" stroke="var(--spine)" stroke-width="3"/><text x="1116" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--bg)">12</text><title>Beat 12: the witnesses are invited to view/verify the vacated burial spot
+carried by JOHN, LUKE, MARK, MATT
+MATT/MARK by directive (&#x27;come, see&#x27;); LUKE by finding no body; JOHN by inspection of the linen wrappings</title><text x="1116" y="187" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(28 1116 187)">the witnesses are invited…</text><circle cx="1116" cy="300" r="5.5" fill="#c58a3d" opacity="1"/><circle cx="1116" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="1116" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="1116" cy="360" r="5.5" fill="#7a5aa0" opacity="1"/><circle cx="1212" cy="150" r="12" fill="var(--bg)" stroke="var(--spine)" stroke-width="3" stroke-dasharray="3 3"/><text x="1212" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--spine)">13</text><title>Beat 13: a prior word of Jesus is invoked to frame what has happened
+carried by LUKE, MARK, MATT
+MATT/MARK cite his earlier promise about Galilee; LUKE cites the passion-and-resurrection prediction; JOHN cites scripture instead</title><text x="1212" y="128" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(-28 1212 128)">a prior word of Jesus is…</text><circle cx="1212" cy="300" r="5.5" fill="#c58a3d" opacity="1"/><circle cx="1212" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="1212" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="1212" cy="360" r="5.5" fill="var(--line)" opacity="0.35"/><line x1="1208" y1="360" x2="1216" y2="360" stroke="var(--bg)" stroke-width="1.4"/><circle cx="1308" cy="150" r="15" fill="var(--spine)" stroke="var(--spine)" stroke-width="3"/><text x="1308" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--bg)">14</text><title>Beat 14: the witnesses depart from the tomb
+carried by JOHN, LUKE, MARK, MATT
+MATT hasten with fear+joy; MARK flee in terror; LUKE return to the eleven; JOHN Mary runs to Peter, disciples return home</title><text x="1308" y="187" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(28 1308 187)">the witnesses depart from…</text><circle cx="1308" cy="300" r="5.5" fill="#c58a3d" opacity="1"/><circle cx="1308" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="1308" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="1308" cy="360" r="5.5" fill="#7a5aa0" opacity="1"/><circle cx="1404" cy="150" r="15" fill="var(--spine)" stroke="var(--spine)" stroke-width="3"/><text x="1404" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--bg)">15</text><title>Beat 15: the witnesses are commissioned/moved to report to the (male) disciples
+carried by JOHN, LUKE, MARK, MATT
+explicit commission in MATT/MARK; LUKE self-initiated report; JOHN Mary&#x27;s spontaneous run to Peter/beloved disciple</title><text x="1404" y="125" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(-28 1404 125)">the witnesses are…</text><circle cx="1404" cy="300" r="5.5" fill="#c58a3d" opacity="1"/><circle cx="1404" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="1404" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="1404" cy="360" r="5.5" fill="#7a5aa0" opacity="1"/><circle cx="1500" cy="150" r="12" fill="var(--bg)" stroke="var(--spine)" stroke-width="3" stroke-dasharray="3 3"/><text x="1500" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--spine)">16</text><title>Beat 16: the announcement is (or is to be) carried to Peter and the wider disciple circle
+carried by JOHN, LUKE, MARK
+MARK names Peter in the commission (and shorter ending); LUKE the eleven; JOHN Peter and the beloved disciple; MATT names &#x27;his disciples&#x27; without Peter</title><text x="1500" y="184" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(28 1500 184)">the announcement is (or is…</text><circle cx="1500" cy="300" r="5.5" fill="var(--line)" opacity="0.35"/><line x1="1496" y1="300" x2="1504" y2="300" stroke="var(--bg)" stroke-width="1.4"/><circle cx="1500" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="1500" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="1500" cy="360" r="5.5" fill="#7a5aa0" opacity="1"/><circle cx="1596" cy="150" r="10" fill="var(--bg)" stroke="var(--spine)" stroke-width="3" stroke-dasharray="3 3"/><text x="1596" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--spine)">17</text><title>Beat 17: a promise of future seeing/reunion with the risen Jesus is issued
+carried by MARK, MATT
+both locate it in Galilee via a &#x27;he goes before you&#x27; formula; absent from LUKE and JOHN&#x27;s tomb scene</title><text x="1596" y="130" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(-28 1596 130)">a promise of future…</text><circle cx="1596" cy="300" r="5.5" fill="#c58a3d" opacity="1"/><circle cx="1596" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="1596" cy="340" r="5.5" fill="var(--line)" opacity="0.35"/><line x1="1592" y1="340" x2="1600" y2="340" stroke="var(--bg)" stroke-width="1.4"/><circle cx="1596" cy="360" r="5.5" fill="var(--line)" opacity="0.35"/><line x1="1592" y1="360" x2="1600" y2="360" stroke="var(--bg)" stroke-width="1.4"/><circle cx="1692" cy="150" r="10" fill="var(--bg)" stroke="var(--spine)" stroke-width="3" stroke-dasharray="3 3"/><text x="1692" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--spine)">18</text><title>Beat 18: male disciple(s) go to the tomb to verify the women&#x27;s report
+carried by JOHN, LUKE
+LUKE Peter alone; JOHN Peter with the beloved disciple in a footrace</title><text x="1692" y="182" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(28 1692 182)">male disciple(s) go to the…</text><circle cx="1692" cy="300" r="5.5" fill="var(--line)" opacity="0.35"/><line x1="1688" y1="300" x2="1696" y2="300" stroke="var(--bg)" stroke-width="1.4"/><circle cx="1692" cy="320" r="5.5" fill="var(--line)" opacity="0.35"/><line x1="1688" y1="320" x2="1696" y2="320" stroke="var(--bg)" stroke-width="1.4"/><circle cx="1692" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="1692" cy="360" r="5.5" fill="#7a5aa0" opacity="1"/><circle cx="1788" cy="150" r="10" fill="var(--bg)" stroke="var(--spine)" stroke-width="3" stroke-dasharray="3 3"/><text x="1788" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--spine)">19</text><title>Beat 19: the linen burial cloths are seen lying in the tomb
+carried by JOHN, LUKE
+LUKE a single mention by Peter; JOHN elaborated as wrappings plus separately rolled head-cloth</title><text x="1788" y="130" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(-28 1788 130)">the linen burial cloths…</text><circle cx="1788" cy="300" r="5.5" fill="var(--line)" opacity="0.35"/><line x1="1784" y1="300" x2="1792" y2="300" stroke="var(--bg)" stroke-width="1.4"/><circle cx="1788" cy="320" r="5.5" fill="var(--line)" opacity="0.35"/><line x1="1784" y1="320" x2="1792" y2="320" stroke="var(--bg)" stroke-width="1.4"/><circle cx="1788" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="1788" cy="360" r="5.5" fill="#7a5aa0" opacity="1"/><circle cx="1884" cy="150" r="10" fill="var(--bg)" stroke="var(--spine)" stroke-width="3" stroke-dasharray="3 3"/><text x="1884" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="var(--spine)">20</text><title>Beat 20: a closing cognitive/affective state is left unresolved into full belief
+carried by LUKE, MARK
+MARK women&#x27;s fearful silence; LUKE Peter&#x27;s amazement; contrast JOHN&#x27;s beloved-disciple belief and MATT&#x27;s commissioned joy</title><text x="1884" y="182" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)" transform="rotate(28 1884 182)">a closing…</text><circle cx="1884" cy="300" r="5.5" fill="var(--line)" opacity="0.35"/><line x1="1880" y1="300" x2="1888" y2="300" stroke="var(--bg)" stroke-width="1.4"/><circle cx="1884" cy="320" r="5.5" fill="#b5563f" opacity="1"/><circle cx="1884" cy="340" r="5.5" fill="#3f6b8a" opacity="1"/><circle cx="1884" cy="360" r="5.5" fill="var(--line)" opacity="0.35"/><line x1="1880" y1="360" x2="1888" y2="360" stroke="var(--bg)" stroke-width="1.4"/><text x="34" y="304" text-anchor="end" font-size="11" font-weight="700" fill="#c58a3d">MATT</text><text x="34" y="324" text-anchor="end" font-size="11" font-weight="700" fill="#b5563f">MARK</text><text x="34" y="344" text-anchor="end" font-size="11" font-weight="700" fill="#3f6b8a">LUKE</text><text x="34" y="364" text-anchor="end" font-size="11" font-weight="700" fill="#7a5aa0">JOHN</text><text x="34" y="284" text-anchor="end" font-size="10" fill="var(--ink-soft)">carries?</text></svg></div>
+   <p class="note">All four accounts converge on a first-day dawn visit to the tomb by female follower(s), a stone found displaced, one or more white/dazzling figures present, an announcement or discovery that Jesus&#x27;s body is absent, and a departure to carry word back to the male disciples. The synoptics share a tighter verbal spine — an explicit &#x27;he is not here / he has been raised&#x27; formula paired with a commission and appeal to Jesus&#x27;s prior words — while JOHN substitutes an empirical inspection of the linen cloths and a scripture-frame for the same beats. Around this shared skeleton the accounts vary chiefly in the number and location of the numinous figures, the witnesses&#x27; terminal affect (fear, joy, amazement, belief), and whether male disciples subsequently verify the scene.</p>
+ </div>
+
+ <div class="panel">
+   <h2>The raw CollateX variant graph</h2>
+   <p class="lede">The literal API output — the same VariantGraph object, rendered by graphviz
+     (<code>rankdir=LR</code>). Each edge is labelled with the gospel sigla that traverse it;
+     shaded boxes are read by all four, pale/dashed boxes by a subset. This is the "spine +
+     where they diverge" as CollateX itself emits it.</p>
+   <div class="scroll native">
+
+<!-- Generated by graphviz version 15.1.0 (20260618.0150)
+ -->
+<!-- Pages: 1 -->
+<svg width="5501pt" height="137pt"
+ viewBox="0.00 0.00 5501.00 137.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 133)">
+<!-- 4401884400 -->
+<g id="node1" class="node">
+<title>4401884400</title>
+<path fill="#cfe0d3" stroke="#3f6b4e" stroke-width="1.2" d="M42,-98C42,-98 12,-98 12,-98 6,-98 0,-92 0,-86 0,-86 0,-74 0,-74 0,-68 6,-62 12,-62 12,-62 42,-62 42,-62 48,-62 54,-68 54,-74 54,-74 54,-86 54,-86 54,-92 48,-98 42,-98"/>
+<text xml:space="preserve" text-anchor="middle" x="27" y="-76.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">start</text>
+</g>
+<!-- 4401692368 -->
+<g id="node3" class="node">
+<title>4401692368</title>
+<path fill="#cfe0d3" stroke="#3f6b4e" stroke-width="1.2" d="M338,-98C338,-98 204.25,-98 204.25,-98 198.25,-98 192.25,-92 192.25,-86 192.25,-86 192.25,-74 192.25,-74 192.25,-68 198.25,-62 204.25,-62 204.25,-62 338,-62 338,-62 344,-62 350,-68 350,-74 350,-74 350,-86 350,-86 350,-92 344,-98 338,-98"/>
+<text xml:space="preserve" text-anchor="middle" x="271.12" y="-76.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">female follower(s) travel to the…</text>
+</g>
+<!-- 4401884400&#45;&gt;4401692368 -->
+<g id="edge1" class="edge">
+<title>4401884400&#45;&gt;4401692368</title>
+<path fill="none" stroke="#7a8a7e" d="M54.37,-80C85.44,-80 138.61,-80 184.4,-80"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="184.16,-82.1 190.16,-80 184.16,-77.9 184.16,-82.1"/>
+<text xml:space="preserve" text-anchor="middle" x="123.12" y="-81.4" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT MARK LUKE JOHN </text>
+</g>
+<!-- 4401691088 -->
+<g id="node2" class="node">
+<title>4401691088</title>
+<path fill="#fbf7ec" stroke="#3f6b4e" stroke-width="1.2" stroke-dasharray="5,2" d="M5481.25,-83C5481.25,-83 5451.25,-83 5451.25,-83 5445.25,-83 5439.25,-77 5439.25,-71 5439.25,-71 5439.25,-59 5439.25,-59 5439.25,-53 5445.25,-47 5451.25,-47 5451.25,-47 5481.25,-47 5481.25,-47 5487.25,-47 5493.25,-53 5493.25,-59 5493.25,-59 5493.25,-71 5493.25,-71 5493.25,-77 5487.25,-83 5481.25,-83"/>
+<text xml:space="preserve" text-anchor="middle" x="5466.25" y="-61.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">end</text>
+</g>
+<!-- 4413852112 -->
+<g id="node4" class="node">
+<title>4413852112</title>
+<path fill="#cfe0d3" stroke="#3f6b4e" stroke-width="1.2" d="M640.75,-98C640.75,-98 500.25,-98 500.25,-98 494.25,-98 488.25,-92 488.25,-86 488.25,-86 488.25,-74 488.25,-74 488.25,-68 494.25,-62 500.25,-62 500.25,-62 640.75,-62 640.75,-62 646.75,-62 652.75,-68 652.75,-74 652.75,-74 652.75,-86 652.75,-86 652.75,-92 646.75,-98 640.75,-98"/>
+<text xml:space="preserve" text-anchor="middle" x="570.5" y="-76.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">the sealing stone is found/made…</text>
+</g>
+<!-- 4401692368&#45;&gt;4413852112 -->
+<g id="edge2" class="edge">
+<title>4401692368&#45;&gt;4413852112</title>
+<path fill="none" stroke="#7a8a7e" d="M350.26,-80C390.19,-80 438.97,-80 480.36,-80"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="480.22,-82.1 486.22,-80 480.22,-77.9 480.22,-82.1"/>
+<text xml:space="preserve" text-anchor="middle" x="419.12" y="-81.4" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT MARK LUKE JOHN </text>
+</g>
+<!-- 4413852416 -->
+<g id="node5" class="node">
+<title>4413852416</title>
+<path fill="#cfe0d3" stroke="#3f6b4e" stroke-width="1.2" d="M1198.25,-98C1198.25,-98 1057.75,-98 1057.75,-98 1051.75,-98 1045.75,-92 1045.75,-86 1045.75,-86 1045.75,-74 1045.75,-74 1045.75,-68 1051.75,-62 1057.75,-62 1057.75,-62 1198.25,-62 1198.25,-62 1204.25,-62 1210.25,-68 1210.25,-74 1210.25,-74 1210.25,-86 1210.25,-86 1210.25,-92 1204.25,-98 1198.25,-98"/>
+<text xml:space="preserve" text-anchor="middle" x="1128" y="-76.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">the body of Jesus is discovered…</text>
+</g>
+<!-- 4413852112&#45;&gt;4413852416 -->
+<g id="edge3" class="edge">
+<title>4413852112&#45;&gt;4413852416</title>
+<path fill="none" stroke="#7a8a7e" d="M653.28,-82.63C659.87,-82.78 666.42,-82.91 672.75,-83 829.62,-85.32 868.88,-85.32 1025.75,-83 1029.71,-82.94 1033.75,-82.87 1037.83,-82.79"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="1037.75,-84.89 1043.71,-82.66 1037.66,-80.69 1037.75,-84.89"/>
+<text xml:space="preserve" text-anchor="middle" x="849.25" y="-86.14" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT </text>
+</g>
+<!-- 4401706832 -->
+<g id="node18" class="node">
+<title>4401706832</title>
+<path fill="#fbf7ec" stroke="#3f6b4e" stroke-width="1.2" stroke-dasharray="5,2" d="M918.75,-69C918.75,-69 779.75,-69 779.75,-69 773.75,-69 767.75,-63 767.75,-57 767.75,-57 767.75,-45 767.75,-45 767.75,-39 773.75,-33 779.75,-33 779.75,-33 918.75,-33 918.75,-33 924.75,-33 930.75,-39 930.75,-45 930.75,-45 930.75,-57 930.75,-57 930.75,-63 924.75,-69 918.75,-69"/>
+<text xml:space="preserve" text-anchor="middle" x="849.25" y="-47.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">the women/witness(es) enter or…</text>
+</g>
+<!-- 4413852112&#45;&gt;4401706832 -->
+<g id="edge4" class="edge">
+<title>4413852112&#45;&gt;4401706832</title>
+<path fill="none" stroke="#7a8a7e" d="M653.04,-71.46C686.68,-67.93 725.74,-63.84 760.05,-60.24"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="760.04,-62.35 765.79,-59.64 759.6,-58.18 760.04,-62.35"/>
+<text xml:space="preserve" text-anchor="middle" x="710.25" y="-70.35" font-family="Helvetica,sans-Serif" font-size="8.00"> MARK LUKE JOHN </text>
+</g>
+<!-- 4413933616 -->
+<g id="node6" class="node">
+<title>4413933616</title>
+<path fill="#cfe0d3" stroke="#3f6b4e" stroke-width="1.2" d="M1491.25,-98C1491.25,-98 1360.5,-98 1360.5,-98 1354.5,-98 1348.5,-92 1348.5,-86 1348.5,-86 1348.5,-74 1348.5,-74 1348.5,-68 1354.5,-62 1360.5,-62 1360.5,-62 1491.25,-62 1491.25,-62 1497.25,-62 1503.25,-68 1503.25,-74 1503.25,-74 1503.25,-86 1503.25,-86 1503.25,-92 1497.25,-98 1491.25,-98"/>
+<text xml:space="preserve" text-anchor="middle" x="1425.88" y="-76.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">one or more numinous figures…</text>
+</g>
+<!-- 4413852416&#45;&gt;4413933616 -->
+<g id="edge5" class="edge">
+<title>4413852416&#45;&gt;4413933616</title>
+<path fill="none" stroke="#7a8a7e" d="M1210.63,-80C1251.13,-80 1300,-80 1340.82,-80"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="1340.57,-82.1 1346.57,-80 1340.57,-77.9 1340.57,-82.1"/>
+<text xml:space="preserve" text-anchor="middle" x="1279.38" y="-81.4" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT MARK LUKE JOHN </text>
+</g>
+<!-- 4413705216 -->
+<g id="node7" class="node">
+<title>4413705216</title>
+<path fill="#cfe0d3" stroke="#3f6b4e" stroke-width="1.2" d="M1768.5,-98C1768.5,-98 1653.5,-98 1653.5,-98 1647.5,-98 1641.5,-92 1641.5,-86 1641.5,-86 1641.5,-74 1641.5,-74 1641.5,-68 1647.5,-62 1653.5,-62 1653.5,-62 1768.5,-62 1768.5,-62 1774.5,-62 1780.5,-68 1780.5,-74 1780.5,-74 1780.5,-86 1780.5,-86 1780.5,-92 1774.5,-98 1768.5,-98"/>
+<text xml:space="preserve" text-anchor="middle" x="1711" y="-76.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">the numinous figure(s) are…</text>
+</g>
+<!-- 4413933616&#45;&gt;4413705216 -->
+<g id="edge6" class="edge">
+<title>4413933616&#45;&gt;4413705216</title>
+<path fill="none" stroke="#7a8a7e" d="M1503.49,-80C1543.89,-80 1593.29,-80 1633.64,-80"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="1633.55,-82.1 1639.55,-80 1633.55,-77.9 1633.55,-82.1"/>
+<text xml:space="preserve" text-anchor="middle" x="1572.38" y="-81.4" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT MARK LUKE JOHN </text>
+</g>
+<!-- 4413705488 -->
+<g id="node8" class="node">
+<title>4413705488</title>
+<path fill="#cfe0d3" stroke="#3f6b4e" stroke-width="1.2" d="M2060.75,-98C2060.75,-98 1930.75,-98 1930.75,-98 1924.75,-98 1918.75,-92 1918.75,-86 1918.75,-86 1918.75,-74 1918.75,-74 1918.75,-68 1924.75,-62 1930.75,-62 1930.75,-62 2060.75,-62 2060.75,-62 2066.75,-62 2072.75,-68 2072.75,-74 2072.75,-74 2072.75,-86 2072.75,-86 2072.75,-92 2066.75,-98 2060.75,-98"/>
+<text xml:space="preserve" text-anchor="middle" x="1995.75" y="-76.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">the witnesses react with fear,…</text>
+</g>
+<!-- 4413705216&#45;&gt;4413705488 -->
+<g id="edge7" class="edge">
+<title>4413705216&#45;&gt;4413705488</title>
+<path fill="none" stroke="#7a8a7e" d="M1780.81,-80C1819.98,-80 1869.34,-80 1910.78,-80"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="1910.64,-82.1 1916.64,-80 1910.64,-77.9 1910.64,-82.1"/>
+<text xml:space="preserve" text-anchor="middle" x="1849.62" y="-81.4" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT MARK LUKE JOHN </text>
+</g>
+<!-- 4401755728 -->
+<g id="node9" class="node">
+<title>4401755728</title>
+<path fill="#cfe0d3" stroke="#3f6b4e" stroke-width="1.2" d="M2330.5,-98C2330.5,-98 2223,-98 2223,-98 2217,-98 2211,-92 2211,-86 2211,-86 2211,-74 2211,-74 2211,-68 2217,-62 2223,-62 2223,-62 2330.5,-62 2330.5,-62 2336.5,-62 2342.5,-68 2342.5,-74 2342.5,-74 2342.5,-86 2342.5,-86 2342.5,-92 2336.5,-98 2330.5,-98"/>
+<text xml:space="preserve" text-anchor="middle" x="2276.75" y="-76.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">the figure(s) address the…</text>
+</g>
+<!-- 4413705488&#45;&gt;4401755728 -->
+<g id="edge8" class="edge">
+<title>4413705488&#45;&gt;4401755728</title>
+<path fill="none" stroke="#7a8a7e" d="M2072.99,-80C2113.54,-80 2163.15,-80 2203.14,-80"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="2202.98,-82.1 2208.98,-80 2202.98,-77.9 2202.98,-82.1"/>
+<text xml:space="preserve" text-anchor="middle" x="2141.88" y="-81.4" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT MARK LUKE JOHN </text>
+</g>
+<!-- 4401755472 -->
+<g id="node10" class="node">
+<title>4401755472</title>
+<path fill="#fbf7ec" stroke="#3f6b4e" stroke-width="1.2" stroke-dasharray="5,2" d="M2601,-129C2601,-129 2468.75,-129 2468.75,-129 2462.75,-129 2456.75,-123 2456.75,-117 2456.75,-117 2456.75,-105 2456.75,-105 2456.75,-99 2462.75,-93 2468.75,-93 2468.75,-93 2601,-93 2601,-93 2607,-93 2613,-99 2613,-105 2613,-105 2613,-117 2613,-117 2613,-123 2607,-129 2601,-129"/>
+<text xml:space="preserve" text-anchor="middle" x="2534.88" y="-107.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">the sought one is identified as…</text>
+</g>
+<!-- 4401755728&#45;&gt;4401755472 -->
+<g id="edge9" class="edge">
+<title>4401755728&#45;&gt;4401755472</title>
+<path fill="none" stroke="#7a8a7e" d="M2343.04,-87.9C2375.28,-91.8 2414.57,-96.56 2449.11,-100.74"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="2448.69,-102.8 2454.9,-101.44 2449.19,-98.63 2448.69,-102.8"/>
+<text xml:space="preserve" text-anchor="middle" x="2399.62" y="-100.59" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT MARK LUKE </text>
+</g>
+<!-- 4413948208 -->
+<g id="node13" class="node">
+<title>4413948208</title>
+<path fill="#cfe0d3" stroke="#3f6b4e" stroke-width="1.2" d="M3402,-98C3402,-98 3280.25,-98 3280.25,-98 3274.25,-98 3268.25,-92 3268.25,-86 3268.25,-86 3268.25,-74 3268.25,-74 3268.25,-68 3274.25,-62 3280.25,-62 3280.25,-62 3402,-62 3402,-62 3408,-62 3414,-68 3414,-74 3414,-74 3414,-86 3414,-86 3414,-92 3408,-98 3402,-98"/>
+<text xml:space="preserve" text-anchor="middle" x="3341.12" y="-76.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">the witnesses are invited to…</text>
+</g>
+<!-- 4401755728&#45;&gt;4413948208 -->
+<g id="edge10" class="edge">
+<title>4401755728&#45;&gt;4413948208</title>
+<path fill="none" stroke="#7a8a7e" d="M2342.93,-72.89C2394.64,-67.85 2468.79,-62 2533.88,-62 2533.88,-62 2533.88,-62 3075,-62 3137.46,-62 3208,-67.03 3260.61,-71.78"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="3260.24,-73.85 3266.41,-72.31 3260.62,-69.67 3260.24,-73.85"/>
+<text xml:space="preserve" text-anchor="middle" x="2803.5" y="-63.4" font-family="Helvetica,sans-Serif" font-size="8.00"> JOHN </text>
+</g>
+<!-- 4413513536 -->
+<g id="node11" class="node">
+<title>4413513536</title>
+<path fill="#fbf7ec" stroke="#3f6b4e" stroke-width="1.2" stroke-dasharray="5,2" d="M2867.75,-129C2867.75,-129 2739.25,-129 2739.25,-129 2733.25,-129 2727.25,-123 2727.25,-117 2727.25,-117 2727.25,-105 2727.25,-105 2727.25,-99 2733.25,-93 2739.25,-93 2739.25,-93 2867.75,-93 2867.75,-93 2873.75,-93 2879.75,-99 2879.75,-105 2879.75,-105 2879.75,-117 2879.75,-117 2879.75,-123 2873.75,-129 2867.75,-129"/>
+<text xml:space="preserve" text-anchor="middle" x="2803.5" y="-107.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">his absence from the tomb is…</text>
+</g>
+<!-- 4401755472&#45;&gt;4413513536 -->
+<g id="edge11" class="edge">
+<title>4401755472&#45;&gt;4413513536</title>
+<path fill="none" stroke="#7a8a7e" d="M2613.35,-111C2646.65,-111 2685.63,-111 2719.52,-111"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="2719.16,-113.1 2725.16,-111 2719.16,-108.9 2719.16,-113.1"/>
+<text xml:space="preserve" text-anchor="middle" x="2670.12" y="-112.4" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT MARK LUKE </text>
+</g>
+<!-- 4413513776 -->
+<g id="node12" class="node">
+<title>4413513776</title>
+<path fill="#fbf7ec" stroke="#3f6b4e" stroke-width="1.2" stroke-dasharray="5,2" d="M3142,-129C3142,-129 3006,-129 3006,-129 3000,-129 2994,-123 2994,-117 2994,-117 2994,-105 2994,-105 2994,-99 3000,-93 3006,-93 3006,-93 3142,-93 3142,-93 3148,-93 3154,-99 3154,-105 3154,-105 3154,-117 3154,-117 3154,-123 3148,-129 3142,-129"/>
+<text xml:space="preserve" text-anchor="middle" x="3074" y="-107.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">his resurrected/raised status is…</text>
+</g>
+<!-- 4413513536&#45;&gt;4413513776 -->
+<g id="edge12" class="edge">
+<title>4413513536&#45;&gt;4413513776</title>
+<path fill="none" stroke="#7a8a7e" d="M2880.01,-111C2913.17,-111 2952.29,-111 2986.6,-111"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="2986.34,-113.1 2992.34,-111 2986.34,-108.9 2986.34,-113.1"/>
+<text xml:space="preserve" text-anchor="middle" x="2936.88" y="-112.4" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT MARK LUKE </text>
+</g>
+<!-- 4413513776&#45;&gt;4413948208 -->
+<g id="edge13" class="edge">
+<title>4413513776&#45;&gt;4413948208</title>
+<path fill="none" stroke="#7a8a7e" d="M3154.55,-101.7C3188.15,-97.77 3227.2,-93.2 3260.78,-89.28"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="3260.65,-91.41 3266.36,-88.62 3260.16,-87.24 3260.65,-91.41"/>
+<text xml:space="preserve" text-anchor="middle" x="3211.12" y="-100.59" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT MARK LUKE </text>
+</g>
+<!-- 4413948432 -->
+<g id="node14" class="node">
+<title>4413948432</title>
+<path fill="#fbf7ec" stroke="#3f6b4e" stroke-width="1.2" stroke-dasharray="5,2" d="M3680.75,-127C3680.75,-127 3540.25,-127 3540.25,-127 3534.25,-127 3528.25,-121 3528.25,-115 3528.25,-115 3528.25,-103 3528.25,-103 3528.25,-97 3534.25,-91 3540.25,-91 3540.25,-91 3680.75,-91 3680.75,-91 3686.75,-91 3692.75,-97 3692.75,-103 3692.75,-103 3692.75,-115 3692.75,-115 3692.75,-121 3686.75,-127 3680.75,-127"/>
+<text xml:space="preserve" text-anchor="middle" x="3610.5" y="-105.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">a prior word of Jesus is invoked…</text>
+</g>
+<!-- 4413948208&#45;&gt;4413948432 -->
+<g id="edge14" class="edge">
+<title>4413948208&#45;&gt;4413948432</title>
+<path fill="none" stroke="#7a8a7e" d="M3414.48,-87.85C3447.26,-91.4 3486.31,-95.64 3520.83,-99.38"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="3520.43,-101.45 3526.62,-100.01 3520.88,-97.28 3520.43,-101.45"/>
+<text xml:space="preserve" text-anchor="middle" x="3471.12" y="-99.35" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT MARK LUKE </text>
+</g>
+<!-- 4401924624 -->
+<g id="node15" class="node">
+<title>4401924624</title>
+<path fill="#cfe0d3" stroke="#3f6b4e" stroke-width="1.2" d="M3965.5,-98C3965.5,-98 3819,-98 3819,-98 3813,-98 3807,-92 3807,-86 3807,-86 3807,-74 3807,-74 3807,-68 3813,-62 3819,-62 3819,-62 3965.5,-62 3965.5,-62 3971.5,-62 3977.5,-68 3977.5,-74 3977.5,-74 3977.5,-86 3977.5,-86 3977.5,-92 3971.5,-98 3965.5,-98"/>
+<text xml:space="preserve" text-anchor="middle" x="3892.25" y="-76.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">the witnesses depart from the tomb</text>
+</g>
+<!-- 4413948208&#45;&gt;4401924624 -->
+<g id="edge15" class="edge">
+<title>4413948208&#45;&gt;4401924624</title>
+<path fill="none" stroke="#7a8a7e" d="M3414.58,-76.16C3449.01,-74.52 3490.74,-72.81 3528.25,-72 3601.34,-70.43 3619.65,-70.53 3692.75,-72 3727.68,-72.7 3766.04,-74.1 3799.66,-75.54"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="3799.16,-77.62 3805.24,-75.78 3799.34,-73.42 3799.16,-77.62"/>
+<text xml:space="preserve" text-anchor="middle" x="3610.5" y="-73.4" font-family="Helvetica,sans-Serif" font-size="8.00"> JOHN </text>
+</g>
+<!-- 4413948432&#45;&gt;4401924624 -->
+<g id="edge16" class="edge">
+<title>4413948432&#45;&gt;4401924624</title>
+<path fill="none" stroke="#7a8a7e" d="M3693.17,-100.53C3726.44,-97.08 3765.07,-93.08 3799.32,-89.53"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="3799.31,-91.64 3805.06,-88.93 3798.87,-87.46 3799.31,-91.64"/>
+<text xml:space="preserve" text-anchor="middle" x="3749.88" y="-99.35" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT MARK LUKE </text>
+</g>
+<!-- 4401246480 -->
+<g id="node16" class="node">
+<title>4401246480</title>
+<path fill="#cfe0d3" stroke="#3f6b4e" stroke-width="1.2" d="M4206.75,-98C4206.75,-98 4127.75,-98 4127.75,-98 4121.75,-98 4115.75,-92 4115.75,-86 4115.75,-86 4115.75,-74 4115.75,-74 4115.75,-68 4121.75,-62 4127.75,-62 4127.75,-62 4206.75,-62 4206.75,-62 4212.75,-62 4218.75,-68 4218.75,-74 4218.75,-74 4218.75,-86 4218.75,-86 4218.75,-92 4212.75,-98 4206.75,-98"/>
+<text xml:space="preserve" text-anchor="middle" x="4167.25" y="-76.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">the witnesses are…</text>
+</g>
+<!-- 4401924624&#45;&gt;4401246480 -->
+<g id="edge17" class="edge">
+<title>4401924624&#45;&gt;4401246480</title>
+<path fill="none" stroke="#7a8a7e" d="M3977.76,-80C4020.04,-80 4070.15,-80 4108.07,-80"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="4107.97,-82.1 4113.97,-80 4107.97,-77.9 4107.97,-82.1"/>
+<text xml:space="preserve" text-anchor="middle" x="4046.62" y="-81.4" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT MARK LUKE JOHN </text>
+</g>
+<!-- 4401246672 -->
+<g id="node17" class="node">
+<title>4401246672</title>
+<path fill="#fbf7ec" stroke="#3f6b4e" stroke-width="1.2" stroke-dasharray="5,2" d="M4945,-111C4945,-111 4795.5,-111 4795.5,-111 4789.5,-111 4783.5,-105 4783.5,-99 4783.5,-99 4783.5,-87 4783.5,-87 4783.5,-81 4789.5,-75 4795.5,-75 4795.5,-75 4945,-75 4945,-75 4951,-75 4957,-81 4957,-87 4957,-87 4957,-99 4957,-99 4957,-105 4951,-111 4945,-111"/>
+<text xml:space="preserve" text-anchor="middle" x="4870.25" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">a promise of future seeing/reunion…</text>
+</g>
+<!-- 4401246480&#45;&gt;4401246672 -->
+<g id="edge18" class="edge">
+<title>4401246480&#45;&gt;4401246672</title>
+<path fill="none" stroke="#7a8a7e" d="M4219.06,-83.93C4225.68,-84.35 4232.38,-84.72 4238.75,-85 4429.35,-93.37 4652.65,-94.05 4775.79,-93.63"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="4775.52,-95.73 4781.51,-93.61 4775.5,-91.53 4775.52,-95.73"/>
+<text xml:space="preserve" text-anchor="middle" x="4418.25" y="-93.55" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT </text>
+</g>
+<!-- 4401707008 -->
+<g id="node19" class="node">
+<title>4401707008</title>
+<path fill="#fbf7ec" stroke="#3f6b4e" stroke-width="1.2" stroke-dasharray="5,2" d="M4490.75,-69C4490.75,-69 4345.75,-69 4345.75,-69 4339.75,-69 4333.75,-63 4333.75,-57 4333.75,-57 4333.75,-45 4333.75,-45 4333.75,-39 4339.75,-33 4345.75,-33 4345.75,-33 4490.75,-33 4490.75,-33 4496.75,-33 4502.75,-39 4502.75,-45 4502.75,-45 4502.75,-57 4502.75,-57 4502.75,-63 4496.75,-69 4490.75,-69"/>
+<text xml:space="preserve" text-anchor="middle" x="4418.25" y="-47.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">the announcement is (or is to be)…</text>
+</g>
+<!-- 4401246480&#45;&gt;4401707008 -->
+<g id="edge19" class="edge">
+<title>4401246480&#45;&gt;4401707008</title>
+<path fill="none" stroke="#7a8a7e" d="M4219.24,-74.06C4250.05,-70.47 4290.22,-65.79 4326.33,-61.59"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="4326.27,-63.71 4331.98,-60.93 4325.78,-59.54 4326.27,-63.71"/>
+<text xml:space="preserve" text-anchor="middle" x="4276.25" y="-72.83" font-family="Helvetica,sans-Serif" font-size="8.00"> MARK LUKE JOHN </text>
+</g>
+<!-- 4401246672&#45;&gt;4401691088 -->
+<g id="edge20" class="edge">
+<title>4401246672&#45;&gt;4401691088</title>
+<path fill="none" stroke="#7a8a7e" d="M4957.31,-98.74C5053.07,-103.79 5212.25,-108.22 5348.25,-93 5380.21,-89.42 5388.05,-86.8 5419.25,-79 5423.4,-77.96 5427.73,-76.78 5432.01,-75.55"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="5432.49,-77.6 5437.65,-73.88 5431.3,-73.57 5432.49,-77.6"/>
+<text xml:space="preserve" text-anchor="middle" x="5168.25" y="-104.75" font-family="Helvetica,sans-Serif" font-size="8.00"> MATT </text>
+</g>
+<!-- 4414000496 -->
+<g id="node20" class="node">
+<title>4414000496</title>
+<path fill="#fbf7ec" stroke="#3f6b4e" stroke-width="1.2" stroke-dasharray="5,2" d="M5336.25,-83C5336.25,-83 5213,-83 5213,-83 5207,-83 5201,-77 5201,-71 5201,-71 5201,-59 5201,-59 5201,-53 5207,-47 5213,-47 5213,-47 5336.25,-47 5336.25,-47 5342.25,-47 5348.25,-53 5348.25,-59 5348.25,-59 5348.25,-71 5348.25,-71 5348.25,-77 5342.25,-83 5336.25,-83"/>
+<text xml:space="preserve" text-anchor="middle" x="5274.62" y="-61.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">a closing cognitive/affective…</text>
+</g>
+<!-- 4401246672&#45;&gt;4414000496 -->
+<g id="edge21" class="edge">
+<title>4401246672&#45;&gt;4414000496</title>
+<path fill="none" stroke="#7a8a7e" d="M4957.57,-86.99C5027.42,-82.13 5125.05,-75.34 5193.25,-70.59"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="5193.24,-72.7 5199.08,-70.19 5192.95,-68.51 5193.24,-72.7"/>
+<text xml:space="preserve" text-anchor="middle" x="5056.25" y="-86.78" font-family="Helvetica,sans-Serif" font-size="8.00"> MARK </text>
+</g>
+<!-- 4401706832&#45;&gt;4413852416 -->
+<g id="edge22" class="edge">
+<title>4401706832&#45;&gt;4413852416</title>
+<path fill="none" stroke="#7a8a7e" d="M931.04,-59.47C964.7,-62.99 1003.9,-67.1 1038.35,-70.71"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="1037.94,-72.78 1044.12,-71.32 1038.38,-68.6 1037.94,-72.78"/>
+<text xml:space="preserve" text-anchor="middle" x="988.25" y="-70.35" font-family="Helvetica,sans-Serif" font-size="8.00"> MARK LUKE JOHN </text>
+</g>
+<!-- 4401707008&#45;&gt;4401246672 -->
+<g id="edge23" class="edge">
+<title>4401707008&#45;&gt;4401246672</title>
+<path fill="none" stroke="#7a8a7e" d="M4503.1,-58.83C4580.61,-66.06 4695.59,-76.79 4775.97,-84.29"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="4775.47,-86.36 4781.64,-84.82 4775.86,-82.17 4775.47,-86.36"/>
+<text xml:space="preserve" text-anchor="middle" x="4547.5" y="-66.33" font-family="Helvetica,sans-Serif" font-size="8.00"> MARK </text>
+</g>
+<!-- 4413999056 -->
+<g id="node21" class="node">
+<title>4413999056</title>
+<path fill="#fbf7ec" stroke="#3f6b4e" stroke-width="1.2" stroke-dasharray="5,2" d="M4751.5,-36C4751.5,-36 4604.25,-36 4604.25,-36 4598.25,-36 4592.25,-30 4592.25,-24 4592.25,-24 4592.25,-12 4592.25,-12 4592.25,-6 4598.25,0 4604.25,0 4604.25,0 4751.5,0 4751.5,0 4757.5,0 4763.5,-6 4763.5,-12 4763.5,-12 4763.5,-24 4763.5,-24 4763.5,-30 4757.5,-36 4751.5,-36"/>
+<text xml:space="preserve" text-anchor="middle" x="4677.88" y="-14.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">male disciple(s) go to the tomb to…</text>
+</g>
+<!-- 4401707008&#45;&gt;4413999056 -->
+<g id="edge24" class="edge">
+<title>4401707008&#45;&gt;4413999056</title>
+<path fill="none" stroke="#7a8a7e" d="M4503.33,-35.83C4509.89,-34.82 4516.42,-33.86 4522.75,-33 4542.68,-30.3 4564.13,-27.9 4584.5,-25.85"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="4584.68,-27.94 4590.44,-25.26 4584.26,-23.76 4584.68,-27.94"/>
+<text xml:space="preserve" text-anchor="middle" x="4547.5" y="-34.4" font-family="Helvetica,sans-Serif" font-size="8.00"> LUKE JOHN </text>
+</g>
+<!-- 4414000496&#45;&gt;4401691088 -->
+<g id="edge25" class="edge">
+<title>4414000496&#45;&gt;4401691088</title>
+<path fill="none" stroke="#7a8a7e" d="M5348.67,-65C5377.16,-65 5408.43,-65 5431.41,-65"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="5431.35,-67.1 5437.35,-65 5431.35,-62.9 5431.35,-67.1"/>
+<text xml:space="preserve" text-anchor="middle" x="5393.75" y="-66.4" font-family="Helvetica,sans-Serif" font-size="8.00"> MARK LUKE </text>
+</g>
+<!-- 4402059680 -->
+<g id="node22" class="node">
+<title>4402059680</title>
+<path fill="#fbf7ec" stroke="#3f6b4e" stroke-width="1.2" stroke-dasharray="5,2" d="M5123.5,-36C5123.5,-36 4989,-36 4989,-36 4983,-36 4977,-30 4977,-24 4977,-24 4977,-12 4977,-12 4977,-6 4983,0 4989,0 4989,0 5123.5,0 5123.5,0 5129.5,0 5135.5,-6 5135.5,-12 5135.5,-12 5135.5,-24 5135.5,-24 5135.5,-30 5129.5,-36 5123.5,-36"/>
+<text xml:space="preserve" text-anchor="middle" x="5056.25" y="-14.12" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#26302a">the linen burial cloths are seen…</text>
+</g>
+<!-- 4413999056&#45;&gt;4402059680 -->
+<g id="edge26" class="edge">
+<title>4413999056&#45;&gt;4402059680</title>
+<path fill="none" stroke="#7a8a7e" d="M4763.81,-18C4825.06,-18 4907.45,-18 4969,-18"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="4968.89,-20.1 4974.89,-18 4968.89,-15.9 4968.89,-20.1"/>
+<text xml:space="preserve" text-anchor="middle" x="4870.25" y="-19.4" font-family="Helvetica,sans-Serif" font-size="8.00"> LUKE JOHN </text>
+</g>
+<!-- 4402059680&#45;&gt;4401691088 -->
+<g id="edge28" class="edge">
+<title>4402059680&#45;&gt;4401691088</title>
+<path fill="none" stroke="#7a8a7e" d="M5135.96,-14.96C5194.85,-14.07 5277.13,-15.77 5348.25,-28 5377.17,-32.97 5408.84,-43.31 5431.93,-51.79"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="5431.04,-53.7 5437.39,-53.83 5432.51,-49.77 5431.04,-53.7"/>
+<text xml:space="preserve" text-anchor="middle" x="5274.62" y="-29.4" font-family="Helvetica,sans-Serif" font-size="8.00"> JOHN </text>
+</g>
+<!-- 4402059680&#45;&gt;4414000496 -->
+<g id="edge27" class="edge">
+<title>4402059680&#45;&gt;4414000496</title>
+<path fill="none" stroke="#7a8a7e" d="M5135.98,-35.1C5154.81,-39.19 5174.93,-43.56 5193.82,-47.66"/>
+<polygon fill="#7a8a7e" stroke="#7a8a7e" points="5192.92,-49.62 5199.23,-48.84 5193.81,-45.51 5192.92,-49.62"/>
+<text xml:space="preserve" text-anchor="middle" x="5168.25" y="-45.71" font-family="Helvetica,sans-Serif" font-size="8.00"> LUKE </text>
+</g>
+</g>
+</svg>
+</div>
+ </div>
+
+ <div class="panel">
+   <h2>Where each gospel branches off</h2>
+   <p class="lede">Every account keeps the spine but hangs its own tributaries on it. Each colored
+     node below is a coded move <b>unique to that gospel</b> — the insertions CollateX marks as
+     single-witness branches. Open the drawers for what each gospel drops or reworks.</p>
+   <div class="grid2">
+        <div class="branchcard" style="--gc:#c58a3d">
+          <div class="bhead"><span class="gdot" style="background:#c58a3d"></span>
+            <h3>Matthew 28</h3>
+            <span class="bmeta">7 adds · 4 omits · 6 reworks</span></div>
+          <p class="bsig">MATT-28 stages the resurrection as a public, apocalyptic theophany — earthquake, descending angel, enthroned upon the broken seal, with imperial guards struck down as collateral witnesses — turning the shared empty-tomb spine into a cosmic enthronement scene whose commissioned messengers depart in fear fused with joy toward a promised Galilean reunion.</p>
+          <div class="beyebrow" style="color:#c58a3d">BRANCHES — coded moves unique to this gospel</div>
+          <div class="bsvg"><svg viewBox="0 0 520 388" width="100%" height="388" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica,Arial,sans-serif" preserveAspectRatio="xMinYMin meet"><line x1="42" y1="16" x2="42" y2="374" stroke="var(--spine)" stroke-width="4" stroke-linecap="round" opacity="0.55"/><text x="42" y="12" text-anchor="middle" font-size="9.5" fill="var(--ink-soft)">spine</text><path d="M 42 46 C 68 46 52 60 82 60" fill="none" stroke="#c58a3d" stroke-width="2.4"/><circle cx="82" cy="60" r="6" fill="#c58a3d"/><text x="96" y="56" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">a great earthquake at the tomb (M2) — no other account has a</tspan><tspan x="96" dy="13.5">seismic event</tspan></text><path d="M 42 92 C 68 92 52 106 82 106" fill="none" stroke="#c58a3d" stroke-width="2.4"/><circle cx="82" cy="106" r="6" fill="#c58a3d"/><text x="96" y="102" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">the angel&#x27;s real-time descent from heaven to the tomb (M3),</tspan><tspan x="96" dy="13.5">rather than being already-present</tspan></text><path d="M 42 138 C 68 138 52 152 82 152" fill="none" stroke="#c58a3d" stroke-width="2.4"/><circle cx="82" cy="152" r="6" fill="#c58a3d"/><text x="96" y="148" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">the angel actively rolls back the stone in the women&#x27;s sight</tspan><tspan x="96" dy="13.5">(M4) instead of the stone being found displaced</tspan></text><path d="M 42 184 C 68 184 52 198 82 198" fill="none" stroke="#c58a3d" stroke-width="2.4"/><circle cx="82" cy="198" r="6" fill="#c58a3d"/><text x="96" y="194" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">the angel sits enthroned upon the displaced stone (M5) — turning</tspan><tspan x="96" dy="13.5">the seal into a throne</tspan></text><path d="M 42 230 C 68 230 52 244 82 244" fill="none" stroke="#c58a3d" stroke-width="2.4"/><circle cx="82" cy="244" r="6" fill="#c58a3d"/><text x="96" y="240" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">Roman guards are present and react: they tremble and become like</tspan><tspan x="96" dy="13.5">dead men (M8–M9)</tspan></text><path d="M 42 276 C 68 276 52 290 82 290" fill="none" stroke="#c58a3d" stroke-width="2.4"/><circle cx="82" cy="290" r="6" fill="#c58a3d"/><text x="96" y="286" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">the angel self-attributes/authorizes the message (&#x27;my message&#x27;,</tspan><tspan x="96" dy="13.5">M26) — an explicit self-marking of angelic authority</tspan></text><path d="M 42 322 C 68 322 52 336 82 336" fill="none" stroke="#c58a3d" stroke-width="2.4"/><circle cx="82" cy="336" r="6" fill="#c58a3d"/><text x="96" y="332" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">the women depart in a doubled affect of fear AND great joy (M28)</tspan><tspan x="96" dy="13.5">— a distinctive compound emotion</tspan></text></svg></div>
+          <details class="bdet"><summary>Omits from the shared spine (4)</summary>
+            <ul><li>male disciple(s) go to the tomb to verify the women&#x27;s report (partial spine beat: LUKE/JOHN) — MATT has no verification visit</li><li>the linen burial cloths seen lying in the tomb (partial spine beat: LUKE/JOHN)</li><li>the announcement being routed specifically to Peter within the disciple circle (spine beat carried by MARK/LUKE/JOHN) — MATT names &#x27;his disciples&#x27; generically</li><li>a closing state left unresolved into full belief (partial spine beat: MARK/LUKE) — MATT resolves toward commissioned joy</li></ul></details>
+          <details class="bdet"><summary>Reworks a shared beat (6)</summary>
+            <ul><li>stone-displacement (spine): reshaped from divine-passive discovery into an on-stage angelic act with a named agent and audience</li><li>numinous figure(s) present (spine): singular angel positioned OUTSIDE atop the stone, not inside the tomb</li><li>witnesses&#x27; fear-reaction (spine): split across two subjects — terror falls on the guards, while the women&#x27;s fear is folded into joy</li><li>invitation to view the burial spot (spine): rendered as a direct imperative pair &#x27;come / see where he lay&#x27; rather than as empirical discovery</li><li>prior word of Jesus invoked (spine): pointed forward to a Galilean reunion rather than backward to a passion-prediction</li><li>departure and report (spine): intensified into an urgent commanded run, with the message&#x27;s angelic provenance explicitly stamped</li></ul></details>
+        </div>
+
+        <div class="branchcard" style="--gc:#b5563f">
+          <div class="bhead"><span class="gdot" style="background:#b5563f"></span>
+            <h3>Mark 16</h3>
+            <span class="bmeta">4 adds · 2 omits · 5 reworks</span></div>
+          <p class="bsig">MARK-16 tells the resurrection as a scene of terrified aphasia — a muted young man&#x27;s announcement met by women who flee, tremble, and fail to speak — leaving the empty-tomb spine hanging on an unfulfilled commission that only a later scribal hand dares to seal shut with a re-commissioning and liturgical amen.</p>
+          <div class="beyebrow" style="color:#b5563f">BRANCHES — coded moves unique to this gospel</div>
+          <div class="bsvg"><svg viewBox="0 0 520 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica,Arial,sans-serif" preserveAspectRatio="xMinYMin meet"><line x1="42" y1="16" x2="42" y2="236" stroke="var(--spine)" stroke-width="4" stroke-linecap="round" opacity="0.55"/><text x="42" y="12" text-anchor="middle" font-size="9.5" fill="var(--ink-soft)">spine</text><path d="M 42 46 C 68 46 52 60 82 60" fill="none" stroke="#b5563f" stroke-width="2.4"/><circle cx="82" cy="60" r="6" fill="#b5563f"/><text x="96" y="56" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">a pre-tomb preparation sequence: Sabbath ends, spices are</tspan><tspan x="96" dy="13.5">bought, an anointing is intended (M1–M3) — a domestic-ritual</tspan><tspan x="96" dy="13.5">runway absent from the spine</tspan></text><path d="M 42 92 C 68 92 52 106 82 106" fill="none" stroke="#b5563f" stroke-width="2.4"/><circle cx="82" cy="106" r="6" fill="#b5563f"/><text x="96" y="102" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">the women voice a shared anxious question en route about who</tspan><tspan x="96" dy="13.5">will roll the stone away (M6–M7) — an interior dialogue unique</tspan><tspan x="96" dy="13.5">to MARK</tspan></text><path d="M 42 138 C 68 138 52 152 82 152" fill="none" stroke="#b5563f" stroke-width="2.4"/><circle cx="82" cy="152" r="6" fill="#b5563f"/><text x="96" y="148" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">a terminal failure of the commission: the women say nothing to</tspan><tspan x="96" dy="13.5">anyone out of fear (M31–M32) — no other account has the message</tspan><tspan x="96" dy="13.5">actively suppressed</tspan></text><path d="M 42 184 C 68 184 52 198 82 198" fill="none" stroke="#b5563f" stroke-width="2.4"/><circle cx="82" cy="198" r="6" fill="#b5563f"/><text x="96" y="194" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">the appended long-ending frame: a generalized perfect-passive</tspan><tspan x="96" dy="13.5">re-commissioning (M34), Jesus himself sending out an</tspan><tspan x="96" dy="13.5">imperishable proclamation east to west (M35), and a liturgical</tspan></text></svg></div>
+          <details class="bdet"><summary>Omits from the shared spine (2)</summary>
+            <ul><li>male disciple(s) go to the tomb to verify the women&#x27;s report (partial spine beat: LUKE/JOHN)</li><li>the linen burial cloths seen lying in the tomb (partial spine beat: LUKE/JOHN)</li></ul></details>
+          <details class="bdet"><summary>Reworks a shared beat (5)</summary>
+            <ul><li>witnesses depart the tomb (spine): reshaped from an ordinary departure into flight gripped by terror and amazement as personified affects that seize them</li><li>witnesses commissioned to report (spine): the commission is issued but explicitly UNFULFILLED at the original ending, then reinstated in the long-ending as a divine-passive re-order</li><li>numinous figure at the tomb (spine): a &#x27;young man&#x27; rather than a named angel, seated inside on the right — deliberately understated</li><li>prior word of Jesus invoked (spine): cited as generic &#x27;as he told you&#x27; with the content elided, not spelled out</li><li>closing affective state (spine-partial): sharpened into fearful silence — the account originally ends on unresolved dread with no proclamation</li></ul></details>
+        </div>
+
+        <div class="branchcard" style="--gc:#3f6b8a">
+          <div class="bhead"><span class="gdot" style="background:#3f6b8a"></span>
+            <h3>Luke 24</h3>
+            <span class="bmeta">6 adds · 1 omits · 6 reworks</span></div>
+          <p class="bsig">LUKE-24 tells the resurrection as an exercise in RE-COGNITION — the women discover the absence themselves, are enjoined to remember a past passion-prediction rather than await a future Galilean reunion, and the announcement is received as an idle tale by apostles whose disbelief (and Peter&#x27;s unresolved amazement) is itself part of the story.</p>
+          <div class="beyebrow" style="color:#3f6b8a">BRANCHES — coded moves unique to this gospel</div>
+          <div class="bsvg"><svg viewBox="0 0 520 342" width="100%" height="342" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica,Arial,sans-serif" preserveAspectRatio="xMinYMin meet"><line x1="42" y1="16" x2="42" y2="328" stroke="var(--spine)" stroke-width="4" stroke-linecap="round" opacity="0.55"/><text x="42" y="12" text-anchor="middle" font-size="9.5" fill="var(--ink-soft)">spine</text><path d="M 42 46 C 68 46 52 60 82 60" fill="none" stroke="#3f6b8a" stroke-width="2.4"/><circle cx="82" cy="60" r="6" fill="#3f6b8a"/><text x="96" y="56" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">the women bow their faces to the ground before the two figures</tspan><tspan x="96" dy="13.5">(M9) — a reverence-posture no other account records</tspan></text><path d="M 42 92 C 68 92 52 106 82 106" fill="none" stroke="#3f6b8a" stroke-width="2.4"/><circle cx="82" cy="106" r="6" fill="#3f6b8a"/><text x="96" y="102" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">an elaborated passion-and-resurrection prediction is quoted</tspan><tspan x="96" dy="13.5">inside the angelic speech, with &#x27;must&#x27; / divine-necessity</tspan><tspan x="96" dy="13.5">language and &#x27;Son of Man&#x27; vocabulary (M15–M18)</tspan></text><path d="M 42 138 C 68 138 52 152 82 152" fill="none" stroke="#3f6b8a" stroke-width="2.4"/><circle cx="82" cy="152" r="6" fill="#3f6b8a"/><text x="96" y="148" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">a cognitive act of remembering: the women recall his earlier</tspan><tspan x="96" dy="13.5">words (M19) — memory itself narrated as a discrete beat</tspan></text><path d="M 42 184 C 68 184 52 198 82 198" fill="none" stroke="#3f6b8a" stroke-width="2.4"/><circle cx="82" cy="198" r="6" fill="#3f6b8a"/><text x="96" y="194" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">the apostles&#x27; active disbelief: the testimony is deemed an idle</tspan><tspan x="96" dy="13.5">tale and refused credence (M23–M24) — unique reception-failure</tspan><tspan x="96" dy="13.5">at the disciples&#x27; end</tspan></text><path d="M 42 230 C 68 230 52 244 82 244" fill="none" stroke="#3f6b8a" stroke-width="2.4"/><circle cx="82" cy="244" r="6" fill="#3f6b8a"/><text x="96" y="240" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">narrator-level naming of the women AFTER their report (M22), an</tspan><tspan x="96" dy="13.5">authorial insertion outside the story-world</tspan></text><path d="M 42 276 C 68 276 52 290 82 290" fill="none" stroke="#3f6b8a" stroke-width="2.4"/><circle cx="82" cy="290" r="6" fill="#3f6b8a"/><text x="96" y="286" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">Peter&#x27;s amazement as the closing affective state (M29), left</tspan><tspan x="96" dy="13.5">unresolved</tspan></text></svg></div>
+          <details class="bdet"><summary>Omits from the shared spine (1)</summary>
+            <ul><li>a promise of future seeing/reunion with the risen Jesus in Galilee (partial spine beat: MATT/MARK) — LUKE relocates Galilee to the past-remembering, not to a future rendezvous</li></ul></details>
+          <details class="bdet"><summary>Reworks a shared beat (6)</summary>
+            <ul><li>body-absence discovered (spine): reshaped from angelic declaration to empirical find-not by the women BEFORE any figure appears — discovery precedes announcement</li><li>invitation to view the vacated spot (spine): collapsed into the women&#x27;s own prior finding rather than a directive to &#x27;come, see&#x27;</li><li>prior word of Jesus invoked (spine): reframed as an imperative to REMEMBER his past passion-prediction, with the content quoted in full, rather than pointing to a Galilean promise</li><li>witnesses commissioned to report (spine): no explicit commission — the women self-initiate the telling on their own remembered authority</li><li>male disciple(s) verify the tomb (partial spine beat): carried but reshaped as Peter running solo, seeing only the linens, and departing amazed — verification yields wonder, not belief</li><li>crucified-identity of the sought one (spine): folded inside the divine-necessity &#x27;Son of Man&#x27; prediction rather than named as an angelic identifying mark</li></ul></details>
+        </div>
+
+        <div class="branchcard" style="--gc:#7a5aa0">
+          <div class="bhead"><span class="gdot" style="background:#7a5aa0"></span>
+            <h3>John 20</h3>
+            <span class="bmeta">9 adds · 5 omits · 6 reworks</span></div>
+          <p class="bsig">JOHN-20 tells the resurrection as an interpretive drama of misreading and dawning faith — Mary reads the empty tomb as a theft, the disciples race to inspect the linens as forensic evidence, angels pastorally interrogate rather than proclaim, and the empty-tomb spine culminates not in announcement but in one disciple&#x27;s silent seeing-and-believing while scripture waits to be understood.</p>
+          <div class="beyebrow" style="color:#7a5aa0">BRANCHES — coded moves unique to this gospel</div>
+          <div class="bsvg"><svg viewBox="0 0 520 480" width="100%" height="480" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica,Arial,sans-serif" preserveAspectRatio="xMinYMin meet"><line x1="42" y1="16" x2="42" y2="466" stroke="var(--spine)" stroke-width="4" stroke-linecap="round" opacity="0.55"/><text x="42" y="12" text-anchor="middle" font-size="9.5" fill="var(--ink-soft)">spine</text><path d="M 42 46 C 68 46 52 60 82 60" fill="none" stroke="#7a5aa0" stroke-width="2.4"/><circle cx="82" cy="60" r="6" fill="#7a5aa0"/><text x="96" y="56" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">Mary&#x27;s grave-robbery hypothesis, spoken twice as &#x27;they have</tspan><tspan x="96" dy="13.5">taken the Lord away and we don&#x27;t know where they laid him&#x27;</tspan><tspan x="96" dy="13.5">(M6–M8, M34–M36) — a theft-frame no other account entertains</tspan></text><path d="M 42 92 C 68 92 52 106 82 106" fill="none" stroke="#7a5aa0" stroke-width="2.4"/><circle cx="82" cy="106" r="6" fill="#7a5aa0"/><text x="96" y="102" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">the footrace: the beloved disciple outruns Peter and arrives</tspan><tspan x="96" dy="13.5">first (M9–M11) — a competitive discipleship vignette absent from</tspan><tspan x="96" dy="13.5">the spine</tspan></text><path d="M 42 138 C 68 138 52 152 82 152" fill="none" stroke="#7a5aa0" stroke-width="2.4"/><circle cx="82" cy="152" r="6" fill="#7a5aa0"/><text x="96" y="148" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">the beloved disciple bends down, sees, but declines to enter</tspan><tspan x="96" dy="13.5">(M12–M15) — a deference/hesitation beat</tspan></text><path d="M 42 184 C 68 184 52 198 82 198" fill="none" stroke="#7a5aa0" stroke-width="2.4"/><circle cx="82" cy="198" r="6" fill="#7a5aa0"/><text x="96" y="194" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">an elaborated textile-tableau: linen wrappings lying and the</tspan><tspan x="96" dy="13.5">head-cloth rolled up in a separate place (M19–M20) — a forensic</tspan><tspan x="96" dy="13.5">detail beyond the bare &#x27;linens seen&#x27; partial</tspan></text><path d="M 42 230 C 68 230 52 244 82 244" fill="none" stroke="#7a5aa0" stroke-width="2.4"/><circle cx="82" cy="244" r="6" fill="#7a5aa0"/><text x="96" y="240" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">the beloved disciple&#x27;s absolute &#x27;saw and believed&#x27; (M22–M23) —</tspan><tspan x="96" dy="13.5">belief-at-the-tomb, uniquely resolved on the spot</tspan></text><path d="M 42 276 C 68 276 52 290 82 290" fill="none" stroke="#7a5aa0" stroke-width="2.4"/><circle cx="82" cy="290" r="6" fill="#7a5aa0"/><text x="96" y="286" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">a narrator-aside on scriptural non-yet-understanding (M24–M25) —</tspan><tspan x="96" dy="13.5">the interpretive frame is flagged as missing</tspan></text><path d="M 42 322 C 68 322 52 336 82 336" fill="none" stroke="#7a5aa0" stroke-width="2.4"/><circle cx="82" cy="336" r="6" fill="#7a5aa0"/><text x="96" y="332" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">Mary&#x27;s second visit and standing-weeping posture outside the</tspan><tspan x="96" dy="13.5">tomb (M27–M28) — a grief-vigil beat</tspan></text><path d="M 42 368 C 68 368 52 382 82 382" fill="none" stroke="#7a5aa0" stroke-width="2.4"/><circle cx="82" cy="382" r="6" fill="#7a5aa0"/><text x="96" y="378" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">the angels&#x27; pastoral question &#x27;why are you weeping?&#x27; (M31–M32) —</tspan><tspan x="96" dy="13.5">an interrogative rather than proclamatory speech-act</tspan></text><path d="M 42 414 C 68 414 52 428 82 428" fill="none" stroke="#7a5aa0" stroke-width="2.4"/><circle cx="82" cy="428" r="6" fill="#7a5aa0"/><text x="96" y="424" font-size="11.5" fill="var(--ink)"><tspan x="96" dy="0">the angels&#x27; spatial staging at the head-and-foot of the former</tspan><tspan x="96" dy="13.5">body-place (M30) — an iconographic detail</tspan></text></svg></div>
+          <details class="bdet"><summary>Omits from the shared spine (5)</summary>
+            <ul><li>the sought one is identified as the crucified Jesus (spine) — crucifixion is not verbalized in this tomb scene</li><li>his absence from the tomb is explicitly declared &#x27;he is not here&#x27; (spine) — no formulaic declaration</li><li>his resurrected/raised status is announced by the numinous figures (spine) — the angels only ask about weeping; resurrection is left to inference and to a narrator-aside</li><li>a promise of future seeing/reunion with the risen Jesus in Galilee (partial spine) — no future-reunion promise issued</li><li>a closing unresolved cognitive/affective state (partial spine) — JOHN resolves the beloved disciple into belief</li></ul></details>
+          <details class="bdet"><summary>Reworks a shared beat (6)</summary>
+            <ul><li>female follower at the tomb (spine): shrunk from a group to Mary Magdalene alone</li><li>figures address the witnesses with an interpreting speech-act (spine): reshaped from proclamation/commission to a bare pastoral question (&#x27;woman, why are you weeping?&#x27;)</li><li>witnesses commissioned to report (spine): recast as Mary&#x27;s own unsolicited theft-report to Peter and the beloved disciple, not an angelic commission</li><li>male disciples verify the tomb (partial spine): elevated from a marginal add-on to a central set-piece with staged roles (outrunner, enterer, believer)</li><li>invitation to view the vacated spot (spine): reshaped into empirical inspection of the burial linens rather than a directive &#x27;come, see&#x27;</li><li>prior word invoked (spine): displaced from a saying of Jesus to a general &#x27;scripture&#x27; the disciples do not yet understand</li></ul></details>
+        </div></div>
+ </div>
+
+ <p class="prov">provenance · gospel_resurrection_compare.py S156 (WS9); consensus-spine, no one-gospel baseline · viz: gospel_variantgraph_viz.py (CollateX 2.3 + graphviz)</p>
+</div>
+</body></html>
