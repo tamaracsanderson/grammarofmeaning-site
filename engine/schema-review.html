@@ -821,8 +821,8 @@ function openStage(i){
   reader+=lay('2','A worked example','recognition, not recall',l2);
   // ── Tests · post-mortem (reader) ──
   if(s.tests&&s.tests.length){
-    reader+=`<div class="tstblk"><div class="tsth">Tests · post-mortem<span> — what stressed this stage, and where to read it</span></div>`
-      +s.tests.map(t=>`<div class="tstrow"><div class="tstn">${esc(t[0])}</div><div class="tstw">${esc(t[1])}</div><code class="tstf">${esc(t[2])}</code></div>`).join('')+`</div>`;
+    reader+=`<div class="tstblk"><div class="tsth">Tests · post-mortem<span> — what stressed this stage</span></div>`
+      +s.tests.map(t=>`<div class="tstrow"><div class="tstn">${esc(t[0])}</div><div class="tstw">${esc(t[1])}</div></div>`).join('')+`</div>`;
   }
   // ── RESEARCH VIEW (layers 3-6) ──
   let l3=ftable((s.fields||[]).filter(meth), s.table?`fields · ${s.table}`:'');
