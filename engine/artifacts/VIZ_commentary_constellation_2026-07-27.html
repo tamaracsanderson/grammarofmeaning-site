@@ -1,0 +1,386 @@
+<!doctype html>
+<!--
+  ── METHODOLOGY FOOTER ──
+  HOW PRODUCED: reading-SB S156 2026-07-27 — green-anchored reviewable MOCK visualizing the Engine 3
+    Commentary Constellation output for the Friday demo (Dr. Saquib). Data pulled live from data/project.db
+    (commentary_constellation_result + source_move_gap), run_tags cc20_rom8_s156 (ROM-8-28-30) and
+    cc20_sly_s156 (SLY-1963). Nomination tally + per-position divergence, chair-selection vs computed
+    top-interest, and a sample of verbatim payload_json fills computed by scripts/…/compute (see PR).
+    SLY nomination keys normalised across the documented GAP--prefix chair bug. Self-contained (no external
+    assets); theme-aware; not production. Does NOT touch schema.html or any engine_page*.html.
+  SCHOLARLY SOURCES: §2.14 instrument-vs-domain (instrument_vs_domain_persona_frame_divergence_2026-07-27);
+    rom8_commentary_constellation_findings_2026-07-27 (the finding this renders); GAP_METHODOLOGY_lock_v1
+    (the 20-critic panel); §2.6 (IRR/panel pattern); feedback_seat_on_works_by_not_works_about (persona seating).
+  WHAT NEEDS VERIFICATION: (1) haiku→sonnet re-fire for defense-exhibit commentary depth. (2) numbers here are
+    per-position nomination-share differences (persona-share − frame-share); the finding doc's Finding-2 table
+    uses per-critic lean shares — directionally identical (interior flips owner ROM→SLY) but not the same scale.
+    (3) reviewer (reading-SB) adjudicates the axis-flip read before it is load-bearing for the defense.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commentary Constellation — Engine 3 (S156)</title>
+<style>
+  :root{
+    --bg:#F6F1E4; --panel:#FBF8EF; --ink:#22271F; --muted:#5C6455; --faint:#8A9179;
+    --line:#D8D2BE; --line2:#E7E1CF;
+    --green:#3C6E47; --green-deep:#2A5233; --green-soft:#DCE7D3; --green-line:#9CBFA0;
+    --frame:#B07A2E; --frame-soft:#F0E2C8; --frame-line:#D8B26A;
+    --chip:#EDE8D6; --accentbg:#EAF1E4;
+    --shadow:0 1px 2px rgba(40,50,35,.06),0 6px 18px rgba(40,50,35,.05);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#1B211D; --panel:#232A24; --ink:#E7ECE1; --muted:#A6AE98; --faint:#7C8570;
+      --line:#333B31; --line2:#2C332B;
+      --green:#7FB588; --green-deep:#A6D3AC; --green-soft:#2C3B2E; --green-line:#4C6E51;
+      --frame:#D6A85C; --frame-soft:#3A3122; --frame-line:#6E5A30;
+      --chip:#2C3329; --accentbg:#26301F;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="dark"]{
+      --bg:#1B211D; --panel:#232A24; --ink:#E7ECE1; --muted:#A6AE98; --faint:#7C8570;
+      --line:#333B31; --line2:#2C332B;
+      --green:#7FB588; --green-deep:#A6D3AC; --green-soft:#2C3B2E; --green-line:#4C6E51;
+      --frame:#D6A85C; --frame-soft:#3A3122; --frame-line:#6E5A30;
+      --chip:#2C3329; --accentbg:#26301F;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+  }
+  :root[data-theme="light"]{
+    --bg:#F6F1E4; --panel:#FBF8EF; --ink:#22271F; --muted:#5C6455; --faint:#8A9179;
+    --line:#D8D2BE; --line2:#E7E1CF;
+    --green:#3C6E47; --green-deep:#2A5233; --green-soft:#DCE7D3; --green-line:#9CBFA0;
+    --frame:#B07A2E; --frame-soft:#F0E2C8; --frame-line:#D8B26A;
+    --chip:#EDE8D6; --accentbg:#EAF1E4;
+    --shadow:0 1px 2px rgba(40,50,35,.06),0 6px 18px rgba(40,50,35,.05);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:32px 22px 80px}
+  .sans{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header.top{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:22px}
+  .eyebrow{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+    text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:var(--green);font-weight:700}
+  h1{font-size:30px;line-height:1.15;margin:.28em 0 .12em;font-weight:600}
+  .lede{color:var(--muted);font-size:17px;max-width:760px;margin:.2em 0 0}
+  .lede b{color:var(--ink);font-weight:600}
+  /* toggle */
+  .toggle{display:inline-flex;background:var(--chip);border:1px solid var(--line);
+    border-radius:999px;padding:4px;margin:24px 0 6px;box-shadow:var(--shadow)}
+  .toggle button{font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+    border:0;background:transparent;color:var(--muted);font-size:14px;font-weight:600;
+    padding:9px 18px;border-radius:999px;cursor:pointer;transition:.15s}
+  .toggle button .k{font-weight:400;color:var(--faint);font-size:12.5px;display:block;margin-top:1px}
+  .toggle button[aria-pressed="true"]{background:var(--green);color:#fff;box-shadow:var(--shadow)}
+  :root[data-theme="dark"] .toggle button[aria-pressed="true"],
+  @media (prefers-color-scheme:dark){}
+  .toggle button[aria-pressed="true"] .k{color:rgba(255,255,255,.8)}
+  .panelmeta{color:var(--faint);font-size:13.5px;font-family:ui-sans-serif,sans-serif;margin:2px 0 26px}
+  /* card */
+  section.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:22px 24px;margin:20px 0;box-shadow:var(--shadow)}
+  .kicker{font-family:ui-sans-serif,sans-serif;font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--faint);font-weight:700;margin-bottom:2px}
+  h2{font-size:21px;margin:.1em 0 .1em;font-weight:600}
+  .sub{color:var(--muted);font-size:15px;margin:.2em 0 18px;max-width:820px}
+  /* legend */
+  .legend{display:flex;gap:20px;font-family:ui-sans-serif,sans-serif;font-size:12.5px;
+    color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
+  .legend i{width:26px;height:11px;border-radius:3px;display:inline-block;vertical-align:middle;margin-right:6px}
+  .sw-p{background:var(--green)} .sw-f{background:var(--frame)}
+  /* diverging chart */
+  .chart{width:100%;overflow-x:auto}
+  .drow{display:grid;grid-template-columns:120px 1fr;align-items:center;gap:12px;
+    padding:5px 0;border-top:1px solid var(--line2)}
+  .drow:first-child{border-top:0}
+  .dlabel{text-align:right;font-family:ui-sans-serif,sans-serif;font-size:13.5px;color:var(--ink);font-weight:600}
+  .dlabel small{display:block;color:var(--faint);font-weight:400;font-size:11px}
+  .track{position:relative;height:34px}
+  .axis{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line);transform:translateX(-.5px)}
+  .bar{position:absolute;top:50%;transform:translateY(-50%);height:20px;border-radius:4px;
+    display:flex;align-items:center;transition:width .5s ease}
+  .bar.f{right:50%;background:var(--frame-soft);border:1px solid var(--frame-line);justify-content:flex-start}
+  .bar.p{left:50%;background:var(--green-soft);border:1px solid var(--green-line);justify-content:flex-end}
+  .bar .v{font-family:ui-sans-serif,sans-serif;font-size:11px;font-weight:700;padding:0 6px;white-space:nowrap}
+  .bar.f .v{color:var(--frame)} .bar.p .v{color:var(--green-deep)}
+  .owns{position:absolute;top:50%;transform:translateY(-50%);font-family:ui-sans-serif,sans-serif;
+    font-size:11px;font-weight:700}
+  .owns.f{color:var(--frame)} .owns.p{color:var(--green-deep)}
+  .endlbl{display:flex;justify-content:space-between;font-family:ui-sans-serif,sans-serif;
+    font-size:12px;color:var(--muted);margin:2px 0 10px;padding:0 2px}
+  .endlbl .l{color:var(--frame);font-weight:700} .endlbl .r{color:var(--green-deep);font-weight:700}
+  /* flip strip */
+  .flip{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px}
+  .flipcell{border:1px solid var(--line);border-radius:11px;padding:14px 16px;background:var(--bg)}
+  .flipcell .dom{font-family:ui-sans-serif,sans-serif;font-size:12px;letter-spacing:.05em;color:var(--faint);font-weight:700;text-transform:uppercase}
+  .flipcell .own{font-size:18px;font-weight:600;margin-top:3px}
+  .flipcell .own .tag{font-family:ui-sans-serif,sans-serif;font-size:12px;border-radius:999px;padding:2px 9px;margin-left:6px;vertical-align:middle}
+  .tag.p{background:var(--green-soft);color:var(--green-deep);border:1px solid var(--green-line)}
+  .tag.f{background:var(--frame-soft);color:var(--frame);border:1px solid var(--frame-line)}
+  .flipcell .num{font-family:ui-sans-serif,sans-serif;font-size:13px;color:var(--muted);margin-top:6px}
+  .arrowbig{text-align:center;font-size:15px;color:var(--muted);margin:12px 0 2px;font-family:ui-sans-serif,sans-serif}
+  /* chair */
+  .chairgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:720px){.chairgrid{grid-template-columns:1fr}.flip{grid-template-columns:1fr}}
+  .col h3{font-family:ui-sans-serif,sans-serif;font-size:13px;text-transform:uppercase;
+    letter-spacing:.08em;margin:0 0 10px;font-weight:700}
+  .col.def h3{color:var(--faint)} .col.pick h3{color:var(--green-deep)}
+  .grow{border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:9px;background:var(--bg);
+    display:flex;gap:10px;align-items:baseline}
+  .grow.chosen{border-color:var(--green-line);background:var(--accentbg);border-left:4px solid var(--green)}
+  .grow.faded{opacity:.62}
+  .glabel{font-family:ui-sans-serif,sans-serif;font-weight:700;font-size:13.5px;white-space:nowrap}
+  .gslot{color:var(--muted);font-size:13.5px}
+  .gint{margin-left:auto;font-family:ui-sans-serif,sans-serif;font-size:11.5px;color:var(--faint);white-space:nowrap}
+  .crit{display:inline-block;font-family:ui-sans-serif,sans-serif;font-size:10.5px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.05em;background:var(--green);color:#fff;border-radius:5px;padding:1px 7px;margin-left:6px}
+  .why{font-size:13.5px;color:var(--muted);margin:8px 2px 0;line-height:1.45}
+  /* fills */
+  .fillhead{border:1px dashed var(--frame-line);background:var(--frame-soft);border-radius:9px;
+    padding:11px 14px;margin-bottom:16px}
+  .fillhead .q{font-size:15.5px;color:var(--ink);font-style:italic}
+  .fillhead .m{font-family:ui-sans-serif,sans-serif;font-size:12px;color:var(--frame);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+  .fillgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:720px){.fillgrid{grid-template-columns:1fr}}
+  .fcol .colhd{font-family:ui-sans-serif,sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;
+    letter-spacing:.06em;margin:0 0 9px;display:flex;align-items:center;gap:7px}
+  .fcol.persona .colhd{color:var(--green-deep)} .fcol.frame .colhd{color:var(--frame)}
+  .fcard{border-radius:10px;padding:12px 14px;margin-bottom:11px;box-shadow:var(--shadow)}
+  .fcard.persona{background:var(--green-soft);border:1px solid var(--green-line)}
+  .fcard.frame{background:var(--bg);border:1px dashed var(--frame-line)}
+  .fname{font-family:ui-sans-serif,sans-serif;font-weight:700;font-size:13.5px;margin-bottom:4px}
+  .fcard.persona .fname{color:var(--green-deep)} .fcard.frame .fname{color:var(--frame)}
+  .ftxt{font-size:14.5px;line-height:1.5;color:var(--ink)}
+  .foot{color:var(--faint);font-size:12.5px;font-family:ui-sans-serif,sans-serif;
+    border-top:1px solid var(--line);margin-top:34px;padding-top:16px;line-height:1.6}
+  .foot b{color:var(--muted)}
+  .themebtn{position:fixed;top:14px;right:16px;font-family:ui-sans-serif,sans-serif;font-size:12px;
+    border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:8px;
+    padding:6px 11px;cursor:pointer;box-shadow:var(--shadow);z-index:9}
+  .note{font-family:ui-sans-serif,sans-serif;font-size:12px;color:var(--faint);margin-top:10px;font-style:italic}
+</style>
+</head>
+<body>
+<button class="themebtn" id="themebtn">◐ theme</button>
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Engine 3 · Commentary Constellation · S156</div>
+    <h1>Two kinds of reader see different silences</h1>
+    <p class="lede">A coded passage's <b>open gaps</b> are read by a panel of corpus-<b>personas</b> (real scholars, seated on their own texts) and atlas-<b>frames</b> (stance-coordinates). They nominate the gaps their stance notices; a chair selects a few; then everyone writes a fill. The two reader-types nominate <b>non-overlapping</b> gaps — and <b>which axis each owns flips by domain.</b></p>
+  </header>
+
+  <div class="toggle sans" role="tablist">
+    <button id="tab-rom" aria-pressed="true" role="tab">Romans 8<span class="k">Christian scholars · the golden chain</span></button>
+    <button id="tab-sly" aria-pressed="false" role="tab">She Loves You<span class="k">Secular thinkers · a pop lyric</span></button>
+  </div>
+  <div class="panelmeta" id="panelmeta"></div>
+
+  <!-- 1. DIVERGENCE -->
+  <section class="card">
+    <div class="kicker">The divergence</div>
+    <h2>Where each reader-type leans</h2>
+    <p class="sub" id="div-sub"></p>
+    <div class="legend sans">
+      <span><i class="sw-f"></i>Frames — the stance-coordinates</span>
+      <span><i class="sw-p"></i>Personas — the corpus scholars</span>
+      <span style="color:var(--faint)">bar = share of that reader-type's nominations landing on this position</span>
+    </div>
+    <div class="endlbl"><span class="l">◀ frames lean here</span><span class="r">personas lean here ▶</span></div>
+    <div class="chart" id="chart"></div>
+    <div class="note" id="div-note"></div>
+  </section>
+
+  <!-- 2. THE FLIP (always cross-domain) -->
+  <section class="card" style="background:var(--accentbg)">
+    <div class="kicker">The cross-domain flip</div>
+    <h2>The <em>interior</em> position swaps owners</h2>
+    <p class="sub">Same instrument, same “felt-from-inside” gap-position. The reader-type that owns it reverses when the personas change — because a Freudian and an Augustinian genuinely read for different things. The <b>frames stay constant; the personas rotate the axis.</b></p>
+    <div class="flip">
+      <div class="flipcell">
+        <div class="dom">Romans 8 · interior</div>
+        <div class="own">owned by <span class="tag f">frames</span></div>
+        <div class="num" id="flip-rom"></div>
+        <div class="num" style="margin-top:2px">Christian soteriologists walk past “what it feels like from inside.”</div>
+      </div>
+      <div class="flipcell">
+        <div class="dom">She Loves You · interior</div>
+        <div class="own">owned by <span class="tag p">personas</span></div>
+        <div class="num" id="flip-sly"></div>
+        <div class="num" style="margin-top:2px">The psychoanalysts chase interior above all — it is their discipline.</div>
+      </div>
+    </div>
+    <div class="arrowbig">frame-owned&nbsp;&nbsp;⟶&nbsp;&nbsp;persona-owned</div>
+  </section>
+
+  <!-- 3. CHAIR -->
+  <section class="card">
+    <div class="kicker">The chair's selection</div>
+    <h2>The panel escaped the computed default</h2>
+    <p class="sub">A cheap interest score would pick the top-scoring gaps (the obvious ones). The chair selects on auditable criteria — <b>novelty · under-commented · dispersion</b> — not “most important.” Watch the highlighted picks skip the computed favourites.</p>
+    <div class="chairgrid">
+      <div class="col def">
+        <h3>Computed top interest (the default)</h3>
+        <div id="chair-default"></div>
+      </div>
+      <div class="col pick">
+        <h3>What the chair actually picked</h3>
+        <div id="chair-pick"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. FILLS -->
+  <section class="card">
+    <div class="kicker">The fills</div>
+    <h2>Personas fill from doctrine &amp; theory; frames fill from structure</h2>
+    <p class="sub">One selected gap, read side by side. The personas answer out of their own tradition — Augustine in Latin, Nietzsche in German, Freud through transference. The frames answer from structure — belonging, mediation, co-arising. Real fills, pulled from the run.</p>
+    <div class="fillhead">
+      <div class="m">The gap being filled</div>
+      <div class="q" id="fill-q"></div>
+    </div>
+    <div class="fillgrid">
+      <div class="fcol persona">
+        <div class="colhd"><i class="sw-p" style="width:22px;height:10px;border-radius:3px;display:inline-block"></i>Personas → doctrine / theory</div>
+        <div id="fill-personas"></div>
+      </div>
+      <div class="fcol frame">
+        <div class="colhd"><i class="sw-f" style="width:22px;height:10px;border-radius:3px;display:inline-block"></i>Frames → structure</div>
+        <div id="fill-frames"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot sans">
+    <b>Source.</b> <code>commentary_constellation_result</code> + <code>source_move_gap</code>, run_tags <code>cc20_rom8_s156</code> · <code>cc20_sly_s156</code> (S156, haiku panel). Nomination-share = a reader-type's nominations on a position ÷ its total nominations; divergence = persona-share − frame-share (points). Shares are per-critic lean (each critic names up to 5), not a partition. SLY nomination keys were normalised across the documented <code>GAP-</code>-prefix chair bug. Fills are verbatim <code>payload_json</code>. Reviewable mock for the Friday demo — not production.
+  </div>
+</div>
+
+<script id="viz-data" type="application/json">{"rom": {"source_key": "ROM-8-28-30", "n_persona": 6, "n_frame": 15, "total_p": 30, "total_f": 75, "n_gaps": 18, "slots": [{"slot": "instrument", "p": 14, "f": 18, "p_share": 46.7, "f_share": 24.0, "div": 22.7}, {"slot": "warrant", "p": 6, "f": 5, "p_share": 20.0, "f_share": 6.7, "div": 13.3}, {"slot": "edge", "p": 3, "f": 5, "p_share": 10.0, "f_share": 6.7, "div": 3.3}, {"slot": "reason", "p": 2, "f": 3, "p_share": 6.7, "f_share": 4.0, "div": 2.7}, {"slot": "substrate", "p": 2, "f": 9, "p_share": 6.7, "f_share": 12.0, "div": -5.3}, {"slot": "reciprocity", "p": 0, "f": 6, "p_share": 0.0, "f_share": 8.0, "div": -8.0}, {"slot": "interior", "p": 3, "f": 18, "p_share": 10.0, "f_share": 24.0, "div": -14.0}, {"slot": "degree", "p": 0, "f": 11, "p_share": 0.0, "f_share": 14.7, "div": -14.7}], "selects": [{"selected": [{"gap_id": "GAP-5de0ccc495", "why_selected": "Only 3 critics, but the M5→M6 edge is load-bearing: it seams eternal family-status to historical call. Convergence across reparative-integrative and dual-aspect frames signals robust-but-under-commented.", "criterion": "under-commented"}, {"gap_id": "GAP-dbd8d040e8", "why_selected": "Phenomenology of conformity's interior — noticed only by participatory/practice frames the doctrinal majority skipped. Novel because most critics chased instruments; the felt texture is answerable via Word/Spirit/participation.", "criterion": "novelty"}]}], "top_interest": [{"gap_id": "GAP-eb9d06c354", "move_label": "M2→M3", "slot": "edge", "interest": 0.9}, {"gap_id": "GAP-fafc1ccd77", "move_label": "M7", "slot": "instrument", "interest": 0.9}, {"gap_id": "GAP-513191d5ab", "move_label": "M8", "slot": "interior", "interest": 0.9}, {"gap_id": "GAP-a3ae559998", "move_label": "M8", "slot": "warrant", "interest": 0.9}, {"gap_id": "GAP-68cae85848", "move_label": "M1", "slot": "warrant", "interest": 0.8}], "gaps": [{"gap_id": "GAP-b8dd36a4ad", "move_label": "M1", "slot": "instrument", "locus": "frame-role", "interest": 0.5, "gap_description": "by what means the shared knowing is held (tradition? Spirit? experience?) is unsaid", "p": 0, "f": 3, "p_share": 0.0, "f_share": 4.0, "div": -4.0}, {"gap_id": "GAP-68cae85848", "move_label": "M1", "slot": "warrant", "locus": "frame-role", "interest": 0.8, "gap_description": "on whose authority 'we know' — the ground of the assurance is unnamed", "p": 2, "f": 3, "p_share": 6.7, "f_share": 4.0, "div": 2.7}, {"gap_id": "GAP-d28dd6b425", "move_label": "M2", "slot": "degree", "locus": "frame-role", "interest": 0.4, "gap_description": "how comprehensively 'all things' co-work — no calibration of scope/intensity", "p": 0, "f": 8, "p_share": 0.0, "f_share": 10.7, "div": -10.7}, {"gap_id": "GAP-eb9d06c354", "move_label": "M2→M3", "slot": "edge", "locus": "edge", "interest": 0.9, "gap_description": "leap from providential synergy for lovers-of-God to a divine foreknowing of a set — why the guarantee rests on prior election is unstated", "p": 3, "f": 2, "p_share": 10.0, "f_share": 2.7, "div": 7.3}, {"gap_id": "GAP-1a1f50de9b", "move_label": "M3", "slot": "substrate", "locus": "grammar-slot", "interest": 0.75, "gap_description": "grammar-slot UNDERDETERMINED: substrate left open — “those (a set of persons, not yet further characterized)”", "p": 2, "f": 9, "p_share": 6.7, "f_share": 12.0, "div": -5.3}, {"gap_id": "GAP-dbd8d040e8", "move_label": "M4", "slot": "interior", "locus": "frame-role", "interest": 0.8, "gap_description": "what conformity-to-the-Son's-image feels like from inside is unsaid", "p": 1, "f": 3, "p_share": 3.3, "f_share": 4.0, "div": -0.7}, {"gap_id": "GAP-92512daca4", "move_label": "M4", "slot": "instrument", "locus": "frame-role", "interest": 0.7, "gap_description": "by what means the conforming is accomplished (Spirit? suffering? sacraments?) is unnamed", "p": 3, "f": 3, "p_share": 10.0, "f_share": 4.0, "div": 6.0}, {"gap_id": "GAP-43f54c5386", "move_label": "M5", "slot": "reason", "locus": "frame-role", "interest": 0.5, "gap_description": "why the Son must be FIRSTBORN (vs simply elder / unique) is unsaid — primogeniture logic unspoken", "p": 2, "f": 3, "p_share": 6.7, "f_share": 4.0, "div": 2.7}, {"gap_id": "GAP-1f5087dd31", "move_label": "M5", "slot": "reciprocity", "locus": "frame-role", "interest": 0.6, "gap_description": "whether the siblings acknowledge/relate-back to the firstborn is unsaid", "p": 0, "f": 6, "p_share": 0.0, "f_share": 8.0, "div": -8.0}, {"gap_id": "GAP-5de0ccc495", "move_label": "M5→M6", "slot": "edge", "locus": "edge", "interest": 0.7, "gap_description": "jump from firstborn/sibling-family status to the temporal calling of those siblings — why primogeniture entails a historical call is not spelled out", "p": 0, "f": 3, "p_share": 0.0, "f_share": 4.0, "div": -4.0}, {"gap_id": "GAP-712f8e15dc", "move_label": "M6", "slot": "interior", "locus": "frame-role", "interest": 0.7, "gap_description": "what being-called is experienced as (audible? inward? gradual?) is unsaid", "p": 0, "f": 9, "p_share": 0.0, "f_share": 12.0, "div": -12.0}, {"gap_id": "GAP-8a9e8a01cf", "move_label": "M6", "slot": "instrument", "locus": "frame-role", "interest": 0.8, "gap_description": "by what means the calling reaches its addressees (preaching? Spirit?) is unnamed", "p": 4, "f": 6, "p_share": 13.3, "f_share": 8.0, "div": 5.3}, {"gap_id": "GAP-701a239ab3", "move_label": "M7", "slot": "interior", "locus": "frame-role", "interest": 0.8, "gap_description": "the justified-ones' inner experience of being declared right is unsaid", "p": 1, "f": 2, "p_share": 3.3, "f_share": 2.7, "div": 0.7}, {"gap_id": "GAP-fafc1ccd77", "move_label": "M7", "slot": "instrument", "locus": "frame-role", "interest": 0.9, "gap_description": "by what means justification is effected (faith? Christ's work?) — not stated here", "p": 5, "f": 1, "p_share": 16.7, "f_share": 1.3, "div": 15.3}, {"gap_id": "GAP-633423ea8a", "move_label": "M8", "slot": "degree", "locus": "frame-role", "interest": 0.7, "gap_description": "the extent/fullness of glory is unspecified", "p": 0, "f": 3, "p_share": 0.0, "f_share": 4.0, "div": -4.0}, {"gap_id": "GAP-513191d5ab", "move_label": "M8", "slot": "interior", "locus": "frame-role", "interest": 0.9, "gap_description": "what the glorified-ones experience inwardly of glory is unsaid", "p": 1, "f": 4, "p_share": 3.3, "f_share": 5.3, "div": -2.0}, {"gap_id": "GAP-7ae2725a1c", "move_label": "M8", "slot": "instrument", "locus": "frame-role", "interest": 0.8, "gap_description": "by what means glorification is accomplished — not stated", "p": 2, "f": 5, "p_share": 6.7, "f_share": 6.7, "div": 0.0}, {"gap_id": "GAP-a3ae559998", "move_label": "M8", "slot": "warrant", "locus": "frame-role", "interest": 0.9, "gap_description": "authority for the aorist-as-secured claim (assurance-basis) unstated in this cell", "p": 4, "f": 2, "p_share": 13.3, "f_share": 2.7, "div": 10.7}], "fill": {"gap": {"gap_id": "GAP-dbd8d040e8", "move_label": "M4", "slot": "interior", "locus": "frame-role", "interest": 0.8, "gap_description": "what conformity-to-the-Son's-image feels like from inside is unsaid", "p": 1, "f": 3, "p_share": 3.3, "f_share": 4.0, "div": -0.7}, "personas": [{"kind": "persona", "id": "persona:augustine", "fill": "Interius, conformari imagini Filii sentitur ut gratia victrix concupiscentiae — the wretched cry Miser ego homo! yielding to a delight in righteousness that grace itself infuses, so that what the law demonstrated as reatus is now inwardly overcome by love the Spirit pours in.", "commentary": "My frame asks: what does the soul actually feel as it is being conformed? Before grace the interior is the fallax dulcedo of forbidden concupiscentia and the terror of praevaricatio; under grace the same interior is reordered — the sweetness shifts from the vetitum to iustitia, and the wretched-man cry becomes gratias ago Deo. Conformity is felt as the death of the old dulcedo and the birth of a new one; the interior of M4 is the transitus from delectatio peccati to delectatio iustitiae, which no soul supplies to itself but receives per gratiam."}, {"kind": "persona", "id": "persona:luther", "fill": "Conformity to the Son's image is felt from within as the whole-life poenitentiam agite — a daily hatred of self joined to the increasing love and assurance of safety that the gospel promise creates, the cross carried outwardly while the conscience clings to Christ inwardly.", "commentary": "My frame asks: what does the believer actually feel as he is being conformed? Thesis 1 answers — the whole life is repentance; thesis 3 — no inward repentance without outward mortifications; thesis 16 — the movement is from horror toward assurance of safety. The interior of conformity is thus a simul: hatred of self and love increasing together, the cross felt as death to the old man and the promise felt as the growing certainty of the brother-status Christ has given. It feels like being pulled from almost-despair into safety by a Word not spoken by the priest but by Christ Himself."}, {"kind": "persona", "id": "persona:athanasius", "fill": "Conformity to the Son's image is felt from within as being drawn back from the verge of non-existence into incorruption — the effaced image gradually restored so that the human, once wasting toward corruption, senses divine life reviving in it and things human becoming divine.", "commentary": "My frame asks: what does the creature feel as the Word re-creates it in His own likeness? Before the Incarnation the interior was corruption, wasting, the fear of returning to non-existence; under the Incarnate Word the same interior is reversed — the divine life given at creation is recovered and amplified. Conformity is felt as the ceasing of the pull toward nothingness and the growing partaking of the Word's own incorruption; the humiliation He accepted makes His Divinity the more reverenced within, and the image, once effaced, begins to shine again as our own."}, {"kind": "persona", "id": "persona:arminius", "fill": "Conformity to the Son's image is felt inwardly as the freely-answered persuasion of grace — the believer consciously cooperating with the Spirit, growing in faith and love toward Christ, and knowing the shaping as a real synergy that his own resistible will could interrupt but does not.", "commentary": "My frame asks: what is it like from inside if election is conditional and grace resistible? Conformity cannot feel like being carried irresistibly; it must feel like being sweetly persuaded — the will engaged, faith increasing, and the believer aware that continuance is his own responsive act under God's sufficient grace. The interior of M4 is thus the felt reality of cooperation: joy in yielding, sober fear of falling away, and the growing likeness to Christ known as a life actually lived, not a status merely applied."}], "frames": [{"kind": "frame", "id": "frame:00", "fill": "Conformity is felt inwardly as reverent submission to the delegated voice — the soul recognizing itself as being shaped into the household's likeness by yielding to appointed guidance, the interior mood analogically mapped to a lesser rank taking on the elder's bearing.", "commentary": "My frame asks: what does the sibling actually feel as the Firstborn's form takes hold under hierarchical guidance? Performatively, conformity is undergone through delegated summons — teachers, elders, the transmitted voice — so the interior mood is one of listening obedience, a reverent narrowing of self toward the shape mediated to it. The felt texture is analogical: the sibling knows the elder's likeness only as the form guiding voices press upon the soul, and salvation-telos is enacted precisely in that receptive posture."}, {"kind": "frame", "id": "frame:01", "fill": "From within, conformity to the Son's image feels like a lucid ache of longing — a reasoned recognition that one is being drawn, through mediating loves and losses, into a likeness one did not author but can willingly consent to.", "commentary": "My frame asks: what is the interior phenomenology of a triadic mediation — Father conforming, Son as pattern, Spirit as agent — when the self is the fourth term being reshaped? If the telos is understanding, then the felt sense must be intelligible longing rather than mute suffering: an analogical dawning in which each grief maps onto the Son's own contour and becomes legible as formation. The gap is unsaid, I suspect, because the interior is precisely the place where reasoned charity toward one's own becoming must replace the language of mere endurance."}]}, "persona_ids": ["anselm", "arminius", "athanasius", "augustine", "calvin", "luther"]}, "sly": {"source_key": "SLY-1963", "n_persona": 5, "n_frame": 15, "total_p": 25, "total_f": 60, "n_gaps": 56, "slots": [{"slot": "interior", "p": 10, "f": 10, "p_share": 40.0, "f_share": 16.7, "div": 23.3}, {"slot": "reason", "p": 5, "f": 12, "p_share": 20.0, "f_share": 20.0, "div": 0.0}, {"slot": "degree", "p": 0, "f": 1, "p_share": 0.0, "f_share": 1.7, "div": -1.7}, {"slot": "edge", "p": 7, "f": 19, "p_share": 28.0, "f_share": 31.7, "div": -3.7}, {"slot": "instrument", "p": 1, "f": 5, "p_share": 4.0, "f_share": 8.3, "div": -4.3}, {"slot": "warrant", "p": 0, "f": 3, "p_share": 0.0, "f_share": 5.0, "div": -5.0}, {"slot": "reciprocity", "p": 2, "f": 10, "p_share": 8.0, "f_share": 16.7, "div": -8.7}], "selects": [{"selected": [{"gap_id": "096c725d79", "why_selected": "Only one critic named the unspoken cause of the injury — yet it is load-bearing: every reconciliation that skips the pathogenic kernel guarantees recurrence. Idiosyncratic-but-sharp; answerable.", "criterion": "under-commented"}, {"gap_id": "cfeb50e5a9", "why_selected": "Two frames (palaver-triadic, filial-testimonial) converged on the mediator's unrecorded deputation — a rare but robust structural hinge without which the friend's speech has no derivable warrant.", "criterion": "dispersion"}]}, {"selected": [{"gap_id": "cfeb50e5a9", "why_selected": "Deputation-record of the mediator is the triadic hinge of the whole palaver; only 2 critics saw it, yet without it the testimony has no standing — sharp and answerable.", "criterion": "under-commented"}, {"gap_id": "4915d0260c", "why_selected": "The asyndetic pivot between gladness and grievance is a rare textual-formal observation converged on by process, Jamesian, and Bergsonian frames — robust cross-frame convergence on a load-bearing micro-transition.", "criterion": "dispersion"}]}], "top_interest": [{"gap_id": "GAP-82679d85ea", "move_label": "M22→M23", "slot": "edge", "interest": 0.95}, {"gap_id": "GAP-de3971a093", "move_label": "M24", "slot": "reciprocity", "interest": 0.95}, {"gap_id": "GAP-44b7000ebf", "move_label": "M3→M4", "slot": "edge", "interest": 0.95}, {"gap_id": "GAP-23223c6138", "move_label": "M10", "slot": "reason", "interest": 0.9}, {"gap_id": "GAP-26e8a75eed", "move_label": "M10→M11", "slot": "edge", "interest": 0.9}], "gaps": [{"gap_id": "GAP-f10469c643", "move_label": "M1", "slot": "reason", "locus": "frame-role", "interest": 0.85, "gap_description": "why she still loves you is not stated", "p": 0, "f": 3, "p_share": 0.0, "f_share": 5.0, "div": -5.0}, {"gap_id": "GAP-3fe3ff6e97", "move_label": "M1", "slot": "degree", "locus": "frame-role", "interest": 0.7, "gap_description": "how much she loves you is unspecified", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-23223c6138", "move_label": "M10", "slot": "reason", "locus": "frame-role", "interest": 0.9, "gap_description": "why her loving you cannot be bad is unstated (the crux of the argument)", "p": 0, "f": 2, "p_share": 0.0, "f_share": 3.3, "div": -3.3}, {"gap_id": "GAP-26e8a75eed", "move_label": "M10→M11", "slot": "edge", "locus": "edge", "interest": 0.9, "gap_description": "from not-bad to you-should-be-glad is a normative jump: absence of badness doesn't entail obligation of gladness", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-4cd12cf62c", "move_label": "M11", "slot": "interior", "locus": "frame-role", "interest": 0.8, "gap_description": "whether you actually feel this norm is unstated", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-f92a9705df", "move_label": "M11", "slot": "warrant", "locus": "frame-role", "interest": 0.7, "gap_description": "on whose authority the norm holds is unstated", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-48ef14579b", "move_label": "M12", "slot": "degree", "locus": "frame-role", "interest": 0.5, "gap_description": "how glad you should be is unstated", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-99fea1c5e4", "move_label": "M12", "slot": "reciprocity", "locus": "frame-role", "interest": 0.7, "gap_description": "whether gladness runs back to her is unstated", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-f1fb9a5bc6", "move_label": "M12", "slot": "interior", "locus": "frame-role", "interest": 0.9, "gap_description": "your actual current affective state (vs. the prescribed one) is unstated — the pivotal gap", "p": 4, "f": 4, "p_share": 16.0, "f_share": 6.7, "div": 9.3}, {"gap_id": "GAP-0ca8b84f61", "move_label": "M12", "slot": "instrument", "locus": "frame-role", "interest": 0.6, "gap_description": "how you are to become glad — by what means — is unstated", "p": 1, "f": 4, "p_share": 4.0, "f_share": 6.7, "div": -2.7}, {"gap_id": "GAP-4915d0260c", "move_label": "M12→M13", "slot": "edge", "locus": "edge", "interest": 0.85, "gap_description": "pivot from you-should-be-glad to her grievance is asyndetic; the 'but'/'and yet' that reframes gladness against real damage is unstated", "p": 2, "f": 1, "p_share": 8.0, "f_share": 1.7, "div": 6.3}, {"gap_id": "GAP-c4b170497c", "move_label": "M13", "slot": "warrant", "locus": "frame-role", "interest": 0.7, "gap_description": "on whose authority the grievance is placed on record — narrator relays her speech", "p": 0, "f": 2, "p_share": 0.0, "f_share": 3.3, "div": -3.3}, {"gap_id": "GAP-096c725d79", "move_label": "M14", "slot": "reason", "locus": "frame-role", "interest": 0.85, "gap_description": "why you hurt her is never given", "p": 1, "f": 0, "p_share": 4.0, "f_share": 0.0, "div": 4.0}, {"gap_id": "GAP-181a69a1e2", "move_label": "M14", "slot": "reciprocity", "locus": "frame-role", "interest": 0.7, "gap_description": "whether the hurt runs both ways is unaddressed — bears on 'still loves you'", "p": 0, "f": 1, "p_share": 0.0, "f_share": 1.7, "div": -1.7}, {"gap_id": "GAP-42f1d81734", "move_label": "M15→M16", "slot": "edge", "locus": "edge", "interest": 0.9, "gap_description": "from her near-breakdown to her revised exculpation of you — the reader must infer that even from that depth she distinguishes act from character", "p": 1, "f": 4, "p_share": 4.0, "f_share": 6.7, "div": -2.7}, {"gap_id": "GAP-9d7446b759", "move_label": "M17", "slot": "reason", "locus": "frame-role", "interest": 0.85, "gap_description": "on what basis she 'knows' your true kind — the epistemic ground of the reconciling claim is unsaid", "p": 1, "f": 1, "p_share": 4.0, "f_share": 1.7, "div": 2.3}, {"gap_id": "GAP-ad9f6780d4", "move_label": "M17", "slot": "degree", "locus": "frame-role", "interest": 0.5, "gap_description": "how settled/certain the knowledge is", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-67bca3f610", "move_label": "M17", "slot": "reciprocity", "locus": "frame-role", "interest": 0.8, "gap_description": "whether you know the same of her / whether the recognition runs back — bears on what he urges you to do", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-e0b35d8f35", "move_label": "M18", "slot": "reason", "locus": "frame-role", "interest": 0.8, "gap_description": "why the earlier hurt is treated as anomaly rather than character — the exculpating ground is unsaid", "p": 2, "f": 3, "p_share": 8.0, "f_share": 5.0, "div": 3.0}, {"gap_id": "GAP-ae078df1a0", "move_label": "M18", "slot": "reciprocity", "locus": "frame-role", "interest": 0.6, "gap_description": "whether her kind is likewise re-characterized — mutuality of the exculpation", "p": 0, "f": 1, "p_share": 0.0, "f_share": 1.7, "div": -1.7}, {"gap_id": "GAP-dc4b8a455d", "move_label": "M18", "slot": "interior", "locus": "frame-role", "interest": 0.7, "gap_description": "your own inner state under this re-characterization — what you are to feel/do with being cleared", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-654939c331", "move_label": "M18→M19", "slot": "edge", "locus": "edge", "interest": 0.9, "gap_description": "from you-are-not-a-hurter to the decision-is-yours — the leap presupposes that character-clearance is what returns agency to you", "p": 2, "f": 6, "p_share": 8.0, "f_share": 10.0, "div": -2.0}, {"gap_id": "GAP-1d3c5e06b6", "move_label": "M19", "slot": "interior", "locus": "frame-role", "interest": 0.6, "gap_description": "your inner state at being handed the choice is unsaid", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-423c5fff11", "move_label": "M1→M2", "slot": "edge", "locus": "edge", "interest": 0.9, "gap_description": "the leap from her standing love to your mistaken belief presupposes a contrast the text never spells out — she loves, YET you think otherwise", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-e583496562", "move_label": "M2", "slot": "reason", "locus": "frame-role", "interest": 0.7, "gap_description": "why you think you've lost her is not stated", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-ff76a7494e", "move_label": "M2", "slot": "warrant", "locus": "frame-role", "interest": 0.55, "gap_description": "on what basis you formed the wrong belief is unsaid", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-25eaf539d0", "move_label": "M20", "slot": "reciprocity", "locus": "frame-role", "interest": 0.7, "gap_description": "whether her side of the decision runs back to you is unsaid", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-e37ec8103e", "move_label": "M20→M21", "slot": "edge", "locus": "edge", "interest": 0.85, "gap_description": "from the decision being yours to the friend's judgment that the ask is fair — the shift from autonomy to advocacy is unmarked", "p": 0, "f": 1, "p_share": 0.0, "f_share": 1.7, "div": -1.7}, {"gap_id": "GAP-6f86932dff", "move_label": "M22", "slot": "reciprocity", "locus": "frame-role", "interest": 0.85, "gap_description": "whether the fairness runs both ways — what she owes in return — is unsaid", "p": 0, "f": 1, "p_share": 0.0, "f_share": 1.7, "div": -1.7}, {"gap_id": "GAP-82679d85ea", "move_label": "M22→M23", "slot": "edge", "locus": "edge", "interest": 0.95, "gap_description": "from fair-ask to you-can-hurt-yourself — the unstated inference is that refusing the fair ask boomerangs the hurt symmetrically onto you", "p": 1, "f": 1, "p_share": 4.0, "f_share": 1.7, "div": 2.3}, {"gap_id": "GAP-fc30fc715a", "move_label": "M23", "slot": "reason", "locus": "frame-role", "interest": 0.75, "gap_description": "why pride is the operative wound (vs. e.g. real grievance) is not argued", "p": 1, "f": 0, "p_share": 4.0, "f_share": 0.0, "div": 4.0}, {"gap_id": "GAP-100f1cad1b", "move_label": "M23", "slot": "degree", "locus": "frame-role", "interest": 0.6, "gap_description": "how much pride can hurt — dismissively 'only' or gravely — is unsaid", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-c776a2ce21", "move_label": "M23", "slot": "reciprocity", "locus": "frame-role", "interest": 0.9, "gap_description": "the hurt YOU dealt HER is elided; only your self-hurt is named", "p": 2, "f": 1, "p_share": 8.0, "f_share": 1.7, "div": 6.3}, {"gap_id": "GAP-52cf8da7e2", "move_label": "M23", "slot": "interior", "locus": "frame-role", "interest": 0.7, "gap_description": "what you actually feel under the pride — shame, fear, grief — is unsaid", "p": 3, "f": 0, "p_share": 12.0, "f_share": 0.0, "div": 12.0}, {"gap_id": "GAP-2967c8f4ec", "move_label": "M23→M24", "slot": "edge", "locus": "edge", "interest": 0.9, "gap_description": "from self-inflicted-hurt to apologize — the prudential-to-performative leap (avoid self-hurt by delivering the apology) is unstated", "p": 0, "f": 1, "p_share": 0.0, "f_share": 1.7, "div": -1.7}, {"gap_id": "GAP-18655098e9", "move_label": "M24", "slot": "degree", "locus": "frame-role", "interest": 0.6, "gap_description": "how full the apology should be — perfunctory or thoroughgoing — is unsaid", "p": 0, "f": 1, "p_share": 0.0, "f_share": 1.7, "div": -1.7}, {"gap_id": "GAP-de3971a093", "move_label": "M24", "slot": "reciprocity", "locus": "frame-role", "interest": 0.95, "gap_description": "whether she apologizes back / what she gives in return is entirely unsaid", "p": 0, "f": 4, "p_share": 0.0, "f_share": 6.7, "div": -6.7}, {"gap_id": "GAP-5bf856cadd", "move_label": "M24", "slot": "interior", "locus": "frame-role", "interest": 0.85, "gap_description": "her inner state on receiving the apology — forgiveness? — is unsaid", "p": 0, "f": 3, "p_share": 0.0, "f_share": 5.0, "div": -5.0}, {"gap_id": "GAP-d551942175", "move_label": "M24", "slot": "instrument", "locus": "frame-role", "interest": 0.5, "gap_description": "the means/form of apology (words, gesture, return itself) is unspecified", "p": 0, "f": 1, "p_share": 0.0, "f_share": 1.7, "div": -1.7}, {"gap_id": "GAP-03543a40d3", "move_label": "M3", "slot": "reason", "locus": "frame-role", "interest": 0.6, "gap_description": "cause of the presumed loss is unstated", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-44b7000ebf", "move_label": "M3→M4", "slot": "edge", "locus": "edge", "interest": 0.95, "gap_description": "the friend's eyewitness encounter is offered as the corrective to your belief of loss, but the evidentiary warrant (I saw, therefore you're wrong) is never stated", "p": 1, "f": 1, "p_share": 4.0, "f_share": 1.7, "div": 2.3}, {"gap_id": "GAP-35bbf99e30", "move_label": "M4→M5", "slot": "edge", "locus": "edge", "interest": 0.85, "gap_description": "seeing her yields the report that she was thinking of you — the inference from encounter to disclosed-interior is unstated", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-3887734151", "move_label": "M5", "slot": "reciprocity", "locus": "frame-role", "interest": 0.7, "gap_description": "whether you were thinking of her is left unsaid", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-cfeb50e5a9", "move_label": "M5→M6", "slot": "edge", "locus": "edge", "interest": 0.8, "gap_description": "her thinking of you licenses her deputizing the friend to speak — the authorization step is a leap", "p": 0, "f": 2, "p_share": 0.0, "f_share": 3.3, "div": -3.3}, {"gap_id": "GAP-1169ec60ab", "move_label": "M6", "slot": "reciprocity", "locus": "frame-role", "interest": 0.8, "gap_description": "what she urges you to DO in return (go to her / apologize) is unsaid — the action-directive is left as fill", "p": 0, "f": 1, "p_share": 0.0, "f_share": 1.7, "div": -1.7}, {"gap_id": "GAP-dfd37a5fee", "move_label": "M7", "slot": "reason", "locus": "frame-role", "interest": 0.8, "gap_description": "why she says she loves you is not given", "p": 0, "f": 1, "p_share": 0.0, "f_share": 1.7, "div": -1.7}, {"gap_id": "GAP-66efd0d964", "move_label": "M7", "slot": "reciprocity", "locus": "frame-role", "interest": 0.7, "gap_description": "whether you say it back is unstated", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-bedf4d118c", "move_label": "M7", "slot": "interior", "locus": "frame-role", "interest": 0.8, "gap_description": "your inner response to her utterance is unstated", "p": 2, "f": 1, "p_share": 8.0, "f_share": 1.7, "div": 6.3}, {"gap_id": "GAP-e14f203731", "move_label": "M8", "slot": "reason", "locus": "frame-role", "interest": 0.9, "gap_description": "why she loves you — the basis of the claim — is unstated", "p": 0, "f": 2, "p_share": 0.0, "f_share": 3.3, "div": -3.3}, {"gap_id": "GAP-2976d7b787", "move_label": "M8", "slot": "degree", "locus": "frame-role", "interest": 0.5, "gap_description": "how much she loves you is unstated", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-9675aa4774", "move_label": "M8", "slot": "reciprocity", "locus": "frame-role", "interest": 0.8, "gap_description": "whether you love her back is unstated", "p": 0, "f": 1, "p_share": 0.0, "f_share": 1.7, "div": -1.7}, {"gap_id": "GAP-e8cf659509", "move_label": "M8", "slot": "interior", "locus": "frame-role", "interest": 0.7, "gap_description": "your inner experience of being loved is unstated", "p": 0, "f": 1, "p_share": 0.0, "f_share": 1.7, "div": -1.7}, {"gap_id": "GAP-78ad7d710a", "move_label": "M8→M9", "slot": "edge", "locus": "edge", "interest": 0.9, "gap_description": "from her uttered love to your self-evident knowledge that it can't be bad — the reader must supply the moral axiom bridging fact to valuation", "p": 0, "f": 2, "p_share": 0.0, "f_share": 3.3, "div": -3.3}, {"gap_id": "GAP-c97dba5624", "move_label": "M9", "slot": "interior", "locus": "frame-role", "interest": 0.7, "gap_description": "your actual felt assent to this 'knowledge' is unstated", "p": 1, "f": 1, "p_share": 4.0, "f_share": 1.7, "div": 2.3}, {"gap_id": "GAP-1ba9a110a0", "move_label": "M9", "slot": "instrument", "locus": "frame-role", "interest": 0.5, "gap_description": "by what faculty/means you know it is unstated", "p": 0, "f": 0, "p_share": 0.0, "f_share": 0.0, "div": 0.0}, {"gap_id": "GAP-db19b5b8b8", "move_label": "M9", "slot": "warrant", "locus": "frame-role", "interest": 0.8, "gap_description": "the narrator asserts you already know — on whose authority is unstated", "p": 0, "f": 1, "p_share": 0.0, "f_share": 1.7, "div": -1.7}], "fill": {"gap": {"gap_id": "GAP-cfeb50e5a9", "move_label": "M5→M6", "slot": "edge", "locus": "edge", "interest": 0.8, "gap_description": "her thinking of you licenses her deputizing the friend to speak — the authorization step is a leap", "p": 0, "f": 2, "p_share": 0.0, "f_share": 3.3, "div": -3.3}, "personas": [{"kind": "persona", "id": "persona:freud", "fill": "The mother's deputizing of the friend is an unconscious transference: unable to bear direct address to the wounding child, she displaces her reproach onto a proxy whose mouth carries what her own affection forbids her to say.", "commentary": "Why a mediator at all — why not speak herself? The detour through a third betrays that the wish to reproach and the wish to keep loving are incompatible in her, and the friend is conscripted as a compromise-formation that spares the ambivalence from becoming conscious. Every such deputation is a small hysterical symptom of the family: the elided direct utterance is precisely the repressed one, and the friend's authority is borrowed to disguise a censorship. The analytic question is not whether the friend spoke truly but what in the mother could not be said in the first person."}, {"kind": "persona", "id": "persona:nietzsche", "fill": "Die Bevollmächtigung des Freundes ist keine Liebe, sondern der leise Griff des Schwachen nach fremder Zunge — she who dares not command in her own voice borrows another's mouth, and calls the borrowing 'concern.'", "commentary": "Warum spricht sie nicht selber? Weil das direkte Wort Macht verlangt und Antwort riskiert; der Umweg über den Freund verkleidet den Willen als Fürsorge und lädt das Urtheil auf einen Dritten ab — Nächstenliebe als Zangengriff. My question to this gap: whose Machtgefühl is being smuggled through the deputation, and what would it cost her to say 'I' instead of letting the friend say 'she'?"}, {"kind": "persona", "id": "persona:jung", "fill": "The mother's authorization of the friend is a projection of the anima-function: unable to voice the neglected feeling-tone herself, she deputizes an outer figure who carries the inner mediator she has left undeveloped in relation to you.", "commentary": "Why must a third stand between mother and child at all? The friend is the outward form of an inward image — the go-between soul-figure both parties have failed to integrate, so the psyche stages her in the world. The question my frame asks: whose unlived feeling-function is the friend actually carrying, and what does it cost each party that the mediator lives outside them rather than within?"}, {"kind": "persona", "id": "persona:bergson", "fill": "The authorization is not a discrete act but a maturing interval — her thinking-of-you swells continuously until, at some unmarkable moment in duration, the impulse to speak overflows into the friend as its nearest available conduit.", "commentary": "The intellect wants a snap: 'here she decides, there she deputizes.' But lived experience knows no such joint — the deputation is the visible crest of an inner current that has been rising the whole time she has held you in mind. My question to this gap: why do we keep spatializing the passage into steps, when the very élan of her concern IS the authorization, and the friend is simply where the flowing feeling found an outlet?"}], "frames": [{"kind": "frame", "id": "frame:00", "fill": "Because she is the elder who bore you, her holding you in mind is already a summons — the friend does not require fresh warrant but inherits the standing warrant of her love, and speaks as her mouth by the household's long custom of sending word through kin.", "commentary": "In a filial-asymmetric bond, authorization is not an act performed at a moment but a status carried across time; the elder's regard IS the deputation, and the messenger merely enacts what tradition has always permitted her to enact. The question my frame asks: have you honored that her thinking-of-you is itself the credential — or are you demanding a modern paperwork of consent where the older grammar of belonging already granted the friend her voice? To ask 'by what authority?' is already to have stepped outside the household."}, {"kind": "frame", "id": "frame:01", "fill": "The authorization is not an intrinsic property of her thinking-of-you but a relational co-arising: it obtains only where a prior triadic convention (she–friend–you) has already established the friend as a licit conduit, so the 'leap' dissolves into a suppressed set of dependent conditions.", "commentary": "Reason requires the inferential joint be exhibited, not smuggled: 'she thought of you' does not entail 'she may speak through another' unless one names the mediating norm that binds the three parties. Negatively, the step fails without: (i) her uptake of the friend as speaker, (ii) the friend's acceptance of the office, (iii) your recognition of the channel. My question to this gap: which of those three conditions is unstated, and does the argument survive if any one is withdrawn?"}]}, "persona_ids": ["bergson", "freud", "james", "jung", "nietzsche"]}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('viz-data').textContent);
+let CUR = 'rom';
+
+// theme toggle
+(function(){
+  const btn=document.getElementById('themebtn');
+  btn.onclick=()=>{
+    const root=document.documentElement;
+    const now=root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+    root.setAttribute('data-theme', now==='dark'?'light':'dark');
+  };
+})();
+
+const SLOT_LABEL={interior:'interior',instrument:'instrument',warrant:'warrant',degree:'degree',
+  reciprocity:'reciprocity',reason:'reason',substrate:'substrate',edge:'edge'};
+const SLOT_GLOSS={interior:'felt from inside',instrument:'by what means',warrant:'on whose authority',
+  degree:'how much',reciprocity:'does it run both ways',reason:'why',substrate:'who exactly',edge:'the join between moves'};
+
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function renderChart(p){
+  const slots=p.slots.slice().filter(s=>s.p+s.f>0);
+  const maxShare=Math.max(...slots.map(s=>Math.max(s.p_share,s.f_share)),1);
+  const scale=42/maxShare; // % width of half-track per share point, capped
+  let h='';
+  for(const s of slots){
+    const owner = s.div>=0?'p':'f';
+    const pw=Math.min(s.p_share*scale,48), fw=Math.min(s.f_share*scale,48);
+    h+=`<div class="drow">
+      <div class="dlabel">${SLOT_LABEL[s.slot]||s.slot}<small>${SLOT_GLOSS[s.slot]||''}</small></div>
+      <div class="track"><div class="axis"></div>
+        ${s.f>0?`<div class="bar f" style="width:${fw}%"><span class="v">${s.f}</span></div>`:''}
+        ${s.p>0?`<div class="bar p" style="width:${pw}%"><span class="v">${s.p}</span></div>`:''}
+        <div class="owns ${owner}" style="${owner==='p'?'left:calc(50% + '+(pw)+'% + 6px)':'right:calc(50% + '+(fw)+'% + 6px)'}">${s.div>0?'+':''}${s.div}</div>
+      </div></div>`;
+  }
+  document.getElementById('chart').innerHTML=h;
+}
+
+function renderChair(p){
+  // default = top computed interest
+  const chosen=new Set();
+  const critById={};
+  p.selects.forEach(sr=>sr.selected.forEach(sel=>{
+    chosen.add(sel.gap_id.replace('GAP-',''));
+    critById[sel.gap_id.replace('GAP-','')]=sel;
+  }));
+  let dh='';
+  for(const g of p.top_interest){
+    const norm=g.gap_id.replace('GAP-','');
+    const isPicked=chosen.has(norm);
+    dh+=`<div class="grow ${isPicked?'chosen':'faded'}">
+       <span class="glabel">${esc(g.move_label)}</span>
+       <span class="gslot">· ${esc(g.slot)}</span>
+       <span class="gint">interest ${g.interest}${isPicked?' · picked':''}</span></div>`;
+  }
+  document.getElementById('chair-default').innerHTML=dh;
+
+  // picks
+  const gapMeta={};
+  p.gaps.forEach(g=>gapMeta[g.gap_id.replace('GAP-','')]=g);
+  let ph='';
+  const seen=new Set();
+  p.selects.forEach(sr=>sr.selected.forEach(sel=>{
+    const norm=sel.gap_id.replace('GAP-','');
+    if(seen.has(norm))return; seen.add(norm);
+    const g=gapMeta[norm]||{move_label:sel.gap_id,slot:'',interest:'?'};
+    ph+=`<div class="grow chosen">
+       <span class="glabel">${esc(g.move_label)}</span>
+       <span class="gslot">· ${esc(g.slot)}</span>
+       <span class="gint">interest ${g.interest}<span class="crit">${esc(sel.criterion)}</span></span></div>
+       <div class="why">${esc(sel.why_selected)}</div>`;
+  }));
+  document.getElementById('chair-pick').innerHTML=ph;
+}
+
+const PNAME={augustine:'Augustine',luther:'Luther',calvin:'Calvin',arminius:'Arminius',
+  athanasius:'Athanasius',anselm:'Anselm',freud:'Freud',jung:'Jung',bergson:'Bergson',
+  james:'William James',nietzsche:'Nietzsche'};
+function pretty(id){const k=id.replace('persona:','').replace('frame:','');return PNAME[k]||id;}
+
+function renderFills(p){
+  const f=p.fill;
+  document.getElementById('fill-q').innerHTML=`<b>${esc(f.gap.move_label)} · ${esc(f.gap.slot)}</b> — “${esc(f.gap.gap_description)}”`;
+  document.getElementById('fill-personas').innerHTML=f.personas.map(x=>
+    `<div class="fcard persona"><div class="fname">${esc(pretty(x.id))}</div><div class="ftxt">${esc(x.fill)}</div></div>`).join('');
+  document.getElementById('fill-frames').innerHTML=f.frames.map(x=>
+    `<div class="fcard frame"><div class="fname">${esc(pretty(x.id))} · atlas coordinate</div><div class="ftxt">${esc(x.fill)}</div></div>`).join('');
+}
+
+function renderMeta(p){
+  const persp = p.persona_ids.map(x=>PNAME[x]||x).join(' · ');
+  document.getElementById('panelmeta').textContent =
+    `${p.n_gaps} open gaps · ${p.n_persona} personas (${persp}) · ${p.n_frame} frames · ${p.total_p+p.total_f} nominations`;
+  document.getElementById('div-sub').innerHTML = CUR==='rom'
+    ? 'On Romans, the scholars cluster on the <b>mechanism</b> and <b>authority</b> of salvation (right); the frames catch <b>who</b>, the <b>felt texture</b>, and <b>mutuality</b> (left) — the gaps each walks past.'
+    : 'On a love song, the psychoanalysts cluster on the <b>interior</b> (right); the frames spread across <b>reciprocity</b>, the <b>join between lines</b>, and <b>authority</b> (left).';
+  document.getElementById('div-note').textContent = CUR==='rom'
+    ? 'Personas own instrument (+22.7) and warrant (+13.3); frames own degree (−14.7), interior (−14.0), reciprocity (−8.0).'
+    : 'Personas own interior (+23.3); frames own reciprocity (−8.7), warrant (−5.0), instrument (−4.3), the associative edges (−3.7).';
+}
+
+function renderFlip(){
+  const romInt=DATA.rom.slots.find(s=>s.slot==='interior');
+  const slyInt=DATA.sly.slots.find(s=>s.slot==='interior');
+  document.getElementById('flip-rom').textContent=`divergence ${romInt.div} · personas ${romInt.p} noms vs frames ${romInt.f}`;
+  document.getElementById('flip-sly').textContent=`divergence +${slyInt.div} · personas ${slyInt.p} noms vs frames ${slyInt.f}`;
+}
+
+function render(){
+  const p=DATA[CUR];
+  renderMeta(p); renderChart(p); renderChair(p); renderFills(p);
+}
+document.getElementById('tab-rom').onclick=()=>{CUR='rom';setTabs();render();};
+document.getElementById('tab-sly').onclick=()=>{CUR='sly';setTabs();render();};
+function setTabs(){
+  document.getElementById('tab-rom').setAttribute('aria-pressed',CUR==='rom');
+  document.getElementById('tab-sly').setAttribute('aria-pressed',CUR==='sly');
+}
+renderFlip(); render();
+</script>
+</body>
+</html>
