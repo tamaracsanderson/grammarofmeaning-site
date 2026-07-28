@@ -71,9 +71,9 @@ h1{font-family:var(--serif);font-size:30px;font-weight:600;letter-spacing:-.01em
    ───────────────────────────────────────────────────────────────────────────── */
 
 /* lane groupings — Preparation (always runs) vs Recomposition (pick an output) */
-.lg{border:1px dashed var(--line);border-radius:10px;padding:11px}
-.lg-prep{background:color-mix(in srgb,var(--tbd) 12%,transparent)}
-.lg-recomp{background:color-mix(in srgb,var(--honey) 9%,transparent)}
+.lg{border:1px solid var(--line);border-radius:6px;padding:20px}
+.lg-prep{background:color-mix(in srgb,var(--paper2) 70%,var(--bg))}
+.lg-recomp{background:color-mix(in srgb,var(--paper2) 60%,var(--bg))}
 .lg-hd{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:4px}
 .lg-k{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 .lg-n{font-family:var(--serif);font-style:italic;font-size:12px;color:var(--muted)}
@@ -309,11 +309,11 @@ tr.t3{opacity:.6}
 .audnote{font-family:var(--serif);font-style:italic;font-size:12px;color:var(--muted);margin:8px 0 0}
 .impl{font-size:13px;margin:6px 0 0}.impl code{font-family:var(--mono);font-size:12px}
 /* epistemic-status badge (outputs) */
-.epi{font-family:var(--sans);font-size:9px;letter-spacing:.04em;font-weight:700;padding:2px 7px;border-radius:5px;border:1px solid transparent;color:#FFFDF6;background:var(--muted)}
-.epi.pilot{background:var(--sub);color:#FFFDF6}
+.epi{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;padding:3px 8px;border-radius:4px;border:1px solid var(--line);color:var(--fg);background:var(--paper2)}
+.epi.pilot{border-color:var(--line);background:var(--paper2);color:var(--fg)}
 .epi.live{background:var(--eng);color:#FFFDF6}
 .outpill .epi{margin-left:2px}
-.epi.designed{background:#8a7d4f;color:#FFFDF6;opacity:1}
+.epi.designed{border-color:var(--honey);background:color-mix(in oklab,var(--honey) 22%,var(--bg));color:var(--eng);opacity:1}
 /* live-data bar */
 .livebar{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;margin:0 0 20px;padding:9px 13px;border:1px solid var(--line);border-radius:9px;background:var(--paper2);font-size:12.5px}
 .lv-k{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--out);font-weight:600}
@@ -347,10 +347,10 @@ tr.t3{opacity:.6}
 .lane-tag{font-family:var(--mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;text-align:center}
 @media(max-width:640px){.prep-par{flex-direction:column}}
 .ms-below{margin:10px 0 2px}
-.coded-object{display:block;width:100%;text-align:center;margin:2px 0;border:2px solid var(--eng);border-radius:9px;background:color-mix(in srgb,var(--eng) 8%,var(--card));color:var(--fg);cursor:pointer;padding:12px 14px;font:inherit}
+.coded-object{display:block;width:100%;text-align:center;margin:2px 0;border:1px solid var(--eng);border-radius:6px;background:color-mix(in srgb,var(--paper2) 60%,var(--bg));color:var(--fg);cursor:pointer;padding:20px;font:inherit}
 .coded-object:hover{background:color-mix(in srgb,var(--eng) 15%,var(--card))}
-.co-k{display:block;font-family:var(--sans);font-weight:700;font-size:15.5px;color:var(--eng)}
-.co-d{display:block;font-family:var(--serif);font-size:12.5px;color:var(--muted);margin-top:3px;max-width:60ch;margin-left:auto;margin-right:auto}
+.co-k{display:block;font-family:var(--serif);font-weight:600;font-size:19px;color:var(--eng)}
+.co-d{display:block;font-family:var(--serif);font-size:14px;color:var(--muted);margin-top:4px;max-width:60ch;margin-left:auto;margin-right:auto}
 .mapnodes{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 4px}
 .mapnode{flex:0 0 auto;max-width:480px;text-align:left;border:1px solid var(--line);border-radius:9px;background:var(--paper2);color:var(--fg);cursor:pointer;padding:11px 14px;font:inherit}
 .mapnode:hover{background:color-mix(in srgb,var(--eng) 7%,var(--paper2))}
@@ -370,9 +370,9 @@ tr.t3{opacity:.6}
 .tippy-box[data-theme~='gom'][data-placement^='top']>.tippy-arrow::before{border-top-color:var(--line)}
 
 /* revamp: compact phase boxes + facet click-targets + 6 output lanes */
-.phasebox{background:var(--card);border:1.5px solid var(--sub);border-radius:12px;padding:12px 14px}
-.phase-h{font-family:var(--sans);font-size:14px;font-weight:700;color:var(--eng);margin-bottom:10px}
-.phase-gl{font-weight:400;color:var(--muted);font-style:italic;font-family:var(--serif);font-size:13px}
+.phasebox{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:16px}
+.phase-h{font-family:var(--serif);font-size:16px;font-weight:600;color:var(--eng);margin-bottom:12px}
+.phase-gl{font-weight:400;color:var(--muted);font-style:italic;font-family:var(--serif);font-size:14px}
 .facetrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .facet{min-height:96px;text-align:left;background:var(--eng);color:#FFFDF6;border:none;border-radius:4px;padding:14px;cursor:pointer;font:inherit;display:flex;flex-direction:column;gap:2px}
 .facet:hover{filter:brightness(1.08)}
@@ -380,10 +380,10 @@ tr.t3{opacity:.6}
 .facet-gl{font-size:12.5px;opacity:.75;font-weight:400;line-height:1.35}
 .reclanes{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
 .reclane{display:flex}
-.outlane{flex:1;min-height:78px;background:rgba(196,96,47,.08);border:1.5px solid var(--out);border-radius:11px;padding:11px 10px;cursor:pointer;font:inherit;text-align:left;display:flex;flex-direction:column;gap:5px}
+.outlane{flex:1;min-height:78px;background:var(--card);border:1px solid color-mix(in oklab, var(--out) 55%, var(--line));border-radius:4px;padding:12px;cursor:pointer;font:inherit;text-align:left;display:flex;flex-direction:column;gap:8px}
 .outlane:hover{background:rgba(196,96,47,.16)}
-.outname{font-size:14px;font-weight:700;color:var(--out)}
-.outwhat{font-size:11px;color:var(--fg);opacity:.82;line-height:1.35}
+.outname{font-family:var(--serif);font-size:15.5px;font-weight:600;color:var(--out)}
+.outwhat{font-size:12.5px;color:var(--fg);opacity:.75;line-height:1.4;flex:1}
 .lg-gl{font-weight:400;font-family:var(--serif);font-style:italic;color:var(--muted);font-size:12px}
 
 .ms-band{margin:10px 0 0}
@@ -412,6 +412,13 @@ tr.t3{opacity:.6}
 .msb-svg{width:100%;height:20px;display:block}
 .figlabel{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--eng);opacity:.55;margin-bottom:14px}
 .figfooter{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line);margin-top:40px;padding:18px 0 8px;text-align:center}
+
+.fanman{position:relative;height:44px;padding:0 8.333%;margin:2px 0}
+.fanman-rail{position:absolute;left:8.333%;right:8.333%;top:12px;height:1px;background:#6E7B3A}
+.fanman-stem{position:absolute;left:50%;top:0;height:12px;width:1px;background:#6E7B3A}
+.fanman-drops{position:absolute;left:8.333%;right:8.333%;top:12px;display:grid;grid-template-columns:repeat(6,1fr)}
+.fanman-drop{display:flex;flex-direction:column;align-items:center}
+.fanman-dropline{height:26px;width:1px;background:#6E7B3A}
 </style></head><body>
 <button class="themebtn" onclick="tgl()">theme</button>
 <div class="wrap">
@@ -748,7 +755,7 @@ h+=`<div class="lg lg-prep"><div class="lg-hd"><span class="lg-k">Situate &#8741
  +ARW
  +`<button class="coded-object" onclick="openCodedObject()"><span class="co-k">Coded text</span><span class="co-d"><i>(taken apart into moves)</i> &mdash; one text, two reads converged: its bearings + its moves. &#8250; live corpus counts</span></button>`
  +`</div>`;
-h+=fanArw(6);
+h+=`<div class="fanman"><div class="fanman-rail"></div><div class="fanman-stem"></div><div class="fanman-drops">`+[0,1,2,3,4,5].map(function(){return `<div class="fanman-drop"><div class="fanman-dropline"></div><svg width="10" height="8" viewBox="0 0 10 8" aria-hidden="true"><path d="M1 1 L5 7 L9 1" stroke="#6E7B3A" stroke-width="1.25" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`;}).join('')+`</div></div>`;
 var __LANES=[['2','Fan','the worlds it could have been'],['R','Resituation','the same text under a changed world'],['3','Gloss','commentary on its silences'],['4','Reception','the readings history gave it'],['5','Comparison','several tellings, one frame'],['C','Constellation','the coded text as a non-linear field']];
 h+=`<div class="lg lg-recomp"><div class="lg-hd"><span class="lg-k">Recompose <span class="lg-gl">(put the moves back, differently)</span></span><span class="lg-n">pick an output</span></div>`
  +`<div class="parallel reclanes">`+__LANES.map(function(L){var st=(OUT_STATE[L[0]]||'').toLowerCase();return `<div class="reclane"><button class="outlane" onclick="openOutput('${L[0]}')"><span class="outname">${L[1]}</span><span class="outwhat">${L[2]}</span>`+(OUT_STATE[L[0]]?`<span class="epi ${st}">${OUT_STATE[L[0]]}</span>`:'')+`</button></div>`;}).join('')+`</div></div>`;
