@@ -468,6 +468,8 @@ tr.t3{opacity:.6}
 .ms-lg{display:inline-flex;align-items:center;gap:5px;font-family:var(--sans);font-size:11px;color:var(--fg)}
 .ms-lg i{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 auto}
 .ms-cap{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:9px;line-height:1.55}
+
+.ms-flag{font-family:var(--mono);font-size:10px;letter-spacing:.02em;color:var(--out);background:color-mix(in srgb,var(--out) 6%,var(--bg));border-left:2px solid var(--out);padding:5px 9px;margin-top:8px;line-height:1.5;border-radius:0 3px 3px 0}
 </style></head><body>
 <button class="themebtn" onclick="tgl()">theme</button>
 <div class="wrap">
@@ -654,8 +656,8 @@ function msAtlas(){
   if(nUn) leg+='<span class="ms-lg"><i style="background:'+MS_FAM['']+'"></i>unclassified <span class="cf">'+nUn+'</span></span>';
   return '<div class="ms-atlas"><div class="ms-atlas-hd"><b>Frame Atlas</b><span class="ms-prov">provisional</span></div>'
     +svg
-    +'<div class="ms-legend">'+leg+'</div>'
-    +'<div class="ms-cap"><b>210 coded reads · early.</b> First two dims hold 31.6% of the variance (20.7% + 10.9%); ~41% in 3D — the 3D map preserves only ~55% of pairwise structure (N=210). A legitimate baseline that captures a minority of the spread: <b>the map wants more reads.</b> '+nUn+' reads have no tradition-family tag yet (grey).</div></div>';
+    +'<div class="ms-legend">'+leg+'</div>'+'<div class="ms-flag">&#9888; <b>DHR/Dharmic</b> and <b>ABR/Abrahamic</b> are the same family tagged two ways (code vs name) — a normalization we owe; '+Math.round(nUn/MS_PTS.length*100)+'% of reads have no family yet.</div>'
+    +'<div class="ms-cap"><b>210 coded reads · early.</b> First two dims hold 31.6% of the variance (20.7% + 10.9%); ~41% in 3D — the 3D map preserves only ~55% of pairwise structure (N=210). A legitimate baseline that captures a minority of the spread: <b>the map wants more reads.</b></div></div>';
 }
 function openMorphospace(){
   document.getElementById('d-title').textContent='Morphospace';
