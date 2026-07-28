@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Constellation — Tender Buttons (IRR219 prototype)</title>
+<style>
+  :root{
+    --paper:#F6F1E4; --paper-2:#EFE7D3; --card:#FFFDF6; --line:#C9BE9F;
+    --ink:#24302A; --ink-2:#52605A; --ink-3:#6E7669;
+    --moss:#2C4A38; --fern:#3F7D57; --olive:#6E7B3A; --sage:#8AA88B;
+    --honey:#E0A93B; --terracotta:#C4602F; --terracotta-ink:#a5451a;
+    --serif:"Newsreader",Georgia,serif; --sans:"Inter",system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+    --node:#C9D6C4; --node-stroke:#2C4A38;
+  }
+  @media(prefers-color-scheme:dark){:root{
+    --paper:#1B211D; --paper-2:#232A25; --card:#232A25; --line:#3A423C;
+    --ink:#EDE7D8; --ink-2:#C3CBBE; --ink-3:#A6AEA3;
+    --moss:#A9C6B2; --fern:#5C9A72; --olive:#9BA86A; --sage:#6B7A6D;
+    --honey:#E7B857; --terracotta:#D9793F; --terracotta-ink:#E8956A;
+    --node:#3A4A40; --node-stroke:#A9C6B2;
+  }}
+  :root[data-theme="light"]{
+    --paper:#F6F1E4; --paper-2:#EFE7D3; --card:#FFFDF6; --line:#C9BE9F;
+    --ink:#24302A; --ink-2:#52605A; --ink-3:#6E7669;
+    --moss:#2C4A38; --fern:#3F7D57; --olive:#6E7B3A; --sage:#8AA88B;
+    --honey:#E0A93B; --terracotta:#C4602F;
+    --node:#C9D6C4; --node-stroke:#2C4A38;
+  }
+  :root[data-theme="dark"]{
+    --paper:#1B211D; --paper-2:#232A25; --card:#232A25; --line:#3A423C;
+    --ink:#EDE7D8; --ink-2:#C3CBBE; --ink-3:#A6AEA3;
+    --moss:#A9C6B2; --fern:#5C9A72; --olive:#9BA86A; --sage:#6B7A6D;
+    --honey:#E7B857; --terracotta:#D9793F;
+    --node:#3A4A40; --node-stroke:#A9C6B2;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);
+       -webkit-font-smoothing:antialiased;line-height:1.4}
+  a{color:var(--fern)}
+  header{padding:14px 20px 10px;border-bottom:1px solid var(--line);
+         display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px}
+  header h1{font-family:var(--serif);font-weight:600;font-size:20px;margin:0;color:var(--moss)}
+  header .sub{font-size:12.5px;color:var(--ink-2)}
+  header .sub b{color:var(--ink);font-weight:600}
+  .badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;
+         border:1px solid var(--terracotta);color:var(--terracotta-ink);
+         border-radius:999px;padding:2px 9px;text-transform:uppercase}
+  :root[data-theme="dark"] .badge,@media(prefers-color-scheme:dark){.badge{color:var(--terracotta)}}
+  .themebtn{margin-left:auto;font-family:var(--mono);font-size:11px;cursor:pointer;
+            background:var(--card);border:1px solid var(--line);color:var(--ink-2);
+            border-radius:6px;padding:4px 10px}
+
+  .controls{padding:9px 20px;border-bottom:1px solid var(--line);
+            display:flex;flex-wrap:wrap;align-items:center;gap:7px}
+  .controls .lab{font-size:11px;color:var(--ink-3);text-transform:uppercase;
+                 letter-spacing:.05em;margin-right:2px}
+  .tbtn{font-family:var(--sans);font-size:12px;cursor:pointer;background:var(--card);
+        border:1px solid var(--line);color:var(--ink);border-radius:7px;
+        padding:5px 11px;display:inline-flex;align-items:center;gap:6px;transition:.12s}
+  .tbtn:hover{border-color:var(--fern)}
+  .tbtn.on{background:var(--moss);color:var(--paper);border-color:var(--moss)}
+  :root[data-theme="dark"] .tbtn.on,@media(prefers-color-scheme:dark){.tbtn.on{color:#1B211D}}
+  .tbtn .dot{width:9px;height:9px;border-radius:50%;flex:none}
+  .tbtn .ct{font-family:var(--mono);font-size:10px;opacity:.7}
+
+  .caption{padding:8px 20px;background:var(--paper-2);border-bottom:1px solid var(--line);
+           font-size:13px;color:var(--ink-2);min-height:36px;display:flex;align-items:center}
+  .caption b{color:var(--ink);font-weight:600}
+  .caption .k{font-family:var(--mono);font-size:11px;padding:1px 6px;border-radius:4px;
+              margin-right:8px;color:var(--paper)}
+  :root[data-theme="dark"] .caption .k,@media(prefers-color-scheme:dark){.caption .k{color:#1B211D}}
+
+  .stage{display:flex;gap:0;height:calc(100vh - 210px);min-height:440px}
+  .canvaswrap{flex:1 1 auto;position:relative;overflow:hidden}
+  svg#field{width:100%;height:100%;display:block;cursor:grab}
+  .side{width:340px;flex:none;border-left:1px solid var(--line);
+        display:flex;flex-direction:column;background:var(--card)}
+  .detail{padding:13px 16px;border-bottom:1px solid var(--line);min-height:118px}
+  .detail .mid{font-family:var(--mono);font-size:11px;color:var(--terracotta-ink)}
+  :root[data-theme="dark"] .detail .mid,@media(prefers-color-scheme:dark){.detail .mid{color:var(--terracotta)}}
+  .detail .op{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);
+              text-transform:lowercase;margin-left:6px}
+  .detail .para{font-family:var(--serif);font-size:15px;line-height:1.5;margin-top:6px;color:var(--ink)}
+  .detail .edgesof{margin-top:9px;font-size:11px;color:var(--ink-2)}
+  .detail .edgesof span{font-family:var(--mono);font-size:10px}
+  .detail .hint{font-size:12.5px;color:var(--ink-3);font-style:italic}
+  .listhdr{padding:9px 16px 6px;font-size:11px;text-transform:uppercase;letter-spacing:.05em;
+           color:var(--ink-3);border-bottom:1px solid var(--line)}
+  .listhdr b{color:var(--ink-2)}
+  .movelist{overflow-y:auto;flex:1 1 auto;padding:4px 0}
+  .mrow{padding:6px 16px;font-size:12.5px;border-bottom:1px solid transparent;cursor:pointer;
+        display:flex;gap:9px;line-height:1.35}
+  .mrow:hover{background:var(--paper-2)}
+  .mrow.active{background:var(--paper-2);border-left:3px solid var(--honey);padding-left:13px}
+  .mrow .m{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);flex:none;padding-top:1px}
+  .mrow .t{color:var(--ink);font-family:var(--serif)}
+
+  footer{padding:9px 20px;border-top:1px solid var(--line);font-size:11px;
+          color:var(--ink-3);display:flex;flex-wrap:wrap;gap:6px 18px}
+  footer b{color:var(--ink-2);font-weight:600}
+  .guardline{font-style:italic}
+  .node-label{font-family:var(--mono);font-size:8.5px;fill:var(--ink-3);
+              pointer-events:none;user-select:none}
+  .void-tick{stroke:var(--olive);stroke-width:1.5;opacity:.75}
+  @media(max-width:760px){
+    .stage{flex-direction:column;height:auto}
+    .canvaswrap{height:56vh;min-height:340px}
+    .side{width:100%;border-left:none;border-top:1px solid var(--line);max-height:44vh}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Constellation</h1>
+  <span class="sub">Non-linear output &middot; a 6th <b>mode of disclosure</b> (render the coded topology, not generate)</span>
+  <span class="badge" title="Name is provisional — researcher/CLC lock">provisional&nbsp;name</span>
+  <button class="themebtn" id="themebtn">◑ theme</button>
+</header>
+
+<div class="controls">
+  <span class="lab">Traverse by edge</span>
+  <button class="tbtn on" data-t="ALL">All <span class="ct" id="ct-ALL"></span></button>
+  <button class="tbtn" data-t="PARALLELS"><span class="dot" style="background:var(--fern)"></span>Parallels <span class="ct" id="ct-PARALLELS"></span></button>
+  <button class="tbtn" data-t="JUXTAPOSES"><span class="dot" style="background:var(--olive)"></span>Juxtaposes <span class="ct" id="ct-JUXTAPOSES"></span></button>
+  <button class="tbtn" data-t="CIRCLES"><span class="dot" style="background:var(--moss)"></span>Circles <span class="ct" id="ct-CIRCLES"></span></button>
+  <button class="tbtn" data-t="ASSOCIATIVE-LEAP"><span class="dot" style="background:var(--terracotta)"></span>Associative-leap <span class="ct" id="ct-ASSOCIATIVE-LEAP"></span></button>
+  <button class="tbtn" data-t="LOGICAL"><span class="dot" style="background:var(--sage)"></span>Logical spine <span class="ct" id="ct-LOGICAL"></span></button>
+</div>
+
+<div class="caption" id="caption"></div>
+
+<div class="stage">
+  <div class="canvaswrap">
+    <svg id="field" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+  <aside class="side">
+    <div class="detail" id="detail">
+      <div class="hint">Hover a node to read its move. The field renders the coded moves + non-logical edges as a <b>spatial field</b>, not a sequence — there is no first node and no reading order.</div>
+    </div>
+    <div class="listhdr">The coded moves &middot; <b>text stays primary</b> (paraphrase layer)</div>
+    <div class="movelist" id="movelist"></div>
+  </aside>
+</div>
+
+<footer>
+  <span class="guardline"><b>Anti-linearity guards:</b> randomized entry (no start-here) &middot; node size = move length only (never centrality) &middot; continuous drift (never settles into a solved grid) &middot; no arrowheads &middot; juxtaposition gaps left unresolved (no line drawn)</span>
+  <span><b>Piece:</b> Gertrude Stein, <i>Tender Buttons</i> (1914) &middot; TEST-STEIN-COFFEE-1914 &middot; <span id="mcount"></span> moves, <span id="ecount"></span> coded edges</span>
+  <span><b>Source:</b> edges re-coded via <span class="mono">crt_nonlinear_edges</span> logic (single Max-SDK coder, haiku, temp 0) — prototype, not canonical</span>
+</footer>
+
+<script>
+/* ─── DATA (inlined; recovered from the coded source_move rows + re-coded edge list) ─── */
+const DATA = {"source_key":"TEST-STEIN-COFFEE-1914","note":"Text advances mainly by parallelism, juxtaposition, and associative leaps rather than logical argument — Steinian syntactic-parallel drift punctuated by nested suppositions and modal restatements.","moves":[[1,"M1","The teller labels an unnamed something as being of a doubled kind — more, in the doubled register.","predicate"],[2,"M2","The teller locates a place as sitting inside no fresh table.","locate"],[3,"M3","The teller denies of a lone picture that it counts as splendor.","predicate-negation"],[4,"M4","The teller equates the dirty with the yellow.","equate"],[5,"M5","The teller places a sign-of-more within what is not mentioned.","locate"],[6,"M6","The teller denies that a portion of coffee is something that holds one back.","predicate-negation"],[7,"M7","The teller ranks the likeness-to-yellow as more soiled and more sharply set-off.","compare"],[8,"M8","The teller ranks the clean mixture as whiter, not coal-colored, and never more coal-colored than as a whole.","compare"],[9,"M9","The teller sets out a series of parallel items — a reason's sight, that sight lessened, a simpler no's sight, the same sore made sounder, the leaning-toward-wishing, the same splendor, the same furnishings — as a juxtaposed inventory.","enumerate"],[10,"M10","The teller says the right moment to deliver a message is at the point of too-late, and that afterward there is no lingering inside a withering.","predicate"],[11,"M11","The teller names an unnamed something as a rose-wood shade that has not been torn.","predicate"],[12,"M12","The teller conditions: if the thing carries no danger, then it counts as a pleasure — and more so than any other case.","predicate-conditional"],[13,"M13","The teller conditions: if the thing comes cheap, then it is not thereby made any cheaper.","predicate-conditional"],[14,"M14","The teller predicates of the amusing side that as soon as no items are fewer, the dwindling of the necessity becomes the more certain.","predicate"],[15,"M15","The teller performs a supposing — entertaining as a hypothesis the case referenced below.","suppose"],[16,"M16","Inside the supposition: the container held rose-wood together with a color.","contain"],[17,"M17","The teller performs a further supposing — entertaining as a hypothesis the proposition below.","suppose"],[18,"M18","Inside that supposition: there was no ground calling for distress, and the ground more likely called for a count.","predicate-negation"],[19,"M19","The teller performs a further supposing — entertaining as a hypothesis the proposition below.","suppose"],[20,"M20","Inside that supposition: astonishment was absent.","predicate-negation"],[21,"M21","The teller poses as a rhetorical question whether, given those suppositions, one is not obliged to fold astonishment back in.","question-directive"],[22,"M22","The teller predicates that the settling-down of putting cleaning in its station is one way of avoiding shatter, scatter, and scattering.","predicate"],[23,"M23","The teller predicates that the single way to put custom to work is to employ soap and silk for cleaning.","predicate"],[24,"M24","The teller predicates that the single way to see cotton is to hold a design that draws the illusion and the illustration into one focus.","predicate"],[25,"M25","The teller predicates that the perfect way is to train the thing into a lining, a ribbon-shape, firm solidity in its standing, and the use of heaviness in the morning.","predicate"],[26,"M26","The teller predicates of the thing that in that respect its lightness suffices.","predicate"],[27,"M27","The teller predicates of the thing that its holding of that shape is done nicely.","predicate"],[28,"M28","The teller predicates, in modal register, that a very-nicely quality may not amount to exaggeration.","predicate-modal"],[29,"M29","The teller predicates, in modal register, that a very-strongly quality may be a case of sincere fainting.","predicate-modal"],[30,"M30","The teller predicates, in modal register, that the same manner may amount to a strange kind of flattering.","predicate-modal"],[31,"M31","The teller predicates, in modal register and via negation, that the same manner may fail to be strange with respect to everything.","predicate-modal"],[32,"M32","The teller predicates, in a truncated modal register, that the same manner may fail to be strange toward something left unnamed.","predicate-modal"]],"edges":[["M1","M2","JUXTAPOSES"],["M2","M3","JUXTAPOSES"],["M3","M4","ASSOCIATIVE-LEAP"],["M4","M5","ASSOCIATIVE-LEAP"],["M5","M6","JUXTAPOSES"],["M6","M7","ASSOCIATIVE-LEAP"],["M7","M8","PARALLELS"],["M8","M9","ASSOCIATIVE-LEAP"],["M9","M10","JUXTAPOSES"],["M10","M11","JUXTAPOSES"],["M11","M12","ASSOCIATIVE-LEAP"],["M12","M13","PARALLELS"],["M13","M14","ASSOCIATIVE-LEAP"],["M15","M16","CONTAINS"],["M17","M18","CONTAINS"],["M19","M20","CONTAINS"],["M15","M17","PARALLELS"],["M17","M19","PARALLELS"],["M20","M21","FEEDS"],["M21","M22","ASSOCIATIVE-LEAP"],["M22","M23","PARALLELS"],["M23","M24","PARALLELS"],["M24","M25","PARALLELS"],["M25","M26","ELABORATES"],["M26","M27","CIRCLES"],["M27","M28","ASSOCIATIVE-LEAP"],["M28","M29","PARALLELS"],["M29","M30","PARALLELS"],["M30","M31","PARALLELS"],["M31","M32","PARALLELS"]]};
+
+/* Non-logical edge-types (Decision 210, canonical). CONTAINS/FEEDS/ELABORATES = the logical spine. */
+const NONLOG = ["PARALLELS","JUXTAPOSES","CIRCLES","ASSOCIATIVE-LEAP"];
+const LOGICAL = ["CONTAINS","FEEDS","ELABORATES","SCAFFOLDS","REPORTS","GENERALISES","SPECIALISES"];
+function isLogical(t){ return !NONLOG.includes(t); }
+
+/* Edge-physics per type (the literary edge IS the physics). */
+const PHYS = {
+  "PARALLELS":        {rest: 66,  k: 0.055, draw:true,  css:"--fern"},        // strong attraction → cluster restatements
+  "JUXTAPOSES":       {rest: 128, k: 0.050, draw:false, css:"--olive"},       // fixed-distance strut, ENFORCED GAP, no line
+  "CIRCLES":          {rest: 50,  k: 0.050, draw:"ring",css:"--moss", orbit:true}, // orbital ring around a local center
+  "ASSOCIATIVE-LEAP": {rest: 285, k: 0.028, draw:true,  css:"--terracotta"},  // long high-tension tether across clusters
+  "_LOGICAL":         {rest: 90,  k: 0.038, draw:true,  css:"--sage"}
+};
+function phys(t){ return isLogical(t) ? PHYS._LOGICAL : PHYS[t]; }
+function edgeColor(t){ return `var(${phys(t).css})`; }
+
+/* Descriptive (NOT interpretive) captions per traversal. */
+const CAPTION = {
+  "ALL":              {k:"", txt:"The whole field. Every visual relation traces to one coded edge — nothing is invented. Filter by an edge-type to walk one of several equally-valid readings; none is canonical."},
+  "PARALLELS":        {k:"PARALLELS", css:"--fern", txt:"The text says the same shape a second way. These moves restate each other; the physics pulls them into clusters."},
+  "JUXTAPOSES":       {k:"JUXTAPOSES", css:"--olive", txt:"Bare adjacency — no connective is stated. No line is drawn between the endpoints: the gap is the relation, left unresolved. The two moves are only held at a fixed distance."},
+  "CIRCLES":          {k:"CIRCLES", css:"--moss", txt:"The text re-describes the same thing from another angle. It circles rather than advances; the pair orbits a shared center."},
+  "ASSOCIATIVE-LEAP": {k:"ASSOCIATIVE-LEAP", css:"--terracotta", txt:"A jump linked by private association, not logic. A long, high-tension tether reaches across distant parts of the field."},
+  "LOGICAL":          {k:"LOGICAL SPINE", css:"--sage", txt:"The minority of argumentative connections (contains / feeds / elaborates) — the thin logical spine inside an otherwise non-logical text."}
+};
+
+/* ─── build node + edge model ─── */
+const NODES = {}, NODELIST = [];
+DATA.moves.forEach(m=>{
+  const len = m[2].length;
+  const r = 6 + Math.sqrt(Math.max(0,len-30)) * 0.95;   // SIZE = MOVE LENGTH ONLY (never centrality)
+  const n = {id:m[1], idx:m[0], para:m[2], op:m[3], r:Math.min(r,17),
+             x:0,y:0,vx:0,vy:0};
+  NODES[m[1]]=n; NODELIST.push(n);
+});
+const EDGES = DATA.edges.map(e=>({from:e[0], to:e[1], type:e[2],
+                                  s:NODES[e[0]], t:NODES[e[1]]}))
+                        .filter(e=>e.s && e.t);
+
+/* ─── SVG scaffold ─── */
+const svg = document.getElementById("field");
+const SVGNS = "http://www.w3.org/2000/svg";
+const gEdges = document.createElementNS(SVGNS,"g");
+const gRings = document.createElementNS(SVGNS,"g");
+const gVoid  = document.createElementNS(SVGNS,"g");
+const gNodes = document.createElementNS(SVGNS,"g");
+svg.append(gRings,gEdges,gVoid,gNodes);
+
+let W=900,H=600;
+function measure(){
+  const r = svg.getBoundingClientRect();
+  W = Math.max(360, r.width); H = Math.max(340, r.height);
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
+}
+/* randomized initial layout — NO "start here" node */
+function seed(){
+  NODELIST.forEach(n=>{
+    n.x = W*0.5 + (Math.random()-0.5)*W*0.7;
+    n.y = H*0.5 + (Math.random()-0.5)*H*0.7;
+    n.vx=0; n.vy=0;
+  });
+}
+
+/* build DOM once */
+const edgeEls = EDGES.map(e=>{
+  const p = phys(e.type);
+  if(p.draw===true){
+    const ln=document.createElementNS(SVGNS,"line");
+    ln.setAttribute("stroke",edgeColor(e.type));
+    ln.setAttribute("stroke-width", e.type==="ASSOCIATIVE-LEAP"?1.1:1.7);
+    ln.setAttribute("stroke-linecap","round");
+    if(e.type==="ASSOCIATIVE-LEAP") ln.setAttribute("stroke-dasharray","2 5");
+    ln.setAttribute("opacity","0.55");
+    gEdges.appendChild(ln);
+    return {e,el:ln,kind:"line"};
+  }
+  if(p.draw==="ring"){
+    const ring=document.createElementNS(SVGNS,"circle");
+    ring.setAttribute("fill","none");
+    ring.setAttribute("stroke",edgeColor(e.type));
+    ring.setAttribute("stroke-width","1.4");
+    ring.setAttribute("stroke-dasharray","3 4");
+    ring.setAttribute("opacity","0.5");
+    gRings.appendChild(ring);
+    return {e,el:ring,kind:"ring"};
+  }
+  // JUXTAPOSES — NO connecting line. Two facing "void ticks" mark the deliberate gap without bridging it.
+  const g=document.createElementNS(SVGNS,"g");
+  const a=document.createElementNS(SVGNS,"line"); a.setAttribute("class","void-tick");
+  const b=document.createElementNS(SVGNS,"line"); b.setAttribute("class","void-tick");
+  g.append(a,b); g.setAttribute("opacity","0");
+  gVoid.appendChild(g);
+  return {e,el:g,va:a,vb:b,kind:"void"};
+});
+
+const nodeEls = NODELIST.map(n=>{
+  const g=document.createElementNS(SVGNS,"g"); g.style.cursor="pointer";
+  const c=document.createElementNS(SVGNS,"circle");
+  c.setAttribute("r",n.r);
+  c.setAttribute("fill","var(--node)");
+  c.setAttribute("stroke","var(--node-stroke)");
+  c.setAttribute("stroke-width","1.4");
+  const halo=document.createElementNS(SVGNS,"circle");
+  halo.setAttribute("r",n.r+5); halo.setAttribute("fill","none");
+  halo.setAttribute("stroke","var(--olive)"); halo.setAttribute("stroke-width","1.6");
+  halo.setAttribute("opacity","0");
+  const lbl=document.createElementNS(SVGNS,"text");
+  lbl.setAttribute("class","node-label"); lbl.setAttribute("text-anchor","middle");
+  lbl.setAttribute("dy","2.8"); lbl.textContent=n.id;
+  g.append(halo,c,lbl); gNodes.appendChild(g);
+  g.addEventListener("mouseenter",()=>focusNode(n));
+  g.addEventListener("mouseleave",()=>unfocus());
+  g.addEventListener("click",()=>pulse(n));
+  return {n,g,c,halo,lbl};
+});
+const nodeElOf = {}; nodeEls.forEach(o=>nodeElOf[o.n.id]=o);
+
+/* ─── physics ─── */
+const CHARGE=920, DAMP=0.85, CENTER_K=0.006, DRIFT=0.14, MAXV=6;
+let t0=0;
+function tick(now){
+  const dt=1; t0=now;
+  // repulsion
+  for(let i=0;i<NODELIST.length;i++){
+    const a=NODELIST[i];
+    for(let j=i+1;j<NODELIST.length;j++){
+      const b=NODELIST[j];
+      let dx=a.x-b.x, dy=a.y-b.y, d2=dx*dx+dy*dy;
+      if(d2<1) d2=1;
+      let d=Math.sqrt(d2); const f=CHARGE/d2;
+      const ux=dx/d, uy=dy/d;
+      a.vx+=ux*f; a.vy+=uy*f; b.vx-=ux*f; b.vy-=uy*f;
+    }
+  }
+  // springs (edge-physics per type)
+  EDGES.forEach(e=>{
+    const p=phys(e.type);
+    let dx=e.t.x-e.s.x, dy=e.t.y-e.s.y, d=Math.hypot(dx,dy)||0.01;
+    const diff=(d-p.rest)*p.k;
+    const ux=dx/d, uy=dy/d;
+    e.s.vx+=ux*diff; e.s.vy+=uy*diff;
+    e.t.vx-=ux*diff; e.t.vy-=uy*diff;
+    if(p.orbit){ // CIRCLES: tangential nudge → orbit around midpoint (circles, does not progress)
+      const tx=-uy, ty=ux, spin=0.16;
+      e.s.vx+=tx*spin; e.s.vy+=ty*spin;
+      e.t.vx-=tx*spin; e.t.vy-=ty*spin;
+    }
+  });
+  // centering + continuous drift (never settles into a solved grid) + integrate
+  NODELIST.forEach(n=>{
+    n.vx += (W/2 - n.x)*CENTER_K;
+    n.vy += (H/2 - n.y)*CENTER_K;
+    n.vx += (Math.random()-0.5)*DRIFT;
+    n.vy += (Math.random()-0.5)*DRIFT;
+    n.vx*=DAMP; n.vy*=DAMP;
+    const sp=Math.hypot(n.vx,n.vy); if(sp>MAXV){ n.vx*=MAXV/sp; n.vy*=MAXV/sp; }
+    n.x+=n.vx; n.y+=n.vy;
+    const m=n.r+8;
+    if(n.x<m){n.x=m;n.vx*=-0.4;} if(n.x>W-m){n.x=W-m;n.vx*=-0.4;}
+    if(n.y<m){n.y=m;n.vy*=-0.4;} if(n.y>H-m){n.y=H-m;n.vy*=-0.4;}
+  });
+  render();
+  requestAnimationFrame(tick);
+}
+
+/* ─── traversal filter ─── */
+let active="ALL";
+function edgeVisible(e){
+  if(active==="ALL") return true;
+  if(active==="LOGICAL") return isLogical(e.type);
+  return e.type===active;
+}
+function participating(){
+  const set=new Set();
+  EDGES.forEach(e=>{ if(edgeVisible(e)){ set.add(e.from); set.add(e.to);} });
+  return set;
+}
+
+function render(){
+  const part = active==="ALL"?null:participating();
+  edgeEls.forEach(o=>{
+    const e=o.e, vis=edgeVisible(e), s=e.s, t=e.t;
+    if(o.kind==="line"){
+      o.el.setAttribute("x1",s.x); o.el.setAttribute("y1",s.y);
+      o.el.setAttribute("x2",t.x); o.el.setAttribute("y2",t.y);
+      o.el.setAttribute("opacity", vis?(active==="ALL"?0.5:0.85):0.05);
+    } else if(o.kind==="ring"){
+      const mx=(s.x+t.x)/2, my=(s.y+t.y)/2, rr=Math.hypot(t.x-s.x,t.y-s.y)/2+8;
+      o.el.setAttribute("cx",mx); o.el.setAttribute("cy",my); o.el.setAttribute("r",rr);
+      o.el.setAttribute("opacity", vis?0.6:0.06);
+    } else { // void (JUXTAPOSES) — never a connecting line; short facing ticks that stop short of the gap
+      let dx=t.x-s.x, dy=t.y-s.y, d=Math.hypot(dx,dy)||1, ux=dx/d, uy=dy/d;
+      const tick=7, gap=0.30; // ticks reach only 30% out from each node, leaving the middle void
+      o.va.setAttribute("x1",s.x+ux*(s.r+2)); o.va.setAttribute("y1",s.y+uy*(s.r+2));
+      o.va.setAttribute("x2",s.x+ux*(s.r+2+tick)); o.va.setAttribute("y2",s.y+uy*(s.r+2+tick));
+      o.vb.setAttribute("x1",t.x-ux*(t.r+2)); o.vb.setAttribute("y1",t.y-uy*(t.r+2));
+      o.vb.setAttribute("x2",t.x-ux*(t.r+2+tick)); o.vb.setAttribute("y2",t.y-uy*(t.r+2+tick));
+      // only show the gap-ticks when the JUXTAPOSES path is being walked (keeps ALL view clean)
+      o.el.setAttribute("opacity", (active==="JUXTAPOSES")?0.9:0);
+    }
+  });
+  nodeEls.forEach(o=>{
+    o.g.setAttribute("transform",`translate(${o.n.x},${o.n.y})`);
+    let op=1;
+    if(part && !part.has(o.n.id)) op=0.14;
+    o.g.setAttribute("opacity",op);
+    // JUXTAPOSES: halo the endpoints (the gap is marked at the nodes, not bridged)
+    const showHalo = active==="JUXTAPOSES" && part && part.has(o.n.id);
+    o.halo.setAttribute("opacity", showHalo?0.8:0);
+  });
+}
+
+/* ─── interaction ─── */
+const detail=document.getElementById("detail");
+function edgesTouching(id){
+  return EDGES.filter(e=>e.from===id||e.to===id)
+    .map(e=>({type:e.type, other:e.from===id?e.to:e.from}));
+}
+function focusNode(n){
+  const o=nodeElOf[n.id]; o.c.setAttribute("fill","var(--honey)"); o.c.setAttribute("r",n.r+2);
+  // highlight incident edges
+  edgeEls.forEach(x=>{ if((x.e.from===n.id||x.e.to===n.id) && x.kind!=="void")
+      x.el.setAttribute("opacity","0.95"); });
+  const es=edgesTouching(n.id);
+  const chips=es.map(x=>`<span style="color:${edgeColor(x.type)};font-weight:600">${x.type}</span>&nbsp;<span>${x.other}</span>`).join(" &middot; ");
+  detail.innerHTML=`<div><span class="mid">${n.id}</span><span class="op">${n.op}</span></div>
+    <div class="para">${n.para}</div>
+    <div class="edgesof"><b>Connects:</b> ${chips||"—"}</div>`;
+  markList(n.id);
+}
+function unfocus(){
+  nodeEls.forEach(o=>{ o.c.setAttribute("fill","var(--node)"); o.c.setAttribute("r",o.n.r); });
+  render();
+  detail.innerHTML=`<div class="hint">Hover a node to read its move. The field renders the coded moves + non-logical edges as a <b>spatial field</b>, not a sequence — there is no first node and no reading order.</div>`;
+  markList(null);
+}
+function pulse(n){ // click → brief size pulse (retrievable focus without imposing order)
+  const o=nodeElOf[n.id]; let k=0;
+  const iv=setInterval(()=>{ k++; o.c.setAttribute("r", n.r + 6*Math.sin(k/2)); if(k>10){clearInterval(iv);o.c.setAttribute("r",n.r);} },40);
+  focusNode(n);
+}
+
+/* move list (text stays primary + always retrievable) */
+const movelist=document.getElementById("movelist");
+NODELIST.forEach(n=>{
+  const row=document.createElement("div"); row.className="mrow"; row.dataset.id=n.id;
+  row.innerHTML=`<span class="m">${n.id}</span><span class="t">${n.para}</span>`;
+  row.addEventListener("mouseenter",()=>focusNode(n));
+  row.addEventListener("mouseleave",()=>unfocus());
+  row.addEventListener("click",()=>pulse(n));
+  movelist.appendChild(row);
+});
+function markList(id){
+  movelist.querySelectorAll(".mrow").forEach(r=>{
+    r.classList.toggle("active", r.dataset.id===id);
+  });
+}
+
+/* traversal buttons */
+function setCaption(){
+  const c=CAPTION[active], el=document.getElementById("caption");
+  const kh = c.k ? `<span class="k" style="background:var(${c.css})">${c.k}</span>` : "";
+  el.innerHTML = kh + `<span>${c.txt}</span>`;
+}
+document.querySelectorAll(".tbtn").forEach(b=>{
+  b.addEventListener("click",()=>{
+    document.querySelectorAll(".tbtn").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on"); active=b.dataset.t; setCaption(); render();
+  });
+});
+
+/* counts */
+function counts(){
+  const c={};
+  EDGES.forEach(e=>{ const key=isLogical(e.type)?"LOGICAL":e.type; c[key]=(c[key]||0)+1; });
+  const set=(id,v)=>{const el=document.getElementById(id); if(el) el.textContent=v!=null?`${v}`:"";};
+  set("ct-ALL", EDGES.length);
+  ["PARALLELS","JUXTAPOSES","CIRCLES","ASSOCIATIVE-LEAP","LOGICAL"].forEach(k=>set("ct-"+k, c[k]||0));
+  document.getElementById("mcount").textContent=NODELIST.length;
+  document.getElementById("ecount").textContent=EDGES.length;
+}
+
+/* theme toggle */
+document.getElementById("themebtn").addEventListener("click",()=>{
+  const r=document.documentElement;
+  const cur=r.getAttribute("data-theme")
+    || (matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+  r.setAttribute("data-theme", cur==="dark"?"light":"dark");
+});
+
+/* boot */
+function boot(){ measure(); seed(); counts(); setCaption(); requestAnimationFrame(tick); }
+addEventListener("resize",()=>{ measure(); });
+boot();
+</script>
+</body>
+</html>
