@@ -1,0 +1,65 @@
+/* ============================================================================
+   GRAMMAR OF MEANING — HOUSE PATTERN TOKENS  (single source of truth)
+   ----------------------------------------------------------------------------
+   Extracted verbatim from _staging/_bakeoff/HOUSE_PATTERN.html :root.
+   These values are canonical. If any hand-copy differs, THIS file wins.
+
+   THE RULE — "one skeleton, one skin":
+     • SKELETON = Field Notes — Swiss grid + hairline rules + a Tufte
+       move-specimen layout with plain glosses. The structure is invariant.
+     • SKIN = Living Garden — the skeleton recolored into living greens;
+       the move drawn as a growing branch (seed → bloom); botanical restraint;
+       warm-white ground, no near-black; "the workings, unhurried" + a
+       reading-time chip.
+     One skeleton, one skin over everything = the invariant base. A surface may
+     add a per-surface EMBELLISHMENT layer on top, but it never replaces the
+     skeleton or the token palette below.
+
+   FONTS (load via Google Fonts or self-host):
+     Newsreader (serif) · Inter (sans) · IBM Plex Mono (mono).
+
+   READING-ROOM NOTE (intentional, known divergence — not drift):
+     The reading room is the reader-facing coffee-table sibling, so it
+     DELIBERATELY extends this pattern to allow real period art (raster images)
+     as tradition embellishment. The engine site keeps its "no raster images"
+     rule; the reading room opts out of that one rule only, on the same tokens.
+   ============================================================================ */
+
+:root {
+  /* ---- GROUNDS (Garden skin) ---- */
+  --paper:   #FCFBF7;   /* herbarium rag paper — warm ground */
+  --paper-2: #EFE7D3;   /* recessed card / panel ground */
+  --paper-3: #FFFFFF;   /* raised plate ground */
+  --rule:    #C9BE9F;   /* hairline rules on paper (Swiss separators) */
+  --rule-soft: rgba(110,123,58,.26);
+
+  /* ---- INK (Garden — no near-black) ---- */
+  --ink:   #24302A;     /* deep pine ink — body text */
+  --ink-2: #52605A;     /* secondary text */
+  --ink-3: #7C8478;     /* captions / metadata */
+
+  /* ---- LIVING GREENS ---- */
+  --fern:  #3F7D57;     /* luminous fern — primary accent */
+  --moss:  #2C4A38;     /* moss — headlines / dark grounds */
+  --sage:  #8AA88B;     /* sage — soft supporting fills */
+  --olive: #6E7B3A;     /* olive — botanical linework / diagram spine */
+
+  /* ---- WARM COUNTER-ACCENTS ---- */
+  --terracotta: #C4602F; /* soil — the pop; outcome edge / signal */
+  --honey:      #E0A93B; /* honey gold — seed-node / bloom highlight */
+
+  /* ---- LAYOUT + TYPE ---- */
+  --maxw:  920px;                                  /* content measure */
+  --grid:  8px;                                    /* base spacing unit (multiples of 8) */
+  --serif: 'Newsreader', Georgia, serif;
+  --sans:  'Inter', system-ui, sans-serif;
+  --mono:  'IBM Plex Mono', ui-monospace, monospace;
+}
+
+/* Minimal base application (optional — shows the intended defaults):
+   body { background: var(--paper); color: var(--ink); font-family: var(--sans);
+          max-width: var(--maxw); }
+   h1,h2,h3 { font-family: var(--serif); color: var(--moss); }
+   code, .mono { font-family: var(--mono); }
+   hr, .rule { border: 0; border-top: 1px solid var(--rule); }
+*/
