@@ -11,13 +11,16 @@
   #read .reg{margin:0 0 14px} #read .reg b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#6b6862;margin-bottom:3px}
   #read .reg span{display:block} .empty{color:#6b6862;font-style:italic}
   .lk{fill:none;stroke:#d9d5cc;stroke-width:1}
-  .nd circle{cursor:pointer;stroke:#fff;stroke-width:1.2} .nd text{cursor:pointer;font-size:11px}
-  .nd:hover circle{stroke:#2b2926} .sel circle{stroke:#2b2926;stroke-width:2.5}
+  .nd circle{cursor:pointer;stroke:#fff;stroke-width:1.2}
+  /* declutter (design-SB eyeball: 66 always-on labels overlap): label only the big worlds; rest reveal on hover */
+  .nd text{font-size:11px;opacity:0;transition:opacity .12s;pointer-events:none}
+  .nd.big text{opacity:1} .nd:hover text{opacity:1;font-weight:600}
+  .nd:hover circle{stroke:#2b2926} .sel circle{stroke:#2b2926;stroke-width:2.5} .sel text{opacity:1;font-weight:600}
   .seed{fill:#2b2926}
 </style></head><body><a href="/engine/schema.html" style="display:block;padding:8px 16px;font:13px/1.4 -apple-system,BlinkMacSystemFont,Inter,sans-serif;color:#3F7D57;background:#F6F1E4;border-bottom:1px solid #C9BE9F;text-decoration:none">&larr; back to the engine map</a>
 <div id="wrap">
   <div id="stage"><div id="head"><h1>The Fan — radial · FAN-SLY-1963-83a104</h1>
-    <p>66 merged worlds on one ring · size = readings merged · hue = first coordinate · click a world to read its four registers</p></div></div>
+    <p>66 merged worlds on one ring · size = readings merged · hue = first coordinate · biggest worlds labeled, hover any node for the rest · click a world to read its four registers</p></div></div>
   <div id="read"><h2>Pick a world</h2><div class="coord">click any node on the ring</div>
     <p class="empty">Each world is one way the seed's meaning resolves. The four registers — chain, poetic, simplified, full — are the same world said four ways.</p></div>
 </div>
@@ -34,8 +37,12 @@ function draw(){
     .append('g').attr('transform',`translate(${W/2},${H/2})`);
   const rad = d3.linkRadial().angle(d=>d.x).radius(d=>d.y);
   svg.append('g').selectAll('path').data(root.links()).join('path').attr('class','lk').attr('d',rad);
+  // always-label only the K biggest worlds (by n); the long tail reveals on hover (declutter)
+  const LABEL_TOP = 12;
+  const bigIds = new Set(root.leaves().slice().sort((a,b)=>(b.data.n||1)-(a.data.n||1))
+    .slice(0,LABEL_TOP).map(d=>d.data.id));
   const node = svg.append('g').selectAll('g').data(root.descendants()).join('g')
-    .attr('class',d=>'nd'+(d.depth?'':' seedg'))
+    .attr('class',d=>'nd'+(d.depth?(bigIds.has(d.data.id)?' big':''):' seedg'))
     .attr('transform',d=>`rotate(${d.x*180/Math.PI-90}) translate(${d.y},0)`);
   node.append('circle')
     .attr('r',d=>d.depth? 3+7*Math.sqrt((d.data.n||1)/nMax) : 7)
