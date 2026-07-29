@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Background sheet — Grammar of Meaning</title>
+<style>
+:root{--bg:#F6F1E4;--paper:#FFFDF6;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;
+ --eng:#2C4A38;--sub:#3F7D57;--out:#C4602F;--honey:#E0A93B;
+ --serif:"Newsreader",Iowan Old Style,Palatino,Georgia,serif;
+ --sans:"Inter",ui-sans-serif,-apple-system,Segoe UI,sans-serif;
+ --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#1B211D;--paper:#232A25;--paper2:#2A322B;--fg:#EDE7D8;
+ --muted:#A6AEA3;--line:#3A423C;--eng:#8FBF9E;--sub:#6FAF86;--out:#D9793F}}
+:root[data-theme=dark]{--bg:#1B211D;--paper:#232A25;--paper2:#2A322B;--fg:#EDE7D8;--muted:#A6AEA3;
+ --line:#3A423C;--eng:#8FBF9E;--sub:#6FAF86;--out:#D9793F}
+:root[data-theme=light]{--bg:#F6F1E4;--paper:#FFFDF6;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;
+ --line:#C9BE9F;--eng:#2C4A38;--sub:#3F7D57;--out:#C4602F}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);font-size:17px;line-height:1.66}
+.topbar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;
+ gap:12px;padding:9px 18px;background:color-mix(in srgb,var(--bg) 88%,transparent);
+ backdrop-filter:blur(4px);border-bottom:1px solid var(--line)}
+.back{font-family:var(--sans);font-size:13px;color:var(--sub);text-decoration:none;
+ border-bottom:1px solid color-mix(in srgb,var(--sub) 45%,transparent)}
+.back:hover{background:color-mix(in srgb,var(--sub) 12%,transparent)}
+.themebtn{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 13px;
+ font-size:12px;cursor:pointer;color:var(--fg);font-family:var(--sans)}
+main{max-width:46rem;margin:0 auto;padding:6vh 22px 12vh}
+main h1{font-size:29px;line-height:1.2;font-weight:600;color:var(--eng);margin:0 0 6px;text-wrap:balance}
+main h2{font-size:20px;font-weight:600;color:var(--eng);margin:34px 0 6px;padding-bottom:4px;
+ border-bottom:1px solid var(--line);text-wrap:balance}
+main h3{font-size:15.5px;font-weight:600;color:var(--eng);margin:22px 0 4px;font-family:var(--sans)}
+main p{margin:12px 0}
+main a{color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 42%,transparent)}
+main a:hover{background:color-mix(in srgb,var(--out) 12%,transparent)}
+main blockquote{margin:14px 0;padding:6px 0 6px 16px;border-left:3px solid var(--sub);
+ color:var(--fg);font-style:normal;background:color-mix(in srgb,var(--sub) 6%,transparent)}
+main blockquote p{margin:6px 0}
+main ul,main ol{margin:12px 0;padding-left:22px}
+main li{margin:5px 0}
+main table{border-collapse:collapse;width:100%;margin:16px 0;font-size:14px;display:block;overflow-x:auto}
+main th,main td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+main th{background:var(--paper2);font-family:var(--sans);font-size:12px;letter-spacing:.02em;
+ text-transform:uppercase;color:var(--muted);font-weight:600}
+main tr:nth-child(even) td{background:color-mix(in srgb,var(--paper2) 40%,transparent)}
+main code{font-family:var(--mono);font-size:.86em;background:var(--paper2);padding:1px 5px;border-radius:4px}
+main pre{background:var(--paper2);border:1px solid var(--line);border-radius:8px;padding:12px;overflow-x:auto}
+main pre code{background:none;padding:0}
+main img{max-width:100%;height:auto;border-radius:8px;border:1px solid var(--line);margin:8px 0;display:block}
+main hr{border:none;border-top:1px solid var(--line);margin:30px 0}
+.state{font-family:var(--sans);font-size:14px;color:var(--muted);margin-top:8vh;text-align:center}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="/engine/schema.html">&larr; the engine map</a>
+  <button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">theme</button>
+</div>
+<main id="doc"><p class="state">loading&hellip;</p></main>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+(function(){
+  var mount=document.getElementById('doc');
+  var p=new URLSearchParams(location.search).get('p');
+  if(!p){
+    mount.innerHTML='<p class="state">Open a source from the <a href="/engine/schema.html">coded ledger</a> to read its background sheet.</p>';
+    return;
+  }
+  // guard: only fetch a bare filename inside the background dir (no path traversal)
+  if(!/^[A-Za-z0-9._-]+\.md$/.test(p)){
+    mount.innerHTML='<p class="state">&mdash; unrecognized sheet reference.</p>';
+    return;
+  }
+  fetch('/engine/artifacts/background/'+encodeURIComponent(p))
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
+    .then(function(md){
+      mount.innerHTML=(window.marked?marked.parse(md):('<pre>'+md.replace(/</g,'&lt;')+'</pre>'));
+      var t=mount.querySelector('h1');
+      if(t) document.title=t.textContent+' — Grammar of Meaning';
+    })
+    .catch(function(e){
+      mount.innerHTML='<p class="state">&mdash; background sheet not available yet ('+String(e.message||e)+').</p>';
+    });
+})();
+</script>
+</body>
+</html>
