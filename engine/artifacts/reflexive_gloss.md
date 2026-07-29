@@ -2,6 +2,15 @@
 
 > The instrument ran on its **own method-statement** (`REFLEXIVE-METHOD`): it coded the method into moves, scanned the method for its *own* gaps, and had the intellectual forebears it builds on comment on them. Read-only snapshot from the DB (run_tag=`reflexive_pilot_s156`).
 
+## TL;DR — the test, in the shape of an experiment
+**What we tested (hypothesis).** Can the instrument code its *own* method-statement — situate it, break it into moves, find its own gaps, and have the forebears it builds on critique them? (The reflexive turn of the domain-generality claim: if it codes a pop song and Paul, it should code its own method.)
+
+**Method.** The method written as 29 declarative claims → the engine extracted **38 moves** → the gap-scan found **151 gaps** → a 26-critic gloss (11 forebears + 15 frame-critics) nominated, and the chair selected **2** to address.
+
+**What we learned.** (1) The instrument *did* code itself — reflexive coding works. (2) Its gaps cluster on its own **property-claims** and on **reason / warrant / instrument** — it says *what* it does clearly but under-justifies its boldest assertions. (3) The forebears **converged** on multi-frame defenses of the two chosen gaps — a justification *found by the method*, not asserted by us. (4) This round ran the standard gap-**fill**, so we got rich *defenses*, not new-output or improvement ideas.
+
+**How we'll apply it / next test.** This is **test #1** of the reflexive meta-output. Next: (a) re-run with *generative* asks (given the coded object, what would you create? how to make it more novel?); (b) the CRT ablation — our systematic gap-scan vs. free-form gap-spotting (the "so what"); (c) by-function cohorts (data-viz / digital-humanities / design-for-learning, seated on real papers); (d) SITUATE the method on its own 2026 / AI-augmented moment.
+
 ## What happened
 The method decomposed into **38 moves**; the scan found **151 gaps** the method foregrounds but leaves unsaid. Below: where the gaps cluster, then the two the forebear panel chose to address + what each forebear said.
 

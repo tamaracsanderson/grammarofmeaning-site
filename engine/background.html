@@ -60,6 +60,7 @@ main hr{border:none;border-top:1px solid var(--line);margin:30px 0}
 <main id="doc"><p class="state">loading&hellip;</p></main>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
+function stripFrontmatter(md){var m=md.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/);if(!m)return{title:null,body:md};var body=md.slice(m[0].length);var tm=m[0].match(/\ntitle:\s*["']?(.+?)["']?\s*\r?\n/);return{title:tm?tm[1]:null,body:body};}
 (function(){
   var mount=document.getElementById('doc');
   var p=new URLSearchParams(location.search).get('p');
@@ -75,7 +76,7 @@ main hr{border:none;border-top:1px solid var(--line);margin:30px 0}
   fetch('/engine/artifacts/background/'+encodeURIComponent(p))
     .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
     .then(function(md){
-      mount.innerHTML=(window.marked?marked.parse(md):('<pre>'+md.replace(/</g,'&lt;')+'</pre>'));
+      var fm=stripFrontmatter(md);var body=(fm.title?('# '+fm.title+'\n\n'):'')+fm.body;mount.innerHTML=(window.marked?marked.parse(body):('<pre>'+body.replace(/</g,'&lt;')+'</pre>'));
       var t=mount.querySelector('h1');
       if(t) document.title=t.textContent+' — Grammar of Meaning';
     })
