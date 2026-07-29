@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The instrument reads itself — Grammar of Meaning</title>
+<style>
+:root{--bg:#F6F1E4;--paper:#FFFDF6;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;
+ --eng:#2C4A38;--sub:#3F7D57;--out:#C4602F;--honey:#E0A93B;
+ --serif:"Newsreader",Iowan Old Style,Palatino,Georgia,serif;
+ --sans:"Inter",ui-sans-serif,-apple-system,Segoe UI,sans-serif;
+ --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#1B211D;--paper:#232A25;--paper2:#2A322B;--fg:#EDE7D8;
+ --muted:#A6AEA3;--line:#3A423C;--eng:#8FBF9E;--sub:#6FAF86;--out:#D9793F}}
+:root[data-theme=dark]{--bg:#1B211D;--paper:#232A25;--paper2:#2A322B;--fg:#EDE7D8;--muted:#A6AEA3;
+ --line:#3A423C;--eng:#8FBF9E;--sub:#6FAF86;--out:#D9793F}
+:root[data-theme=light]{--bg:#F6F1E4;--paper:#FFFDF6;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;
+ --line:#C9BE9F;--eng:#2C4A38;--sub:#3F7D57;--out:#C4602F}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);font-size:17px;line-height:1.66}
+.topbar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;
+ gap:12px;padding:9px 18px;background:color-mix(in srgb,var(--bg) 88%,transparent);
+ backdrop-filter:blur(4px);border-bottom:1px solid var(--line)}
+.back{font-family:var(--sans);font-size:13px;color:var(--sub);text-decoration:none;
+ border-bottom:1px solid color-mix(in srgb,var(--sub) 45%,transparent)}
+.back:hover{background:color-mix(in srgb,var(--sub) 12%,transparent)}
+.themebtn{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 13px;
+ font-size:12px;cursor:pointer;color:var(--fg);font-family:var(--sans)}
+main{max-width:46rem;margin:0 auto;padding:5vh 22px 12vh}
+.kicker{font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+ color:var(--muted);margin:0 0 14px}
+main h1{font-size:29px;line-height:1.2;font-weight:600;color:var(--eng);margin:0 0 6px;text-wrap:balance}
+main h2{font-size:20px;font-weight:600;color:var(--eng);margin:34px 0 6px;padding-bottom:4px;
+ border-bottom:1px solid var(--line);text-wrap:balance}
+main h3{font-size:16px;font-weight:600;color:var(--eng);margin:26px 0 4px;font-family:var(--sans)}
+main p{margin:12px 0}
+main a{color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 42%,transparent)}
+main a:hover{background:color-mix(in srgb,var(--out) 12%,transparent)}
+main blockquote{margin:14px 0;padding:8px 0 8px 16px;border-left:3px solid var(--sub);
+ color:var(--fg);background:color-mix(in srgb,var(--sub) 6%,transparent)}
+main blockquote p{margin:6px 0}
+main ul,main ol{margin:12px 0;padding-left:0;list-style:none}
+main li{margin:12px 0;padding:11px 14px;border:1px solid var(--line);border-radius:9px;
+ background:var(--paper2)}
+main li strong:first-child{color:var(--eng);font-family:var(--sans);font-size:14px}
+main table{border-collapse:collapse;width:100%;margin:16px 0;font-size:14px;display:block;overflow-x:auto}
+main th,main td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+main th{background:var(--paper2);font-family:var(--sans);font-size:12px;letter-spacing:.02em;
+ text-transform:uppercase;color:var(--muted);font-weight:600}
+main code{font-family:var(--mono);font-size:.82em;background:var(--paper2);padding:1px 5px;border-radius:4px;color:var(--muted)}
+main hr{border:none;border-top:1px solid var(--line);margin:30px 0}
+main em{color:var(--muted)}
+.state{font-family:var(--sans);font-size:14px;color:var(--muted);margin-top:8vh;text-align:center}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="/engine/schema.html">&larr; the engine map</a>
+  <button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">theme</button>
+</div>
+<main>
+  <p class="kicker">Grammar of Meaning &middot; a reflexive meta-output</p>
+  <div id="doc"><p class="state">loading&hellip;</p></div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+(function(){
+  var mount=document.getElementById('doc');
+  fetch('/engine/artifacts/reflexive_gloss.md')
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
+    .then(function(md){
+      mount.innerHTML=(window.marked?marked.parse(md):('<pre>'+md.replace(/</g,'&lt;')+'</pre>'));
+    })
+    .catch(function(e){
+      mount.innerHTML='<p class="state">&mdash; reflexive gloss not available yet ('+String(e.message||e)+').</p>';
+    });
+})();
+</script>
+</body>
+</html>
