@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The Gospels — a reading room · Grammar of Meaning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,380;1,9..144,600;0,9..144,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FCFBF7; --paper-2:#EFE7D3; --paper-3:#FFFFFF;
+  --ink:#24302A; --ink-2:#52605A; --ink-3:#7C8478; --rule:#C9BE9F;
+  --fern:#3F7D57; --moss:#2C4A38; --gold:#B8924A; --terracotta:#C4602F;
+  --disp:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media(prefers-color-scheme:dark){:root{
+  --paper:#1C211D; --paper-2:#242B25; --paper-3:#2A322B;
+  --ink:#ECE7DA; --ink-2:#B6BEB1; --ink-3:#8C948A; --rule:#3A423C;
+  --fern:#7FB08E; --moss:#9DBBA6; --gold:#CBA867; --terracotta:#D9793F;
+}}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{
+  background:var(--paper); color:var(--ink); font-family:var(--sans);
+  /* flat paper grain — a very low-opacity SVG noise over the flat ground (no 3-D, no gloss) */
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+}
+a{color:inherit}
+
+/* ── soft raking light: a single low-opacity diagonal gradient on the flat surface ── */
+.light{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:linear-gradient(148deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,0) 46%, rgba(60,72,62,.05) 100%);}
+@media(prefers-color-scheme:dark){.light{background:linear-gradient(148deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,0) 46%, rgba(0,0,0,.18) 100%);}}
+
+/* ── theme toggle ── */
+.themebtn{position:fixed;top:14px;right:14px;z-index:9;background:var(--paper-3);border:1px solid var(--rule);
+  border-radius:999px;padding:5px 13px;font:12px var(--sans);cursor:pointer;color:var(--ink)}
+
+/* ══════════ SCREEN 1 — THE DOOR ══════════ */
+.door{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:4vh 22px 3vh;gap:5px;
+  transition:opacity .8s ease}
+.door-icon{position:relative;width:auto;height:min(48vh,500px);margin:0 auto 4px;
+  /* arched top, near-flat bottom — a flat cut-out with ONE soft low shadow */
+  border-radius:48% 48% 7px 7px / 27% 27% 6px 6px; overflow:hidden;
+  box-shadow:0 22px 34px -18px rgba(36,48,42,.30);
+  border:1px solid color-mix(in srgb,var(--rule) 55%,transparent)}
+.door-icon img{display:block;height:100%;width:auto}
+.door h1{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(38px,8vw,68px);
+  line-height:1.02;letter-spacing:-.01em;color:var(--moss);margin:6px 0 2px}
+.door .sub{font-family:var(--disp);font-style:italic;font-size:clamp(15px,2.4vw,19px);color:var(--ink-2);margin:0 0 18px}
+.door .actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center}
+.enter{font-family:var(--sans);font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper);
+  background:var(--moss);border:none;border-radius:999px;padding:11px 30px;cursor:pointer;transition:background .25s}
+.enter:hover{background:var(--fern)}
+.audio{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ink-3);background:none;
+  border:1px solid var(--rule);border-radius:999px;padding:8px 14px;cursor:pointer}
+.audio[aria-pressed=true]{color:var(--terracotta);border-color:color-mix(in srgb,var(--terracotta) 45%,transparent)}
+.audio .pend{color:var(--ink-3);font-style:italic}
+.credit{text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.02em;
+  color:var(--ink-3);padding:0 16px;margin:16px 0 0;max-width:62ch}
+
+/* the light-wipe that plays on Enter */
+.wipe{position:fixed;inset:0;z-index:20;pointer-events:none;opacity:0;
+  background:linear-gradient(105deg,rgba(255,255,255,0) 30%,rgba(255,253,246,.92) 50%,rgba(255,255,255,0) 70%);
+  background-size:300% 100%;background-position:100% 0}
+body.entering .wipe{opacity:1;animation:wipe .85s ease forwards}
+@keyframes wipe{from{background-position:100% 0}to{background-position:-60% 0}}
+body.entering .door{opacity:0;pointer-events:none}
+
+/* ══════════ SCREEN 2 — THE ILLUMINATED CONTENTS ══════════ */
+.toc{position:relative;z-index:1;display:none;max-width:960px;margin:0 auto;padding:8vh 24px 12vh}
+body.entered .toc{display:block;animation:fadein .7s ease both}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.frontis{display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--rule);padding-bottom:14px;margin-bottom:8px}
+.frontis img{width:52px;height:auto;border-radius:44% 44% 5px 5px / 26% 26% 4px 4px;border:1px solid var(--rule)}
+.frontis .ft{font-family:var(--disp);font-style:italic;font-weight:600;font-size:24px;color:var(--moss);line-height:1}
+.frontis .fs{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+.toc-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;margin-top:24px;align-items:start}
+.toc-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px}
+ol.chapters{list-style:none;margin:0;padding:0;counter-reset:ch}
+ol.chapters li{margin:0}
+.chap{display:block;text-decoration:none;font-family:var(--disp);font-style:italic;font-weight:380;
+  font-size:clamp(26px,4.4vw,38px);line-height:1.28;color:var(--ink);padding:3px 0;position:relative;
+  border:none;background:none;cursor:pointer;text-align:left;width:100%;transition:color .2s}
+.chap:hover,.chap:focus-visible{color:var(--fern);outline:none}
+.chap .n{counter-increment:ch;font-family:var(--mono);font-style:normal;font-size:12px;color:var(--gold);
+  margin-right:12px;vertical-align:.28em}
+.chap .n::before{content:counter(ch,decimal-leading-zero)}
+/* the single illuminated initial (flat gold drop-cap) on the first chapter */
+.chap.first .dropcap{font-family:var(--disp);font-style:normal;font-weight:600;color:var(--gold);
+  font-size:1.15em;padding-right:.02em}
+.marginalia{height:1px;border:0;border-top:1px solid color-mix(in srgb,var(--gold) 40%,transparent);
+  width:56px;margin:14px 0 14px 34px}
+.colophon{margin-top:26px;padding-top:14px;border-top:1px solid var(--rule)}
+.colophon .lab{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.colophon .voices{font-family:var(--disp);font-style:italic;font-size:19px;color:var(--ink-2);margin-top:4px}
+
+/* right — the plate that updates on hover/focus */
+.plate-wrap{position:sticky;top:8vh}
+.plate{border:1px solid var(--rule);border-radius:8px;background:var(--paper-2);aspect-ratio:4/5;
+  display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;
+  box-shadow:0 16px 26px -20px rgba(36,48,42,.26)}
+.plate .slot{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-3);line-height:1.7}
+.plate .slot b{display:block;font-size:13px;color:var(--ink-2);letter-spacing:.1em;margin-bottom:6px}
+.plate .slot em{color:var(--gold);font-style:normal}
+.plate-cap{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--ink-2);margin-top:12px;min-height:2.6em}
+.plate-cap b{color:var(--ink);letter-spacing:.1em}
+.roomnote{font-family:var(--sans);font-size:12px;color:var(--ink-3);margin-top:26px;border-top:1px dotted var(--rule);padding-top:12px}
+
+@media(max-width:720px){
+  .toc-grid{grid-template-columns:1fr;gap:24px}
+  .plate-wrap{position:static}
+  .door-icon{height:min(42vh,380px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .door,.toc,.wipe{transition:none!important;animation:none!important}
+  body.entering .wipe{opacity:0}
+}
+</style>
+</head>
+<body>
+<div class="light" aria-hidden="true"></div>
+<div class="wipe" aria-hidden="true"></div>
+<button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">theme</button>
+
+<!-- ══════════ SCREEN 1 — THE DOOR ══════════ -->
+<section class="door" id="door" aria-label="Enter the reading room">
+  <div class="door-icon">
+    <img src="assets/pantocrator-sinai.jpg" alt="Christ Pantocrator icon, Sinai, 6th century — Christ holding a jewelled gospel book, right hand raised in blessing" width="1280" height="2388">
+  </div>
+  <h1>The Gospels</h1>
+  <p class="sub">Four accounts &middot; one door</p>
+  <div class="actions">
+    <button class="enter" id="enterBtn">Enter</button>
+    <button class="audio" id="audioBtn" aria-pressed="false" title="Ambient plainsong — off by default">
+      &#128266; play evensong <span class="pend">(coming)</span>
+    </button>
+  </div>
+  <p class="credit">Christ Pantocrator, 6th c., St Catherine&rsquo;s Monastery, Sinai &mdash; public domain, via Wikimedia Commons.</p>
+</section>
+
+<!-- ══════════ SCREEN 2 — THE ILLUMINATED CONTENTS ══════════ -->
+<section class="toc" id="toc" aria-label="Contents">
+  <div class="frontis">
+    <img src="assets/pantocrator-sinai.jpg" alt="Christ Pantocrator, Sinai — frontispiece" width="1280" height="2388">
+    <div>
+      <div class="ft">The Gospels</div>
+      <div class="fs">Contents &middot; four voices, six movements</div>
+    </div>
+  </div>
+  <div class="toc-grid">
+    <div>
+      <p class="toc-eyebrow">The chapters &mdash; in meaning-order</p>
+      <ol class="chapters" id="chapters">
+        <li><button class="chap first" data-plate="nativity" data-cap="the first light"><span class="n"></span><span class="dropcap">N</span>ativity</button></li>
+        <li><button class="chap" data-plate="baptism" data-cap="the voice at the water"><span class="n"></span>Baptism</button></li>
+        <li><button class="chap" data-plate="teaching" data-cap="the sayings &amp; parables"><span class="n"></span>Teaching</button></li>
+        <li><button class="chap" data-plate="miracle" data-cap="signs &amp; wonders"><span class="n"></span>Miracle</button></li>
+        <li><button class="chap" data-plate="passion" data-cap="the road to the cross"><span class="n"></span>Passion</button></li>
+        <li><button class="chap" data-plate="resurrection" data-cap="the angel at the empty tomb"><span class="n"></span>Resurrection</button></li>
+      </ol>
+      <hr class="marginalia">
+      <div class="colophon">
+        <div class="lab">The four voices</div>
+        <div class="voices">Matthew &middot; Mark &middot; Luke &middot; John</div>
+      </div>
+      <p class="roomnote">The theme rooms open as they are built &mdash; the braided Resurrection reading is first.</p>
+    </div>
+    <div class="plate-wrap">
+      <div class="plate" id="plate">
+        <div class="slot" id="plateSlot"><b>PLATE</b> hover a chapter<br><em>&mdash; icon set wired by reading-SB</em></div>
+      </div>
+      <div class="plate-cap" id="plateCap"><b>&mdash;</b><br>Byzantine icon plates, matched to the Pantocrator, arrive as a manifest.</div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  // Enter → light-wipe → reveal contents
+  document.getElementById('enterBtn').addEventListener('click', function(){
+    if(reduce){ document.getElementById('door').style.display='none'; document.body.classList.add('entered'); window.scrollTo(0,0); return; }
+    document.body.classList.add('entering');
+    setTimeout(function(){
+      document.getElementById('door').style.display='none';
+      document.body.classList.remove('entering');
+      document.body.classList.add('entered');
+      window.scrollTo(0,0);
+    }, 820);
+  });
+  // audio toggle — off by default; audio manifest not yet wired (labeled-pending per spec principle #4)
+  var ab=document.getElementById('audioBtn');
+  ab.addEventListener('click', function(){
+    var on = ab.getAttribute('aria-pressed')==='true';
+    ab.setAttribute('aria-pressed', String(!on));
+    // no audio source is bound yet — kept honest rather than faked
+  });
+  // ToC plate updates on hover / focus of each chapter (labeled slots until the icon set lands)
+  var slot=document.getElementById('plateSlot'), cap=document.getElementById('plateCap');
+  var caps={nativity:'the first light',baptism:'the voice at the water',teaching:'the sayings & parables',
+            miracle:'signs & wonders',passion:'the road to the cross',resurrection:'the angel at the empty tomb'};
+  function show(el){
+    var key=el.getAttribute('data-plate'), name=el.textContent.replace(/^\d+\s*/,'').trim();
+    slot.innerHTML='<b>PLATE &middot; '+name.toUpperCase()+'</b><em>&mdash; icon wired by reading-SB</em>';
+    cap.innerHTML='<b>'+name.toUpperCase()+'</b><br>'+(caps[key]||'');
+  }
+  [].forEach.call(document.querySelectorAll('.chap'), function(c){
+    c.addEventListener('mouseenter', function(){show(c);});
+    c.addEventListener('focus', function(){show(c);});
+  });
+})();
+</script>
+</body>
+</html>
