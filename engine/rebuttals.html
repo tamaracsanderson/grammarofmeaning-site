@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Method FAQ — Objections &amp; Answers — Grammar of Meaning</title>
+<style>
+:root{--bg:#F6F1E4;--paper:#FFFDF6;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;
+ --eng:#2C4A38;--sub:#3F7D57;--out:#C4602F;--honey:#E0A93B;
+ --serif:"Newsreader",Iowan Old Style,Palatino,Georgia,serif;
+ --sans:"Inter",ui-sans-serif,-apple-system,Segoe UI,sans-serif;
+ --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#1B211D;--paper:#232A25;--paper2:#2A322B;--fg:#EDE7D8;
+ --muted:#A6AEA3;--line:#3A423C;--eng:#8FBF9E;--sub:#6FAF86;--out:#D9793F;--honey:#E0A93B}}
+:root[data-theme=dark]{--bg:#1B211D;--paper:#232A25;--paper2:#2A322B;--fg:#EDE7D8;--muted:#A6AEA3;
+ --line:#3A423C;--eng:#8FBF9E;--sub:#6FAF86;--out:#D9793F}
+:root[data-theme=light]{--bg:#F6F1E4;--paper:#FFFDF6;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;
+ --line:#C9BE9F;--eng:#2C4A38;--sub:#3F7D57;--out:#C4602F}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);font-size:17px;line-height:1.62}
+.topbar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;
+ gap:12px;padding:9px 18px;background:color-mix(in srgb,var(--bg) 88%,transparent);
+ backdrop-filter:blur(4px);border-bottom:1px solid var(--line)}
+.back{font-family:var(--sans);font-size:13px;color:var(--sub);text-decoration:none;
+ border-bottom:1px solid color-mix(in srgb,var(--sub) 45%,transparent)}
+.back:hover{background:color-mix(in srgb,var(--sub) 12%,transparent)}
+.themebtn{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 13px;
+ font-size:12px;cursor:pointer;color:var(--fg);font-family:var(--sans)}
+main{max-width:48rem;margin:0 auto;padding:5vh 22px 12vh}
+.kicker{font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+h1{font-size:30px;line-height:1.18;font-weight:600;color:var(--eng);margin:0 0 8px;text-wrap:balance}
+.intro{font-size:15.5px;color:var(--fg);border-left:3px solid var(--sub);padding:2px 0 2px 16px;margin:14px 0 6px;
+ background:color-mix(in srgb,var(--sub) 5%,transparent)}
+.intro p{margin:8px 0}
+h2.sec{font-size:14px;font-family:var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+ margin:38px 0 4px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.sec-sub{font-family:var(--sans);font-size:12.5px;color:var(--muted);margin:0 0 12px}
+.qa{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:12px 0;background:var(--paper)}
+.qa.answered{border-left:4px solid var(--sub)}
+.qa.open{border-left:4px solid var(--out);background:var(--paper2)}
+.qa.partial{border-left:4px solid var(--honey);background:var(--paper2)}
+.qa h3{font-size:16px;font-weight:600;color:var(--fg);margin:0 0 8px;line-height:1.4;font-family:var(--serif)}
+.qa .rn{font-family:var(--mono);font-size:12px;color:var(--eng);background:color-mix(in srgb,var(--eng) 12%,transparent);
+ padding:1px 7px;border-radius:6px;margin-right:8px;vertical-align:2px}
+.qa .resp{font-size:15px;margin:6px 0}
+.qa .resp p,.qa .evid p,.status p{margin:8px 0}
+.status{font-size:14px;border-radius:8px;padding:8px 12px;margin:10px 0 6px}
+.status.open{background:color-mix(in srgb,var(--out) 9%,transparent);border:1px solid color-mix(in srgb,var(--out) 30%,transparent)}
+.status.partial{background:color-mix(in srgb,var(--honey) 12%,transparent);border:1px solid color-mix(in srgb,var(--honey) 40%,transparent)}
+.slab{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+ padding:2px 8px;border-radius:999px;margin-right:8px;vertical-align:1px;color:#fff}
+.slab.open{background:var(--out)}
+.slab.partial{background:var(--honey);color:var(--moss,#2C4A38)}
+.slab.answered{background:var(--sub)}
+.evid{font-size:12.5px;color:var(--muted);margin-top:8px;font-family:var(--sans)}
+.evid code,.resp code,.status code,.intro code{font-family:var(--mono);font-size:.86em;background:color-mix(in srgb,var(--line) 30%,transparent);padding:0 4px;border-radius:4px;word-break:break-word}
+.evid a,.resp a,.status a{color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
+.testsfold{border:1px solid var(--line);border-radius:10px;margin:14px 0;background:var(--paper)}
+.testsfold summary{cursor:pointer;padding:12px 16px;font-family:var(--sans);font-size:13.5px;color:var(--fg);list-style:none}
+.testsfold summary::-webkit-details-marker{display:none}
+.testsfold summary::before{content:'▸  ';color:var(--out)}
+.testsfold[open] summary::before{content:'▾  '}
+.testbanner{font-family:var(--sans);font-size:12.5px;color:var(--out);background:color-mix(in srgb,var(--out) 8%,transparent);
+ border:1px solid color-mix(in srgb,var(--out) 28%,transparent);border-radius:8px;padding:9px 12px;margin:0 16px 8px}
+.tests-body{padding:0 16px 12px;font-size:14.5px}
+.tests-body ol{padding-left:22px}
+.tests-body li{margin:10px 0}
+.tests-body code{font-family:var(--mono);font-size:.86em;background:color-mix(in srgb,var(--line) 30%,transparent);padding:0 4px;border-radius:4px}
+.state{font-family:var(--sans);font-size:14px;color:var(--muted);margin-top:8vh;text-align:center}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="/engine/schema.html">&larr; the engine map</a>
+  <button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">theme</button>
+</div>
+<main>
+  <p class="kicker">Grammar of Meaning &middot; method</p>
+  <h1>Method FAQ &mdash; Objections &amp; Answers</h1>
+  <div id="intro"></div>
+  <div id="answered"></div>
+  <div id="open"></div>
+  <div id="tests"></div>
+  <div id="fallback"></div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+function stripFrontmatter(md){var m=md.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/);return m?md.slice(m[0].length):md;}
+function md2html(s){return window.marked?marked.parse(s.trim()):('<p>'+s.replace(/</g,'&lt;')+'</p>');}
+function md2inline(s){var h=md2html(s.trim());return h.replace(/^<p>/,'').replace(/<\/p>\s*$/,'');}
+
+function classifyStatus(txt){
+  var t=txt.replace(/[*_.]/g,'').trim().toUpperCase();
+  if(t.indexOf('OPEN')===0) return 'open';
+  if(/^(PARTIAL|SUBSTANTIALLY|ANSWERED-IN-PRINCIPLE)/.test(t)) return 'partial';
+  return 'open';
+}
+function slabText(cls){return cls==='partial'?'Partial':'Open';}
+
+function parseItem(chunk){
+  // chunk starts after "## " — first line is "R\d · objection", rest is body
+  var nl=chunk.indexOf('\n');
+  var head=chunk.slice(0,nl).trim();
+  var body=chunk.slice(nl+1).trim();
+  var rn=(head.match(/^R\d+/)||[''])[0];
+  var obj=head.replace(/^R\d+\s*·\s*/,'');
+  // sections
+  var resp=(body.match(/\*\*Response[^*]*\*\*([\s\S]*?)(?=\n\*\*Status|\n\*\*Evidence|$)/)||[,''])[1];
+  var status=(body.match(/\*\*Status\.\*\*([\s\S]*?)(?=\n\*\*Evidence|$)/)||[,''])[1];
+  var evid=(body.match(/\*\*Evidence\.\*\*([\s\S]*?)$/)||[,''])[1];
+  return {rn:rn, obj:obj, resp:resp, status:status.trim(), evid:evid.trim()};
+}
+
+function renderItem(it){
+  var open = !!it.status;
+  var cls = open ? classifyStatus(it.status) : 'answered';
+  var h = '<div class="qa '+cls+'">';
+  h += '<h3><span class="rn">'+it.rn+'</span>'+md2inline(it.obj)+'</h3>';
+  if(it.resp) h += '<div class="resp">'+md2html(it.resp)+'</div>';
+  if(open) h += '<div class="status '+cls+'">'+md2inline(it.status)+'</div>';
+  if(it.evid) h += '<div class="evid">'+md2html(it.evid)+'</div>';
+  h += '</div>';
+  return h;
+}
+
+(function(){
+  fetch('/engine/artifacts/method_rebuttals_faq.md')
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
+    .then(function(raw){
+      var md=stripFrontmatter(raw);
+      // split off tests queue
+      var parts=md.split(/\n#\s+TESTS QUEUE/);
+      var mainMd=parts[0];
+      var testsMd=parts[1]||'';
+      // strip the trailing HTML comment (methodology footer) from tests
+      testsMd=testsMd.replace(/<!--[\s\S]*?-->/g,'').trim();
+      // intro: "# How to read this" ... up to first "## R"
+      var introM=mainMd.match(/#\s+How to read this\s*([\s\S]*?)(?=\n##\s+R\d)/);
+      if(introM) document.getElementById('intro').innerHTML='<div class="intro">'+md2html(introM[1])+'</div>';
+      // items: split on "\n## R"
+      var itemChunks=mainMd.split(/\n##\s+(?=R\d)/).slice(1).map(function(c){return c.replace(/^R/, 'R');});
+      // careful: the split consumed "## "; re-add nothing (chunk starts at "R\d ·")
+      var items=itemChunks.map(function(c){return parseItem(c.trim());}).filter(function(i){return i.rn;});
+      var answered=items.filter(function(i){return !i.status;});
+      var open=items.filter(function(i){return !!i.status;});
+      // answered
+      var aH='<h2 class="sec">Answered</h2><p class="sec-sub">Objections we have a run behind &mdash; each links to the finding that backs it.</p>';
+      aH+=answered.map(renderItem).join('');
+      document.getElementById('answered').innerHTML=aH;
+      // open (fold)
+      var oH='<h2 class="sec">Open questions &amp; work in progress</h2>'
+        +'<p class="sec-sub">'+open.length+' harder objections &mdash; from the frontier-LLM adversarial review (IRR224), our 3-agent CRT, and the instrument&rsquo;s own reflexive self-scan. Each carries its honest status; several are genuinely OPEN, with the fix named but not yet built.</p>';
+      oH+=open.map(renderItem).join('');
+      document.getElementById('open').innerHTML=oH;
+      // tests
+      if(testsMd){
+        var tH='<h2 class="sec">The tests that back these answers</h2>'
+          +'<details class="testsfold"><summary>Validation roadmap &mdash; every experiment below is <b>designed, not yet run</b> (expand)</summary>'
+          +'<div class="testbanner">&#9888; Nothing in this list has produced a result yet. These are the experiments designed to move the OPEN items above toward answered &mdash; a few are partly run (noted inline); the rest are designed and awaiting pre-registration + execution.</div>'
+          +'<div class="tests-body">'+md2html(testsMd)+'</div></details>';
+        document.getElementById('tests').innerHTML=tH;
+      }
+    })
+    .catch(function(e){
+      document.getElementById('fallback').innerHTML='<p class="state">&mdash; FAQ not available yet ('+String(e.message||e)+').</p>';
+    });
+})();
+</script>
+</body>
+</html>
