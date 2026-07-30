@@ -47,6 +47,7 @@ h2.sec{font-size:14px;font-family:var(--sans);letter-spacing:.06em;text-transfor
 .status{font-size:14px;border-radius:8px;padding:8px 12px;margin:10px 0 6px}
 .status.open{background:color-mix(in srgb,var(--out) 9%,transparent);border:1px solid color-mix(in srgb,var(--out) 30%,transparent)}
 .status.partial{background:color-mix(in srgb,var(--honey) 12%,transparent);border:1px solid color-mix(in srgb,var(--honey) 40%,transparent)}
+.status.answered{background:color-mix(in srgb,var(--sub) 10%,transparent);border:1px solid color-mix(in srgb,var(--sub) 30%,transparent)}
 .slab{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
  padding:2px 8px;border-radius:999px;margin-right:8px;vertical-align:1px;color:#fff}
 .slab.open{background:var(--out)}
@@ -91,6 +92,7 @@ function md2inline(s){var h=md2html(s.trim());return h.replace(/^<p>/,'').replac
 
 function classifyStatus(txt){
   var t=txt.replace(/[*_.]/g,'').trim().toUpperCase();
+  if(/^ANSWERED[\s(]/.test(t)) return 'answered';
   if(t.indexOf('OPEN')===0) return 'open';
   if(/^(PARTIAL|SUBSTANTIALLY|ANSWERED-IN-PRINCIPLE)/.test(t)) return 'partial';
   return 'open';
@@ -141,8 +143,8 @@ function renderItem(it){
       var itemChunks=mainMd.split(/\n##\s+(?=R\d)/).slice(1).map(function(c){return c.replace(/^R/, 'R');});
       // careful: the split consumed "## "; re-add nothing (chunk starts at "R\d ·")
       var items=itemChunks.map(function(c){return parseItem(c.trim());}).filter(function(i){return i.rn;});
-      var answered=items.filter(function(i){return !i.status;});
-      var open=items.filter(function(i){return !!i.status;});
+      var answered=items.filter(function(i){return !i.status || classifyStatus(i.status)==='answered';});
+      var open=items.filter(function(i){return i.status && classifyStatus(i.status)!=='answered';});
       // answered
       var aH='<h2 class="sec">Answered</h2><p class="sec-sub">Objections we have a run behind &mdash; each links to the finding that backs it.</p>';
       aH+=answered.map(renderItem).join('');
