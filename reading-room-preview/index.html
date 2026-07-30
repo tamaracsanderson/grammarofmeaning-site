@@ -12,13 +12,13 @@
 :root{
   --paper:#FCFBF7; --paper-2:#EFE7D3; --paper-3:#FFFFFF;
   --ink:#24302A; --ink-2:#52605A; --ink-3:#7C8478; --rule:#C9BE9F;
-  --fern:#3F7D57; --moss:#2C4A38; --gold:#B8924A; --terracotta:#C4602F;
+  --fern:#3F7D57; --moss:#2C4A38; --sage:#7E9E86; --gold:#B8924A; --terracotta:#C4602F;
   --disp:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
 }
 @media(prefers-color-scheme:dark){:root{
   --paper:#1C211D; --paper-2:#242B25; --paper-3:#2A322B;
   --ink:#ECE7DA; --ink-2:#B6BEB1; --ink-3:#8C948A; --rule:#3A423C;
-  --fern:#7FB08E; --moss:#9DBBA6; --gold:#CBA867; --terracotta:#D9793F;
+  --fern:#7FB08E; --moss:#9DBBA6; --sage:#5F7D68; --gold:#CBA867; --terracotta:#D9793F;
 }}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
@@ -44,7 +44,7 @@ a{color:inherit}
   transition:opacity .8s ease}
 .door-icon{position:relative;width:auto;height:min(48vh,500px);margin:0 auto 4px;
   /* arched top, near-flat bottom — a flat cut-out with ONE soft low shadow */
-  border-radius:48% 48% 7px 7px / 27% 27% 6px 6px; overflow:hidden;
+  border-radius:42% 42% 7px 7px / 15% 15% 6px 6px; overflow:hidden;
   box-shadow:0 22px 34px -18px rgba(36,48,42,.30);
   border:1px solid color-mix(in srgb,var(--rule) 55%,transparent)}
 .door-icon img{display:block;height:100%;width:auto}
@@ -75,7 +75,7 @@ body.entering .door{opacity:0;pointer-events:none}
 body.entered .toc{display:block;animation:fadein .7s ease both}
 @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .frontis{display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--rule);padding-bottom:14px;margin-bottom:8px}
-.frontis img{width:52px;height:auto;border-radius:44% 44% 5px 5px / 26% 26% 4px 4px;border:1px solid var(--rule)}
+.frontis img{width:54px;height:66px;object-fit:cover;object-position:50% 15%;border-radius:44% 44% 5px 5px / 16% 16% 4px 4px;border:1px solid var(--rule)}
 .frontis .ft{font-family:var(--disp);font-style:italic;font-weight:600;font-size:24px;color:var(--moss);line-height:1}
 .frontis .fs{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
 .toc-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;margin-top:24px;align-items:start}
@@ -83,15 +83,16 @@ body.entered .toc{display:block;animation:fadein .7s ease both}
 ol.chapters{list-style:none;margin:0;padding:0;counter-reset:ch}
 ol.chapters li{margin:0}
 .chap{display:block;text-decoration:none;font-family:var(--disp);font-style:italic;font-weight:380;
-  font-size:clamp(26px,4.4vw,38px);line-height:1.28;color:var(--ink);padding:3px 0;position:relative;
+  font-size:clamp(26px,4.4vw,38px);line-height:1.28;color:var(--sage);padding:3px 0;position:relative;
   border:none;background:none;cursor:pointer;text-align:left;width:100%;transition:color .2s}
-.chap:hover,.chap:focus-visible{color:var(--fern);outline:none}
+.chap:focus-visible{outline:none}
+.chap.on{color:var(--moss)}
 .chap .n{counter-increment:ch;font-family:var(--mono);font-style:normal;font-size:12px;color:var(--gold);
   margin-right:12px;vertical-align:.28em}
 .chap .n::before{content:counter(ch,decimal-leading-zero)}
-/* the single illuminated initial (flat gold drop-cap) on the first chapter */
-.chap.first .dropcap{font-family:var(--disp);font-style:normal;font-weight:600;color:var(--gold);
-  font-size:1.15em;padding-right:.02em}
+/* the illuminated initial follows the active chapter (flat gold, not shiny) */
+.chap .ini{transition:color .2s}
+.chap.on .ini{font-family:var(--disp);font-style:normal;font-weight:600;color:var(--gold);font-size:1.14em;padding-right:.02em}
 .marginalia{height:1px;border:0;border-top:1px solid color-mix(in srgb,var(--gold) 40%,transparent);
   width:56px;margin:14px 0 14px 34px}
 .colophon{margin-top:26px;padding-top:14px;border-top:1px solid var(--rule)}
@@ -155,12 +156,12 @@ ol.chapters li{margin:0}
     <div>
       <p class="toc-eyebrow">The chapters &mdash; in meaning-order</p>
       <ol class="chapters" id="chapters">
-        <li><button class="chap first" data-plate="nativity" data-cap="the first light"><span class="n"></span><span class="dropcap">N</span>ativity</button></li>
-        <li><button class="chap" data-plate="baptism" data-cap="the voice at the water"><span class="n"></span>Baptism</button></li>
-        <li><button class="chap" data-plate="teaching" data-cap="the sayings &amp; parables"><span class="n"></span>Teaching</button></li>
-        <li><button class="chap" data-plate="miracle" data-cap="signs &amp; wonders"><span class="n"></span>Miracle</button></li>
-        <li><button class="chap" data-plate="passion" data-cap="the road to the cross"><span class="n"></span>Passion</button></li>
-        <li><button class="chap" data-plate="resurrection" data-cap="the angel at the empty tomb"><span class="n"></span>Resurrection</button></li>
+        <li><button class="chap" data-plate="nativity"><span class="n"></span><span class="ini">N</span>ativity</button></li>
+        <li><button class="chap" data-plate="baptism"><span class="n"></span><span class="ini">B</span>aptism</button></li>
+        <li><button class="chap" data-plate="teaching"><span class="n"></span><span class="ini">T</span>eaching</button></li>
+        <li><button class="chap" data-plate="miracle"><span class="n"></span><span class="ini">M</span>iracle</button></li>
+        <li><button class="chap" data-plate="passion"><span class="n"></span><span class="ini">P</span>assion</button></li>
+        <li><button class="chap" data-plate="resurrection"><span class="n"></span><span class="ini">R</span>esurrection</button></li>
       </ol>
       <hr class="marginalia">
       <div class="colophon">
@@ -203,15 +204,19 @@ ol.chapters li{margin:0}
   var slot=document.getElementById('plateSlot'), cap=document.getElementById('plateCap');
   var caps={nativity:'the first light',baptism:'the voice at the water',teaching:'the sayings & parables',
             miracle:'signs & wonders',passion:'the road to the cross',resurrection:'the angel at the empty tomb'};
-  function show(el){
+  var chaps=[].slice.call(document.querySelectorAll('.chap'));
+  function setActive(el){
+    chaps.forEach(function(c){c.classList.toggle('on', c===el);});
     var key=el.getAttribute('data-plate'), name=el.textContent.replace(/^\d+\s*/,'').trim();
     slot.innerHTML='<b>PLATE &middot; '+name.toUpperCase()+'</b><em>&mdash; icon wired by reading-SB</em>';
     cap.innerHTML='<b>'+name.toUpperCase()+'</b><br>'+(caps[key]||'');
   }
-  [].forEach.call(document.querySelectorAll('.chap'), function(c){
-    c.addEventListener('mouseenter', function(){show(c);});
-    c.addEventListener('focus', function(){show(c);});
+  chaps.forEach(function(c){
+    c.addEventListener('mouseenter', function(){setActive(c);});
+    c.addEventListener('focus', function(){setActive(c);});
   });
+  document.getElementById('chapters').addEventListener('mouseleave', function(){setActive(chaps[0]);});
+  setActive(chaps[0]); // at rest: Nativity is the illuminated one, its plate shown
 })();
 </script>
 </body>
