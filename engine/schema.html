@@ -196,11 +196,17 @@ tr.t3{opacity:.6}
 .tierhd.d span{color:var(--muted)}
 .tierhd .sub{display:block;font-family:var(--serif);font-style:italic;font-weight:400;font-size:11.5px;
  letter-spacing:0;text-transform:none;color:var(--muted);margin-top:2px}
-.axwrap{overflow-x:auto;margin:10px 0 8px}
-.axtab{width:100%;border-collapse:collapse;font-size:12.5px;line-height:1.4}
+.axwrap{overflow-x:auto;margin:10px 0 8px;scrollbar-width:thin;scrollbar-color:var(--sub) transparent}
+.axwrap::-webkit-scrollbar{height:8px}
+.axwrap::-webkit-scrollbar-thumb{background:var(--sub);border-radius:4px}
+.axwrap::-webkit-scrollbar-track{background:color-mix(in srgb,var(--line) 35%,transparent);border-radius:4px}
+.db table:not(.axtab){display:block;overflow-x:auto;max-width:100%;scrollbar-width:thin}
+.db table:not(.axtab)::-webkit-scrollbar{height:8px}
+.db table:not(.axtab)::-webkit-scrollbar-thumb{background:var(--sub);border-radius:4px}
+.axtab{width:100%;border-collapse:collapse;font-size:11.5px;line-height:1.38}
 .axtab th{text-align:left;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;
  text-transform:uppercase;color:var(--muted);font-weight:400;padding:0 10px 5px 0;border-bottom:1px solid var(--line)}
-.axtab td{padding:7px 10px 7px 0;vertical-align:top;border-bottom:1px solid var(--line)}
+.axtab td{padding:5px 8px 5px 0;vertical-align:top;border-bottom:1px solid var(--line)}
 .axtab .axl{white-space:nowrap;font-family:var(--mono);color:var(--eng);font-size:12px}
 .axtab .axl sub{font-size:8.5px;opacity:.55}
 .axtab .axn{font-family:var(--mono);font-size:11.5px;white-space:nowrap}
