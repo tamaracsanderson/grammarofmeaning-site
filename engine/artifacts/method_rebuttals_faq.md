@@ -92,6 +92,11 @@ run the built instrument on a representative non-Western text end-to-end (TESTS 
 **Status.** **OPEN.** Acknowledged squarely; the human-gold-anchor + error-correlation discount + exposed grammar↔prompt mapping are named fixes, none yet built.
 **Evidence.** `research/00_irr/irr224_..._reconciliation_2026-07-29.md` (M1 + the reflexive-sting reading + human-anchor §3) · `pm/50_audits/CRT_3agent_method_review_synthesis_2026-07-29.md` (#8 + human-anchored independence-aware IRR) · cross-ref R1 (IRR ≠ validity). Test: relates to TESTS QUEUE #2 (statistical baseline / non-LLM reference) + a human-gold-anchor run (TESTS QUEUE #10 ledger carries the anchor).
 
+## R13 · "What if your instrument just OVER-GENERATES gaps? Give a reader four layers and a dozen loci and it will always find plausible-sounding 'gaps' — you've built a generator, not an instrument." *(IRR225 5-LLM: UNANIMOUS 5/5 U9 — the over-fitting/over-generation worry every cohort raised)*
+**Response.** We tested it with a **negative control** — a text *engineered to close* interpretive space, where a well-calibrated instrument should find almost nothing. The MIT License is the ideal trap: legal boilerplate is the opposite of scripture; a competent reuser needs almost nothing. If the instrument finds twenty "gaps" in a software license, the method is a generator. **Result: 12 candidates → ~81% DISCARDED by the eligibility gates; 2 clean survivors (+1 marginal).** And the survivors are precisely the MIT License's two genuinely famous silences — **patent-rights scope** (the silence Apache 2.0 exists to fix) and the undefined **"substantial portions"** threshold (its only affirmative obligation, unbounded). The gates killed every `anchor=stated` candidate (the "AS IS"/no-liability clauses — said, not withheld) and every *hookless* omission (governing-law, severability — the text is silent, but nothing in its words forks on them). The rule this crystallized, and it is R4's answer operationalized: **a gap is not "anything the text doesn't say" (that list is infinite) — it is "something the text's own words open but don't close."** Boundedness falls out of tying every gap to a textual hook (the `activation` gate + `textual_anchor`), so the same instrument finds ~10 gaps in Jonah and ~2 in a license.
+**Status.** **ANSWERED (a run, not a claim) — the negative control PASSES.** First control run; the confirming scale-up is a diverse non-canonical corpus (legal / technical / expository), the same battery TESTS QUEUE #2 uses.
+**Evidence.** `pm/50_audits/v3_overgeneration_probe_mit_license_s156_2026-07-30.md` (the run: ~81% discard, the 2 famous survivors, every discard named) · `research/00_irr/irr225_layered_gap_taxonomy_reconciliation_2026-07-30.md` (U9, 5/5) · `pm/40_architecture/INSTRUMENT_v3_spec_s156_2026-07-30.md` (the gates + `textual_anchor` that deliver the restraint) · cross-ref R4 (this is R4's unbounded critique, answered as a control). Test: TESTS QUEUE #13.
+
 ---
 
 # TESTS QUEUE (designed / partially-run — the experiments that back future entries)
@@ -143,6 +148,12 @@ run the built instrument on a representative non-Western text end-to-end (TESTS 
     obligation), per IRR167 present-vs-obligated. Then test that scored gaps track the contrast set, not the model's
     associative priors (e.g., swap the coding model; do the high-salience gaps stay put?). Add the silence typology
     (presupposed / taboo / ineffable / generic-convention) so "productive silence" is not miscounted as a defect.
+13. **Over-generation NEGATIVE CONTROL — ✅ RUN (not designed).** *(backs R13; IRR225 U9.)* Run the instrument on a text
+    ENGINEERED to close interpretive space (a legal/expository boilerplate), where a well-calibrated instrument should find
+    almost nothing. **First run: MIT License → ~81% of candidates DISCARDED by the gates; 2 clean survivors (patent scope,
+    "substantial portions") = the license's real famous silences.** The control PASSES — the instrument restrains, it does
+    not generate. Unlike #1-#12, this test has a RESULT already. Confirming scale-up: a diverse non-canonical corpus (legal /
+    technical / expository), shared with the #2 baseline battery. Evidence: `pm/50_audits/v3_overgeneration_probe_mit_license_s156_2026-07-30.md`.
 
 <!-- ── METHODOLOGY FOOTER ──
 HOW PRODUCED: reading-SB S156 2026-07-29 — the PI asked for a running FAQ/rebuttals list (Lamberth/Saquib/crit-group
