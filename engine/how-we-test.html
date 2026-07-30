@@ -45,7 +45,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;ba
 </style></head><body>
 <button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">theme</button>
 <div class="wrap">
-<div class="eyebrow">Grammar of Meaning · Validation</div>
+<div class="eyebrow">Grammar of Meaning · How we test</div>
 <h1>How we test this</h1>
 <p class="lede">The method is the contribution — so how we know it <i>works</i> is the argument, not housekeeping. Every result is checkable, organized by the question a reader asks: <i>how do you know that?</i> Nothing here is graded on one run's fate: a generative engine is graded on aggregate behavior across runs; a deterministic step, on exact reproduction.</p>
 <p><a class="back" href="schema.html">&larr; back to the schema</a></p>
@@ -54,8 +54,16 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;ba
 <div class="grp">Does locked-method × locked-model reproduce a coding?</div>
 <table>
 <tr><td class="name">Reliability / R-grades</td><td class="body">R1 (high) / R2 (medium) / R3 (low) per <b>(passage × dimension)</b> cell — one passage can be R1 on one dimension, R3 on another. <b>Generative</b> steps graded on aggregate rates across runs, deterministic steps per-cell. <i>Ex:</i> Romans 8 — a silence was agreed <i>present</i> (&alpha;&approx;0.59) but not <i>obligated</i> (&alpha;&approx;0.03).</td></tr>
-<tr><td class="name">IRR family — 5IRR / 3IRR / 3P</td><td class="body">Whether <b>independent</b> LLM cohorts converge (they never see each other's answers). 5IRR = 5 web-UI cohorts → consensus buckets; 3IRR = 3 local models (cheap); 3P = 3-persona (insider / comparativist / practitioner). They compose (3P×5IRR = 15 reads). <i>Ex:</i> IRR167.</td></tr>
+<tr><td class="name">IRR family — 5IRR / 3IRR / 3P</td><td class="body">Whether <b>independent</b> LLM cohorts converge (they never see each other's answers). 5IRR = 5 web-UI cohorts → consensus buckets; 3IRR = 3 local models (cheap); 3P = 3-persona (insider / comparativist / practitioner). They compose (3P×5IRR = 15 reads). <i>Ex:</i> IRR167. Convergence is <b>task-dependent</b>, and agreement &ne; validity &mdash; see <i>external review</i> below.</td></tr>
 </table>
+
+<h2>Does the agreement mean anything &mdash; and does hostile review agree? <span class="q">&mdash; external review &amp; agreement &ne; validity</span></h2>
+<div class="grp">Is multi-LLM agreement the same as validity? (No.) And what does an outside adversary find?</div>
+<table>
+<tr><td class="name">Agreement is task-dependent <span class="cd">&mdash; 307 rounds</span></td><td class="body">Across <b>307 IRR reconciliation rounds</b>, agreement is <b>not flat &mdash; it tracks task difficulty</b>: models converge when asked to <i>enumerate what exists</i> (~42% of findings 5/5 unanimous) and diverge when asked to <i>code / bound / label a specific unit of text</i> (~25% unanimous, ~29% outright split). That the agreement <i>knows which questions are hard</i> is signal it is not pure shared bias &mdash; but it tells us <b>where to trust the instrument</b> (enumeration) versus where a <b>human gold-anchor is required</b> (coding / judgment). <b>Agreement is not validity.</b> <a class="case" href="background.html?p=irr_consensus_task_dependence.md">The task-dependence finding &rarr;</a></td></tr>
+<tr><td class="name">External adversarial review <span class="cd">&mdash; IRR224</span></td><td class="body">Five <b>frontier</b> LLMs read the 13-claim method-statement <b>blind</b> and were asked to attack it. Their two heaviest blows landed at <b>5/5 unanimity</b> &mdash; <i>multi-LLM agreement &ne; validity</i> and <i>gap-scoring is unbounded</i> &mdash; and the cohort <b>replicated our in-house adversarial review</b>. We put our <b>deepest limits in writing, on the record</b>, rather than hide them; the honesty is the credibility. <a class="case" href="background.html?p=irr224_external_review.md">The full blind review &rarr;</a></td></tr>
+</table>
+<p class="sib">This is the honest counterpart to the reliability numbers: high agreement where the task is enumeration, low where it is judgment &mdash; and an outside cohort that independently confirms our method&rsquo;s deepest limit (agreement &ne; validity) is real. It is on the record because putting the limit in writing <i>is</i> the point.</p>
 
 <h2>Does it hold beyond its home domain? <span class="q">— instrument vs. domain</span></h2>
 <div class="grp">Is a result a property of the instrument, or of the theology?</div>
