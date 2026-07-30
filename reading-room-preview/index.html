@@ -75,7 +75,10 @@ body.entering .door{opacity:0;pointer-events:none}
 body.entered .toc{display:block;animation:fadein .7s ease both}
 @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .frontis{display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--rule);padding-bottom:14px;margin-bottom:8px}
-.frontis img{width:54px;height:66px;object-fit:cover;object-position:50% 15%;border-radius:44% 44% 5px 5px / 16% 16% 4px 4px;border:1px solid var(--rule)}
+.tohome{background:none;border:none;padding:0;margin:0;line-height:0;cursor:pointer;border-radius:4px}
+.tohome img{width:54px;height:66px;object-fit:cover;object-position:50% 15%;border-radius:44% 44% 5px 5px / 16% 16% 4px 4px;border:1px solid var(--rule);transition:outline-color .15s}
+.tohome:hover img,.tohome:focus-visible img{outline:2px solid color-mix(in srgb,var(--fern) 55%,transparent);outline-offset:2px}
+.tohome:focus{outline:none}
 .frontis .ft{font-family:var(--disp);font-style:italic;font-weight:600;font-size:24px;color:var(--moss);line-height:1}
 .frontis .fs{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
 .toc-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;margin-top:24px;align-items:start}
@@ -136,17 +139,20 @@ ol.chapters li{margin:0}
   <p class="sub">Four accounts &middot; one door</p>
   <div class="actions">
     <button class="enter" id="enterBtn">Enter</button>
-    <button class="audio" id="audioBtn" aria-pressed="false" title="Ambient plainsong — off by default">
-      &#128266; play evensong <span class="pend">(coming)</span>
+    <button class="audio" id="audioBtn" aria-pressed="false" title="Ambient plainsong — off by default, plays softly">
+      &#128266; <span id="audioLabel">play evensong</span>
     </button>
+    <audio id="evensong" loop preload="none"><source src="assets/palestrina-sicut-lilium.mp3" type="audio/mpeg"></audio>
   </div>
-  <p class="credit">Christ Pantocrator, 6th c., St Catherine&rsquo;s Monastery, Sinai &mdash; public domain, via Wikimedia Commons.</p>
+  <p class="credit">Christ Pantocrator, 6th c., St Catherine&rsquo;s Monastery, Sinai &mdash; public domain, via Wikimedia Commons.<br>Ambience: Palestrina, <i>Sicut lilium inter spinas</i> &mdash; The Tudor Consort &middot; CC-BY 3.0, via the Internet Archive.</p>
 </section>
 
 <!-- ══════════ SCREEN 2 — THE ILLUMINATED CONTENTS ══════════ -->
 <section class="toc" id="toc" aria-label="Contents">
   <div class="frontis">
-    <img src="assets/pantocrator-sinai.jpg" alt="Christ Pantocrator, Sinai — frontispiece" width="1280" height="2388">
+    <button class="tohome" id="toHome" aria-label="Back to the door" title="Back to the door">
+      <img src="assets/pantocrator-sinai.jpg" alt="Christ Pantocrator, Sinai — frontispiece" width="1280" height="2388">
+    </button>
     <div>
       <div class="ft">The Gospels</div>
       <div class="fs">Contents &middot; four voices, six movements</div>
@@ -193,12 +199,13 @@ ol.chapters li{margin:0}
       window.scrollTo(0,0);
     }, 820);
   });
-  // audio toggle — off by default; audio manifest not yet wired (labeled-pending per spec principle #4)
-  var ab=document.getElementById('audioBtn');
+  // evensong toggle — off by default, user-started, soft + looping
+  var ab=document.getElementById('audioBtn'), au=document.getElementById('evensong'), al=document.getElementById('audioLabel');
+  au.volume=0.32;
   ab.addEventListener('click', function(){
     var on = ab.getAttribute('aria-pressed')==='true';
-    ab.setAttribute('aria-pressed', String(!on));
-    // no audio source is bound yet — kept honest rather than faked
+    if(on){ au.pause(); ab.setAttribute('aria-pressed','false'); al.textContent='play evensong'; }
+    else { au.play().then(function(){ ab.setAttribute('aria-pressed','true'); al.textContent='pause evensong'; }).catch(function(){ al.textContent='evensong unavailable'; }); }
   });
   // ToC plate updates on hover / focus of each chapter (labeled slots until the icon set lands)
   var slot=document.getElementById('plateSlot'), cap=document.getElementById('plateCap');
@@ -217,6 +224,12 @@ ol.chapters li{margin:0}
   });
   document.getElementById('chapters').addEventListener('mouseleave', function(){setActive(chaps[0]);});
   setActive(chaps[0]); // at rest: Nativity is the illuminated one, its plate shown
+  // header Pantocrator returns to the door
+  document.getElementById('toHome').addEventListener('click', function(){
+    document.getElementById('door').style.display='';
+    document.body.classList.remove('entered','entering');
+    window.scrollTo(0,0);
+  });
 })();
 </script>
 </body>
