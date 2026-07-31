@@ -70,7 +70,7 @@ function stripFrontmatter(md){var m=md.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/);
   fetch('/engine/artifacts/morphospace_findings_companion_s156_2026-07-31.md')
     .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
     .then(function(raw){
-      var md=stripFrontmatter(raw).replace(/<!--[\s\S]*?-->/g,'').trim();
+      var md=stripFrontmatter(raw).replace(/<!--[\s\S]*?-->/g,'').replace(/\s*\*?\(Full:[^)]*\)\*?/g,'').trim();
       var html=window.marked?marked.parse(md):('<pre>'+md.replace(/</g,'&lt;')+'</pre>');
       document.getElementById('doc').innerHTML=html;
       // wrap tables for horizontal scroll on narrow screens
