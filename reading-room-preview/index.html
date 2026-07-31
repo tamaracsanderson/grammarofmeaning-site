@@ -127,6 +127,11 @@ ol.chapters li{margin:0}
   .door,.toc,.wipe{transition:none!important;animation:none!important}
   body.entering .wipe{opacity:0}
 }
+
+.chap-live{color:var(--moss)}
+.enter{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-left:12px;opacity:.5;transition:opacity .25s}
+.chap-live:hover .enter,.chap-live:focus .enter{opacity:1}
+@media(prefers-reduced-motion:reduce){.enter{transition:none}}
 </style>
 </head>
 <body>
@@ -173,7 +178,7 @@ ol.chapters li{margin:0}
         <li><button class="chap" data-plate="teaching"><span class="n"></span><span class="ini">T</span>eaching</button></li>
         <li><button class="chap" data-plate="miracle"><span class="n"></span><span class="ini">M</span>iracle</button></li>
         <li><button class="chap" data-plate="passion"><span class="n"></span><span class="ini">P</span>assion</button></li>
-        <li><button class="chap" data-plate="resurrection"><span class="n"></span><span class="ini">R</span>esurrection</button></li>
+        <li><button class="chap chap-live" data-plate="resurrection" data-room="resurrection.html"><span class="n"></span><span class="ini">R</span>esurrection<span class="enter">enter &rarr;</span></button></li>
       </ol>
       <hr class="marginalia">
       <div class="colophon">
@@ -250,6 +255,7 @@ ol.chapters li{margin:0}
   chaps.forEach(function(c){
     c.addEventListener('mouseenter', function(){setActive(c);});
     c.addEventListener('focus', function(){setActive(c);});
+    c.addEventListener('click', function(){var r=c.getAttribute('data-room'); if(r) location.href=r;});
   });
   document.getElementById('chapters').addEventListener('mouseleave', function(){setActive(chaps[0]);});
   setActive(chaps[0]); // at rest: Nativity is the illuminated one, its plate shown
