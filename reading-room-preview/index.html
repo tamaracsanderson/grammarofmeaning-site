@@ -58,6 +58,8 @@ a{color:inherit}
 .audio{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ink-3);background:none;
   border:1px solid var(--rule);border-radius:999px;padding:8px 14px;cursor:pointer}
 .audio[aria-pressed=true]{color:var(--terracotta);border-color:color-mix(in srgb,var(--terracotta) 45%,transparent)}
+.audio-wrap{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center}
+.tracksel{font-family:var(--mono);font-size:10.5px;letter-spacing:.02em;color:var(--ink-2);background:none;border:1px solid var(--rule);border-radius:999px;padding:7px 10px;cursor:pointer;max-width:200px}
 .audio .pend{color:var(--ink-3);font-style:italic}
 .credit{text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.02em;
   color:var(--ink-3);padding:0 16px;margin:16px 0 0;max-width:62ch}
@@ -141,12 +143,21 @@ ol.chapters li{margin:0}
   <p class="sub">Four accounts &middot; one door</p>
   <div class="actions">
     <button class="enter" id="enterBtn">Enter</button>
-    <button class="audio" id="audioBtn" aria-pressed="false" title="Ambient plainsong — off by default, plays softly">
-      &#128266; <span id="audioLabel">play evensong</span>
-    </button>
-    <audio id="evensong" loop preload="none"><source src="assets/palestrina-sicut-lilium.mp3" type="audio/mpeg"></audio>
+    <span class="audio-wrap">
+      <button class="audio" id="audioBtn" aria-pressed="false" title="Ambient plainsong — off by default, plays softly">
+        &#128266; <span id="audioLabel">play evensong</span>
+      </button>
+      <select id="trackSel" class="tracksel" aria-label="Choose ambience track">
+        <option value="0">Palestrina · Sicut lilium</option>
+        <option value="1">Palestrina · Agnus Dei</option>
+        <option value="2">Gregorian · Audi Benigne Conditor</option>
+        <option value="3">Hildegard · Liber Vitae Meritorum</option>
+        <option value="4">Evensong · Organ Voluntary</option>
+      </select>
+    </span>
+    <audio id="evensong" loop preload="none"></audio>
   </div>
-  <p class="credit">Christ Pantocrator, 6th c., St Catherine&rsquo;s Monastery, Sinai &mdash; public domain, via Wikimedia Commons.<br>Ambience: Palestrina, <i>Sicut lilium inter spinas</i> &mdash; The Tudor Consort &middot; CC-BY 3.0, via the Internet Archive.</p>
+  <p class="credit">Christ Pantocrator, 6th c., St Catherine&rsquo;s Monastery, Sinai &mdash; public domain, via Wikimedia Commons.<br>Ambience: <span id="audioCredit"></span></p>
 </section>
 
 <!-- ══════════ SCREEN 2 — THE ILLUMINATED CONTENTS ══════════ -->
@@ -202,14 +213,30 @@ ol.chapters li{margin:0}
       window.scrollTo(0,0);
     }, 820);
   });
-  // evensong toggle — off by default, user-started, soft + looping
-  var ab=document.getElementById('audioBtn'), au=document.getElementById('evensong'), al=document.getElementById('audioLabel');
+  // evensong — 5 tracks, off by default, user-started, soft + looping
+  var ab=document.getElementById('audioBtn'), au=document.getElementById('evensong'),
+      al=document.getElementById('audioLabel'), sel=document.getElementById('trackSel'),
+      acred=document.getElementById('audioCredit');
+  var TRACKS=[
+   {t:'Palestrina, <i>Sicut lilium inter spinas</i> — The Tudor Consort',src:'assets/palestrina-sicut-lilium.mp3',lic:'CC-BY 3.0',u:'https://creativecommons.org/licenses/by/3.0'},
+   {t:'Palestrina, <i>Agnus Dei</i> (Missa Sicut lilium) — The Tudor Consort',src:'assets/palestrina-agnus-dei.mp3',lic:'CC-BY 3.0',u:'https://creativecommons.org/licenses/by/3.0'},
+   {t:'Gregorian, <i>Audi Benigne Conditor</i> — Gregoriana',src:'assets/gregorian-audi-benigne.mp3',lic:'CC-BY-NC-ND 4.0',u:'https://creativecommons.org/licenses/by-nc-nd/4.0'},
+   {t:'Hildegard von Bingen, <i>Liber Vitae Meritorum</i> — Studio112',src:'https://archive.org/download/studio_112_visions_mystiques_d_hildegarde_de_bingen/01.Liber_Vitae_Meritorum_Studio112_%20Visions_Mystiques_d_Hildegarde_de_Bingen.mp3',lic:'CC-BY-NC-SA 4.0',u:'https://creativecommons.org/licenses/by-nc-sa/4.0'},
+   {t:'Evensong Organ Voluntary — Church of the Ascension',src:'https://archive.org/download/AscensionSM_2013-11-10_Evensong/131110_Evensong_01_Voluntary_Prelude_.mp3',lic:'CC-BY-NC-ND 3.0',u:'https://creativecommons.org/licenses/by-nc-nd/3.0'}
+  ];
   au.volume=0.32;
+  function setTrack(i,keepPlaying){
+    var tr=TRACKS[i]; au.src=tr.src;
+    acred.innerHTML=tr.t+' &middot; <a href="'+tr.u+'" target="_blank" rel="noopener">'+tr.lic+'</a>, via the Internet Archive.';
+    if(keepPlaying){ au.play().then(function(){ab.setAttribute('aria-pressed','true');al.textContent='pause evensong';}).catch(function(){}); }
+  }
+  setTrack(0,false); // default track shown/credited, not playing
   ab.addEventListener('click', function(){
     var on = ab.getAttribute('aria-pressed')==='true';
     if(on){ au.pause(); ab.setAttribute('aria-pressed','false'); al.textContent='play evensong'; }
     else { au.play().then(function(){ ab.setAttribute('aria-pressed','true'); al.textContent='pause evensong'; }).catch(function(){ al.textContent='evensong unavailable'; }); }
   });
+  sel.addEventListener('change', function(){ setTrack(+sel.value, ab.getAttribute('aria-pressed')==='true'); });
   // ToC plate updates on hover / focus of each chapter (labeled slots until the icon set lands)
   var cap=document.getElementById('plateCap'), cred=document.getElementById('plateCredit'), pimg=document.getElementById('plateImg');
   var PLATES={
