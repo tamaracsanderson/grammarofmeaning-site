@@ -106,7 +106,7 @@ ol.chapters li{margin:0}
 
 /* right — the plate that updates on hover/focus */
 .plate-wrap{position:sticky;top:8vh}
-.plate{border:1px solid var(--rule);border-radius:8px;background:var(--paper-2);aspect-ratio:4/5;overflow:hidden;
+.plate{border:1px solid var(--rule);border-radius:8px;background:var(--paper-2);aspect-ratio:1/1;overflow:hidden;
   box-shadow:0 16px 26px -20px rgba(36,48,42,.26)}
 .plate img{width:100%;height:100%;object-fit:cover;display:block}
 .plate .slot{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-3);line-height:1.7}
@@ -132,6 +132,11 @@ ol.chapters li{margin:0}
 .enter{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-left:12px;opacity:.5;transition:opacity .25s}
 .chap-live:hover .enter,.chap-live:focus .enter{opacity:1}
 @media(prefers-reduced-motion:reduce){.enter{transition:none}}
+
+.voices-row{display:flex;gap:12px;margin-top:4px}
+.vi{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
+.vi img{width:100%;max-width:58px;height:auto;aspect-ratio:3/4;object-fit:cover;border-radius:6px;border:1px solid var(--rule);background:var(--paper-2)}
+.vi em{font-family:var(--sans);font-style:normal;font-size:10.5px;letter-spacing:.02em;color:var(--ink-2)}
 </style>
 </head>
 <body>
@@ -183,7 +188,7 @@ ol.chapters li{margin:0}
       <hr class="marginalia">
       <div class="colophon">
         <div class="lab">The four voices</div>
-        <div class="voices">Matthew &middot; Mark &middot; Luke &middot; John</div>
+        <div class="voices-row"><span class="vi"><img src="assets/panels/icon-matthew.svg" alt="" width="768" height="1024" loading="lazy"><em>Matthew</em></span><span class="vi"><img src="assets/panels/icon-mark.svg" alt="" width="768" height="1024" loading="lazy"><em>Mark</em></span><span class="vi"><img src="assets/panels/icon-luke.svg" alt="" width="768" height="1024" loading="lazy"><em>Luke</em></span><span class="vi"><img src="assets/panels/icon-john.svg" alt="" width="768" height="1024" loading="lazy"><em>John</em></span></div>
       </div>
       <p class="roomnote">The theme rooms open as they are built &mdash; the braided Resurrection reading is first.</p>
     </div>
@@ -236,12 +241,12 @@ ol.chapters li{margin:0}
   // ToC plate updates on hover / focus of each chapter (labeled slots until the icon set lands)
   var cap=document.getElementById('plateCap'), cred=document.getElementById('plateCredit'), pimg=document.getElementById('plateImg');
   var PLATES={
-   nativity:{img:'assets/plates/nativity.jpg',pos:'50% 40%',cap:'the first light',credit:'Nativity, La Martorana, Palermo, 12th c. — photo: Sibeaster, public domain, via Wikimedia',lic:null},
-   baptism:{img:'assets/plates/baptism.jpg',pos:'50% 26%',cap:'the voice at the water',credit:'Baptism of Christ, Arian Baptistery, Ravenna, 6th c. — photo © José Luiz Bernardes Ribeiro',lic:'https://creativecommons.org/licenses/by-sa/4.0',licn:'CC BY-SA 4.0'},
-   teaching:{img:'assets/plates/teaching.jpg',pos:'50% 30%',cap:'the sayings & parables',credit:'Christ dividing the sheep from the goats, Sant’Apollinare Nuovo, Ravenna, 6th c. — public domain, via Wikimedia',lic:null},
-   miracle:{img:'assets/plates/miracle.jpg',pos:'50% 42%',cap:'signs & wonders',credit:'The Raising of Lazarus, Sant’Apollinare Nuovo, Ravenna, 6th c. — public domain, via Wikimedia',lic:null},
-   passion:{img:'assets/plates/passion.jpg',pos:'50% 52%',cap:'the road to the cross',credit:'The Crucifixion, Daphni Monastery, Greece, c.1100 — photo: Jacob Freeland (Compassionate727)',lic:'https://creativecommons.org/licenses/by/4.0',licn:'CC BY 4.0'},
-   resurrection:{img:'assets/plates/resurrection.jpg',pos:'50% 45%',cap:'the angel at the empty tomb',credit:'The Anastasis (Resurrection), Daphni Monastery, Greece, c.1100 — photo © Giovanni Dall’Orto',lic:'https://creativecommons.org/licenses/by-sa/2.5/it/deed.en',licn:'CC BY-SA 2.5 IT'}
+   nativity:{img:'assets/panels/icon-nativity.svg',pos:'50% 50%',cap:'the first light',credit:'Illuminated panel &mdash; authored design, Grammar of Meaning',lic:null},
+   baptism:{img:'assets/panels/icon-baptism.svg',pos:'50% 50%',cap:'the voice at the water',credit:'Illuminated panel &mdash; authored design, Grammar of Meaning',lic:null},
+   teaching:{img:'assets/panels/icon-teaching.svg',pos:'50% 50%',cap:'the sayings & parables',credit:'Illuminated panel &mdash; authored design, Grammar of Meaning',lic:null},
+   miracle:{img:'assets/panels/icon-cana.svg',pos:'50% 50%',cap:'signs & wonders (Cana)',credit:'Illuminated panel &mdash; authored design, Grammar of Meaning',lic:null},
+   passion:{img:'assets/panels/icon-passion.svg',pos:'50% 50%',cap:'the road to the cross',credit:'Illuminated panel &mdash; authored design, Grammar of Meaning',lic:null},
+   resurrection:{img:'assets/panels/icon-resurrection.svg',pos:'50% 50%',cap:'the angel at the empty tomb',credit:'Illuminated panel &mdash; authored design, Grammar of Meaning',lic:null}
   };
   var chaps=[].slice.call(document.querySelectorAll('.chap'));
   function setActive(el){
