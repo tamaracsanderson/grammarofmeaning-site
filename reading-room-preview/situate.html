@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The world of the four gospels — Situate · The Gospels</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,380;1,9..144,600;0,9..144,400;0,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FCFBF7; --paper-2:#EFE7D3; --paper-3:#FFFFFF;
+  --ink:#24302A; --ink-2:#52605A; --ink-3:#7C8478; --rule:#C9BE9F;
+  --fern:#3F7D57; --moss:#2C4A38; --sage:#7E9E86; --gold:#B8924A; --terracotta:#C4602F;
+  --disp:"Fraunces",Georgia,serif; --serif:"Newsreader",Georgia,serif;
+  --sans:"Inter",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth} @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:19px;line-height:1.68;-webkit-font-smoothing:antialiased}
+.bar{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 20px;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(5px);border-bottom:1px solid var(--rule)}
+.bar a{font-family:var(--sans);font-size:13px;color:var(--fern);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fern) 40%,transparent)}
+.bar a:hover{background:color-mix(in srgb,var(--fern) 10%,transparent)}
+.bar .rm{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);border:none}
+header.pg{max-width:44rem;margin:0 auto;padding:8vh 22px 1vh;text-align:center}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 14px}
+h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(34px,6vw,58px);line-height:1.06;color:var(--moss);margin:0 0 12px;letter-spacing:-.01em;text-wrap:balance}
+.lede{font-family:var(--disp);font-style:italic;font-size:18px;color:var(--ink-2);max-width:34rem;margin:0 auto;line-height:1.5}
+main{max-width:40rem;margin:0 auto;padding:2vh 22px 16vh}
+section.band{margin:6vh 0 0;padding:5vh 0 0;border-top:1px solid color-mix(in srgb,var(--rule) 55%,transparent)}
+section.band:first-of-type{border-top:none}
+h2.bh{font-family:var(--disp);font-weight:600;font-size:27px;color:var(--moss);margin:0 0 6px;line-height:1.15;text-wrap:balance}
+h2.bh .num{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--gold);display:block;letter-spacing:.14em;text-transform:uppercase;margin:0 0 6px}
+main p{margin:0 0 16px}
+main i{color:var(--ink)} main b{font-weight:600;color:var(--moss)}
+main code{font-family:var(--mono);font-size:.8em;background:var(--paper-2);padding:1px 5px;border-radius:4px;color:var(--ink-2)}
+main a{color:var(--terracotta);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--terracotta) 40%,transparent)}
+main ul{margin:0 0 16px;padding:0;list-style:none}
+main li{margin:0 0 12px;padding:12px 16px;border:1px solid var(--rule);border-radius:9px;background:var(--paper-3)}
+main li b{color:var(--moss)}
+main blockquote{margin:16px 0;padding:14px 18px;border-left:3px solid var(--gold);border-radius:0 9px 9px 0;background:color-mix(in srgb,var(--gold) 8%,transparent);font-family:var(--sans);font-size:14px;line-height:1.62;color:var(--ink-2)}
+main blockquote p{margin:0 0 10px} main blockquote p:last-child{margin:0} main blockquote b{color:var(--moss)}
+/* honest slot */
+.slot{border:1px dashed var(--rule);border-radius:10px;padding:16px 20px;background:var(--paper-2);font-family:var(--sans);font-size:13px;line-height:1.6;color:var(--ink-3);margin:16px 0}
+.slot b{color:var(--ink-2);font-weight:600}
+/* frame table */
+.ftable{overflow-x:auto;margin:18px 0}
+table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:13px}
+th,td{border:1px solid var(--rule);padding:8px 11px;text-align:left;vertical-align:top}
+th{background:var(--paper-2);font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted,#6E7669);font-weight:600}
+td b{color:var(--moss)}
+/* paradigm cards */
+.pcards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:18px 0}
+@media(max-width:640px){.pcards{grid-template-columns:1fr}}
+.pcard{border:1px solid var(--rule);border-radius:11px;background:var(--paper-3);padding:16px 18px;box-shadow:0 12px 24px -20px rgba(36,48,42,.28)}
+.pc-g{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 5px}
+.pc-h{font-family:var(--disp);font-style:italic;font-weight:600;font-size:17px;color:var(--moss);line-height:1.22;margin:0 0 7px}
+.pcard p{font-family:var(--sans);font-size:12.5px;line-height:1.55;color:var(--ink-2);margin:0}
+.shared-floor{font-family:var(--sans);font-size:12.5px;color:var(--ink-3);margin:12px 0 0;padding:10px 14px;border-radius:8px;background:color-mix(in srgb,var(--fern) 7%,transparent);line-height:1.55}
+.shared-floor b{color:var(--moss)}
+footer.foot{max-width:40rem;margin:0 auto;padding:0 22px 12vh;font-family:var(--sans);font-size:11.5px;line-height:1.6;color:var(--ink-3);border-top:1px solid var(--rule);padding-top:18px}
+footer.foot a{color:var(--fern);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fern) 35%,transparent)}
+.termnote{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:normal;margin-top:2px}
+</style>
+</head>
+<body>
+<div class="bar">
+  <a href="index.html#toc">&larr; the contents</a>
+  <span class="rm">Situate · the world of the four gospels</span>
+  <a href="resurrection.html">the Resurrection reading &rarr;</a>
+</div>
+
+<header class="pg">
+  <p class="kick">The Gospels · Situate</p>
+  <h1 class="title">The world of the four gospels</h1>
+  <p class="lede">Before the four accounts differ — and they differ more than most readers expect — they agree on the world they are written into. Here is that world, and the four lenses each gospel brings to it.</p>
+</header>
+
+<main>
+  <section class="band">
+    <h2 class="bh"><span class="num">The shared world</span>The world they shared</h2>
+    <p>Before the four gospels differ — and they differ more than most readers expect — they agree on the world they are written into. Not the world they describe, which is Galilee and Jerusalem around the year 30. The world they are written <i>from</i>, a half-century later.</p>
+<p>That later world had just been broken. Between 66 and 73 the province of Judea rose against Rome in what we now call the <b>First Jewish–Roman War</b> (the failed revolt that ended in Roman reconquest). Its hinge event came in the year 70: Roman legions took Jerusalem and destroyed the <b>Second Temple</b> — the single building that had organized Jewish worship, pilgrimage, and sacrifice for centuries. It did not just fall. It stopped being available. The place where heaven and earth were understood to meet was rubble, and it stayed rubble.</p>
+<p>Every reader of these four accounts should hold one fact steady: all four resurrection chapters were composed <i>after</i> that. The instrument codes each of them into the same situational conditions — its term is <b>Sitz</b> (the situational conditions of a text: when it was written, where, and what the world was doing to the people who wrote it) — and the shared reading is blunt. When the Temple is gone, a tradition has to find somewhere else to stand. Authority has to move. It cannot live in a building that no longer exists.</p>
+<p>This is what the empty tomb is doing in all four gospels at once. It relocates the center. The living weight of the tradition shifts off the destroyed Temple and onto the risen Christ — a person the movement claims is present, findable, and speaking, precisely when the old sacred place is not. "He is not here," the messenger says in three of the four, and the sentence carries more than one absence: not here in the tomb, and — for the communities reading it after 70 — the holy is <i>not there</i> either, not in the ash where the Temple stood. It is somewhere new.</p>
+<p>The instrument gives all four the same one-word label for this moment in a tradition's life: <b>Formation</b> (the coded phase in which a tradition is still building the forms it will later take for granted). These are not settled scriptures being quoted by a settled church. They are a movement under pressure, working out where it lives now.</p>
+<p>They were also written under Rome, and they know it. The crucifixion happens under Roman judicial power; a Roman guard is posted at the tomb; the whole scene assumes the ordinary machinery of empire — roads, courts, soldiers, the long-distance reach of a Mediterranean world that the apostle Paul's missionary network had already been seeding for a generation. That reach is why a story told in Aramaic-speaking Galilee could travel, in Greek, to house-churches scattered across the empire and be read there as news.</p>
+<p>Rome is not only the setting; it is part of the argument. The very word the gospels use for their message — <i>euangelion</i>, "good news" — was already imperial vocabulary, used for the announcements of an emperor's birth or victory. Crucifixion was Rome's public instrument of terror, reserved for rebels and slaves. So to say that a crucified man is Lord, and that <i>his</i> rising is the good news, is to borrow the empire's own words and turn them. Scholars are careful here: the political charge was <i>available</i> in that world, not stamped on every sentence. But it was available, and the gospels use it.</p>
+<p><b>A myth worth retiring.</b> You may have heard that a "Council of Jamnia" met around the year 90 and, in a single sitting, closed the Jewish canon and expelled Christians from the synagogue. It is a tidy story, and it is almost certainly not what happened. Most scholars now treat the "Council of Jamnia" as a modern construction. What actually took place at Yavneh was slower and messier — a decades-long regathering of the Pharisaic and scribal movement after 70, out of which rabbinic Judaism gradually grew. There was a liturgical curse on "heretics" (the <i>birkat ha-minim</i>), and it may have been felt locally by some Jewish followers of Jesus. But Reuven Kimelman and Daniel Boyarin have shown it was not an empire-wide edict flushing Christians out of every synagogue at a stroke. The lesson matters for reading these gospels: <b>the parting of Judaism and Christianity was gradual, regional, and untidy</b> — not a clean early divorce, and certainly not a single day's decree.</p>
+<p>That untidiness is why one feature of these texts must be read with care. Matthew's fierce rebukes of "the scribes and Pharisees," and John's repeated "the Jews" (in Greek, <i>hoi Ioudaioi</i>), are the language of an <i>intra-Jewish</i> argument — Jews contesting other Jews over who speaks for Israel after the catastrophe. E. P. Sanders and N. T. Wright both insist on the point: these are Jewish texts, engaged in Jewish debates. Centuries later that same language was lifted out of its family quarrel and turned into generalized anti-Judaism, with real and terrible consequences. A reader today holds both facts at once: what the words were doing in the first century, and what they were later made to do.</p>
+<p>One crisis, then — but four different pressures inside it. The corpus and the scholarship agree on the shape of the four inflections, and it is the cleanest way into the individual gospels:</p>
+<ul><li><b>Mark</b> is the gospel of the emergency — written closest to the war, all apocalyptic urgency and a</li></ul>
+<p>suffering Messiah for a suffering church.</p>
+<ul><li><b>Matthew</b> is the family quarrel — Jesus as the authoritative interpreter of the Torah he fulfills</li></ul>
+<p>rather than abolishes, a community arguing that <i>it</i> is true Israel.</p>
+<ul><li><b>Luke</b> (with its second volume, Acts) is the long apologetic history — the movement's story carried</li></ul>
+<p>from Jerusalem all the way to Rome, and repeatedly found politically innocent along the way.</p>
+<ul><li><b>John</b> is the severed branch — a community that has felt the synagogue door close behind it, and</li></ul>
+<p>answers with the highest claims about Jesus of any gospel.</p>
+<p>The rest of this page follows those four pressures through three questions: <i>when</i> each gospel was written, <i>where</i> and for whom, and <i>why</i> anyone wrote it down at all.</p>
+<p>---</p>
+  </section>
+
+  <section class="band">
+    <h2 class="bh"><span class="num">When</span>When were they written?</h2>
+    <p>Start with the one thing nearly every scholar agrees on: <b>Mark came first.</b> This is the near-universal consensus — Markan priority (the position that Mark is the earliest gospel, and that Matthew and Luke each had a copy of Mark open in front of them as they wrote). It is the bedrock of the whole chronology, and once you have it, the rest of the ordering falls into place: two later gospels build on an earlier one.</p>
+<p>The fixed point in time is the year 70. The destruction of the Temple is the event the dating hangs on, because the gospels seem to <i>know</i> it has happened. Watch two sentences. In Matthew, a king in a parable sends troops who "destroyed those murderers, and burned their city" — a line most scholars read as written <i>after</i> the fact, with the smoke of 70 already in view; Davies and Allison, in the standard critical commentary on Matthew, read it exactly this way. In Luke, Jesus foretells a Jerusalem "surrounded by armies," a description that matches the Roman siege closely enough that scholars take it, too, as written looking back. The technical name for this is <i>ex eventu</i> prophecy — a prediction composed after the event it "predicts." It is one of the clearest tools we have for dating an ancient text: a gospel that describes the fall of Jerusalem in detail was very probably written after Jerusalem fell.</p>
+<p>From there the coded spine and the scholarship line up cleanly. The instrument anchors the four at <b>Mark ~70, Matthew ~80, Luke ~85, John ~95</b> — and every one of those anchors sits comfortably inside the ranges the scholarship gives:</p>
+<ul><li><b>Mark, around 70.</b> Written in the immediate shadow of the war. Scholars debate only which side of 70</li></ul>
+<p>it sits on — Adela Yarbro Collins leans slightly <i>before</i>, since Mark's prophecy doesn't quite describe the Temple <i>burning</i>; Joel Marcus and others read it <i>during or just after</i>. The disagreement is a matter of a few years around a single hinge.</p>
+<ul><li><b>Matthew, the 80s.</b> Long enough after Mark for Matthew to rework it thoroughly, and clearly aware of</li></ul>
+<p>the Temple's fall.</p>
+<ul><li><b>Luke, the 80s to 90s</b> — with one genuinely open argument, below.</li><li><b>John, around 90–110.</b> The latest, and not written all at once: the scholarship (Raymond Brown's</li></ul>
+<p>work above all) describes John as composed in <i>stages</i> over decades, which is why a single tidy date never quite fits it.</p>
+<p>Two honest edges to name:</p>
+<p><b>Luke has a live minority argument.</b> The mainstream places Luke–Acts in the 80s–90s. But a serious group of scholars — Richard Pervo and Joseph Tyson foremost — argues for a later date, into the early second century (around 100–120), partly on the grounds that Luke seems to know the historian Josephus, who wrote in the 90s. This is not a fringe view; it is a real and growing position. Where the field lands: mainstream 80s–90s, with a serious later-dating minority.</p>
+<p><b>The early-dating position is a fringe.</b> At the other end, a small camp (associated with John A. T. Robinson) argues all the gospels were written <i>before</i> 70. It exists, and it should be named as existing — but it sits well outside the consensus.</p>
+    <div class="slot"><b>The reliable spine</b> — all three research engines agree on this ordering. (A timeline visualization is coming; the spine is below.)</div>
+    <blockquote><blockquote><p><b>The reliable spine (all three research engines agree):</b> Jesus of Nazareth, ministry and death ~30–33 · the undisputed letters of Paul ~50–60 (the earliest Christian writing we have) · the Neronian persecution and the traditional deaths of Peter and Paul ~64–67 · the First Jewish–Roman War 66–73 · <b>the Temple destroyed, August 70</b> · <b>Mark ~70</b> · <b>Matthew ~80s</b> · <b>Luke–Acts ~80s–90s</b> (a serious minority: ~100–120) · <b>John ~90–110, in stages</b>.</p>
+<p>Reader takeaway to keep visible at a glance: <b>the gospels stand roughly 40 to 70 years after Jesus, and 20 to 50 years after Paul, in the order Mark → Matthew → Luke → John.</b></p>
+<p><i>Secondary markers (optional, lighter weight):</i> the Hebrew Bible and the Greek Septuagint the evangelists actually quote (centuries earlier) · Josephus's <i>Antiquities</i> (93/94) · the tiny Rylands papyrus fragment of John (P52), our earliest physical scrap of a gospel · Papias (~110–125), the earliest outside comment on how the gospels came to be.</p></blockquote></blockquote>
+  </section>
+
+  <section class="band">
+    <h2 class="bh"><span class="num">Where</span>Where, and for whom</h2>
+    <p>Here honesty comes first: <b>we do not know exactly where any of the four gospels was written.</b> None of them says. Scholars triangulate — from the language a gospel uses, the customs it stops to explain, the community tensions it reveals, and the earliest outside witnesses who quote it. What follows is probability, not address.</p>
+<p><b>Mark — traditionally Rome; perhaps the Roman East.</b> The oldest tradition places Mark in Rome, and the internal clues fit: Mark is full of Latin loanwords (military and administrative terms a Roman audience would know), it translates every Aramaic phrase and explains Jewish customs — the marks of a writer whose readers are largely <i>Gentile</i> (non-Jewish) and unfamiliar with Jewish practice. That said, a serious modern alternative places Mark in Syria or the wider Roman East, closer to the war. The careful formulation, which the research engines themselves split on, is: <b>traditionally Rome, with Syria a real alternative</b> — not a settled question.</p>
+<p><b>Matthew — probably Syria, perhaps Antioch.</b> Matthew's community looks like a mixed Jewish–Gentile congregation in a large Hellenized city, locked in an intense argument with the emerging rabbinic movement over who rightly interprets the Torah — notice how often it says "<i>their</i> synagogues," the language of a group defining itself against a body it once belonged to. Antioch in Syria is the usual best guess, supported by the fact that Ignatius, a bishop of Antioch writing around 110, is among the earliest to echo Matthew. Best read as "probably Syria, perhaps Antioch."</p>
+<p><b>Luke — the hardest to place; an unknown Greek-speaking city somewhere in the eastern Mediterranean.</b> Luke is the most polished Greek of the four and the least willing to give itself away. It is addressed to a "Theophilus" — either a real patron or, since the name means "lover of God," an emblem for the ideal reader — and it is pitched to a largely Gentile audience, forever locating the story inside <i>world</i> history (emperors, censuses, governors) rather than only Jewish history. Its home city is genuinely unknown.</p>
+<p><b>John — traditionally Ephesus; possibly Syria.</b> John reads like the voice of a distinct, wounded community — one that has been <i>put out</i> of the synagogue, and whose language turns sharply dualistic (light against darkness, from above against from below) as a result. J. Louis Martyn's classic study read the whole gospel as a two-level drama: Jesus' story told so that it doubles as the story of John's own expelled community. Tradition (from Irenaeus) places it at Ephesus in Asia Minor; some scholars argue for Syria. Either way, the <i>situation</i> — a group that has lost its synagogue home — is clearer than the geography.</p>
+<p>One caution worth carrying. For a generation, scholars spoke confidently of each gospel's own "community," as if written for one local congregation. Richard Bauckham pushed back hard, arguing the gospels were written for wide circulation — "for all Christians," not one town. The community model is still the working majority, but Bauckham's challenge is the reason to hold it loosely: when we say "the Johannine community," we are reconstructing, not reporting.</p>
+<p>---</p>
+    <div class="slot"><b>Slot — the four communities, mapped.</b> Rome (Mark, by tradition), Syria / Antioch (Matthew), an unknown eastern-Mediterranean city (Luke), Ephesus-or-Syria (John). A map of best guesses, not addresses — coming.</div>
+  </section>
+
+  <section class="band">
+    <h2 class="bh"><span class="num">Why</span>Why these four wrote it down</h2>
+    <p>Two puzzles sit under this question. Who wrote these books — and why did anyone commit them to writing when they did?</p>
+<p><b>Start with a fact that surprises many readers: all four gospels are anonymous.</b> Not one names its author inside the text. The familiar titles — "according to Matthew," "according to Mark" — were attached later, in the late first or early second century, to secure the books to apostolic authority. Bart Ehrman is the scholar most associated with putting this plainly: the titles are labels added by the early church, not signatures. The instrument's own coding agrees from the other direction — every coded move registers the teller as "the evangelist, anonymous, writing in the third person," with authority resting on <i>received tradition</i> rather than on a named eyewitness.</p>
+<p>The earliest outside comment we have on any of this comes from <b>Papias</b>, a bishop writing around 110–125, quoted much later by the historian Eusebius. Papias says Mark was the "interpreter" of Peter and wrote accurately but "not in order," and that Matthew compiled the sayings "in the Hebrew dialect." Almost every discussion of gospel authorship since is, in some sense, an argument with those two sentences. Here is where the scholarship lands on each:</p>
+<ul><li><b>Mark</b> — an unknown Greek-speaking Christian, possibly named Mark. The ancient link to Peter is</li></ul>
+<p>possible and unprovable; the gospel does not read like a seamless eyewitness memoir.</p>
+<ul><li><b>Matthew</b> — not the apostle, but an anonymous Jewish-Christian <i>scribe</i> — a trained interpreter of</li></ul>
+<p>scripture. The decisive clue is literary: this gospel copies some 80–90% of Mark, and an eyewitness apostle would hardly have built his account on the framework of a non-eyewitness.</p>
+<ul><li><b>Luke</b> — the same author as Acts: a highly literate, non-eyewitness Greek writer, steeped in the</li></ul>
+<p>Septuagint and in Greco-Roman history-writing. Whether he was, as tradition holds, a companion of Paul is genuinely contested. Joseph Fitzmyer's major commentary is the standard guide to the debate.</p>
+<ul><li><b>John</b> — the gospel credits its testimony to an unnamed "Beloved Disciple," and the late tradition</li></ul>
+<p>identifying him as John son of Zebedee is doubted by most scholars. Raymond Brown's widely accepted reconstruction sees the book built up in stages: a founding eyewitness, an evangelist who wrote around 90, and a later editor who added the final chapter after the Beloved Disciple had died.</p>
+<p>None of this is skepticism for its own sake. It is why the <i>second</i> puzzle — why write it down, and why then — has such a clear answer. For a generation, the Jesus movement had lived on spoken testimony; eyewitnesses were still alive, and many expected the end of the age within their lifetimes. Around the same window, four pressures converged:</p>
+<p>1. <b>The eyewitnesses were dying.</b> Peter and Paul were gone (traditionally under Nero, ~64–67); the founding generation was passing, and with it the living memory. 2. <b>The catastrophe of 70</b> demanded interpretation. A destroyed Temple was not a footnote; it was a theological emergency that had to be answered in narrative. 3. <b>The end had not come.</b> As the expectation of an imminent return faded, the movement had to prepare for a long stretch of ordinary history — which meant durable, teachable texts. 4. <b>The communities were scattered and Greek-speaking.</b> Dispersed, increasingly Gentile congregations needed portable accounts they could use — for teaching new members, for worship, for settling disputes, for holding an identity together across great distances.</p>
+<p>The form they reached for was one their world already knew: the <i>bios</i>, the Greco-Roman "life" — a biography organized to reveal the character and significance of its subject. A gospel is not a modern biography and not a neutral chronicle; it is a <i>life</i> written to be used.</p>
+<p>---</p>
+  </section>
+
+  <section class="band">
+    <h2 class="bh"><span class="num">Four lenses</span>Four voices, four lenses</h2>
+    <p>Below the paradigms, the instrument records a <b>Frame</b> for each gospel — its position on a fixed set of axes that ask, in effect, <i>how does this text know what it claims, and what kind of world does it assume?</i> Two of those axes carry the cleanest contrast among the four, and they are what the radar viz is built to show.</p>
+<p><b>The first axis is the epistemic warrant — the grounds on which each gospel rests its claim.</b> Two values recur across all four: <b>revelation</b> (the truth is <i>disclosed</i>, announced by a heavenly messenger) and <b>testimony</b> (the truth is <i>reported</i>, carried by a witness who was there). Every gospel uses both. What divides them is which one leads.</p>
+<ul><li><b>Matthew and Mark lead with revelation.</b> In both, the resurrection is grounded first in angelic</li></ul>
+<p>disclosure — the messenger simply <i>tells</i> the women what has happened before anyone weighs a single clue. (Matthew ranks revelation highest, at high confidence; testimony follows, once the news is handed on: "go quickly and tell.")</p>
+<ul><li><b>Luke and John lead with testimony.</b> In both, the top warrant is eyewitness report. Luke's women</li></ul>
+<p>"told all this to the eleven and to all the rest"; John's whole tomb scene is a careful chain of <i>who saw what, in what order</i> — Mary sees the stone gone, the beloved disciple sees the wrappings, Peter enters and sees, the beloved disciple enters and believes. Revelation is present in both, but ranked second.</p>
+<p>So the four split evenly on the question <i>how do you know the tomb is empty?</i> — two answer "it was announced," two answer "it was witnessed." That even split is the spine of the radar.</p>
+<p><b>The second axis is the ontological commitment — what kind of reality each gospel is willing to rest weight on.</b> Here three of the four agree and one adds something. All four are coded <b>transcendent-personal</b> at the top: the reality asserted is a personal, transcendent God who acts (an angel descends; "he has been raised" in the divine passive, the raiser unspoken but understood). <b>John, and John alone, adds a second commitment the others lack: the material.</b> It lingers on the physical remains — the linen wrappings lying where the body had been, and the head-cloth "not lying with the other linen cloths, but rolled up in a place by itself." For John, the material world <i>matters and bears the evidence</i>; the empty tomb is not only announced and witnessed but <i>inspected</i>. That extra axis is what makes John's shape on the radar bulge where the others are flat.</p>
+<p>There is a quieter third contrast worth a line, because the coding carries it: <b>how each gospel reasons from the empty tomb.</b> Matthew reasons by <b>cause</b> — the earthquake happens "<i>for</i> an angel of the Lord… came and rolled back the stone." Luke reasons by <b>exegesis</b> — the tomb is read by <i>recalling</i> prior prophecy ("Remember how he told you…"). Mark and John both reason by <b>abduction</b>, inference to the best explanation — an empty tomb plus an interpreting sign yields "he has been raised" (Mark), and the orderly grave-cloths yield "he saw and believed" (John). Four gospels, four ways of getting from an empty space to a claim: by cause, by remembered text, and — twice — by weighing the evidence.</p>
+<p><i>(All four share the top ontological commitment — transcendent-personal; John alone adds the material as a second. All four endorse the same dominant paradigm — vindication of the righteous sufferer.)</i></p>
+    <div class="slot"><b>Slot — the Frame radar.</b> The coded axes overlaid for all four gospels (the two load-bearing axes: epistemic-warrant — revelation vs testimony — and ontological-commitment, where John alone adds the material). Coming; the axes are in the table below.</div>
+    <div class="ftable"><table><thead><tr><th>Gospel</th><th>How it knows first (rank-1 warrant)</th><th>Reasons from the tomb by</th><th>Distinctive commitment</th></tr></thead><tbody><tr><td><b>Matthew</b></td><td>Revelation (angelic disclosure)</td><td>Cause (the earthquake, "for an angel…")</td><td>Theophany register — a small Sinai</td></tr><tr><td><b>Mark</b></td><td>Revelation (the young man in white)</td><td>Abduction (best explanation)</td><td>Ends in withheld speech / awe</td></tr><tr><td><b>Luke</b></td><td>Testimony (eyewitness report)</td><td>Exegesis (remembered prophecy)</td><td>Memory as the interpretive key</td></tr><tr><td><b>John</b></td><td>Testimony (chain of witnesses)</td><td>Abduction (the folded cloth)</td><td><b>Material</b> — evidence you could hold</td></tr></tbody></table></div>
+  </section>
+
+  <section class="band">
+    <h2 class="bh"><span class="num">Paradigms</span>The paradigms they think with</h2>
+    <p>A <b>Paradigm</b>, in the instrument's vocabulary, is a <i>cultural script a text reaches for</i> — a ready-made pattern of roles and expected outcomes, tagged with the stance the text takes toward it (does it <b>endorse</b> the script, merely <b>invoke</b> it, quietly <b>subvert</b> it, or flatly <b>deny</b> it?). Coding the four resurrection chapters this way turns up one striking agreement and four distinct signatures.</p>
+<p>The agreement first. All four gospels reach, above every other script, for the same one — and all four <b>endorse</b> it at the very top of the scale. The instrument's name for it is the <b>vindication of the righteous sufferer</b>: the deep expectation, alive in the Judaism of the time, that God will publicly overturn the verdict passed on a faithful person who was unjustly destroyed. You can hear the script in a single fused line the coding flags in three of the four — "Jesus of Nazareth, who was crucified. He has been raised" — where the shameful execution and the divine reversal are bound in one breath. The empty tomb, in all four, is legible as <i>vindication</i>, not as mere disappearance. That is the shared floor. What follows is what each gospel builds on it.</p>
+<p><b>Matthew — the vindication staged as theophany and reversal.</b> On top of the shared script, Matthew piles two more it endorses almost as strongly: <b>angelic commissioning</b> (the messenger's fixed sequence — "Do not be afraid," the announcement, "Come, see the place," "go quickly and tell") and a full <b>theophany</b>, a Sinai-style divine descent (the earthquake, the angel "descending from heaven," the face "like lightning," clothing "white as snow"). And it adds a reversal the others only imply: the coded <b>honor–shame</b> and <b>holy-war</b> scripts, in which the armed guards — the muscle of the executing power — are struck down "like dead men" without a blow, while the crucified one is raised and the low-status women are elevated into heralds. Matthew even sets up the ordinary script of a mourning-visit to a grave and <b>subverts</b> it: the women come "to see the tomb," and the visit breaks open into a commissioning. The distinctive Matthean move is to make the vindication <i>visible</i> — dramatized as a small Sinai and a public overturning of honor.</p>
+<p><b>Mark — the vindication that ends in failed speech.</b> Mark endorses the same dominant script, then frames the scene with a second the others don't foreground: the <b>translation-of-the-hero</b> template (a missing body plus a heavenly interpreter, read as removal-to-God rather than corpse-theft). But Mark's true signature is a <i>stance</i>, not a script. It takes the recurring pattern of the <b>failed disciple</b> — the witness who cannot speak — and <b>ironizes</b> it: the women "went out and fled… they said nothing to anyone, for they were afraid." The proclamation is set up and then withheld, thrown onto the reader. Mark also sets up the burial-anointing rite (the women buy spices to anoint the body) only to <b>subvert</b> it — the corpse is gone, so the rite cannot complete. Where Matthew dramatizes, Mark unsettles: the vindication is announced, and the human response is terror and silence.</p>
+<p><b>Luke — the vindication read by remembering.</b> Luke's second engine, endorsed as strongly as the first, is <b>prophecy-fulfillment as remembering</b>. The empty tomb here is not self-interpreting; it becomes resurrection only when routed back through Jesus's own earlier word — "Remember how he told you, while he was still in Galilee…" and then "they remembered his words." The interpretive turn is <i>recall</i>, not sight. Luke also does something pointed with a legal script: it sets up the women as a formal witness-list, lets the eleven <b>dismiss</b> their report as "an idle tale" (the technical word for unreliable testimony), and then <b>subverts</b> that dismissal — the narrator names the witnesses and lets Peter's run tacitly ratify them. And Luke alone flatly <b>denies</b> a script the others leave available: not "he has been taken" (assumption, translation) but "he is not here, but has risen." The distinctive Lukan move is to make memory the key that turns an empty tomb into a resurrection — and to vindicate the women the culture would discount.</p>
+<p><b>John — the vindication seen and believed.</b> John endorses the shared script and pairs it with a <b>recognition-scene</b> (<i>anagnorisis</i>): discipleship rendered as a graded act of <i>seeing</i> — the race to the tomb, the stooping look, the entering, and finally "he saw and believed." Its sharpest coded stance is a <b>subversion</b> of the <b>grave-robbery</b> script: Mary's twice-stated hypothesis, "they have taken the Lord out of the tomb," sets up a mundane theft — and the neatly folded head-cloth, "rolled up in a place by itself," is the anti-clue that undoes it (thieves do not unwrap a body and fold the cloth aside). John also runs a quiet <b>authority contest</b> between the beloved disciple and Peter — the one whom Jesus loved outruns Peter, defers at the entrance, then believes first — ranking insight-through-love above institutional precedence. John's distinctive move is to make the empty tomb <i>evidence</i>: something looked at, inferred from, and believed.</p>
+<p>---</p>
+    <div class="pcards"><div class="pcard"><div class="pc-g">Matthew</div><div class="pc-h">vindication staged as theophany + honor-reversal</div><p>A Sinai-style descent — earthquake, an angel like lightning — and a public overturning of honor: the armed guards fall “like dead men,” the low-status women are made heralds.</p></div><div class="pcard"><div class="pc-g">Mark</div><div class="pc-h">vindication ending in failed, ironized speech</div><p>The announcement is made and then withheld — the women “said nothing to anyone, for they were afraid.” The proclamation is set up and thrown onto the reader.</p></div><div class="pcard"><div class="pc-g">Luke</div><div class="pc-h">vindication read by remembering (and the women vindicated)</div><p>The empty tomb becomes resurrection only when routed back through Jesus’ own earlier word — “Remember how he told you…” The key is recall, not sight.</p></div><div class="pcard"><div class="pc-g">John</div><div class="pc-h">vindication seen and believed</div><p>Discipleship as a graded act of seeing — the race, the stoop, the entering, and “he saw and believed”; the folded head-cloth is the anti-clue that undoes the theft story.</p></div></div>
+    <div class="shared-floor"><b>The shared floor:</b> all four gospels reach, above every other script, for the same one — and all four <b>endorse</b> it at the top of the scale: the <b>vindication of the righteous sufferer</b> (the expectation that God will publicly overturn the verdict passed on a faithful person unjustly destroyed). The empty tomb, in all four, is legible as vindication. The four cards above are what each builds on that floor.</div>
+  </section>
+</main>
+
+<footer class="foot">
+  Docent prose written over the instrument's coded corpus (the Sitz, paradigms, and frame axes for Matthew 28 / Mark 16 / Luke 24 / John 20), with the dating &amp; provenance reasoning drawn from a 3-engine Deep Research synthesis (every named scholar agreed 3/3, or flagged 2/3). Scholarship shown where divided, not resolved. This is a first-pass Situate page — the Frame radar, the communities map, and the reception images are honest slots, to come. &nbsp;·&nbsp; <a href="index.html">Return to the door</a> &nbsp;·&nbsp; <a href="resurrection.html">the Resurrection reading</a>
+</footer>
+</body>
+</html>
