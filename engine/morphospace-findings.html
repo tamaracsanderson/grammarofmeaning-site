@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The morphospace — findings behind the map — Grammar of Meaning</title>
+<style>
+:root{--bg:#F6F1E4;--paper:#FFFDF6;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;
+ --eng:#2C4A38;--sub:#3F7D57;--out:#C4602F;--honey:#E0A93B;
+ --serif:"Newsreader",Iowan Old Style,Palatino,Georgia,serif;
+ --sans:"Inter",ui-sans-serif,-apple-system,Segoe UI,sans-serif;
+ --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#1B211D;--paper:#232A25;--paper2:#2A322B;--fg:#EDE7D8;
+ --muted:#A6AEA3;--line:#3A423C;--eng:#8FBF9E;--sub:#6FAF86;--out:#D9793F;--honey:#E0A93B}}
+:root[data-theme=dark]{--bg:#1B211D;--paper:#232A25;--paper2:#2A322B;--fg:#EDE7D8;--muted:#A6AEA3;
+ --line:#3A423C;--eng:#8FBF9E;--sub:#6FAF86;--out:#D9793F}
+:root[data-theme=light]{--bg:#F6F1E4;--paper:#FFFDF6;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;
+ --line:#C9BE9F;--eng:#2C4A38;--sub:#3F7D57;--out:#C4602F}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);font-size:17px;line-height:1.62}
+.topbar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;
+ gap:12px;padding:9px 18px;background:color-mix(in srgb,var(--bg) 88%,transparent);
+ backdrop-filter:blur(4px);border-bottom:1px solid var(--line)}
+.back{font-family:var(--sans);font-size:13px;color:var(--sub);text-decoration:none;
+ border-bottom:1px solid color-mix(in srgb,var(--sub) 45%,transparent)}
+.back:hover{background:color-mix(in srgb,var(--sub) 12%,transparent)}
+.themebtn{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 13px;
+ font-size:12px;cursor:pointer;color:var(--fg);font-family:var(--sans)}
+main{max-width:48rem;margin:0 auto;padding:5vh 22px 12vh}
+.kicker{font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.prov{font-family:var(--sans);font-size:12px;color:var(--muted);border-left:3px solid var(--honey);
+ padding:6px 0 6px 14px;margin:0 0 20px;background:color-mix(in srgb,var(--honey) 7%,transparent)}
+#doc h1{font-size:30px;line-height:1.18;font-weight:600;color:var(--eng);margin:30px 0 8px;text-wrap:balance}
+#doc h1:first-child{margin-top:6px}
+#doc h2{font-size:14px;font-family:var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);
+ margin:34px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+#doc h3{font-size:19px;color:var(--fg);margin:22px 0 6px}
+#doc p{margin:12px 0}
+#doc em{color:var(--fg)}
+#doc strong{color:var(--eng)}
+#doc a{color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
+#doc code{font-family:var(--mono);font-size:.84em;background:color-mix(in srgb,var(--line) 30%,transparent);
+ padding:0 5px;border-radius:4px;word-break:break-word}
+#doc table{width:100%;border-collapse:collapse;font-size:14px;margin:16px 0;font-family:var(--sans)}
+#doc th,#doc td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+#doc th{background:color-mix(in srgb,var(--eng) 8%,transparent);color:var(--muted);font-size:11px;
+ letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+#doc td strong{color:var(--fg)}
+#doc ul{padding-left:22px}#doc li{margin:7px 0}
+#doc blockquote{border-left:3px solid var(--sub);margin:14px 0;padding:2px 0 2px 16px;color:var(--muted)}
+.tablewrap{overflow-x:auto}
+.state{font-family:var(--sans);font-size:14px;color:var(--muted);margin-top:8vh;text-align:center}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="/engine/schema.html">&larr; the engine map</a>
+  <button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">theme</button>
+</div>
+<main>
+  <p class="kicker">Grammar of Meaning &middot; the morphospace</p>
+  <p class="prov">A reader companion to the interactive map. Provisional throughout &mdash; the geometry is pre-restructure (retired-value re-map + MCA rebuild pending). Each section points to its full audit.</p>
+  <div id="doc"></div>
+  <div id="fallback"></div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+function stripFrontmatter(md){var m=md.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/);return m?md.slice(m[0].length):md;}
+(function(){
+  fetch('/engine/artifacts/morphospace_findings_companion_s156_2026-07-31.md')
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
+    .then(function(raw){
+      var md=stripFrontmatter(raw).replace(/<!--[\s\S]*?-->/g,'').trim();
+      var html=window.marked?marked.parse(md):('<pre>'+md.replace(/</g,'&lt;')+'</pre>');
+      document.getElementById('doc').innerHTML=html;
+      // wrap tables for horizontal scroll on narrow screens
+      [].forEach.call(document.querySelectorAll('#doc table'),function(t){
+        var w=document.createElement('div');w.className='tablewrap';t.parentNode.insertBefore(w,t);w.appendChild(t);
+      });
+    })
+    .catch(function(e){
+      document.getElementById('fallback').innerHTML='<p class="state">&mdash; companion not available yet ('+String(e.message||e)+').</p>';
+    });
+})();
+</script>
+</body>
+</html>
