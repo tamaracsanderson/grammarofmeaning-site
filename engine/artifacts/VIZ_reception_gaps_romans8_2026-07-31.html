@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reception #2 — gaps → answers (Romans 8:28-30)</title>
+<style>
+:root{
+  --bg:#faf9f5; --fg:#1a1a1a; --muted:#6b6b6b; --line:#e3e0d6; --card:#fff;
+  --green:#2e7d47; --greenbg:#e7f3ea; --coffee:#b8860b;
+  --node:#3a5a40; --node-attested:#7a6a4a;
+  --gap:#b06a2c; --gapbg:#f3e6d6;
+  --type-resolves:#c0392b; --type-reframes:#8e44ad; --type-deepens:#2e7d47; --type-refuses:#4a6fa5;
+  --inferred:#b3b0a6;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#14140f; --fg:#ececec; --muted:#9a9a9a; --line:#33322b; --card:#1c1c16;
+  --green:#5fce86; --greenbg:#16311f; --coffee:#e0b45a;
+  --node:#6b9a72; --node-attested:#b09a6a;
+  --gap:#d9924f; --gapbg:#33261a;
+  --type-resolves:#e07a6b; --type-reframes:#c08fd8; --type-deepens:#5fce86; --type-refuses:#7fa8dd;
+  --inferred:#55534a;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:1.5rem 1.25rem}
+h1{font-size:1.35rem;margin:0 0 .2rem} .sub{color:var(--muted);font-size:.9rem;margin:0 0 1rem}
+.tag{display:inline-block;border:1px solid var(--coffee);color:var(--coffee);border-radius:20px;
+  padding:.05rem .55rem;font-size:.66rem;letter-spacing:.06em;vertical-align:middle;margin-left:.4rem}
+.wrap{display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-start}
+.stage{flex:1 1 640px;min-width:320px;border:1px solid var(--line);border-radius:12px;background:var(--card);
+  overflow:hidden;position:relative}
+svg{display:block;width:100%;height:auto;touch-action:none;cursor:grab}
+svg:active{cursor:grabbing}
+.side{flex:1 1 300px;min-width:280px;max-width:420px}
+.panel{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:.9rem 1rem;font-size:.86rem}
+.panel h2{font-size:.95rem;margin:.1rem 0 .5rem} .panel .era{color:var(--muted);font-size:.78rem}
+.panel .rd{margin:.5rem 0 .3rem;line-height:1.5} .panel .work{color:var(--muted);font-style:italic;font-size:.8rem}
+.ans{margin:.6rem 0 0;padding-top:.5rem;border-top:1px solid var(--line)}
+.ans .arow{margin:.42rem 0;line-height:1.45}
+.ans .atype{font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;border-radius:5px;padding:.02rem .4rem;color:#fff}
+.ans .who{font-weight:600}
+.ans .fill{color:var(--muted);font-size:.82rem}
+.ans .inf{font-style:italic}
+.legend{margin-top:1rem;font-size:.8rem;line-height:1.9}
+.legend b{font-weight:600}
+.chip{display:inline-flex;align-items:center;gap:.35rem;margin-right:.9rem;white-space:nowrap}
+.swatch{width:26px;height:0;border-top-width:3px;border-top-style:solid;display:inline-block}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+.sq{width:14px;height:10px;border-radius:3px;display:inline-block}
+.foot{color:var(--muted);font-size:.76rem;margin-top:1.1rem;line-height:1.6;max-width:60rem}
+.count{font-weight:600}
+.hint{color:var(--muted);font-size:.76rem;margin:.3rem 0 0}
+</style>
+</head>
+<body><a href="/engine/schema.html" style="display:block;padding:8px 16px;font:13px/1.4 -apple-system,BlinkMacSystemFont,Inter,sans-serif;color:#3F7D57;background:#F6F1E4;border-bottom:1px solid #C9BE9F;text-decoration:none">&larr; back to the engine map</a>
+<h1>Reception #2 &mdash; the gaps &rarr; answers graph <span class="tag">PROTOTYPE</span></h1>
+<p class="sub">Engine #4 &middot; RECEPTION, 2nd type &middot; the gap-centric twin of the who-received graph. <b>Gaps</b> (rounded, what the text leaves open) and <b>theologians</b> (circles) are the nodes; each edge is a theologian <i>answering</i> a gap, typed by <b>how</b>. Solid = <b>grounded</b> (from the Gloss run); dashed = <b>inferred</b> (a reconstruction of the documented position, not asserted). Click a gap or a theologian.</p>
+
+<div class="wrap">
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 900 640" preserveAspectRatio="xMidYMid meet" aria-label="gaps to answers graph"></svg>
+    <p class="hint" style="padding:0 .8rem .6rem">Drag nodes to rearrange &middot; drag background to pan.</p>
+  </div>
+  <div class="side">
+    <div class="panel" id="panel">
+      <h2 id="p-label">The gaps &rarr; answers</h2>
+      <div class="era" id="p-era">click a node</div>
+      <div class="work" id="p-work"></div>
+      <div class="rd" id="p-reading">On the <b>interior</b> gap every camp <i>deepens</i> (nobody fights &mdash; each supplies its own phenomenology). On the <b>reciprocity</b> gap the monergists <i>resolve</i> and the synergists <i>reframe</i> &mdash; the gap-node is where the schism sits.</div>
+      <div class="ans" id="p-answers"></div>
+    </div>
+    <div class="legend panel" style="margin-top:1rem">
+      <div style="margin-bottom:.45rem"><b>Answer type</b> (how a theologian meets the gap)</div>
+      <span class="chip"><span class="swatch" style="border-top-color:var(--type-resolves)"></span>resolves</span>
+      <span class="chip"><span class="swatch" style="border-top-color:var(--type-reframes)"></span>reframes</span>
+      <span class="chip"><span class="swatch" style="border-top-color:var(--type-deepens)"></span>deepens</span>
+      <span class="chip"><span class="swatch" style="border-top-color:var(--type-refuses)"></span>refuses-to-close</span>
+      <div style="margin:.7rem 0 .45rem"><b>Confidence</b></div>
+      <span class="chip"><span class="swatch" style="border-top-color:var(--fg)"></span>grounded (solid)</span>
+      <span class="chip"><span class="swatch" style="border-top-color:var(--inferred);border-top-style:dashed"></span>inferred (dashed)</span>
+      <div style="margin:.7rem 0 .45rem"><b>Node</b></div>
+      <span class="chip"><span class="sq" style="background:var(--gapbg);border:1.5px solid var(--gap)"></span>a gap (opening)</span>
+      <span class="chip"><span class="dot" style="background:var(--node)"></span>theologian</span>
+    </div>
+  </div>
+</div>
+
+<p class="foot" id="foot"></p>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+const W=900,H=640;
+function cssv(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim();}
+const TYPE_VAR={resolves:'--type-resolves',reframes:'--type-reframes',deepens:'--type-deepens','refuses-to-close':'--type-refuses'};
+const svg=document.getElementById('svg');
+
+fetch('/engine/artifacts/reception_gaps_to_answers_prototype_s156_2026-07-31.json')
+  .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+  .then(build)
+  .catch(function(e){document.getElementById('foot').textContent='— graph data not available yet ('+String(e.message||e)+').';});
+
+function build(DATA){
+  function nodeColor(n){ if(n.kind==='gap') return cssv('--gap'); if(n.grounding==='attested') return cssv('--node-attested'); return cssv('--node'); }
+  const nodes=DATA.nodes.map(n=>({...n}));
+  const byId=Object.fromEntries(nodes.map(n=>[n.id,n]));
+  const edges=DATA.edges.map(e=>({...e, source:byId[e.s], target:byId[e.t]}));
+  // seed: gaps on an inner ring, theologians on an outer ring grouped by cluster
+  const clusterOrder=['latin-predestination','reformation','synergist','greek-theosis','modern'];
+  const gaps=nodes.filter(n=>n.kind==='gap');
+  const readers=nodes.filter(n=>n.kind!=='gap');
+  gaps.forEach((n,i)=>{ const a=(i/gaps.length)*2*Math.PI - Math.PI/2; n.x=W/2+Math.cos(a)*120+(rnd(i))*22; n.y=H/2+Math.sin(a)*100+(rnd(i+9))*22; });
+  readers.sort((a,b)=>clusterOrder.indexOf(a.cluster)-clusterOrder.indexOf(b.cluster));
+  readers.forEach((n,i)=>{ const a=(i/readers.length)*2*Math.PI - Math.PI/2; n.x=W/2+Math.cos(a)*285+(rnd(i+3))*22; n.y=H/2+Math.sin(a)*260+(rnd(i+21))*22; });
+  function rnd(k){ return ((Math.sin(k*99.13)*4113)%1); }  // deterministic jitter (no Math.random for reproducible layout)
+
+  function tick(){
+    for(let i=0;i<nodes.length;i++){ const a=nodes[i]; if(a.fixed) continue;
+      for(let j=0;j<nodes.length;j++){ if(i===j) continue; const b=nodes[j];
+        let dx=a.x-b.x, dy=a.y-b.y, d2=dx*dx+dy*dy+.01, d=Math.sqrt(d2);
+        const rep=a.kind==='gap'||b.kind==='gap'?34000:26000;
+        const f=rep/d2; a.vx=(a.vx||0)+dx/d*f*0.0006; a.vy=(a.vy||0)+dy/d*f*0.0006; } }
+    edges.forEach(e=>{ const a=e.source,b=e.target; let dx=b.x-a.x, dy=b.y-a.y, d=Math.sqrt(dx*dx+dy*dy)+.01;
+      const k=(d-175)*0.01, fx=dx/d*k, fy=dy/d*k;
+      if(!a.fixed){a.vx=(a.vx||0)+fx; a.vy=(a.vy||0)+fy;} if(!b.fixed){b.vx=(b.vx||0)-fx; b.vy=(b.vy||0)-fy;} });
+    nodes.forEach(n=>{ if(n.fixed) return;
+      n.vx=(n.vx||0)+(W/2-n.x)*0.0009; n.vy=(n.vy||0)+(H/2-n.y)*0.0009; n.vx*=0.82; n.vy*=0.82;
+      n.x+=n.vx; n.y+=n.vy; n.x=Math.max(70,Math.min(W-70,n.x)); n.y=Math.max(46,Math.min(H-46,n.y)); });
+    for(let i=0;i<nodes.length;i++){ const a=nodes[i];
+      for(let j=i+1;j<nodes.length;j++){ const b=nodes[j];
+        const bothGap=a.kind==='gap'&&b.kind==='gap', oneGap=a.kind==='gap'||b.kind==='gap';
+        const minDist=bothGap?172:(oneGap?116:80);
+        let dx=b.x-a.x, dy=b.y-a.y, d=Math.sqrt(dx*dx+dy*dy)||.01;
+        if(d<minDist){ const push=(minDist-d)/d*0.5, ox=dx*push, oy=dy*push;
+          if(!a.fixed){a.x-=ox; a.y-=oy;} if(!b.fixed){b.x+=ox; b.y+=oy;} } } }
+    nodes.forEach(n=>{ n.x=Math.max(70,Math.min(W-70,n.x)); n.y=Math.max(46,Math.min(H-46,n.y)); });
+  }
+  for(let i=0;i<700;i++) tick();
+
+  // arrow markers per answer-type (grounded + inferred variants)
+  const defs=document.createElementNS(NS,'defs');
+  Object.entries(TYPE_VAR).forEach(([type,v])=>{ ['g','i'].forEach(g=>{
+    const m=document.createElementNS(NS,'marker'); m.setAttribute('id','arw-'+type+'-'+g); m.setAttribute('viewBox','0 0 10 10');
+    m.setAttribute('refX','9'); m.setAttribute('refY','5'); m.setAttribute('markerWidth','7'); m.setAttribute('markerHeight','7'); m.setAttribute('orient','auto-start-reverse');
+    const p=document.createElementNS(NS,'path'); p.setAttribute('d','M0,0 L10,5 L0,10 z'); p.setAttribute('fill', g==='i'?cssv('--inferred'):cssv(v));
+    m.appendChild(p); defs.appendChild(m); }); });
+  svg.appendChild(defs);
+  const gRoot=document.createElementNS(NS,'g'); svg.appendChild(gRoot);
+  const edgeLayer=document.createElementNS(NS,'g'); gRoot.appendChild(edgeLayer);
+  const labelLayer=document.createElementNS(NS,'g'); gRoot.appendChild(labelLayer);
+  const nodeLayer=document.createElementNS(NS,'g'); gRoot.appendChild(nodeLayer);
+
+  const edgeEls=[];
+  edges.forEach(e=>{
+    const line=document.createElementNS(NS,'path');
+    const col=e.tag==='inferred'?cssv('--inferred'):cssv(TYPE_VAR[e.type]||'--muted');
+    line.setAttribute('stroke',col); line.setAttribute('stroke-width','2.1'); line.setAttribute('fill','none'); line.setAttribute('opacity','.9');
+    if(e.tag==='inferred') line.setAttribute('stroke-dasharray','6 5');
+    line.setAttribute('marker-end','url(#arw-'+e.type+'-'+(e.tag==='inferred'?'i':'g')+')');
+    const title=document.createElementNS(NS,'title'); title.textContent=e.s+' '+e.type+' — '+(e.fill||e.note||''); line.appendChild(title);
+    edgeLayer.appendChild(line);
+    edgeEls.push({e,line});
+  });
+
+  // gap dims (rounded rect); measured after render for edge offsets
+  const GAP_W=150, GAP_H=46, TH_R=19;
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  function shortGap(l){ const i=l.indexOf(': '); return (i>=0? l.slice(i+2): l); }
+  function wrap2(s,max){ const w=s.split(' '); let a='',b=''; for(const t of w){ if((a+' '+t).trim().length<=max||!a) a=(a?a+' ':'')+t; else b=(b?b+' ':'')+t; } if(b.length>max) b=b.slice(0,max-1)+'…'; return b?[a,b]:[a]; }
+
+  const nodeEls=[];
+  nodes.forEach(n=>{
+    const g=document.createElementNS(NS,'g'); g.style.cursor='pointer';
+    if(n.kind==='gap'){
+      const rect=document.createElementNS(NS,'rect');
+      rect.setAttribute('x',-GAP_W/2); rect.setAttribute('y',-GAP_H/2); rect.setAttribute('width',GAP_W); rect.setAttribute('height',GAP_H);
+      rect.setAttribute('rx','9'); rect.setAttribute('fill',cssv('--gapbg')); rect.setAttribute('stroke',cssv('--gap'));
+      rect.setAttribute('stroke-width', n.selected_by_panel?'2.4':'1.6');
+      if(!n.selected_by_panel) rect.setAttribute('stroke-dasharray','5 3');
+      g.appendChild(rect);
+      const lines=wrap2(shortGap(n.label),26);
+      lines.forEach((ln,k)=>{ const t=document.createElementNS(NS,'text'); t.setAttribute('text-anchor','middle');
+        t.setAttribute('y', (lines.length===1?4:(k===0?-3:12))); t.setAttribute('font-size','10.5'); t.setAttribute('font-weight','600');
+        t.setAttribute('fill',cssv('--gap')); t.textContent=ln; g.appendChild(t); });
+    } else {
+      const c=document.createElementNS(NS,'circle'); c.setAttribute('r',TH_R); c.setAttribute('fill',nodeColor(n));
+      c.setAttribute('stroke',cssv('--card')); c.setAttribute('stroke-width','2.5');
+      if(n.grounding==='attested'){ c.setAttribute('stroke-dasharray','4 3'); c.setAttribute('stroke',cssv('--inferred')); }
+      g.appendChild(c);
+      const t=document.createElementNS(NS,'text'); t.setAttribute('text-anchor','middle'); t.setAttribute('dy',TH_R+13);
+      t.setAttribute('font-size','11.5'); t.setAttribute('font-weight','600'); t.setAttribute('fill',cssv('--fg'));
+      t.setAttribute('paint-order','stroke'); t.setAttribute('stroke',cssv('--bg')); t.setAttribute('stroke-width','3'); t.textContent=n.label; g.appendChild(t);
+    }
+    nodeLayer.appendChild(g); nodeEls.push({n,g}); g.addEventListener('click',()=>showPanel(n,edges,DATA)); makeDraggable(g,n);
+  });
+
+  function offset(n,dx,dy,d){ if(n.kind!=='gap') return {ox:dx/d*(TH_R+2), oy:dy/d*(TH_R+2)};
+    const tx=Math.abs(dx)>1e-6?(GAP_W/2+3)/Math.abs(dx):1e9, ty=Math.abs(dy)>1e-6?(GAP_H/2+3)/Math.abs(dy):1e9; const s=Math.min(tx,ty); return {ox:dx*s, oy:dy*s}; }
+  function edgePath(e){ const a=e.source,b=e.target; const dx=b.x-a.x, dy=b.y-a.y, d=Math.sqrt(dx*dx+dy*dy)||1;
+    const oa=offset(a,dx,dy,d), ob=offset(b,-dx,-dy,d);
+    const sx=a.x+oa.ox, sy=a.y+oa.oy, ex=b.x+ob.ox, ey=b.y+ob.oy;
+    const mx=(sx+ex)/2 - dy/d*16, my=(sy+ey)/2 + dx/d*16; return {d:'M'+sx+','+sy+' Q'+mx+','+my+' '+ex+','+ey}; }
+  function redraw(){ edgeEls.forEach(({e,line})=>line.setAttribute('d',edgePath(e).d)); nodeEls.forEach(({n,g})=>g.setAttribute('transform','translate('+n.x+','+n.y+')')); }
+  redraw();
+
+  function showPanel(n,edges,DATA){
+    document.getElementById('p-label').textContent=n.label;
+    const cl=DATA.clusters[n.cluster]?DATA.clusters[n.cluster].label:n.cluster;
+    const ansEl=document.getElementById('p-answers');
+    if(n.kind==='gap'){
+      document.getElementById('p-era').textContent='an opening · '+(n.selected_by_panel?'panel-selected':'reach node')+' · '+(n.move_label||'');
+      document.getElementById('p-work').textContent=n.why_selected||'';
+      document.getElementById('p-reading').textContent=n.question||'';
+      const ins=edges.filter(e=>e.t===n.id);
+      ansEl.innerHTML='<div style="font-weight:600;margin-bottom:.3rem">'+ins.length+' answer'+(ins.length===1?'':'s')+'</div>'+ins.map(function(e){
+        return '<div class="arow"><span class="atype" style="background:'+cssv(TYPE_VAR[e.type]||'--muted')+'">'+e.type+'</span> <span class="who">'+esc(byId[e.s].label)+'</span>'+(e.tag==='inferred'?' <span class="inf">(inferred)</span>':'')+'<div class="fill">'+esc(e.fill||e.note||'')+'</div></div>';
+      }).join('');
+    } else {
+      const grd=n.grounding==='attested'?'attested (reception-only)':'seated in the Gloss run';
+      document.getElementById('p-era').textContent=(n.era||'')+' · '+cl+' · '+grd;
+      document.getElementById('p-work').textContent=n.work||'';
+      document.getElementById('p-reading').textContent=n.position||'';
+      const outs=edges.filter(e=>e.s===n.id);
+      ansEl.innerHTML='<div style="font-weight:600;margin-bottom:.3rem">answers '+outs.length+' gap'+(outs.length===1?'':'s')+'</div>'+outs.map(function(e){
+        return '<div class="arow"><span class="atype" style="background:'+cssv(TYPE_VAR[e.type]||'--muted')+'">'+e.type+'</span> <span class="who">'+esc(shortGap(byId[e.t].label))+'</span>'+(e.tag==='inferred'?' <span class="inf">(inferred)</span>':'')+'<div class="fill">'+esc(e.fill||e.note||'')+'</div></div>';
+      }).join('');
+    }
+  }
+
+  // drag + pan
+  let vb={x:0,y:0,w:W,h:H};
+  function pt(evt){const r=svg.getBoundingClientRect();return {x:(evt.clientX-r.left)/r.width*vb.w+vb.x,y:(evt.clientY-r.top)/r.height*vb.h+vb.y};}
+  function makeDraggable(g,n){ g.addEventListener('pointerdown',ev=>{ ev.stopPropagation(); g.setPointerCapture(ev.pointerId); n.fixed=true;
+    const move=e=>{const p=pt(e); n.x=p.x; n.y=p.y; redraw();};
+    const up=e=>{g.releasePointerCapture(ev.pointerId);g.removeEventListener('pointermove',move);g.removeEventListener('pointerup',up);};
+    g.addEventListener('pointermove',move); g.addEventListener('pointerup',up); }); }
+  svg.addEventListener('pointerdown',ev=>{ if(ev.target!==svg) return; const start=pt(ev); const x0=vb.x,y0=vb.y;
+    const move=e=>{const p=pt(e); vb.x=x0-(p.x-start.x); vb.y=y0-(p.y-start.y); svg.setAttribute('viewBox',vb.x+' '+vb.y+' '+vb.w+' '+vb.h);};
+    const up=()=>{svg.removeEventListener('pointermove',move);svg.removeEventListener('pointerup',up);};
+    svg.addEventListener('pointermove',move); svg.addEventListener('pointerup',up); });
+
+  const c=DATA.counts;
+  document.getElementById('foot').innerHTML='<span class="count">'+c.gap_nodes+' gaps</span> + <span class="count">'+c.theologian_nodes+' theologians</span>, <span class="count">'+c.edges+' answer-edges</span> ('+c.grounded_edges+' grounded from the Gloss run · '+c.inferred_edges+' inferred). '+(DATA.anti_fabrication||'Inferred edges are plausible reconstructions of a documented position, not asserted as fact.')+' A sparse prototype (3 of 18 open gaps glossed so far) &mdash; it widens as more gaps are glossed.';
+}
+</script>
+</body>
+</html>
