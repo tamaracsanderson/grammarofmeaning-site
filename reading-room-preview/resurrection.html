@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Resurrection — a braided reading · The Gospels</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,380;1,9..144,600;0,9..144,400;0,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FCFBF7; --paper-2:#EFE7D3; --paper-3:#FFFFFF;
+  --ink:#24302A; --ink-2:#52605A; --ink-3:#7C8478; --rule:#C9BE9F;
+  --fern:#3F7D57; --moss:#2C4A38; --sage:#7E9E86; --gold:#B8924A; --terracotta:#C4602F;
+  --disp:"Fraunces",Georgia,serif; --serif:"Newsreader",Georgia,serif;
+  --sans:"Inter",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-size:19px;line-height:1.68;
+  -webkit-font-smoothing:antialiased}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;
+  gap:12px;padding:11px 20px;background:color-mix(in srgb,var(--paper) 90%,transparent);
+  backdrop-filter:blur(5px);border-bottom:1px solid var(--rule)}
+.bar a{font-family:var(--sans);font-size:13px;color:var(--fern);text-decoration:none;
+  border-bottom:1px solid color-mix(in srgb,var(--fern) 40%,transparent)}
+.bar a:hover{background:color-mix(in srgb,var(--fern) 10%,transparent)}
+.bar .rm{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);border:none}
+
+/* header */
+header.room{max-width:44rem;margin:0 auto;padding:8vh 22px 2vh;text-align:center}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 14px}
+h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(38px,7vw,66px);
+  line-height:1.04;color:var(--moss);margin:0 0 10px;letter-spacing:-.01em}
+.sub{font-family:var(--disp);font-style:italic;font-size:18px;color:var(--ink-2);margin:0 auto;max-width:34rem;line-height:1.5}
+
+/* honest recomposition banner */
+.honest{max-width:40rem;margin:26px auto 0;padding:14px 20px;border:1px solid var(--rule);border-radius:10px;
+  background:var(--paper-2);font-family:var(--sans);font-size:13.5px;line-height:1.6;color:var(--ink-2);
+  box-shadow:0 10px 22px -18px rgba(36,48,42,.28)}
+.honest b{color:var(--moss)}
+
+/* reading column */
+main{max-width:40rem;margin:0 auto;padding:3vh 22px 16vh}
+.beat{margin:0 0 6vh;padding:0 0 5vh;border-bottom:1px solid color-mix(in srgb,var(--rule) 55%,transparent)}
+.beat:last-child{border-bottom:none}
+.beat-h{font-family:var(--disp);font-weight:600;font-size:25px;color:var(--moss);
+  margin:0 0 14px;line-height:1.18;display:flex;gap:14px;align-items:baseline;text-wrap:balance}
+.beat-n{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--gold);
+  border:1px solid var(--rule);border-radius:999px;min-width:30px;height:30px;display:inline-flex;
+  align-items:center;justify-content:center;flex-shrink:0;background:var(--paper-3)}
+.braid p{margin:0 0 16px}
+.braid p:last-child{margin-bottom:0}
+.braid i{color:var(--ink)}
+.braid b{font-weight:600;color:var(--moss)}
+
+/* "Where they part" editorial aside */
+.wtp{margin:22px 0 0;padding:16px 20px;border-left:3px solid var(--fern);border-radius:0 9px 9px 0;
+  background:color-mix(in srgb,var(--fern) 6%,transparent);
+  font-family:var(--sans);font-size:15px;line-height:1.62;color:var(--ink-2)}
+.wtp-l{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--fern);margin:0 0 7px}
+.wtp i{font-style:italic;color:var(--ink)}
+.wtp b{font-weight:600;color:var(--moss)}
+
+/* Phase-A honest slot: what's coming */
+.next{max-width:40rem;margin:0 auto;padding:0 22px 14vh}
+.next .slot{border:1px dashed var(--rule);border-radius:10px;padding:18px 20px;background:var(--paper-2);
+  font-family:var(--sans);font-size:13px;line-height:1.6;color:var(--ink-3)}
+.next .slot b{color:var(--ink-2);font-weight:600}
+
+footer.foot{max-width:40rem;margin:0 auto;padding:0 22px 12vh;font-family:var(--sans);
+  font-size:11.5px;line-height:1.6;color:var(--ink-3);border-top:1px solid var(--rule);padding-top:18px}
+footer.foot a{color:var(--fern);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fern) 35%,transparent)}
+</style>
+</head>
+<body>
+<div class="bar">
+  <a href="index.html#toc">&larr; the contents</a>
+  <span class="rm">Resurrection · a braided reading</span>
+  <a href="index.html">the door</a>
+</div>
+
+<header class="room">
+  <p class="kick">The Gospels · Theme VI</p>
+  <h1 class="title">The Resurrection</h1>
+  <p class="sub">A recomposition, braiding four accounts into one on the spine of their shared moves, with editorial where they diverge or add — the full Matthew/Mark/Luke/John are in their own sections.</p>
+  <div class="honest">The reading below follows the <b>twenty shared beats</b> the four gospels hold in common — ordered not by any one gospel's verse-sequence but by the move each account is making. Each beat has two layers: the <b>braided prose</b> — the shared move told as one narrative, with the divergences named in the sentences themselves as they arise (who splits, who adds, who alone does a thing); and a short editorial, <b><i>Where they part</i></b>, on what the divergence means. Sixteen of the twenty beats are carried by three or four accounts; four are carried by two.</div>
+</header>
+
+<main>
+<section class="beat" id="beat-1">
+  <h2 class="beat-h"><span class="beat-n">1</span>The going out</h2>
+  <div class="braid"><p>Early on the first day of the week, once the sabbath had passed, women who had followed Jesus set out for the tomb. Matthew, Mark, and Luke place the hour at first light, the dawn just breaking; John alone sets Mary Magdalene on the road "early, while it was still dark." They do not all come empty-handed — in Mark and Luke the women carry spices, meaning to anoint the body, a mourner's errand already in motion. And the company shifts from account to account: two women in Matthew, both named Mary; three in Mark — Mary Magdalene, Mary the mother of James, and Salome; a larger, partly unnamed group in Luke; and in John, Mary Magdalene alone.</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> The disagreement is not over whether women came but over how many, and why. Mark and Luke give them a task — the anointing — so the empty tomb interrupts a rite; Matthew and John drop the spices and let the women come simply "to see." The number narrows to one in John and widens to three-plus-others in Mark and Luke: the same event remembered through a tightening or loosening lens. And John alone rolls the clock back into darkness. Scholars widely read that darkness as part of John's light-and-dark theology — the same night that marks Nicodemus coming to Jesus and Judas going out to betray him — signalling that Mary has not yet grasped the resurrection; Raymond Brown makes the case, though he holds it as probable rather than proven, and the hour can still be heard as a plain time-stamp.</aside>
+</section>
+<section class="beat" id="beat-2">
+  <h2 class="beat-h"><span class="beat-n">2</span>The stone</h2>
+  <div class="braid"><p>At the tomb, the great sealing-stone is no longer where it was set. Mark, Luke, and John simply find it already moved — rolled back with no hand named, as if shifted by an unstated power; in Mark the women had even worried aloud on the road, "Who will roll away the stone from the door of the tomb for us?" — then, "looking up, they saw that the stone was rolled back." Matthew alone shows the moment itself: an angel of the Lord descends in an earthquake and rolls the stone away as the women watch.</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> The divergence is quietly theological. Mark, Luke, and John use what grammarians call the <b>divine passive</b>: the stone "was rolled away," the agent unspoken, God implied by his very absence from the sentence. Matthew makes that implied hand visible — he stages the angel, the earthquake, the act. One event; two ways of pointing at who moved it: reverent omission, or dramatization.</aside>
+</section>
+<section class="beat" id="beat-3">
+  <h2 class="beat-h"><span class="beat-n">3</span>Going in</h2>
+  <div class="braid"><p>The witnesses look for the body inside. In Mark and Luke they step bodily into the burial chamber; John holds them at the mouth of the tomb — the beloved disciple "stooping and looking in" but not entering, then Peter and he crossing inside in turn, and later Mary "stooped and looked into the tomb" from without. Matthew alone never brings anyone through the entrance at all; his women receive everything outside, from the angel on the stone.</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> Only John choreographs the entering as drama — a stoop, a hesitation, a threshold crossed in a set order (Peter first inside, though the beloved disciple reached the tomb first). Mark and Luke make it a plain step through the door. Matthew, having staged everything at the stone, needs no interior; his tomb is read from the outside. The question each answers differently is how close a witness must get to the empty place — into it, or only to its edge.</aside>
+</section>
+<section class="beat" id="beat-4">
+  <h2 class="beat-h"><span class="beat-n">4</span>The absent body</h2>
+  <div class="braid"><p>The center of every account is a negative: the body of Jesus is not where it was laid. In Matthew, Mark, and Luke the numinous figure declares the absence rather than the women discovering it — though Luke first lets them enter and "find not the Lord Jesus' body" as plain fact before any word interprets it. John makes the absence wholly empirical: Mary sees the stone gone and concludes, "They have taken away the Lord out of the tomb, and we don't know where they have laid him."</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> For three gospels the empty tomb is preached before it is seen: the figure says "he is not here," and the women receive the fact as revelation. John reverses the order — absence is a datum Mary stumbles on, and her first reading of it is not resurrection but grave-robbery: someone has moved the body. (The coded moves mark this precisely — in John the construal "they have taken away the Lord" is tagged as Mary's own, "not the narrator's warrant.") The same empty space warrants opposite first inferences — divine act, or human theft — depending on whether a messenger is present to interpret it.</aside>
+</section>
+<section class="beat" id="beat-5">
+  <h2 class="beat-h"><span class="beat-n">5</span>The figure(s)</h2>
+  <div class="braid"><p>A numinous figure waits at the tomb. In Matthew it is one angel of the Lord, seated outside on the rolled-back stone; in Mark, one young man inside, "sitting on the right side, dressed in a white robe." Luke and John have not one but two — in Luke, two men who "stood by them in dazzling clothing"; in John, "two angels in white sitting, one at the head, and one at the feet, where the body of Jesus had lain." And John withholds them until Mary's second visit, after the male disciples have come and gone.</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> The count splits the four evenly: one figure in Matthew and Mark, two in Luke and John. Placement wanders too — outside on the stone (Matthew), inside on the right (Mark), standing beside the women (Luke), seated at the head and foot of the vacated slab (John). Mark calls his a "young man," not an angel; the others name the order of being outright. Some scholars hear in John's "one at the head, and one at the feet" an echo of the two cherubim set over the mercy-seat of the ark, one at either end — making the emptied slab a kind of new holy of holies; the reading has patristic roots and modern defenders, but the major critical commentaries do not endorse it, so it is best taken as a suggestive echo rather than John's demonstrable intent. On the mainstream source-critical account, meanwhile, Mark's lone young man is the earliest form of the scene, and the pairing in Luke and John reflects each writer's reshaping of an inherited tradition rather than a contradiction to harmonize — Luke's doubling in particular fits his recurring pattern of paired witnesses, satisfying the law's requirement of two.</aside>
+</section>
+<section class="beat" id="beat-6">
+  <h2 class="beat-h"><span class="beat-n">6</span>White and lightning</h2>
+  <div class="braid"><p>However many they are, the figures are marked out by an unearthly brightness — in Matthew, "His appearance was like lightning, and his clothing white as snow"; in Mark, "a white robe"; in Luke, "dazzling clothing"; in John, "two angels in white." The whiteness is the shared signal — the visual grammar by which a messenger is known to be from elsewhere.</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> Here the four nearly converge; the difference is only intensity. Matthew turns the dial highest — lightning and snow, a face like the storm — matching the earthquake he alone reports. Mark and John state the color flatly, white; Luke reaches for "dazzling," light rather than mere hue. The brighter the figure, the more theophanic the scene: Matthew's is a small Sinai, the others a quieter shining.</aside>
+</section>
+<section class="beat" id="beat-7">
+  <h2 class="beat-h"><span class="beat-n">7</span>Fear</h2>
+  <div class="braid"><p>The witnesses recoil. Matthew, Mark, and Luke all register dread, though each places it differently. In Mark the women are "amazed," then seized by "trembling and astonishment"; in Luke, "becoming terrified, they bowed their faces down to the earth"; in Matthew it is the guards, not the women, who "shook, and became like dead men," while the women depart with "fear and great joy" mingled. John gives no terror at all — Mary's whole posture is grief: she stands "outside at the tomb weeping."</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> Three gospels answer the numinous with fear, the standard human response to a messenger of God. Matthew splits the response by allegiance: the soldiers of the executing power collapse "like dead men" — the dead-seeming guards standing over the empty grave of the living one — while the women carry away a doubled feeling, fear and joy at once. John substitutes sorrow for dread; his Mary is not frightened but bereaved, weeping for a body she thinks stolen. The emotional key runs from terror (Luke), through terror-and-joy (Matthew), to pure mourning (John).</aside>
+</section>
+<section class="beat" id="beat-8">
+  <h2 class="beat-h"><span class="beat-n">8</span>The word at the tomb</h2>
+  <div class="braid"><p>The figure speaks, and the speech interprets the empty tomb. Matthew and Mark give a commission — reassurance, announcement, and an order to go and tell. Luke opens not with comfort but with a rebuke shaped as a question: "Why do you seek the living among the dead?" John narrows the whole address to a single question of grief — "Woman, why are you weeping?" — with no announcement and no commission.</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> What the figure says diverges as sharply as anything in the four. Matthew and Mark make the speech a sending: the women are turned into messengers on the spot. Luke makes it a correction — the women are looking in the wrong category, seeking a living man in a place for the dead — and only then reminds them. John's angels barely interpret at all; they ask after her tears and leave the real disclosure to Jesus himself, moments later. The empty tomb is glossed as commission (Matthew, Mark), as category-mistake (Luke), or scarcely glossed (John).</aside>
+</section>
+<section class="beat" id="beat-9">
+  <h2 class="beat-h"><span class="beat-n">9</span>The crucified one, named</h2>
+  <div class="braid"><p>The figure ties the empty place to the cross, identifying the sought one as the executed one. Matthew names him "Jesus, who has been crucified"; Mark, "Jesus, the Nazarene, who has been crucified." Luke folds the crucifixion into a remembered prophecy rather than a present label — the Son of Man "must be delivered up into the hands of sinful men, and be crucified." And John never speaks the word "crucified" in this scene at all.</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> Matthew and Mark press the scandal directly onto the announcement: the risen one is named by the very verdict that shamed him — "the crucified." Luke keeps the word but relocates it, from a present identification to a prophecy the women are told to recall. John omits it here entirely; in his tomb scene the cross goes unmentioned, the recognition deferred to Jesus speaking Mary's name. To name the risen one as "the crucified" is a move three gospels make and one withholds.</aside>
+</section>
+<section class="beat" id="beat-10">
+  <h2 class="beat-h"><span class="beat-n">10</span>&quot;He is not here&quot;</h2>
+  <div class="braid"><p>The absence is put into a formula. Matthew: "He is not here, for he has risen." Mark: "He has risen. He is not here." Luke: "He isn't here, but is risen." The words are nearly identical across the three — absence and rising bound in a single breath. John dramatizes the same absence but never speaks the formula.</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> Only the order of the two clauses shifts: Matthew and Luke say "not here / risen"; Mark reverses to "risen / not here." The saying is stable enough across three gospels to look like received shorthand. Its passive core — "he was raised" — is demonstrably early: the same wording stands in the pre-Pauline creed Paul quotes at First Corinthians 15, older than any written gospel. Whether Mark's fuller announcement preserves a fixed pre-Markan formula word-for-word is a recognized but hedged scholarly position, not a settled one — the safe claim is that the gospel is speaking the earliest church's kerygmatic language, not that the whole sentence is a transmitted creed. John, telling the same emptiness, keeps it wholly in action and never lets a messenger reduce it to formula — his absence is shown, not proclaimed.</aside>
+</section>
+<section class="beat" id="beat-11">
+  <h2 class="beat-h"><span class="beat-n">11</span>Raised</h2>
+  <div class="braid"><p>The announcement's heart is the rising itself: he has been raised. Matthew, Mark, and Luke state it as accomplished fact on the figure's authority, and each states it in the passive — "he has risen" — with no raiser named. John never announces it outright in the tomb; the rising surfaces only obliquely, in the beloved disciple who "saw and believed," and in the narrator's aside that "as yet they didn't know the Scripture, that he must rise from the dead."</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> The three synoptic accounts share the <b>divine passive</b> once more: he was raised, the agent unspoken but understood to be God. The claim rests on the messenger's word, not on anyone's sight — the coded moves mark that at the moment of the rising itself "no party occupies a witnessing position." John, alone, forgoes even the announcement; he lets the fact arrive as a disciple's wordless belief and a note that Scripture had said so all along. Proclaimed by a messenger (synoptics) or inferred by a believer (John): two routes to the same claim, one spoken, one seen.</aside>
+</section>
+<section class="beat" id="beat-12">
+  <h2 class="beat-h"><span class="beat-n">12</span>Come and see</h2>
+  <div class="braid"><p>The witnesses are directed to the vacated spot to verify it. Matthew and Mark issue the command outright — "Come, see the place where the Lord was lying" in Matthew, "Behold, the place where they laid him!" in Mark. Luke supplies no such invitation; the women verify simply by finding no body. John turns verification into forensic inspection — the linen cloths seen "lying," and the head-cloth "rolled up in a place by itself."</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> Three gospels want the empty spot looked at; they differ in how. Matthew and Mark point: come, see, behold. Luke needs no pointing — the absence is self-evident once the body is missing. John alone dwells on the evidence, and the detail carries an argument: grave-robbers do not unwrap a corpse and fold the head-cloth aside. Readers from John Chrysostom onward have taken the abandoned wrappings just this way — thieves would not pause to unwind a body and set its face-cloth apart — reading the tidy tomb as a quiet answer to the theft rumor Matthew reports; many scholars add that the detail also carries a christological point, the risen Jesus leaving death's wrappings behind where the raised Lazarus had come out still bound. The vacated place is asserted (Matthew, Mark), discovered (Luke), or examined as evidence (John).</aside>
+</section>
+<section class="beat" id="beat-13">
+  <h2 class="beat-h"><span class="beat-n">13</span>&quot;As he said&quot;</h2>
+  <div class="braid"><p>What has happened is framed by a prior word. Matthew and Mark anchor it in Jesus' own earlier promise — "just like he said" in Matthew, "as he said to you" in Mark. Luke makes the remembering explicit and full: "Remember what he told you when he was still in Galilee," recalling the whole passion-and-resurrection prediction, after which "they remembered his words." John swaps the risen man's own word for Scripture: "as yet they didn't know the Scripture, that he must rise from the dead."</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> The event is made legible by matching it to a word spoken beforehand — but which word? Matthew and Mark reach for Jesus' own prediction; the rising confirms the prophet. Luke expands this into an act of memory — the women are told to recall, and do. John changes the source entirely: not Jesus' remembered saying but the Scriptures, which the disciples "as yet" had not understood. The same move, prophecy-fulfilled, cites two different authorities — the man's own word, or the sacred text.</aside>
+</section>
+<section class="beat" id="beat-14">
+  <h2 class="beat-h"><span class="beat-n">14</span>Leaving the tomb</h2>
+  <div class="braid"><p>The witnesses go from the tomb. In Matthew the women "departed quickly from the tomb with fear and great joy, and ran"; in Mark they "went out, and fled from the tomb, for trembling and astonishment had come on them"; in Luke they "returned from the tomb" to the eleven; in John, Mary "ran and came to Simon Peter," while the two disciples, later, "went away again to their own homes."</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> Everyone leaves, but the going carries the account's mood. Matthew's women run in fear-and-joy; Mark's flee in pure terror; Luke's return steadily to report; John's Mary races to Peter while the men simply go home. The departure is flight (Mark), errand (Luke; John's Mary), or joyful haste (Matthew) — the same steps away from the tomb, weighted by four different feelings.</aside>
+</section>
+<section class="beat" id="beat-15">
+  <h2 class="beat-h"><span class="beat-n">15</span>Sent to tell</h2>
+  <div class="braid"><p>The witnesses are moved to carry word to the disciples. In Matthew and Mark it is a commissioned order — "Go quickly and tell his disciples" in Matthew, "go, tell his disciples" in Mark. In Luke the women report on their own initiative, unbidden — they "told all these things to the eleven, and to all the rest." In John, Mary's telling is spontaneous alarm, not commission: she runs to say, "They have taken away the Lord out of the tomb."</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> Whether the women are sent or simply go marks a real difference. In Matthew and Mark the messenger commissions them — proclamation is laid on them as a task. In Luke and John no one orders it; they carry word because they must. And what they carry differs in kind: in the synoptics, "he is risen"; in John, at this stage, only "they have taken him away" — Mary bears not good news but a missing body.</aside>
+</section>
+<section class="beat" id="beat-16">
+  <h2 class="beat-h"><span class="beat-n">16</span>To Peter</h2>
+  <div class="braid"><p>The word travels toward Peter and the wider circle. Mark alone singles him out by name in the commission — "tell his disciples and Peter." In Luke the report reaches "the eleven, and to all the rest." In John, Mary runs specifically "to Simon Peter, and to the other disciple whom Jesus loved." Matthew alone keeps it general — "his disciples" — and never names Peter here.</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> Three gospels route the news toward Peter; Matthew does not. Mark's singling-out is the most pointed — "and Peter," set apart from the rest. Commentators widely read that singling-out as a gesture of grace toward the disciple who had denied Jesus — his name placed after the others, marking re-inclusion rather than rank — though Mark only promises the reunion and never narrates it. John pairs Peter with the beloved disciple, the two who will race to the tomb; Luke folds him into "the eleven." Matthew's silence about Peter is itself a divergence — the one gospel that does not make the chief disciple the news's first destination.</aside>
+</section>
+<section class="beat" id="beat-17">
+  <h2 class="beat-h"><span class="beat-n">17</span>&quot;You will see him in Galilee&quot;</h2>
+  <div class="braid"><p>A promise of future reunion is issued: you will see him again. Matthew and Mark locate it in Galilee, in nearly the same formula — "he goes before you into Galilee; there you will see him" in Matthew, "He goes before you into Galilee. There you will see him" in Mark. Luke and John carry no such promise in the tomb scene at all.</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> Only two gospels reach forward to a reunion here, and both point the same direction — north, to Galilee, where the movement began. Luke and John are silent at the tomb about any future seeing. This split is a long-recognized problem in the study of the resurrection traditions: Matthew and Mark send the disciples to Galilee for the appearances, while Luke keeps them in Jerusalem and John's tomb scene stays there too. Ernst Lohmeyer's classic study framed Galilee and Jerusalem as two distinct centers of early appearance-tradition, each carrying its own theology — though the neat two-column division softens once Matthew's own Jerusalem appearance and John's later Galilean chapter are counted in. The promise "you will see him" is a Galilean note struck by two and unstruck by the other two.</aside>
+</section>
+<section class="beat" id="beat-18">
+  <h2 class="beat-h"><span class="beat-n">18</span>The disciples run to check</h2>
+  <div class="braid"><p>The women's report sends male disciples to the tomb to verify. In Luke, Peter alone "got up and ran to the tomb." In John, two run — "the other disciple outran Peter, and came to the tomb first." Matthew and Mark record no such verification visit.</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> This beat belongs to Luke and John alone; Matthew and Mark never send anyone back to check. Luke keeps it spare — Peter runs, looks, leaves. John makes it a footrace between Peter and the beloved disciple, tracking who arrives first and who enters first — a rivalry the coded narrator-voice names "a Johannine signature." The women's testimony is confirmed by a man's own eyes in two gospels; in the other two it needs no such confirming.</aside>
+</section>
+<section class="beat" id="beat-19">
+  <h2 class="beat-h"><span class="beat-n">19</span>The linen cloths</h2>
+  <div class="braid"><p>Inside, the burial cloths are seen lying where the body is not. In Luke, Peter "saw the strips of linen lying by themselves." In John the detail is elaborated — the linen cloths lying, "and the cloth that had been on his head, not lying with the linen cloths, but rolled up in a place by itself." Matthew and Mark mention no cloths.</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> Both gospels that send disciples to the tomb pause on the same object — the abandoned grave-clothes — but John lingers where Luke only glances. Luke gives a single line; John separates the linens from the head-cloth and notes the head-cloth "rolled up in a place by itself," an image of order, not of theft. The cloths are a fact in Luke and an argument in John.</aside>
+</section>
+<section class="beat" id="beat-20">
+  <h2 class="beat-h"><span class="beat-n">20</span>The unresolved close</h2>
+  <div class="braid"><p>The scene ends without resolving into full belief. Mark closes on fearful silence — "They said nothing to anyone; for they were afraid." Luke closes on bafflement — Peter "departed to his home, wondering what had happened." Matthew and John do not leave it open: in Matthew the women carry "great joy," and in John the beloved disciple "saw and believed."</p></div>
+  <aside class="wtp"><span class="wtp-l">Where they part</span> Two gospels refuse a tidy ending. Mark's is the starkest — the women flee and say nothing, and the account, in its earliest form, breaks off there, the proclamation left undelivered and the burden thrown onto the reader. (The coded background for this scene notes that Mark's abrupt ending at this verse — and the later, added endings — are themselves marks of a community still processing the event.) Luke ends on Peter's open wonder — neither belief nor unbelief, just amazement. Against these, Matthew and John close firmly: joy in one, belief in the other. The four accounts end on a spectrum from silence (Mark), through wonder (Luke), to joy (Matthew) and faith (John) — agreement that something happened, disagreement about whether, at the tomb, anyone yet grasped what.</aside>
+</section>
+</main>
+
+<div class="next">
+  <div class="slot"><b>Coming to this room next.</b> A persistent <b>Gloss</b> panel (the 20-critic cohort's selected gaps, divergences shown not flattened) and a <b>Compare</b> panel (the four accounts side by side) will sit alongside this reading; a <b>Situate</b> page (the Sitz, the paradigms each gospel thinks with, and the frame radar) will sit one step below it. This is Phase A — the reading itself, reachable and whole.</div>
+</div>
+
+<footer class="foot">
+  A recomposition on the shared-beat spine of Matthew, Mark, Luke, and John — the World English Bible (public domain). The reading braids the four accounts and names their divergences in the sentences themselves; the <i>Where they part</i> notes are editorial. Every beat is anchored to a coded move in the instrument. &nbsp;·&nbsp; <a href="index.html">Return to the door</a>
+</footer>
+</body>
+</html>
