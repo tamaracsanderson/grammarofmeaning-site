@@ -608,7 +608,7 @@ a.reading-room{display:block;text-decoration:none;color:inherit;cursor:pointer;t
 a.reading-room:hover{transform:translateY(-2px)}
 a.reading-room:hover .rr-enter{text-decoration:underline}
 .rr-enter{color:var(--out);font-weight:600}
-.facet-coming{opacity:.82;border-style:dashed}.facet-ribbon{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--out);border:1px solid color-mix(in srgb,var(--out) 55%,transparent);border-radius:4px;padding:0 4px;margin-left:7px;vertical-align:1px}.pd-bind{font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--out)}.critsel optgroup{font-family:var(--sans);font-weight:600}</style></head><body>
+.facet-coming{opacity:.82;border-style:dashed}.facet-ribbon{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--out);border:1px solid color-mix(in srgb,var(--out) 55%,transparent);border-radius:4px;padding:0 4px;margin-left:7px;vertical-align:1px}.pd-bind{font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--out)}.critsel optgroup{font-family:var(--sans);font-weight:600}.ocompanion .osec-b{font-family:var(--sans);font-size:13px}.olink{color:var(--out);font-weight:650;text-decoration:none;border-bottom:1.5px solid color-mix(in srgb,var(--out) 55%,transparent)}.olink:hover{background:color-mix(in srgb,var(--out) 12%,transparent)}.ocoming{color:var(--muted);font-size:12.5px}.ocoming b{color:var(--out)}</style></head><body>
 <button class="themebtn" onclick="tgl()">theme</button>
 <div class="wrap">
 <div class="figlabel">Fig. 01 &middot; Method &middot; Schema of the instrument</div><h1>What a text is made of</h1>
@@ -800,6 +800,8 @@ const CRIT_PANELS={
  name_psych:{bind:'name-persona &middot; name-only (&sect;13)',seats:'Tajfel &middot; Asch &middot; Bion &middot; Jung',seed:'name-only role-persona &mdash; in-copyright, idea-gen only',best:'provisional / brainstorm until proxy-cores land',status:'name-persona &middot; provisional'}
 };
 function glossPanel(k){var p=CRIT_PANELS[k];var el=document.getElementById('critPanelDef');if(!p||!el)return;el.innerHTML=`<div class="pd-row"><span class="pd-k">binding</span><span class="pd-v pd-bind">${p.bind||'&mdash;'}</span></div><div class="pd-row"><span class="pd-k">seats</span><span class="pd-v">${p.seats}</span></div><div class="pd-row"><span class="pd-k">seeded on</span><span class="pd-v">${p.seed}</span></div><div class="pd-row"><span class="pd-k">best for</span><span class="pd-v">${p.best}</span></div><div class="pd-row"><span class="pd-k">status</span><span class="pd-v pd-status">${p.status}</span></div>`;}
+const OUT_COMPANION={'2':{coming:'the 66-worlds long-form write-up'},'R':{href:'background.html?p=resituate_5text_demo.md',label:'the RESITUATE 5-text demo'},'3':{coming:'the Romans 8 / \u201cShe Loves You\u201d gloss long-form'},'4':{href:'/engine/artifacts/VIZ_reception_romans8_2026-07-27.html',label:'the Romans 8:28-30 reception'},'5':{href:'/engine/artifacts/VIZ_compare_consensus_spine_2026-07-27.html',label:'the gospels consensus-spine'},'C':{href:'/engine/artifacts/VIZ_constellation_v3_unified_coffee_2026-07-27.html',label:'the constellation \u2014 unified field'}};
+function outCompanion(e){var c=OUT_COMPANION[e]; if(!c||c.coming){var t=c&&c.coming?c.coming:'the long-form write-up'; return '<span class="ocoming">'+t+' &mdash; <b>coming</b></span>';} return '<a class="olink" href="'+c.href+'" target="_blank" rel="noopener">'+c.label+' &rarr;</a>';}
 function openOutput(e){
   window.__outE=e;
   const real=OUT_REAL[e];
@@ -809,7 +811,7 @@ function openOutput(e){
   document.getElementById('d-body').innerHTML=
   `<p style="margin:2px 0 6px"><span class="epi ${(OUT_STATE[e]||'').toLowerCase()}">${OUT_STATE[e]||''}</span></p>`
  +`<div class="odrawer">`
- +`<div class="osec"><div class="osec-h">what it does</div><div class="osec-b">${OUT_ONELINE[e]||OUT_TAG[e]||''}</div></div>`
+ +`<div class="osec"><div class="osec-h">what it does</div><div class="osec-b">${OUT_ONELINE[e]||OUT_TAG[e]||''}</div></div>`+`<div class="osec ocompanion"><div class="osec-h">companion &mdash; the long-form</div><div class="osec-b">${outCompanion(e)}</div></div>`
  +(OUT_ITB[e]?`<div class="osec"><div class="osec-h">how it runs, step by step</div><pre class="mermaid oitb">${OUT_ITB[e]}</pre>${OUT_ITB_NOTE[e]?`<div class="oitb-note">${OUT_ITB_NOTE[e]}</div>`:''}</div>`:'')
  +(OUT_REUSE[e]?`<div class="osec"><div class="osec-h">reuse tools / APIs</div><div class="osec-b osec-reuse">${OUT_REUSE[e]}</div></div>`:'')
  +(OUT_RESULT4[e]?`<div class="osec"><div class="osec-h">real result</div><div class="osec-b oresult">${OUT_RESULT4[e]}</div></div>`:'')+(OUT_VALID[e]?`<div class="osec"><div class="osec-h">how we validated it</div><div class="osec-b ov-box">${OUT_VALID[e]}</div></div>`:'')+(OUT_MODES[e]?`<div class="osec"><div class="osec-h">the gloss modes \u2014 pick one to fit the text</div><div class="osec-b">${OUT_MODES[e]}</div></div>`:'')+(OUT_STEPS[e]?`<div class="osec"><div class="osec-h">the process \u2014 seeding is step 1</div><div class="osec-b">${OUT_STEPS[e]}</div></div>`:'')+(OUT_PANELS[e]?`<div class="osec"><div class="osec-h">the crit panel \u2014 a declared, reusable parameter</div><div class="osec-b">${OUT_PANELS[e]}</div></div>`:'')
