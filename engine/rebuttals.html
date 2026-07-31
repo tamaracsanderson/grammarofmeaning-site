@@ -79,6 +79,7 @@ h2.sec{font-size:14px;font-family:var(--sans);letter-spacing:.06em;text-transfor
   <p class="kicker">Grammar of Meaning &middot; method</p>
   <h1>Method FAQ &mdash; Objections &amp; Answers</h1>
   <div id="intro"></div>
+  <div id="comprehension"></div>
   <div id="answered"></div>
   <div id="open"></div>
   <div id="tests"></div>
@@ -166,6 +167,28 @@ function renderItem(it){
     .catch(function(e){
       document.getElementById('fallback').innerHTML='<p class="state">&mdash; FAQ not available yet ('+String(e.message||e)+').</p>';
     });
+})();
+
+// Comprehension section — "what is this?" (distinct from the objections above)
+(function(){
+  fetch('/engine/artifacts/faq_comprehension.md')
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
+    .then(function(raw){
+      var md=stripFrontmatter(raw);
+      var firstH=md.indexOf('\n## ');
+      if(firstH<0) return;
+      var intro=md.slice(0,firstH).trim().replace(/^#[^\n]*\n/,'').trim();
+      var chunks=md.slice(firstH).split(/\n##\s+/).slice(1);
+      var h='<h2 class="sec">Comprehension &mdash; what is this?</h2>'
+        +'<p class="sec-sub">Questions people ask to <b>understand</b> the method &mdash; distinct from the objections below.</p>';
+      if(intro) h+='<div class="intro">'+md2html(intro)+'</div>';
+      h+=chunks.map(function(c){
+        var nl=c.indexOf('\n'); var q=c.slice(0,nl).trim(); var body=c.slice(nl+1).trim();
+        return '<div class="qa answered"><h3>'+md2inline(q)+'</h3><div class="resp">'+md2html(body)+'</div></div>';
+      }).join('');
+      document.getElementById('comprehension').innerHTML=h;
+    })
+    .catch(function(){/* comprehension is optional; silent if absent */});
 })();
 </script>
 </body>
