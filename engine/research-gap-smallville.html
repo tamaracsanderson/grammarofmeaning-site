@@ -80,7 +80,7 @@ b{color:var(--eng)}
 </div>
 
 <h2><span class="n">The findings</span>Six ranked gaps</h2>
-<p>Each cites the paper’s own words. The first two are worked all the way to their discriminating experiment — the transform in action; the rest are the ranked validity threats the same scan produced.</p>
+<p>Each cites the paper’s own words, and each is worked to its <b>discriminating experiment</b> — the gap, then the test that would resolve it. That gap→test pairing is the transform in action.</p>
 
 <div class="gap">
   <div class="top"><span class="id">G1</span><span class="ti">The d = 8.16 measurement artifact</span></div>
@@ -97,18 +97,26 @@ b{color:var(--eng)}
 <div class="gap">
   <div class="top"><span class="id">G3</span><span class="ti">Construct validity</span></div>
   <p>“Believability” is operationalized as interview-answering — how the agent talks about itself — not as behavior. The metric may be measuring the narrator, not the architecture.</p>
+
+  <div class="test"><div class="tl">Discriminating experiment</div><p>Two-arm measurement on the same replays: (a) the current interview-ranking; (b) a behavior-only believability instrument (Riedl &amp; Young objective character-believability, or forced-choice human-vs-agent behavior-trace discrimination), evaluators <b>blind to the memory stream</b>. <i>Outcome:</i> high correlation → the interview proxy is valid; divergence → the paper measured Q&amp;A consistency, and behavioral believability is unestablished.</p></div>
 </div>
 <div class="gap">
   <div class="top"><span class="id">G4</span><span class="ti">Emergence is n = 1</span></div>
   <p>The emergent-behavior claims (the party, the diffusion of information) rest on a single run, with no control condition or null model to say what would happen by chance.</p>
+
+  <div class="test"><div class="tl">Discriminating experiment</div><p>Re-measure diffusion / relationship-formation / coordination on (i) the fully-ablated “no-memory” swarm and (ii) a memoryless-but-chatty LLM-agent swarm — same seeds, same user-seeded intents, K seeds — and compare the curves with confidence intervals. <i>Outcome:</i> Full ≫ controls → emergence is architecture-driven; controls also diffuse → it’s a generic LLM-chatter property, not the memory architecture.</p></div>
 </div>
 <div class="gap">
   <div class="top"><span class="id">G5</span><span class="ti">Retrieval magic-constants + the wrong forgetting form</span></div>
   <p>The recency/importance/relevance constants (0.995, α=1, the 150 reflection threshold) carry the system with no derivation or robustness range — and the exponential recency decay is a form ACT-R’s memory theory would contest.</p>
+
+  <div class="test"><div class="tl">Discriminating experiment</div><p>Replace exponential recency with ACT-R base-level activation (power-law, attention-weighted); free the α weights and the 0.995 / threshold-150 constants via grid-fit; run the omitted sensitivity sweep; measure retrieval quality + downstream believability. <i>Outcome:</i> ACT-R ≥ exponential → the ad-hoc constants are unmotivated; exponential wins/ties → the simple form is defensible and now calibrated; flat surface → the constants were never load-bearing.</p></div>
 </div>
 <div class="gap">
   <div class="top"><span class="id">G6</span><span class="ti">Irreproducible model</span></div>
   <p>An unpinned <code>gpt-3.5-turbo</code>, no seed or temperature reported, and a single run — the result cannot be reproduced as specified.</p>
+
+  <div class="test"><div class="tl">Discriminating experiment</div><p>Re-run with a pinned model snapshot, fixed temperature, and logged seeds — K ≥ 5 independent 2-day sims; report between-run SD on believability / diffusion / density; repeat on a second model. <i>Outcome:</i> low SD → the single-run point estimates were safe; high SD → every headline number needs CIs; second-model divergence → believability tracks the LLM, not the architecture.</p></div>
 </div>
 <p class="runnerup"><b>Runner-up — strawman baselines.</b> The “prior work” condition is the authors’ own fully-gutted system, and the human baseline is explicitly non-maximal — so the comparison is stacked before the architecture is tested.</p>
 
