@@ -95,7 +95,7 @@ function cssv(name){return getComputedStyle(document.documentElement).getPropert
 const TYPE_VAR={resolves:'--type-resolves',reframes:'--type-reframes',deepens:'--type-deepens','refuses-to-close':'--type-refuses'};
 const svg=document.getElementById('svg');
 
-fetch('/engine/artifacts/reception_gaps_to_answers_prototype_s156_2026-07-31.json')
+fetch('/engine/artifacts/reception_gaps_to_answers.json')
   .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
   .then(build)
   .catch(function(e){document.getElementById('foot').textContent='— graph data not available yet ('+String(e.message||e)+').';});
