@@ -104,14 +104,16 @@ ol.chapters li{margin:0}
 
 /* right — the plate that updates on hover/focus */
 .plate-wrap{position:sticky;top:8vh}
-.plate{border:1px solid var(--rule);border-radius:8px;background:var(--paper-2);aspect-ratio:4/5;
-  display:flex;align-items:center;justify-content:center;text-align:center;padding:18px;
+.plate{border:1px solid var(--rule);border-radius:8px;background:var(--paper-2);aspect-ratio:4/5;overflow:hidden;
   box-shadow:0 16px 26px -20px rgba(36,48,42,.26)}
+.plate img{width:100%;height:100%;object-fit:cover;display:block}
 .plate .slot{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-3);line-height:1.7}
 .plate .slot b{display:block;font-size:13px;color:var(--ink-2);letter-spacing:.1em;margin-bottom:6px}
 .plate .slot em{color:var(--gold);font-style:normal}
 .plate-cap{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--ink-2);margin-top:12px;min-height:2.6em}
 .plate-cap b{color:var(--ink);letter-spacing:.1em}
+.plate-credit{font-family:var(--sans);font-size:10px;color:var(--ink-3);margin-top:8px;line-height:1.5}
+.plate-credit a{color:var(--sub);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--sub) 40%,transparent)}
 .roomnote{font-family:var(--sans);font-size:12px;color:var(--ink-3);margin-top:26px;border-top:1px dotted var(--rule);padding-top:12px}
 
 @media(max-width:720px){
@@ -178,9 +180,10 @@ ol.chapters li{margin:0}
     </div>
     <div class="plate-wrap">
       <div class="plate" id="plate">
-        <div class="slot" id="plateSlot"><b>PLATE</b> hover a chapter<br><em>&mdash; icon set wired by reading-SB</em></div>
+        <img id="plateImg" alt="" width="800" height="1000">
       </div>
-      <div class="plate-cap" id="plateCap"><b>&mdash;</b><br>Byzantine icon plates, matched to the Pantocrator, arrive as a manifest.</div>
+      <div class="plate-cap" id="plateCap"></div>
+      <div class="plate-credit" id="plateCredit"></div>
     </div>
   </div>
 </section>
@@ -208,15 +211,23 @@ ol.chapters li{margin:0}
     else { au.play().then(function(){ ab.setAttribute('aria-pressed','true'); al.textContent='pause evensong'; }).catch(function(){ al.textContent='evensong unavailable'; }); }
   });
   // ToC plate updates on hover / focus of each chapter (labeled slots until the icon set lands)
-  var slot=document.getElementById('plateSlot'), cap=document.getElementById('plateCap');
-  var caps={nativity:'the first light',baptism:'the voice at the water',teaching:'the sayings & parables',
-            miracle:'signs & wonders',passion:'the road to the cross',resurrection:'the angel at the empty tomb'};
+  var cap=document.getElementById('plateCap'), cred=document.getElementById('plateCredit'), pimg=document.getElementById('plateImg');
+  var PLATES={
+   nativity:{img:'assets/plates/nativity.jpg',pos:'50% 40%',cap:'the first light',credit:'Nativity, La Martorana, Palermo, 12th c. — photo: Sibeaster, public domain, via Wikimedia',lic:null},
+   baptism:{img:'assets/plates/baptism.jpg',pos:'50% 26%',cap:'the voice at the water',credit:'Baptism of Christ, Arian Baptistery, Ravenna, 6th c. — photo © José Luiz Bernardes Ribeiro',lic:'https://creativecommons.org/licenses/by-sa/4.0',licn:'CC BY-SA 4.0'},
+   teaching:{img:'assets/plates/teaching.jpg',pos:'50% 30%',cap:'the sayings & parables',credit:'Christ dividing the sheep from the goats, Sant’Apollinare Nuovo, Ravenna, 6th c. — public domain, via Wikimedia',lic:null},
+   miracle:{img:'assets/plates/miracle.jpg',pos:'50% 42%',cap:'signs & wonders',credit:'The Raising of Lazarus, Sant’Apollinare Nuovo, Ravenna, 6th c. — public domain, via Wikimedia',lic:null},
+   passion:{img:'assets/plates/passion.jpg',pos:'50% 52%',cap:'the road to the cross',credit:'The Crucifixion, Daphni Monastery, Greece, c.1100 — photo: Jacob Freeland (Compassionate727)',lic:'https://creativecommons.org/licenses/by/4.0',licn:'CC BY 4.0'},
+   resurrection:{img:'assets/plates/resurrection.jpg',pos:'50% 45%',cap:'the angel at the empty tomb',credit:'The Anastasis (Resurrection), Daphni Monastery, Greece, c.1100 — photo © Giovanni Dall’Orto',lic:'https://creativecommons.org/licenses/by-sa/2.5/it/deed.en',licn:'CC BY-SA 2.5 IT'}
+  };
   var chaps=[].slice.call(document.querySelectorAll('.chap'));
   function setActive(el){
     chaps.forEach(function(c){c.classList.toggle('on', c===el);});
     var key=el.getAttribute('data-plate'), name=el.textContent.replace(/^\d+\s*/,'').trim();
-    slot.innerHTML='<b>PLATE &middot; '+name.toUpperCase()+'</b><em>&mdash; icon wired by reading-SB</em>';
-    cap.innerHTML='<b>'+name.toUpperCase()+'</b><br>'+(caps[key]||'');
+    var pl=PLATES[key]; if(!pl) return;
+    pimg.src=pl.img; pimg.style.objectPosition=pl.pos; pimg.alt=name+' — Byzantine mosaic';
+    cap.innerHTML='<b>'+name.toUpperCase()+'</b><br>'+pl.cap;
+    cred.innerHTML=pl.credit+(pl.lic?' · <a href="'+pl.lic+'" target="_blank" rel="noopener">'+pl.licn+'</a>':'');
   }
   chaps.forEach(function(c){
     c.addEventListener('mouseenter', function(){setActive(c);});
