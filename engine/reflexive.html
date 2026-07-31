@@ -51,6 +51,7 @@ main code{font-family:var(--mono);font-size:.82em;background:var(--paper2);paddi
 main hr{border:none;border-top:1px solid var(--line);margin:30px 0}
 main em{color:var(--muted)}
 .companion{margin:0 0 6px;font-family:var(--sans);font-size:13px}
+.tldr{font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--eng);margin:0 0 6px;line-height:1.35}
 .state{font-family:var(--sans);font-size:14px;color:var(--muted);margin-top:8vh;text-align:center}
 </style>
 </head>
@@ -67,12 +68,15 @@ main em{color:var(--muted)}
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
 function stripFrontmatter(md){var m=md.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/);if(!m)return{title:null,body:md};var body=md.slice(m[0].length);var tm=m[0].match(/\ntitle:\s*["']?(.+?)["']?\s*\r?\n/);return{title:tm?tm[1]:null,body:body};}
+var TAGLINES={"f382fae9bc": {"Bultmann": "Like form criticism — but it never names whose community authored the coding.", "Burke": "Trades the original’s rhetoric of motives for a grammar — unacknowledged.", "Genette": "The coded layer is a palimpsest that quietly overwrites the original.", "Iser": "The coded object is a reading’s trace, not the text — unadmitted.", "Kugel": "The coded object is a new targum — but whose tradition, unnamed?", "Levinson": "Coding is a pragmatics-to-semantics reduction — what meaning was jettisoned, unnamed.", "Osgood": "It’s a measurement — with no validation, anchors, or empirical derivation.", "Schank & Abelson": "Coding strips inference — is the skeleton still a unit of understanding?", "Sternberg": "The method needs a sanitized text, its strategic ambiguities pre-resolved.", "Toulmin": "It silently claims field-invariance — a claim to defend, not assume.", "Underwood": "Normalization enables scale — but name what the coded object drops."}, "8039c9c99b": {"Bultmann": "The withheld logic isn’t missing — it’s embedded, awaiting reconstruction.", "Burke": "Withholding the reason is mystification — hiding conditions behind procedural neutrality.", "Genette": "The withheld logic is the palimpsest’s constitutive seam, not a flaw.", "Iser": "Stating the logic would collapse the productive gap that generates meaning.", "Kugel": "The not-stated may hide generations of invisible methodological tradition.", "Levinson": "Withheld to stay presupposition, not defeasible assertion — relies on shared ground.", "Osgood": "The coded object measures a meaning-space whose structure must be induced.", "Schank & Abelson": "Unstated logic presumes a shared script — risking silent user divergence.", "Sternberg": "The withholding is the engine of meaning-making, not an oversight.", "Toulmin": "A missing warrant does load-bearing work, unavailable for rational assessment.", "Underwood": "The not-stated is an aggregate signal — validated at scale, or not?"}};
+function injectTaglines(){var mount=document.getElementById("doc");var cur=null;[].forEach.call(mount.querySelectorAll("h3,li"),function(el){if(el.tagName==="H3"){var m=el.textContent.match(/f382fae9bc|8039c9c99b/);cur=m?m[0]:null;return;}if(el.tagName==="LI"&&cur&&TAGLINES[cur]){var s=el.querySelector("strong");if(!s)return;var nm=s.textContent.trim();var tl=TAGLINES[cur][nm];if(tl&&!el.querySelector(".tldr")){var d=document.createElement("div");d.className="tldr";d.textContent=tl;el.insertBefore(d,el.firstChild);}}});}
+
 (function(){
   var mount=document.getElementById('doc');
   fetch('/engine/artifacts/reflexive_gloss.md')
     .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
     .then(function(md){
-      var fm=stripFrontmatter(md);var body=(fm.title?('# '+fm.title+'\n\n'):'')+fm.body;mount.innerHTML=(window.marked?marked.parse(body):('<pre>'+body.replace(/</g,'&lt;')+'</pre>'));
+      var fm=stripFrontmatter(md);var body=(fm.title?('# '+fm.title+'\n\n'):'')+fm.body;mount.innerHTML=(window.marked?marked.parse(body):('<pre>'+body.replace(/</g,'&lt;')+'</pre>'));injectTaglines();
     })
     .catch(function(e){
       mount.innerHTML='<p class="state">&mdash; reflexive gloss not available yet ('+String(e.message||e)+').</p>';
