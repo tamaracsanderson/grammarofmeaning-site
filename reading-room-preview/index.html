@@ -34,6 +34,11 @@ a{color:inherit}
   background:linear-gradient(148deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,0) 46%, rgba(60,72,62,.05) 100%);}
 @media(prefers-color-scheme:dark){.light{background:linear-gradient(148deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,0) 46%, rgba(0,0,0,.18) 100%);}}
 
+/* ── light / dark palettes (toggle sets data-theme; OS dark honored unless forced light) ── */
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813; --paper-2:#26211A; --paper-3:#221D16; --ink:#ECE6D8; --ink-2:#C3BCAC; --ink-3:#8E877A; --rule:#3D362B; --fern:#7FB894; --moss:#A9C9B2; --sage:#7E9E86; --gold:#D8B36A; --terracotta:#E08A54;}}
+:root[data-theme=dark]{--paper:#1C1813; --paper-2:#26211A; --paper-3:#221D16; --ink:#ECE6D8; --ink-2:#C3BCAC; --ink-3:#8E877A; --rule:#3D362B; --fern:#7FB894; --moss:#A9C9B2; --sage:#7E9E86; --gold:#D8B36A; --terracotta:#E08A54;}
+:root[data-theme=light]{--paper:#FCFBF7; --paper-2:#EFE7D3; --paper-3:#FFFFFF; --ink:#24302A; --ink-2:#52605A; --ink-3:#7C8478; --rule:#C9BE9F; --fern:#3F7D57; --moss:#2C4A38; --sage:#7E9E86; --gold:#B8924A; --terracotta:#C4602F;}
+
 /* ── theme toggle ── */
 .themebtn{position:fixed;top:14px;right:14px;z-index:9;background:var(--paper-3);border:1px solid var(--rule);
   border-radius:999px;padding:5px 13px;font:12px var(--sans);cursor:pointer;color:var(--ink)}
@@ -106,8 +111,7 @@ ol.chapters li{margin:0}
 
 /* right — the plate that updates on hover/focus */
 .plate-wrap{position:sticky;top:8vh}
-.plate{border:1px solid var(--rule);border-radius:8px;background:var(--paper-2);aspect-ratio:1/1;overflow:hidden;
-  box-shadow:0 16px 26px -20px rgba(36,48,42,.26)}
+.plate{aspect-ratio:1/1;overflow:hidden}   /* frameless — panel bleeds onto the parchment */
 .plate img{width:100%;height:100%;object-fit:cover;display:block}
 .plate .slot{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-3);line-height:1.7}
 .plate .slot b{display:block;font-size:13px;color:var(--ink-2);letter-spacing:.1em;margin-bottom:6px}
@@ -139,14 +143,15 @@ ol.chapters li{margin:0}
 .vi{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;text-decoration:none;transition:transform .18s}
 a.vi:hover{transform:translateY(-2px)}
 a.vi:hover em{color:var(--fern)}
-.vi img{width:100%;max-width:58px;height:auto;aspect-ratio:3/4;object-fit:cover;border-radius:6px;border:1px solid var(--rule);background:var(--paper-2)}
+.vi img{width:100%;max-width:58px;height:auto;aspect-ratio:3/4;object-fit:cover}   /* frameless */
 .vi em{font-family:var(--sans);font-style:normal;font-size:10.5px;letter-spacing:.02em;color:var(--ink-2)}
 </style>
+<script>(function(){try{var t=localStorage.getItem("gom-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();function gomTheme(){var r=document.documentElement;var t=r.dataset.theme==="dark"?"light":"dark";r.dataset.theme=t;try{localStorage.setItem("gom-theme",t);}catch(e){}}</script>
 </head>
 <body>
 <div class="light" aria-hidden="true"></div>
 <div class="wipe" aria-hidden="true"></div>
-<button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">theme</button>
+<button class="themebtn" onclick="gomTheme()">theme</button>
 
 <!-- ══════════ SCREEN 1 — THE DOOR ══════════ -->
 <section class="door" id="door" aria-label="Enter the reading room">
@@ -266,6 +271,21 @@ a.vi:hover em{color:var(--fern)}
     c.addEventListener('focus', function(){setActive(c);});
     c.addEventListener('click', function(){var r=c.getAttribute('data-room'); if(r) location.href=r;});
   });
+  // four-voices icons hover-swap the plate too (click still opens the KJV gospel)
+  var VOICES={matthew:'Matthew',mark:'Mark',luke:'Luke',john:'John'};
+  function showVoice(g){
+    pimg.src='assets/panels/icon-'+g+'.svg'; pimg.style.objectPosition='50% 50%'; pimg.alt=VOICES[g]+' — evangelist';
+    cap.innerHTML='<b>'+VOICES[g].toUpperCase()+'</b><br>the voice';
+    cred.innerHTML='Illuminated panel &mdash; authored design, Grammar of Meaning &middot; <a href="voices.html?g='+g+'">read '+VOICES[g]+' in full (KJV) &rarr;</a>';
+  }
+  [].forEach.call(document.querySelectorAll('a.vi'), function(a){
+    var g=(a.getAttribute('href').match(/g=([a-z]+)/)||[])[1];
+    if(!g) return;
+    a.addEventListener('mouseenter', function(){showVoice(g);});
+    a.addEventListener('focus', function(){showVoice(g);});
+  });
+  var vrow=document.querySelector('.voices-row');
+  if(vrow) vrow.addEventListener('mouseleave', function(){setActive(chaps[0]);});
   document.getElementById('chapters').addEventListener('mouseleave', function(){setActive(chaps[0]);});
   setActive(chaps[0]); // at rest: Nativity is the illuminated one, its plate shown
   // header Pantocrator returns to the door
