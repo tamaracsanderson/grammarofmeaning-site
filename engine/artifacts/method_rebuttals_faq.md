@@ -102,6 +102,9 @@ run the built instrument on a representative non-Western text end-to-end (TESTS 
 **Status.** **ANSWERED (a run) — bare-vs-seeded demonstrated on William James; the seed reversed the conclusion.** Repeatable on any named critic (Augustine, Socrates, …).
 **Evidence.** `pm/50_audits/AB_bare_vs_seeded_william_james_s156_2026-07-30.md` (the two arms + the fetched quotes) · `pm/50_audits/smallville_20critic_rooms_s156_2026-07-30.md` (Panel C seeded critics — the Gelman overrule) · `pm/30_methodology/GLOSS_process_steps_with_seeding_s156_2026-07-30.md` + `CRIT_PANEL_REGISTRY_s156_2026-07-30.md` (the seeding step + the named-panel registry) · MASTER_LEXICON Gloss entry (SEEDING lock).
 
+## R15 · "Could this be used outside meaning-making — can it find real research gaps?"
+**Status.** **ANSWERED (a run) — honestly bounded.** We ran the instrument blind on a foundational tech paper (Park et al., "Smallville," arXiv 2304.03442). The honest finding, per our fair-baseline (T3) test: on a *tech* paper — the LLM's home turf — a strong wild read finds the gap-list on its own, so gap-*finding* is not where a structured instrument wins. What the **seeded** instrument adds, and a cold read cannot, is the **rival model** (the ACT-R critic: Smallville's exponential recency-decay is the *wrong functional form* against 50 years of validated human-memory data — "the knob is the wrong shape," not "tune the knob"), the **paradigm-exit critics** (Suchman / Weizenbaum / Turing / Blake), and **auditable multi-panel disagreement**. Full write-up (the exec summary + the gap-list, honestly labeled): [Research-Gap Demo — Smallville &rarr;](research-gap-smallville.html).
+
 ---
 
 # TESTS QUEUE (designed / partially-run — the experiments that back future entries)
