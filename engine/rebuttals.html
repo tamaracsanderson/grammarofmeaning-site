@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Method FAQ — Objections &amp; Answers — Grammar of Meaning</title>
+<title>Method FAQ — the hard questions — Grammar of Meaning</title>
 <style>
 :root{--bg:#F6F1E4;--paper:#FFFDF6;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;
  --eng:#2C4A38;--sub:#3F7D57;--out:#C4602F;--honey:#E0A93B;
@@ -31,11 +31,13 @@ main{max-width:48rem;margin:0 auto;padding:5vh 22px 12vh}
 h1{font-size:30px;line-height:1.18;font-weight:600;color:var(--eng);margin:0 0 8px;text-wrap:balance}
 .intro{font-size:15.5px;color:var(--fg);border-left:3px solid var(--sub);padding:2px 0 2px 16px;margin:14px 0 6px;
  background:color-mix(in srgb,var(--sub) 5%,transparent)}
-.intro p{margin:8px 0}
+.intro p{margin:8px 0} .intro ul{margin:8px 0;padding-left:20px} .intro li{margin:4px 0}
+.intro a{color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
 h2.sec{font-size:14px;font-family:var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
- margin:38px 0 4px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+ margin:38px 0 4px;padding-bottom:5px;border-bottom:1px solid var(--line);scroll-margin-top:64px}
 .sec-sub{font-family:var(--sans);font-size:12.5px;color:var(--muted);margin:0 0 12px}
-.qa{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:12px 0;background:var(--paper)}
+.theme-intro{font-family:var(--sans);font-size:13px;font-style:italic;color:var(--muted);margin:2px 0 14px;line-height:1.5}
+.qa{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:12px 0;background:var(--paper);scroll-margin-top:70px}
 .qa.answered{border-left:4px solid var(--sub)}
 .qa.open{border-left:4px solid var(--out);background:var(--paper2)}
 .qa.partial{border-left:4px solid var(--honey);background:var(--paper2)}
@@ -49,13 +51,15 @@ h2.sec{font-size:14px;font-family:var(--sans);letter-spacing:.06em;text-transfor
 .status.partial{background:color-mix(in srgb,var(--honey) 12%,transparent);border:1px solid color-mix(in srgb,var(--honey) 40%,transparent)}
 .status.answered{background:color-mix(in srgb,var(--sub) 10%,transparent);border:1px solid color-mix(in srgb,var(--sub) 30%,transparent)}
 .slab{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
- padding:2px 8px;border-radius:999px;margin-right:8px;vertical-align:1px;color:#fff}
+ padding:2px 8px;border-radius:999px;margin-right:8px;vertical-align:1px;color:#fff;white-space:nowrap}
 .slab.open{background:var(--out)}
-.slab.partial{background:var(--honey);color:var(--moss,#2C4A38)}
+.slab.partial{background:var(--honey);color:#3a2c05}
 .slab.answered{background:var(--sub)}
 .evid{font-size:12.5px;color:var(--muted);margin-top:8px;font-family:var(--sans)}
+.evid .evlab{font-weight:700;color:var(--fg);text-transform:uppercase;letter-spacing:.05em;font-size:10.5px;margin-right:6px}
 .evid code,.resp code,.status code,.intro code{font-family:var(--mono);font-size:.86em;background:color-mix(in srgb,var(--line) 30%,transparent);padding:0 4px;border-radius:4px;word-break:break-word}
-.evid a,.resp a,.status a{color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
+.evid a,.resp a,.status a,.tests-body a{color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
+.ev-ref{color:var(--muted);border-bottom:1px dotted var(--muted);cursor:help}
 .testsfold{border:1px solid var(--line);border-radius:10px;margin:14px 0;background:var(--paper)}
 .testsfold summary{cursor:pointer;padding:12px 16px;font-family:var(--sans);font-size:13.5px;color:var(--fg);list-style:none}
 .testsfold summary::-webkit-details-marker{display:none}
@@ -77,11 +81,10 @@ h2.sec{font-size:14px;font-family:var(--sans);letter-spacing:.06em;text-transfor
 </div>
 <main>
   <p class="kicker">Grammar of Meaning &middot; method</p>
-  <h1>Method FAQ &mdash; Objections &amp; Answers</h1>
+  <h1>Method FAQ &mdash; the hard questions</h1>
   <div id="intro"></div>
   <div id="comprehension"></div>
-  <div id="answered"></div>
-  <div id="open"></div>
+  <div id="faq"></div>
   <div id="tests"></div>
   <div id="fallback"></div>
 </main>
@@ -90,39 +93,47 @@ h2.sec{font-size:14px;font-family:var(--sans);letter-spacing:.06em;text-transfor
 function stripFrontmatter(md){var m=md.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/);return m?md.slice(m[0].length):md;}
 function md2html(s){return window.marked?marked.parse(s.trim()):('<p>'+s.replace(/</g,'&lt;')+'</p>');}
 function md2inline(s){var h=md2html(s.trim());return h.replace(/^<p>/,'').replace(/<\/p>\s*$/,'');}
-
+// GitHub-style heading slug (so the in-page cross-ref anchors in the FAQ resolve)
+function slug(s){return s.toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s/g,'-');}
+// twelve-laws repo paths aren't deployed (private repo) → render those citations label-only (path in tooltip).
+// Links that resolve (http(s), in-page #, site-relative .html) are kept live.
+function fixLinks(html){
+  return html.replace(/<a href="([^"]*)"([^>]*)>([\s\S]*?)<\/a>/g, function(m,href,rest,label){
+    if(/^https?:/i.test(href) || href.charAt(0)==='#' || /\.html([#?][^"]*)?$/.test(href)) return m;
+    return '<span class="ev-ref" title="'+String(href).replace(/"/g,'&quot;')+'">'+label+'</span>';
+  });
+}
 function classifyStatus(txt){
-  var t=txt.replace(/[*_.]/g,'').trim().toUpperCase();
-  if(/^ANSWERED[\s(]/.test(t)) return 'answered';
-  if(t.indexOf('OPEN')===0) return 'open';
-  if(/^(PARTIAL|SUBSTANTIALLY|ANSWERED-IN-PRINCIPLE)/.test(t)) return 'partial';
-  return 'open';
+  var U=txt.replace(/[*_]/g,'').trim().toUpperCase();
+  if(/^OPEN\b/.test(U)) return 'open';
+  if(/^PARTIAL\b/.test(U)) return 'partial';
+  if(/^ANSWERED IN PRINCIPLE/.test(U)) return 'partial';       // answered-in-principle + confirming-run-open = partial
+  if(/^ANSWERED\b/.test(U)) return 'answered';
+  if(U.indexOf('OPEN')>-1 && U.indexOf('ANSWER')===-1) return 'open';
+  return 'partial';
 }
-function slabText(cls){return cls==='partial'?'Partial':'Open';}
+function slabText(cls){return cls==='answered'?'Answered':cls==='partial'?'Partial':'Open';}
 
-function parseItem(chunk){
-  // chunk starts after "## " — first line is "R\d · objection", rest is body
+// parse one "### ID · question" entry
+function parseEntry(chunk){
   var nl=chunk.indexOf('\n');
-  var head=chunk.slice(0,nl).trim();
-  var body=chunk.slice(nl+1).trim();
-  var rn=(head.match(/^R\d+/)||[''])[0];
-  var obj=head.replace(/^R\d+\s*·\s*/,'');
-  // sections
-  var resp=(body.match(/\*\*Response[^*]*\*\*([\s\S]*?)(?=\n\*\*Status|\n\*\*Evidence|$)/)||[,''])[1];
-  var status=(body.match(/\*\*Status\.\*\*([\s\S]*?)(?=\n\*\*Evidence|$)/)||[,''])[1];
-  var evid=(body.match(/\*\*Evidence\.\*\*([\s\S]*?)$/)||[,''])[1];
-  return {rn:rn, obj:obj, resp:resp, status:status.trim(), evid:evid.trim()};
+  var head=(nl<0?chunk:chunk.slice(0,nl)).trim();
+  var body=(nl<0?'':chunk.slice(nl+1)).trim();
+  var id=(head.match(/^[RS]\d+/)||[''])[0];
+  var q=head.replace(/^[RS]\d+\s*·\s*/,'');
+  var answer=body.split(/\n?\*\*Status\s*[—–-]\*\*/)[0].trim();
+  var mS=body.match(/\*\*Status\s*[—–-]\*\*([\s\S]*?)(?=\n\*\*Evidence|$)/);
+  var mE=body.match(/\*\*Evidence\s*[—–-]\*\*([\s\S]*?)$/);
+  return {id:id, q:q, head:head, answer:answer, status:(mS?mS[1].trim():''), evid:(mE?mE[1].trim():'')};
 }
-
-function renderItem(it){
-  var open = !!it.status;
-  var cls = open ? classifyStatus(it.status) : 'answered';
-  var h = '<div class="qa '+cls+'">';
-  h += '<h3><span class="rn">'+it.rn+'</span>'+md2inline(it.obj)+'</h3>';
-  if(it.resp) h += '<div class="resp">'+md2html(it.resp)+'</div>';
-  if(open) h += '<div class="status '+cls+'">'+md2inline(it.status)+'</div>';
-  if(it.evid) h += '<div class="evid">'+md2html(it.evid)+'</div>';
-  h += '</div>';
+function renderEntry(e){
+  var cls=e.status?classifyStatus(e.status):'answered';
+  var h='<div class="qa '+cls+'" id="'+slug(e.head)+'">';
+  h+='<h3><span class="rn">'+e.id+'</span>'+md2inline(e.q)+'</h3>';
+  if(e.answer) h+='<div class="resp">'+fixLinks(md2html(e.answer))+'</div>';
+  if(e.status) h+='<div class="status '+cls+'"><span class="slab '+cls+'">'+slabText(cls)+'</span>'+fixLinks(md2inline(e.status))+'</div>';
+  if(e.evid) h+='<div class="evid"><span class="evlab">Evidence</span>'+fixLinks(md2inline(e.evid))+'</div>';
+  h+='</div>';
   return h;
 }
 
@@ -131,36 +142,37 @@ function renderItem(it){
     .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
     .then(function(raw){
       var md=stripFrontmatter(raw);
-      // split off tests queue
+      // split off TESTS QUEUE (kept as H1)
       var parts=md.split(/\n#\s+TESTS QUEUE/);
       var mainMd=parts[0];
-      var testsMd=parts[1]||'';
-      // strip the trailing HTML comment (methodology footer) from tests
-      testsMd=testsMd.replace(/<!--[\s\S]*?-->/g,'').trim();
-      // intro: "# How to read this" ... up to first "## R"
-      var introM=mainMd.match(/#\s+How to read this\s*([\s\S]*?)(?=\n##\s+R\d)/);
-      if(introM) document.getElementById('intro').innerHTML='<div class="intro">'+md2html(introM[1])+'</div>';
-      // items: split on "\n## R"
-      var itemChunks=mainMd.split(/\n##\s+(?=R\d)/).slice(1).map(function(c){return c.replace(/^R/, 'R');});
-      // careful: the split consumed "## "; re-add nothing (chunk starts at "R\d ·")
-      var items=itemChunks.map(function(c){return parseItem(c.trim());}).filter(function(i){return i.rn;});
-      var answered=items.filter(function(i){return !i.status || classifyStatus(i.status)==='answered';});
-      var open=items.filter(function(i){return i.status && classifyStatus(i.status)!=='answered';});
-      // answered
-      var aH='<h2 class="sec">Answered</h2><p class="sec-sub">Objections we have a run behind &mdash; each links to the finding that backs it.</p>';
-      aH+=answered.map(renderItem).join('');
-      document.getElementById('answered').innerHTML=aH;
-      // open (fold)
-      var oH='<h2 class="sec">Open questions &amp; work in progress</h2>'
-        +'<p class="sec-sub">'+open.length+' harder objections &mdash; from the frontier-LLM adversarial review (IRR224), our 3-agent CRT, and the instrument&rsquo;s own reflexive self-scan. Each carries its honest status; several are genuinely OPEN, with the fix named but not yet built.</p>';
-      oH+=open.map(renderItem).join('');
-      document.getElementById('open').innerHTML=oH;
-      // tests
+      var testsMd=(parts[1]||'').replace(/<!--[\s\S]*?-->/g,'').trim();
+      // intro: "# How to read this" up to the first "## " theme
+      var introM=mainMd.match(/#\s+How to read this\s*([\s\S]*?)(?=\n##\s)/);
+      if(introM) document.getElementById('intro').innerHTML='<div class="intro">'+fixLinks(md2html(introM[1]))+'</div>';
+      // themes: split on "\n## "
+      var themeChunks=mainMd.split(/\n##\s+/).slice(1);
+      var faqHtml=themeChunks.map(function(tc){
+        var nl=tc.indexOf('\n');
+        var themeName=(nl<0?tc:tc.slice(0,nl)).trim();
+        var rest=(nl<0?'':tc.slice(nl+1));
+        // optional italic one-line intro before the first "### "
+        var firstQ=rest.indexOf('\n### '); if(rest.indexOf('### ')===0) firstQ=0;
+        var pre=(firstQ<0?rest:rest.slice(0, firstQ)).trim();
+        var qBlock=(firstQ<0?'':rest.slice(firstQ));
+        var entries=qBlock.split(/\n###\s+/).map(function(c){return c.replace(/^###\s+/,'');}).filter(function(c){return /^[RS]\d/.test(c.trim());});
+        var s='<section class="theme" id="'+slug(themeName)+'"><h2 class="sec">'+md2inline(themeName)+'</h2>';
+        if(pre) s+='<p class="theme-intro">'+md2inline(pre)+'</p>';
+        s+=entries.map(function(c){return renderEntry(parseEntry(c.trim()));}).join('');
+        s+='</section>';
+        return s;
+      }).join('');
+      document.getElementById('faq').innerHTML=faqHtml;
+      // TESTS QUEUE
       if(testsMd){
-        var tH='<h2 class="sec">The tests that back these answers</h2>'
-          +'<details class="testsfold"><summary>Validation roadmap &mdash; every experiment below is <b>designed, not yet run</b> (expand)</summary>'
-          +'<div class="testbanner">&#9888; Nothing in this list has produced a result yet. These are the experiments designed to move the OPEN items above toward answered &mdash; a few are partly run (noted inline); the rest are designed and awaiting pre-registration + execution.</div>'
-          +'<div class="tests-body">'+md2html(testsMd)+'</div></details>';
+        var tH='<h2 class="sec" id="tests-queue">The tests that back these answers</h2>'
+          +'<details class="testsfold"><summary>Validation roadmap &mdash; the experiments behind the answers above (expand)</summary>'
+          +'<div class="testbanner">&#9888; Most of these are <b>designed or partly run</b>, not finished &mdash; they are the experiments that move OPEN items toward answered. One exception (item&nbsp;#13, the over-generation control) has a result already; it is marked.</div>'
+          +'<div class="tests-body">'+fixLinks(md2html(testsMd))+'</div></details>';
         document.getElementById('tests').innerHTML=tH;
       }
     })
@@ -169,7 +181,7 @@ function renderItem(it){
     });
 })();
 
-// Comprehension section — "what is this?" (distinct from the objections above)
+// Comprehension section — "what is this?" (distinct from the hard questions)
 (function(){
   fetch('/engine/artifacts/faq_comprehension.md')
     .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
@@ -179,10 +191,10 @@ function renderItem(it){
       if(firstH<0) return;
       var chunks=md.slice(firstH).split(/\n##\s+/).slice(1);
       var h='<h2 class="sec">Comprehension &mdash; what is this?</h2>'
-        +'<p class="sec-sub">Questions people ask to <b>understand</b> the method &mdash; distinct from the objections below.</p>';
+        +'<p class="sec-sub">Questions people ask to <b>understand</b> the method &mdash; distinct from the hard questions below.</p>';
       h+=chunks.map(function(c){
         var nl=c.indexOf('\n'); var q=c.slice(0,nl).trim(); var body=c.slice(nl+1).trim();
-        return '<div class="qa answered"><h3>'+md2inline(q)+'</h3><div class="resp">'+md2html(body)+'</div></div>';
+        return '<div class="qa answered"><h3>'+md2inline(q)+'</h3><div class="resp">'+fixLinks(md2html(body))+'</div></div>';
       }).join('');
       document.getElementById('comprehension').innerHTML=h;
     })
