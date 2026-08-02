@@ -232,7 +232,7 @@ footer.foot a{color:var(--fern);text-decoration:none;border-bottom:1px solid col
 </section>
   </main>
   <aside class="gloss-rail" id="glossRail" aria-live="polite">
-    <div class="gr-eyebrow">The braid reads itself · <b>composite gap</b> <span class="gr-draft">illustrative draft</span></div>
+    <div class="gr-eyebrow" data-prov-source="BRAID-RESURRECTION" data-prov-need="gaps">The braid reads itself · <b>composite gap</b> <span data-prov-slot></span></div>
     <div id="grBody"><p class="gr-empty">Scroll the reading. Where the four accounts genuinely part, the instrument's cohort glosses the gap here — the divergent takes shown, not flattened. The chair selected <b>five</b>, distributed across the arc.</p></div>
   </aside>
 </div>
@@ -308,8 +308,9 @@ function buildCompare(){
   if(built) return; built=true;
   cols.innerHTML=COMPARE.map(function(s){
     var vs=s.verses.map(function(w){ return '<p><span class="vn">'+w.v+'</span>'+w.t+'</p>'; }).join('');
-    return '<div class="cmp-col"><h3>'+s.label+'</h3><div class="ref">'+s.reference+'</div>'+vs+'</div>';
+    return '<div class="cmp-col" data-prov-source="'+s.key+'"><h3>'+s.label+'</h3><div class="ref">'+s.reference+'</div><div class="cmp-prov" data-prov-slot></div>'+vs+'</div>';
   }).join('');
+  if(window.Provenance) Provenance.rescan();  // grounded provenance line per gospel account (provenance render-contract)
 }
 function openCmp(){ buildCompare(); cmp.classList.add('open'); document.body.style.overflow='hidden'; }
 function closeCmp(){ cmp.classList.remove('open'); document.body.style.overflow=''; }
@@ -318,5 +319,6 @@ document.getElementById('cmpX').addEventListener('click', closeCmp);
 cmp.addEventListener('click', function(e){ if(e.target===cmp) closeCmp(); });
 document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeCmp(); });
 </script>
+<script src="/engine/artifacts/provenance.js"></script>
 </body>
 </html>
