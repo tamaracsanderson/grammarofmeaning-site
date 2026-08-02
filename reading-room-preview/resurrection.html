@@ -57,6 +57,7 @@ main.reading{flex:1 1 auto;max-width:40rem;min-width:0}
   border:1px solid var(--rule);border-radius:12px;background:var(--paper-3);padding:18px 18px 20px;box-shadow:0 14px 30px -24px rgba(36,48,42,.3)}
 .gr-eyebrow{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 4px}
 .gr-eyebrow b{color:var(--moss)}
+.gr-draft{font-family:var(--sans);font-size:8px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:#8A2B0F;background:#F5E6C8;border-radius:5px;padding:1px 6px;vertical-align:1px}
 .gr-title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:18px;color:var(--moss);line-height:1.2;margin:0 0 3px}
 .gr-q{font-family:var(--sans);font-size:12px;color:var(--ink-3);line-height:1.5;margin:0 0 12px}
 .gr-lens{margin:0 0 9px;padding:0 0 9px;border-bottom:1px dotted var(--rule);font-family:var(--sans);font-size:12.5px;line-height:1.55}
@@ -103,6 +104,8 @@ main.reading{flex:1 1 auto;max-width:40rem;min-width:0}
 .next .slot b{color:var(--ink-2);font-weight:600}
 footer.foot{max-width:40rem;margin:0 auto;padding:0 22px 12vh;font-family:var(--sans);font-size:11.5px;line-height:1.6;color:var(--ink-3);border-top:1px solid var(--rule);padding-top:18px}
 footer.foot a{color:var(--fern);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fern) 35%,transparent)}
+.draft-banner{margin:0;padding:12px 20px;background:#F5E6C8;border-bottom:2px solid #C4602F;color:#5A3A1A;font-family:var(--sans);font-size:13px;line-height:1.5;text-align:center}
+.draft-banner b{color:#8A2B0F}
 </style>
 <script>(function(){try{var t=localStorage.getItem("gom-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
 </head>
@@ -117,7 +120,7 @@ footer.foot a{color:var(--fern);text-decoration:none;border-bottom:1px solid col
     <a href="index.html">the door</a>
   </div>
 </div>
-
+<div class="draft-banner" role="note"><b>DRAFT &middot; illustrative.</b> This braided reading and its composite-gap gloss are <b>reasoning-mode</b> &mdash; hand-authored to show the method&rsquo;s shape, <b>not engine-generated output</b> (not yet in the coded corpus). Grounding via the cross-source scanner is in progress. The four gospel texts under &ldquo;Compare the four accounts&rdquo; are the real sources.</div>
 <header class="room">
   <p class="kick">The Gospels · Theme VI</p>
   <h1 class="title">The Resurrection</h1>
@@ -229,7 +232,7 @@ footer.foot a{color:var(--fern);text-decoration:none;border-bottom:1px solid col
 </section>
   </main>
   <aside class="gloss-rail" id="glossRail" aria-live="polite">
-    <div class="gr-eyebrow">The braid reads itself · <b>composite gap</b></div>
+    <div class="gr-eyebrow">The braid reads itself · <b>composite gap</b> <span class="gr-draft">illustrative draft</span></div>
     <div id="grBody"><p class="gr-empty">Scroll the reading. Where the four accounts genuinely part, the instrument's cohort glosses the gap here — the divergent takes shown, not flattened. The chair selected <b>five</b>, distributed across the arc.</p></div>
   </aside>
 </div>
@@ -256,7 +259,7 @@ var COMPARE=[{"key": "MATT-28", "label": "Matthew", "reference": "Matthew 28 (Ki
 
 // ---- render one gloss (rail or inline) ----
 function glossHTML(gd){
-  var h='<div class="gr-eyebrow">'+gd.cg+' &middot; <b>where they part</b></div>';
+  var h='<div class="gr-eyebrow">'+gd.cg+' &middot; <b>where they part</b> <span class="gr-draft">illustrative</span></div>';
   h+='<div class="gr-title">'+gd.title+'</div>';
   if(gd.question) h+='<div class="gr-q">'+gd.question+'</div>';
   var personas=(gd.lenses||[]).filter(function(l){return !l.frame;});
