@@ -60,7 +60,7 @@ main hr{border:none;border-top:1px solid var(--line);margin:30px 0}
 <main id="doc"><p class="state">loading&hellip;</p></main>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
-function stripFrontmatter(md){var m=md.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/);if(!m)return{title:null,body:md};var body=md.slice(m[0].length);var tm=m[0].match(/\ntitle:\s*["']?(.+?)["']?\s*\r?\n/);return{title:tm?tm[1]:null,body:body};}
+function stripFrontmatter(md){md=md.replace(/^\s*<!--[\s\S]*?-->\s*/,'');var m=md.match(/^\s*---\r?\n[\s\S]*?\r?\n---\r?\n?/);if(!m)return{title:null,body:md};var body=md.slice(m[0].length);var tm=m[0].match(/\ntitle:\s*["']?(.+?)["']?\s*\r?\n/);return{title:tm?tm[1]:null,body:body};}
 (function(){
   var mount=document.getElementById('doc');
   var p=new URLSearchParams(location.search).get('p');
