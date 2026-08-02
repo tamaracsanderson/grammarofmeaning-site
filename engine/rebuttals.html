@@ -138,7 +138,8 @@ function renderEntry(e){
   var h='<div class="qa '+cls+'" id="q-'+e.id.toLowerCase()+'">';
   h+='<h3><span class="rn">'+e.id+'</span>'+md2inline(e.q)+'</h3>';
   if(e.answer) h+='<div class="resp">'+fixLinks(md2html(e.answer))+'</div>';
-  if(e.status) h+='<div class="status '+cls+'"><span class="slab '+cls+'">'+slabText(cls)+'</span>'+fixLinks(md2inline(e.status))+'</div>';
+  if(e.status){ var st=e.status.replace(/^(?:ANSWERED|PARTIAL|OPEN)\b(?!\s+(?:in|via)\b)[\s.:—–,-]*/i,'');
+    h+='<div class="status '+cls+'"><span class="slab '+cls+'">'+slabText(cls)+'</span>'+fixLinks(md2inline(st))+'</div>'; }
   if(e.evid) h+='<div class="evid"><span class="evlab">Evidence</span>'+fixLinks(md2inline(e.evid))+'</div>';
   h+='</div>';
   return h;
