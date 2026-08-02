@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Shopping Instrument — how a text joins the corpus · Grammar of Meaning</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FCFBF7;--bg2:#FFFFFF;--ink:#24302A;--dim:#52605A;--faint:#7C8478;--gold:#C4602F;--honey:#E0A93B;--teal:#3F7D57;--moss:#2C4A38;--olive:#6E7B3A;--rose:#B0552B;--line:#C9BE9F;--card:#FFFFFF;--card2:#FBF8EF;
+--mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;--serif:'Newsreader',Georgia,serif;--sans:'Inter',system-ui,-apple-system,sans-serif;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#1C1813;--bg2:#221D16;--ink:#ECE6D8;--dim:#C3BCAC;--faint:#8E877A;--gold:#E08A54;--honey:#D8B36A;--teal:#7FB894;--moss:#A9C9B2;--olive:#9CA86A;--rose:#E08A54;--line:#3D362B;--card:#221D16;--card2:#26211A;}}
+:root[data-theme=dark]{--bg:#1C1813;--bg2:#221D16;--ink:#ECE6D8;--dim:#C3BCAC;--faint:#8E877A;--gold:#E08A54;--honey:#D8B36A;--teal:#7FB894;--moss:#A9C9B2;--olive:#9CA86A;--rose:#E08A54;--line:#3D362B;--card:#221D16;--card2:#26211A;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--teal)}
+.bar{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 20px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.bar a{font-size:13px;color:var(--teal);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--teal) 40%,transparent)}
+.bar .rm{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+header.pg{max-width:52rem;margin:0 auto;padding:6vh 22px 1vh;text-align:center}
+.kick{font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--gold);font-weight:600;margin:0 0 12px}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,46px);line-height:1.08;color:var(--moss);margin:0 0 12px;letter-spacing:-.02em}
+.lede{color:var(--dim);font-size:18px;max-width:44rem;margin:0 auto;line-height:1.55}
+.lede b{color:var(--ink)}
+/* ribbon */
+.ribbon{max-width:1040px;margin:4vh auto 0;padding:0 22px}
+.zones{display:grid;grid-template-columns:1fr;gap:16px}
+.zone{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:14px 16px}
+.zone-h{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 10px;display:flex;align-items:center;gap:8px}
+.zone-h .zt{font-weight:600}
+.zone.engines{border-color:color-mix(in srgb,var(--teal) 40%,var(--line));background:linear-gradient(180deg,color-mix(in srgb,var(--teal) 5%,var(--card)),var(--card))}
+.zone-eng-tag{font-family:var(--mono);font-size:9.5px;color:var(--teal);border:1px solid color-mix(in srgb,var(--teal) 40%,transparent);border-radius:999px;padding:1px 7px;margin-left:auto}
+.stagerow{display:flex;flex-wrap:wrap;gap:8px}
+.stage{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;background:var(--card2);padding:8px 11px;cursor:pointer;transition:all .14s;text-align:left;font:inherit;color:inherit;flex:1 1 auto;min-width:150px}
+.stage:hover,.stage.active{border-color:var(--gold);box-shadow:0 6px 18px -12px rgba(196,96,47,.5)}
+.stage .num{font-family:var(--serif);font-size:19px;color:var(--gold);line-height:1;flex:0 0 auto}
+.stage .lab{display:flex;flex-direction:column;gap:1px;min-width:0}
+.stage .nm{font-weight:600;font-size:13.5px;color:var(--ink)}
+.stage .eng{font-family:var(--mono);font-size:9.5px;color:var(--faint);letter-spacing:.03em}
+.stage .b{width:8px;height:8px;border-radius:50%;flex:0 0 auto;margin-left:auto}
+.b.run{background:var(--teal)}.b.early{background:var(--honey)}.b.wip{background:var(--gold)}.b.undef{background:var(--rose)}.b.notfiring{background:var(--rose)}
+.arrow{align-self:center;color:var(--faint);font-size:15px;flex:0 0 auto}
+.meta-band{border:1px dashed var(--line);border-radius:12px;background:color-mix(in srgb,var(--honey) 5%,var(--card));padding:11px 15px;margin-top:16px;font-size:13px;color:var(--dim)}
+.meta-band b{color:var(--olive)}
+.stophere{text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--faint);margin:14px 0 0}
+/* drawer */
+.drawer{max-width:1040px;margin:20px auto 0;padding:0 22px}
+.dcard{border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;background:var(--card);padding:20px 22px;box-shadow:0 18px 40px -30px rgba(36,48,42,.4)}
+.dcard .dh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.dcard .dnum{font-family:var(--serif);font-size:24px;color:var(--gold)}
+.dcard .dnm{font-family:var(--serif);font-size:22px;color:var(--moss);font-weight:600}
+.dcard .deng{font-family:var(--mono);font-size:11px;color:var(--faint)}
+.badge{font-family:var(--mono);font-size:10px;letter-spacing:.04em;padding:2px 9px;border-radius:999px;border:1px solid;white-space:nowrap}
+.badge.run{color:var(--teal);border-color:color-mix(in srgb,var(--teal) 45%,transparent);background:color-mix(in srgb,var(--teal) 8%,transparent)}
+.badge.early{color:#9a7420;border-color:color-mix(in srgb,var(--honey) 55%,transparent);background:color-mix(in srgb,var(--honey) 12%,transparent)}
+.badge.wip{color:var(--gold);border-color:color-mix(in srgb,var(--gold) 45%,transparent);background:color-mix(in srgb,var(--gold) 8%,transparent)}
+.badge.notfiring{color:var(--rose);border-color:color-mix(in srgb,var(--rose) 55%,transparent);background:color-mix(in srgb,var(--rose) 10%,transparent)}
+.dsect{margin-top:16px}
+.dsect h4{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin:0 0 7px}
+.dtrans{font-size:14.5px;color:var(--dim);line-height:1.6;margin:0}
+.iocols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:640px){.iocols{grid-template-columns:1fr}.zones .stagerow{flex-direction:column}}
+.frow{display:flex;align-items:flex-start;gap:8px;padding:4px 0;border-bottom:1px solid color-mix(in srgb,var(--line) 55%,transparent);font-size:13px}
+.frow .fn{font-family:var(--mono);font-size:12px;color:var(--ink);flex:1 1 auto}
+.chip{font-family:var(--mono);font-size:8.5px;letter-spacing:.05em;text-transform:uppercase;padding:1px 6px;border-radius:4px;flex:0 0 auto;margin-top:1px}
+.chip.open{color:var(--teal);background:color-mix(in srgb,var(--teal) 12%,transparent)}
+.chip.closed{color:var(--gold);background:color-mix(in srgb,var(--gold) 12%,transparent)}
+.chip.na{color:var(--faint);background:color-mix(in srgb,var(--faint) 12%,transparent)}
+.fnote{color:var(--faint);font-size:11.5px;margin-left:6px}
+.datatitle{font-family:var(--mono);font-size:12px;color:var(--moss);margin:0 0 8px;font-weight:600}
+.bars{display:flex;flex-direction:column;gap:4px}
+.barrow{display:grid;grid-template-columns:120px 1fr 62px;align-items:center;gap:8px;font-size:12px}
+.barrow .k{font-family:var(--mono);font-size:11px;color:var(--dim);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barrow .track{height:14px;background:color-mix(in srgb,var(--line) 40%,transparent);border-radius:4px;overflow:hidden}
+.barrow .fill{height:100%;border-radius:4px;background:var(--teal)}
+.barrow .v{font-family:var(--mono);font-size:11px;color:var(--ink);text-align:right}
+.gaps{font-size:13.5px;color:var(--dim);line-height:1.6;background:color-mix(in srgb,var(--rose) 6%,transparent);border-left:3px solid color-mix(in srgb,var(--rose) 55%,transparent);border-radius:0 8px 8px 0;padding:9px 13px;margin:0}
+/* funnels */
+.funnels{max-width:1040px;margin:5vh auto 0;padding:0 22px}
+.sec-h{font-family:var(--serif);font-size:24px;color:var(--moss);font-weight:600;margin:0 0 4px}
+.sec-sub{color:var(--dim);font-size:14.5px;margin:0 0 18px;max-width:46rem}
+.funnel-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:760px){.funnel-grid{grid-template-columns:1fr}}
+.funnel{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:16px 18px}
+.funnel h3{font-family:var(--serif);font-size:17px;margin:0 0 2px;color:var(--ink)}
+.funnel .fsub{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin:0 0 14px;letter-spacing:.02em}
+.fstep{margin-bottom:9px}
+.fstep .fslab{display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px}
+.fstep .fslab .fk{font-weight:600;color:var(--ink)}.fstep .fslab .fv{font-family:var(--mono);color:var(--dim)}
+.fstep .ftrack{height:20px;background:color-mix(in srgb,var(--line) 35%,transparent);border-radius:5px;overflow:hidden}
+.fstep .ffill{height:100%;border-radius:5px}
+.funnel.build .ffill{background:linear-gradient(90deg,var(--teal),color-mix(in srgb,var(--teal) 60%,var(--moss)))}
+.funnel.cart .ffill{background:linear-gradient(90deg,var(--gold),var(--honey))}
+.leaks{margin-top:12px;font-size:12.5px;color:var(--dim);line-height:1.55}
+.leaks .lk{display:flex;gap:7px;margin-bottom:5px}.leaks .lk::before{content:'↳';color:var(--rose);flex:0 0 auto}
+.dist{font-family:var(--mono);font-size:11px;color:var(--faint);border-top:1px dashed var(--line);margin-top:12px;padding-top:9px}
+/* health */
+.health{max-width:1040px;margin:5vh auto 0;padding:0 22px}
+.hcard{border:1px solid color-mix(in srgb,var(--rose) 35%,var(--line));border-radius:12px;background:color-mix(in srgb,var(--rose) 4%,var(--card));padding:20px 22px}
+.hcard .hb{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--rose);border:1px solid color-mix(in srgb,var(--rose) 50%,transparent);border-radius:999px;padding:2px 10px;margin-bottom:10px}
+.hcard p{font-size:14.5px;color:var(--dim);line-height:1.62}.hcard p b{color:var(--ink)}
+.hcard .crt{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:13px 15px;margin-top:12px}
+.hcard .crt .ct{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin:0 0 8px}
+.hcard ul{margin:6px 0 0;padding-left:20px}.hcard li{font-size:13.5px;color:var(--dim);margin-bottom:6px;line-height:1.55}
+.hcard li b{color:var(--ink)}
+.hlist{list-style:none;padding:0;margin:14px 0 0}
+.hlist li{display:flex;gap:9px;font-size:13.5px;color:var(--dim);margin-bottom:8px;line-height:1.5}
+.hlist li .hn{font-family:var(--serif);color:var(--rose);font-size:15px;flex:0 0 auto}
+footer.foot{max-width:52rem;margin:5vh auto 0;padding:0 22px 12vh;font-size:12px;line-height:1.65;color:var(--faint);text-align:center;border-top:1px solid var(--line);padding-top:18px}
+footer.foot a{color:var(--teal)}
+.legend-badges{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;margin:18px auto 0;font-family:var(--mono);font-size:11px;color:var(--dim)}
+.legend-badges span{display:inline-flex;align-items:center;gap:6px}
+.legend-badges i{width:9px;height:9px;border-radius:50%;display:inline-block}
+</style>
+<script>(function(){try{var t=localStorage.getItem("gom-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+</head>
+<body>
+<div class="bar">
+  <a href="/engine.html">&larr; how an idea joins the library</a>
+  <span class="rm">The Shopping Instrument · acquisition schema</span>
+  <a href="/engine/schema.html">the method schema &rarr;</a>
+</div>
+<header class="pg">
+  <p class="kick">The acquisition instrument · the upstream twin of the method schema</p>
+  <h1>How a text joins the corpus</h1>
+  <p class="lede">The <a href="/engine/schema.html">method schema</a> shows what happens to a passage <b>after</b> it is retrieval-ready — the move-grammar, the coding, the gaps. This is its upstream twin: the machinery that gets a wanted text <b>into</b> the corpus and <b>made retrieval-ready</b> — ten stages from an acquisition request through embedding. Click any stage to open its drawer.</p>
+  <div class="legend-badges">
+    <span><i style="background:var(--teal)"></i>Built · run</span>
+    <span><i style="background:var(--honey)"></i>Built · early</span>
+    <span><i style="background:var(--gold)"></i>now in preview · WIP</span>
+    <span><i style="background:var(--rose)"></i>⚠ built · not-yet-firing</span>
+  </div>
+</header>
+
+<div class="ribbon">
+  <div class="zones">
+    <div class="zone"><div class="zone-h"><span class="zt">Inputs</span> — the acquisition request</div><div class="stagerow" id="zone-inputs"></div></div>
+    <div class="zone engines"><div class="zone-h"><span class="zt">Engines</span> — the pipeline<span class="zone-eng-tag">CRADLE · PRISM · FOUNDRY · WORKHORSES</span></div><div class="stagerow" id="zone-engines"></div></div>
+    <div class="zone"><div class="zone-h"><span class="zt">Outputs</span> — retrieval-ready</div><div class="stagerow" id="zone-outputs"></div></div>
+  </div>
+  <div class="meta-band"><b>META (cross-cutting):</b> endpoint-funnel health · the Parity Principle (non-Western archives fire at equal priority) · per-row source-tried / bias-visibility log · CARE tagging (INCLUDE + TAG, never exclude) · dual-store parity. <b>Two funnels below — don't conflate them.</b></div>
+  <p class="stophere">══ embedding is the terminal step · T1–T10 assembly + coding = the <a href="/engine/schema.html">method instrument</a> ══</p>
+</div>
+
+<div class="drawer"><div class="dcard" id="dcard"><p class="dtrans" style="color:var(--faint)">Click a stage above to open its drawer.</p></div></div>
+
+<div class="funnels">
+  <h2 class="sec-h">The two funnels</h2>
+  <p class="sec-sub">One counts <b>archives we can acquire <i>from</i></b>; the other counts <b>sources we are <i>acquiring</i></b>. Their numbers are unrelated — keeping them distinct is the point.</p>
+  <div class="funnel-grid" id="funnels"></div>
+</div>
+
+<div class="health">
+  <h2 class="sec-h">Current health — the honest read</h2>
+  <p class="sec-sub">CRADLE/FOUNDRY is architecturally complete and mostly built, but operationally early. The dominant gap is <b>yield / use</b>, not construction — and a live 3-way clean-room test found the specialized fan doesn't yet fire end-to-end.</p>
+  <div class="hcard" id="health"></div>
+</div>
+
+<footer class="foot" id="foot"></footer>
+
+<script>
+var STAGES=[
+{n:'①',id:'input',zone:'inputs',name:'REQUEST',eng:'shopping_list',badge:'run',
+ t:'A wanted text enters as a shopping_list row. Three input streams funnel to one row shape: the bibliography flywheel (back-matter + index harvesters), keyword/author/title surfaces (DIIS audits, 5-LLM/DR cohort outputs, researcher memory), and direct citation requests ("find me Rumi\'s Masnavi").',
+ inF:[['title text / candidate_identifier','open'],['author hint','open'],['tradition_id_hint','closed'],['target_tier_hint','closed'],['difficulty / era hint','open'],['discovery_signature','open']],
+ outF:[['shopping_list row (shopping_id)','na'],['candidate_url (often pending-resolution://)','open'],['status = pending','closed'],['captured_at','na'],['care_category','closed']],
+ data:{title:'shopping_list — 81,009 rows (S157), by status',bars:[['failed',39953],['unresolvable',21517],['deferred',14510],['fetched',4294],['pending',304],['rejected',200],['superseded',197],['care_pending',34]]},
+ gaps:'The 61,470 failed + unresolvable rows (~76% of the cart) are the honest bias-visibility record — many are non-Western works with no open full-text (§2.8), <b>not a bug</b>, but they need triage (fire-now / defer-with-reason / reject-with-reason). 313 rows have NULL recommended_harvester (never routed).'},
+{n:'②',id:'classify',zone:'engines',name:'CLASSIFY',eng:'CRADLE · A',badge:'run',
+ t:'request → {type, era, language, W/non-W, tradition hint, confidence}. Heuristic first (year < 1929 → pre_1929; script detection → scripture); LLM-classifier fallback on ambiguous cases (Claude Haiku SDK or Ollama, $0).',
+ inF:[['title text','open'],['author hint','open'],['year hint','open'],['tradition_id_hint','closed'],['source-of-input metadata','open']],
+ outF:[['type','closed'],['era_hint','closed'],['language_hint','closed'],['western_or_non_western','closed'],['tradition_id_hint','closed'],['confidence 0.0–1.0','open']],
+ data:{title:'writes to shopping_list.classification_rationale + classification_date',note:'the heavy classified catalogue lives endpoint-side in PRISM (stage ③); per-request classification is lightweight + mostly heuristic.'},
+ gaps:'type and era are inferred, not verified — a mis-classified type sends a request to the wrong cluster ("misrouting"). Confidence values aren\'t audited in aggregate yet.'},
+{n:'③',id:'route',zone:'engines',name:'ROUTE',eng:'CRADLE · B + PRISM',badge:'notfiring',
+ t:'Routing profile → an ordered list of endpoints to try, fanned across one or more of six clusters. The DB-driven router matches the classified cradle_endpoints catalogue by the Parity Principle — geo is never a filter unless the request explicitly narrows it; an UNSET axis never narrows an endpoint away (§2.8). WORKHORSES fire first, then specialized / non-Western archives at equal priority.',
+ inF:[['the ② routing profile','na'],['explicit narrows: geo/language/era/access_scope','closed']],
+ outF:[['ordered [(endpoint, resolver)] chain','na'],['fanned across 6 clusters (BOOK · ACADEMIC · SCRIPTURE · ORAL · LITERARY · MANUSCRIPT)','closed'],['13 PRISM axes as optional filters','closed']],
+ data:{title:'cradle_endpoints — 4,761 rows, by primary_cluster',bars:[['NULL (untagged)',1645],['ACADEMIC',1046],['MANUSCRIPT',835],['ORAL',528],['SCRIPTURE',343],['LITERARY',280],['BOOK',84]]},
+ gaps:'<b>Re-graded ⚠ not-yet-firing (§4 CRT):</b> the live dispatch path bypasses the router entirely — 4 disconnected resolver registries, so the Parity fan is never invoked in production. Routing also ignores keywords (fans to topically-random noise). 1,645 endpoints (35%) have NULL primary_cluster (the tagging tail). Several PRISM axes are sparsely populated, so their filters are effectively no-ops today — visible, not silent.'},
+{n:'④',id:'resolve',zone:'engines',name:'RESOLVE',eng:'CRADLE · C',badge:'notfiring',
+ t:'Walk the routed resolver chain in priority order; polite delay between calls; first match with confidence ≥ 0.5 wins; log every endpoint tried (the per-row source-tried log, §2.8). On a win, candidate_url is rewritten from pending-resolution:// to the fetchable URL and status → url_resolved.',
+ inF:[['the ordered resolver chain','na'],['request title / author / tradition','open']],
+ outF:[['resolved candidate_url','open'],['confidence','open'],['status = url_resolved | unresolvable + reason','closed'],['per-row source-tried log','na']],
+ data:{title:'resolver library: ~190 modules in source_resolvers/ + title_resolver chain',note:'Open Library → Internet Archive → CrossRef → Wikidata SPARQL → Anna\'s Archive (gated). Cart outcomes: 4,294 fetched · 21,517 unresolvable · 39,953 failed.'},
+ gaps:'<b>Re-graded ⚠ not-yet-firing (§4 CRT):</b> for a real query ~86–87% of routed endpoints don\'t instantiate to a callable (~55% point at scaffold molds with no resolve()). Convergent breakages: aodl 404 (zero Ifá/oral path); SciELO ignores the query string; AJOL 403-blocked + 52s/query; author-as-boost → confident-wrong hits. The reference fix that works: DOAJ via DOI-search resolves a real African-scholarship PDF.'},
+{n:'⑤',id:'foundry',zone:'engines',name:'FOUNDRY',eng:'endpoint → harvester',badge:'early',
+ t:'FOUNDRY casts a firing harvester from a catalogued archive using ~8 reusable protocol molds (~70% shared handler + ~30% per-endpoint config). PRISM classifies endpoints; FOUNDRY builds them. This is the layer the ④ resolver chains fire against.',
+ inF:[['a catalogued endpoint row (URL pattern, access_protocol, cluster)','na'],['probe result','na']],
+ outF:[['protocol_template (the mold)','closed'],['resolver_module_path (fireable code)','na'],['status = built','closed'],['field_mappings_json / protocol_config_json','na']],
+ data:{title:'the ~8 protocol molds — "pour many parts from few molds" (tagged, S157)',bars:[['html_scrape',2331],['media_channel',854],['NULL (untagged)',990],['oai_pmh',365],['direct_ingest',113],['rest_json_search',73],['iiif_search',26],['podcast_rss',6],['sparql',2],['cts_xml',1]]},
+ gaps:'Build + health are essentially done (3,341 built / 3,201 healthy) — the architecture is complete. The remaining gap is <b>yield / use</b>: ~1,991 endpoints are built_unused (cast + healthy but never harvested). 990 NULL protocol_template block batch-build. health_status has drifted from live smoke-tests — trust last_run_unix + a fresh smoke, and FOUNDRY must probe access_protocol, not trust the catalogued default.'},
+{n:'⑥',id:'dedup',zone:'engines',name:'DEDUP',eng:'CRADLE · D',badge:'run',
+ t:'Before adding a resolved URL or writing a source, check sources + canonical_sources for an already-ingested URL (both DOI and archive-URL forms). Hit → don\'t re-shop, return the existing canonical_id, log "already-ingested." Miss → continue to the gateway.',
+ inF:[['resolved candidate_url (+ DOI / IA / Wayback variants)','open']],
+ outF:[['dedup verdict: already_ingested + canonical_source_id | novel','closed']],
+ data:{title:'checks against sources (392,742 rows) + canonical_sources',note:'the gateway also dedupes by external_id at write time (⑦) as a second layer — this stopped the historical Met-Museum 18,713-row + Bible 6,095-row drift (§2.7).'},
+ gaps:'URL-variant normalization (DOI vs archive vs Wayback URL for the same work) is heuristic; near-duplicate detection (same work, different edition / translation) is a downstream fidelity concern, not attempted here.'},
+{n:'⑦',id:'gateway',zone:'engines',name:'GATEWAY',eng:'CRADLE · E · IngestionGateway',badge:'run',
+ t:'The single application-layer choke point for sources writes (§2.7 Layer 2). ALL harvesters route through it — no raw INSERT INTO sources. It enforces dedup-by-external_id, provenance discipline, tradition binding, quality-tier marking, CARE tagging, and an architecture-version check.',
+ inF:[['external_id','closed'],['tradition_id','closed'],['text_title','open'],['source_type','closed'],['extraction_provenance (required)','open'],['methodology_notes (required)','open'],['description_author (required)','open'],['data_quality_tier','closed']],
+ outF:[['a validated sources row','na'],['optional canonical_sources row','na'],['shopping_list.status → fetched','closed']],
+ data:{title:'validation layers enforced (the §2.7 defense-in-depth)',listv:['dedup by external_id','provenance discipline (3 fields non-NULL)','quality-tier marking','tradition binding','CARE tagging → documentation pathway (INCLUDE+TAG, §2.11)','architecture-version check','schema-presence precheck (SB-127.F)']},
+ gaps:'All 392,742 sources rows are gateway-shaped. Known v0.3 wart: care_tk_protocol conflates "which protocol" + "consent state" in one field (documented, deferred). Legacy harvesters may declare old arch versions; multi-tradition mappings route to source_tradition_relevance, only partially populated.'},
+{n:'⑧',id:'store',zone:'outputs',name:'STORE',eng:'sources (dual-store)',badge:'run',
+ t:'The validated row lands in sources. Per Decision 144/147 (W18 cutover), Neon (Postgres) is authoritative and SQLite is a retained safety-net; migrations apply to both via apply_migration.py --neon-also with a post-apply parity check (§2.13 single store of record).',
+ inF:[['the gateway-validated source row','na']],
+ outF:[['sources row: source_id, provenance fields','na'],['current_fidelity (F1–F7)','closed'],['significance_tier / r_tier','closed'],['tradition_id','closed']],
+ data:{title:'sources — 392,742 rows (S157), by current_fidelity',bars:[['F1 (highest)',133468],['F4',122504],['F6',40034],['F7 (lowest)',35602],['F5',19625],['F2',15695],['F3',1080],['NULL (un-tiered)',23903]]},
+ gaps:'23,903 sources have NULL current_fidelity; the fidelity-upgrade dispatcher (23,941 cart rows target the F4–F7 backlog) is the mechanism that lifts low-fidelity rows, and is under-drained.'},
+{n:'⑨',id:'chunk',zone:'outputs',name:'CHUNK',eng:'Stage 4 · native divisions',badge:'run',
+ t:'Split a source into L4 passages at its own native divisions (verse, pericope, paragraph, stanza) — never token/char windows. A passage is a container (the source\'s own division), not a move (that\'s the method side). Five chunker principles (§2.2): native divisions · preserve hierarchy + adjacency · err toward under-chunking · carry provenance + Sitz · flag boundary provenance + confidence.',
+ inF:[['a sources row\'s text','na'],['detected structural type','closed']],
+ outF:[['passages at level=4 (passage_text, trigger-enforced non-empty)','na'],['parent_passage_id / lineage_path / chunk_index','na'],['chunk_method (boundary-provenance proxy)','closed'],['tei_div_type','closed']],
+ data:{title:'passages — 12,820,517 total; 12,790,489 at L4 (S157), by chunk_method',bars:[['paragraph_anchor_l4',11691576],['numbered_paragraphs_l4',758359],['interleaved_commentary_l4',107249],['verse_anchor',78500],['numbered_sections_l4',78368],['tanakh_backfill_l4',23204],['nt_backfill_l4',6379],['quran_hierarchy',6201]]},
+ gaps:'Chunking is decoupled from Stage 6 coding (§2.2 container-vs-move lock) — it re-fires on the five principles independently (coding is at 0). The 4-value boundary-provenance taxonomy + confidence field is a future refinement. Under-chunked mega-blobs exist: 5,957 passages queued for re-chunk because they exceed the embed window.'},
+{n:'⑩',id:'embed',zone:'outputs',name:'EMBED',eng:'bge-m3 → FAISS + pgvector',badge:'run',
+ t:'Embed the retrieval-scoped passage subset with bge-m3 (1024-dim, normalized), append float32 vectors, record faiss_id ↔ passage_id in a sidecar, build a FAISS IVF-PQ index; Neon pgvector mirrors for server-side retrieval. This is the terminal acquisition step — output is retrieval-ready; T1–T10 coding begins downstream.',
+ inF:[['L4 passages in the embeddable subset (passage_text, char_count)','na']],
+ outF:[['a vector in bge_m3_vectors.f32','na'],['sidecar map row (faiss_id, passage_id, embed_truncated)','na'],['FAISS index membership + pgvector row on Neon','na']],
+ data:{title:'two coexisting indexes (grep BROADLY — reference_semantic_index_location)',bars:[['nomic v1 (earlier broad)',2364167],['BGE-M3 v2 (production)',246252]],note:'Length-band policy: ≤24k chars embed clean · 24k–100k embed + flag truncated · >100k SKIP + queue re-chunk. BGE-M3 v2 is scope-bounded (Decision 103) to the coding-relevant subset — 246K of 12.8M L4 — not the whole corpus; 5,957 await re-chunk.'},
+ gaps:'BGE-M3 covers a scope-bounded 246K of 12.8M L4 passages (Decision 103 — retrieval is scoped, by design). The nomic v1 and BGE-M3 v2 indexes are different generations; retrieval targets BGE-M3 v2.'}
+];
+
+var BADGE_LABEL={run:'Built · run',early:'Built · early',wip:'now in preview · WIP',notfiring:'⚠ built · not-yet-firing'};
+var esc=function(s){return String(s==null?'':s).replace(/&(?!\w+;)/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');};
+var fmt=function(n){return n.toLocaleString('en-US');};
+
+// render ribbon
+function stageChip(s){
+  return '<button class="stage" data-id="'+s.id+'"><span class="num">'+s.n+'</span><span class="lab"><span class="nm">'+esc(s.name)+'</span><span class="eng">'+esc(s.eng)+'</span></span><span class="b '+s.badge+'" title="'+BADGE_LABEL[s.badge]+'"></span></button>';
+}
+function fillZone(zid,zone){
+  var el=document.getElementById(zid), items=STAGES.filter(function(s){return s.zone===zone;});
+  el.innerHTML=items.map(function(s,i){return stageChip(s)+(i<items.length-1?'<span class="arrow">&rarr;</span>':'');}).join('');
+}
+fillZone('zone-inputs','inputs'); fillZone('zone-engines','engines'); fillZone('zone-outputs','outputs');
+
+function fieldRows(list){
+  return list.map(function(f){
+    var chip=f[1]==='open'?'<span class="chip open">open</span>':(f[1]==='closed'?'<span class="chip closed">closed</span>':'<span class="chip na">—</span>');
+    return '<div class="frow"><span class="fn">'+esc(f[0])+'</span>'+chip+'</div>';
+  }).join('');
+}
+function dataBlock(d){
+  var h='<p class="datatitle">'+esc(d.title)+'</p>';
+  if(d.bars){
+    var max=Math.max.apply(null,d.bars.map(function(b){return b[1];}));
+    h+='<div class="bars">'+d.bars.map(function(b){
+      var pct=Math.max(1.5,b[1]/max*100);
+      return '<div class="barrow"><span class="k" title="'+esc(b[0])+'">'+esc(b[0])+'</span><span class="track"><span class="fill" style="width:'+pct.toFixed(1)+'%"></span></span><span class="v">'+fmt(b[1])+'</span></div>';
+    }).join('')+'</div>';
+  }
+  if(d.listv){h+='<div class="bars">'+d.listv.map(function(x){return '<div class="frow"><span class="fn">✓ '+esc(x)+'</span></div>';}).join('')+'</div>';}
+  if(d.note){h+='<p class="fnote" style="margin:8px 0 0;display:block">'+d.note+'</p>';}
+  return h;
+}
+function openStage(id){
+  var s=STAGES.find(function(x){return x.id===id;}); if(!s)return;
+  [].forEach.call(document.querySelectorAll('.stage'),function(b){b.classList.toggle('active',b.getAttribute('data-id')===id);});
+  document.getElementById('dcard').innerHTML=
+    '<div class="dh"><span class="dnum">'+s.n+'</span><span class="dnm">'+esc(s.name)+'</span><span class="deng">'+esc(s.eng)+'</span><span class="badge '+s.badge+'" style="margin-left:auto">'+BADGE_LABEL[s.badge]+'</span></div>'
+    +'<div class="dsect"><h4>Transformation</h4><p class="dtrans">'+esc(s.t)+'</p></div>'
+    +'<div class="dsect"><div class="iocols"><div><h4>Input fields</h4>'+fieldRows(s.inF)+'</div><div><h4>Output fields</h4>'+fieldRows(s.outF)+'</div></div></div>'
+    +'<div class="dsect"><h4>Data</h4>'+dataBlock(s.data)+'</div>'
+    +'<div class="dsect"><h4>Known gaps</h4><p class="gaps">'+s.gaps+'</p></div>';
+  document.getElementById('dcard').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+[].forEach.call(document.querySelectorAll('.stage'),function(b){b.addEventListener('click',function(){openStage(b.getAttribute('data-id'));});});
+
+// funnels
+var FUNNELS=[
+ {cls:'build',h:'Endpoint-BUILD funnel · FOUNDRY',sub:'how an ARCHIVE travels catalogued → active · cradle_endpoints',
+  steps:[['catalogued',4761,100],['tagged (protocol_template)',3771,79],['built',3341,70],['ever-run',3286,69],['yielding',134,3]],
+  leaks:['tagging tail: 990 NULL protocol_template can\'t batch-build','the real cliff: ~1,991 built_unused — healthy, never harvested a source'],
+  dist:'"what we\'re able to acquire FROM"'},
+ {cls:'cart',h:'Cart-DRAIN funnel',sub:'how a WANTED SOURCE travels surfaced → fetched · shopping_list',
+  steps:[['surfaced (total)',81009,100],['fetched',4294,5]],
+  leaks:['39,953 failed + 21,517 unresolvable = the honest bias-visibility record (§2.8) — mostly no-open-full-text, NOT waste'],
+  dist:'"what we\'re acquiring"'}
+];
+document.getElementById('funnels').innerHTML=FUNNELS.map(function(f){
+  var steps=f.steps.map(function(s){return '<div class="fstep"><div class="fslab"><span class="fk">'+esc(s[0])+'</span><span class="fv">'+fmt(s[1])+' · '+s[2]+'%</span></div><div class="ftrack"><span class="ffill" style="width:'+Math.max(3,s[2])+'%"></span></div></div>';}).join('');
+  var leaks='<div class="leaks">'+f.leaks.map(function(l){return '<div class="lk">'+esc(l)+'</div>';}).join('')+'</div>';
+  return '<div class="funnel '+f.cls+'"><h3>'+esc(f.h)+'</h3><p class="fsub">'+esc(f.sub)+'</p>'+steps+leaks+'<div class="dist">'+esc(f.dist)+'</div></div>';
+}).join('');
+
+// health / CRT
+document.getElementById('health').innerHTML=
+ '<span class="hb">⚠ ROUTE + RESOLVE — built · not-yet-firing</span>'
+ +'<p>Build + health are essentially done (3,341 built / 3,201 healthy from 3 archetype molds), and the §2.8 geo-coverage constraint is resolved — all nine geos (GLOBAL · EUROPE · EAST_ASIA · LATAM · NORTH_AMERICA · MENA · SOUTH_ASIA · AFRICA · OCEANIA) are present in the healthy pool. <b>But "built ≈ done" is the wrong frame:</b> the funnel\'s real cliff is loadability + yield, not construction.</p>'
+ +'<div class="crt"><p class="ct">Live 3-CRT endpoint diagnostic (S157) — three independent clean-room testers, same brief, no contact</p>'
+ +'<ul>'
+ +'<li><b>The workhorse first pass is solid; the specialized non-Western / Parity fan is non-functional end-to-end.</b> Every non-Western target that resolved did so via a workhorse (CrossRef / OpenAlex / IA / Gutenberg) — the Anglophone default the build exists to reach <i>past</i>.</li>'
+ +'<li><b>health_status is confirmed stale:</b> 3,201 marked healthy, but for a real query ~86–87% of routed endpoints don\'t instantiate to a callable; ~55% point at scaffold molds with no resolve().</li>'
+ +'<li><b>★ The structural finding:</b> the live dispatch path bypasses the router entirely — 4 disconnected resolver registries, so the Parity fan is never invoked in production. Even a perfectly-built pool wouldn\'t be reached by the live path.</li>'
+ +'<li><b>The reference fix that works:</b> DOAJ resolves via DOI-search (not OAI-harvest) → a real downloadable African-scholarship PDF — the pattern for the whole OAI-journal tier.</li>'
+ +'</ul></div>'
+ +'<ul class="hlist">'
+ +'<li><span class="hn">1</span><span><b>~1,991 built_unused endpoints</b> — cast + healthy but never harvested. The W12 fan-out harvest is the built→yielding mechanism; fired on only a handful of seeds.</span></li>'
+ +'<li><span class="hn">2</span><span><b>990 NULL protocol_template + 1,645 NULL primary_cluster</b> — the tagging tail; blocks batch-build + routing until backfilled.</span></li>'
+ +'<li><span class="hn">3</span><span><b>Cart drain is thin</b> — 4,294 fetched of 81,009 (≈5%); the 61,470 failed/unresolvable are the honest §2.8 record needing §2.9 triage, not all "bugs."</span></li>'
+ +'<li><span class="hn">4</span><span><b>Fidelity backlog</b> — 23,903 NULL-fidelity sources; the fidelity-upgrade dispatcher is under-drained.</span></li>'
+ +'<li><span class="hn">5</span><span><b>Embedding scope</b> — BGE-M3 v2 covers 246K of 12.8M L4 (scope-bounded, Decision 103); 5,957 passages await re-chunk before embed.</span></li>'
+ +'</ul>'
+ +'<p style="margin-top:14px;font-size:13px;color:var(--faint)">A fix-SB is working the ranked repair queue (S157). Endpoint-discovery is held until the catalogued pool actually fires — the base is right; the work is repair, not more archives.</p>';
+
+document.getElementById('foot').innerHTML='The acquisition instrument · the upstream twin of the <a href="/engine/schema.html">method schema</a>. Ten stages: request → classify → route → resolve → FOUNDRY → dedup → gateway → store → chunk → embed — stopping before T1–T10 assembly + coding. All counts are live data/project.db · data/embeddings.db · data/semantic_index/ queries (S157); the DB is ground truth. &nbsp;·&nbsp; <a href="/engine.html">how an idea joins the library</a> &nbsp;·&nbsp; <a href="/engine/how-we-test.html">how we test this</a>';
+
+// open the first stage by default
+openStage('input');
+</script>
+</body>
+</html>
