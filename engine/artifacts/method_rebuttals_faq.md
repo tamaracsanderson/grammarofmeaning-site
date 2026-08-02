@@ -1,45 +1,3 @@
-<!--
-═══════════════════════════════════════════════════════════════════════════════
-RENDERER NOTE FOR DESIGN-SB — this rework changes the document STRUCTURE, so the
-current renderer (grammarofmeaning-site/engine/rebuttals.html) will need updating
-before this file can go live. What the renderer must now handle:
-
-  1. THEMED SECTIONS. Questions used to be flat, headed `## R\d · "objection"`.
-     They are now grouped under seven THEME headers (`## Theme name`), each with a
-     one-line italic intro, and each question is a `### ` sub-heading. The parser
-     that does `mainMd.split(/\n##\s+(?=R\d)/)` must change to: walk `## ` theme
-     sections, then split each on `### ` for the question units.
-
-  2. QUESTION IDs NOW INCLUDE S-CODES. Entries are `### R4 · question?` (the 16
-     originals, R1–R16, IDs preserved for traceability) AND `### S1 · question?`
-     (seven NEW schema questions, S1–S7). The current `(head.match(/^R\d+/))`
-     regex must widen to `/^[RS]\d+/` or it will drop every S-entry.
-
-  3. MARKDOWN LINKS IN EVIDENCE + TESTS QUEUE. Evidence used to be raw path
-     strings; every citation is now a real Markdown link `[label](path)`. The
-     renderer already runs `marked.parse`, so links will render — BUT the Evidence
-     hrefs point at twelve-laws REPO paths (research/00_irr/…, pm/50_audits/…) that
-     are NOT deployed to the site. Design-SB must decide the final href target:
-     (a) point at a repo browser, (b) host the audit docs, or (c) keep the readable
-     label and drop the href. Site-relative links (research-gap-smallville.html)
-     already resolve.
-
-  4. STATUS + EVIDENCE ARE NOW SINGLE CONSISTENT LABELS. The old parser looked for
-     `**Response.**`, `**Status.**`, `**Evidence.**`. There is no more `**Response.**`
-     label — the answer prose simply follows the question heading. Each entry ends
-     with exactly one `**Status —**` line and one `**Evidence —**` line. Update the
-     three body regexes (resp/status/evid) accordingly; the answer is
-     "everything between the heading and the `**Status —**` line."
-
-  5. COHORT-STRENGTH TAGS MOVED OUT OF THE HEADING. Strength markers (e.g.
-     "IRR224 5/5 U2", "3-agent CRT 3/3 #1") used to live in the `## R\d ·` heading;
-     they now live in the answer prose. If the renderer scraped them from the
-     heading, it must read them from the body (or ignore them).
-
-  The section names `# How to read this` and `# TESTS QUEUE` are UNCHANGED (still
-  H1) so those two anchors survive.
-═══════════════════════════════════════════════════════════════════════════════
--->
 ---
 title: "Method FAQ — the hard questions about the instrument, our answers, and the test behind each"
 date: 2026-08-01
@@ -152,12 +110,12 @@ The axes are **empirically graduated**, not asserted. A proposed new axis has to
 **Status —** ANSWERED (a run) — with an honest corpus caveat.
 **Evidence —** the Frame drawer in the [engine schema](https://grammarofmeaning.org/engine/schema.html) · the axis-graduation method (recurrence / orthogonality / coherence gates) · project invariant §2.8 (bias-visibility, the n=14 caveat).
 
-### S4 · Your Frame stage says "eight frame axes" but then names only seven letters, and notes that three axis letters don't even match their own names. Which is it — seven or eight? And doesn't a live naming drift undercut "the axes are earned"?
+### S4 · Are the eight Frame axes stable, or is the naming still in flux? Doesn't live naming drift undercut "the axes are earned"?
 
-You are reading the schema honestly, and yes, there is a documented inconsistency: the field description says *eight* axes, enumerates *seven* letter-codes (E / O / I / T / S1 / S2 / G), and flags that three of those letters are mid-migration to new names (for example, ground-world-relation → relational-topology). This is housekeeping debt — an un-migrated rename tracked as a lock item — not a claim about which axes are valid. The graduation argument in R16 is about *whether* a dimension earns its place; this is about *what we've finished calling* the dimensions we kept. It is a fair ding on the schema's polish, and it is exactly the kind of drift the instrument's own reflexive scan is meant to surface. It should be reconciled before defense so the count and the labels stop contradicting each other on the page.
+The eight axes are stable and DB-verified — every one of the 911 coded reads is placed on them: epistemic-warrant · evaluative-stance · hermeneutic-posture · inferential-operation · ontological-commitment · r_condition · r_topology · telos. There *was* a display-layer housekeeping drift, and it is worth telling honestly because the instrument caught it itself: the schema page briefly carried legacy letter-codes (E / O / I / T / …) alongside the full names, with a couple of labels mid-migration — most substantively `ground-world-relation`, which was *split* into two axes (`r_topology` + `r_condition`) once the coded data showed it was asking two different questions. That was label debt — what we had finished *calling* the dimensions we kept — never a claim about which axes are valid. It has since been reconciled: the page now enumerates the eight full names and the letter-codes are dropped. The graduation argument in R16 is about *whether* a dimension earns its place; this was about *naming* the dimensions we kept. Naming drift on a live research schema is ordinary; surfacing it via the reflexive scan and fixing it is the method working, not failing.
 
-**Status —** OPEN (housekeeping). A naming/migration debt, self-flagged in the schema; it does not touch axis validity (R16).
-**Evidence —** the `axis_name` field description in the [engine schema](https://grammarofmeaning.org/engine/schema.html) (the self-flagged seven-vs-eight and letter-mismatch note).
+**Status —** ANSWERED (was OPEN housekeeping) — the display drift is reconciled on the page; axis validity was never in question (R16). The full letter-code → name correspondence is a low-priority follow-up.
+**Evidence —** the eight axis names as coded across 911 reads in `atlas_frame_read_placement`; the [engine schema](https://grammarofmeaning.org/engine/schema.html) now enumerates them consistently.
 
 ---
 
@@ -179,12 +137,12 @@ We agree, and we do not want to conflate the two. A well-formed but wrong coding
 **Status —** OPEN. Acknowledged squarely; the human gold-anchor, the error-correlation discount, and the exposed grammar-to-prompt mapping are named fixes, none yet built.
 **Evidence —** [IRR224 reconciliation — M1, 3/5, plus the human-anchor proposal](research/00_irr/irr224_reflexive_method_freeform_review_reconciliation_2026-07-29.md) · [3-agent CRT synthesis — #8, human-anchored independence-aware reliability](pm/50_audits/CRT_3agent_method_review_synthesis_2026-07-29.md). Cross-ref R1. Relates to [TESTS QUEUE #2](#tests-queue) and [#10](#tests-queue) (the ledger carries the human anchor).
 
-### S3 · Several schema fields are declared but never filled — year_estimate is always NULL, cohort_support and retraction_note are 0 of 306 rows, closure_type is populated for one text only. Is the published schema partly aspirational — structure you show but don't compute?
+### S3 · Several schema fields look empty — year_estimate blank on most sources, closure_type on one text, cohort_support and retraction_note 0 of 306 rows. Is the published schema partly aspirational — structure you show but don't compute?
 
-Yes, in places, and the schema says so on its own face — those fields carry ⚠ / caveat markers rather than pretending to be live. The honest picture: `year_estimate` stays NULL because the model response has no field to catch an estimated date, so it's discarded; `cohort_support` and `retraction_note` on moves have no writer yet (0 of 306); `closure_type` is populated for one text (SLY-1963) and NULL everywhere else. This is disclosed, not hidden — but it does mean the published schema currently overstates what is *computed* versus what is *scaffolded*. The right reading is that the schema is the target shape and the caveats are the honest delta; a defense-grade version should either wire these fields or visibly demote them, so a reader can't mistake a declared column for a filled one. This is the same discipline as R12: traceability includes being explicit about what the trail does *not* yet contain.
+Partly — but we checked the database before answering (rather than assume a bug), and the honest picture is **seed-scoped, not unwritten**: most of these fields ARE computed engine outputs, present only for the seed set the engine has run on, not the whole corpus. Specifically — `year_estimate` is not always-NULL: it's an **Engine-0 grounding estimate** (it lives in `source_grounding`), populated with real values (−430 BCE … 85 CE) for the ~17 sources Engine-0 has grounded, and blank on the rest; the *general* per-source chronology is a different column (`date_numeric`), so an era display should read from there. `closure_type` **is** one-text-scoped: the Engine-1b closure/seer taxonomy ran on the Romans-KJV exemplar (2,399 rows) and nowhere else yet. `cohort_support` and `retraction_note` on moves genuinely have no writer yet (0 of 306) — those are the truly declared-but-unwritten ones. So the honest delta is **seed-scoped vs corpus-wide**, plus two unwritten fields — and the fix is a labeling one ("engine-seed-scoped, present for N sources") plus a heavier decision to re-run those engine passes corpus-wide. This is the same discipline as R12: traceability includes being explicit about what the trail does and does *not* yet cover.
 
-**Status —** PARTIAL — honest self-disclosure. Some fields are declared-but-unwritten and marked as such; wiring-or-demoting them is owed before defense.
-**Evidence —** the ⚠ / caveat annotations on `year_estimate`, `cohort_support`, `retraction_note`, `closure_type` in the [engine schema](https://grammarofmeaning.org/engine/schema.html) · project invariant §2.13 (single store of record).
+**Status —** PARTIAL — most are real engine outputs, seed-scoped (not corpus-wide); two (`cohort_support`, `retraction_note`) are genuinely unwritten. The schema should label scope honestly rather than imply corpus-wide, and generalizing the seed-scoped passes is a PI-gated backfill.
+**Evidence —** the DB root-cause (Engine-0 grounding for `year_estimate`; Engine-1b closure for `closure_type`; the general chronology in `date_numeric`) in [the schema-field-gap audit](pm/50_audits/schema_field_gap_year_estimate_closure_type_s157_2026-07-31.md) · the [engine schema](https://grammarofmeaning.org/engine/schema.html) · §2.13 (single store of record).
 
 ### S6 · The schema says each of the six recompositions (Fan, Resituation, Gloss, Reception, Comparison, Constellation) "changes what it means." How do you know a recomposition is a valid reading of the text and not a plausible hypothetical the text can't actually support?
 
