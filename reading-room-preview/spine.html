@@ -25,6 +25,12 @@ h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:cla
 .legend{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:20px auto 0;font-family:var(--sans);font-size:12.5px;color:var(--ink-2)}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .legend i{width:16px;height:3px;border-radius:2px;display:inline-block}
+.kindkey{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:10px auto 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.kindkey b{font-weight:500}.kindkey .k-spine{color:var(--moss)}.kindkey .k-fork{color:var(--gold)}.kindkey .k-part{color:var(--terracotta)}
+.provwrap{display:flex;justify-content:center;margin:14px auto 0}
+.prov-badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;padding:3px 9px;border-radius:999px;border:1px solid var(--rule)}
+.prov-badge.prov-grounded{color:var(--fern);border-color:color-mix(in srgb,var(--fern) 45%,transparent);background:color-mix(in srgb,var(--fern) 8%,transparent)}
+.prov-badge.prov-draft{color:var(--terracotta);border-color:color-mix(in srgb,var(--terracotta) 45%,transparent);background:color-mix(in srgb,var(--terracotta) 8%,transparent)}
 /* layout */
 .layout{display:flex;gap:clamp(20px,3vw,44px);max-width:70rem;margin:2vh auto 0;padding:0 22px 16vh;align-items:flex-start}
 .river{flex:1 1 auto;min-width:0}
@@ -32,7 +38,6 @@ h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:cla
 text.bt{font-family:var(--sans);font-size:13px;fill:var(--ink);cursor:pointer}
 text.bk{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase}
 .k-spine{fill:var(--moss)} .k-fork{fill:var(--gold)} .k-part{fill:var(--terracotta)}
-.hit:hover + *{}
 svg .bt.active{fill:var(--moss);font-weight:600}
 /* detail rail */
 .detail{flex:0 0 300px;position:sticky;top:64px;align-self:flex-start;border:1px solid var(--rule);border-radius:12px;background:var(--paper-3);padding:18px;box-shadow:0 14px 30px -24px rgba(36,48,42,.3)}
@@ -58,45 +63,165 @@ footer.foot a{color:var(--fern);text-decoration:none}
 </div>
 <header class="pg">
   <p class="kick">The Gospels · the convergence map</p>
-  <h1 class="title">Where the four braid, and where they part</h1>
-  <p class="lede">Twenty shared beats, top to bottom. The four strands run together where all agree — the spine — and bow out where a voice goes its own way. Read down the spine; click any beat to see who is in, who parts, and why.</p>
-  <div class="legend">
-    <span><i style="background:#B8924A"></i>Matthew</span><span><i style="background:#C4602F"></i>Mark</span>
-    <span><i style="background:#3F7D57"></i>Luke</span><span><i style="background:#2C4A38"></i>John</span>
+  <h1 class="title" id="braid-title">Where the four braid, and where they part</h1>
+  <p class="lede" id="braid-lede">Twenty shared beats, top to bottom. The four strands run together where all agree — the spine — and bow out where a voice goes its own way. Read down the spine; click any beat to see who is in, who parts, and why.</p>
+  <div class="legend" id="braid-legend"></div>
+  <div class="kindkey">
+    <span><b class="k-spine">● spine</b> — all carry</span>
+    <span><b class="k-fork">● fork</b> — one parts</span>
+    <span><b class="k-part">● part</b> — the four split</span>
   </div>
+  <!-- provenance render-contract: the spine is the real coded shared-beat scan (BRAID-RESURRECTION, in coded_ledger) -->
+  <div class="provwrap" data-prov-source="BRAID-RESURRECTION" data-prov-need="gaps"><span data-prov-slot></span></div>
 </header>
 <div class="layout">
-  <div class="river"><div class="riverwrap"><svg viewBox="0 0 820 1460" width="100%" xmlns="http://www.w3.org/2000/svg" id="riversvg" role="img" aria-label="Convergence map: four gospel strands braiding and parting across 20 shared beats"><line x1="150" y1="30" x2="150" y2="1450" stroke="#C9BE9F" stroke-width="1" stroke-dasharray="2 4"/><path d="M 126 30 L 126 75 C 126 110.0 126 110.0 126 145 C 126 180.0 40 180.0 40 215 C 40 250.0 126 250.0 126 285 C 126 320.0 126 320.0 126 355 C 126 390.0 126 390.0 126 425 C 126 460.0 126 460.0 126 495 C 126 530.0 126 530.0 126 565 C 126 600.0 126 600.0 126 635 C 126 670.0 126 670.0 126 705 C 126 740.0 126 740.0 126 775 C 126 810.0 126 810.0 126 845 C 126 880.0 126 880.0 126 915 C 126 950.0 126 950.0 126 985 C 126 1020.0 126 1020.0 126 1055 C 126 1090.0 40 1090.0 40 1125 C 40 1160.0 126 1160.0 126 1195 C 126 1230.0 40 1230.0 40 1265 C 40 1300.0 40 1300.0 40 1335 C 40 1370.0 40 1370.0 40 1405 L 40 1450" fill="none" stroke="#B8924A" stroke-width="3.2" stroke-linecap="round" opacity="0.85"><title>Matthew</title></path><path d="M 142 30 L 142 75 C 142 110.0 142 110.0 142 145 C 142 180.0 142 180.0 142 215 C 142 250.0 142 250.0 142 285 C 142 320.0 142 320.0 142 355 C 142 390.0 142 390.0 142 425 C 142 460.0 142 460.0 142 495 C 142 530.0 142 530.0 142 565 C 142 600.0 142 600.0 142 635 C 142 670.0 142 670.0 142 705 C 142 740.0 142 740.0 142 775 C 142 810.0 142 810.0 142 845 C 142 880.0 142 880.0 142 915 C 142 950.0 142 950.0 142 985 C 142 1020.0 142 1020.0 142 1055 C 142 1090.0 142 1090.0 142 1125 C 142 1160.0 142 1160.0 142 1195 C 142 1230.0 78 1230.0 78 1265 C 78 1300.0 78 1300.0 78 1335 C 78 1370.0 142 1370.0 142 1405 L 142 1450" fill="none" stroke="#C4602F" stroke-width="3.2" stroke-linecap="round" opacity="0.85"><title>Mark</title></path><path d="M 158 30 L 158 75 C 158 110.0 158 110.0 158 145 C 158 180.0 158 180.0 158 215 C 158 250.0 158 250.0 158 285 C 158 320.0 158 320.0 158 355 C 158 390.0 158 390.0 158 425 C 158 460.0 158 460.0 158 495 C 158 530.0 158 530.0 158 565 C 158 600.0 158 600.0 158 635 C 158 670.0 158 670.0 158 705 C 158 740.0 158 740.0 158 775 C 158 810.0 158 810.0 158 845 C 158 880.0 158 880.0 158 915 C 158 950.0 158 950.0 158 985 C 158 1020.0 158 1020.0 158 1055 C 158 1090.0 158 1090.0 158 1125 C 158 1160.0 222 1160.0 222 1195 C 222 1230.0 158 1230.0 158 1265 C 158 1300.0 158 1300.0 158 1335 C 158 1370.0 158 1370.0 158 1405 L 158 1450" fill="none" stroke="#3F7D57" stroke-width="3.2" stroke-linecap="round" opacity="0.85"><title>Luke</title></path><path d="M 174 30 L 174 75 C 174 110.0 174 110.0 174 145 C 174 180.0 174 180.0 174 215 C 174 250.0 174 250.0 174 285 C 174 320.0 174 320.0 174 355 C 174 390.0 174 390.0 174 425 C 174 460.0 174 460.0 174 495 C 174 530.0 174 530.0 174 565 C 174 600.0 260 600.0 260 635 C 260 670.0 260 670.0 260 705 C 260 740.0 260 740.0 260 775 C 260 810.0 174 810.0 174 845 C 174 880.0 260 880.0 260 915 C 260 950.0 174 950.0 174 985 C 174 1020.0 174 1020.0 174 1055 C 174 1090.0 174 1090.0 174 1125 C 174 1160.0 260 1160.0 260 1195 C 260 1230.0 174 1230.0 174 1265 C 174 1300.0 174 1300.0 174 1335 C 174 1370.0 260 1370.0 260 1405 L 260 1450" fill="none" stroke="#2C4A38" stroke-width="3.2" stroke-linecap="round" opacity="0.85"><title>John</title></path><circle cx="150" cy="75" r="7" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="1"/><circle cx="150" cy="145" r="7" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="2"/><circle cx="150" cy="215" r="5" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="3"/><circle cx="150" cy="285" r="7" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="4"/><circle cx="150" cy="355" r="7" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="5"/><circle cx="150" cy="425" r="7" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="6"/><circle cx="150" cy="495" r="7" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="7"/><circle cx="150" cy="565" r="7" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="8"/><circle cx="150" cy="635" r="5" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="9"/><circle cx="150" cy="705" r="5" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="10"/><circle cx="150" cy="775" r="5" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="11"/><circle cx="150" cy="845" r="7" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="12"/><circle cx="150" cy="915" r="5" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="13"/><circle cx="150" cy="985" r="7" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="14"/><circle cx="150" cy="1055" r="7" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="15"/><circle cx="150" cy="1125" r="5" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="16"/><circle cx="150" cy="1195" r="4" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="17"/><circle cx="150" cy="1265" r="4" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="18"/><circle cx="150" cy="1335" r="4" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="19"/><circle cx="150" cy="1405" r="4" fill="#FCFBF7" stroke="#2C4A38" stroke-width="2" data-beat="20"/><text x="290" y="71" class="bt" data-beat="1">1. female follower(s) travel to the tomb early on…</text><text x="290" y="88" class="bk k-spine">4/4 · spine</text><text x="290" y="141" class="bt" data-beat="2">2. the sealing stone is found/made displaced from…</text><text x="290" y="158" class="bk k-spine">4/4 · spine</text><text x="290" y="211" class="bt" data-beat="3">3. the women/witness(es) enter or peer into the t…</text><text x="290" y="228" class="bk k-fork">3/4 · fork</text><text x="290" y="281" class="bt" data-beat="4">4. the body of Jesus is discovered absent from it…</text><text x="290" y="298" class="bk k-spine">4/4 · spine</text><text x="290" y="351" class="bt" data-beat="5">5. one or more numinous figures (angel/young man/…</text><text x="290" y="368" class="bk k-spine">4/4 · spine</text><text x="290" y="421" class="bt" data-beat="6">6. the numinous figure(s) are visually marked by …</text><text x="290" y="438" class="bk k-spine">4/4 · spine</text><text x="290" y="491" class="bt" data-beat="7">7. the witnesses react with fear, dread, or bewil…</text><text x="290" y="508" class="bk k-spine">4/4 · spine</text><text x="290" y="561" class="bt" data-beat="8">8. the figure(s) address the witnesses with a spe…</text><text x="290" y="578" class="bk k-spine">4/4 · spine</text><text x="290" y="631" class="bt" data-beat="9">9. the sought one is identified as the crucified …</text><text x="290" y="648" class="bk k-fork">3/4 · fork</text><text x="290" y="701" class="bt" data-beat="10">10. his absence from the tomb is explicitly declar…</text><text x="290" y="718" class="bk k-fork">3/4 · fork</text><text x="290" y="771" class="bt" data-beat="11">11. his resurrected/raised status is announced (ty…</text><text x="290" y="788" class="bk k-fork">3/4 · fork</text><text x="290" y="841" class="bt" data-beat="12">12. the witnesses are invited to view/verify the v…</text><text x="290" y="858" class="bk k-spine">4/4 · spine</text><text x="290" y="911" class="bt" data-beat="13">13. a prior word of Jesus is invoked to frame what…</text><text x="290" y="928" class="bk k-fork">3/4 · fork</text><text x="290" y="981" class="bt" data-beat="14">14. the witnesses depart from the tomb</text><text x="290" y="998" class="bk k-spine">4/4 · spine</text><text x="290" y="1051" class="bt" data-beat="15">15. the witnesses are commissioned/moved to report…</text><text x="290" y="1068" class="bk k-spine">4/4 · spine</text><text x="290" y="1121" class="bt" data-beat="16">16. the announcement is (or is to be) carried to P…</text><text x="290" y="1138" class="bk k-fork">3/4 · fork</text><text x="290" y="1191" class="bt" data-beat="17">17. a promise of future seeing/reunion with the ri…</text><text x="290" y="1208" class="bk k-part">2/4 · part</text><text x="290" y="1261" class="bt" data-beat="18">18. male disciple(s) go to the tomb to verify the …</text><text x="290" y="1278" class="bk k-part">2/4 · part</text><text x="290" y="1331" class="bt" data-beat="19">19. the linen burial cloths are seen lying in the …</text><text x="290" y="1348" class="bk k-part">2/4 · part</text><text x="290" y="1401" class="bt" data-beat="20">20. a closing cognitive/affective state is left un…</text><text x="290" y="1418" class="bk k-part">2/4 · part</text><rect x="0" y="40" width="820" height="70" fill="transparent" class="hit" data-beat="1" style="cursor:pointer"/><rect x="0" y="110" width="820" height="70" fill="transparent" class="hit" data-beat="2" style="cursor:pointer"/><rect x="0" y="180" width="820" height="70" fill="transparent" class="hit" data-beat="3" style="cursor:pointer"/><rect x="0" y="250" width="820" height="70" fill="transparent" class="hit" data-beat="4" style="cursor:pointer"/><rect x="0" y="320" width="820" height="70" fill="transparent" class="hit" data-beat="5" style="cursor:pointer"/><rect x="0" y="390" width="820" height="70" fill="transparent" class="hit" data-beat="6" style="cursor:pointer"/><rect x="0" y="460" width="820" height="70" fill="transparent" class="hit" data-beat="7" style="cursor:pointer"/><rect x="0" y="530" width="820" height="70" fill="transparent" class="hit" data-beat="8" style="cursor:pointer"/><rect x="0" y="600" width="820" height="70" fill="transparent" class="hit" data-beat="9" style="cursor:pointer"/><rect x="0" y="670" width="820" height="70" fill="transparent" class="hit" data-beat="10" style="cursor:pointer"/><rect x="0" y="740" width="820" height="70" fill="transparent" class="hit" data-beat="11" style="cursor:pointer"/><rect x="0" y="810" width="820" height="70" fill="transparent" class="hit" data-beat="12" style="cursor:pointer"/><rect x="0" y="880" width="820" height="70" fill="transparent" class="hit" data-beat="13" style="cursor:pointer"/><rect x="0" y="950" width="820" height="70" fill="transparent" class="hit" data-beat="14" style="cursor:pointer"/><rect x="0" y="1020" width="820" height="70" fill="transparent" class="hit" data-beat="15" style="cursor:pointer"/><rect x="0" y="1090" width="820" height="70" fill="transparent" class="hit" data-beat="16" style="cursor:pointer"/><rect x="0" y="1160" width="820" height="70" fill="transparent" class="hit" data-beat="17" style="cursor:pointer"/><rect x="0" y="1230" width="820" height="70" fill="transparent" class="hit" data-beat="18" style="cursor:pointer"/><rect x="0" y="1300" width="820" height="70" fill="transparent" class="hit" data-beat="19" style="cursor:pointer"/><rect x="0" y="1370" width="820" height="70" fill="transparent" class="hit" data-beat="20" style="cursor:pointer"/></svg></div></div>
+  <div class="river"><div class="riverwrap"><div id="braid" data-braid="data/braid_resurrection.json">Loading the convergence map…</div></div></div>
   <aside class="detail" id="detail" aria-live="polite"></aside>
 </div>
 <footer class="foot">
   The strands are drawn from the coded <i>shared-beat spine</i> (which gospels carry each beat); nothing is invented. The full account of each beat is in <a href="resurrection.html">the braided reading</a>; each gospel whole is in <a href="voices.html">the four voices</a> (KJV). &nbsp;·&nbsp; <a href="index.html">the door</a>
 </footer>
+<script src="/engine/artifacts/provenance.js"></script>
 <script>
-var BEATS=[{"i": 1, "title": "female follower(s) travel to the tomb early on the first day", "note": "MATT names two Marys; MARK three women with spices; LUKE a group with spices; JOHN Mary Magdalene alone", "carried": ["matthew", "mark", "luke", "john"], "n": 4}, {"i": 2, "title": "the sealing stone is found/made displaced from the tomb entrance", "note": "MATT dramatizes an angel rolling it in real time; MARK/LUKE/JOHN find it already moved (divine passive)", "carried": ["matthew", "mark", "luke", "john"], "n": 4}, {"i": 3, "title": "the women/witness(es) enter or peer into the tomb", "note": "MARK and LUKE enter bodily; JOHN has the disciples enter and Mary bend down to look; MATT omits an interior entry", "carried": ["mark", "luke", "john"], "n": 3}, {"i": 4, "title": "the body of Jesus is discovered absent from its burial place", "note": "framed as angelic declaration in MATT/MARK/LUKE and as empirical discovery-then-report in JOHN", "carried": ["matthew", "mark", "luke", "john"], "n": 4}, {"i": 5, "title": "one or more numinous figures (angel/young man/two men) are present at the tomb", "note": "MATT one angel outside; MARK one young man inside; LUKE and JOHN two figures; JOHN's appear only in Mary's second visit", "carried": ["matthew", "mark", "luke", "john"], "n": 4}, {"i": 6, "title": "the numinous figure(s) are visually marked by whiteness/dazzling appearance", "note": "lightning/snow (MATT), white robe (MARK), dazzling clothes (LUKE), white (JOHN)", "carried": ["matthew", "mark", "luke", "john"], "n": 4}, {"i": 7, "title": "the witnesses react with fear, dread, or bewilderment", "note": "MATT guards struck down + women's mingled fear/joy; MARK alarm/terror; LUKE terror + bowing; JOHN grief rather than terror", "carried": ["matthew", "mark", "luke", "john"], "n": 4}, {"i": 8, "title": "the figure(s) address the witnesses with a speech-act interpreting the empty tomb", "note": "MATT/MARK a commission; LUKE a rhetorical rebuke + reminder; JOHN only a 'why do you weep' question", "carried": ["matthew", "mark", "luke", "john"], "n": 4}, {"i": 9, "title": "the sought one is identified as the crucified Jesus", "note": "MATT/MARK by the angelic naming, LUKE embedded in the passion-prediction; JOHN never verbalizes crucifixion in this scene", "carried": ["matthew", "mark", "luke"], "n": 3}, {"i": 10, "title": "his absence from the tomb is explicitly declared ('he is not here')", "note": "formulaic in the synoptics; JOHN dramatizes absence but never states the formula", "carried": ["matthew", "mark", "luke"], "n": 3}, {"i": 11, "title": "his resurrected/raised status is announced (typically as divine passive)", "note": "MATT/MARK/LUKE via the figures' proclamation; JOHN gestures at it only through the beloved disciple's belief and a scriptural aside", "carried": ["matthew", "mark", "luke"], "n": 3}, {"i": 12, "title": "the witnesses are invited to view/verify the vacated burial spot", "note": "MATT/MARK by directive ('come, see'); LUKE by finding no body; JOHN by inspection of the linen wrappings", "carried": ["matthew", "mark", "luke", "john"], "n": 4}, {"i": 13, "title": "a prior word of Jesus is invoked to frame what has happened", "note": "MATT/MARK cite his earlier promise about Galilee; LUKE cites the passion-and-resurrection prediction; JOHN cites scripture instead", "carried": ["matthew", "mark", "luke"], "n": 3}, {"i": 14, "title": "the witnesses depart from the tomb", "note": "MATT hasten with fear+joy; MARK flee in terror; LUKE return to the eleven; JOHN Mary runs to Peter, disciples return home", "carried": ["matthew", "mark", "luke", "john"], "n": 4}, {"i": 15, "title": "the witnesses are commissioned/moved to report to the (male) disciples", "note": "explicit commission in MATT/MARK; LUKE self-initiated report; JOHN Mary's spontaneous run to Peter/beloved disciple", "carried": ["matthew", "mark", "luke", "john"], "n": 4}, {"i": 16, "title": "the announcement is (or is to be) carried to Peter and the wider disciple circle", "note": "MARK names Peter in the commission (and shorter ending); LUKE the eleven; JOHN Peter and the beloved disciple; MATT names 'his disciples' without Peter", "carried": ["mark", "luke", "john"], "n": 3}, {"i": 17, "title": "a promise of future seeing/reunion with the risen Jesus is issued", "note": "both locate it in Galilee via a 'he goes before you' formula; absent from LUKE and JOHN's tomb scene", "carried": ["matthew", "mark"], "n": 2}, {"i": 18, "title": "male disciple(s) go to the tomb to verify the women's report", "note": "LUKE Peter alone; JOHN Peter with the beloved disciple in a footrace", "carried": ["luke", "john"], "n": 2}, {"i": 19, "title": "the linen burial cloths are seen lying in the tomb", "note": "LUKE a single mention by Peter; JOHN elaborated as wrappings plus separately rolled head-cloth", "carried": ["luke", "john"], "n": 2}, {"i": 20, "title": "a closing cognitive/affective state is left unresolved into full belief", "note": "MARK women's fearful silence; LUKE Peter's amazement; contrast JOHN's beloved-disciple belief and MATT's commissioned joy", "carried": ["mark", "luke"], "n": 2}];
-var GLABEL={matthew:'Matthew',mark:'Mark',luke:'Luke',john:'John'};
-var GCOLOR={matthew:'#B8924A',mark:'#C4602F',luke:'#3F7D57',john:'#2C4A38'};
-var ORDER=['matthew','mark','luke','john'];
-var detail=document.getElementById('detail');
-function kindOf(n){return n===4?'all four agree — the spine':(n===3?'three hold, one parts — a fork':'the four split into camps — a parting');}
-function show(i){
-  var b=BEATS.find(function(x){return x.i===i;}); if(!b) return;
-  var chips=ORDER.map(function(g){
-    var inb=b.carried.indexOf(g)>=0;
-    return '<a class="chip'+(inb?'':' out')+'" href="voices.html?g='+g+'"'+(inb?' style="border-color:'+GCOLOR[g]+';color:'+GCOLOR[g]+'"':'')+'>'+GLABEL[g]+'</a>';
-  }).join('');
-  detail.innerHTML='<div class="d-eyebrow">Beat '+b.i+' · '+b.n+'/4 · '+kindOf(b.n)+'</div>'
-    +'<div class="d-title">'+b.title.charAt(0).toUpperCase()+b.title.slice(1)+'</div>'
-    +'<div class="chips">'+chips+'</div>'
-    +(b.note?'<div class="d-note">'+b.note+'</div>':'')
-    +'<div class="d-links"><a href="resurrection.html#beat-'+b.i+'">Read this beat, braided &rarr;</a>'
-    +'<a href="voices.html">The four voices, each whole (KJV) &rarr;</a></div>';
-  [].forEach.call(document.querySelectorAll('text.bt'),function(t){t.classList.toggle('active', +t.getAttribute('data-beat')===i);});
+/* ============================================================================
+ * renderBraidSpine(data, mountEl) — GENERIC braid-convergence renderer.
+ * Computes the SVG from a braid data object at runtime (nothing hardcoded), so
+ * the same viz serves ANY braid. Data contract:
+ *   { title?, lede?, order:[KEY], sources:{KEY:{label,color,slug?}},
+ *     spine:[{index, beat, carried_by:[KEY], note?}],
+ *     links?:{braided,voices}, prov_source?, prov_need? }
+ * The beat KIND is DERIVED from count-carried (all->spine · one-out->fork · split->part).
+ * ========================================================================== */
+function renderBraidSpine(data, mount){
+  var order = (data.order && data.order.length) ? data.order : Object.keys(data.sources);
+  var S = data.sources, N = order.length;
+  var links = data.links || {braided:'resurrection.html', voices:'voices.html'};
+  var spine = data.spine.slice().sort(function(a,b){return a.index-b.index;});
+
+  // ---- geometry ----
+  var cx = 150, cw = 16;          // center axis + column spacing
+  var textX = 300;                // beat text column
+  var vbW = 880;                  // viewBox width (widened so full text never clips)
+  var lineH = 16, kindH = 15, topPad = 30;
+  var maxChars = Math.min(54, Math.floor((vbW - textX - 20) / 6.9));  // wrap width
+
+  var baseX = {};
+  order.forEach(function(k,i){ baseX[k] = cx + (i - (N-1)/2)*cw; });
+
+  function kindOf(n){ return n>=N ? 'spine' : (n===N-1 ? 'fork' : 'part'); }
+  function kindLabel(k){ return k==='spine' ? 'spine' : (k==='fork' ? 'fork' : 'part'); }
+  function radiusOf(k){ return k==='spine' ? 7 : (k==='fork' ? 6 : 5); }
+  // strand bows AWAY from the braid where a voice is absent; outer columns bow farther
+  function bowX(k){ var off = baseX[k]-cx, dir = off<0?-1:(off>0?1:-1); return cx + dir*(70 + Math.abs(off)*2.2); }
+
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+  function wrap(txt,max){
+    var words=String(txt).split(/\s+/), lines=[], cur='';
+    words.forEach(function(w){
+      if(cur && (cur+' '+w).length>max){ lines.push(cur); cur=w; }
+      else cur=(cur?cur+' ':'')+w;
+    });
+    if(cur) lines.push(cur);
+    return lines;
+  }
+
+  // ---- vertical layout: cumulative y per beat by wrapped-text height ----
+  var rows=[], y=topPad;
+  spine.forEach(function(b){
+    var n=b.carried_by.length, kind=kindOf(n);
+    var full=cap(b.beat), label=b.index+'. '+full;
+    var lines=wrap(label, maxChars);
+    rows.push({b:b, n:n, kind:kind, lines:lines, cy:y});
+    y += Math.max(60, lines.length*lineH + kindH + 22);
+  });
+  var vbH = y + topPad;
+
+  // ---- SVG assembly ----
+  var svg = '<svg viewBox="0 0 '+vbW+' '+vbH+'" width="100%" xmlns="http://www.w3.org/2000/svg" id="riversvg" role="img" aria-label="Convergence map: '+N+' strands braiding and parting across '+spine.length+' shared beats">';
+  // center guide
+  svg += '<line x1="'+cx+'" y1="'+(topPad-6)+'" x2="'+cx+'" y2="'+(vbH-topPad+6)+'" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/>';
+
+  // one path per strand
+  order.forEach(function(k){
+    var col = S[k] || {}, color = col.color || 'var(--ink-2)';
+    var pts=[], x0=baseX[k];
+    pts.push([x0, topPad-6]);                       // top anchor
+    rows.forEach(function(r){
+      var here = r.b.carried_by.indexOf(k)>=0;
+      pts.push([ here ? baseX[k] : bowX(k), r.cy ]);
+    });
+    pts.push([x0, vbH-topPad+6]);                   // bottom anchor
+    var d='M '+pts[0][0]+' '+pts[0][1];
+    for(var i=1;i<pts.length;i++){
+      var px=pts[i-1][0], py=pts[i-1][1], qx=pts[i][0], qy=pts[i][1], ym=(py+qy)/2;
+      d += ' C '+px+' '+ym+' '+qx+' '+ym+' '+qx+' '+qy;   // smooth horizontal bow
+    }
+    svg += '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="3.2" stroke-linecap="round" opacity="0.85"><title>'+esc(col.label||k)+'</title></path>';
+  });
+
+  // beat markers + wrapped text + kind label + click target
+  rows.forEach(function(r,idx){
+    var b=r.b, cy=r.cy, kind=r.kind, r0=radiusOf(kind);
+    var kvar = (kind==='spine'?'moss':kind==='fork'?'gold':'terracotta');
+    svg += '<circle cx="'+cx+'" cy="'+cy+'" r="'+r0+'" fill="var(--paper-3)" style="stroke:var(--'+kvar+')" stroke-width="2" data-beat="'+b.index+'"/>';
+    // wrapped beat text (first line already carries the "N." prefix)
+    var ty=cy-2;
+    var t='<text class="bt" data-beat="'+b.index+'">';
+    r.lines.forEach(function(ln,li){ t += '<tspan x="'+textX+'" y="'+(ty+li*lineH)+'">'+esc(ln)+'</tspan>'; });
+    t += '</text>';
+    svg += t;
+    // kind label under the text
+    var ky = ty + r.lines.length*lineH + 2;
+    svg += '<text x="'+textX+'" y="'+ky+'" class="bk k-'+kind+'">'+r.n+'/'+N+' · '+kindLabel(kind)+'</text>';
+    // full-row click target
+    var top = idx===0 ? 0 : (rows[idx-1].cy+cy)/2;
+    var bot = idx===rows.length-1 ? vbH : (cy+rows[idx+1].cy)/2;
+    svg += '<rect x="0" y="'+top+'" width="'+vbW+'" height="'+(bot-top)+'" fill="transparent" class="hit" data-beat="'+b.index+'" style="cursor:pointer"/>';
+  });
+  svg += '</svg>';
+  mount.innerHTML = svg;
+
+  // ---- header bits from data ----
+  if(data.title){ var tEl=document.getElementById('braid-title'); if(tEl) tEl.textContent=data.title; document.title=data.title+' · The Gospels'; }
+  if(data.lede){ var lEl=document.getElementById('braid-lede'); if(lEl) lEl.textContent=data.lede; }
+  var leg=document.getElementById('braid-legend');
+  if(leg){ leg.innerHTML=order.map(function(k){ var s=S[k]||{}; return '<span><i style="background:'+(s.color||'#999')+'"></i>'+esc(s.label||k)+'</span>'; }).join(''); }
+
+  // ---- detail rail + interaction ----
+  var detail=document.getElementById('detail');
+  function kindPhrase(n){ return n>=N ? 'all agree — the spine' : (n===N-1 ? 'one parts — a fork' : 'the four split — a parting'); }
+  function show(i){
+    var r=rows.find(function(x){return x.b.index===i;}); if(!r) return; var b=r.b;
+    var chips=order.map(function(k){
+      var s=S[k]||{}, inb=b.carried_by.indexOf(k)>=0, slug=s.slug||String(s.label||k).toLowerCase();
+      return '<a class="chip'+(inb?'':' out')+'" href="'+links.voices+'?g='+encodeURIComponent(slug)+'"'+(inb?' style="border-color:'+(s.color||'#999')+';color:'+(s.color||'#999')+'"':'')+'>'+esc(s.label||k)+'</a>';
+    }).join('');
+    detail.innerHTML='<div class="d-eyebrow">Beat '+b.index+' · '+r.n+'/'+N+' · '+kindPhrase(r.n)+'</div>'
+      +'<div class="d-title">'+esc(cap(b.beat))+'</div>'
+      +'<div class="chips">'+chips+'</div>'
+      +(b.note?'<div class="d-note">'+esc(b.note)+'</div>':'')
+      +'<div class="d-links"><a href="'+links.braided+'#beat-'+b.index+'">Read this beat, braided &rarr;</a>'
+      +'<a href="'+links.voices+'">The four voices, each whole (KJV) &rarr;</a></div>';
+    [].forEach.call(mount.querySelectorAll('text.bt'),function(t){t.classList.toggle('active', +t.getAttribute('data-beat')===i);});
+  }
+  [].forEach.call(mount.querySelectorAll('.hit, text.bt, #riversvg circle'),function(el){
+    el.addEventListener('click',function(){show(+el.getAttribute('data-beat'));});
+  });
+  if(rows.length) show(rows[0].b.index);
 }
-[].forEach.call(document.querySelectorAll('.hit, text.bt, #riversvg circle'),function(el){
-  el.addEventListener('click',function(){show(+el.getAttribute('data-beat'));});
-});
-show(1);
+
+/* ---- boot: fetch the braid data declared on the mount, then render + rescan provenance ---- */
+(function(){
+  var mount=document.getElementById('braid'), url=mount && mount.getAttribute('data-braid');
+  if(!mount||!url){ return; }
+  fetch(url).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(data){
+      renderBraidSpine(data, mount);
+      if(window.Provenance && Provenance.rescan) Provenance.rescan();
+    })
+    .catch(function(e){ mount.innerHTML='<p style="font-family:var(--sans);font-size:13px;color:var(--terracotta);padding:20px">Could not load the convergence map ('+e.message+').</p>'; });
+})();
 </script>
 </body>
 </html>
