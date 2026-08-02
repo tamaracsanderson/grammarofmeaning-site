@@ -90,7 +90,7 @@ h2.sec{font-size:14px;font-family:var(--sans);letter-spacing:.06em;text-transfor
 </main>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
-function stripFrontmatter(md){var m=md.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/);return m?md.slice(m[0].length):md;}
+function stripFrontmatter(md){md=md.replace(/^\s*<!--[\s\S]*?-->\s*/,'');var m=md.match(/^\s*---\r?\n[\s\S]*?\r?\n---\r?\n?/);return m?md.slice(m[0].length):md;}
 function md2html(s){return window.marked?marked.parse(s.trim()):('<p>'+s.replace(/</g,'&lt;')+'</p>');}
 function md2inline(s){var h=md2html(s.trim());return h.replace(/^<p>/,'').replace(/<\/p>\s*$/,'');}
 // The FAQ's in-page cross-refs (#r5--…, #4--…) target GitHub-style slugs; cards/themes carry stable
