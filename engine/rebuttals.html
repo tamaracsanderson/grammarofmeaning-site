@@ -93,8 +93,15 @@ h2.sec{font-size:14px;font-family:var(--sans);letter-spacing:.06em;text-transfor
 function stripFrontmatter(md){var m=md.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/);return m?md.slice(m[0].length):md;}
 function md2html(s){return window.marked?marked.parse(s.trim()):('<p>'+s.replace(/</g,'&lt;')+'</p>');}
 function md2inline(s){var h=md2html(s.trim());return h.replace(/^<p>/,'').replace(/<\/p>\s*$/,'');}
-// GitHub-style heading slug (so the in-page cross-ref anchors in the FAQ resolve)
-function slug(s){return s.toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s/g,'-');}
+// The FAQ's in-page cross-refs (#r5--…, #4--…) target GitHub-style slugs; cards/themes carry stable
+// ids (q-r5, t-4). Repoint every in-page anchor to those by its unique R/S id or theme number.
+function normalizeAnchors(){
+  [].forEach.call(document.querySelectorAll('main a[href^="#"]'), function(a){
+    var h=a.getAttribute('href');
+    var mq=h.match(/^#([rs]\d+)/i); if(mq){ a.setAttribute('href','#q-'+mq[1].toLowerCase()); return; }
+    var mt=h.match(/^#(\d+)/); if(mt){ a.setAttribute('href','#t-'+mt[1]); }
+  });
+}
 // twelve-laws repo paths aren't deployed (private repo) → render those citations label-only (path in tooltip).
 // Links that resolve (http(s), in-page #, site-relative .html) are kept live.
 function fixLinks(html){
@@ -128,7 +135,7 @@ function parseEntry(chunk){
 }
 function renderEntry(e){
   var cls=e.status?classifyStatus(e.status):'answered';
-  var h='<div class="qa '+cls+'" id="'+slug(e.head)+'">';
+  var h='<div class="qa '+cls+'" id="q-'+e.id.toLowerCase()+'">';
   h+='<h3><span class="rn">'+e.id+'</span>'+md2inline(e.q)+'</h3>';
   if(e.answer) h+='<div class="resp">'+fixLinks(md2html(e.answer))+'</div>';
   if(e.status) h+='<div class="status '+cls+'"><span class="slab '+cls+'">'+slabText(cls)+'</span>'+fixLinks(md2inline(e.status))+'</div>';
@@ -160,7 +167,8 @@ function renderEntry(e){
         var pre=(firstQ<0?rest:rest.slice(0, firstQ)).trim();
         var qBlock=(firstQ<0?'':rest.slice(firstQ));
         var entries=qBlock.split(/\n###\s+/).map(function(c){return c.replace(/^###\s+/,'');}).filter(function(c){return /^[RS]\d/.test(c.trim());});
-        var s='<section class="theme" id="'+slug(themeName)+'"><h2 class="sec">'+md2inline(themeName)+'</h2>';
+        var tnum=(themeName.match(/^(\d+)/)||[,''])[1];
+        var s='<section class="theme" id="t-'+tnum+'"><h2 class="sec">'+md2inline(themeName)+'</h2>';
         if(pre) s+='<p class="theme-intro">'+md2inline(pre)+'</p>';
         s+=entries.map(function(c){return renderEntry(parseEntry(c.trim()));}).join('');
         s+='</section>';
@@ -175,6 +183,7 @@ function renderEntry(e){
           +'<div class="tests-body">'+fixLinks(md2html(testsMd))+'</div></details>';
         document.getElementById('tests').innerHTML=tH;
       }
+      normalizeAnchors();  // repoint the FAQ's in-page cross-refs to the stable card/theme ids
     })
     .catch(function(e){
       document.getElementById('fallback').innerHTML='<p class="state">&mdash; FAQ not available yet ('+String(e.message||e)+').</p>';
