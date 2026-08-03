@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Places of Worship — Sitz geographic substrate (v1)</title>
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
+<style>
+  html, body { margin: 0; height: 100%; font-family: -apple-system, system-ui, sans-serif; }
+  #map { position: absolute; top: 0; bottom: 0; left: 0; right: 0; }
+  /* §2.8 non-dismissable banner (v1-REQUIRED per the probe findings) */
+  #banner {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+    background: #7a1f1f; color: #fff; font-size: 13px; font-weight: 600;
+    padding: 7px 12px; text-align: center; letter-spacing: .2px;
+  }
+  #panel {
+    position: absolute; top: 44px; left: 12px; z-index: 5; width: 262px;
+    background: rgba(255,255,255,.96); border-radius: 10px; padding: 12px 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.25); font-size: 13px; color: #1a1a1a;
+  }
+  #panel h1 { font-size: 15px; margin: 0 0 2px; }
+  #panel .sub { color: #555; font-size: 11px; margin: 0 0 10px; }
+  #panel label { display: block; font-weight: 600; margin: 10px 0 3px; font-size: 12px; }
+  select, button { width: 100%; padding: 6px; border-radius: 6px; border: 1px solid #ccc; font-size: 13px; }
+  .legend { margin-top: 10px; font-size: 11px; line-height: 1.7; }
+  .legend i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  .toggle { display: flex; align-items: center; gap: 7px; margin-top: 12px; font-weight: 600; font-size: 12px; }
+  #cnt { font-variant-numeric: tabular-nums; }
+  .hint { font-size: 10.5px; color: #666; margin-top: 4px; }
+  .maplibregl-popup-content { font-size: 12px; }
+</style>
+</head>
+<body>
+<div id="banner">Shows OpenStreetMap tagging density, not religious prevalence. Grey areas are under-mapped, not un-religious.</div>
+<div id="map"></div>
+<div id="panel">
+  <h1>Places of Worship</h1>
+  <p class="sub">Sitz geographic substrate · <span id="cnt">1,611,970</span> OSM points · v1</p>
+
+  <label for="trad">Filter by tradition (prefix)</label>
+  <select id="trad">
+    <option value="">All traditions</option>
+    <option value="ABR">Abrahamic (all)</option>
+    <option value="ABR-CHR">— Christian (all)</option>
+    <option value="ABR-CHR-CAT">—— Catholic</option>
+    <option value="ABR-CHR-PRO">—— Protestant (all)</option>
+    <option value="ABR-CHR-PRO-LUT">——— Lutheran</option>
+    <option value="ABR-CHR-PRO-BAP">——— Baptist</option>
+    <option value="ABR-CHR-PEN">—— Pentecostal</option>
+    <option value="ABR-CHR-ORT">—— Orthodox</option>
+    <option value="ABR-ISL">— Muslim (all)</option>
+    <option value="ABR-ISL-SUN">—— Sunni</option>
+    <option value="ABR-ISL-SHI">—— Shia</option>
+    <option value="ABR-JUD">— Jewish</option>
+    <option value="DHR">Dharmic (all)</option>
+    <option value="DHR-HIN">— Hindu</option>
+    <option value="DHR-BUD">— Buddhist</option>
+    <option value="DHR-SIK">— Sikh</option>
+    <option value="EAS">East Asian</option>
+    <option value="AFR">African</option>
+  </select>
+  <div class="hint">Prefix match: "ABR-CHR" sweeps every Christian sub-tradition; "ABR-CHR-CAT" narrows.</div>
+
+  <div class="toggle"><input type="checkbox" id="grid" /> <label for="grid" style="margin:0">§2.8 completeness layer</label></div>
+  <div class="hint">Choropleth of <b>tagged fraction</b> per 5° cell — makes the "few churches vs few <i>mapped</i> churches" confound visible.</div>
+
+  <div class="hint" style="margin-top:10px;border-top:1px solid #eaeaea;padding-top:9px">The honest axis is <b>tradition-ontology × mapping-saturation, not latitude</b>. OSM's schema is Christian-centric — denomination-level tags are dense for Christianity, sparse elsewhere — so the Sahel &amp; Horn read <span style="color:#7a1f1f;font-weight:600">red</span> = under-mapped, not un-religious. The completeness layer makes that visible instead of hiding it.</div>
+
+  <div class="legend" id="legend">
+    <b>Tradition family</b><br>
+    <i style="background:#3b6fb0"></i>Abrahamic
+    <i style="background:#c8641e"></i>Dharmic
+    <i style="background:#2e8b57"></i>East Asian<br>
+    <i style="background:#8e5aa8"></i>African
+    <i style="background:#b0a12e"></i>Indigenous
+    <i style="background:#999"></i>unmapped / other
+  </div>
+</div>
+
+<script>
+const proto = new pmtiles.Protocol();
+maplibregl.addProtocol("pmtiles", proto.tile);
+
+// family -> color (property "f" = first tradition_id segment)
+const FAMILY_COLORS = [
+  "match", ["get", "f"],
+  "ABR", "#3b6fb0",
+  "DHR", "#c8641e",
+  "EAS", "#2e8b57",
+  "AFR", "#8e5aa8",
+  "IND", "#b0a12e",
+  "ANC", "#6a7b8c", "PHI", "#6a7b8c", "MOD", "#6a7b8c",
+  "GEN", "#6a7b8c", "PSY", "#6a7b8c", "SEC", "#6a7b8c",
+  /* untagged/unmappable (empty f) */ "#9a9a9a"
+];
+
+const map = new maplibregl.Map({
+  container: "map",
+  // free demo basemap — no token, static-hostable (matches the CRT deploy posture)
+  style: "https://demotiles.maplibre.org/style.json",
+  center: [20, 25], zoom: 1.6, hash: true
+});
+
+map.on("load", () => {
+  // absolute URL from the page origin -> portable to any static host (S3 / Pages / Netlify)
+  map.addSource("pow", { type: "vector", url: `pmtiles://${location.origin}/data/church_map/pow.pmtiles` });
+
+  map.addLayer({
+    id: "pow-pts", type: "circle", source: "pow", "source-layer": "pow",
+    paint: {
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 1.1, 6, 2.2, 10, 3.5],
+      "circle-color": FAMILY_COLORS,
+      "circle-opacity": 0.75,
+      "circle-stroke-width": ["interpolate", ["linear"], ["zoom"], 5, 0, 8, 0.4],
+      "circle-stroke-color": "#fff"
+    }
+  });
+
+  // §2.8 completeness choropleth (self-contained, from the loader's grid)
+  map.addSource("grid", { type: "geojson", data: "/data/church_map/completeness_grid.geojson" });
+  map.addLayer({
+    id: "grid-fill", type: "fill", source: "grid",
+    layout: { visibility: "none" },
+    paint: {
+      // red = poorly tagged, green = well tagged (the honesty layer)
+      "fill-color": ["interpolate", ["linear"], ["get", "tagged_fraction"],
+        0, "#7a1f1f", 0.4, "#c46a1e", 0.7, "#c9b02e", 1, "#2e8b57"],
+      "fill-opacity": 0.55
+    }
+  }, "pow-pts");
+  map.addLayer({
+    id: "grid-line", type: "line", source: "grid",
+    layout: { visibility: "none" },
+    paint: { "line-color": "#000", "line-opacity": 0.12 }
+  }, "pow-pts");
+
+  // point popup — name + resolved tradition + granularity
+  map.on("click", "pow-pts", (e) => {
+    const p = e.features[0].properties;
+    new maplibregl.Popup().setLngLat(e.lngLat).setHTML(
+      `<b>${p.t || "(untagged)"}</b><br>granularity: ${p.g}`).addTo(map);
+  });
+  map.on("mouseenter", "pow-pts", () => map.getCanvas().style.cursor = "pointer");
+  map.on("mouseleave", "pow-pts", () => map.getCanvas().style.cursor = "");
+
+  // completeness cell popup — tagged fraction + granularity mix
+  map.on("click", "grid-fill", (e) => {
+    const p = e.features[0].properties;
+    new maplibregl.Popup().setLngLat(e.lngLat).setHTML(
+      `<b>5° cell</b> — ${p.n.toLocaleString()} POW<br>` +
+      `tagged: ${(p.tagged_fraction*100).toFixed(0)}% · denom: ${(p.denom_fraction*100).toFixed(0)}%<br>` +
+      `granularity — denom ${(p.g_denom*100).toFixed(0)}% / religion ${(p.g_religion*100).toFixed(0)}% / none ${(p.g_amenity_only*100).toFixed(0)}%`
+    ).addTo(map);
+  });
+});
+
+// tradition prefix-filter via setFilter (§2.15 — data property, zero rebuild)
+document.getElementById("trad").addEventListener("change", (ev) => {
+  const pfx = ev.target.value;
+  if (!pfx) { map.setFilter("pow-pts", null); return; }
+  map.setFilter("pow-pts", ["==", ["slice", ["get", "t"], 0, pfx.length], pfx]);
+});
+
+// §2.8 completeness layer toggle
+document.getElementById("grid").addEventListener("change", (ev) => {
+  const v = ev.target.checked ? "visible" : "none";
+  map.setLayoutProperty("grid-fill", "visibility", v);
+  map.setLayoutProperty("grid-line", "visibility", v);
+});
+</script>
+</body>
+</html>
+
+<!-- ── METHODOLOGY FOOTER ──
+HOW PRODUCED: build-SB S157 2026-08-02, church-map v1 render per the hybrid synthesis
+  (pm/40_architecture/church_map_CRT_synthesis_hybrid_s157_2026-08-02.md item 6). MapLibre GL JS + PMTiles;
+  points from data/church_map/pow.pmtiles (tippecanoe-clustered); the §2.8 completeness choropleth from the
+  loader's self-contained 5° grid; the non-dismissable banner + tradition prefix-filter are v1-REQUIRED per
+  church_map_probe_findings_s157_2026-08-02.md.
+SCHOLARLY SOURCES: MapLibre GL JS + protomaps/PMTiles (no token, static-hostable — CRT item 4); §2.8
+  bias-visibility (banner + completeness layer + granularity popup); §2.15 (prefix-match filter = data
+  property, zero rebuild); demotiles.maplibre.org basemap (free, no key, $0).
+WHAT NEEDS VERIFICATION: CDN deps (maplibre-gl, pmtiles) load from unpkg — fine for a local/hosted render,
+  but a hardened deploy should vendor them (and the demotiles basemap) for offline/CSP; serve over HTTP with
+  Range-request support (pmtiles needs byte-range). The 5° grid is the v1 self-contained completeness proxy;
+  H3-r7 + Kontur per-capita are the v1.5 refinement (CRT divergence-resolution). -->
