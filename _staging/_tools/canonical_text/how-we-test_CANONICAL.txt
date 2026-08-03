@@ -1,0 +1,102 @@
+How we test this — Grammar of Meaning 
+
+ theme 
+
+ Grammar of Meaning · How we test 
+ How we test this 
+ The method is the contribution — so how we know it works is the argument, not housekeeping. Every result is checkable, organized by the question a reader asks: how do you know that? Nothing here is graded on one run's fate: a generative engine is graded on aggregate behavior across runs; a deterministic step, on exact reproduction. 
+ ← back to the schema 
+
+ Do independent coders agree, from the same logic? — reliability 
+ Does locked-method × locked-model reproduce a coding? 
+
+ Reliability / R-grades R1 (high) / R2 (medium) / R3 (low) per (passage × dimension) cell — one passage can be R1 on one dimension, R3 on another. Generative steps graded on aggregate rates across runs, deterministic steps per-cell. Ex: Romans 8 — a silence was agreed present (α≈0.59) but not obligated (α≈0.03). 
+ IRR family — 5IRR / 3IRR / 3P Whether independent LLM cohorts converge (they never see each other's answers). 5IRR = 5 web-UI cohorts → consensus buckets; 3IRR = 3 local models (cheap); 3P = 3-persona (insider / comparativist / practitioner). They compose (3P×5IRR = 15 reads). Ex: IRR167. Convergence is task-dependent , and agreement ≠ validity — see external review below. 
+
+ Does the agreement mean anything — and does hostile review agree? — external review & agreement ≠ validity 
+ Is multi-LLM agreement the same as validity? (No.) And what does an outside adversary find? 
+
+ Agreement is task-dependent — 307 rounds Across 307 IRR reconciliation rounds , agreement is not flat — it tracks task difficulty : models converge when asked to enumerate what exists (~42% of findings 5/5 unanimous) and diverge when asked to code / bound / label a specific unit of text (~25% unanimous, ~29% outright split). That the agreement knows which questions are hard is signal it is not pure shared bias — but it tells us where to trust the instrument (enumeration) versus where a human gold-anchor is required (coding / judgment). Agreement is not validity. The task-dependence finding → 
+ External adversarial review — IRR224 Five frontier LLMs read the 13-claim method-statement blind and were asked to attack it. Their two heaviest blows landed at 5/5 unanimity — multi-LLM agreement ≠ validity and gap-scoring is unbounded — and the cohort replicated our in-house adversarial review . We put our deepest limits in writing, on the record , rather than hide them; the honesty is the credibility. The full blind review → 
+
+ This is the honest counterpart to the reliability numbers: high agreement where the task is enumeration, low where it is judgment — and an outside cohort that independently confirms our method’s deepest limit (agreement ≠ validity) is real. It is on the record because putting the limit in writing is the point. 
+
+ Does it hold beyond its home domain? — instrument vs. domain 
+ Is a result a property of the instrument, or of the theology? 
+
+ Out-of-domain replication Religion is the proof-of-concept domain; secular corpora (a pop lyric, a translation set, a book vs. a passage) are confound-free test-beds — a clean test-bed is a floor , not a difficulty proxy. Ex: the Romans-8 present-vs-obligated split reproduced on a Beatles pop lyric (IRR167, 5/5), turning a suspected theology problem into a demonstrated instrument problem. Replication failures are findings, not embarrassments. 
+
+ Does it over-generate — a negative control — the first test with a RESULT 
+ Give any instrument four layers and a dozen loci and it can always find plausible “gaps.” So we ran the opposite test. 
+
+ ✓ RUN Negative control — the MIT License A text engineered to close interpretive space (legal boilerplate — the opposite of scripture). A well-calibrated instrument should find almost nothing; a generator would find twenty. Result: 12 candidates → ~81% discarded by the eligibility gates; 2 clean survivors — and they are the license’s two genuinely famous silences ( patent-rights scope ; the undefined “substantial portions” threshold). Every discard is named. The rule it crystallizes: a gap is not anything the text doesn’t say — it is something the text’s own words open but don’t close. The control passes. (First control run; the diverse-corpus battery is the confirming scale-up.) The full probe → 
+
+ The first test on this page with an actual result , not a design: the negative control is what separates an instrument (finds ~2 in a license, ~10 in Jonah) from a gap-generator (twenty everywhere). 
+
+ Does perturbing a condition change the reading? — RESITUATE, the dynamic engine 
+ The inverse of the static gap-scan: change one load-bearing condition, watch the reading swing, keep only the seams. 
+
+ ✓ RUN RESITUATE — 5-text demo Perturb a text’s load-bearing conditions → watch the reading swing → a two-stage filter keeps only the seams (absent / implied-and-activated) and discards everything stated . Run clean on 5 texts across narrative / lyric / apophatic / aphoristic / argument (Jonah · Dickinson · Tao Te Ching · Dhammapada · 1 Corinthians 15). Findings: the filter discards the stated conditions everywhere; translation-seams dominate the non-English texts (a translator’s forced choice the reading leans on); and RESITUATE catches two seams no other engine gets — a boundary-artifact seam (where the passage is cut) and an edition seam (which text you hold). The 5-text RESITUATE demo → 
+
+ Two halves of one instrument: the static move-scan finds in-text silences; RESITUATE (dynamic) finds the seams between the text and its context or version. Neither is the other — together they are the candidate-engine union. 
+
+ Does the method improve from its own tests? — the living instrument 
+ Not a static pipeline — a living object that improves from its own test feedback, and pools its engines through one gate. 
+
+ Iterate from test feedback Every test (A/B, the reflexive / IRR224 adversarial reviews, future panels) feeds a backlog of candidate improvements; a candidate graduates by recurrence , not one run’s whim. Ex: an A/B iteration on Jonah 4 flipped the reading v1→v2→v3 as the instrument absorbed its own test feedback. The v1→v2→v3 proof → 
+ One gate, many engines The static gap-scan and dynamic RESITUATE are pooled through one gate — the candidate-engine union. On Jonah 4 the union rescued a seam the static scan alone missed (the v.5 booth-vigil, “is Nineveh’s fate still open?”). The engine union →  ·  The living-instrument design → 
+ Seeded critics, not role-played A crit panel is only as good as what its critics are seeded on — real fetched text, not the model’s impression of a name. Proof: a bare-vs-seeded A/B on William James . Bare-James (from memory) regressed to the mean — “believability is merely subjective, discount it.” Seeded-James (his actual Varieties of Religious Experience , Lect. III) said the opposite : the “sense of reality” fires hardest where nothing is present — so the believability metric is worse, not softer . The seed overruled the persona , and the diff between the two arms is the auditable evidence that seeding works. The James A/B → 
+
+ The honest counterpart to the open questions above: the method has a mechanism for getting better — every test feeds the backlog, and improvements graduate by recurrence, on the record. 
+
+ Is the data + spec sound, and actually built? — audit 
+ Does the code match the claim, and the data match the schema? 
+
+ Internal audits Data integrity + spec-vs-reality drift, run nightly / pre-commit / per-sprint: db-hygiene, state-audit, the spec-vs-implementation gap audit (specs with no code behind them), the nightly doc-drift auditor . Dashboards read the DB, not narration — they can't be talked past. 
+ XT — programmatic tests An empirical question run at $0, producing data (vs. an IRR, which produces judgments ). Ex: XT1 cross-model persona ( frame dominates, not model ), XT4 move-segmentation reliability. 
+
+ Does an independent re-derivation reproduce it? — clean-room 
+ Can someone else get the same result, without our framing? 
+
+ Clean-room review A finished artifact checked by an independent party who does not see the author's framing — catches contamination and bias. It answers is what we wrote true? 
+ Clean-room implementation Whether the method reproduces from its written spec alone , no tacit knowledge — an independent coder builds from the logic, outputs compared. The "logic, then code from it" test; its value is that it proves the method is not idiosyncratic — someone else can run it. 
+
+ Two worked cases, on separate pages — they test different things, and both are long enough to read on their own: 
+
+ The data-dictionary audit — a clean-room review . Three blind lenses against our own field definitions; ~40 problems in 129 fields, two of them introduced that same evening. 
+ The engine reproduction — a clean-room implementation . Whether Engines 0–2 rebuild from the written spec alone. They reproduce through Engine 0 and stop at Engine 1. 
+
+ The pairing is the point: the first checks whether our description is true, the second whether the method is reproducible by someone who isn't us. An artifact can pass the first and fail the second. 
+
+ How do we pick a build when several designs are valid? — clean-room triangulation 
+ When the approach is genuinely uncertain, don’t anchor on the first idea — get independent ones, then reconcile. 
+
+ Clean-room triangulation (CRT) N independent parties (usually three), no contact , each handed the same design brief — whose outputs we reconcile into a hybrid . The independence is the whole value: divergence is the signal , and a lone reviewer ships plausible-but-wrong. It is the build/design sibling of the reliability testing above — reliability asks do independent coders agree? (converge); CRT asks how would independent builders do this? (diverge for coverage, then synthesize). Distinct from a 5-LLM IRR, which drives a methodology-truth question toward consensus. Proven across three S157 builds — a lineage-detector, an engineering-speed review, and a country-scale church map. The CRT playbook — brief anatomy, the 5 steps, the CRT-vs-IRR distinction → 
+
+ Sibling to the reliability numbers at the top: those ask whether independent coders converge on the same reading; CRT deliberately makes independent builders diverge , because on an open design the disagreement is the coverage. 
+
+ Does the generated map match reality? — predictive 
+ Do the outputs predict what actually happened? 
+
+ Round-trip / predictive validity Reverse-coding (code → back to text) + whether Engine 3's possible answer-space predicts Engine 4's attested reception. The generated field is the controlled variable; the attested record is the observed one. (Designed — Engines 3/4 not yet built.) 
+
+ Could this check have failed? — discrimination 
+ Guards against silent fallback — could this check have failed? 
+
+ Discriminating-check rule Guards against silent fallback — a step fails, the system substitutes something plausible, and the output still looks normal. The guard is one question asked of every check: could this have failed? A verification whose marker lives in the data being displayed rather than in the code that changed will pass against the old build and the new one alike. Fires whenever a fix is verified. Instances caught in a single session (2026-07-23): a constraint violation that made the pipeline fall back to a stale tree; a git stash that swallowed untracked work; a label truncated mid-word by a silent [:34] ; a scheduled job installed but never loaded, so it had never once run; a 0-byte database file that answered "no such table" instead of "this file is empty." Each degraded quietly and kept producing plausible output. 
+
+ Sibling to ghost-protection below: that one catches fabricated claims; this one catches unfalsifiable checks and quiet degradation . 
+
+ Is a claimed past decision real? — ghost-protection 
+ Guarding against fabricated provenance. 
+
+ Citation-or-don't-claim + adversarial spot-checks Any "we decided X at session N" must cite a specific Decision / Proposal / journal entry, or it is flagged unverified. Adversarial verifiers are prompted to refute , not confirm. The dashboards above are the primary deterministic ghost-detector. 
+
+ Why this is a contribution, not a checklist. Most comparative work publishes findings and withholds the apparatus. This project publishes the apparatus — so the checks are the open-methodology claim. Its honest counterpart is on the schema itself: the ⚠ undefined counts. Showing the gaps and showing the test suite are the same commitment. 
+
+ Can it find real research gaps? — the R&D application 
+ Run the gap-finder on a foundational research paper — do the gaps it surfaces hold up? 
+
+ ✓ RUN Generative Agents (Park et al., “Smallville”) We ran the instrument on arXiv 2304.03442 — the generative-agents paper — as a research gap-finder, reasoning only from the paper’s own words (no hindsight, no later literature). It surfaced genuine, defensible gaps, each anchored to an activating phrase, each passing the eligibility gates (nitpicks + in-window-resolved items rejected). Top three: (G1) a metric-validity confound — the headline believability effect (d=8.16) is a rated-appearance delta, and the paper’s own limitations name surface confounds (“overly cooperative,” “embellishment”) the metric can’t separate from architectural merit; (G2) scope / timescale — planning is claimed for a “longer time horizon” but evidenced on a “short timescale” by the paper’s own admission; (G7) a floor-effect — the ~8 SD is measured against a baseline “without access to anything.” A 4-persona crit panel (ML-systems / cognitive-scientist / adversarial-skeptic / HCI-product) then disagreed on which gap matters most — that divergence is the signal, not a consensus. All 8 load-bearing quotes verified against the published PDF with page citations. The full R&D gap-find →  ·  Two 20-critic panels (A vs B) — the panel-is-a-knob contrast →  ·  The full research-gap demo — 6 gaps, each with its test → 
+
+ The gaps are not hindsight about what later work found — they are places the paper’s own words open a question it doesn’t close. That is the R&D application: a gap-finder for the research frontier, shown on a paper from the frontier itself.
