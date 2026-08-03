@@ -99,8 +99,9 @@ const FAMILY_COLORS = [
 
 const map = new maplibregl.Map({
   container: "map",
-  // free demo basemap — no token, static-hostable (matches the CRT deploy posture)
-  style: "https://demotiles.maplibre.org/style.json",
+  // dark basemap so the points GLOW (per the PI's Pudding street-view / courts references) —
+  // no token, static-hostable (keeps the CRT deploy posture)
+  style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
   center: [20, 25], zoom: 1.6, hash: true
 });
 
@@ -111,11 +112,15 @@ map.on("load", () => {
   map.addLayer({
     id: "pow-pts", type: "circle", source: "pow", "source-layer": "pow",
     paint: {
-      "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 1.1, 6, 2.2, 10, 3.5],
+      // Size each dot by how many places it stands for (tippecanoe cluster count, via
+      // sqrt_point_count) so dense regions read as bright bubbles, not sparse specks — the
+      // "glowing density map" look from the Pudding references. Singletons default to 1.
+      "circle-radius": ["interpolate", ["linear"], ["coalesce", ["get", "sqrt_point_count"], 1],
+        1, 3, 8, 7, 30, 13, 120, 22, 400, 32],
       "circle-color": FAMILY_COLORS,
-      "circle-opacity": 0.75,
-      "circle-stroke-width": ["interpolate", ["linear"], ["zoom"], 5, 0, 8, 0.4],
-      "circle-stroke-color": "#fff"
+      "circle-opacity": 0.85,
+      "circle-blur": 0.25,
+      "circle-stroke-width": 0
     }
   });
 
@@ -134,7 +139,7 @@ map.on("load", () => {
   map.addLayer({
     id: "grid-line", type: "line", source: "grid",
     layout: { visibility: "none" },
-    paint: { "line-color": "#000", "line-opacity": 0.12 }
+    paint: { "line-color": "#fff", "line-opacity": 0.14 }
   }, "pow-pts");
 
   // point popup — name + resolved tradition + granularity
