@@ -65,10 +65,11 @@
   <div class="hint">Prefix match: "ABR-CHR" sweeps every Christian sub-tradition; "ABR-CHR-CAT" narrows.</div>
 
   <div class="toggle"><input type="checkbox" id="grid" /> <label for="grid" style="margin:0">§2.8 completeness layer</label></div>
-  <div class="hint">Choropleth of <b>tagged fraction</b> per 5° cell — makes the "few churches vs few <i>mapped</i> churches" confound visible.</div>
+  <div class="hint">A red→green overlay of how thoroughly each area is mapped — so you can tell "few churches" apart from "few <i>mapped</i> churches."</div>
 
-  <div class="hint" style="margin-top:10px;border-top:1px solid #eaeaea;padding-top:9px">The honest axis is <b>tradition-ontology × mapping-saturation, not latitude</b>. OSM's schema is Christian-centric — denomination-level tags are dense for Christianity, sparse elsewhere — so the Sahel &amp; Horn read <span style="color:#7a1f1f;font-weight:600">red</span> = under-mapped, not un-religious. The completeness layer makes that visible instead of hiding it.</div>
+  <div class="hint" style="margin-top:10px;border-top:1px solid #eaeaea;padding-top:9px">A dark or empty-looking area usually means <b>OpenStreetMap volunteers haven&rsquo;t mapped it in detail yet</b> — not that it has few religious places. OSM&rsquo;s categories are richest for Christian denominations and thinner elsewhere, so places like the Sahel &amp; Horn of Africa look empty when they aren&rsquo;t. Turn on the completeness layer to see where the map is thorough (green) vs thin (<span style="color:#7a1f1f;font-weight:600">red</span>).</div>
 
+  <div class="hint" style="margin-top:10px"><b>The glow = density</b> — how many places are here (all traditions). Brighter = more. <b>Zoom in</b> and each place becomes a dot, colored by tradition:</div>
   <div class="legend" id="legend">
     <b>Tradition family</b><br>
     <i style="background:#3b6fb0"></i>Abrahamic
@@ -119,9 +120,12 @@ map.on("load", () => {
         1, 0.25, 100, 0.6, 5000, 1],
       "heatmap-intensity": ["interpolate", ["linear"], ["zoom"], 0, 0.7, 6, 1.5],
       "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 0, 9, 6, 24],
-      // transparent → deep purple → magenta → orange → gold → near-white (the glow ramp)
+      // NEUTRAL warm-white "lights at night" glow = DENSITY (how many), NOT a tradition color.
+      // Deliberately avoids every family-legend hue (blue/orange/green/purple/olive) so the glow
+      // is never misread as "African everywhere" etc. — brighter = more places, full stop.
       "heatmap-color": ["interpolate", ["linear"], ["heatmap-density"],
-        0, "rgba(0,0,0,0)", 0.12, "#3a1a63", 0.35, "#8e2d8a", 0.6, "#d1512b", 0.82, "#f0b429", 1, "#fff6d5"],
+        0, "rgba(0,0,0,0)", 0.1, "rgba(255,241,205,0.10)", 0.32, "rgba(255,232,178,0.34)",
+        0.56, "rgba(255,219,148,0.58)", 0.8, "rgba(255,213,120,0.82)", 1, "rgba(255,252,236,0.98)"],
       "heatmap-opacity": ["interpolate", ["linear"], ["zoom"], 5.5, 0.9, 8, 0]
     }
   });
