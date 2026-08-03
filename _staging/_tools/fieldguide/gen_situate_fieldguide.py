@@ -14,6 +14,8 @@ import sys, re, html, json
 
 SRC = sys.argv[1] if len(sys.argv) > 1 else 'situate_gospels.md'
 OUT = sys.argv[2] if len(sys.argv) > 2 else 'situate.html'
+VIZ_PATH = sys.argv[3] if len(sys.argv) > 3 else None
+VIZ = json.load(open(VIZ_PATH, encoding='utf-8')) if VIZ_PATH else {}
 
 raw = open(SRC, encoding='utf-8').read()
 
@@ -55,6 +57,123 @@ def level_class(tag):
     if 'on its own' in t: return 'lv-each'
     return 'lv-whole'
 
+# ── viz renderers: static SVG/HTML from the coded viz-data JSON (engine-backed) ──
+EMBLEM = {'Matthew': '\U0001F477'.replace('\U0001F477', '✦'), 'Mark': '\U0001F981',
+          'Luke': '\U0001F402', 'John': '\U0001F985'}
+EMBLEM = {'Matthew': '\U0001F464', 'Mark': '\U0001F981', 'Luke': '\U0001F402', 'John': '\U0001F985'}
+GOSPELS = ['Matthew', 'Mark', 'Luke', 'John']
+ABBR = {'Matthew': 'Mt', 'Mark': 'Mk', 'Luke': 'Lk', 'John': 'Jn'}
+
+def viz_paradigm(v):
+    sd = v.get('shared_dominant', ''); ps = v.get('per_source', {})
+    cards = []
+    for g in GOSPELS:
+        d = ps.get(g, {}); dom = d.get('dominant', '')
+        secs = sorted([s for s in d.get('scripts', []) if not s.get('is_dominant') and s.get('name') != dom],
+                      key=lambda s: -s.get('salience', 0))[:2]
+        sec = ''.join('<li>' + inline(s['name']) + '</li>' for s in secs)
+        cards.append('<div class="pdg-card"><div class="pdg-emblem">' + EMBLEM.get(g, '') + '</div>'
+                     '<div class="pdg-g">' + g + '</div><div class="pdg-dom">' + inline(dom) + '</div>'
+                     + (('<ul class="pdg-sec">' + sec + '</ul>') if sec else '') + '</div>')
+    return ('<figure class="viz-real viz-paradigm"><div class="pdg-shared">All four share one dominant script — '
+            '<b>' + inline(sd) + '</b> — and inflect it differently:</div><div class="pdg-grid">'
+            + ''.join(cards) + '</div><figcaption>' + esc(v.get('provenance', '')) + '</figcaption></figure>')
+
+def viz_frame(v):
+    ps = v.get('per_source', {}); axes = v.get('axes', [])
+    val = {}
+    for g in GOSPELS:
+        for a in ps.get(g, []):
+            val[(a['axis'], g)] = a['value']
+    shared, diverge = [], []
+    for ax in axes:
+        vals = [val.get((ax, g), '') for g in GOSPELS]
+        if len(set(vals)) == 1 and vals[0]:
+            shared.append((ax, vals[0]))
+        else:
+            diverge.append((ax, list(zip(GOSPELS, vals))))
+    body = ('<div class="fr-legend"><span class="fr-chip shared">shared</span> the common ground'
+            '&nbsp;&nbsp; <span class="fr-chip div">split</span> where they diverge</div>')
+    for ax, v0 in shared:
+        body += ('<div class="fr-row"><div class="fr-ax">' + inline(ax) + '</div><div class="fr-val">'
+                 '<span class="fr-chip shared">' + inline(v0) + '</span> <span class="fr-note">all four agree</span></div></div>')
+    for ax, pairs in diverge:
+        chips = ''.join('<span class="fr-chip div"><b>' + ABBR.get(g, g[:2]) + '</b>&nbsp;' + inline(v0) + '</span>' for g, v0 in pairs)
+        body += '<div class="fr-row"><div class="fr-ax">' + inline(ax) + '</div><div class="fr-val">' + chips + '</div></div>'
+    return '<figure class="viz-real viz-frame">' + body + '<figcaption>' + esc(v.get('provenance', '')) + '</figcaption></figure>'
+
+def _svg_wrap(text, x, y, cls, up, maxc=17, lh=13):
+    words = text.split(); lines = []; cur = ''
+    for w in words:
+        if cur and len(cur + ' ' + w) > maxc: lines.append(cur); cur = w
+        else: cur = (cur + ' ' + w).strip()
+    if cur: lines.append(cur)
+    lines = lines[:3]
+    out = '<text class="%s" text-anchor="middle">' % cls
+    for k, ln in enumerate(lines):
+        yy = y - (len(lines) - 1 - k) * lh if up else y + k * lh
+        out += '<tspan x="%.0f" y="%.0f">%s</tspan>' % (x, yy, esc(ln))
+    return out + '</text>'
+
+def viz_timeline(v):
+    ev = sorted(v.get('events', []), key=lambda e: e.get('sort', 0))
+    if not ev: return ''
+    xs = [e.get('sort', 0) for e in ev]; lo, hi = min(xs), max(xs)
+    W, H, padx = 920, 260, 74
+    X = lambda s: padx + (s - lo) / (hi - lo) * (W - 2 * padx) if hi > lo else W / 2
+    ay = H / 2
+    p = ['<svg viewBox="0 0 %d %d" class="vz-svg" role="img" aria-label="timeline of the gospels and their world">' % (W, H)]
+    p.append('<line x1="%d" y1="%.0f" x2="%d" y2="%.0f" class="vz-axis"/>' % (padx, ay, W - padx, ay))
+    tx = X(70)
+    p.append('<line x1="%.0f" y1="28" x2="%.0f" y2="%d" class="vz-hinge"/>' % (tx, tx, H - 28))
+    p.append('<text x="%.0f" y="20" class="vz-hinge-lab" text-anchor="middle">Temple falls · 70 CE</text>' % tx)
+    up = True
+    for idx, e in enumerate(ev):
+        x = X(e.get('sort', 0)); gsp = e.get('kind') == 'gospel'
+        p.append('<circle cx="%.0f" cy="%.0f" r="%d" class="vz-dot%s"/>' % (x, ay, 5 if gsp else 3, ' vz-gospel' if gsp else ''))
+        if gsp or idx <= 1:   # label the 4 gospels + the two early anchors (Jesus, Paul); the 70-CE cluster stays context dots (Temple = the hinge)
+            ly = ay - 62 if up else ay + 62
+            p.append('<line x1="%.0f" y1="%.0f" x2="%.0f" y2="%.0f" class="vz-conn"/>' % (x, ay, x, ly + (14 if up else -14)))
+            p.append('<text x="%.0f" y="%.0f" class="vz-yr" text-anchor="middle">%s</text>' % (x, ay + (20 if up else -12), esc(e.get('year', ''))))
+            p.append(_svg_wrap(e.get('label', ''), x, ly, 'vz-ev-lab' + (' vz-gospel-lab' if gsp else ''), up))
+            up = not up
+    p.append('</svg>')
+    return '<figure class="viz-real viz-timeline">' + ''.join(p) + '<figcaption>' + esc(v.get('provenance', '')) + '</figcaption></figure>'
+
+def viz_map(v):
+    homes = v.get('homes', [])
+    pts = [h for h in homes if h.get('lat') is not None]
+    unc = [h for h in homes if h.get('lat') is None]
+    if not pts: return ''
+    W, H, pad = 680, 300, 58
+    lons = [h['lon'] for h in pts]; lats = [h['lat'] for h in pts]
+    lo_x, hi_x = min(lons), max(lons); lo_y, hi_y = min(lats), max(lats)
+    dx = (hi_x - lo_x) or 1; dy = (hi_y - lo_y) or 1
+    lo_x -= dx * 0.28; hi_x += dx * 0.28; lo_y -= dy * 0.55; hi_y += dy * 0.55
+    PX = lambda lon: pad + (lon - lo_x) / (hi_x - lo_x) * (W - 2 * pad)
+    PY = lambda lat: H - pad - (lat - lo_y) / (hi_y - lo_y) * (H - 2 * pad)
+    p = ['<svg viewBox="0 0 %d %d" class="vz-svg vz-map-svg" role="img" aria-label="the four gospel homes across the Mediterranean">' % (W, H)]
+    p.append('<rect x="0" y="0" width="%d" height="%d" class="vz-sea"/>' % (W, H))
+    g0 = int(lo_x) // 5 * 5
+    for gl in range(g0, int(hi_x) + 6, 5):
+        gx = PX(gl)
+        if pad < gx < W - pad:
+            p.append('<line x1="%.0f" y1="%d" x2="%.0f" y2="%d" class="vz-grat"/>' % (gx, pad, gx, H - pad))
+    p.append('<text x="%d" y="%d" class="vz-map-dir" text-anchor="start">← west</text>' % (pad, H - 12))
+    p.append('<text x="%d" y="%d" class="vz-map-dir" text-anchor="end">east →</text>' % (W - pad, H - 12))
+    for h in pts:
+        x = PX(h['lon']); y = PY(h['lat'])
+        p.append('<circle cx="%.0f" cy="%.0f" r="6" class="vz-home"/>' % (x, y))
+        p.append('<text x="%.0f" y="%.0f" class="vz-home-em" text-anchor="middle">%s</text>' % (x, y - 15, EMBLEM.get(h['gospel'], '')))
+        p.append('<text x="%.0f" y="%.0f" class="vz-home-lab" text-anchor="middle">%s</text>' % (x, y + 21, esc(h['gospel'] + ' · ' + h['place'].split('(')[0].strip())))
+    p.append('</svg>')
+    uh = ''
+    if unc:
+        u = unc[0]
+        uh = ('<div class="vz-map-unc">' + EMBLEM.get(u['gospel'], '') + ' <b>' + esc(u['gospel']) + '</b> — '
+              + esc(u['place']) + ' <span class="fr-note">(' + esc(u.get('certainty', '')) + ')</span></div>')
+    return '<figure class="viz-real viz-map">' + ''.join(p) + uh + '<figcaption>' + esc(v.get('provenance', '')) + '</figcaption></figure>'
+
 def render_blocks(md):
     """Render a section body (paragraphs, lists, tables, ### subsections, [SLOT], gloss)."""
     out = []
@@ -64,6 +183,8 @@ def render_blocks(md):
         ln = lines[i]
         s = ln.strip()
         if not s:
+            i += 1; continue
+        if re.match(r'^-{3,}$', s):           # horizontal-rule separator — drop (chapters already framed)
             i += 1; continue
         # ### subsection with optional level-tag
         m = re.match(r'^###\s+(.+)$', s)
@@ -81,11 +202,16 @@ def render_blocks(md):
             aid = 'x-' + re.sub(r'[^a-z0-9]+', '-', htxt.lower()).strip('-')[:40]
             out.append(f'<h3 id="{aid}">{inline(htxt)} {lab}</h3>')
             i += 1; continue
-        # [SLOT: ...] viz placeholder
+        # [SLOT: ...] -> bind the real engine-backed viz if data present, else honest placeholder
         m = re.match(r'^\[SLOT:\s*(.+?)\]$', s)
         if m:
-            out.append(f'<figure class="viz-slot"><span class="vs-mark">◈</span>'
-                       f'<figcaption>{inline(m.group(1))}</figcaption></figure>')
+            low = m.group(1).lower(); viz = ''
+            if 'timeline' in low and VIZ.get('timeline'): viz = viz_timeline(VIZ['timeline'])
+            elif ' map' in (' ' + low) and VIZ.get('map'): viz = viz_map(VIZ['map'])
+            elif 'paradigm' in low and VIZ.get('paradigm'): viz = viz_paradigm(VIZ['paradigm'])
+            elif ('radar' in low or 'frame' in low) and VIZ.get('frame'): viz = viz_frame(VIZ['frame'])
+            out.append(viz if viz else (f'<figure class="viz-slot"><span class="vs-mark">◈</span>'
+                       f'<figcaption>{inline(m.group(1))}</figcaption></figure>'))
             i += 1; continue
         # table
         if s.startswith('|'):
@@ -261,6 +387,48 @@ section.frontis{{margin-top:2.5rem}}
 .viz-slot{{margin:1.6rem 0;padding:20px 22px;border:1px dashed color-mix(in srgb,var(--accent) 40%,var(--rule));border-radius:4px;background:color-mix(in srgb,var(--card) 50%,transparent);display:flex;gap:12px;align-items:flex-start}}
 .viz-slot .vs-mark{{color:var(--accent);font-size:16px;flex:0 0 auto;line-height:1.4}}
 .viz-slot figcaption{{font-family:var(--sans);font-style:italic;font-size:14px;color:var(--ink-mute);line-height:1.5}}
+/* real (engine-backed) viz */
+.viz-real{{margin:1.8rem 0}}
+.viz-real .vz-svg{{width:100%;height:auto;display:block}}
+.viz-real figcaption{{font-family:var(--mono);font-size:9.5px;letter-spacing:.02em;color:var(--ink-mute);margin-top:8px;line-height:1.5}}
+.vz-axis{{stroke:var(--ink-mute);stroke-width:1.4}}
+.vz-hinge{{stroke:var(--accent);stroke-width:1;stroke-dasharray:3 4;opacity:.7}}
+.vz-hinge-lab{{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;fill:var(--accent)}}
+.vz-conn{{stroke:var(--rule);stroke-width:1}}
+.vz-dot{{fill:var(--ink-mute)}} .vz-dot.vz-gospel{{fill:var(--accent)}}
+.vz-yr{{font-family:var(--mono);font-size:10px;fill:var(--ink-mute)}}
+.vz-ev-lab{{font-family:var(--sans);font-size:11px;fill:var(--ink-soft)}}
+.vz-ev-lab.vz-gospel-lab{{fill:var(--accent);font-weight:600}}
+.vz-map-svg{{border:1px solid var(--rule);border-radius:4px}}
+.vz-sea{{fill:color-mix(in srgb,#7fa8b8 15%,var(--paper))}}
+.vz-grat{{stroke:var(--rule);stroke-width:.6;opacity:.5}}
+.vz-map-dir{{font-family:var(--mono);font-size:10px;fill:var(--ink-mute)}}
+.vz-home{{fill:var(--accent);stroke:var(--paper);stroke-width:1.5}}
+.vz-home-em{{font-size:16px}}
+.vz-home-lab{{font-family:var(--sans);font-size:12px;fill:var(--ink-soft);font-weight:500}}
+.vz-map-unc{{font-family:var(--sans);font-size:13px;color:var(--ink-mute);margin-top:10px;padding:8px 12px;border:1px dashed var(--rule);border-radius:4px;background:color-mix(in srgb,var(--card) 50%,transparent)}}
+.pdg-shared{{font-family:var(--serif);font-size:16px;color:var(--ink-soft);margin-bottom:14px;line-height:1.5}}
+.pdg-grid{{display:grid;grid-template-columns:1fr 1fr;gap:12px}}
+@media(max-width:560px){{.pdg-grid{{grid-template-columns:1fr}}}}
+.pdg-card{{border:1px solid var(--rule);border-radius:4px;background:var(--card);padding:14px 16px}}
+.pdg-emblem{{font-size:22px;line-height:1}}
+.pdg-g{{font-family:var(--serif);font-weight:600;font-size:18px;color:var(--ink);margin:4px 0 2px}}
+.pdg-dom{{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--accent);line-height:1.35}}
+.pdg-sec{{list-style:none;margin:8px 0 0;padding:0}}
+.pdg-sec li{{font-family:var(--sans);font-size:12.5px;color:var(--ink-mute);padding:2px 0 2px 12px;position:relative}}
+.pdg-sec li::before{{content:"·";position:absolute;left:2px;color:var(--accent)}}
+.viz-frame{{border:1px solid var(--rule);border-radius:4px;padding:16px 18px;background:color-mix(in srgb,var(--card) 40%,transparent)}}
+.fr-legend{{font-family:var(--sans);font-size:12px;color:var(--ink-mute);margin-bottom:12px}}
+.fr-row{{display:grid;grid-template-columns:11rem 1fr;gap:12px;align-items:baseline;padding:7px 0;border-top:1px solid var(--rule)}}
+.fr-row:first-of-type{{border-top:none}}
+.fr-ax{{font-family:var(--mono);font-size:11px;color:var(--ink-soft)}}
+.fr-val{{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline}}
+.fr-chip{{font-family:var(--sans);font-size:12px;padding:2px 9px;border-radius:3px;white-space:nowrap}}
+.fr-chip.shared{{background:color-mix(in srgb,var(--lv-whole) 22%,transparent);color:var(--ink-soft);border:1px solid color-mix(in srgb,var(--lv-whole) 45%,transparent)}}
+.fr-chip.div{{background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent)}}
+.fr-chip.div b{{color:var(--accent);font-weight:600}}
+.fr-note{{font-family:var(--sans);font-size:11px;color:var(--ink-mute);font-style:italic}}
+@media(max-width:560px){{.fr-row{{grid-template-columns:1fr}}}}
 /* read-deeper */
 .deeper-grid{{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:1.2rem}}
 @media(max-width:560px){{.deeper-grid{{grid-template-columns:1fr}}}}
