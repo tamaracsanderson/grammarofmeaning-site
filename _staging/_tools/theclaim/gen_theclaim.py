@@ -46,6 +46,10 @@ for b in blocks:
         out.append('<ul class="recomp">' + ''.join('<li>' + inline(x) + '</li>' for x in items) + '</ul>')
         continue
     text = ' '.join(lines)
+    hm = re.match(r'^#{1,3}\s+(.+)$', text)   # a secondary section heading (e.g. "The ah-ha's")
+    if hm:
+        out.append('<h2 class="section">' + inline(hm.group(1)) + '</h2>')
+        continue
     # a whole-block single-* italic wrapper (lede OR footer links)
     if re.match(r'^\*(?!\*).*[^*]\*$', text):
         inner = text[1:-1]
@@ -78,6 +82,7 @@ PAGE = '''<!doctype html>
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);font-size:17.5px;line-height:1.68}
 main{max-width:34rem;margin:0 auto;padding:9vh 22px 12vh}
 h1{font-size:30px;line-height:1.2;margin:0 0 10px;font-weight:600;text-wrap:balance}
+h2.section{font-size:21px;line-height:1.25;margin:38px 0 4px;font-weight:600;color:var(--fg);padding-top:20px;border-top:1px solid var(--line)}
 .kicker{font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
 p{margin:18px 0}
 .lede{margin:6px 0 22px;padding:14px 20px 16px;border-left:3px solid var(--out);background:color-mix(in srgb,var(--out) 6%,transparent);border-radius:0 10px 10px 0;font-size:18.5px;line-height:1.55;color:var(--fg)}
@@ -101,6 +106,7 @@ p strong:first-child{color:var(--out)}
 <p class="kicker">__KICKER__</p>
 <h1>__TITLE__</h1>
 __BODY__
+<p class="notes-link"><a href="rebuttals.html">The hard questions &mdash; objections &amp; answers &rarr;</a><br><a href="how-we-test.html">How we test this &rarr;</a><br><a href="reflexive.html">The full reflexive gloss &rarr;</a></p>
 <a class="back" href="schema.html">&larr; the schema of the instrument</a>
 </main>
 </body>
