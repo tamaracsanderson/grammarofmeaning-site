@@ -20,7 +20,7 @@
     "coverage": "65,650 held as full text of 376,729 registered (17.4%)",
     "output": "12,824,259 L4 passages (the analytical atoms)",
     "unit": "one source (container) → 0..N L4 passages",
-    "limit": "Only ~17.4% is held as full text. holding_mode: stub=363,314 (registered pointer, no text yet) vs ingested=8,398; content_status='present'=75,265. The bulk is a REGISTERED pointer, not text on disk — 'registered' must never be read as 'held'."
+    "limit": "Only ~17.4% is held as full text. holding_mode: stub=363,314 (registered pointer, no text yet) vs ingested=8,398; content_status='present'=73,966. The bulk is a REGISTERED pointer, not text on disk — 'registered' must never be read as 'held'."
    },
    "example": {
     "id": "SRC-250618",
@@ -63,7 +63,7 @@
      "state": "controlled-not-enforced",
      "allowed": "present · fetch_pending · visual · stub_boilerplate · corrupt_wiped · no_url · (empty)",
      "vset": {
-      "present": 75265
+      "present": 73966
      },
      "desc": "whether real text is actually on disk for this container.",
      "caveat": "227,842 rows carry an EMPTY content_status — the column was added after most rows landed and never backfilled. 'empty' means 'we never classified', not 'no content' (§2.8: name the not-asked)."
@@ -158,7 +158,7 @@
    "status": {
     "status": "Built · running · funnel leaks hard",
     "coverage": "4,761 endpoints catalogued · 3,341 status='built' · 2,837 built+healthy",
-    "output": "shopping_list: 81,012 rows (307 pending · 4,294 fetched · 34 care_pending)",
+    "output": "shopping_list: 81,018 rows (313 pending · 4,294 fetched · 34 care_pending)",
     "unit": "one endpoint → 0..N harvested sources",
     "limit": "The health columns are DEFAULT-INFLATED: 3,201 rows read 'healthy' but last_audit_firing_rate_pct>0 for 0 of them — the audit-firing column is entirely unpopulated. Per the S94 funnel-state ~134 endpoints ACTUALLY yield. 'built+healthy' is an aspiration column, not a measured one (§2.7 data-quality gap)."
    },
@@ -301,12 +301,12 @@
    "table": "silence_finding",
    "tag": "the library audits its own silence",
    "what": "<b>LACUNA</b> is the reflexive turn: the library measures what it is MISSING by set-difference against a <b>clavis</b> — a named external authority that enumerates a literature (e.g. Syriaca.org's Syriac authors). 'Missing' stops meaning 'a machine didn't recall it' and starts meaning 'a named scholarly authority attests this and we hold no witness.'",
-   "why": "This is what makes the corpus's blindness DEFENSIBLE rather than embarrassing (§2.8). Every silence carries the authority's own citation (a <code>clavis_number</code>), so a third party who is NOT us can check it. The auditor never enumerates from memory — the gate is 'no memory-enumeration' (§2.15 black-box).",
+   "why": "This is what makes the corpus's blindness DEFENSIBLE rather than embarrassing (§2.8). Every silence carries the authority's own citation (a <code>clavis_number</code>), so a third party who is NOT us can check it. The auditor never enumerates from memory — the gate is 'no memory-enumeration' (§2.15 black-box). The library's PRINCIPLES — the 14-type silence taxonomy across 2 stances (fillable / acknowledge; Decision 215) + the copyright fallback ladder (held / cited-not-held / rights-blocked; Decision 213) — render live on <a href='principles.html'>the principles page</a>, the top-linked read-me.",
    "logic": "IN: a clavis snapshot (external authority's enumeration) → BOX: set-difference vs corpus holdings, then LLM-adjudicate candidate matches (Haiku temp 0, every verdict logged) → OUT: recall % + a desiderata ticket per silence carrying its clavis_number → NEXT: GROW acquires the silence, the round-trip closes it.",
    "status": {
     "status": "Built · run · LACUNA Phase 1",
     "coverage": "348 silences named · 322 carry a clavis URI",
-    "output": "328 open desiderata · 16 closed (held) · 2 blocked",
+    "output": "328 open desiderata · 13 closed (held) · 4 blocked",
     "unit": "one clavis entry with 0 corpus witnesses → one silence_finding ticket",
     "limit": "The CLAVIS has silences too: Syriaca.org does NOT enumerate gospel commentaries (0 works; even Ephrem's Diatessaron Commentary is absent). The choice of clavis determines which silences are visible — a validated audit is not one with no blind spots, but one whose blind spots are NAMED. Coverage so far: Syriac + Ethiopic authors + gospels-resurrection."
    },
@@ -331,7 +331,7 @@
      "evidence": "recall-vs-clavis: 0 corpus witnesses (canonical_voices + sources.primary_authority); Syriaca attests 1 work(s) by this author. no corpus witness",
      "status": "identified"
     },
-    "tests": "Matching is ADJUDICATED, not generous: deterministic distinctive-token candidate-generation → LLM adjudication rejects false matches (Syriac 'Thomas' ≠ Thomas Hobbes; 'John Rufus' ≠ Musonius Rufus). The recall number is defensible because the matcher is auditable. LACUNA runs WITH a 3-pass CRT; the copyright-ladder round (IRR230, in-flight S159) governs Mode-A cite vs Mode-B breadth."
+    "tests": "Matching is ADJUDICATED, not generous: deterministic distinctive-token candidate-generation → LLM adjudication rejects false matches (Syriac 'Thomas' ≠ Thomas Hobbes; 'John Rufus' ≠ Musonius Rufus). The recall number is defensible because the matcher is auditable. LACUNA runs WITH a 3-pass CRT; the copyright fallback ladder (IRR230, LOCKED Decision 213) governs Mode-A cite vs Mode-B breadth."
    },
    "fields": [
     {
@@ -346,12 +346,12 @@
      "type": "TEXT",
      "tier": "key",
      "state": "controlled-not-enforced",
-     "allowed": "sub-tradition · canon-genre · voice · language · description · survivorship",
+     "allowed": "14 LOCKED types across 2 STANCES (Decision 215; full defs on /engine/principles.html) — FILLABLE (8, the acquisition engine's targets): sub-tradition · language · geography · canon-genre · voice · temporal · description · OCR;  ACKNOWLEDGE (6, the honest limits): orality · survivorship · custodial · governance · copyright · mediated-voice",
      "vset": {
       "sub-tradition": 327
      },
-     "desc": "what KIND of absence this is.",
-     "caveat": "no CHECK; the writer passes model/heuristic output straight through — the taxonomy is controlled by intent, enforced nowhere (exactly the Sitz-drawer honesty)."
+     "desc": "what KIND of absence this is — and, via its STANCE, whether the acquisition engine TARGETS it (fillable) or the map only NAMES it honestly (acknowledge). The stance axis is a real CHECK-enforced column on library_principle (fillable|acknowledge); the taxonomy renders live on the principles page.",
+     "caveat": "no CHECK on silence_finding.silence_type itself — the row-writer passes model/heuristic output straight through (the Sitz-drawer honesty). The 14-type taxonomy is controlled by intent (Decision 215, the corpus 3DR → PI CLC lock) + rendered from the library_principle registry (§2.13/§2.16), not enforced at this row."
     },
     {
      "field": "wall",
@@ -381,8 +381,8 @@
      "allowed": "identified → sourced → held · blocked(never closes)",
      "vset": {
       "identified": 328,
-      "held": 16,
-      "blocked": 2
+      "held": 13,
+      "blocked": 4
      },
      "desc": "the desiderata lifecycle; blocked never closes (an honest dead-end, not a silent drop).",
      "caveat": "no CHECK; lifecycle enforced by the engine, not the DB."
@@ -414,7 +414,7 @@
      "tier": "plumbing",
      "state": "ENFORCEMENT GAP",
      "desc": "the acquired source that closed this silence (the round-trip link to CORPUS).",
-     "caveat": "NULL on 1 of 16 held rows — the FK is NOT back-filled even when status='held'/fill_provenance='verified-acquired'. The close is recorded on status but the LINK to the landed source is missing (a real §2.7 gap to fix)."
+     "caveat": "NULL on 0 of 13 held rows — the FK is NOT back-filled even when status='held'/fill_provenance='verified-acquired'. The close is recorded on status but the LINK to the landed source is missing (a real §2.7 gap to fix)."
     },
     {
      "field": "run_tag · extraction_provenance · methodology_notes · description_author",
@@ -535,7 +535,7 @@
    "logic": "IN: an open silence_finding (identified) → BOX: route its clavis_number/title through ACQUIRE's Parity fan → OUT: a landed source + the silence advanced to held → NEXT: recall re-measures, higher.",
    "status": {
     "status": "Built · run (round-trip proven)",
-    "coverage": "gospels-resurrection: 15/26 silences closed by acquisition",
+    "coverage": "gospels-resurrection: 12/26 silences closed by acquisition",
     "output": "silences advancing identified → sourced → held",
     "unit": "one silence → one acquisition → one closed gap",
     "limit": "The round-trip is proven on small N; the filled_by_source_id FK gap (see LACUNA drawer) means the close is recorded on status but the source-link is not yet back-filled."
@@ -544,7 +544,7 @@
     "id": "gospels-resurrection-roundtrip",
     "label": "SPEC — grounded in the gospels-resurrection round-trip",
     "row": {
-     "closed": 15,
+     "closed": 12,
      "total": 26
     },
     "tests": "SIL-GOS-POSTCOLONIAL is the S159 worked case: silence → Parity fan → non-Western source."
