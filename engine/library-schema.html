@@ -40,6 +40,15 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
 .dtbl th{text-align:left;font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:400;padding:5px 8px;border-bottom:1px solid var(--line)}
 .dtbl td{padding:5px 8px;border-bottom:1px solid color-mix(in srgb,var(--line) 55%,transparent);vertical-align:top}
 .dtbl code{font-family:var(--mono);font-size:11px}
+/* recall-vs-clavis strip (seed-agnostic: one engine, N claves) */
+.recallstrip{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:12px 0 0}
+.recallstrip .rk{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.recallpill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:8px;padding:5px 10px;background:var(--card)}
+.recallpill .rt{font-weight:600;color:var(--fg);font-size:12px}
+.recallpill .rbar{width:52px;height:7px;border-radius:4px;background:color-mix(in srgb,var(--line) 45%,transparent);overflow:hidden}
+.recallpill .rbar i{display:block;height:100%;background:var(--out);border-radius:4px}
+.recallpill .rv{font-family:var(--mono);font-size:11px;color:var(--fg)}
+.recallpill .rn{font-family:var(--mono);font-size:10px;color:var(--muted)}
 .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin:14px 0 0;font-family:var(--mono);font-size:11px;color:var(--muted)}
 .legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
 
@@ -143,6 +152,8 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
     <p class="lede">A primary source goes in. We hold what we can, <b>serve</b> it to the <a href="/engine/schema.html">instrument</a>, <b>audit</b> the corpus for what is missing — then go and <b>fetch</b> it. The corpus is what we hold; the gap drives what we fetch.</p>
     <p class="click"><b>Click any engine</b> — or the corpus, or an output — to see what it takes in, what it puts out, and the run behind it.</p>
     <div class="selfrow" id="selfrow"><span class="k">the library, on itself</span></div>
+    <!-- recall vs clavis — the same engine measured against each tradition's own authority -->
+    <div class="recallstrip" id="recallstrip"></div>
     <!-- the schema's own drawers, rendered from the engine artifact -->
     <div class="metaband" id="metaband"></div>
   </header>
@@ -278,10 +289,18 @@ fetch('data/library_engine_schema.json').then(function(r){if(!r.ok)throw new Err
    if(sr){var c=[];
      if(typeof GAPMAP.sources_held==='number') c.push('<b>'+nfmt(GAPMAP.sources_held)+'</b> held as full text');
      if(typeof GAPMAP.sources_registered==='number') c.push('of <b>'+nfmt(GAPMAP.sources_registered)+'</b> registered');
-     if(typeof GAPMAP.recall_pct==='number') c.push('recall <b>'+GAPMAP.recall_pct+'%</b>');
+     var hasRows=GAPMAP.recall_rows&&GAPMAP.recall_rows.length;
+     if(!hasRows&&typeof GAPMAP.recall_pct==='number') c.push('recall <b>'+GAPMAP.recall_pct+'%</b>');
      if(typeof GAPMAP.cited_silences==='number') c.push('<b>'+nfmt(GAPMAP.cited_silences)+'</b> cited silences');
      if(typeof GAPMAP.closed==='number'&&typeof GAPMAP.total==='number') c.push('gap-map: <b>'+GAPMAP.closed+'/'+GAPMAP.total+'</b> closed');
      sr.innerHTML='<span class="k">the library, on itself</span>'+c.map(function(x){return '<span class="chip">'+x+'</span>';}).join('');
+   }
+   // recall-vs-clavis strip — one engine, N claves (the seed-agnostic result made visible)
+   var rs=document.getElementById('recallstrip'), rr=GAPMAP.recall_rows;
+   if(rs&&rr&&rr.length){
+     rs.innerHTML='<span class="rk">recall vs clavis</span>'+rr.map(function(r){
+       return '<span class="recallpill" title="'+(r.clavis||'').split('"').join('&quot;')+'"><span class="rt">'+r.tradition+'</span><span class="rbar"><i style="width:'+r.pct+'%"></i></span><span class="rv">'+r.pct+'%</span><span class="rn">'+r.held+'/'+r.total+'</span></span>';
+     }).join('');
    }
    // meta-band cards — rendered from the artifact node title/what (data-driven, not hardcoded)
    var mb=document.getElementById('metaband');
