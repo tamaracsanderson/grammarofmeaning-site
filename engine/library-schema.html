@@ -278,8 +278,9 @@ fetch('data/library_engine_schema.json').then(function(r){if(!r.ok)throw new Err
    if(sr){var c=[];
      if(typeof GAPMAP.sources_held==='number') c.push('<b>'+nfmt(GAPMAP.sources_held)+'</b> held as full text');
      if(typeof GAPMAP.sources_registered==='number') c.push('of <b>'+nfmt(GAPMAP.sources_registered)+'</b> registered');
+     if(typeof GAPMAP.recall_pct==='number') c.push('recall <b>'+GAPMAP.recall_pct+'%</b>');
+     if(typeof GAPMAP.cited_silences==='number') c.push('<b>'+nfmt(GAPMAP.cited_silences)+'</b> cited silences');
      if(typeof GAPMAP.closed==='number'&&typeof GAPMAP.total==='number') c.push('gap-map: <b>'+GAPMAP.closed+'/'+GAPMAP.total+'</b> closed');
-     if(typeof GAPMAP.clavis_cited==='number') c.push('<b>'+nfmt(GAPMAP.clavis_cited)+'</b> cited silences · Syriac clavis');
      sr.innerHTML='<span class="k">the library, on itself</span>'+c.map(function(x){return '<span class="chip">'+x+'</span>';}).join('');
    }
    // meta-band cards — rendered from the artifact node title/what (data-driven, not hardcoded)
