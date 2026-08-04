@@ -2,113 +2,122 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>Reading-room house pattern</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* Fonts + treatment ported from the Lovable mock (gospel-depths-explorer) — Cormorant Garamond +
+   IBM Plex Mono; the "night skin" frame (real artwork + drop-shadow + tilt + hover-lift). NOT recreated. */
 :root{--bg:#F6F1E4;--paper:#FCFBF7;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;
  --eng:#2C4A38;--sub:#3F7D57;--out:#C4602F;--honey:#E0A93B;--olive:#6E7B3A;--gold:#B08A3C;
- --plate:#0d0b06;--plate2:#181207;--plate-cream:#E8DCC0;--plate-gold:#C79C46;
- --disp:"Fraunces",Georgia,serif;--serif:"Newsreader",ui-serif,Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
-@media(prefers-color-scheme:dark){:root{--bg:#1B211D;--paper:#232A25;--paper2:#26211A;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;--eng:#7FB894;--sub:#5C9A72;--out:#D9793F;--honey:#E0A93B;--olive:#9CA86A;--gold:#D8B36A}}
-:root[data-theme=dark]{--bg:#1B211D;--paper:#232A25;--paper2:#26211A;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;--eng:#7FB894;--sub:#5C9A72;--out:#D9793F;--honey:#E0A93B;--olive:#9CA86A;--gold:#D8B36A}
+ /* night skin (from the mock's SKINS.night) */
+ --night-field:#12100c;--night-wash:radial-gradient(ellipse 80% 70% at 40% 45%,#221c12 0%,#0b0906 78%);
+ --night-ink:#f2e3bd;--night-soft:#d9c69c;--night-accent:#b08a3c;
+ --disp:"Cormorant Garamond",Georgia,serif;--serif:"Cormorant Garamond",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#1B211D;--paper:#232A25;--paper2:#26211A;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;--eng:#8Fc7a0;--sub:#5C9A72;--out:#D9793F;--honey:#E0A93B;--olive:#9CA86A;--gold:#D8B36A}}
+:root[data-theme=dark]{--bg:#1B211D;--paper:#232A25;--paper2:#26211A;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;--eng:#8Fc7a0;--sub:#5C9A72;--out:#D9793F;--honey:#E0A93B;--olive:#9CA86A;--gold:#D8B36A}
 :root[data-theme=light]{--bg:#F6F1E4;--paper:#FCFBF7;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;--eng:#2C4A38;--sub:#3F7D57;--out:#C4602F;--honey:#E0A93B;--olive:#6E7B3A;--gold:#B08A3C}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 var(--serif)}
-.wrap{max-width:60rem;margin:0 auto;padding:5vh 24px 14vh}
-.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-h1{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(32px,5.5vw,52px);color:var(--eng);line-height:1.05;margin:0 0 14px}
-.manifesto{font-family:var(--disp);font-size:clamp(19px,2.4vw,25px);line-height:1.35;color:var(--fg);max-width:40rem;margin:0 0 8px;font-weight:400}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17.5px/1.7 var(--serif)}
+.wrap{max-width:62rem;margin:0 auto;padding:5vh 24px 14vh}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+h1{font-family:var(--disp);font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-size:clamp(34px,6vw,60px);color:var(--eng);line-height:1.02;margin:0 0 16px}
+.manifesto{font-family:var(--disp);font-size:clamp(20px,2.5vw,27px);line-height:1.4;color:var(--fg);max-width:42rem;margin:0 0 10px;font-weight:400}
 .manifesto b{color:var(--eng);font-weight:600}
-.sub{font-size:16px;color:var(--muted);max-width:44rem;margin:10px 0 0}
+.sub{font-size:17px;color:var(--muted);max-width:44rem;margin:10px 0 0}
 .sub em{font-style:italic}
-section{margin-top:52px}
-.sec-k{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--out);border-top:1px solid var(--line);padding-top:14px;margin:0 0 4px}
+section{margin-top:56px}
+.sec-k{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--out);border-top:1px solid var(--line);padding-top:14px;margin:0 0 6px}
 .sec-k b{color:var(--muted);font-weight:400}
-h2{font-family:var(--disp);font-weight:600;font-size:26px;color:var(--eng);margin:2px 0 14px;line-height:1.15}
-.note{font-size:14px;color:var(--muted);line-height:1.6;max-width:46rem;margin:12px 0}
-.note em{font-style:italic}
+h2{font-family:var(--disp);font-weight:500;letter-spacing:.05em;text-transform:uppercase;font-size:clamp(24px,3vw,32px);color:var(--eng);margin:2px 0 16px;line-height:1.1}
+.note{font-size:16.5px;color:var(--muted);line-height:1.65;max-width:46rem;margin:12px 0}
+.note em{font-style:italic}.note b{color:var(--eng)}
 code{font-family:var(--mono);font-size:13px;background:var(--paper2);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
 
-/* ── THE TWO GROUNDS — shown side by side ── */
-.grounds{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
-@media(max-width:720px){.grounds{grid-template-columns:1fr}}
-.ground{border-radius:14px;border:1px solid var(--line);overflow:hidden;position:relative;min-height:340px;display:flex;flex-direction:column}
-.ground .tag{position:absolute;top:12px;left:14px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;z-index:3}
+/* ── THE TWO GROUNDS ── */
+.grounds{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:16px 0}
+@media(max-width:760px){.grounds{grid-template-columns:1fr}}
+.ground{border-radius:14px;border:1px solid var(--line);overflow:hidden;position:relative;min-height:420px}
+.ground .tag{position:absolute;top:14px;left:16px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;z-index:5}
+/* PAPER ground — vellum grain + linen weave */
 .gd-paper{background:var(--paper)}
 .gd-paper .tag{color:var(--muted)}
-/* vellum grain + linen weave overlays (the tactility) */
 .gd-paper::before{content:"";position:absolute;inset:0;z-index:1;opacity:.5;mix-blend-mode:multiply;pointer-events:none;
  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E")}
 .gd-paper::after{content:"";position:absolute;inset:0;z-index:1;opacity:.4;pointer-events:none;
  background:repeating-linear-gradient(90deg,transparent 0 3px,color-mix(in srgb,var(--line) 30%,transparent) 3px 4px),repeating-linear-gradient(0deg,transparent 0 3px,color-mix(in srgb,var(--line) 22%,transparent) 3px 4px)}
-.gd-paper .inner{position:relative;z-index:2;padding:44px 34px 30px}
-.dropcap{float:left;font-family:var(--disp);font-weight:600;font-size:66px;line-height:.82;color:var(--gold);margin:6px 12px 0 0}
-.gd-paper p{font-family:var(--serif);font-size:15.5px;line-height:1.62;color:var(--fg);margin:0}
-.gd-plate{background:radial-gradient(120% 90% at 50% 30%,var(--plate2),var(--plate));align-items:center;justify-content:center}
-.gd-plate .tag{color:var(--plate-gold)}
-.plate-frame{position:relative;z-index:2;width:150px;height:210px;border:2px solid var(--plate-gold);border-radius:3px;margin:12px auto 14px;
- background:radial-gradient(80% 70% at 50% 38%,#3a2c16,#0f0b05);
- box-shadow:inset 0 0 34px rgba(0,0,0,.75),0 8px 30px -10px rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center}
-.plate-frame span{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:color-mix(in srgb,var(--plate-cream) 60%,transparent)}
-.plate-cap{position:relative;z-index:2;text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb,var(--plate-cream) 70%,transparent);line-height:1.5;max-width:220px;margin:0 auto 30px}
-.plate-cap b{color:var(--plate-cream);font-weight:500}
+.gd-paper .inner{position:relative;z-index:2;padding:46px 36px 34px}
+.dropcap{float:left;font-family:var(--disp);font-weight:600;font-size:76px;line-height:.72;color:var(--gold);margin:8px 14px 0 0}
+.gd-paper p{font-family:var(--serif);font-size:18px;line-height:1.6;color:var(--fg);margin:0}
+/* PLATE ground — the night wash + a REAL painting w/ drop-shadow + tilt + hover-lift */
+.gd-plate{background:var(--night-wash);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:34px}
+.gd-plate .tag{color:var(--night-accent)}
+.plate-art{display:block;max-width:70%;max-height:280px;height:auto;position:relative;z-index:2;
+ filter:saturate(.92) contrast(1.03) drop-shadow(0 24px 40px rgba(0,0,0,.55));
+ transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.plate-art:hover{transform:translateY(-8px)}
+.tilt-a{transform:rotate(-1.4deg)}.tilt-a:hover{transform:rotate(-1.4deg) translateY(-8px)}
+.tilt-b{transform:rotate(1deg)}.tilt-b:hover{transform:rotate(1deg) translateY(-8px)}
+.plate-cap{position:relative;z-index:2;text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb,var(--night-soft) 75%,transparent);line-height:1.6;max-width:280px;margin:22px auto 0}
+.plate-cap b{color:var(--night-ink);font-weight:400}
 
 /* ── swatches ── */
 .swatches{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
-.swatch{width:96px;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-family:var(--mono);font-size:9.5px}
+.swatch{width:100px;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-family:var(--mono);font-size:9.5px}
 .swatch .chip{height:46px}
 .swatch .lab{padding:5px 7px;color:var(--fg);background:var(--card)}
 .swatch .hex{color:var(--muted)}
-.ggrid{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px;max-width:44rem}
+.ggrid{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px;max-width:46rem}
 .gcol h3{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:8px 0 4px}
 
 /* ── type specimens ── */
-.type-spec{border-top:1px solid var(--line);padding:14px 0}
+.type-spec{border-top:1px solid var(--line);padding:16px 0}
 .type-spec:first-of-type{border-top:none}
-.ts-k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
-.ts-fraunces{font-family:var(--disp);font-style:italic;font-weight:600;font-size:34px;color:var(--eng);line-height:1.1}
-.ts-newsreader{font-family:var(--serif);font-size:19px;color:var(--fg);line-height:1.5}
-.ts-inter{font-family:var(--sans);font-size:15px;color:var(--fg)}
-.ts-mono{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--out)}
+.ts-k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.ts-disp{font-family:var(--disp);font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-size:38px;color:var(--eng);line-height:1.05}
+.ts-italic{font-family:var(--disp);font-style:italic;font-size:22px;color:var(--fg);line-height:1.45}
+.ts-mono{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.ts-inter{font-family:var(--sans);font-size:14px;color:var(--muted)}
 
-/* ── alive-elements specimens ── */
-.specrow{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:start;border-top:1px solid var(--line);padding:16px 0}
+/* ── alive-elements ── */
+.specrow{display:grid;grid-template-columns:170px 1fr;gap:18px;align-items:center;border-top:1px solid var(--line);padding:20px 0}
 .specrow:first-of-type{border-top:none}
 .spec-lab{font-family:var(--sans);font-size:13px}
-.spec-lab b{display:block;color:var(--eng);font-size:13.5px;margin-bottom:3px}
-.spec-lab span{color:var(--muted);font-size:12px;line-height:1.45}
-.goldrule{height:0;border-top:1px solid var(--gold);width:100%;margin:10px 0}
-.goldrule.hair{border-top:1px solid color-mix(in srgb,var(--gold) 60%,transparent)}
-.mvmarker{display:flex;align-items:baseline;gap:12px}
+.spec-lab b{display:block;font-family:var(--disp);font-weight:600;color:var(--eng);font-size:17px;text-transform:none;letter-spacing:0;margin-bottom:3px}
+.spec-lab span{color:var(--muted);font-size:12.5px;line-height:1.45}
+.goldrule{height:0;border-top:1px solid var(--gold);width:100%;margin:9px 0}
+.goldrule.hair{border-top:1px solid color-mix(in srgb,var(--gold) 55%,transparent)}
+.mvmarker{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
 .mvmarker .rn{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.1em}
 .mvmarker .latin{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
-.mvmarker .en{font-family:var(--disp);font-size:22px;color:var(--eng);font-weight:600}
+.mvmarker .en{font-family:var(--disp);font-weight:500;letter-spacing:.05em;text-transform:uppercase;font-size:26px;color:var(--eng)}
 .caption-spec{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);line-height:1.6}
 .caption-spec b{color:var(--fg);font-weight:500}
-.frame-mini{width:64px;height:88px;border:1.5px solid var(--gold);border-radius:2px;background:radial-gradient(70% 60% at 50% 40%,#3a2c16,#12100c);box-shadow:inset 0 0 18px rgba(0,0,0,.6)}
+.miniwash{background:var(--night-wash);border-radius:10px;padding:18px;display:flex;justify-content:center}
+.miniwash img{max-height:120px;width:auto;filter:saturate(.92) contrast(1.03) drop-shadow(0 16px 26px rgba(0,0,0,.6));transition:transform .7s cubic-bezier(.2,.7,.2,1);transform:rotate(-1.4deg)}
+.miniwash img:hover{transform:rotate(-1.4deg) translateY(-7px)}
 
-/* ── the Night Gallery movement card (rendered specimen) ── */
-.gallery-demo{background:radial-gradient(120% 80% at 30% 20%,var(--plate2),var(--plate));border-radius:14px;padding:34px 30px 30px;border:1px solid #2a2110}
-.movecard{max-width:300px}
-.movecard .rn{font-family:var(--mono);font-size:13px;color:color-mix(in srgb,var(--plate-cream) 55%,transparent);letter-spacing:.12em}
-.movecard .rn::after{content:"";display:block;width:26px;border-top:1px solid var(--plate-gold);margin-top:6px}
-.movecard .plate-frame{margin:20px 0}
-.movecard h3{font-family:var(--disp);font-weight:600;font-size:34px;color:var(--plate-cream);margin:6px 0 8px;line-height:1}
-.movecard .latin{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--plate-gold);margin:0 0 12px}
-.movecard .oneline{font-family:var(--serif);font-style:italic;font-size:15px;color:color-mix(in srgb,var(--plate-cream) 85%,transparent);line-height:1.5;margin:0 0 14px}
-.movecard .mcap{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:color-mix(in srgb,var(--plate-cream) 55%,transparent);line-height:1.5}
+/* ── the Night Gallery movement card ── */
+.gallery-demo{background:var(--night-wash);border-radius:14px;padding:44px 40px 40px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+@media(max-width:640px){.gallery-demo{grid-template-columns:1fr}}
+.movecard .rn{font-family:var(--mono);font-size:13px;color:color-mix(in srgb,var(--night-soft) 60%,transparent);letter-spacing:.14em}
+.movecard .rn::after{content:"";display:block;width:26px;border-top:1px solid var(--night-accent);margin-top:6px}
+.movecard .art-wrap{margin:22px 0;min-height:220px;display:flex;align-items:center}
+.movecard h3{font-family:var(--disp);font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-size:38px;color:var(--night-ink);margin:4px 0 10px;line-height:1}
+.movecard .latin{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--night-accent);margin:0 0 14px}
+.movecard .oneline{font-family:var(--disp);font-style:italic;font-size:19px;color:color-mix(in srgb,var(--night-ink) 88%,transparent);line-height:1.45;margin:0 0 16px}
+.movecard .mcap{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:color-mix(in srgb,var(--night-soft) 55%,transparent);line-height:1.55}
 
-/* ── config code + tables ── */
-pre{background:var(--plate);color:var(--plate-cream);border-radius:10px;padding:16px 18px;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.6;margin:14px 0}
+/* ── config + tables + pick-list ── */
+pre{background:var(--night-field);color:var(--night-ink);border-radius:10px;padding:16px 18px;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.6;margin:14px 0}
 pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
-table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-size:15px;margin:12px 0}
 th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:400;padding:7px 10px 7px 0;border-bottom:1px solid var(--line)}
 td{padding:9px 10px 9px 0;vertical-align:top;border-bottom:1px solid color-mix(in srgb,var(--line) 55%,transparent);line-height:1.5}
-td:first-child{font-family:var(--sans);font-weight:600;color:var(--eng);white-space:nowrap}
+td:first-child{font-family:var(--sans);font-weight:600;color:var(--eng);white-space:nowrap;font-size:14px}
 .yes{color:var(--sub);font-weight:600}
-.picklist{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
-.picklist dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0;font-size:13.5px}
-.picklist dt{font-family:var(--mono);font-size:11px;color:var(--out);letter-spacing:.04em}
+.picklist{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px}
+.picklist dl{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;margin:0;font-size:14.5px}
+.picklist dt{font-family:var(--mono);font-size:11px;color:var(--out);letter-spacing:.04em;padding-top:2px}
 .picklist dd{margin:0;color:var(--fg)}
-.foot{margin-top:52px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.7}
+.foot{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.7}
 .foot a{color:var(--out)}
 .themebtn{position:fixed;top:14px;right:14px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:var(--sans);z-index:10}
 </style>
@@ -118,31 +127,65 @@ td:first-child{font-family:var(--sans);font-weight:600;color:var(--eng);white-sp
 <button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gom-theme',r.dataset.theme)}catch(e){}">theme</button>
 <div class="wrap">
   <p class="eyebrow">Grammar of Meaning · reading-room house pattern · S159</p>
-  <h1>A reading room, shown.</h1>
+  <h1>A reading room, shown</h1>
   <p class="manifesto">A reading room is a <b>template, not a page.</b> One skeleton, one skin — swap the <b>tradition config</b> (icon · backgrounds · music · movements · voices) and the room feels native, not reskinned.</p>
-  <p class="sub">The feeling to hit: <em>a coffee-table book that comes to life.</em> North star: Taschen · Assouline · Rizzoli · Phaidon · Gestalten. Below, every part is shown as a specimen you can copy.</p>
+  <p class="sub">Fonts + frame treatment are <em>ported from your Lovable mock</em> — Cormorant Garamond + IBM Plex Mono, the "night skin" (real artwork + drop-shadow + tilt + hover-lift). North star: Taschen · Assouline · Rizzoli · Phaidon · Gestalten. <em>Hover the paintings.</em></p>
 
   <section>
     <p class="sec-k">A · <b>the defining move</b></p>
     <h2>Two grounds, one palette</h2>
-    <p class="note">The single thing that keeps the new pages + the current pages reading as <b>one book</b>: name the pattern as one system with two grounds. The <b>paper</b> ground is where you <em>read</em> (warm, vellum + linen texture — the tactility). The <b>plate</b> ground is where art <em>breathes</em> (deep near-black, so the plate glows). Same accent golds/greens on both — so switching rooms feels like turning a page.</p>
+    <p class="note">The single thing that keeps the new pages + the current pages reading as <b>one book</b>: one system, two grounds. The <b>paper</b> ground is where you <em>read</em> (warm, vellum + linen texture). The <b>plate</b> ground is where art <em>breathes</em> (the night wash, so the painting glows and casts a real shadow). Same accent golds/greens on both.</p>
     <div class="grounds">
       <div class="ground gd-paper"><span class="tag">paper ground · reading</span>
         <div class="inner">
           <span class="dropcap">I</span>
-          <p>n the beginning was the reading. The paper ground carries warmth and grain — a low vellum noise with a faint linen weave, so the page feels held, not screen-lit. This is where the text lives: Newsreader at reading size, an illuminated drop-cap, hairline gold rules. The texture is the tactility; the drop-cap is the ceremony.</p>
+          <p>n the beginning was the reading. The paper ground carries warmth and grain — a low vellum noise with a faint linen weave, so the page feels held, not screen-lit. This is where the text lives: Cormorant at reading size, an illuminated drop-cap, hairline gold rules. The texture is the tactility; the drop-cap is the ceremony.</p>
         </div>
       </div>
       <div class="ground gd-plate"><span class="tag">plate ground · gallery</span>
-        <div class="plate-frame"><span>◧ illuminated plate</span></div>
-        <p class="plate-cap"><b>THE ADORATION OF THE SHEPHERDS</b><br>CA. 1605–10 · THE MET</p>
+        <img class="plate-art tilt-a" loading="lazy" src="https://images.metmuseum.org/CRDImages/ep/web-large/DP123919.jpg" alt="El Greco, The Adoration of the Shepherds">
+        <p class="plate-cap"><b>THE ADORATION OF THE SHEPHERDS</b><br>EL GRECO, CA. 1605–10 · THE MET · PUBLIC DOMAIN</p>
       </div>
     </div>
-    <p class="note"><em>Vellum/linen lives on the paper ground only — never on the dark gallery (the plates need clean black to glow).</em></p>
+    <p class="note"><em>The depth is the real painting + its drop-shadow + a slight tilt + a slow hover-lift — not a drawn frame. Vellum/linen lives on the paper ground only; the gallery stays clean night so the plates glow.</em></p>
   </section>
 
   <section>
-    <p class="sec-k">B · <b>the palette</b></p>
+    <p class="sec-k">B · <b>the type</b> — ported from Lovable</p>
+    <h2>Cormorant Garamond + IBM Plex Mono</h2>
+    <div class="type-spec"><div class="ts-k">Cormorant Garamond — display · titles (uppercase, letter-spaced)</div><div class="ts-disp">Nativity · Resurrection</div></div>
+    <div class="type-spec"><div class="ts-k">Cormorant Garamond italic — the one-liners</div><div class="ts-italic">A birth reported by two witnesses and passed over in silence by two others.</div></div>
+    <div class="type-spec"><div class="ts-k">IBM Plex Mono — labels · refs · captions</div><div class="ts-mono">Adventus · MT 1–2 · LK 1–2</div></div>
+    <div class="type-spec"><div class="ts-k">Inter — only the quiet UI chrome</div><div class="ts-inter">enter · play evensong · theme</div></div>
+  </section>
+
+  <section>
+    <p class="sec-k">C · <b>the gallery unit</b> — the Night Gallery card</p>
+    <h2>One movement, shown</h2>
+    <p class="note">The TOC is a horizontal gallery of these on the night ground. This is the real treatment (real MET painting, tilt, hover-lift) — the same you approved.</p>
+    <div class="gallery-demo">
+      <article class="movecard">
+        <div class="rn">I</div>
+        <div class="art-wrap"><img class="plate-art tilt-a" loading="lazy" src="https://images.metmuseum.org/CRDImages/ep/web-large/DP123919.jpg" alt="El Greco, Adoration of the Shepherds"></div>
+        <h3>Nativity</h3>
+        <div class="latin">Adventus · MT 1–2 · LK 1–2</div>
+        <p class="oneline">A birth reported by two witnesses and passed over in silence by two others.</p>
+        <div class="mcap">THE ADORATION OF THE SHEPHERDS, CA. 1605–10 · THE MET</div>
+      </article>
+      <article class="movecard">
+        <div class="rn">II</div>
+        <div class="art-wrap"><img class="plate-art tilt-b" loading="lazy" src="https://images.metmuseum.org/CRDImages/ep/web-large/DT5549.jpg" alt="Patinir, Penitence of Saint Jerome"></div>
+        <h3>Wilderness</h3>
+        <div class="latin">Desertum · MK 1 · MT 3–4 · LK 3–4</div>
+        <p class="oneline">Water, then forty days of nothing. Every gospel puts the emptiness first.</p>
+        <div class="mcap">THE PENITENCE OF SAINT JEROME, JOACHIM PATINIR, CA. 1515 · THE MET</div>
+      </article>
+    </div>
+    <p class="note"><em>The one-liner carries the thesis</em> — "passed over in silence by two others" is the §2.8 silence-finding, woven into the experience.</p>
+  </section>
+
+  <section>
+    <p class="sec-k">D · <b>the palette</b></p>
     <h2>One accent scheme, two grounds</h2>
     <div class="ggrid">
       <div class="gcol"><h3>paper ground</h3><div class="swatches">
@@ -150,10 +193,11 @@ td:first-child{font-family:var(--sans);font-weight:600;color:var(--eng);white-sp
         <div class="swatch"><div class="chip" style="background:#EFE7D3"></div><div class="lab">paper-2<br><span class="hex">#EFE7D3</span></div></div>
         <div class="swatch"><div class="chip" style="background:#C9BE9F"></div><div class="lab">line<br><span class="hex">#C9BE9F</span></div></div>
       </div></div>
-      <div class="gcol"><h3>plate ground</h3><div class="swatches">
-        <div class="swatch"><div class="chip" style="background:#0d0b06"></div><div class="lab">plate<br><span class="hex">#0d0b06</span></div></div>
-        <div class="swatch"><div class="chip" style="background:#181207"></div><div class="lab">plate-2<br><span class="hex">#181207</span></div></div>
-        <div class="swatch"><div class="chip" style="background:#E8DCC0"></div><div class="lab">plate-cream<br><span class="hex">#E8DCC0</span></div></div>
+      <div class="gcol"><h3>night skin (plate ground)</h3><div class="swatches">
+        <div class="swatch"><div class="chip" style="background:#12100c"></div><div class="lab">field<br><span class="hex">#12100c</span></div></div>
+        <div class="swatch"><div class="chip" style="background:#221c12"></div><div class="lab">wash-hi<br><span class="hex">#221c12</span></div></div>
+        <div class="swatch"><div class="chip" style="background:#f2e3bd"></div><div class="lab">ink<br><span class="hex">#f2e3bd</span></div></div>
+        <div class="swatch"><div class="chip" style="background:#b08a3c"></div><div class="lab">accent<br><span class="hex">#b08a3c</span></div></div>
       </div></div>
     </div>
     <h3 style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:14px 0 4px">accents (both grounds)</h3>
@@ -161,70 +205,48 @@ td:first-child{font-family:var(--sans);font-weight:600;color:var(--eng);white-sp
       <div class="swatch"><div class="chip" style="background:#2C4A38"></div><div class="lab">moss<br><span class="hex">#2C4A38</span></div></div>
       <div class="swatch"><div class="chip" style="background:#3F7D57"></div><div class="lab">fern<br><span class="hex">#3F7D57</span></div></div>
       <div class="swatch"><div class="chip" style="background:#B08A3C"></div><div class="lab">gold<br><span class="hex">#B08A3C</span></div></div>
-      <div class="swatch"><div class="chip" style="background:#C79C46"></div><div class="lab">plate-gold<br><span class="hex">#C79C46</span></div></div>
       <div class="swatch"><div class="chip" style="background:#6E7B3A"></div><div class="lab">olive<br><span class="hex">#6E7B3A</span></div></div>
       <div class="swatch"><div class="chip" style="background:#C4602F"></div><div class="lab">terracotta<br><span class="hex">#C4602F</span></div></div>
     </div>
   </section>
 
   <section>
-    <p class="sec-k">C · <b>the type</b></p>
-    <h2>Four voices, one stack</h2>
-    <div class="type-spec"><div class="ts-k">Fraunces — display · the illuminated titles</div><div class="ts-fraunces">Nativity · Resurrection</div></div>
-    <div class="type-spec"><div class="ts-k">Newsreader — serif · the reading</div><div class="ts-newsreader">A birth reported by two witnesses and passed over in silence by two others.</div></div>
-    <div class="type-spec"><div class="ts-k">Inter — UI · the quiet chrome</div><div class="ts-inter">Enter · play evensong · the contents</div></div>
-    <div class="type-spec"><div class="ts-k">IBM Plex Mono — eyebrows + museum captions</div><div class="ts-mono">Adventus · MT 1–2 · LK 1–2</div></div>
-  </section>
-
-  <section>
-    <p class="sec-k">D · <b>the alive-elements</b></p>
-    <h2>What makes it a coffee-table book, not a webpage</h2>
-    <div class="specrow"><div class="spec-lab"><b>The plate-frame</b><span>thin gold border + inner shadow — "the object is precious" (Assouline/Taschen)</span></div><div><div class="frame-mini"></div></div></div>
-    <div class="specrow"><div class="spec-lab"><b>Illuminated drop-cap</b><span>Fraunces, gold — the ceremony of beginning</span></div><div><span style="font-family:var(--disp);font-weight:600;font-size:54px;color:var(--gold);line-height:1">R</span></div></div>
-    <div class="specrow"><div class="spec-lab"><b>Hairline gold rule</b><span>the whisper of a manuscript margin</span></div><div><div class="goldrule"></div><div class="goldrule hair"></div></div></div>
-    <div class="specrow"><div class="spec-lab"><b>Movement marker</b><span>Roman numeral · Latin/native name · English title</span></div><div><div class="mvmarker"><span class="rn">II</span><span class="latin">Desertum</span><span class="en">Wilderness</span></div></div></div>
+    <p class="sec-k">E · <b>the alive-elements</b></p>
+    <h2>What makes it a coffee-table book</h2>
+    <div class="specrow"><div class="spec-lab"><b>The plate, dimensional</b><span>real artwork · drop-shadow(0 24px 40px) · tilt · slow 700ms hover-lift — the depth, not a drawn border</span></div><div class="miniwash"><img loading="lazy" src="https://images.metmuseum.org/CRDImages/ep/web-large/DT1459.jpg" alt="Marriage Feast at Cana"></div></div>
+    <div class="specrow"><div class="spec-lab"><b>Illuminated drop-cap</b><span>Cormorant, gold — the ceremony of beginning</span></div><div><span style="font-family:var(--disp);font-weight:600;font-size:60px;color:var(--gold);line-height:1">R</span></div></div>
+    <div class="specrow"><div class="spec-lab"><b>Hairline gold rules</b><span>the whisper of a manuscript margin</span></div><div><div class="goldrule"></div><div class="goldrule hair"></div></div></div>
+    <div class="specrow"><div class="spec-lab"><b>Movement marker</b><span>Roman numeral · Latin name · English title</span></div><div><div class="mvmarker"><span class="rn">II</span><span class="latin">Desertum</span><span class="en">Wilderness</span></div></div></div>
     <div class="specrow"><div class="spec-lab"><b>The caption voice</b><span>mono, museum-label — provenance + license, always credited</span></div><div><div class="caption-spec"><b>THE PENITENCE OF SAINT JEROME</b><br>JOACHIM PATINIR, CA. 1515 · THE MET · PUBLIC DOMAIN</div></div></div>
-    <div class="specrow"><div class="spec-lab"><b>Slow reveal</b><span>plates fade / gently parallax in on scroll — restrained (Phaidon). Always <code>prefers-reduced-motion</code>-aware.</span></div><div><span class="caption-spec" style="opacity:.5">◡ fades in on scroll</span></div></div>
-  </section>
-
-  <section>
-    <p class="sec-k">E · <b>the gallery unit</b></p>
-    <h2>A Night Gallery movement card</h2>
-    <p class="note">The TOC is a horizontal gallery of these on the plate ground. One card = one movement of the story.</p>
-    <div class="gallery-demo">
-      <div class="movecard">
-        <div class="rn">I</div>
-        <div class="plate-frame"><span>◧ nativity</span></div>
-        <h3>NATIVITY</h3>
-        <div class="latin">Adventus · MT 1–2 · LK 1–2</div>
-        <p class="oneline">A birth reported by two witnesses and passed over in silence by two others.</p>
-        <div class="mcap">THE ADORATION OF THE SHEPHERDS, CA. 1605–10 · THE MET</div>
-      </div>
-    </div>
-    <p class="note"><em>The one-liner carries the thesis</em> — "passed over in silence by two others" is the §2.8 silence-finding, woven into the experience, not bolted on.</p>
   </section>
 
   <section>
     <p class="sec-k">F · <b>the swappable layer</b></p>
     <h2>The tradition config — swap it, get a native room</h2>
-    <p class="note">Everything a new tradition needs is a config object (DATA — a JSON the page renders from, never hardcoded). A Buddhist / Sufi / Yoruba room = the same skeleton with its own icon, movements, chant, art, figures.</p>
+    <p class="note">Everything a new tradition needs is a config object (DATA the page renders from, never hardcoded). This IS the mock's <code>MOVEMENTS</code> array — I port it directly. A Buddhist / Sufi / Yoruba room = the same skeleton with its own icon, movements, chant, art, figures.</p>
     <pre><code>tradition = {
   id: "gospels",  name: "The Gospels",  tagline: "Four accounts · one door",
   hero_icon: "christ-pantocrator.jpg",
-  accent:  { gold:"#B08A3C", green:"#2C4A38" },     // optional per-tradition tint
-  background_pool: [ "plate-nativity.jpg", ... ],   // rotating landing backgrounds
-  music_manifest:  [ {title, tradition, performer, src, license, credit_line}, ... ],
-  movements: [ { numeral:"I", title:"NATIVITY", label:"ADVENTUS", refs:"MT 1–2 · LK 1–2",
-                 one_line:"A birth reported by two witnesses and passed over in silence…",
-                 plate:"adoration-shepherds.jpg", caption:"…CA. 1605–10 · THE MET" }, ... ],
-  voices: [ {name:"Matthew", emblem:"matthew-angel.svg"}, ... ],
+  background_pool: [ ... ],                          // rotating landing backgrounds
+  music_manifest:  [ {title, tradition, performer, src, license, credit}, ... ],
+  movements: [
+    { n:"I",  title:"Nativity",     latin:"Adventus",  refs:"Mt 1–2 · Lk 1–2",
+      line:"A birth reported by two witnesses and passed over in silence by two others.",
+      img:"…/DP123919.jpg", credit:"The Adoration of the Shepherds, ca. 1605–10 · The Met" },
+    { n:"II", title:"Wilderness",   latin:"Desertum",  refs:"Mk 1 · Mt 3–4 · Lk 3–4",  … },
+    { n:"III",title:"Teaching",     latin:"Doctrina",  … },   // Christ and the Adulteress · The Met
+    { n:"IV", title:"Signs",        latin:"Signa",     … },   // Marriage Feast at Cana · The Met
+    { n:"V",  title:"Passion",      latin:"Passio",    … },   // Crucifixion; Last Judgment · The Met
+    { n:"VI", title:"Resurrection", latin:"Resurrectio", … }, // German diptych, 1300–1325 · The Met
+  ],
+  voices: [ {name:"Matthew", emblem:"matthew-angel.svg"}, … ],
 }</code></pre>
     <table><thead><tr><th>Layer</th><th>Fixed (the house)</th><th>Swappable (the config)</th></tr></thead><tbody>
-      <tr><td>Type + palette structure</td><td class="yes">✓</td><td>accent tint only</td></tr>
-      <tr><td>Two grounds + alive-elements</td><td class="yes">✓</td><td>—</td></tr>
-      <tr><td>Interactions (theme · player · scroll)</td><td class="yes">✓</td><td>—</td></tr>
+      <tr><td>Fonts (Cormorant + Plex Mono) + palette</td><td class="yes">✓</td><td>accent tint only</td></tr>
+      <tr><td>Two grounds + the night-skin frame treatment</td><td class="yes">✓</td><td>—</td></tr>
+      <tr><td>Alive-elements + interactions</td><td class="yes">✓</td><td>—</td></tr>
       <tr><td>Hero icon · backgrounds · music</td><td>—</td><td class="yes">✓</td></tr>
-      <tr><td>Movements · voices</td><td>—</td><td class="yes">✓</td></tr>
+      <tr><td>Movements (art + refs + one-liners) · voices</td><td>—</td><td class="yes">✓</td></tr>
     </tbody></table>
   </section>
 
@@ -232,23 +254,22 @@ td:first-child{font-family:var(--sans);font-weight:600;color:var(--eng);white-sp
     <p class="sec-k">G · <b>pick-list</b></p>
     <h2>The locked system, ready to copy</h2>
     <div class="picklist"><dl>
-      <dt>display</dt><dd>Fraunces (titles, drop-caps) — italic for the room name</dd>
-      <dt>reading</dt><dd>Newsreader</dd>
-      <dt>chrome</dt><dd>Inter</dd>
-      <dt>labels</dt><dd>IBM Plex Mono (eyebrows, refs, captions)</dd>
+      <dt>display / titles</dt><dd>Cormorant Garamond · weight 500 · uppercase · letter-spacing .06em (not italic)</dd>
+      <dt>one-liners</dt><dd>Cormorant Garamond italic</dd>
+      <dt>labels / refs / captions</dt><dd>IBM Plex Mono · uppercase · gold</dd>
+      <dt>UI chrome only</dt><dd>Inter</dd>
       <dt>paper ground</dt><dd>#FCFBF7 + vellum noise (~6%) + linen weave (~40%)</dd>
-      <dt>plate ground</dt><dd>radial #181207→#0d0b06; plate-cream #E8DCC0; plate-gold #C79C46</dd>
-      <dt>accents</dt><dd>moss #2C4A38 · fern #3F7D57 · gold #B08A3C · olive #6E7B3A · terracotta #C4602F</dd>
-      <dt>plate-frame</dt><dd>2px gold border · inset shadow 0 0 34px · drop 0 8px 30px −10px</dd>
-      <dt>motion</dt><dd>slow fade/parallax on scroll · always reduced-motion-aware</dd>
-      <dt>data rule</dt><dd>render from the tradition config JSON — nothing hardcoded (§2.13/§2.16)</dd>
+      <dt>night skin</dt><dd>wash radial-gradient(ellipse 80% 70% at 40% 45%, #221c12 → #0b0906); ink #f2e3bd; accent #b08a3c</dd>
+      <dt>the frame = the art</dt><dd>real painting · filter saturate(.92) contrast(1.03) drop-shadow(0 24px 40px rgba(0,0,0,.55)) · tilt rotate(±1–1.4deg) · hover translateY(−8px) over .7s — NO drawn border</dd>
+      <dt>images</dt><dd>real MET public-domain (images.metmuseum.org), credited in the caption</dd>
+      <dt>data rule</dt><dd>render from the tradition config / MOVEMENTS — nothing hardcoded (§2.13/§2.16)</dd>
     </dl></div>
   </section>
 
   <div class="foot">
-    Reading-room house pattern · design-SB · S159 · 2026-08-04<br>
-    Sources: the GoM house pattern (<a href="/_staging/_bakeoff/HOUSE_PATTERN.html">_bakeoff/HOUSE_PATTERN.html</a>) · the current reading room (<a href="/reading-room-preview/">reading-room-preview</a>) · the Lovable "Night Gallery · FINAL" mock · the fine-art-publisher north stars · §2.8 · §2.13/§2.16 · §2.15.<br>
-    <span style="opacity:.7">Note: the plate images here are placeholders showing the treatment; the real illuminated plates drop in at build.</span>
+    Reading-room house pattern · design-SB · S159 · 2026-08-04 · fonts + frame ported from the Lovable gospel-depths-explorer mock<br>
+    Sources: the Lovable mock (Cormorant Garamond · IBM Plex Mono · SKINS.night · MOVEMENTS) · the GoM house pattern (<a href="/_staging/_bakeoff/HOUSE_PATTERN.html">_bakeoff/HOUSE_PATTERN.html</a>) · the current reading room (<a href="/reading-room-preview/">reading-room-preview</a>) · §2.8 · §2.13/§2.16 · §2.15.<br>
+    <span style="opacity:.7">Other Lovable TOC skins (vellum · verdigris · oxblood · lapis · linen) + the TABULA drop-cap + the SIX-MOVEMENTS index — kept for later per your note.</span>
   </div>
 </div>
 </body></html>
