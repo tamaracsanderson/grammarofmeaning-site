@@ -75,8 +75,9 @@ footer.foot a{color:var(--fern);text-decoration:none}
     <span><b class="k-part">● part</b> — the four split</span>
   </div>
   <div class="kindkey chan">
-    <span>◟ bow width = <b>divergence</b> — how much the carriers disagree</span>
+    <span>band width = <b>divergence</b> — how much the four disagree here (aggregate)</span>
     <span>┈ dashed thread = <b>omission</b> — a voice silent here</span>
+    <span>lane position = a fixed map, <b>not</b> a per-gospel measure</span>
   </div>
   <p class="honest" id="honest-note"></p>
   <!-- provenance render-contract: the spine is the real coded shared-beat scan (BRAID-RESURRECTION, in coded_ledger) -->
@@ -127,10 +128,23 @@ function renderBraidSpine(data, mount){
   //    out to the margin as a dashed, faded thread — never folded into the divergence bow.
   var hasDiv = spine.some(function(b){ return typeof b.divergence==='number'; });
   var rank={}; order.forEach(function(k,i){ rank[k] = i-(N-1)/2; });     // signed column rank
-  var BASE_GAP=12, DIV_GAP=36;                                            // tight ↔ bowed
-  function carrierX(k,d){ return cx + rank[k]*(BASE_GAP + (d||0)*DIV_GAP); }
-  function dropX(k){ var s = rank[k]<0?-1:1; return cx + s*(100 + Math.abs(rank[k])*6); }
   function divOf(b){ return typeof b.divergence==='number' ? b.divergence : (b.carried_by.length>=N?0:1); }
+  // HONESTY (reading-SB, S158): the distance data has ONE divergence number PER BEAT
+  // (aggregate — how much the four disagree there), and nothing per-gospel. So we must
+  // NOT position individual strands by divergence — that would imply the outer lanes
+  // (John/Matthew) diverge more, which the data can't support (§2.8 bias-visibility).
+  //  · lanes are FIXED (a subway map): laneX — carrying strands run parallel.
+  //  · DIVERGENCE is a symmetric ENVELOPE: the whole bundle's WIDTH grows where they
+  //    disagree — un-attributed to any gospel.
+  //  · OMISSION stays the separate drop-out channel (dashed strand to the margin).
+  // Per-gospel "who is the outlier here" is a buildable upgrade (reading-SB computes
+  // each gospel's distance-from-consensus from the typed gaps) — then strands reposition
+  // individually INSIDE this envelope. carrierX is reserved for that upgrade.
+  var LANE_FIXED=11, ENV_BASE=20, ENV_AMP=64, BASE_GAP=12, DIV_GAP=36;
+  function laneX(k){ return cx + rank[k]*LANE_FIXED; }
+  function carrierX(k,d){ return cx + rank[k]*(BASE_GAP + (d||0)*DIV_GAP); }  // reserved for the per-gospel upgrade
+  function envW(b){ return ENV_BASE + divOf(b)*ENV_AMP; }                      // divergence → half-width
+  function dropX(k){ var s = rank[k]<0?-1:1; return cx + s*(108 + Math.abs(rank[k])*6); }
   // legacy fallback (data without a divergence channel): bow non-carriers out at fixed amplitude
   function bowX(k){ var off = baseX[k]-cx, dir = off<0?-1:(off>0?1:-1); return cx + dir*(70 + Math.abs(off)*2.2); }
 
@@ -162,18 +176,33 @@ function renderBraidSpine(data, mount){
   // center guide
   svg += '<line x1="'+cx+'" y1="'+(topPad-6)+'" x2="'+cx+'" y2="'+(vbH-topPad+6)+'" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/>';
 
+  // divergence envelope (aggregate, symmetric): a faint band centred on the axis whose
+  // WIDTH = per-beat divergence — wide where the four disagree, tight where they agree.
+  // This carries the ONLY per-beat signal the data has; strands stay fixed lanes.
+  if(hasDiv){
+    var ep=[{y:topPad-6,w:ENV_BASE}];
+    rows.forEach(function(r){ ep.push({y:r.cy, w:envW(r.b)}); });
+    ep.push({y:vbH-topPad+6,w:ENV_BASE});
+    var last=ep.length-1, dE='M '+(cx-ep[0].w)+' '+ep[0].y, i2, a2, b2, ym2;
+    for(i2=1;i2<ep.length;i2++){ a2=ep[i2-1]; b2=ep[i2]; ym2=(a2.y+b2.y)/2; dE+=' C '+(cx-a2.w)+' '+ym2+' '+(cx-b2.w)+' '+ym2+' '+(cx-b2.w)+' '+b2.y; }
+    dE+=' L '+(cx+ep[last].w)+' '+ep[last].y;
+    for(i2=last;i2>0;i2--){ a2=ep[i2]; b2=ep[i2-1]; ym2=(a2.y+b2.y)/2; dE+=' C '+(cx+a2.w)+' '+ym2+' '+(cx+b2.w)+' '+ym2+' '+(cx+b2.w)+' '+b2.y; }
+    dE+=' Z';
+    svg += '<path d="'+dE+'" fill="var(--moss)" opacity="0.085" stroke="none"><title>bundle width = per-beat divergence (aggregate)</title></path>';
+  }
+
   // one strand per source. With a divergence channel: draw per-segment, so a dropped
   // (omitted) segment renders dashed + faded (the omission channel) while carried
   // segments are solid and spread by divergence. Without it: the legacy single bow.
   order.forEach(function(k){
     var col = S[k] || {}, color = col.color || 'var(--ink-2)';
     if(hasDiv){
-      var nodes=[{x:carrierX(k,0), y:topPad-6, drop:false}];
+      var nodes=[{x:laneX(k), y:topPad-6, drop:false}];
       rows.forEach(function(r){
         var here = r.b.carried_by.indexOf(k)>=0;
-        nodes.push({ x: here ? carrierX(k, divOf(r.b)) : dropX(k), y:r.cy, drop:!here });
+        nodes.push({ x: here ? laneX(k) : dropX(k), y:r.cy, drop:!here });   // fixed lane when carried
       });
-      nodes.push({x:carrierX(k,0), y:vbH-topPad+6, drop:false});
+      nodes.push({x:laneX(k), y:vbH-topPad+6, drop:false});
       for(var i=1;i<nodes.length;i++){
         var a=nodes[i-1], b=nodes[i], ghost=a.drop||b.drop, ym=(a.y+b.y)/2;
         var d='M '+a.x+' '+a.y+' C '+a.x+' '+ym+' '+b.x+' '+ym+' '+b.x+' '+b.y;
