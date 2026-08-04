@@ -1,228 +1,355 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Library — how the corpus grows · Grammar of Meaning</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="robots" content="noindex,nofollow">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>The Library — how it works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#FCFBF7;--bg2:#FFFFFF;--ink:#24302A;--dim:#52605A;--faint:#7C8478;--gold:#C4602F;--honey:#E0A93B;--teal:#3F7D57;--moss:#2C4A38;--olive:#6E7B3A;--rose:#B0552B;--line:#C9BE9F;--card:#FFFFFF;--card2:#FBF8EF;
---mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;--serif:'Newsreader',Georgia,serif;--sans:'Inter',system-ui,-apple-system,sans-serif;}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#1C1813;--bg2:#221D16;--ink:#ECE6D8;--dim:#C3BCAC;--faint:#8E877A;--gold:#E08A54;--honey:#D8B36A;--teal:#7FB894;--moss:#A9C9B2;--olive:#9CA86A;--rose:#E08A54;--line:#3D362B;--card:#221D16;--card2:#26211A;}}
-:root[data-theme=dark]{--bg:#1C1813;--bg2:#221D16;--ink:#ECE6D8;--dim:#C3BCAC;--faint:#8E877A;--gold:#E08A54;--honey:#D8B36A;--teal:#7FB894;--moss:#A9C9B2;--olive:#9CA86A;--rose:#E08A54;--line:#3D362B;--card:#221D16;--card2:#26211A;}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{color:var(--teal)}
-.bar{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 20px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
-.bar a{font-size:13px;color:var(--teal);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--teal) 40%,transparent)}
-.bar .rm{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
-.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
-header.pg{max-width:52rem;margin:0 auto;padding:6vh 22px 1vh;text-align:center}
-.kick{font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--gold);font-weight:600;margin:0 0 12px}
-h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,46px);line-height:1.08;color:var(--moss);margin:0 0 12px;letter-spacing:-.02em}
-.lede{color:var(--dim);font-size:18px;max-width:44rem;margin:0 auto;line-height:1.55}
-.lede b{color:var(--ink)}
-.legend-badges{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;margin:18px auto 0;font-family:var(--mono);font-size:11px;color:var(--dim)}
-.legend-badges span{display:inline-flex;align-items:center;gap:6px}.legend-badges i{width:9px;height:9px;border-radius:50%;display:inline-block}
-.ribbon{max-width:1040px;margin:4vh auto 0;padding:0 22px}
-.zones{display:grid;grid-template-columns:1fr;gap:16px}
-.zone{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:14px 16px}
-.zone-h{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 10px;display:flex;align-items:center;gap:8px}
-.zone-h .zt{font-weight:600}
-.zone.stock{border-color:color-mix(in srgb,var(--honey) 45%,var(--line));background:linear-gradient(180deg,color-mix(in srgb,var(--honey) 7%,var(--card)),var(--card))}
-.zone.engines{border-color:color-mix(in srgb,var(--teal) 40%,var(--line));background:linear-gradient(180deg,color-mix(in srgb,var(--teal) 5%,var(--card)),var(--card))}
-.zone-eng-tag{font-family:var(--mono);font-size:9.5px;color:var(--teal);border:1px solid color-mix(in srgb,var(--teal) 40%,transparent);border-radius:999px;padding:1px 7px;margin-left:auto}
-.stagerow{display:flex;flex-wrap:wrap;gap:8px}
-.stage{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;background:var(--card2);padding:8px 11px;cursor:pointer;transition:all .14s;text-align:left;font:inherit;color:inherit;flex:1 1 auto;min-width:160px}
-.stage:hover,.stage.active{border-color:var(--gold);box-shadow:0 6px 18px -12px rgba(196,96,47,.5)}
-.stage .num{font-family:var(--serif);font-size:19px;color:var(--gold);line-height:1;flex:0 0 auto}
-.stage .lab{display:flex;flex-direction:column;gap:1px;min-width:0}
-.stage .nm{font-weight:600;font-size:13.5px;color:var(--ink)}
-.stage .eng{font-family:var(--mono);font-size:9.5px;color:var(--faint);letter-spacing:.03em}
-.stage .b{width:8px;height:8px;border-radius:50%;flex:0 0 auto;margin-left:auto}
-.b.run{background:var(--teal)}.b.early{background:var(--honey)}.b.wip{background:var(--gold)}
-.arrow{align-self:center;color:var(--faint);font-size:15px;flex:0 0 auto}
-.flywheel{border:1px dashed color-mix(in srgb,var(--gold) 55%,var(--line));border-radius:12px;background:color-mix(in srgb,var(--gold) 5%,var(--card));padding:12px 16px;margin-top:16px;font-size:13.5px;color:var(--dim);text-align:center}
-.flywheel b{color:var(--gold)}.flywheel .fw-arrow{font-family:var(--mono);color:var(--gold);font-weight:600}
-.stophere{text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--faint);margin:14px 0 0}
-.drawer{max-width:1040px;margin:20px auto 0;padding:0 22px}
-.dcard{border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;background:var(--card);padding:20px 22px;box-shadow:0 18px 40px -30px rgba(36,48,42,.4)}
-.dcard .dh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
-.dcard .dnum{font-family:var(--serif);font-size:24px;color:var(--gold)}
-.dcard .dnm{font-family:var(--serif);font-size:22px;color:var(--moss);font-weight:600}
-.dcard .deng{font-family:var(--mono);font-size:11px;color:var(--faint)}
-.badge{font-family:var(--mono);font-size:10px;letter-spacing:.04em;padding:2px 9px;border-radius:999px;border:1px solid;white-space:nowrap}
-.badge.run{color:var(--teal);border-color:color-mix(in srgb,var(--teal) 45%,transparent);background:color-mix(in srgb,var(--teal) 8%,transparent)}
-.badge.early{color:#9a7420;border-color:color-mix(in srgb,var(--honey) 55%,transparent);background:color-mix(in srgb,var(--honey) 12%,transparent)}
-.badge.wip{color:var(--gold);border-color:color-mix(in srgb,var(--gold) 45%,transparent);background:color-mix(in srgb,var(--gold) 8%,transparent)}
-.dsect{margin-top:16px}
-.dsect h4{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin:0 0 7px}
-.dtrans{font-size:14.5px;color:var(--dim);line-height:1.6;margin:0}
-.iocols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-@media(max-width:640px){.iocols{grid-template-columns:1fr}.zones .stagerow{flex-direction:column}}
-.frow{padding:5px 0;border-bottom:1px solid color-mix(in srgb,var(--line) 55%,transparent);font-size:13px;color:var(--ink)}
-.frow .fn{font-family:var(--mono);font-size:12px}
-.datatitle{font-family:var(--mono);font-size:12px;color:var(--moss);margin:0 0 8px;font-weight:600}
-.selfaudit{font-family:var(--mono);font-size:15px;color:var(--ink);background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;text-align:center;letter-spacing:.02em}
-.selfaudit b{color:var(--gold)}
-.await{font-family:var(--mono);font-size:11px;color:var(--gold);background:color-mix(in srgb,var(--gold) 8%,transparent);border:1px dashed color-mix(in srgb,var(--gold) 45%,transparent);border-radius:6px;padding:2px 8px;display:inline-block}
-.bars{display:flex;flex-direction:column;gap:4px}
-.barrow{display:grid;grid-template-columns:150px 1fr 46px;align-items:center;gap:8px;font-size:12px}
-.barrow .k{font-family:var(--mono);font-size:11px;color:var(--dim);text-align:right}
-.barrow .track{height:14px;background:color-mix(in srgb,var(--line) 40%,transparent);border-radius:4px;overflow:hidden}
-.barrow .fill{height:100%;border-radius:4px;background:var(--teal)}
-.barrow .v{font-family:var(--mono);font-size:11px;color:var(--ink);text-align:right}
-.gaps{font-size:13.5px;color:var(--dim);line-height:1.6;margin:0}
-.gaps b{color:var(--ink)}
-.dlink{font-size:13px;margin-top:14px}.dlink a{color:var(--gold);font-weight:600;text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--gold) 40%,transparent)}
-footer.foot{max-width:52rem;margin:5vh auto 0;padding:0 22px 12vh;font-size:12px;line-height:1.65;color:var(--faint);text-align:center;border-top:1px solid var(--line);padding-top:18px}
-footer.foot a{color:var(--teal)}
+/* Grammar of Meaning house pattern — sibling of engine/schema.html (Fig.01). Same palette / drawer / grammar. */
+:root{--bg:#F6F1E4;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;
+ --eng:#2C4A38;--sub:#3F7D57;--tbd:#8AA88B;--out:#C4602F;--in:#C4602F;--warn:#C4602F;--honey:#E0A93B;--olive:#6E7B3A;
+ --serif:"Newsreader",ui-serif,Georgia,serif;--sans:"Inter",ui-sans-serif,system-ui,sans-serif;
+ --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#1B211D;--paper2:#232A25;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;
+ --eng:#4A7A5C;--sub:#5C9A72;--tbd:#6B7A6D;--out:#D9793F;--in:#D9793F;--warn:#D9793F;--olive:#9CA86A}}
+:root[data-theme=dark]{--bg:#1B211D;--paper2:#232A25;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;--eng:#4A7A5C;--sub:#5C9A72;--tbd:#6B7A6D;--out:#D9793F;--in:#D9793F;--warn:#D9793F;--olive:#9CA86A}
+:root[data-theme=light]{--bg:#F6F1E4;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;--eng:#2C4A38;--sub:#3F7D57;--tbd:#8AA88B;--out:#C4602F;--in:#C4602F;--warn:#C4602F;--olive:#6E7B3A}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 var(--sans);font-feature-settings:"ss01","cv11"}
+.wrap{max-width:1080px;margin:0 auto;padding:26px 22px 20px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}
+.topbar a{font-size:13px;color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;letter-spacing:-.01em;color:var(--eng);margin:0 0 12px;line-height:1.1}
+.lede{font-family:var(--serif);font-size:17px;line-height:1.6;color:var(--fg);max-width:44rem;margin:0 0 12px}
+.lede a{color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
+.click{font-size:14px;color:var(--muted);max-width:44rem;margin:0 0 4px}.click b{color:var(--fg);font-weight:600}
+.selfrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;border-top:1px solid var(--line);margin-top:22px;padding-top:18px}
+.selfrow .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.chip{display:inline-block;border-radius:.35rem;border:1px solid var(--line);background:var(--paper2);padding:.32rem .6rem;font-size:12.5px;color:var(--fg)}
+.chip b{color:var(--eng)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin:14px 0 0;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+/* ── the flow diagram ── */
+.flow{position:relative;margin-top:34px;padding-right:8px}
+.flowsvg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;display:none}
+@media(min-width:820px){.flowsvg{display:block}}
+.row{position:relative;display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:820px){.row{grid-template-columns:64px 1fr;gap:0 26px}}
+.row+.row{margin-top:34px}
+@media(min-width:820px){.r-corpus{margin-top:78px}.r-engines{margin-top:118px}.r-outputs{margin-top:104px}}
+.rail{display:none}
+@media(min-width:820px){.rail{display:block;padding-top:6px}
+ .rail span{display:inline-block;background:var(--paper2);border:1px solid var(--line);border-radius:8px;padding:14px 5px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  writing-mode:vertical-rl;transform:rotate(180deg)}}
+.railm{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+@media(min-width:820px){.railm{display:none}}
+.center{display:flex;justify-content:center}
+.mdown{display:flex;justify-content:center;color:var(--muted);font-size:18px;padding:12px 0}
+@media(min-width:820px){.mdown{display:none}}
+
+/* node cards */
+.node{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:18px 22px;transition:box-shadow .22s,transform .22s;width:100%}
+.node h2{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--eng);margin:0 0 6px}
+.node .sub{font-size:13.5px;line-height:1.55;color:var(--muted)}
+.node .sub em{font-style:italic}
+.node .fine{font-size:12.5px;font-style:italic;color:var(--muted);opacity:.9;margin-top:6px}
+.n-source{max-width:30rem;border-color:color-mix(in srgb,var(--out) 60%,var(--line));text-align:center}
+.n-corpus{max-width:42rem;background:var(--paper2);border-color:color-mix(in srgb,var(--eng) 45%,var(--line));text-align:center}
+button.node{font:inherit;cursor:pointer;text-align:left;display:block}
+button.node:hover{transform:translateY(-2px);box-shadow:0 12px 30px -18px rgba(40,48,42,.55)}
+button.n-corpus{text-align:center}
+.openz{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:12px;opacity:.6;transition:opacity .2s}
+button.node:hover .openz{opacity:1}
+
+/* engines panel */
+.panel{border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--paper2) 55%,var(--bg));padding:18px}
+.panel-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 10px;margin-bottom:14px}
+.panel-h .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.panel-h .n{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--muted)}
+.grid3{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:640px){.grid3{grid-template-columns:repeat(3,1fr)}}
+.eng h3{font-family:var(--serif);font-size:17px;font-weight:600;margin:0 0 6px}
+.eng .sub{color:var(--fg)}
+.eng .fine{margin-top:8px}
+
+/* outputs */
+.outgrid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:640px){.outgrid{grid-template-columns:repeat(3,1fr)}}
+.out .onum{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase}
+.out h3{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--eng);margin:6px 0 4px}
+.out .sub{color:var(--muted)}
+@media(min-width:640px){.out-list-wrap{grid-column:2;margin-top:150px}}
+
+/* flywheel band + footer */
+.flywheel{border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--paper2) 55%,var(--bg));padding:18px 20px;margin-top:64px}
+.flywheel .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.flywheel p{font-family:var(--serif);font-style:italic;font-size:16px;line-height:1.6;color:var(--fg);max-width:52rem;margin:10px 0 0}
+.figfooter{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line);margin-top:36px;padding:18px 0 8px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+/* ── drawer (native dialog — identical grammar to schema.html Fig.01) ── */
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--fg);max-width:760px;width:92%;padding:0;max-height:92vh}
+dialog[open]{display:flex;flex-direction:column}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.dh{padding:16px 20px 12px;border-bottom:1px solid var(--line);flex-shrink:0}
+.close{float:right;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:3px 12px;cursor:pointer;font-size:12px}
+.dh h3{margin:0 0 3px;font-size:20px;font-family:var(--serif);font-weight:600;color:var(--eng)}
+.dh .w{color:var(--muted);font-size:13.5px;font-style:italic}
+.dh .tbl{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--sub);margin-top:7px}
+.db{padding:16px 20px 22px;overflow:auto;flex:1 1 auto;min-height:0}
+.osec{margin:0 0 16px;padding:0 0 14px;border-bottom:1px solid color-mix(in srgb,var(--line) 55%,transparent)}
+.osec:last-child{border-bottom:none}
+.osec-h{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--out);margin-bottom:8px}
+.osec-b{font-family:var(--serif);font-size:14.5px;line-height:1.6;color:var(--fg)}
+.osec-b code{font-family:var(--mono);font-size:12.5px}
+.osec-b .await{font-family:var(--mono);font-size:11px;color:var(--out);background:color-mix(in srgb,var(--out) 8%,transparent);border:1px dashed color-mix(in srgb,var(--out) 45%,transparent);border-radius:6px;padding:2px 8px;display:inline-block;margin-top:6px}
+.osec-b a{color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 45%,transparent)}
+.selfaudit{font-family:var(--mono);font-size:15px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px 14px;text-align:center;letter-spacing:.02em;margin-top:4px}
+.selfaudit b{color:var(--out)}
+.bars{display:flex;flex-direction:column;gap:5px;margin-top:10px}
+.barrow{display:grid;grid-template-columns:130px 1fr 30px;align-items:center;gap:8px;font-size:12px}
+.barrow .bk{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right}
+.barrow .track{height:13px;background:color-mix(in srgb,var(--line) 45%,transparent);border-radius:4px;overflow:hidden}
+.barrow .fill{height:100%;border-radius:4px}
+.barrow .bv{font-family:var(--mono);font-size:11px;color:var(--fg);text-align:right}
+.themebtn{position:fixed;top:14px;right:14px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer;z-index:20}
 </style>
-<script>(function(){try{var t=localStorage.getItem("gom-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
 </head>
 <body>
-<div class="bar">
-  <a href="/engine.html">&larr; how an idea joins the library</a>
-  <span class="rm">The Library · how the corpus grows</span>
-  <a href="/engine/schema.html">the method schema &rarr;</a>
-</div>
-<header class="pg">
-  <p class="kick">The library · sibling of the method schema</p>
-  <h1>How the corpus grows</h1>
-  <p class="lede">The <a href="/engine/schema.html">method schema</a> shows what happens to one text. This is its sibling: the <b>library</b> that feeds it — how a primary source enters the corpus, is <b>served</b> to the instrument, is <b>audited for what's missing</b>, and how those gaps drive the next <b>acquisition</b>. Unlike the instrument's straight line, the library turns: <b>the gaps it finds become the next things it acquires.</b> Click any node.</p>
-  <div class="legend-badges">
-    <span><i style="background:var(--teal)"></i>Built · run</span>
-    <span><i style="background:var(--honey)"></i>Built · early</span>
-    <span><i style="background:var(--gold)"></i>now in preview · WIP</span>
+<button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">theme</button>
+<div class="wrap">
+  <div class="topbar">
+    <a href="/engine.html">&larr; how an idea joins the library</a>
+    <a href="/engine/schema.html">Fig.01 · the instrument &rarr;</a>
   </div>
-</header>
 
-<div class="ribbon">
-  <div class="zones">
-    <div class="zone"><div class="zone-h"><span class="zt">Input</span> — a primary source</div><div class="stagerow" id="z-input"></div></div>
-    <div class="zone stock"><div class="zone-h"><span class="zt">The corpus</span> — the stock we hold</div><div class="stagerow" id="z-corpus"></div></div>
-    <div class="zone engines"><div class="zone-h"><span class="zt">The engines</span> — serve, audit, acquire<span class="zone-eng-tag">CRADLE · PRISM · FOUNDRY · LACUNA</span></div><div class="stagerow" id="z-engines"></div></div>
-    <div class="zone"><div class="zone-h"><span class="zt">Outputs</span></div><div class="stagerow" id="z-outputs"></div></div>
+  <header>
+    <p class="eyebrow">Fig. 02 · Method · Schema of the library</p>
+    <h1>The Library — how it works</h1>
+    <p class="lede">A primary source goes in. We hold what we can, <b>serve</b> it to the <a href="/engine/schema.html">instrument</a>, <b>audit</b> the corpus for what is missing — then go and <b>fetch</b> it. The corpus is what we hold; the gap drives what we fetch.</p>
+    <p class="click"><b>Click any engine</b> — or the corpus, or an output — to see what it takes in, what it puts out, and the run behind it.</p>
+    <div class="selfrow">
+      <span class="k">the library, on itself</span>
+      <span class="chip"><b>65,650</b> held as full text</span>
+      <span class="chip">of <b>376,726</b> registered</span>
+      <span class="chip"><b>12.85M</b> passages</span>
+      <span class="chip"><b>16</b> works acquired end-to-end</span>
+      <span class="chip">gap-map: <b>6/14</b> closed</span>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--sub)"></i>Built · run</span>
+      <span><i style="background:var(--honey)"></i>Built · early</span>
+    </div>
+  </header>
+
+  <div class="flow" id="flow">
+    <svg class="flowsvg" id="flowsvg" aria-hidden="true"><defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="context-stroke"/></marker>
+    </defs></svg>
+
+    <!-- INPUT -->
+    <section class="row r-input">
+      <div class="rail"><span>Inputs</span></div>
+      <div><span class="railm">Inputs</span>
+        <div class="center"><article class="node n-source" id="n-source">
+          <h2>A primary source</h2>
+          <p class="sub">The 4 Gospels · the Resurrection<br><em>Matt 28 · Mark 16 · Luke 24 · John 20</em></p>
+        </article></div>
+      </div>
+    </section>
+
+    <div class="mdown">&darr;</div>
+    <!-- CORPUS -->
+    <section class="row r-corpus">
+      <div class="rail"><span>Stock</span></div>
+      <div><span class="railm">Stock</span>
+        <div class="center"><button class="node n-corpus" id="n-corpus" data-node="corpus">
+          <h2>The corpus — what we hold</h2>
+          <p class="sub">65,650 held as full text, of 376,726 registered · 12.85M passages chunked into readable atoms.</p>
+          <p class="fine">the honest count — what we hold vs what we only know about</p>
+          <span class="openz">open ↗</span>
+        </button></div>
+      </div>
+    </section>
+
+    <div class="mdown">&darr;</div>
+    <!-- ENGINES -->
+    <section class="row r-engines">
+      <div class="rail"><span>Engines</span></div>
+      <div><span class="railm">Engines</span>
+        <div class="panel" id="n-engines-panel">
+          <div class="panel-h"><span class="k">Serve · Audit · Acquire</span><span class="n">three engines, one loop (hold → miss → fetch)</span></div>
+          <div class="grid3">
+            <button class="node eng" id="n-serve" data-node="serve" style="border-color:var(--sub)">
+              <h3 style="color:var(--sub)">Serve</h3>
+              <p class="sub">give the instrument what we hold to read the source.</p>
+              <p class="fine">the outflow to coding</p>
+              <span class="openz">open ↗</span>
+            </button>
+            <button class="node eng" id="n-gaps" data-node="gaps" style="border-color:var(--out)">
+              <h3 style="color:var(--out)">Find the gaps</h3>
+              <p class="sub">audit the corpus for what's missing.</p>
+              <p class="fine">the reflexive turn · engine “LACUNA”</p>
+              <span class="openz">open ↗</span>
+            </button>
+            <button class="node eng" id="n-acquire" data-node="acquire" style="border-color:var(--olive)">
+              <h3 style="color:var(--olive)">Acquire</h3>
+              <p class="sub">find &amp; fetch a wanted text.</p>
+              <p class="fine">classify archives · build harvesters · route by fairness · dedup · store</p>
+              <span class="openz">open ↗</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="mdown">&darr;</div>
+    <!-- OUTPUTS -->
+    <section class="row r-outputs">
+      <div class="rail"><span>Outputs</span></div>
+      <div><span class="railm">Outputs</span>
+        <div class="outgrid">
+          <button class="node out" id="n-out-serve" data-node="out-serve" style="border-color:var(--sub)">
+            <span class="onum" style="color:var(--sub)">① output</span>
+            <h3>the instrument</h3>
+            <p class="sub">what we hold to gloss it — the coding input</p>
+            <span class="openz">open ↗</span>
+          </button>
+          <button class="node out" id="n-out-gaps" data-node="out-gaps" style="border-color:var(--out)">
+            <span class="onum" style="color:var(--out)">② output</span>
+            <h3>the gap-map</h3>
+            <p class="sub">what we're missing, named</p>
+            <span class="openz">open ↗</span>
+          </button>
+          <div class="out-list-wrap">
+            <button class="node out" id="n-out-list" data-node="out-list" style="border-color:var(--honey)">
+              <span class="onum" style="color:#9a7420">③ output</span>
+              <h3>the shopping list</h3>
+              <p class="sub">what to acquire next — the desiderata</p>
+              <span class="openz">open ↗</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
-  <div class="flywheel">The library's defining shape — the loop the instrument doesn't have:<br><b>③ the shopping list</b> <span class="fw-arrow">→</span> <b>ACQUIRE</b> <span class="fw-arrow">→</span> <b>THE CORPUS</b>. The gaps it finds become the next things it acquires; the corpus grows itself.</div>
-  <p class="stophere">══ the served source flows into the <a href="/engine/schema.html">method instrument</a> ══</p>
+
+  <section class="flywheel">
+    <span class="k">the flywheel</span>
+    <p>the gap becomes the shopping list, which drives what we fetch, which grows what we hold, which we serve.</p>
+  </section>
+
+  <footer class="figfooter"><span>The library · Method</span><span>Fig. 02 — Schema · V1</span></footer>
 </div>
 
-<div class="drawer"><div class="dcard" id="dcard"><p class="dtrans" style="color:var(--faint)">Click a node above to open its drawer.</p></div></div>
-
-<footer class="foot" id="foot"></footer>
+<dialog id="dlg"><div class="dh"><button class="close" onclick="document.getElementById('dlg').close()">close</button>
+<h3 id="d-title"></h3><div class="w" id="d-what"></div><div class="tbl" id="d-tbl"></div></div>
+<div class="db" id="d-body"></div></dialog>
 
 <script>
-// live gap-map artifact (DATA_library_gapmap_gospels_s158) — the FIND-THE-GAPS drawer's engine-backed data
-var GAPMAP={"closed":6,"total":14,"shopping_list":6,"blocked":2,
- "by_status":{"held":6,"identified":6,"blocked":2},
- "gloss":"6/14 silences closed by acquisition round-trip; the rest = the shopping list (non-canon-first) + 2 blocked (copyright → metadata-shelf)."};
+// live gap-map artifact (DATA_library_gapmap_gospels_s158) — regenerated after each acquisition
+var GAPMAP={closed:6,total:14,shopping_list:6,blocked:2,held:6,identified:6};
 
-var NODES=[
-{n:'◦',id:'input',zone:'input',name:'INPUT',eng:'a primary source',badge:'run',
- t:'A primary source enters the library — the worked example throughout is the four Gospels’ Resurrection accounts (Matthew 28 · Mark 16 · Luke 24 · John 20), matching the method page.',
- inF:[['a wanted primary text','the request']],
- outF:[['an acquisition target','→ ACQUIRE / already-held']],
- data:{title:'the worked example',note:'the Resurrection — the first passage this library + instrument coded end to end.'},
- gaps:''},
-{n:'▣',id:'corpus',zone:'corpus',name:'THE CORPUS',eng:'sources · passages (the stock)',badge:'run',
- t:'The held, chunked texts the library has to work with — a stock, not a pipeline stage. Everything the engines serve, audit, and grow operates on this.',
- inF:[['acquired sources (gateway-validated)','from ACQUIRE']],
- outF:[['passages — readable atoms','the coding input'],['the honest count','registered vs held']],
- data:{title:'the self-audit line — the library’s “38 moves → 151 gaps” twin',
-   selfaudit:'registered  →  held  →  K silences', await:'live counts awaiting Main’s query (registered · held>300ch · passages)'},
- gaps:'The <b>honest count</b> is first-class here, exactly as the method page reports 38 moves → 151 gaps: <b>registered</b> (rows in <code>sources</code>) is not <b>held</b> (rows with real full text); naming both is the anti-inflation discipline.'},
-{n:'→',id:'serve',zone:'engines',name:'SERVE',eng:'the outflow to the instrument',badge:'run',
- t:'Give the instrument what we hold: the held reception of the primary source becomes the coding input. This is the arm that flows out to the method schema.',
- inF:[['a primary text','the Resurrection']],
- outF:[['the passages the instrument codes','→ the method schema']],
- data:{title:'what we hold to gloss the Resurrection',note:'the held gloss set — Septuagint · Chrysostom · Augustine · the non-canonical set · Julian … ', await:'live held-gloss count awaiting Main’s query (the ~714 held gloss rows)'},
- gaps:''},
-{n:'⌕',id:'find',zone:'engines',name:'FIND THE GAPS',eng:'LACUNA · the reflexive turn',badge:'run',
- t:'Audit what’s missing: held corpus + a 17-type silence-taxonomy → named absences → the desiderata. Seeds are a reading’s citations, the taxonomy, or the coded lineage; a 3-pass clean-room triangulation (divergence = signal).',
- inF:[['the held corpus + a seed','a reading’s citations / taxonomy / lineage']],
- outF:[['the silence-map','named absences + their WALL'],['→ the shopping list','the desiderata']],
- data:{title:'the Resurrection silence-map (live · DATA_library_gapmap_gospels_s158)', gapmap:true},
- gaps:'The Situate worked example: 3 methods converged on the <b>Septuagint</b> (found → acquired → closed). The roadmap to rigor: externalize FILL via a clavis · a Chao1 missingness estimate · validate from outside the model.'},
-{n:'⊕',id:'acquire',zone:'engines',name:'ACQUIRE',eng:'CRADLE + PRISM + FOUNDRY',badge:'early',
- t:'Find & fetch a wanted text: a want → classify (PRISM) → route (the Parity fan) → resolve → dedup → gateway → a held sources row. The full pipeline has its own page.',
- inF:[['a shopping-list want','title / author / tradition + narrows']],
- outF:[['a gateway-validated source','+ chunked passages → THE CORPUS']],
- data:{title:'acquisitions — the S158 proof', bars:[['works acquired end-to-end',13]],
-   note:'Chrysostom · Calvin · the four gospels · Septuagint · the non-canonical set · Julian · 1 Enoch … ', await:'sub-stage DATA (PRISM classified % · the built→yielding FOUNDRY funnel) awaiting Main’s query',
-   link:['The full acquisition pipeline, stage by stage →','/engine/acquisition-schema.html']},
- gaps:''},
-{n:'①',id:'out-instrument',zone:'outputs',name:'① → the instrument',eng:'the coding input',badge:'run',
- t:'What we hold to gloss the source — the passages that become the method instrument’s coding input.',
- inF:[['the served source','from SERVE']],
- outF:[['the coding input','→ the method schema']],
- data:{title:'flows to', note:'the method instrument (schema.html) — moves · gaps · frames · recompositions.'},
- gaps:''},
-{n:'②',id:'out-gapmap',zone:'outputs',name:'② the gap-map',eng:'what’s missing, named',badge:'run',
- t:'The named silences + their WALL — paywall · canon · language · governance. The honest record of what the corpus is missing and why.',
- inF:[['the silence-map','from FIND THE GAPS']],
- outF:[['named absences + their wall','→ the shopping list']],
- data:{title:'by wall + status (live)', gapmapmini:true},
- gaps:''},
-{n:'③',id:'out-shopping',zone:'outputs',name:'③ the shopping list',eng:'what to acquire next',badge:'run',
- t:'The desiderata queue: each gap becomes a want + its authority/clavis entry. This is what drives the next acquisition — the return arm of the flywheel.',
- inF:[['the gap-map','the named, walled absences']],
- outF:[['a ranked want-queue','→ ACQUIRE (the loop)']],
- data:{title:'the queue (live)', shopping:true},
- gaps:''}
-];
+// drawer content per node. body = array of {h, html} osec sections.
+var NODES={
+ corpus:{title:'The corpus — what we hold',what:'sources · passages — the stock we hold',status:'Built · run',
+  body:[
+   ['Transformation','The held, chunked texts the library has to work with — a <em>stock</em>, not a pipeline stage. Everything the engines serve, audit and grow operates on this.'],
+   ['Input','Acquired, gateway-validated sources — from ACQUIRE.'],
+   ['Output','Passages: the readable atoms the instrument codes.'],
+   ['Data','<div class="selfaudit"><b>65,650</b> held as full text &nbsp;·&nbsp; of <b>376,726</b> registered &nbsp;·&nbsp; 14 silences named</div><p style="margin:10px 0 0">Held = &gt;300 chars of real text (excerpts excluded — a snippet is not full text): <b>17.4%</b> of registered, across <b>12.85M</b> passages. The <b>honest count</b> is first-class here — exactly as the instrument reports <em>38 moves → 151 gaps</em>. <code>registered</code> (rows in <code>sources</code>) is not <code>held</code> (rows with real full text); naming both is the anti-inflation discipline.</p>']
+  ]},
+ serve:{title:'Serve',what:'give the instrument what we hold to read the source.',status:'Built · run',
+  body:[
+   ['Transformation','The held reception of the primary source → the coding input. This is the arm that flows out to the <a href="/engine/schema.html">method instrument</a>.'],
+   ['Input','A primary text.'],
+   ['Output','The passages the instrument codes.'],
+   ['Data','For the Resurrection: <b>16</b> held works → <b>33,282</b> passages (L4) — Septuagint · Chrysostom · Augustine · the non-canonical set · Julian…']
+  ]},
+ gaps:{title:'Find the gaps',what:'audit the corpus for what’s missing.',status:'Built · run · the reflexive turn',
+  body:[
+   ['Transformation','Held corpus + a 17-type silence-taxonomy → named absences → the desiderata. Three independent passes (clean-room triangulation); disagreement is the signal.'],
+   ['Input','The corpus + a seed (a reading’s citations / the taxonomy / the coded lineage).'],
+   ['Output','The silence-map + the shopping list.'],
+   ['Data','__GAPMAP__<p style="margin:10px 0 0">Worked example (the Resurrection): three methods converged on the <b>Septuagint</b> as the #1 silence; we acquired it; the reading’s claim is now checkable against the corpus.</p>']
+  ]},
+ acquire:{title:'Acquire',what:'find &amp; fetch a wanted text.',status:'Built · early · CRADLE + PRISM + FOUNDRY',
+  body:[
+   ['Transformation','A want → classify (PRISM) → route (by fairness — the Parity fan) → resolve → dedup → gateway → a held source. The full pipeline has its own page.'],
+   ['Input','A shopping-list want (title / author / tradition).'],
+   ['Output','A validated source + chunked passages → THE CORPUS.'],
+   ['Data','<b>16</b> works acquired end-to-end — Chrysostom · Calvin · the four-gospel patristics · the Septuagint · the non-canonical gospels · Julian of Norwich · 1 Enoch…<div class="selfaudit" style="margin-top:10px">catalogued <b>4,761</b> → classified <b>3,116</b> (65%) → ~<b>134</b> actually yielding</div><p style="margin:10px 0 0;font-size:12.5px;color:var(--muted)">Honest funnel (S94 audit): the endpoint catalogue leaks hard — most catalogued endpoints never become live harvesters, so the funnel reports what actually yields, not the inflated built/healthy columns. <a href="/engine/acquisition-schema.html">The full acquisition pipeline, stage by stage →</a></p>']
+  ]},
+ 'out-serve':{title:'① the instrument',what:'what we hold to gloss it — the coding input',status:'Built · run',
+  body:[
+   ['What it is','The passages we hold to gloss the source — the coding input that flows into the <a href="/engine/schema.html">method instrument</a>.'],
+   ['What’s in it','Septuagint · Chrysostom · Augustine · the non-canonical gospels · Julian…']
+  ]},
+ 'out-gaps':{title:'② the gap-map',what:'what we’re missing, named',status:'Built · run',
+  body:[
+   ['What it is','The named silences + their WALL — paywall · canon · language · governance. The honest record of what the corpus is missing and why.'],
+   ['By status','__GAPMAP__'],
+   ['Examples','The Oriental churches · the scholarship on the borrowings…']
+  ]},
+ 'out-list':{title:'③ the shopping list',what:'what to acquire next — the desiderata',status:'Built · run',
+  body:[
+   ['What it is','The desiderata queue: each gap becomes a want + its authority entry. This is what <em>drives the next acquisition</em> — the return arm of the flywheel.'],
+   ['Live','<b>'+GAPMAP.shopping_list+'</b> wants on the queue (of '+GAPMAP.total+' silences; '+GAPMAP.closed+' already closed, '+GAPMAP.blocked+' blocked → metadata-shelf).'],
+   ['Examples','Ephrem · the Thomas fragments…']
+  ]}
+};
 
-var BADGE_LABEL={run:'Built · run',early:'Built · early',wip:'now in preview · WIP'};
-var esc=function(s){return String(s==null?'':s).replace(/&(?!\w+;)/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');};
-var fmt=function(n){return n.toLocaleString('en-US');};
-
-function chip(s){return '<button class="stage" data-id="'+s.id+'"><span class="num">'+s.n+'</span><span class="lab"><span class="nm">'+esc(s.name)+'</span><span class="eng">'+esc(s.eng)+'</span></span><span class="b '+s.badge+'" title="'+BADGE_LABEL[s.badge]+'"></span></button>';}
-function fillZone(zid,zone){var el=document.getElementById(zid),items=NODES.filter(function(s){return s.zone===zone;});
-  el.innerHTML=items.map(function(s,i){return chip(s)+(i<items.length-1?'<span class="arrow">&rarr;</span>':'');}).join('');}
-['input','corpus','engines','outputs'].forEach(function(z){fillZone('z-'+z,z);});
-
-function fieldRows(list){return list.map(function(f){return '<div class="frow"><span class="fn">'+esc(f[0])+'</span> — '+esc(f[1])+'</div>';}).join('');}
-function gapmapBlock(){
-  var g=GAPMAP;
-  return '<div class="selfaudit"><b>'+g.closed+'</b> / '+g.total+' silences closed &nbsp;·&nbsp; '+g.shopping_list+' on the shopping list &nbsp;·&nbsp; '+g.blocked+' blocked</div>'
-    +'<div class="bars" style="margin-top:12px">'
-    +['held '+g.by_status.held+' (closed)','identified '+g.by_status.identified+' (shopping list)','blocked '+g.by_status.blocked+' (copyright → metadata-shelf)']
-      .map(function(r,i){var v=[g.by_status.held,g.by_status.identified,g.by_status.blocked][i];
-        var col=['var(--teal)','var(--honey)','var(--rose)'][i];
-        return '<div class="barrow"><span class="k">'+esc(r.split(' (')[0])+'</span><span class="track"><span class="fill" style="width:'+(v/g.total*100)+'%;background:'+col+'"></span></span><span class="v">'+v+'</span></div>';}).join('')
-    +'</div><p class="gaps" style="margin-top:10px">'+esc(g.gloss)+'</p>';
+function gapmapHTML(){var g=GAPMAP;
+ return '<div class="selfaudit"><b>'+g.closed+'</b> / '+g.total+' silences closed &nbsp;·&nbsp; '+g.shopping_list+' shopping-list &nbsp;·&nbsp; '+g.blocked+' blocked</div>'
+  +'<div class="bars">'
+  +[['held (closed)',g.held,'var(--sub)'],['identified (shopping list)',g.identified,'var(--honey)'],['blocked (copyright → shelf)',g.blocked,'var(--out)']]
+    .map(function(r){return '<div class="barrow"><span class="bk">'+r[0].split(' (')[0]+'</span><span class="track"><span class="fill" style="width:'+(r[1]/g.total*100)+'%;background:'+r[2]+'"></span></span><span class="bv">'+r[1]+'</span></div>';}).join('')
+  +'</div>';
 }
-function dataBlock(d){
-  var h='<p class="datatitle">'+esc(d.title)+'</p>';
-  if(d.selfaudit) h+='<div class="selfaudit">'+esc(d.selfaudit)+'</div>';
-  if(d.gapmap||d.gapmapmini||d.shopping) h+=gapmapBlock();
-  if(d.bars){var max=Math.max.apply(null,d.bars.map(function(b){return b[1];}));
-    h+='<div class="bars">'+d.bars.map(function(b){return '<div class="barrow"><span class="k">'+esc(b[0])+'</span><span class="track"><span class="fill" style="width:'+Math.max(8,b[1]/max*100)+'%"></span></span><span class="v">'+fmt(b[1])+'</span></div>';}).join('')+'</div>';}
-  if(d.note) h+='<p class="gaps" style="margin-top:8px">'+d.note+'</p>';
-  if(d.await) h+='<p style="margin-top:10px"><span class="await">◷ '+esc(d.await)+'</span></p>';
-  if(d.link) h+='<p class="dlink"><a href="'+d.link[1]+'">'+esc(d.link[0])+'</a></p>';
-  return h;
+function openNode(key){var n=NODES[key];if(!n)return;
+ document.getElementById('d-title').textContent=n.title;
+ document.getElementById('d-title').innerHTML=n.title;
+ document.getElementById('d-what').innerHTML=n.what;
+ document.getElementById('d-tbl').textContent=n.status;
+ document.getElementById('d-body').innerHTML=n.body.map(function(s){
+   var html=s[1].replace('__GAPMAP__',gapmapHTML());
+   return '<div class="osec"><div class="osec-h">'+s[0]+'</div><div class="osec-b">'+html+'</div></div>';
+ }).join('');
+ document.getElementById('dlg').showModal();
 }
-function openNode(id){
-  var s=NODES.find(function(x){return x.id===id;}); if(!s)return;
-  [].forEach.call(document.querySelectorAll('.stage'),function(b){b.classList.toggle('active',b.getAttribute('data-id')===id);});
-  var html='<div class="dh"><span class="dnum">'+s.n+'</span><span class="dnm">'+esc(s.name)+'</span><span class="deng">'+esc(s.eng)+'</span><span class="badge '+s.badge+'" style="margin-left:auto">'+BADGE_LABEL[s.badge]+'</span></div>'
-    +'<div class="dsect"><h4>Transformation</h4><p class="dtrans">'+esc(s.t)+'</p></div>'
-    +'<div class="dsect"><div class="iocols"><div><h4>Input</h4>'+fieldRows(s.inF)+'</div><div><h4>Output</h4>'+fieldRows(s.outF)+'</div></div></div>'
-    +'<div class="dsect"><h4>Data</h4>'+dataBlock(s.data)+'</div>'
-    +(s.gaps?'<div class="dsect"><h4>Known gaps / notes</h4><p class="gaps">'+s.gaps+'</p></div>':'');
-  document.getElementById('dcard').innerHTML=html;
-  document.getElementById('dcard').scrollIntoView({behavior:'smooth',block:'nearest'});
+[].forEach.call(document.querySelectorAll('[data-node]'),function(b){b.addEventListener('click',function(){openNode(b.getAttribute('data-node'));});});
+
+// ── connectors (ported from the Lovable Connectors.tsx geometry) ──
+var flow=document.getElementById('flow'),svg=document.getElementById('flowsvg');
+function box(id){var el=document.getElementById('n-'+id);if(!el)return null;var base=flow.getBoundingClientRect(),r=el.getBoundingClientRect();
+ return {l:r.left-base.left,r:r.right-base.left,t:r.top-base.top,b:r.bottom-base.top,cx:r.left-base.left+r.width/2,cy:r.top-base.top+r.height/2,w:r.width};}
+function P(d,color,w,arrow,dash){return '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="'+w+'" stroke-linecap="round" opacity="0.9"'+(arrow?' marker-end="url(#ah)"':'')+(dash?' stroke-dasharray="5 5"':'')+'/>';}
+function T(x,y,txt,anchor){return '<text x="'+x+'" y="'+y+'" text-anchor="'+(anchor||'middle')+'" fill="var(--muted)" font-size="12.5" font-style="italic" font-family="Newsreader,Georgia,serif">'+txt+'</text>';}
+function vert(a,b,color,w,id){var d=a.cx===b.cx?'M '+a.cx+' '+a.b+' L '+b.cx+' '+(b.t-8):'M '+a.cx+' '+a.b+' C '+a.cx+' '+((a.b+b.t)/2)+', '+b.cx+' '+((a.b+b.t)/2)+', '+b.cx+' '+(b.t-8);return P(d,color,w,true);}
+function draw(){
+ var base=flow.getBoundingClientRect();svg.setAttribute('width',base.width);svg.setAttribute('height',base.height);
+ var source=box('source'),corpus=box('corpus'),serve=box('serve'),gaps=box('gaps'),acquire=box('acquire'),
+     o1=box('out-serve'),o2=box('out-gaps'),o3=box('out-list'),panel=box('engines-panel');
+ if(!source||!corpus||!serve||!gaps||!acquire||!o1||!o2||!o3){svg.innerHTML=svg.querySelector('defs').outerHTML;return;}
+ var ink='var(--muted)', acq='var(--olive)',defs=svg.querySelector('defs').outerHTML,g='';
+ g+=vert(source,corpus,ink,1.4);
+ // comb: corpus → spine → ticks into each engine
+ var spineY=corpus.b+42;
+ g+=P('M '+corpus.cx+' '+corpus.b+' L '+corpus.cx+' '+spineY,ink,1.4,false);
+ g+=P('M '+serve.cx+' '+spineY+' L '+acquire.cx+' '+spineY,ink,1.1,false);
+ var tickEnd=(panel?panel.t:serve.t)-8;
+ [serve,gaps,acquire].forEach(function(nd){g+=P('M '+nd.cx+' '+spineY+' L '+nd.cx+' '+tickEnd,ink,1.3,true);});
+ g+=vert(serve,o1,'var(--sub)',1.6);
+ g+=vert(gaps,o2,'var(--out)',1.6);
+ g+=vert(o2,o3,ink,1.4)+T(o2.cx+16,(o2.b+o3.t)/2+4,'each gap → a want','start');
+ // flywheel ③ → ACQUIRE → CORPUS
+ var midX=Math.max(o3.r+40,acquire.cx);
+ g+=P('M '+o3.r+' '+o3.cy+' C '+(o3.r+90)+' '+o3.cy+', '+midX+' '+o3.cy+', '+acquire.cx+' '+(acquire.b+10),acq,2.6,true)+T(midX+14,o3.cy-30,'drives','start');
+ g+=P('M '+(acquire.cx+acquire.w*0.3)+' '+acquire.t+' C '+(acquire.cx+acquire.w*0.3)+' '+(acquire.t-60)+', '+(corpus.r+60)+' '+(corpus.b+20)+', '+(corpus.r-24)+' '+corpus.b,acq,2.6,true)+T(corpus.r-12,corpus.b+40,'grows the corpus','end');
+ svg.innerHTML=defs+g;
 }
-[].forEach.call(document.querySelectorAll('.stage'),function(b){b.addEventListener('click',function(){openNode(b.getAttribute('data-id'));});});
-
-document.getElementById('foot').innerHTML='The library — the corpus side of the instrument. INPUT → THE CORPUS → the engines (serve · find-the-gaps · acquire) → outputs, with the ③→ACQUIRE→CORPUS flywheel. The gap-map DATA is live (DATA_library_gapmap_gospels_s158, regenerated after each acquisition); the corpus / serve / acquire-substage counts wire to live queries as they land. &nbsp;·&nbsp; <a href="/engine/schema.html">the method schema</a> &nbsp;·&nbsp; <a href="/engine/acquisition-schema.html">the acquisition pipeline</a> &nbsp;·&nbsp; <a href="/engine.html">how an idea joins the library</a>';
-
-openNode('corpus');
+window.addEventListener('load',draw);window.addEventListener('resize',draw);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(draw);
+setTimeout(draw,300);
 </script>
-</body>
-</html>
+</body></html>
