@@ -27,6 +27,8 @@ h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:cla
 .legend i{width:16px;height:3px;border-radius:2px;display:inline-block}
 .kindkey{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:10px auto 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
 .kindkey b{font-weight:500}.kindkey .k-spine{color:var(--moss)}.kindkey .k-fork{color:var(--gold)}.kindkey .k-part{color:var(--terracotta)}
+.kindkey.chan{margin-top:8px;text-transform:none;letter-spacing:.02em;color:var(--ink-2)}.kindkey.chan b{color:var(--moss)}
+.honest{font-family:var(--sans);font-size:11.5px;color:var(--ink-3);max-width:40rem;margin:12px auto 0;line-height:1.5;font-style:italic}
 .provwrap{display:flex;justify-content:center;margin:14px auto 0}
 .prov-badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;padding:3px 9px;border-radius:999px;border:1px solid var(--rule)}
 .prov-badge.prov-grounded{color:var(--fern);border-color:color-mix(in srgb,var(--fern) 45%,transparent);background:color-mix(in srgb,var(--fern) 8%,transparent)}
@@ -47,6 +49,7 @@ svg .bt.active{fill:var(--moss);font-weight:600}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
 .chip{font-family:var(--sans);font-size:11.5px;padding:4px 10px;border-radius:999px;border:1px solid var(--rule);text-decoration:none;transition:all .15s}
 .chip.out{color:var(--ink-3);opacity:.5;text-decoration:line-through}
+.d-dist{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin:0 0 12px}.d-dist b{color:var(--moss)}
 .d-note{font-family:var(--sans);font-size:13.5px;line-height:1.6;color:var(--ink-2);margin:0 0 14px}
 .d-links{display:flex;flex-direction:column;gap:8px}
 .d-links a{font-family:var(--sans);font-size:12.5px;color:var(--fern);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fern) 35%,transparent);align-self:flex-start}
@@ -71,6 +74,11 @@ footer.foot a{color:var(--fern);text-decoration:none}
     <span><b class="k-fork">● fork</b> — one parts</span>
     <span><b class="k-part">● part</b> — the four split</span>
   </div>
+  <div class="kindkey chan">
+    <span>◟ bow width = <b>divergence</b> — how much the carriers disagree</span>
+    <span>┈ dashed thread = <b>omission</b> — a voice silent here</span>
+  </div>
+  <p class="honest" id="honest-note"></p>
   <!-- provenance render-contract: the spine is the real coded shared-beat scan (BRAID-RESURRECTION, in coded_ledger) -->
   <div class="provwrap" data-prov-source="BRAID-RESURRECTION" data-prov-need="gaps"><span data-prov-slot></span></div>
 </header>
@@ -111,7 +119,19 @@ function renderBraidSpine(data, mount){
   function kindOf(n){ return n>=N ? 'spine' : (n===N-1 ? 'fork' : 'part'); }
   function kindLabel(k){ return k==='spine' ? 'spine' : (k==='fork' ? 'fork' : 'part'); }
   function radiusOf(k){ return k==='spine' ? 7 : (k==='fork' ? 6 : 5); }
-  // strand bows AWAY from the braid where a voice is absent; outer columns bow farther
+
+  // ── two channels (per DATA_braid_spine_distance_*): ──
+  //  · DIVERGENCE (content-disagreement AMONG carriers) → bow-out amplitude: the braid
+  //    pulls tight when the tellings agree (d→0) and bulges apart when they disagree (d→1).
+  //  · OMISSION (a voice not carrying the beat) → a SEPARATE channel: that strand drops
+  //    out to the margin as a dashed, faded thread — never folded into the divergence bow.
+  var hasDiv = spine.some(function(b){ return typeof b.divergence==='number'; });
+  var rank={}; order.forEach(function(k,i){ rank[k] = i-(N-1)/2; });     // signed column rank
+  var BASE_GAP=12, DIV_GAP=36;                                            // tight ↔ bowed
+  function carrierX(k,d){ return cx + rank[k]*(BASE_GAP + (d||0)*DIV_GAP); }
+  function dropX(k){ var s = rank[k]<0?-1:1; return cx + s*(100 + Math.abs(rank[k])*6); }
+  function divOf(b){ return typeof b.divergence==='number' ? b.divergence : (b.carried_by.length>=N?0:1); }
+  // legacy fallback (data without a divergence channel): bow non-carriers out at fixed amplitude
   function bowX(k){ var off = baseX[k]-cx, dir = off<0?-1:(off>0?1:-1); return cx + dir*(70 + Math.abs(off)*2.2); }
 
   function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -142,22 +162,31 @@ function renderBraidSpine(data, mount){
   // center guide
   svg += '<line x1="'+cx+'" y1="'+(topPad-6)+'" x2="'+cx+'" y2="'+(vbH-topPad+6)+'" stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4"/>';
 
-  // one path per strand
+  // one strand per source. With a divergence channel: draw per-segment, so a dropped
+  // (omitted) segment renders dashed + faded (the omission channel) while carried
+  // segments are solid and spread by divergence. Without it: the legacy single bow.
   order.forEach(function(k){
     var col = S[k] || {}, color = col.color || 'var(--ink-2)';
-    var pts=[], x0=baseX[k];
-    pts.push([x0, topPad-6]);                       // top anchor
-    rows.forEach(function(r){
-      var here = r.b.carried_by.indexOf(k)>=0;
-      pts.push([ here ? baseX[k] : bowX(k), r.cy ]);
-    });
-    pts.push([x0, vbH-topPad+6]);                   // bottom anchor
-    var d='M '+pts[0][0]+' '+pts[0][1];
-    for(var i=1;i<pts.length;i++){
-      var px=pts[i-1][0], py=pts[i-1][1], qx=pts[i][0], qy=pts[i][1], ym=(py+qy)/2;
-      d += ' C '+px+' '+ym+' '+qx+' '+ym+' '+qx+' '+qy;   // smooth horizontal bow
+    if(hasDiv){
+      var nodes=[{x:carrierX(k,0), y:topPad-6, drop:false}];
+      rows.forEach(function(r){
+        var here = r.b.carried_by.indexOf(k)>=0;
+        nodes.push({ x: here ? carrierX(k, divOf(r.b)) : dropX(k), y:r.cy, drop:!here });
+      });
+      nodes.push({x:carrierX(k,0), y:vbH-topPad+6, drop:false});
+      for(var i=1;i<nodes.length;i++){
+        var a=nodes[i-1], b=nodes[i], ghost=a.drop||b.drop, ym=(a.y+b.y)/2;
+        var d='M '+a.x+' '+a.y+' C '+a.x+' '+ym+' '+b.x+' '+ym+' '+b.x+' '+b.y;
+        svg += '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="'+(ghost?2:3.2)+'" stroke-linecap="round" opacity="'+(ghost?0.26:0.85)+'"'+(ghost?' stroke-dasharray="3 5"':'')+'>'+(i===1?'<title>'+esc(col.label||k)+'</title>':'')+'</path>';
+      }
+    } else {
+      var pts=[[baseX[k], topPad-6]];
+      rows.forEach(function(r){ var here=r.b.carried_by.indexOf(k)>=0; pts.push([ here?baseX[k]:bowX(k), r.cy ]); });
+      pts.push([baseX[k], vbH-topPad+6]);
+      var dd='M '+pts[0][0]+' '+pts[0][1];
+      for(var j=1;j<pts.length;j++){ var px=pts[j-1][0],py=pts[j-1][1],qx=pts[j][0],qy=pts[j][1],ymm=(py+qy)/2; dd+=' C '+px+' '+ymm+' '+qx+' '+ymm+' '+qx+' '+qy; }
+      svg += '<path d="'+dd+'" fill="none" stroke="'+color+'" stroke-width="3.2" stroke-linecap="round" opacity="0.85"><title>'+esc(col.label||k)+'</title></path>';
     }
-    svg += '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="3.2" stroke-linecap="round" opacity="0.85"><title>'+esc(col.label||k)+'</title></path>';
   });
 
   // beat markers + wrapped text + kind label + click target
@@ -185,6 +214,7 @@ function renderBraidSpine(data, mount){
   // ---- header bits from data ----
   if(data.title){ var tEl=document.getElementById('braid-title'); if(tEl) tEl.textContent=data.title; document.title=data.title+' · The Gospels'; }
   if(data.lede){ var lEl=document.getElementById('braid-lede'); if(lEl) lEl.textContent=data.lede; }
+  if(data.honest_note){ var hn=document.getElementById('honest-note'); if(hn) hn.textContent=data.honest_note; }
   var leg=document.getElementById('braid-legend');
   if(leg){ leg.innerHTML=order.map(function(k){ var s=S[k]||{}; return '<span><i style="background:'+(s.color||'#999')+'"></i>'+esc(s.label||k)+'</span>'; }).join(''); }
 
@@ -197,8 +227,12 @@ function renderBraidSpine(data, mount){
       var s=S[k]||{}, inb=b.carried_by.indexOf(k)>=0, slug=s.slug||String(s.label||k).toLowerCase();
       return '<a class="chip'+(inb?'':' out')+'" href="'+links.voices+'?g='+encodeURIComponent(slug)+'"'+(inb?' style="border-color:'+(s.color||'#999')+';color:'+(s.color||'#999')+'"':'')+'>'+esc(s.label||k)+'</a>';
     }).join('');
+    var omv = (typeof b.omission==='number') ? b.omission : (N-b.carried_by.length)/N;
+    var distLine = (typeof b.divergence==='number')
+      ? '<div class="d-dist">divergence <b>'+b.divergence.toFixed(2)+'</b> &nbsp;·&nbsp; omission <b>'+omv.toFixed(2)+'</b></div>' : '';
     detail.innerHTML='<div class="d-eyebrow">Beat '+b.index+' · '+r.n+'/'+N+' · '+kindPhrase(r.n)+'</div>'
       +'<div class="d-title">'+esc(cap(b.beat))+'</div>'
+      +distLine
       +'<div class="chips">'+chips+'</div>'
       +(b.note?'<div class="d-note">'+esc(b.note)+'</div>':'')
       +'<div class="d-links"><a href="'+links.braided+'#beat-'+b.index+'">Read this beat, braided &rarr;</a>'
