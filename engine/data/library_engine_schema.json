@@ -3,10 +3,14 @@
  "source": "SQLite live + committed engine artifacts (recall + drawers)",
  "render_contract": "NODES = {node:{title,what,status,body:[[heading,html]…]}}; GAPMAP = {…}. design-SB: render library-schema.html FROM this artifact (fetch/build-time embed) — do NOT hardcode NODES/GAPMAP in the HTML (§2.13: single store of record; the memory 'site renders from engine data, not hardcoded').",
  "GAPMAP": {
-  "closed": 11,
-  "total": 22,
+  "closed": 14,
+  "total": 26,
   "syriac_authors_silences": 120,
-  "clavis_cited": 120
+  "clavis_cited": 322,
+  "sources_held": 65650,
+  "sources_registered": 376726,
+  "recall_pct": 7.0,
+  "cited_silences": 348
  },
  "NODES": {
   "overview": {
@@ -54,7 +58,7 @@
    "body": [
     [
      "Data",
-     "<div class='selfaudit'><b>65,650</b> held as full text &nbsp;·&nbsp; of <b>376,726</b> registered &nbsp;·&nbsp; 142 silences named</div><p style='margin:10px 0 0'>Held = &gt;300 chars of real text (excerpts excluded — a snippet is not full text): <b>17.4%</b> of registered, across <b>12.85M</b> passages. The <b>honest 3-part count</b> — registered / held / reference — is first-class here; naming all three is the anti-inflation discipline (<code>corpus_headline_count_matches_db.py</code> guards it from drift).</p>"
+     "<div class='selfaudit'><b>65,650</b> held as full text &nbsp;·&nbsp; of <b>376,726</b> registered &nbsp;·&nbsp; 348 silences named</div><p style='margin:10px 0 0'>Held = &gt;300 chars of real text (excerpts excluded — a snippet is not full text): <b>17.4%</b> of registered, across <b>12.85M</b> passages. The <b>honest 3-part count</b> — registered / held / reference — is first-class here; naming all three is the anti-inflation discipline (<code>corpus_headline_count_matches_db.py</code> guards it from drift).</p>"
     ]
    ]
   },
@@ -92,7 +96,7 @@
     ],
     [
      "Store of record",
-     "<code>silence_finding</code> (142 rows; 120 carry a clavis URI) — dual-store SQLite + Neon (§2.13). Each silence: type · wall · lifecycle · <code>fill_provenance</code> (endpoint-enumeration vs ai-memory-flagged) · status (identified→…→held/blocked; blocked never closes)."
+     "<code>silence_finding</code> (348 rows; 322 carry a clavis URI) — dual-store SQLite + Neon (§2.13). Each silence: type · wall · lifecycle · <code>fill_provenance</code> (endpoint-enumeration vs ai-memory-flagged) · status (identified→…→held/blocked; blocked never closes)."
     ],
     [
      "Scripts",
@@ -107,15 +111,15 @@
    "body": [
     [
      "What this is",
-     "A running list of the most recent sources the library has acquired — so \"what's the latest?\" and \"what's really in the DB?\" have a first-class answer, live from the corpus (not a memory or a stale note). Total: <b>376,727</b> sources held."
+     "A running list of the most recent sources the library has acquired — so \"what's the latest?\" and \"what's really in the DB?\" have a first-class answer, live from the corpus (not a memory or a stale note). Total: <b>376,728</b> sources held."
     ],
     [
      "Latest 20 acquisitions",
-     "<table class='dtbl'><thead><tr><th>source</th><th>title</th><th>tradition</th><th>L4 psg</th></tr></thead><tbody><tr><td><code>SRC-251030</code></td><td>The Sixth Book of the Select Letters of Severus (Brooks tr., 1903)</td><td>ABR-CHR-ORT-SYR</td><td style='text-align:right'>405</td></tr><tr><td><code>SRC-251029</code></td><td>Logia Iesou — Sayings of Our Lord from an Early Greek Papyrus (NON-CAN</td><td>ABR-CHR</td><td style='text-align:right'>55</td></tr><tr><td><code>SRC-251028</code></td><td>The Gospel according to Peter, and the Revelation of Peter (NON-CANONI</td><td>ABR-CHR</td><td style='text-align:right'>370</td></tr><tr><td><code>SRC-251027</code></td><td>The Book of Enoch (1 Enoch) — R. H. Charles (tr.)</td><td>ABR-JUD</td><td style='text-align:right'>744</td></tr><tr><td><code>SRC-251026</code></td><td>Revelations of Divine Love (Warrack ed.) — Julian of Norwich</td><td>ABR-CHR</td><td style='text-align:right'>1,542</td></tr><tr><td><code>SRC-251025</code></td><td>Pistis Sophia (NON-CANONICAL — Gnostic post-resurrection dialogue) — G</td><td>ANC-GNO</td><td style='text-align:right'>2,028</td></tr><tr><td><code>SRC-251024</code></td><td>The Apocryphal New Testament (NON-CANONICAL) — Gospel of Peter, Nicode</td><td>ABR-CHR</td><td style='text-align:right'>3,538</td></tr><tr><td><code>SRC-251023</code></td><td>The Septuagint Version of the Old Testament (Greek OT in English, Bren</td><td>ABR-JUD</td><td style='text-align:right'>5,402</td></tr><tr><td><code>SRC-251022</code></td><td>The Harmony of the Gospels (NPNF1-6) — Augustine of Hippo</td><td>ABR-CHR</td><td style='text-align:right'>1,666</td></tr><tr><td><code>SRC-251021</code></td><td>Commentary on the Gospel according to St. John, Vol. II (Library of Fa</td><td>ABR-CHR</td><td style='text-align:right'>1,896</td></tr><tr><td><code>SRC-251020</code></td><td>Catechetical Lectures (Library of Fathers) — Cyril of Jerusalem</td><td>ABR-CHR</td><td style='text-align:right'>1,583</td></tr><tr><td><code>SRC-251019</code></td><td>Homilies on the Gospel of St. Matthew (NPNF1-10) — John Chrysostom</td><td>ABR-CHR</td><td style='text-align:right'>6,358</td></tr><tr><td><code>SRC-251018</code></td><td>The Guide for the Perplexed (tr. M. Friedlander) — Moses Maimonides</td><td>ABR-JUD</td><td style='text-align:right'>1,084</td></tr><tr><td><code>SRC-251017</code></td><td>Commentary on St. Paul's Epistle to the Romans — Frederic Godet</td><td>ABR-CHR</td><td style='text-align:right'>1,172</td></tr><tr><td><code>SRC-251016</code></td><td>A Critical and Exegetical Commentary on the Epistle to the Romans (ICC</td><td>ABR-CHR</td><td style='text-align:right'>2,106</td></tr><tr><td><code>SRC-251015</code></td><td>Commentaries on the Epistle to the Romans (tr. John Owen) — John Calvi</td><td>ABR-CHR</td><td style='text-align:right'>2,034</td></tr><tr><td><code>SRC-251014</code></td><td>Homilies on the Epistle to the Romans (NPNF1-11) — John Chrysostom</td><td>ABR-CHR</td><td style='text-align:right'>1,688</td></tr><tr><td><code>SRC-251013</code></td><td>I Ching / Yi King (Legge SBE) — King Wen / Confucius</td><td>SEC</td><td style='text-align:right'>0</td></tr><tr><td><code>SRC-251012</code></td><td>The Enneads (MacKenna tr.) — Plotinus</td><td>SEC</td><td style='text-align:right'>0</td></tr><tr><td><code>SRC-251011</code></td><td>Ethics (Elwes tr.) — Baruch Spinoza</td><td>SEC</td><td style='text-align:right'>0</td></tr></tbody></table>"
+     "<table class='dtbl'><thead><tr><th>source</th><th>title</th><th>tradition</th><th>L4 psg</th></tr></thead><tbody><tr><td><code>SRC-251031</code></td><td>Inleiding tot die sosiaal-wetenskaplike kritiese eksegese van Nuwe-Tes</td><td>ABR-CHR</td><td style='text-align:right'>0</td></tr><tr><td><code>SRC-251030</code></td><td>The Sixth Book of the Select Letters of Severus (Brooks tr., 1903)</td><td>ABR-CHR-ORT-SYR</td><td style='text-align:right'>405</td></tr><tr><td><code>SRC-251029</code></td><td>Logia Iesou — Sayings of Our Lord from an Early Greek Papyrus (NON-CAN</td><td>ABR-CHR</td><td style='text-align:right'>55</td></tr><tr><td><code>SRC-251028</code></td><td>The Gospel according to Peter, and the Revelation of Peter (NON-CANONI</td><td>ABR-CHR</td><td style='text-align:right'>370</td></tr><tr><td><code>SRC-251027</code></td><td>The Book of Enoch (1 Enoch) — R. H. Charles (tr.)</td><td>ABR-JUD</td><td style='text-align:right'>744</td></tr><tr><td><code>SRC-251026</code></td><td>Revelations of Divine Love (Warrack ed.) — Julian of Norwich</td><td>ABR-CHR</td><td style='text-align:right'>1,542</td></tr><tr><td><code>SRC-251025</code></td><td>Pistis Sophia (NON-CANONICAL — Gnostic post-resurrection dialogue) — G</td><td>ANC-GNO</td><td style='text-align:right'>2,028</td></tr><tr><td><code>SRC-251024</code></td><td>The Apocryphal New Testament (NON-CANONICAL) — Gospel of Peter, Nicode</td><td>ABR-CHR</td><td style='text-align:right'>3,538</td></tr><tr><td><code>SRC-251023</code></td><td>The Septuagint Version of the Old Testament (Greek OT in English, Bren</td><td>ABR-JUD</td><td style='text-align:right'>5,402</td></tr><tr><td><code>SRC-251022</code></td><td>The Harmony of the Gospels (NPNF1-6) — Augustine of Hippo</td><td>ABR-CHR</td><td style='text-align:right'>1,666</td></tr><tr><td><code>SRC-251021</code></td><td>Commentary on the Gospel according to St. John, Vol. II (Library of Fa</td><td>ABR-CHR</td><td style='text-align:right'>1,896</td></tr><tr><td><code>SRC-251020</code></td><td>Catechetical Lectures (Library of Fathers) — Cyril of Jerusalem</td><td>ABR-CHR</td><td style='text-align:right'>1,583</td></tr><tr><td><code>SRC-251019</code></td><td>Homilies on the Gospel of St. Matthew (NPNF1-10) — John Chrysostom</td><td>ABR-CHR</td><td style='text-align:right'>6,358</td></tr><tr><td><code>SRC-251018</code></td><td>The Guide for the Perplexed (tr. M. Friedlander) — Moses Maimonides</td><td>ABR-JUD</td><td style='text-align:right'>1,084</td></tr><tr><td><code>SRC-251017</code></td><td>Commentary on St. Paul's Epistle to the Romans — Frederic Godet</td><td>ABR-CHR</td><td style='text-align:right'>1,172</td></tr><tr><td><code>SRC-251016</code></td><td>A Critical and Exegetical Commentary on the Epistle to the Romans (ICC</td><td>ABR-CHR</td><td style='text-align:right'>2,106</td></tr><tr><td><code>SRC-251015</code></td><td>Commentaries on the Epistle to the Romans (tr. John Owen) — John Calvi</td><td>ABR-CHR</td><td style='text-align:right'>2,034</td></tr><tr><td><code>SRC-251014</code></td><td>Homilies on the Epistle to the Romans (NPNF1-11) — John Chrysostom</td><td>ABR-CHR</td><td style='text-align:right'>1,688</td></tr><tr><td><code>SRC-251013</code></td><td>I Ching / Yi King (Legge SBE) — King Wen / Confucius</td><td>SEC</td><td style='text-align:right'>0</td></tr><tr><td><code>SRC-251012</code></td><td>The Enneads (MacKenna tr.) — Plotinus</td><td>SEC</td><td style='text-align:right'>0</td></tr></tbody></table>"
     ],
     [
      "Corpus by tradition (top 12)",
-     "<table class='dtbl'><thead><tr><th>tradition</th><th>sources</th></tr></thead><tbody><tr><td><code>ABR-CHR</code></td><td style='text-align:right'>82,789</td></tr><tr><td><code>ABR-JUD</code></td><td style='text-align:right'>29,633</td></tr><tr><td><code>MISC-QUARANTINE</code></td><td style='text-align:right'>20,314</td></tr><tr><td><code>PHI</code></td><td style='text-align:right'>19,097</td></tr><tr><td><code>ABR-ISL</code></td><td style='text-align:right'>15,870</td></tr><tr><td><code>META-CANON</code></td><td style='text-align:right'>13,831</td></tr><tr><td><code>DHR-BUD</code></td><td style='text-align:right'>8,184</td></tr><tr><td><code>META-ARC</code></td><td style='text-align:right'>6,855</td></tr><tr><td><code>ABR</code></td><td style='text-align:right'>6,449</td></tr><tr><td><code>ABR-CHR-CAT</code></td><td style='text-align:right'>5,037</td></tr><tr><td><code>ABR-CHR-PRO</code></td><td style='text-align:right'>4,623</td></tr><tr><td><code>DHR-HIN</code></td><td style='text-align:right'>3,957</td></tr></tbody></table>"
+     "<table class='dtbl'><thead><tr><th>tradition</th><th>sources</th></tr></thead><tbody><tr><td><code>ABR-CHR</code></td><td style='text-align:right'>82,790</td></tr><tr><td><code>ABR-JUD</code></td><td style='text-align:right'>29,633</td></tr><tr><td><code>MISC-QUARANTINE</code></td><td style='text-align:right'>20,314</td></tr><tr><td><code>PHI</code></td><td style='text-align:right'>19,097</td></tr><tr><td><code>ABR-ISL</code></td><td style='text-align:right'>15,870</td></tr><tr><td><code>META-CANON</code></td><td style='text-align:right'>13,831</td></tr><tr><td><code>DHR-BUD</code></td><td style='text-align:right'>8,184</td></tr><tr><td><code>META-ARC</code></td><td style='text-align:right'>6,855</td></tr><tr><td><code>ABR</code></td><td style='text-align:right'>6,449</td></tr><tr><td><code>ABR-CHR-CAT</code></td><td style='text-align:right'>5,037</td></tr><tr><td><code>ABR-CHR-PRO</code></td><td style='text-align:right'>4,623</td></tr><tr><td><code>DHR-HIN</code></td><td style='text-align:right'>3,957</td></tr></tbody></table>"
     ]
    ]
   },
@@ -137,7 +141,7 @@
    "body": [
     [
      "Data",
-     "Gospels resurrection: <b>11/22</b> silences closed by acquisition round-trip. Syriac authors: <b>120</b> cited silences (the desiderata list). See the Audit drawer for the recall method."
+     "Gospels resurrection: <b>14/26</b> silences closed by acquisition round-trip. Syriac authors: <b>120</b> cited silences (the desiderata list). See the Audit drawer for the recall method."
     ]
    ]
   }
