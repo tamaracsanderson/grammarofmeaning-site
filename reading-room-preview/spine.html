@@ -220,7 +220,9 @@ function renderBraidSpine(data, mount){
 
   // ---- detail rail + interaction ----
   var detail=document.getElementById('detail');
-  function kindPhrase(n){ return n>=N ? 'all agree — the spine' : (n===N-1 ? 'one parts — a fork' : 'the four split — a parting'); }
+  // membership ≠ agreement: 4/4 means all CARRY the beat (the spine); whether they
+  // agree on its content is the separate divergence channel (a 4/4 beat can be div 1.0).
+  function kindPhrase(n){ return n>=N ? 'all carry — the spine' : (n===N-1 ? 'one parts — a fork' : 'the four split — a parting'); }
   function show(i){
     var r=rows.find(function(x){return x.b.index===i;}); if(!r) return; var b=r.b;
     var chips=order.map(function(k){
