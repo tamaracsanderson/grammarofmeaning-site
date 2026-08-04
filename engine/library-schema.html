@@ -50,6 +50,61 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
 .recallpill .rbar i{display:block;height:100%;background:var(--out);border-radius:4px}
 .recallpill .rv{font-family:var(--mono);font-size:11px;color:var(--fg)}
 .recallpill .rn{font-family:var(--mono);font-size:10px;color:var(--muted)}
+/* ── deep stage drawer (instrument-depth, mirrors schema.html const P) ── */
+.dsub{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);margin-left:8px;border:1px solid color-mix(in srgb,var(--sub) 40%,var(--line));border-radius:4px;padding:1px 6px;vertical-align:middle}
+.logicflow{display:flex;align-items:stretch;flex-wrap:wrap;margin:6px 0 2px}
+.lf-box{flex:1 1 0;min-width:130px;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:var(--bg)}
+.lf-box.box{background:color-mix(in srgb,var(--eng) 8%,var(--bg));border-color:color-mix(in srgb,var(--eng) 35%,var(--line))}
+.lf-k{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--out);margin-bottom:4px}
+.lf-t{font-size:12px;line-height:1.4;color:var(--fg)}
+.lf-arw{display:flex;align-items:center;color:var(--muted);font-size:15px;padding:0 5px;flex:0 0 auto}
+.lf-next{font-family:var(--serif);font-style:italic;font-size:12.5px;color:var(--muted);margin:8px 0 0;padding-left:2px}
+.lf-next b{font-family:var(--mono);font-style:normal;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--out)}
+.statusgrid{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:2px 0;font-size:13px}
+.statusgrid dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.statusgrid dd{margin:0;line-height:1.5}
+.statusgrid dd.lim{color:var(--out)}
+.exbox{border:1px solid var(--sub);border-radius:9px;overflow:hidden;margin:2px 0}
+.exrib{background:var(--sub);color:#FFFDF6;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px}
+.exrow{display:grid;grid-template-columns:160px 1fr;gap:10px;padding:6px 12px;border-top:1px solid var(--line);font-size:13px}
+.exrow:first-of-type{border-top:none}
+.exk{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.exv{line-height:1.45}
+.extests{font-size:12.5px;line-height:1.55;color:var(--muted);border-left:2px solid var(--sub);padding-left:11px;margin:9px 0 2px}
+.extests code{font-family:var(--mono);font-size:11.5px}
+.tierlab{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:12px 0 6px}
+.tiergrp:first-child .tierlab{margin-top:2px}
+.fld{border-left:2px solid var(--line);padding:0 0 2px 11px;margin:0 0 11px}
+.fld-h{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.fld-n{font-family:var(--mono);font-size:12px;color:var(--eng);font-weight:500}
+.fld-t{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.state{font-family:var(--mono);font-size:8.5px;letter-spacing:.05em;text-transform:uppercase;padding:1px 6px;border-radius:4px;border:1px solid var(--line);white-space:nowrap}
+.state.closed{color:#fff;background:var(--sub);border-color:var(--sub)}
+.state.controlled{color:#8a5a12;background:color-mix(in srgb,var(--honey) 24%,var(--bg));border-color:color-mix(in srgb,var(--honey) 50%,var(--line))}
+.state.open{color:var(--muted);background:var(--paper2)}
+.state.dormant{color:var(--muted);background:var(--paper2);opacity:.7}
+.state.gap{color:#fff;background:var(--out);border-color:var(--out)}
+.fld-d{font-size:12.5px;line-height:1.5;color:var(--fg);margin:4px 0 0}
+.fld-a{font-family:var(--mono);font-size:11px;color:var(--sub);margin:3px 0 0;line-height:1.4}
+.fld-c{font-size:12px;line-height:1.45;color:var(--muted);border-left:2px solid var(--honey);padding-left:9px;margin:5px 0 0}
+.dlayer{border-top:1px solid var(--line);margin-top:14px}
+.dlayer summary{cursor:pointer;list-style:none;font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--out);padding:11px 0 4px}
+.dlayer summary::-webkit-details-marker{display:none}
+.dlayer summary::before{content:"▸ ";color:var(--muted)}
+.dlayer[open] summary::before{content:"▾ "}
+.dlayer summary:hover{text-decoration:underline}
+.irrlist{font-size:12.5px;line-height:1.55;margin:2px 0;padding-left:16px}
+.irrlist li{margin:3px 0}
+.irr-touch{color:var(--muted);font-size:12px;margin-top:7px}
+.codepath{font-family:var(--mono);font-size:11.5px;line-height:1.7;color:var(--fg);word-break:break-word}
+.codepath div{padding:2px 0;border-top:1px dotted color-mix(in srgb,var(--line) 60%,transparent)}
+.codepath div:first-child{border-top:none}
+/* GROW = the flywheel node (loop-back) */
+.flywheel.grownode{cursor:pointer;transition:box-shadow .2s,transform .2s;display:block;width:100%;text-align:left;font:inherit;color:inherit}
+.flywheel.grownode:hover{transform:translateY(-2px);box-shadow:0 12px 30px -18px rgba(40,48,42,.5);border-color:var(--olive)}
+.flywheel .grow-open{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--olive);margin-top:10px;opacity:.7}
+.metacard.resil{border-color:color-mix(in srgb,var(--olive) 55%,var(--line));background:color-mix(in srgb,var(--olive) 10%,var(--card))}
+.metacard.resil b{color:var(--olive)}
 .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin:14px 0 0;font-family:var(--mono);font-size:11px;color:var(--muted)}
 .legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
 
@@ -214,7 +269,7 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
               <p class="fine">the reflexive turn · engine “LACUNA”</p>
               <span class="openz">open ↗</span>
             </button>
-            <button class="node eng" id="n-acquire" data-node="logic" style="border-color:var(--olive)">
+            <button class="node eng" id="n-acquire" data-node="acquire" style="border-color:var(--olive)">
               <h3 style="color:var(--olive)">Acquire</h3>
               <p class="sub">find &amp; fetch a wanted text.</p>
               <p class="fine">classify archives · build harvesters · route by fairness · dedup · store</p>
@@ -253,10 +308,11 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
     </section>
   </div>
 
-  <section class="flywheel">
-    <span class="k">the flywheel</span>
+  <button class="flywheel grownode" id="n-grow" data-node="grow">
+    <span class="k grow-k" style="color:var(--olive)">the flywheel · GROW ↻</span>
     <p>the gap becomes the shopping list, which drives what we fetch, which grows what we hold, which we serve.</p>
-  </section>
+    <span class="grow-open">open the GROW stage ↗</span>
+  </button>
 
   <footer class="figfooter"><span>The library · Method</span><span>Fig. 02 — Schema · V1</span></footer>
 </div>
@@ -266,28 +322,105 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 <div class="db" id="d-body"></div></dialog>
 
 <script>
-// ── render library-schema FROM the engine artifact ─────────────────────────
-// §2.13 single store of record; the site renders from engine DATA, never hardcoded.
-// Regenerated by scripts/analysis/export_library_engine_schema_s159.py after each
-// acquisition / recall run. Contract: { GAPMAP:{…}, NODES:{key:{title,what,status,body:[[h,html]…]}} }
-var NODES={}, GAPMAP={};
-function openNode(key){var n=NODES[key];if(!n)return;
- document.getElementById('d-title').innerHTML=n.title||'';
- document.getElementById('d-what').innerHTML=n.what||'';
- document.getElementById('d-tbl').textContent=n.status||'';
- document.getElementById('d-body').innerHTML=(n.body||[]).map(function(s){
-   return '<div class="osec"><div class="osec-h">'+s[0]+'</div><div class="osec-b">'+s[1]+'</div></div>';
- }).join('');
- document.getElementById('dlg').showModal();
+// ── render library-schema FROM the engine artifacts (§2.13/§2.16 — single store of
+// record; nothing hardcoded). TWO artifacts: library_engine_schema.json (header · GAPMAP ·
+// meta-band nodes · acquisitions feed) + library_schema_stages.json (the DEEP 5-layer stage
+// drawers, mirroring the instrument schema.html const P). Regenerated by the sibling exports.
+var NODES={}, GAPMAP={}, STAGES={};
+var ENGKEY={'CORPUS':'corpus','ACQUIRE':'acquire','FIND-GAPS':'gaps','SERVE':'serve','GROW':'grow','DR / BACKUP':'dr'};
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function nfmt(n){return (typeof n==='number')?n.toLocaleString():n;}
+function osec(h,b){return '<div class="osec"><div class="osec-h">'+h+'</div><div class="osec-b">'+b+'</div></div>';}
+
+// ---- deep-stage (5-layer) renderers ----
+function stateClass(st){st=(st||'').toLowerCase();
+  if(st.indexOf('gap')>=0||st.indexOf('enforcement')>=0)return 'gap';
+  if(st.indexOf('closed')>=0)return 'closed';
+  if(st.indexOf('controlled')>=0)return 'controlled';
+  if(st.indexOf('dormant')>=0)return 'dormant';
+  return 'open';}
+function logicFlow(logic){
+  var seg={}, re=/(IN|BOX|OUT|NEXT):\s*([\s\S]*?)(?=(?:\s*→\s*)?(?:IN|BOX|OUT|NEXT):|$)/g, m;
+  while((m=re.exec(logic))){ seg[m[1]]=m[2].replace(/\s*→\s*$/,'').trim(); }
+  if(!seg.IN&&!seg.BOX&&!seg.OUT) return '<div class="lf-t">'+esc(logic)+'</div>';
+  var boxes=[['IN',seg.IN,''],['BOX',seg.BOX,'box'],['OUT',seg.OUT,'']];
+  var h='<div class="logicflow">'+boxes.map(function(b,i){
+    return (i?'<div class="lf-arw">→</div>':'')+'<div class="lf-box '+b[2]+'"><div class="lf-k">'+b[0]+'</div><div class="lf-t">'+esc(b[1]||'')+'</div></div>';
+  }).join('')+'</div>';
+  if(seg.NEXT) h+='<div class="lf-next"><b>Next</b> — '+esc(seg.NEXT)+'</div>';
+  return h;
 }
-// wire the static flow nodes now (they exist at load); meta cards are wired after fetch
+function statusBlock(st){ if(!st) return '';
+  var rows=[['coverage',st.coverage],['output',st.output],['unit',st.unit],['limit',st.limit]];
+  return '<dl class="statusgrid">'+rows.filter(function(r){return r[1];}).map(function(r){
+    return '<dt>'+r[0]+'</dt><dd'+(r[0]==='limit'?' class="lim"':'')+'>'+esc(r[1])+'</dd>';}).join('')+'</dl>';
+}
+function exampleBlock(ex){ if(!ex) return '';
+  var rows=(ex.row&&typeof ex.row==='object')? Object.keys(ex.row).map(function(k){
+    return '<div class="exrow"><span class="exk">'+esc(k)+'</span><span class="exv">'+esc(ex.row[k])+'</span></div>';}).join(''):'';
+  return '<div class="exbox"><div class="exrib">'+esc(ex.label||'worked example')+(ex.id?' · '+esc(ex.id):'')+'</div>'+rows+'</div>'
+    +(ex.tests?'<div class="extests">'+ex.tests+'</div>':'');
+}
+function fieldsBlock(fields){ if(!fields||!fields.length) return '';
+  var TIERS=[['key','key columns'],['supporting','supporting'],['plumbing','plumbing'],['dormant','dormant — not yet populated']];
+  return TIERS.map(function(t){
+    var fs=fields.filter(function(f){return (f.tier||'')===t[0];});
+    if(!fs.length) return '';
+    return '<div class="tiergrp"><div class="tierlab">'+t[1]+'</div>'+fs.map(function(f){
+      var av=f.allowed?'<div class="fld-a">'+esc(f.allowed)+(f.vset?'  ·  '+Object.keys(f.vset).map(function(k){return k+':'+nfmt(f.vset[k]);}).join(' · '):'')+'</div>':'';
+      return '<div class="fld"><div class="fld-h"><code class="fld-n">'+esc(f.field)+'</code><span class="fld-t">'+esc(f.type)+'</span><span class="state '+stateClass(f.state)+'">'+esc(f.state)+'</span></div>'
+        +'<div class="fld-d">'+(f.desc||'')+'</div>'+av+(f.caveat?'<div class="fld-c">'+f.caveat+'</div>':'')+'</div>';
+    }).join('')+'</div>';
+  }).join('');
+}
+function renderDeep(s){
+  var st=s.status||{}, split=s.split||{always:['what','why','logic','status','example'],drawer:['fields','irr','code']};
+  var A=split.always||[], D=split.drawer||[], has=function(l,set){return set.indexOf(l)>=0;};
+  document.getElementById('d-title').innerHTML=esc(s.engname||s.name)+(s.sub?'<span class="dsub">'+esc(s.sub)+'</span>':'');
+  document.getElementById('d-what').innerHTML=(s.tag||'')+(s.table?' · <code>'+esc(s.table)+'</code>':'');
+  document.getElementById('d-tbl').textContent=st.status||'';
+  var body='';
+  if(has('what',A)&&s.what) body+=osec('What it is',s.what);
+  if(has('why',A)&&s.why) body+=osec('Why',s.why);
+  if(has('logic',A)&&s.logic) body+=osec('The logic',logicFlow(s.logic));
+  if(has('status',A)) body+=osec('Status',statusBlock(st));
+  if(has('example',A)&&s.example) body+=osec('Worked example',exampleBlock(s.example));
+  function layer(label,html){return '<details class="dlayer"><summary>'+label+'</summary><div class="osec-b">'+html+'</div></details>';}
+  if(has('example',D)&&s.example) body+=layer('Worked example',exampleBlock(s.example));
+  if(has('fields',D)&&s.fields&&s.fields.length) body+=layer('Data contract — the fields',fieldsBlock(s.fields));
+  if(has('irr',D)&&s.irr){
+    var ir='<ul class="irrlist">'+(s.irr.primary||[]).map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>'
+      +((s.irr.touches&&s.irr.touches.length)?'<div class="irr-touch">touches: '+s.irr.touches.map(esc).join(' · ')+'</div>':'');
+    body+=layer('Audit — the IRR / decision chain',ir);
+  }
+  if(has('code',D)&&s.code){
+    var cp=String(s.code).split(' · ').map(function(x){return '<div>'+esc(x)+'</div>';}).join('');
+    body+=layer('Implementation — the code','<div class="codepath">'+cp+'</div>');
+  }
+  document.getElementById('d-body').innerHTML=body;
+  document.getElementById('dlg').showModal();
+}
+function renderSimple(n){
+  document.getElementById('d-title').innerHTML=n.title||'';
+  document.getElementById('d-what').innerHTML=n.what||'';
+  document.getElementById('d-tbl').textContent=n.status||'';
+  document.getElementById('d-body').innerHTML=(n.body||[]).map(function(x){return osec(x[0],x[1]);}).join('');
+  document.getElementById('dlg').showModal();
+}
+function openNode(key){
+  if(STAGES[key]) return renderDeep(STAGES[key]);      // deep 5-layer wins the overlap (grounded)
+  if(NODES[key]) return renderSimple(NODES[key]);       // meta-band (overview/logic/acquisitions)
+}
 [].forEach.call(document.querySelectorAll('[data-node]'),function(b){b.addEventListener('click',function(){openNode(b.getAttribute('data-node'));});});
 
-function nfmt(n){return (typeof n==='number')?n.toLocaleString():n;}
-fetch('data/library_engine_schema.json').then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
- .then(function(d){
+Promise.all([
+  fetch('data/library_engine_schema.json').then(function(r){if(!r.ok)throw new Error('engine '+r.status);return r.json();}),
+  fetch('data/library_schema_stages.json').then(function(r){if(!r.ok)throw new Error('stages '+r.status);return r.json();})
+]).then(function(res){
+   var d=res[0], sd=res[1];
    NODES=d.NODES||{}; GAPMAP=d.GAPMAP||{};
-   // header chips — data-driven from GAPMAP (only render fields that exist)
+   (sd.stages||[]).forEach(function(s){ var k=ENGKEY[s.engname]; if(k) STAGES[k]=s; });
+   // header chips — data-driven from GAPMAP
    var sr=document.getElementById('selfrow');
    if(sr){var c=[];
      if(typeof GAPMAP.sources_held==='number') c.push('<b>'+nfmt(GAPMAP.sources_held)+'</b> held as full text');
@@ -298,20 +431,19 @@ fetch('data/library_engine_schema.json').then(function(r){if(!r.ok)throw new Err
      if(typeof GAPMAP.closed==='number'&&typeof GAPMAP.total==='number') c.push('gap-map: <b>'+GAPMAP.closed+'/'+GAPMAP.total+'</b> closed');
      sr.innerHTML='<span class="k">the library, on itself</span>'+c.map(function(x){return '<span class="chip">'+x+'</span>';}).join('');
    }
-   // recall-vs-clavis strip — one engine, N claves (the seed-agnostic result made visible)
+   // recall-vs-clavis strip
    var rs=document.getElementById('recallstrip'), rr=GAPMAP.recall_rows;
    if(rs&&rr&&rr.length){
      rs.innerHTML='<span class="rk">recall vs clavis</span>'+rr.map(function(r){
-       return '<span class="recallpill" title="'+(r.clavis||'').split('"').join('&quot;')+'"><span class="rt">'+r.tradition+'</span><span class="rbar"><i style="width:'+r.pct+'%"></i></span><span class="rv">'+r.pct+'%</span><span class="rn">'+r.held+'/'+r.total+'</span></span>';
+       return '<span class="recallpill" title="'+(r.clavis||'').split('"').join('&quot;')+'"><span class="rt">'+esc(r.tradition)+'</span><span class="rbar"><i style="width:'+r.pct+'%"></i></span><span class="rv">'+r.pct+'%</span><span class="rn">'+r.held+'/'+r.total+'</span></span>';
      }).join('');
    }
-   // meta-band cards — rendered from the artifact node title/what (data-driven, not hardcoded)
+   // meta-band — overview · logic · acquisitions (from engine artifact) + resilience/DR (deep stage)
    var mb=document.getElementById('metaband');
-   if(mb){var META=['overview','logic','audit','implementation','acquisitions'];
-     mb.innerHTML=META.filter(function(k){return NODES[k];}).map(function(k){
-       var n=NODES[k], feat=(k==='acquisitions')?' feat':'';
-       return '<button class="metacard'+feat+'" data-node="'+k+'"><b>'+n.title+(feat?' ↗':'')+'</b><span class="mc-g">'+(n.what||'')+'</span></button>';
-     }).join('');
+   if(mb){var cards=[];
+     ['overview','logic','acquisitions'].forEach(function(k){ if(NODES[k]) cards.push({k:k,title:NODES[k].title,what:NODES[k].what,cls:(k==='acquisitions'?' feat':'')}); });
+     if(STAGES.dr) cards.push({k:'dr',title:STAGES.dr.engname+' — '+STAGES.dr.name,what:STAGES.dr.tag,cls:' resil'});
+     mb.innerHTML=cards.map(function(c){var mark=(c.cls?' ↗':''); return '<button class="metacard'+c.cls+'" data-node="'+c.k+'"><b>'+esc(c.title)+mark+'</b><span class="mc-g">'+esc(c.what||'')+'</span></button>';}).join('');
      [].forEach.call(mb.querySelectorAll('[data-node]'),function(b){b.addEventListener('click',function(){openNode(b.getAttribute('data-node'));});});
    }
  })
