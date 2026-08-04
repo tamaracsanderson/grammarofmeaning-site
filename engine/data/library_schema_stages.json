@@ -1,0 +1,652 @@
+{
+ "generated_by": "export_library_schema_stages_s159.py",
+ "generated_at_note": "counts in status{}/example{}/vset are LIVE from the DB at run time; per-field tier/state/caveat is authored METHOD metadata (like the instrument's _caveats dict).",
+ "render_contract": "stages[] mirrors the instrument schema.html `const P` stage contract {eng,engname,sub,name,table,tag,what,why,logic,status{},example{},fields[{field,type,desc,tier,state,allowed,vset,caveat}],irr{primary,touches},code,split{always,drawer}}. design-SB: render library-schema.html FROM this artifact — NEVER hardcode (§2.13/§2.16). Layers: 1 OVERVIEW (always: what/why/logic→mermaid/status) · 2 WORKED EXAMPLE (always: example.row + example.tests) · DATA CONTRACT (drawer: fields grouped by tier key/supporting/plumbing/dormant) · AUDIT (drawer: irr) · IMPLEMENTATION (drawer: code). split{} names the always-visible vs drawer keys per stage.",
+ "mermaid_convention": "the `logic` line is 'IN: … → BOX: … → OUT: … → NEXT: …'. design-SB renders it deterministically as a 3-node flow input(IN)→engine(BOX)→output(OUT) with a NEXT edge label — so a new drawer needs no new HTML, only a logic line in this shape.",
+ "ssot": "https://grammarofmeaning.org/engine/schema.html (the INSTRUMENT SSOT, §2.16) — this library page is its sibling for the STOCK; both render from a registry, neither is hardcoded.",
+ "stages": [
+  {
+   "eng": "L1",
+   "engname": "CORPUS",
+   "sub": "",
+   "name": "The stock we hold",
+   "table": "sources · passages",
+   "tag": "what the whole project reads",
+   "what": "The <b>corpus</b> is every primary source the project holds — books, articles, sermons, oral-history recordings, artworks — plus the <b>passages</b> (L4 anchors) chunked out of them. It is not a pipeline stage; it is the <em>stock</em> every engine reads.",
+   "why": "A source is a <b>container</b>, a passage is the <b>analytical atom</b> (the L4 anchor the instrument codes). Counting sources tells you collection COVERAGE, not analytical DEPTH — so the corpus reports an <b>honest 3-part count</b> (registered / held-as-full-text / reference) rather than one flattering headline (§2.8, the anti-inflation discipline).",
+   "logic": "IN: a harvested artifact + its provenance → BOX: register a `sources` row (provenance triad, tradition binding, dedup), then chunk at native divisions into L4 `passages` → OUT: held full text + quotable L4 anchors → NEXT: SERVE hands them to the instrument.",
+   "status": {
+    "status": "Built · running",
+    "coverage": "65,650 held as full text of 376,729 registered (17.4%)",
+    "output": "12,824,259 L4 passages (the analytical atoms)",
+    "unit": "one source (container) → 0..N L4 passages",
+    "limit": "Only ~17.4% is held as full text. holding_mode: stub=363,314 (registered pointer, no text yet) vs ingested=8,398; content_status='present'=75,265. The bulk is a REGISTERED pointer, not text on disk — 'registered' must never be read as 'held'."
+   },
+   "example": {
+    "id": "SRC-250618",
+    "label": "REAL CORPUS ROW (live from the DB)",
+    "row": {
+     "source_id": "SRC-250618",
+     "text_title": "John Chrysostom — Homilies on Romans (NPNF English)",
+     "tradition_id": "ABR-CHR",
+     "holding_mode": "stub",
+     "content_status": "present"
+    },
+    "tests": "Guarded by <code>corpus_headline_count_matches_db.py</code> (§2.7 Layer-3 + §13 Mechanism-8): the public 'held' badge cannot silently drift from the DB. S159 L1 dropped the older unreproducible ~136K figure and locked 65,650 (>300-char full text; excerpts excluded)."
+   },
+   "fields": [
+    {
+     "field": "source_id",
+     "type": "TEXT PK",
+     "tier": "key",
+     "state": "closed-PK",
+     "desc": "the container's stable identifier (e.g. SRC-25…).",
+     "caveat": "SRC-25* = the S159 acquisition range; older ranges predate the convention."
+    },
+    {
+     "field": "holding_mode",
+     "type": "TEXT",
+     "tier": "key",
+     "state": "controlled-not-enforced",
+     "allowed": "stub · ingested · embed_only",
+     "vset": {
+      "stub": 363314,
+      "ingested": 8398
+     },
+     "desc": "the honest held/registered distinction: stub=registered pointer, ingested=text on disk.",
+     "caveat": "NO CHECK constraint — the writer sets it by convention. The 3-value set is stable but enforced nowhere; a harvester that forgets to set it leaves the default."
+    },
+    {
+     "field": "content_status",
+     "type": "TEXT",
+     "tier": "key",
+     "state": "controlled-not-enforced",
+     "allowed": "present · fetch_pending · visual · stub_boilerplate · corrupt_wiped · no_url · (empty)",
+     "vset": {
+      "present": 75265
+     },
+     "desc": "whether real text is actually on disk for this container.",
+     "caveat": "227,842 rows carry an EMPTY content_status — the column was added after most rows landed and never backfilled. 'empty' means 'we never classified', not 'no content' (§2.8: name the not-asked)."
+    },
+    {
+     "field": "original_text · english_translation · source_text",
+     "type": "TEXT",
+     "tier": "key",
+     "state": "open",
+     "desc": "the actual held text; MAX(len)>300 across these three defines 'held'.",
+     "caveat": "`excerpt` is DELIBERATELY excluded from 'held' — a snippet is not full text. Counting all three text columns is the anti-undercount rule (feedback_honest_corpus_count)."
+    },
+    {
+     "field": "significance_tier",
+     "type": "TEXT",
+     "tier": "supporting",
+     "state": "controlled-not-enforced",
+     "allowed": "canonical · primary · foundational · important · reference · supporting(default)",
+     "desc": "source-centrality within its tradition; crosswalks to r_tier (Decision 60).",
+     "caveat": "no CHECK; classifier SB19 (Haiku SDK) fills it — unclassified rows sit at 'supporting'."
+    },
+    {
+     "field": "tradition_id · tradition_family",
+     "type": "TEXT",
+     "tier": "supporting",
+     "state": "open",
+     "desc": "the tradition binding used for coverage + bias-visibility rollups.",
+     "caveat": "text-at-parent / reading-at-sub-tradition is architecture, not a CHECK — the S31 silent-drift that §2.7 exists to prevent lived here."
+    },
+    {
+     "field": "extraction_provenance · methodology_notes · description_author",
+     "type": "TEXT",
+     "tier": "plumbing",
+     "state": "controlled-not-enforced (never-NULL by §2.4)",
+     "desc": "the provenance triad — where/how harvested, what shaped it, which script wrote it.",
+     "caveat": "§2.4 forbids NULL here; enforced by the ingestion gateway + pre-commit, not a DB NOT-NULL on legacy rows."
+    },
+    {
+     "field": "parent_source_id · canonical_source_id · merged_into_source_id",
+     "type": "TEXT",
+     "tier": "plumbing",
+     "state": "open",
+     "desc": "dedup + canonical-text joins.",
+     "caveat": "dedup_eligibility/dedup_version govern the dedup pass; survivor-leak is a known class."
+    },
+    {
+     "field": "~50 'PENDING — needs …' analytical columns",
+     "type": "TEXT",
+     "tier": "dormant",
+     "state": "dormant (default-PENDING)",
+     "desc": "insider_outsider, domain, truth_type, portability, observation_mapping, form_chain_position, selection_rationale, … — Phase-1-era analytical slots.",
+     "caveat": "Dozens of columns still hold their literal default 'PENDING — needs classification'. Kept visible (not dropped) so the intent is legible, but they are NOT populated — reading any of them as data is a mistake (§2.8: the honest not-asked)."
+    }
+   ],
+   "irr": {
+    "primary": [
+     "S159 L1 held-count lock (65,650 · corpus_headline_count_matches_db.py)",
+     "Decision 182 §2.13 single-store-of-record"
+    ],
+    "touches": [
+     "Session 12 text-at-parent architecture",
+     "Decision 60 r_tier↔significance_tier crosswalk",
+     "§2.8 bias-visibility (Abrahamic skew documented, not filtered)"
+    ]
+   },
+   "code": "the harvesters → scripts/lib/ingestion_gateway.py (§2.7 Layer 2) → scripts/pipeline/chunk_batch_auto_detect.py (Stage 4 native-division chunking)",
+   "split": {
+    "always": [
+     "what",
+     "why",
+     "logic",
+     "status",
+     "example"
+    ],
+    "drawer": [
+     "fields",
+     "irr",
+     "code"
+    ]
+   }
+  },
+  {
+   "eng": "L2",
+   "engname": "ACQUIRE",
+   "sub": "CRADLE",
+   "name": "Classify → route → resolve → dedup → gateway",
+   "table": "cradle_endpoints · shopping_list",
+   "tag": "how a needed source is located + landed",
+   "what": "<b>CRADLE</b> is the ONE pipeline every discovered source routes through: a classifier tags the input, a cluster router fans it out (BOOK/ACADEMIC/SCRIPTURE/ORAL/LITERARY/MANUSCRIPT), a resolver chain tries endpoints in priority order, a dedup check runs, and the ingestion gateway lands it. <b>PRISM</b> classifies the endpoints (13 routing axes); <b>FOUNDRY</b> casts firing harvesters from them.",
+   "why": "The load-bearing rule is the <b>Parity Principle</b> (§2.10): an endpoint is routed by what it CONTAINS, never by which tradition it 'serves'. An African journal on St. Paul fires for ANY Pauline query with the same priority as a US one — so the corpus's Anglophone default is corrected at routing, not hidden by curatorial pre-filtering (§2.8 enforced mechanically).",
+   "logic": "IN: a citation / keyword / bibliography item → BOX: classify → fan to matching clusters (Parity: geo_origin is never a filter) → try resolvers ≥0.5 → dedup vs sources+canonical → OUT: a landed source via the gateway (provenance + tradition binding) → NEXT: it becomes CORPUS.",
+   "status": {
+    "status": "Built · running · funnel leaks hard",
+    "coverage": "4,761 endpoints catalogued · 3,341 status='built' · 2,837 built+healthy",
+    "output": "shopping_list: 81,012 rows (307 pending · 4,294 fetched · 34 care_pending)",
+    "unit": "one endpoint → 0..N harvested sources",
+    "limit": "The health columns are DEFAULT-INFLATED: 3,201 rows read 'healthy' but last_audit_firing_rate_pct>0 for 0 of them — the audit-firing column is entirely unpopulated. Per the S94 funnel-state ~134 endpoints ACTUALLY yield. 'built+healthy' is an aspiration column, not a measured one (§2.7 data-quality gap)."
+   },
+   "example": {
+    "id": "ajol_jsr",
+    "label": "REAL ENDPOINT ROW (the Parity Principle in the data)",
+    "row": {
+     "name": "ajol_jsr",
+     "primary_cluster": "ACADEMIC",
+     "geo_origin_json": "[\"AFRICA\"]",
+     "tradition_coverage_json": "[\"ALL\"]",
+     "access_protocol": "OAI-PMH",
+     "status": "built",
+     "health_status": "partial",
+     "protocol_template": "oai_pmh",
+     "voice_tier": "outsider"
+    },
+    "tests": "S159 Parity fix: SIL-GOS-POSTCOLONIAL (majority-world gospel exegesis — Bediako, Oduyoye, Musa Dube) was flagged as an unfilled silence whose intake 'AJOL/SciELO' was documented but NOT firing (0 non-Western provenance). parity_lacuna_harvest_s159.py + the cradle_router OAI-PMH fallback proved the fan lands ≥1 real non-Western source end-to-end. Router parity pinned by test_cradle_router_parity.py (18 tests)."
+   },
+   "fields": [
+    {
+     "field": "name",
+     "type": "TEXT PK",
+     "tier": "key",
+     "state": "closed-PK",
+     "desc": "endpoint identifier (e.g. ajol_jsr)."
+    },
+    {
+     "field": "primary_cluster · cluster_json",
+     "type": "TEXT · JSON",
+     "tier": "key",
+     "state": "controlled-not-enforced",
+     "allowed": "BOOK · ACADEMIC · SCRIPTURE · ORAL · LITERARY · MANUSCRIPT",
+     "desc": "which of the 6 clusters this endpoint fires for (IRR87-validated partition).",
+     "caveat": "no CHECK on the cluster vocabulary; the 6-way partition is convention (IRR87)."
+    },
+    {
+     "field": "geo_origin_json · tradition_coverage_json",
+     "type": "JSON",
+     "tier": "key",
+     "state": "open",
+     "desc": "where content is PRODUCED · what it INDEXES (often ['ALL']). The Parity axes.",
+     "caveat": "geo_origin is tagged for VISIBILITY, never used as a routing filter — that is the whole Parity Principle. tradition_coverage=['ALL'] means it fires for any topic-query."
+    },
+    {
+     "field": "status",
+     "type": "TEXT",
+     "tier": "key",
+     "state": "closed-CHECK",
+     "allowed": "built · scaffolded · master_list · proposed · rotted · deprecated",
+     "vset": {
+      "built": 3341
+     },
+     "desc": "build state of the harvester.",
+     "caveat": "one of only 4 CHECK-enforced columns on this table — it cannot take an off-list value."
+    },
+    {
+     "field": "health_status · yield_tier · last_audit_firing_rate_pct",
+     "type": "TEXT · REAL",
+     "tier": "supporting",
+     "state": "controlled-not-enforced (INFLATED)",
+     "allowed": "healthy · partial · untested · dead",
+     "vset": {
+      "healthy": 3201,
+      "audited>0": 0
+     },
+     "desc": "operational health of the harvester + its measured firing rate.",
+     "caveat": "THE honest caveat: health_status defaults toward 'healthy' and last_audit_firing_rate_pct is populated for 0 rows — so 'built+healthy' massively over-states what actually yields (~134 per S94). A measured column masquerading as full."
+    },
+    {
+     "field": "funnel_stage",
+     "type": "TEXT",
+     "tier": "supporting",
+     "state": "controlled-not-enforced",
+     "allowed": "S1..S6",
+     "desc": "position in the catalogue→smoke→built→active FOUNDRY funnel.",
+     "caveat": "S6=2,364 but that is 'scaffolded far', not 'yielding' — see health caveat above."
+    },
+    {
+     "field": "voice_tier · peer_review_status · gender_perspective_tag · accessibility_tier · citation_richness · canon_inclusion · completeness_within_tradition · … (13 axes)",
+     "type": "TEXT · JSON",
+     "tier": "supporting",
+     "state": "controlled-not-enforced",
+     "desc": "the SB-126.AJ 13-axis routing-precision schema PRISM backfills — makes bias VISIBLE by producing an audit log of which endpoints a narrowing query excluded + why.",
+     "caveat": "Only a handful of the 13 axes have CHECK constraints; most are free-text/JSON controlled by intent, enforced nowhere. Phase-1 hard-capped backfill at 50 endpoints; full backfill is deferred. An UNSET axis (None/[]) is never narrowed away (bias-visibility §2.8)."
+    },
+    {
+     "field": "resolver_module_path · protocol_template · protocol_config_json · field_mappings_json",
+     "type": "TEXT · JSON",
+     "tier": "plumbing",
+     "state": "open",
+     "allowed": "~8 protocol_template archetypes (oai_pmh, cts_xml, …)",
+     "desc": "how FOUNDRY casts a firing harvester (~70% shared handler + ~30% per-endpoint config).",
+     "caveat": "GENERIC module-path with no per-name resolver = matches a query but never LOADS — the exact S159 Parity bug (non-Western OAI endpoints matched but didn't fire)."
+    },
+    {
+     "field": "requires_care_review · care_documentation_tag",
+     "type": "INT · TEXT",
+     "tier": "plumbing",
+     "state": "closed-CHECK (0/1)",
+     "desc": "CARE routing for Indigenous-affecting endpoints (§2.11).",
+     "caveat": "CARE = INCLUDE+TAG (documentation pathway), never a gate that excludes (§2.11)."
+    }
+   ],
+   "irr": {
+    "primary": [
+     "IRR87 cradle_cluster_taxonomy (reconciliation 2026-05-11)",
+     "Decision 51 CRADLE",
+     "Decision 68 FOUNDRY",
+     "S159 Parity fix (parity_lacuna_harvest_s159.py)"
+    ],
+    "touches": [
+     "SB-126.AJ 13-axis PRISM schema",
+     "§2.10 Parity Principle",
+     "§2.8 bias-visibility",
+     "cradle_endpoint_funnel_state_S94 (the ~134-yielding reality)"
+    ]
+   },
+   "code": "scripts/lib/cradle_router.py (Parity fan + get_matching_resolvers) · scripts/lib/ingestion_gateway.py (Stage E) · scripts/pipeline/parity_lacuna_harvest_s159.py · scripts/lib/source_resolvers/protocol_templates/",
+   "split": {
+    "always": [
+     "what",
+     "why",
+     "logic",
+     "status",
+     "example"
+    ],
+    "drawer": [
+     "fields",
+     "irr",
+     "code"
+    ]
+   }
+  },
+  {
+   "eng": "L3",
+   "engname": "FIND-GAPS",
+   "sub": "LACUNA",
+   "name": "Recall vs a named authority",
+   "table": "silence_finding",
+   "tag": "the library audits its own silence",
+   "what": "<b>LACUNA</b> is the reflexive turn: the library measures what it is MISSING by set-difference against a <b>clavis</b> — a named external authority that enumerates a literature (e.g. Syriaca.org's Syriac authors). 'Missing' stops meaning 'a machine didn't recall it' and starts meaning 'a named scholarly authority attests this and we hold no witness.'",
+   "why": "This is what makes the corpus's blindness DEFENSIBLE rather than embarrassing (§2.8). Every silence carries the authority's own citation (a <code>clavis_number</code>), so a third party who is NOT us can check it. The auditor never enumerates from memory — the gate is 'no memory-enumeration' (§2.15 black-box).",
+   "logic": "IN: a clavis snapshot (external authority's enumeration) → BOX: set-difference vs corpus holdings, then LLM-adjudicate candidate matches (Haiku temp 0, every verdict logged) → OUT: recall % + a desiderata ticket per silence carrying its clavis_number → NEXT: GROW acquires the silence, the round-trip closes it.",
+   "status": {
+    "status": "Built · run · LACUNA Phase 1",
+    "coverage": "348 silences named · 322 carry a clavis URI",
+    "output": "328 open desiderata · 16 closed (held) · 2 blocked",
+    "unit": "one clavis entry with 0 corpus witnesses → one silence_finding ticket",
+    "limit": "The CLAVIS has silences too: Syriaca.org does NOT enumerate gospel commentaries (0 works; even Ephrem's Diatessaron Commentary is absent). The choice of clavis determines which silences are visible — a validated audit is not one with no blind spots, but one whose blind spots are NAMED. Coverage so far: Syriac + Ethiopic authors + gospels-resurrection."
+   },
+   "example": {
+    "id": "SIL-SYRAUTH-51",
+    "label": "REAL SILENCE ROW — a closed one (held) + an open one",
+    "row": {
+     "finding_id": "SIL-SYRAUTH-51",
+     "primary_text": "syriac-authors",
+     "title": "Severus of Antioch",
+     "silence_type": "sub-tradition",
+     "wall": "language",
+     "clavis_number": "http://syriaca.org/person/51",
+     "candidate_authority": "http://syriaca.org/person/51",
+     "fill_provenance": "verified-acquired",
+     "status": "held"
+    },
+    "row_open": {
+     "finding_id": "SIL-SYRAUTH-1009",
+     "title": "ʿAbdishoʿ bar Shaʿarah",
+     "clavis_number": "http://syriaca.org/person/1009",
+     "evidence": "recall-vs-clavis: 0 corpus witnesses (canonical_voices + sources.primary_authority); Syriaca attests 1 work(s) by this author. no corpus witness",
+     "status": "identified"
+    },
+    "tests": "Matching is ADJUDICATED, not generous: deterministic distinctive-token candidate-generation → LLM adjudication rejects false matches (Syriac 'Thomas' ≠ Thomas Hobbes; 'John Rufus' ≠ Musonius Rufus). The recall number is defensible because the matcher is auditable. LACUNA runs WITH a 3-pass CRT; the copyright-ladder round (IRR230, in-flight S159) governs Mode-A cite vs Mode-B breadth."
+   },
+   "fields": [
+    {
+     "field": "finding_id",
+     "type": "TEXT PK",
+     "tier": "key",
+     "state": "closed-PK",
+     "desc": "silence identifier (e.g. SIL-SYRAUTH-51)."
+    },
+    {
+     "field": "silence_type",
+     "type": "TEXT",
+     "tier": "key",
+     "state": "controlled-not-enforced",
+     "allowed": "sub-tradition · canon-genre · voice · language · description · survivorship",
+     "vset": {
+      "sub-tradition": 327
+     },
+     "desc": "what KIND of absence this is.",
+     "caveat": "no CHECK; the writer passes model/heuristic output straight through — the taxonomy is controlled by intent, enforced nowhere (exactly the Sitz-drawer honesty)."
+    },
+    {
+     "field": "wall",
+     "type": "TEXT",
+     "tier": "key",
+     "state": "controlled-not-enforced",
+     "allowed": "language · canon · paywall · governance · none",
+     "vset": {
+      "language": 327
+     },
+     "desc": "which of the library's three walls of silence this gap sits behind.",
+     "caveat": "language dominates (327/348), matching the §2.8 Anglophone-default blindness, replicated across traditions."
+    },
+    {
+     "field": "clavis_number · clavis_entry · candidate_authority",
+     "type": "TEXT",
+     "tier": "key",
+     "state": "open (S159 migration)",
+     "desc": "the external authority's citation — what makes the silence checkable by a third party.",
+     "caveat": "added by the 2026-08-03 clavis-fields migration; older rows may carry it in candidate_authority only."
+    },
+    {
+     "field": "status",
+     "type": "TEXT",
+     "tier": "supporting",
+     "state": "controlled-not-enforced",
+     "allowed": "identified → sourced → held · blocked(never closes)",
+     "vset": {
+      "identified": 328,
+      "held": 16,
+      "blocked": 2
+     },
+     "desc": "the desiderata lifecycle; blocked never closes (an honest dead-end, not a silent drop).",
+     "caveat": "no CHECK; lifecycle enforced by the engine, not the DB."
+    },
+    {
+     "field": "fill_provenance",
+     "type": "TEXT",
+     "tier": "supporting",
+     "state": "controlled-not-enforced",
+     "allowed": "endpoint-enumeration · verified-acquired · unfilled · ai-memory-flagged",
+     "vset": {
+      "endpoint-enumeration": 322,
+      "verified-acquired": 16
+     },
+     "desc": "HOW the silence was established — endpoint enumeration (defensible) vs ai-memory (flagged).",
+     "caveat": "the whole rigor leap: 'ai-memory-flagged' is a SUSPECT value that must be re-grounded against a clavis before it counts."
+    },
+    {
+     "field": "evidence · severity · lens_or_panel",
+     "type": "TEXT",
+     "tier": "supporting",
+     "state": "open",
+     "desc": "the recall-vs-clavis evidence string + convergence severity.",
+     "caveat": "evidence is a human-readable audit line (e.g. '0 corpus witnesses; Syriaca attests N works')."
+    },
+    {
+     "field": "filled_by_source_id",
+     "type": "TEXT FK",
+     "tier": "plumbing",
+     "state": "ENFORCEMENT GAP",
+     "desc": "the acquired source that closed this silence (the round-trip link to CORPUS).",
+     "caveat": "NULL on 1 of 16 held rows — the FK is NOT back-filled even when status='held'/fill_provenance='verified-acquired'. The close is recorded on status but the LINK to the landed source is missing (a real §2.7 gap to fix)."
+    },
+    {
+     "field": "run_tag · extraction_provenance · methodology_notes · description_author",
+     "type": "TEXT",
+     "tier": "plumbing",
+     "state": "controlled-not-enforced (never-NULL by §2.4)",
+     "desc": "which run produced it + the provenance triad.",
+     "caveat": "§2.4 triad; NOT-NULL by convention + gateway, not always by DB constraint on legacy rows."
+    }
+   ],
+   "irr": {
+    "primary": [
+     "IRR230 copyright-ladder (in-flight S159 — Mode-A cite vs Mode-B breadth)",
+     "the LACUNA design (3 DR cohorts converged: auditor consults a clavis, never memory)"
+    ],
+    "touches": [
+     "§2.15 black-box (STAGE 0/1/2/5)",
+     "§2.13 single-store (silence_finding, dual-store)",
+     "§2.8 bias-visibility (the reflexive turn)",
+     "IRR227 atlas coverage-holes",
+     "IRR228 resurrection-scholars coverage"
+    ]
+   },
+   "code": "scripts/analysis/lacuna/fetch_syriaca_authors_clavis.py (Stage 0) · scripts/analysis/lacuna/recall_vs_clavis.py (Stage 1→2→5; seed-agnostic, idempotent) · scripts/analysis/lacuna/adjudicate_held_matches.py (LLM match adjudication) · scripts/analysis/lacuna/fetch_betamasaheft_authors_clavis.py (2nd clavis, Ethiopic)",
+   "split": {
+    "always": [
+     "what",
+     "why",
+     "logic",
+     "status",
+     "example"
+    ],
+    "drawer": [
+     "fields",
+     "irr",
+     "code"
+    ]
+   }
+  },
+  {
+   "eng": "L4",
+   "engname": "SERVE",
+   "sub": "",
+   "name": "Give the instrument what we hold",
+   "table": "passages",
+   "tag": "held passages → the method instrument",
+   "what": "SERVE hands the instrument the held, chunked L4 passages it reads — the join between the library (stock) and the Grammar-of-Meaning engine (method).",
+   "why": "The instrument codes L4 anchors; SERVE is where a curated reading-set (a flower + its reception) is assembled from the corpus, not the whole 12.8M-passage store (code the CURATED set, not the corpus).",
+   "logic": "IN: a reading target (a seed + its reception) → BOX: select the held L4 passages for those sources → OUT: a passage-set the instrument codes → NEXT: the engine's SITUATE/ANALYZE stages.",
+   "status": {
+    "status": "Built · run (per-reading)",
+    "coverage": "e.g. the Resurrection reading: ~25454 held Christian works",
+    "output": "a bounded L4 passage-set per reading",
+    "unit": "one reading → its curated passage-set",
+    "limit": "SERVE is per-reading + manual today; there is no general 'serve any query' index yet — it is assembled per flower. Coding targets the curated set, never '% of corpus coded'."
+   },
+   "example": {
+    "id": "resurrection-reading",
+    "label": "SPEC — grounded in the Resurrection reading",
+    "row": {
+     "reading": "gospels-resurrection",
+     "held_works": 25454
+    },
+    "tests": "Deepen this drawer's data contract once SERVE has a queryable serve-set table (§2.13)."
+   },
+   "fields": [
+    {
+     "field": "passages.level=4",
+     "type": "INT",
+     "tier": "key",
+     "state": "open",
+     "desc": "the analytical atom SERVE hands over.",
+     "caveat": "L4 anchors must carry non-empty passage_text (trigger-enforced)."
+    },
+    {
+     "field": "source_id · parent_passage_id · lineage_path · chunk_index",
+     "type": "TEXT · INT",
+     "tier": "plumbing",
+     "state": "open",
+     "desc": "hierarchy + adjacency preserved so a passage's negative space (its prior build) is legible.",
+     "caveat": "a known chunker-orphan class exists on legacy L4 (Proposal 85 fix history)."
+    }
+   ],
+   "irr": {
+    "primary": [
+     "§2.2 container-vs-move (Stage 4 produces containers; the engine derives moves)"
+    ],
+    "touches": [
+     "IRR131 chunker method",
+     "feedback_code_curated_set_not_corpus"
+    ]
+   },
+   "code": "the export/serve path (per-reading passage selection) → the instrument's engine0/engine1 stages",
+   "split": {
+    "always": [
+     "what",
+     "why",
+     "logic",
+     "status"
+    ],
+    "drawer": [
+     "example",
+     "fields",
+     "irr",
+     "code"
+    ]
+   }
+  },
+  {
+   "eng": "L5",
+   "engname": "GROW",
+   "sub": "",
+   "name": "Close the silence, grow the stock",
+   "table": "silence_finding × sources",
+   "tag": "silence → desiderata → acquire → held",
+   "what": "GROW is the flywheel: a named silence becomes a desiderata ticket, ACQUIRE lands the source, and the round-trip closes the silence (status → held). The library grows toward its own audited gaps, not toward whatever was easiest to harvest.",
+   "why": "This is what makes the corpus self-correcting: it does not just hold, it grows along the vector its own LACUNA audit points at — the §2.8 bias-correction made operational.",
+   "logic": "IN: an open silence_finding (identified) → BOX: route its clavis_number/title through ACQUIRE's Parity fan → OUT: a landed source + the silence advanced to held → NEXT: recall re-measures, higher.",
+   "status": {
+    "status": "Built · run (round-trip proven)",
+    "coverage": "gospels-resurrection: 15/26 silences closed by acquisition",
+    "output": "silences advancing identified → sourced → held",
+    "unit": "one silence → one acquisition → one closed gap",
+    "limit": "The round-trip is proven on small N; the filled_by_source_id FK gap (see LACUNA drawer) means the close is recorded on status but the source-link is not yet back-filled."
+   },
+   "example": {
+    "id": "gospels-resurrection-roundtrip",
+    "label": "SPEC — grounded in the gospels-resurrection round-trip",
+    "row": {
+     "closed": 15,
+     "total": 26
+    },
+    "tests": "SIL-GOS-POSTCOLONIAL is the S159 worked case: silence → Parity fan → non-Western source."
+   },
+   "fields": [
+    {
+     "field": "silence_finding.status transitions",
+     "type": "TEXT",
+     "tier": "key",
+     "state": "open",
+     "desc": "identified → sourced → held is the growth signal.",
+     "caveat": "blocked never closes — an honest permanent gap, not a silent drop."
+    }
+   ],
+   "irr": {
+    "primary": [
+     "§2.10 CRADLE round-trip",
+     "the LACUNA→ACQUIRE flywheel"
+    ],
+    "touches": [
+     "§2.8 bias-correction",
+     "Decision 51 shopping_list"
+    ]
+   },
+   "code": "scripts/pipeline/parity_lacuna_harvest_s159.py (silence → land → advance) → recall_vs_clavis.py (re-measure)",
+   "split": {
+    "always": [
+     "what",
+     "why",
+     "logic",
+     "status"
+    ],
+    "drawer": [
+     "example",
+     "fields",
+     "irr",
+     "code"
+    ]
+   }
+  },
+  {
+   "eng": "L6",
+   "engname": "DR / BACKUP",
+   "sub": "",
+   "name": "Durably backed, dual-stored",
+   "table": "(store-level, not a table)",
+   "tag": "the corpus can't be lost",
+   "what": "The corpus is dual-stored — authoritative Neon (Postgres) + a local SQLite mirror — and backed nightly to Backblaze B2. A migration lands in BOTH stores (Decision 144); a public 'held' count can't drift because it is guarded (Decision 182 / §2.13).",
+   "why": "A decade-scale corpus that lives on one consumer laptop is one disk failure from zero. Durability is a first-class library property, not an afterthought.",
+   "logic": "IN: any canonical write → BOX: apply_migration.py --neon-also (dual-store) + nightly B2 sync → OUT: authoritative Neon + SQLite safety-net + off-site B2 → NEXT: parity verified (Decision 147).",
+   "status": {
+    "status": "Built · running (nightly)",
+    "coverage": "Neon authoritative + SQLite mirror + B2 nightly",
+    "output": "a recoverable corpus (B2 hours-stale, local days-stale, Neon live)",
+    "unit": "one canonical write → two stores + one off-site backup",
+    "limit": "B2 is hours-stale (nightly); recovery-freshness must always check B2 before a local backup. Dual-store parity is verified periodically, not on every write."
+   },
+   "example": {
+    "id": "dual-store",
+    "label": "SPEC — store-level (no single row)",
+    "row": {
+     "authoritative": "Neon",
+     "mirror": "project.db (SQLite)",
+     "offsite": "Backblaze B2 nightly"
+    },
+    "tests": "test_b2_backup_freshness spec (§13 Mechanism 8); apply_migration parity check (Decision 147)."
+   },
+   "fields": [
+    {
+     "field": "(store-level)",
+     "type": "—",
+     "tier": "plumbing",
+     "state": "n/a",
+     "desc": "durability is a store property, not a column.",
+     "caveat": "the honest limit is freshness (B2 nightly), not existence — check B2 before local recovery."
+    }
+   ],
+   "irr": {
+    "primary": [
+     "Decision 144 dual-store",
+     "Decision 147 parity verification"
+    ],
+    "touches": [
+     "§13 Mechanism 8 (B2 freshness spec)",
+     "feedback_check_b2_before_local_backup"
+    ]
+   },
+   "code": "scripts/database/apply_migration.py --neon-also · the B2 nightly sync (scripts/database/sync_db_to_b2.sh)",
+   "split": {
+    "always": [
+     "what",
+     "why",
+     "logic",
+     "status"
+    ],
+    "drawer": [
+     "example",
+     "fields",
+     "irr",
+     "code"
+    ]
+   }
+  }
+ ]
+}
