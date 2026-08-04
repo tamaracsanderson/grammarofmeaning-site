@@ -1,0 +1,143 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>The library — principles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Grammar of Meaning house pattern — sibling of engine/schema.html + library-schema.html. Same palette. */
+:root{--bg:#F6F1E4;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;
+ --eng:#2C4A38;--sub:#3F7D57;--tbd:#8AA88B;--out:#C4602F;--honey:#E0A93B;--olive:#6E7B3A;
+ --serif:"Newsreader",ui-serif,Georgia,serif;--sans:"Inter",ui-sans-serif,system-ui,sans-serif;
+ --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#1B211D;--paper2:#232A25;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;
+ --eng:#4A7A5C;--sub:#5C9A72;--tbd:#6B7A6D;--out:#D9793F;--honey:#E0A93B;--olive:#9CA86A}}
+:root[data-theme=dark]{--bg:#1B211D;--paper2:#232A25;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;--eng:#4A7A5C;--sub:#5C9A72;--tbd:#6B7A6D;--out:#D9793F;--honey:#E0A93B;--olive:#9CA86A}
+:root[data-theme=light]{--bg:#F6F1E4;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;--eng:#2C4A38;--sub:#3F7D57;--tbd:#8AA88B;--out:#C4602F;--honey:#E0A93B;--olive:#6E7B3A}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 var(--sans);font-feature-settings:"ss01","cv11"}
+.wrap{max-width:52rem;margin:0 auto;padding:26px 22px 20px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.topbar a{font-size:13px;color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;letter-spacing:-.01em;color:var(--eng);margin:0 0 12px;line-height:1.1}
+.lede{font-family:var(--serif);font-size:17px;line-height:1.62;color:var(--fg);max-width:42rem;margin:0 0 14px}
+.dispkey{display:flex;flex-wrap:wrap;gap:8px 16px;margin:12px 0 0;font-size:12.5px;color:var(--muted)}
+.dispkey b{font-family:var(--sans);font-weight:600}
+.selfrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;border-top:1px solid var(--line);margin-top:20px;padding-top:16px}
+.selfrow .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.chip{display:inline-block;border-radius:.35rem;border:1px solid var(--line);background:var(--paper2);padding:.32rem .6rem;font-size:12.5px;color:var(--fg)}
+.chip b{color:var(--eng)}
+
+/* sections */
+.sec{margin:34px 0 0}
+.sec-h{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--out);border-bottom:1px solid var(--line);padding-bottom:7px;margin:0 0 14px}
+.pr{border:1px solid var(--line);border-radius:11px;background:var(--card);padding:15px 18px;margin:0 0 12px}
+.pr-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:7px}
+.pr-h h3{font-family:var(--serif);font-size:18px;font-weight:600;color:var(--eng);margin:0;line-height:1.2}
+.disp{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;padding:2px 8px;border-radius:4px;border:1px solid var(--line);white-space:nowrap}
+.disp-locked{color:#fff;background:var(--eng);border-color:var(--eng)}
+.disp-extend{color:#8a5a12;background:color-mix(in srgb,var(--honey) 26%,var(--bg));border-color:color-mix(in srgb,var(--honey) 55%,var(--line))}
+.disp-deferred{color:var(--muted);background:var(--paper2)}
+.stmt{font-family:var(--serif);font-size:15.5px;line-height:1.6;color:var(--fg);margin:0}
+.more{margin:9px 0 0}
+.more summary{cursor:pointer;list-style:none;font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--out)}
+.more summary::-webkit-details-marker{display:none}
+.more summary::before{content:"▸ ";color:var(--muted)}
+.more[open] summary::before{content:"▾ "}
+.more summary:hover{text-decoration:underline}
+.det{padding:8px 0 2px}
+.det p{font-size:13.5px;line-height:1.6;color:var(--fg);margin:0 0 6px}
+.det .prov{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:6px}
+
+/* badge table */
+.badgesec{margin:40px 0 0;border-top:2px solid var(--eng);padding-top:18px}
+.badgesec h2{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--eng);margin:0 0 4px}
+.badgesec .bsub{font-family:var(--serif);font-style:italic;font-size:13.5px;color:var(--muted);margin:0 0 14px;max-width:46rem}
+.btbl{width:100%;border-collapse:collapse;font-size:13px}
+.btbl th{text-align:left;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:400;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+.btbl td{padding:8px 10px 8px 0;vertical-align:top;border-bottom:1px solid color-mix(in srgb,var(--line) 55%,transparent)}
+.btbl .bl{font-family:var(--mono);font-size:12px;color:var(--eng);white-space:nowrap;font-weight:500}
+.btbl .bp{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center}
+.btbl .bd{color:var(--fg);min-width:180px}
+.btbl .bf{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+.badgenote{font-family:var(--serif);font-style:italic;font-size:12.5px;color:var(--muted);border-left:2px solid var(--out);padding-left:12px;margin:14px 0 0}
+.figfooter{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line);margin-top:38px;padding:18px 0 8px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.themebtn{position:fixed;top:14px;right:14px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer;z-index:20}
+.err{color:var(--out);font-family:var(--mono);font-size:13px;padding:20px}
+</style>
+</head>
+<body>
+<button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">theme</button>
+<div class="wrap">
+  <div class="topbar">
+    <a href="/engine/library-schema.html">&larr; the library — how it works</a>
+    <a href="/engine/schema.html">Fig.01 · the instrument &rarr;</a>
+  </div>
+  <header>
+    <p class="eyebrow">Fig. 03 · Method · The library’s commitments</p>
+    <h1>Principles</h1>
+    <p class="lede">The methodological commitments the library holds itself to — what it means to <em>hold</em>, <em>cite</em>, or be <em>blocked</em> from a source, and how a wall is made visible rather than left as a blank void. These are the first thing to read: they govern what every other page reports.</p>
+    <div class="dispkey">
+      <span><b>LOCKED</b> — committed</span>
+      <span><b>EXTEND</b> — committed, being refined</span>
+      <span><b>DEFERRED</b> — planned, with a stated reason</span>
+    </div>
+    <div class="selfrow" id="selfrow"><span class="k">on itself</span></div>
+  </header>
+
+  <div id="sections"></div>
+
+  <section class="badgesec" id="badgesec" style="display:none">
+    <h2>Access-tier badges</h2>
+    <p class="bsub">What a public badge word means — derived by walking this precedence over the orthogonal access fields (the top rung achieved). Stored nowhere, so it cannot drift.</p>
+    <table class="btbl"><thead><tr><th>badge</th><th>prec.</th><th>means</th><th>derives from</th></tr></thead><tbody id="btbody"></tbody></table>
+    <p class="badgenote" id="badgenote"></p>
+  </section>
+
+  <footer class="figfooter"><span>The library · Principles</span><span>Fig. 03 — Commitments · V1</span></footer>
+</div>
+
+<script>
+// render principles.html FROM the engine artifact (§2.13 / §2.16 — single store of record,
+// site renders from engine data, never hardcoded). Regenerated by
+// scripts/analysis/export_library_principles_s159.py. Contract:
+//   { header:{principles,locked,silence_types}, sections:[{domain,label,principles:[
+//     {id,title,statement,detail,disposition,disposition_label,provenance}]}],
+//     badge_table:[{label,precedence,definition,derives_from,note}], badge_note }
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function inl(s){return esc(s);}  // statements/details are plain text; keep <em>/<b> author markup if present
+function rich(s){return String(s==null?'':s);}  // artifact text may carry inline <em>/<code>; render as-is
+fetch('data/library_principles.json').then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+ .then(function(d){
+   var h=d.header||{};
+   var sr=document.getElementById('selfrow');
+   var c=[];
+   if(typeof h.principles==='number') c.push('<b>'+h.principles+'</b> principles');
+   if(typeof h.locked==='number') c.push('<b>'+h.locked+'</b> locked');
+   if(typeof h.silence_types==='number'&&h.silence_types>0) c.push('<b>'+h.silence_types+'</b> silence types');
+   sr.innerHTML='<span class="k">on itself</span>'+c.map(function(x){return '<span class="chip">'+x+'</span>';}).join('');
+
+   document.getElementById('sections').innerHTML=(d.sections||[]).map(function(s){
+     var body=(s.principles||[]).map(function(p){
+       var disp=(p.disposition||'').toLowerCase();
+       var det=p.detail? '<details class="more"><summary>why · the reasoning</summary><div class="det"><p>'+rich(p.detail)+'</p>'
+              +(p.provenance?'<p class="prov">'+esc(p.provenance)+'</p>':'')+'</div></details>':'';
+       return '<div class="pr"><div class="pr-h"><span class="disp disp-'+disp+'">'+esc(p.disposition_label||p.disposition)+'</span>'
+         +'<h3>'+rich(p.title)+'</h3></div><p class="stmt">'+rich(p.statement)+'</p>'+det+'</div>';
+     }).join('');
+     return '<section class="sec"><div class="sec-h">'+esc(s.label||s.domain)+'</div>'+body+'</section>';
+   }).join('');
+
+   var bt=d.badge_table||[];
+   if(bt.length){
+     document.getElementById('btbody').innerHTML=bt.map(function(b){
+       return '<tr><td class="bl">'+esc(b.label)+'</td><td class="bp">'+esc(b.precedence)+'</td>'
+         +'<td class="bd">'+rich(b.definition)+(b.note?'<br><span style="font-size:11.5px;color:var(--muted)">'+rich(b.note)+'</span>':'')+'</td>'
+         +'<td class="bf">'+esc(b.derives_from)+'</td></tr>';
+     }).join('');
+     if(d.badge_note) document.getElementById('badgenote').textContent=d.badge_note;
+     document.getElementById('badgesec').style.display='';
+   }
+ })
+ .catch(function(e){ document.getElementById('sections').innerHTML='<p class="err">could not load the principles ('+e.message+').</p>'; });
+</script>
+</body></html>
