@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Library — how the corpus grows · Grammar of Meaning</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FCFBF7;--bg2:#FFFFFF;--ink:#24302A;--dim:#52605A;--faint:#7C8478;--gold:#C4602F;--honey:#E0A93B;--teal:#3F7D57;--moss:#2C4A38;--olive:#6E7B3A;--rose:#B0552B;--line:#C9BE9F;--card:#FFFFFF;--card2:#FBF8EF;
+--mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;--serif:'Newsreader',Georgia,serif;--sans:'Inter',system-ui,-apple-system,sans-serif;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#1C1813;--bg2:#221D16;--ink:#ECE6D8;--dim:#C3BCAC;--faint:#8E877A;--gold:#E08A54;--honey:#D8B36A;--teal:#7FB894;--moss:#A9C9B2;--olive:#9CA86A;--rose:#E08A54;--line:#3D362B;--card:#221D16;--card2:#26211A;}}
+:root[data-theme=dark]{--bg:#1C1813;--bg2:#221D16;--ink:#ECE6D8;--dim:#C3BCAC;--faint:#8E877A;--gold:#E08A54;--honey:#D8B36A;--teal:#7FB894;--moss:#A9C9B2;--olive:#9CA86A;--rose:#E08A54;--line:#3D362B;--card:#221D16;--card2:#26211A;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--teal)}
+.bar{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 20px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.bar a{font-size:13px;color:var(--teal);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--teal) 40%,transparent)}
+.bar .rm{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+header.pg{max-width:52rem;margin:0 auto;padding:6vh 22px 1vh;text-align:center}
+.kick{font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--gold);font-weight:600;margin:0 0 12px}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,46px);line-height:1.08;color:var(--moss);margin:0 0 12px;letter-spacing:-.02em}
+.lede{color:var(--dim);font-size:18px;max-width:44rem;margin:0 auto;line-height:1.55}
+.lede b{color:var(--ink)}
+.legend-badges{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;margin:18px auto 0;font-family:var(--mono);font-size:11px;color:var(--dim)}
+.legend-badges span{display:inline-flex;align-items:center;gap:6px}.legend-badges i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.ribbon{max-width:1040px;margin:4vh auto 0;padding:0 22px}
+.zones{display:grid;grid-template-columns:1fr;gap:16px}
+.zone{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:14px 16px}
+.zone-h{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 10px;display:flex;align-items:center;gap:8px}
+.zone-h .zt{font-weight:600}
+.zone.stock{border-color:color-mix(in srgb,var(--honey) 45%,var(--line));background:linear-gradient(180deg,color-mix(in srgb,var(--honey) 7%,var(--card)),var(--card))}
+.zone.engines{border-color:color-mix(in srgb,var(--teal) 40%,var(--line));background:linear-gradient(180deg,color-mix(in srgb,var(--teal) 5%,var(--card)),var(--card))}
+.zone-eng-tag{font-family:var(--mono);font-size:9.5px;color:var(--teal);border:1px solid color-mix(in srgb,var(--teal) 40%,transparent);border-radius:999px;padding:1px 7px;margin-left:auto}
+.stagerow{display:flex;flex-wrap:wrap;gap:8px}
+.stage{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;background:var(--card2);padding:8px 11px;cursor:pointer;transition:all .14s;text-align:left;font:inherit;color:inherit;flex:1 1 auto;min-width:160px}
+.stage:hover,.stage.active{border-color:var(--gold);box-shadow:0 6px 18px -12px rgba(196,96,47,.5)}
+.stage .num{font-family:var(--serif);font-size:19px;color:var(--gold);line-height:1;flex:0 0 auto}
+.stage .lab{display:flex;flex-direction:column;gap:1px;min-width:0}
+.stage .nm{font-weight:600;font-size:13.5px;color:var(--ink)}
+.stage .eng{font-family:var(--mono);font-size:9.5px;color:var(--faint);letter-spacing:.03em}
+.stage .b{width:8px;height:8px;border-radius:50%;flex:0 0 auto;margin-left:auto}
+.b.run{background:var(--teal)}.b.early{background:var(--honey)}.b.wip{background:var(--gold)}
+.arrow{align-self:center;color:var(--faint);font-size:15px;flex:0 0 auto}
+.flywheel{border:1px dashed color-mix(in srgb,var(--gold) 55%,var(--line));border-radius:12px;background:color-mix(in srgb,var(--gold) 5%,var(--card));padding:12px 16px;margin-top:16px;font-size:13.5px;color:var(--dim);text-align:center}
+.flywheel b{color:var(--gold)}.flywheel .fw-arrow{font-family:var(--mono);color:var(--gold);font-weight:600}
+.stophere{text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--faint);margin:14px 0 0}
+.drawer{max-width:1040px;margin:20px auto 0;padding:0 22px}
+.dcard{border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;background:var(--card);padding:20px 22px;box-shadow:0 18px 40px -30px rgba(36,48,42,.4)}
+.dcard .dh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.dcard .dnum{font-family:var(--serif);font-size:24px;color:var(--gold)}
+.dcard .dnm{font-family:var(--serif);font-size:22px;color:var(--moss);font-weight:600}
+.dcard .deng{font-family:var(--mono);font-size:11px;color:var(--faint)}
+.badge{font-family:var(--mono);font-size:10px;letter-spacing:.04em;padding:2px 9px;border-radius:999px;border:1px solid;white-space:nowrap}
+.badge.run{color:var(--teal);border-color:color-mix(in srgb,var(--teal) 45%,transparent);background:color-mix(in srgb,var(--teal) 8%,transparent)}
+.badge.early{color:#9a7420;border-color:color-mix(in srgb,var(--honey) 55%,transparent);background:color-mix(in srgb,var(--honey) 12%,transparent)}
+.badge.wip{color:var(--gold);border-color:color-mix(in srgb,var(--gold) 45%,transparent);background:color-mix(in srgb,var(--gold) 8%,transparent)}
+.dsect{margin-top:16px}
+.dsect h4{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin:0 0 7px}
+.dtrans{font-size:14.5px;color:var(--dim);line-height:1.6;margin:0}
+.iocols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:640px){.iocols{grid-template-columns:1fr}.zones .stagerow{flex-direction:column}}
+.frow{padding:5px 0;border-bottom:1px solid color-mix(in srgb,var(--line) 55%,transparent);font-size:13px;color:var(--ink)}
+.frow .fn{font-family:var(--mono);font-size:12px}
+.datatitle{font-family:var(--mono);font-size:12px;color:var(--moss);margin:0 0 8px;font-weight:600}
+.selfaudit{font-family:var(--mono);font-size:15px;color:var(--ink);background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;text-align:center;letter-spacing:.02em}
+.selfaudit b{color:var(--gold)}
+.await{font-family:var(--mono);font-size:11px;color:var(--gold);background:color-mix(in srgb,var(--gold) 8%,transparent);border:1px dashed color-mix(in srgb,var(--gold) 45%,transparent);border-radius:6px;padding:2px 8px;display:inline-block}
+.bars{display:flex;flex-direction:column;gap:4px}
+.barrow{display:grid;grid-template-columns:150px 1fr 46px;align-items:center;gap:8px;font-size:12px}
+.barrow .k{font-family:var(--mono);font-size:11px;color:var(--dim);text-align:right}
+.barrow .track{height:14px;background:color-mix(in srgb,var(--line) 40%,transparent);border-radius:4px;overflow:hidden}
+.barrow .fill{height:100%;border-radius:4px;background:var(--teal)}
+.barrow .v{font-family:var(--mono);font-size:11px;color:var(--ink);text-align:right}
+.gaps{font-size:13.5px;color:var(--dim);line-height:1.6;margin:0}
+.gaps b{color:var(--ink)}
+.dlink{font-size:13px;margin-top:14px}.dlink a{color:var(--gold);font-weight:600;text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--gold) 40%,transparent)}
+footer.foot{max-width:52rem;margin:5vh auto 0;padding:0 22px 12vh;font-size:12px;line-height:1.65;color:var(--faint);text-align:center;border-top:1px solid var(--line);padding-top:18px}
+footer.foot a{color:var(--teal)}
+</style>
+<script>(function(){try{var t=localStorage.getItem("gom-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+</head>
+<body>
+<div class="bar">
+  <a href="/engine.html">&larr; how an idea joins the library</a>
+  <span class="rm">The Library · how the corpus grows</span>
+  <a href="/engine/schema.html">the method schema &rarr;</a>
+</div>
+<header class="pg">
+  <p class="kick">The library · sibling of the method schema</p>
+  <h1>How the corpus grows</h1>
+  <p class="lede">The <a href="/engine/schema.html">method schema</a> shows what happens to one text. This is its sibling: the <b>library</b> that feeds it — how a primary source enters the corpus, is <b>served</b> to the instrument, is <b>audited for what's missing</b>, and how those gaps drive the next <b>acquisition</b>. Unlike the instrument's straight line, the library turns: <b>the gaps it finds become the next things it acquires.</b> Click any node.</p>
+  <div class="legend-badges">
+    <span><i style="background:var(--teal)"></i>Built · run</span>
+    <span><i style="background:var(--honey)"></i>Built · early</span>
+    <span><i style="background:var(--gold)"></i>now in preview · WIP</span>
+  </div>
+</header>
+
+<div class="ribbon">
+  <div class="zones">
+    <div class="zone"><div class="zone-h"><span class="zt">Input</span> — a primary source</div><div class="stagerow" id="z-input"></div></div>
+    <div class="zone stock"><div class="zone-h"><span class="zt">The corpus</span> — the stock we hold</div><div class="stagerow" id="z-corpus"></div></div>
+    <div class="zone engines"><div class="zone-h"><span class="zt">The engines</span> — serve, audit, acquire<span class="zone-eng-tag">CRADLE · PRISM · FOUNDRY · LACUNA</span></div><div class="stagerow" id="z-engines"></div></div>
+    <div class="zone"><div class="zone-h"><span class="zt">Outputs</span></div><div class="stagerow" id="z-outputs"></div></div>
+  </div>
+  <div class="flywheel">The library's defining shape — the loop the instrument doesn't have:<br><b>③ the shopping list</b> <span class="fw-arrow">→</span> <b>ACQUIRE</b> <span class="fw-arrow">→</span> <b>THE CORPUS</b>. The gaps it finds become the next things it acquires; the corpus grows itself.</div>
+  <p class="stophere">══ the served source flows into the <a href="/engine/schema.html">method instrument</a> ══</p>
+</div>
+
+<div class="drawer"><div class="dcard" id="dcard"><p class="dtrans" style="color:var(--faint)">Click a node above to open its drawer.</p></div></div>
+
+<footer class="foot" id="foot"></footer>
+
+<script>
+// live gap-map artifact (DATA_library_gapmap_gospels_s158) — the FIND-THE-GAPS drawer's engine-backed data
+var GAPMAP={"closed":6,"total":14,"shopping_list":6,"blocked":2,
+ "by_status":{"held":6,"identified":6,"blocked":2},
+ "gloss":"6/14 silences closed by acquisition round-trip; the rest = the shopping list (non-canon-first) + 2 blocked (copyright → metadata-shelf)."};
+
+var NODES=[
+{n:'◦',id:'input',zone:'input',name:'INPUT',eng:'a primary source',badge:'run',
+ t:'A primary source enters the library — the worked example throughout is the four Gospels’ Resurrection accounts (Matthew 28 · Mark 16 · Luke 24 · John 20), matching the method page.',
+ inF:[['a wanted primary text','the request']],
+ outF:[['an acquisition target','→ ACQUIRE / already-held']],
+ data:{title:'the worked example',note:'the Resurrection — the first passage this library + instrument coded end to end.'},
+ gaps:''},
+{n:'▣',id:'corpus',zone:'corpus',name:'THE CORPUS',eng:'sources · passages (the stock)',badge:'run',
+ t:'The held, chunked texts the library has to work with — a stock, not a pipeline stage. Everything the engines serve, audit, and grow operates on this.',
+ inF:[['acquired sources (gateway-validated)','from ACQUIRE']],
+ outF:[['passages — readable atoms','the coding input'],['the honest count','registered vs held']],
+ data:{title:'the self-audit line — the library’s “38 moves → 151 gaps” twin',
+   selfaudit:'registered  →  held  →  K silences', await:'live counts awaiting Main’s query (registered · held>300ch · passages)'},
+ gaps:'The <b>honest count</b> is first-class here, exactly as the method page reports 38 moves → 151 gaps: <b>registered</b> (rows in <code>sources</code>) is not <b>held</b> (rows with real full text); naming both is the anti-inflation discipline.'},
+{n:'→',id:'serve',zone:'engines',name:'SERVE',eng:'the outflow to the instrument',badge:'run',
+ t:'Give the instrument what we hold: the held reception of the primary source becomes the coding input. This is the arm that flows out to the method schema.',
+ inF:[['a primary text','the Resurrection']],
+ outF:[['the passages the instrument codes','→ the method schema']],
+ data:{title:'what we hold to gloss the Resurrection',note:'the held gloss set — Septuagint · Chrysostom · Augustine · the non-canonical set · Julian … ', await:'live held-gloss count awaiting Main’s query (the ~714 held gloss rows)'},
+ gaps:''},
+{n:'⌕',id:'find',zone:'engines',name:'FIND THE GAPS',eng:'LACUNA · the reflexive turn',badge:'run',
+ t:'Audit what’s missing: held corpus + a 17-type silence-taxonomy → named absences → the desiderata. Seeds are a reading’s citations, the taxonomy, or the coded lineage; a 3-pass clean-room triangulation (divergence = signal).',
+ inF:[['the held corpus + a seed','a reading’s citations / taxonomy / lineage']],
+ outF:[['the silence-map','named absences + their WALL'],['→ the shopping list','the desiderata']],
+ data:{title:'the Resurrection silence-map (live · DATA_library_gapmap_gospels_s158)', gapmap:true},
+ gaps:'The Situate worked example: 3 methods converged on the <b>Septuagint</b> (found → acquired → closed). The roadmap to rigor: externalize FILL via a clavis · a Chao1 missingness estimate · validate from outside the model.'},
+{n:'⊕',id:'acquire',zone:'engines',name:'ACQUIRE',eng:'CRADLE + PRISM + FOUNDRY',badge:'early',
+ t:'Find & fetch a wanted text: a want → classify (PRISM) → route (the Parity fan) → resolve → dedup → gateway → a held sources row. The full pipeline has its own page.',
+ inF:[['a shopping-list want','title / author / tradition + narrows']],
+ outF:[['a gateway-validated source','+ chunked passages → THE CORPUS']],
+ data:{title:'acquisitions — the S158 proof', bars:[['works acquired end-to-end',13]],
+   note:'Chrysostom · Calvin · the four gospels · Septuagint · the non-canonical set · Julian · 1 Enoch … ', await:'sub-stage DATA (PRISM classified % · the built→yielding FOUNDRY funnel) awaiting Main’s query',
+   link:['The full acquisition pipeline, stage by stage →','/engine/acquisition-schema.html']},
+ gaps:''},
+{n:'①',id:'out-instrument',zone:'outputs',name:'① → the instrument',eng:'the coding input',badge:'run',
+ t:'What we hold to gloss the source — the passages that become the method instrument’s coding input.',
+ inF:[['the served source','from SERVE']],
+ outF:[['the coding input','→ the method schema']],
+ data:{title:'flows to', note:'the method instrument (schema.html) — moves · gaps · frames · recompositions.'},
+ gaps:''},
+{n:'②',id:'out-gapmap',zone:'outputs',name:'② the gap-map',eng:'what’s missing, named',badge:'run',
+ t:'The named silences + their WALL — paywall · canon · language · governance. The honest record of what the corpus is missing and why.',
+ inF:[['the silence-map','from FIND THE GAPS']],
+ outF:[['named absences + their wall','→ the shopping list']],
+ data:{title:'by wall + status (live)', gapmapmini:true},
+ gaps:''},
+{n:'③',id:'out-shopping',zone:'outputs',name:'③ the shopping list',eng:'what to acquire next',badge:'run',
+ t:'The desiderata queue: each gap becomes a want + its authority/clavis entry. This is what drives the next acquisition — the return arm of the flywheel.',
+ inF:[['the gap-map','the named, walled absences']],
+ outF:[['a ranked want-queue','→ ACQUIRE (the loop)']],
+ data:{title:'the queue (live)', shopping:true},
+ gaps:''}
+];
+
+var BADGE_LABEL={run:'Built · run',early:'Built · early',wip:'now in preview · WIP'};
+var esc=function(s){return String(s==null?'':s).replace(/&(?!\w+;)/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');};
+var fmt=function(n){return n.toLocaleString('en-US');};
+
+function chip(s){return '<button class="stage" data-id="'+s.id+'"><span class="num">'+s.n+'</span><span class="lab"><span class="nm">'+esc(s.name)+'</span><span class="eng">'+esc(s.eng)+'</span></span><span class="b '+s.badge+'" title="'+BADGE_LABEL[s.badge]+'"></span></button>';}
+function fillZone(zid,zone){var el=document.getElementById(zid),items=NODES.filter(function(s){return s.zone===zone;});
+  el.innerHTML=items.map(function(s,i){return chip(s)+(i<items.length-1?'<span class="arrow">&rarr;</span>':'');}).join('');}
+['input','corpus','engines','outputs'].forEach(function(z){fillZone('z-'+z,z);});
+
+function fieldRows(list){return list.map(function(f){return '<div class="frow"><span class="fn">'+esc(f[0])+'</span> — '+esc(f[1])+'</div>';}).join('');}
+function gapmapBlock(){
+  var g=GAPMAP;
+  return '<div class="selfaudit"><b>'+g.closed+'</b> / '+g.total+' silences closed &nbsp;·&nbsp; '+g.shopping_list+' on the shopping list &nbsp;·&nbsp; '+g.blocked+' blocked</div>'
+    +'<div class="bars" style="margin-top:12px">'
+    +['held '+g.by_status.held+' (closed)','identified '+g.by_status.identified+' (shopping list)','blocked '+g.by_status.blocked+' (copyright → metadata-shelf)']
+      .map(function(r,i){var v=[g.by_status.held,g.by_status.identified,g.by_status.blocked][i];
+        var col=['var(--teal)','var(--honey)','var(--rose)'][i];
+        return '<div class="barrow"><span class="k">'+esc(r.split(' (')[0])+'</span><span class="track"><span class="fill" style="width:'+(v/g.total*100)+'%;background:'+col+'"></span></span><span class="v">'+v+'</span></div>';}).join('')
+    +'</div><p class="gaps" style="margin-top:10px">'+esc(g.gloss)+'</p>';
+}
+function dataBlock(d){
+  var h='<p class="datatitle">'+esc(d.title)+'</p>';
+  if(d.selfaudit) h+='<div class="selfaudit">'+esc(d.selfaudit)+'</div>';
+  if(d.gapmap||d.gapmapmini||d.shopping) h+=gapmapBlock();
+  if(d.bars){var max=Math.max.apply(null,d.bars.map(function(b){return b[1];}));
+    h+='<div class="bars">'+d.bars.map(function(b){return '<div class="barrow"><span class="k">'+esc(b[0])+'</span><span class="track"><span class="fill" style="width:'+Math.max(8,b[1]/max*100)+'%"></span></span><span class="v">'+fmt(b[1])+'</span></div>';}).join('')+'</div>';}
+  if(d.note) h+='<p class="gaps" style="margin-top:8px">'+d.note+'</p>';
+  if(d.await) h+='<p style="margin-top:10px"><span class="await">◷ '+esc(d.await)+'</span></p>';
+  if(d.link) h+='<p class="dlink"><a href="'+d.link[1]+'">'+esc(d.link[0])+'</a></p>';
+  return h;
+}
+function openNode(id){
+  var s=NODES.find(function(x){return x.id===id;}); if(!s)return;
+  [].forEach.call(document.querySelectorAll('.stage'),function(b){b.classList.toggle('active',b.getAttribute('data-id')===id);});
+  var html='<div class="dh"><span class="dnum">'+s.n+'</span><span class="dnm">'+esc(s.name)+'</span><span class="deng">'+esc(s.eng)+'</span><span class="badge '+s.badge+'" style="margin-left:auto">'+BADGE_LABEL[s.badge]+'</span></div>'
+    +'<div class="dsect"><h4>Transformation</h4><p class="dtrans">'+esc(s.t)+'</p></div>'
+    +'<div class="dsect"><div class="iocols"><div><h4>Input</h4>'+fieldRows(s.inF)+'</div><div><h4>Output</h4>'+fieldRows(s.outF)+'</div></div></div>'
+    +'<div class="dsect"><h4>Data</h4>'+dataBlock(s.data)+'</div>'
+    +(s.gaps?'<div class="dsect"><h4>Known gaps / notes</h4><p class="gaps">'+s.gaps+'</p></div>':'');
+  document.getElementById('dcard').innerHTML=html;
+  document.getElementById('dcard').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+[].forEach.call(document.querySelectorAll('.stage'),function(b){b.addEventListener('click',function(){openNode(b.getAttribute('data-id'));});});
+
+document.getElementById('foot').innerHTML='The library — the corpus side of the instrument. INPUT → THE CORPUS → the engines (serve · find-the-gaps · acquire) → outputs, with the ③→ACQUIRE→CORPUS flywheel. The gap-map DATA is live (DATA_library_gapmap_gospels_s158, regenerated after each acquisition); the corpus / serve / acquire-substage counts wire to live queries as they land. &nbsp;·&nbsp; <a href="/engine/schema.html">the method schema</a> &nbsp;·&nbsp; <a href="/engine/acquisition-schema.html">the acquisition pipeline</a> &nbsp;·&nbsp; <a href="/engine.html">how an idea joins the library</a>';
+
+openNode('corpus');
+</script>
+</body>
+</html>
