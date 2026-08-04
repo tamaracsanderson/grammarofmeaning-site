@@ -99,6 +99,9 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
 .codepath{font-family:var(--mono);font-size:11.5px;line-height:1.7;color:var(--fg);word-break:break-word}
 .codepath div{padding:2px 0;border-top:1px dotted color-mix(in srgb,var(--line) 60%,transparent)}
 .codepath div:first-child{border-top:none}
+.dlayer .osec-b p{font-size:12.5px;line-height:1.55;margin:8px 0}
+.cm-k{color:var(--out);font-weight:600}
+.cm-probe{font-family:var(--mono);font-size:11px;color:var(--muted)}
 /* GROW = the flywheel node (loop-back) */
 .flywheel.grownode{cursor:pointer;transition:box-shadow .2s,transform .2s;display:block;width:100%;text-align:left;font:inherit;color:inherit}
 .flywheel.grownode:hover{transform:translateY(-2px);box-shadow:0 12px 30px -18px rgba(40,48,42,.5);border-color:var(--olive)}
@@ -387,6 +390,14 @@ function renderDeep(s){
   if(has('example',A)&&s.example) body+=osec('Worked example',exampleBlock(s.example));
   function layer(label,html){return '<details class="dlayer"><summary>'+label+'</summary><div class="osec-b">'+html+'</div></details>';}
   if(has('example',D)&&s.example) body+=layer('Worked example',exampleBlock(s.example));
+  if(has('closure_modes',D)&&s.closure_modes){var cm=s.closure_modes,ch='';
+    if(cm.recognition) ch+='<p><b class="cm-k">Recognition</b> — '+cm.recognition+'</p>';
+    if(cm.acquisition) ch+='<p><b class="cm-k">Acquisition</b> — '+cm.acquisition+'</p>';
+    if(cm.quality_axis) ch+='<p><b class="cm-k">“Held” is a quality axis</b> — '+cm.quality_axis+'</p>';
+    if(cm.example) ch+='<p class="cm-ex"><b class="cm-k">Worked example</b> — '+cm.example+'</p>';
+    if(cm.probe) ch+='<p class="cm-probe">'+esc(cm.probe)+'</p>';
+    body+=layer(cm.label||'Closing a silence — two modes',ch);
+  }
   if(has('fields',D)&&s.fields&&s.fields.length) body+=layer('Data contract — the fields',fieldsBlock(s.fields));
   if(has('irr',D)&&s.irr){
     var ir='<ul class="irrlist">'+(s.irr.primary||[]).map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>'
