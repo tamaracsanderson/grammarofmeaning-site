@@ -26,6 +26,20 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
 .selfrow .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .chip{display:inline-block;border-radius:.35rem;border:1px solid var(--line);background:var(--paper2);padding:.32rem .6rem;font-size:12.5px;color:var(--fg)}
 .chip b{color:var(--eng)}
+/* meta-band: the schema's own drawers (overview · logic · audit · implementation · acquisitions) */
+.metaband{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:22px 0 4px}
+@media(min-width:760px){.metaband{grid-template-columns:repeat(5,1fr)}}
+.metacard{text-align:left;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:12px 14px;cursor:pointer;font:inherit;display:flex;flex-direction:column;gap:4px;transition:box-shadow .2s,transform .2s}
+.metacard:hover{transform:translateY(-2px);box-shadow:0 10px 26px -18px rgba(40,48,42,.5)}
+.metacard b{font-family:var(--serif);font-size:14.5px;font-weight:600;color:var(--eng);line-height:1.2}
+.metacard .mc-g{font-size:11px;color:var(--muted);line-height:1.35}
+.metacard.feat{border-color:var(--honey);background:color-mix(in srgb,var(--honey) 12%,var(--card))}
+.metacard.feat b{color:#9a7420}
+/* drawer data tables (acquisitions feed etc.) */
+.dtbl{width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0 2px}
+.dtbl th{text-align:left;font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:400;padding:5px 8px;border-bottom:1px solid var(--line)}
+.dtbl td{padding:5px 8px;border-bottom:1px solid color-mix(in srgb,var(--line) 55%,transparent);vertical-align:top}
+.dtbl code{font-family:var(--mono);font-size:11px}
 .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin:14px 0 0;font-family:var(--mono);font-size:11px;color:var(--muted)}
 .legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
 
@@ -128,18 +142,9 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
     <h1>The Library — how it works</h1>
     <p class="lede">A primary source goes in. We hold what we can, <b>serve</b> it to the <a href="/engine/schema.html">instrument</a>, <b>audit</b> the corpus for what is missing — then go and <b>fetch</b> it. The corpus is what we hold; the gap drives what we fetch.</p>
     <p class="click"><b>Click any engine</b> — or the corpus, or an output — to see what it takes in, what it puts out, and the run behind it.</p>
-    <div class="selfrow">
-      <span class="k">the library, on itself</span>
-      <span class="chip"><b>65,650</b> held as full text</span>
-      <span class="chip">of <b>376,726</b> registered</span>
-      <span class="chip"><b>12.85M</b> passages</span>
-      <span class="chip"><b>16</b> works acquired end-to-end</span>
-      <span class="chip">gap-map: <b>6/14</b> closed</span>
-    </div>
-    <div class="legend">
-      <span><i style="background:var(--sub)"></i>Built · run</span>
-      <span><i style="background:var(--honey)"></i>Built · early</span>
-    </div>
+    <div class="selfrow" id="selfrow"><span class="k">the library, on itself</span></div>
+    <!-- the schema's own drawers, rendered from the engine artifact -->
+    <div class="metaband" id="metaband"></div>
   </header>
 
   <div class="flow" id="flow">
@@ -192,7 +197,7 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
               <p class="fine">the reflexive turn · engine “LACUNA”</p>
               <span class="openz">open ↗</span>
             </button>
-            <button class="node eng" id="n-acquire" data-node="acquire" style="border-color:var(--olive)">
+            <button class="node eng" id="n-acquire" data-node="logic" style="border-color:var(--olive)">
               <h3 style="color:var(--olive)">Acquire</h3>
               <p class="sub">find &amp; fetch a wanted text.</p>
               <p class="fine">classify archives · build harvesters · route by fairness · dedup · store</p>
@@ -209,20 +214,20 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
       <div class="rail"><span>Outputs</span></div>
       <div><span class="railm">Outputs</span>
         <div class="outgrid">
-          <button class="node out" id="n-out-serve" data-node="out-serve" style="border-color:var(--sub)">
+          <button class="node out" id="n-out-serve" data-node="serve" style="border-color:var(--sub)">
             <span class="onum" style="color:var(--sub)">① output</span>
             <h3>the instrument</h3>
             <p class="sub">what we hold to gloss it — the coding input</p>
             <span class="openz">open ↗</span>
           </button>
-          <button class="node out" id="n-out-gaps" data-node="out-gaps" style="border-color:var(--out)">
+          <button class="node out" id="n-out-gaps" data-node="gaps" style="border-color:var(--out)">
             <span class="onum" style="color:var(--out)">② output</span>
             <h3>the gap-map</h3>
             <p class="sub">what we're missing, named</p>
             <span class="openz">open ↗</span>
           </button>
           <div class="out-list-wrap">
-            <button class="node out" id="n-out-list" data-node="out-list" style="border-color:var(--honey)">
+            <button class="node out" id="n-out-list" data-node="acquisitions" style="border-color:var(--honey)">
               <span class="onum" style="color:#9a7420">③ output</span>
               <h3>the shopping list</h3>
               <p class="sub">what to acquire next — the desiderata</p>
@@ -247,77 +252,47 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 <div class="db" id="d-body"></div></dialog>
 
 <script>
-// live gap-map artifact (DATA_library_gapmap_gospels_s158) — regenerated after each acquisition
-var GAPMAP={closed:6,total:14,shopping_list:6,blocked:2,held:6,identified:6};
-
-// drawer content per node. body = array of {h, html} osec sections.
-var NODES={
- corpus:{title:'The corpus — what we hold',what:'sources · passages — the stock we hold',status:'Built · run',
-  body:[
-   ['Transformation','The held, chunked texts the library has to work with — a <em>stock</em>, not a pipeline stage. Everything the engines serve, audit and grow operates on this.'],
-   ['Input','Acquired, gateway-validated sources — from ACQUIRE.'],
-   ['Output','Passages: the readable atoms the instrument codes.'],
-   ['Data','<div class="selfaudit"><b>65,650</b> held as full text &nbsp;·&nbsp; of <b>376,726</b> registered &nbsp;·&nbsp; 14 silences named</div><p style="margin:10px 0 0">Held = &gt;300 chars of real text (excerpts excluded — a snippet is not full text): <b>17.4%</b> of registered, across <b>12.85M</b> passages. The <b>honest count</b> is first-class here — exactly as the instrument reports <em>38 moves → 151 gaps</em>. <code>registered</code> (rows in <code>sources</code>) is not <code>held</code> (rows with real full text); naming both is the anti-inflation discipline.</p>']
-  ]},
- serve:{title:'Serve',what:'give the instrument what we hold to read the source.',status:'Built · run',
-  body:[
-   ['Transformation','The held reception of the primary source → the coding input. This is the arm that flows out to the <a href="/engine/schema.html">method instrument</a>.'],
-   ['Input','A primary text.'],
-   ['Output','The passages the instrument codes.'],
-   ['Data','For the Resurrection: <b>16</b> held works → <b>33,282</b> passages (L4) — Septuagint · Chrysostom · Augustine · the non-canonical set · Julian…']
-  ]},
- gaps:{title:'Find the gaps',what:'audit the corpus for what’s missing.',status:'Built · run · the reflexive turn',
-  body:[
-   ['Transformation','Held corpus + a 17-type silence-taxonomy → named absences → the desiderata. Three independent passes (clean-room triangulation); disagreement is the signal.'],
-   ['Input','The corpus + a seed (a reading’s citations / the taxonomy / the coded lineage).'],
-   ['Output','The silence-map + the shopping list.'],
-   ['Data','__GAPMAP__<p style="margin:10px 0 0">Worked example (the Resurrection): three methods converged on the <b>Septuagint</b> as the #1 silence; we acquired it; the reading’s claim is now checkable against the corpus.</p>']
-  ]},
- acquire:{title:'Acquire',what:'find &amp; fetch a wanted text.',status:'Built · early · CRADLE + PRISM + FOUNDRY',
-  body:[
-   ['Transformation','A want → classify (PRISM) → route (by fairness — the Parity fan) → resolve → dedup → gateway → a held source. The full pipeline has its own page.'],
-   ['Input','A shopping-list want (title / author / tradition).'],
-   ['Output','A validated source + chunked passages → THE CORPUS.'],
-   ['Data','<b>16</b> works acquired end-to-end — Chrysostom · Calvin · the four-gospel patristics · the Septuagint · the non-canonical gospels · Julian of Norwich · 1 Enoch…<div class="selfaudit" style="margin-top:10px">catalogued <b>4,761</b> → classified <b>3,116</b> (65%) → ~<b>134</b> actually yielding</div><p style="margin:10px 0 0;font-size:12.5px;color:var(--muted)">Honest funnel (S94 audit): the endpoint catalogue leaks hard — most catalogued endpoints never become live harvesters, so the funnel reports what actually yields, not the inflated built/healthy columns. <a href="/engine/acquisition-schema.html">The full acquisition pipeline, stage by stage →</a></p>']
-  ]},
- 'out-serve':{title:'① the instrument',what:'what we hold to gloss it — the coding input',status:'Built · run',
-  body:[
-   ['What it is','The passages we hold to gloss the source — the coding input that flows into the <a href="/engine/schema.html">method instrument</a>.'],
-   ['What’s in it','Septuagint · Chrysostom · Augustine · the non-canonical gospels · Julian…']
-  ]},
- 'out-gaps':{title:'② the gap-map',what:'what we’re missing, named',status:'Built · run',
-  body:[
-   ['What it is','The named silences + their WALL — paywall · canon · language · governance. The honest record of what the corpus is missing and why.'],
-   ['By status','__GAPMAP__'],
-   ['Examples','The Oriental churches · the scholarship on the borrowings…']
-  ]},
- 'out-list':{title:'③ the shopping list',what:'what to acquire next — the desiderata',status:'Built · run',
-  body:[
-   ['What it is','The desiderata queue: each gap becomes a want + its authority entry. This is what <em>drives the next acquisition</em> — the return arm of the flywheel.'],
-   ['Live','<b>'+GAPMAP.shopping_list+'</b> wants on the queue (of '+GAPMAP.total+' silences; '+GAPMAP.closed+' already closed, '+GAPMAP.blocked+' blocked → metadata-shelf).'],
-   ['Examples','Ephrem · the Thomas fragments…']
-  ]}
-};
-
-function gapmapHTML(){var g=GAPMAP;
- return '<div class="selfaudit"><b>'+g.closed+'</b> / '+g.total+' silences closed &nbsp;·&nbsp; '+g.shopping_list+' shopping-list &nbsp;·&nbsp; '+g.blocked+' blocked</div>'
-  +'<div class="bars">'
-  +[['held (closed)',g.held,'var(--sub)'],['identified (shopping list)',g.identified,'var(--honey)'],['blocked (copyright → shelf)',g.blocked,'var(--out)']]
-    .map(function(r){return '<div class="barrow"><span class="bk">'+r[0].split(' (')[0]+'</span><span class="track"><span class="fill" style="width:'+(r[1]/g.total*100)+'%;background:'+r[2]+'"></span></span><span class="bv">'+r[1]+'</span></div>';}).join('')
-  +'</div>';
-}
+// ── render library-schema FROM the engine artifact ─────────────────────────
+// §2.13 single store of record; the site renders from engine DATA, never hardcoded.
+// Regenerated by scripts/analysis/export_library_engine_schema_s159.py after each
+// acquisition / recall run. Contract: { GAPMAP:{…}, NODES:{key:{title,what,status,body:[[h,html]…]}} }
+var NODES={}, GAPMAP={};
 function openNode(key){var n=NODES[key];if(!n)return;
- document.getElementById('d-title').textContent=n.title;
- document.getElementById('d-title').innerHTML=n.title;
- document.getElementById('d-what').innerHTML=n.what;
- document.getElementById('d-tbl').textContent=n.status;
- document.getElementById('d-body').innerHTML=n.body.map(function(s){
-   var html=s[1].replace('__GAPMAP__',gapmapHTML());
-   return '<div class="osec"><div class="osec-h">'+s[0]+'</div><div class="osec-b">'+html+'</div></div>';
+ document.getElementById('d-title').innerHTML=n.title||'';
+ document.getElementById('d-what').innerHTML=n.what||'';
+ document.getElementById('d-tbl').textContent=n.status||'';
+ document.getElementById('d-body').innerHTML=(n.body||[]).map(function(s){
+   return '<div class="osec"><div class="osec-h">'+s[0]+'</div><div class="osec-b">'+s[1]+'</div></div>';
  }).join('');
  document.getElementById('dlg').showModal();
 }
+// wire the static flow nodes now (they exist at load); meta cards are wired after fetch
 [].forEach.call(document.querySelectorAll('[data-node]'),function(b){b.addEventListener('click',function(){openNode(b.getAttribute('data-node'));});});
+
+function nfmt(n){return (typeof n==='number')?n.toLocaleString():n;}
+fetch('data/library_engine_schema.json').then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+ .then(function(d){
+   NODES=d.NODES||{}; GAPMAP=d.GAPMAP||{};
+   // header chips — data-driven from GAPMAP (only render fields that exist)
+   var sr=document.getElementById('selfrow');
+   if(sr){var c=[];
+     if(typeof GAPMAP.sources_held==='number') c.push('<b>'+nfmt(GAPMAP.sources_held)+'</b> held as full text');
+     if(typeof GAPMAP.sources_registered==='number') c.push('of <b>'+nfmt(GAPMAP.sources_registered)+'</b> registered');
+     if(typeof GAPMAP.closed==='number'&&typeof GAPMAP.total==='number') c.push('gap-map: <b>'+GAPMAP.closed+'/'+GAPMAP.total+'</b> closed');
+     if(typeof GAPMAP.clavis_cited==='number') c.push('<b>'+nfmt(GAPMAP.clavis_cited)+'</b> cited silences · Syriac clavis');
+     sr.innerHTML='<span class="k">the library, on itself</span>'+c.map(function(x){return '<span class="chip">'+x+'</span>';}).join('');
+   }
+   // meta-band cards — rendered from the artifact node title/what (data-driven, not hardcoded)
+   var mb=document.getElementById('metaband');
+   if(mb){var META=['overview','logic','audit','implementation','acquisitions'];
+     mb.innerHTML=META.filter(function(k){return NODES[k];}).map(function(k){
+       var n=NODES[k], feat=(k==='acquisitions')?' feat':'';
+       return '<button class="metacard'+feat+'" data-node="'+k+'"><b>'+n.title+(feat?' ↗':'')+'</b><span class="mc-g">'+(n.what||'')+'</span></button>';
+     }).join('');
+     [].forEach.call(mb.querySelectorAll('[data-node]'),function(b){b.addEventListener('click',function(){openNode(b.getAttribute('data-node'));});});
+   }
+ })
+ .catch(function(e){var sr=document.getElementById('selfrow');if(sr)sr.innerHTML='<span class="k" style="color:var(--out)">could not load engine data ('+e.message+')</span>';});
 
 // ── connectors (ported from the Lovable Connectors.tsx geometry) ──
 var flow=document.getElementById('flow'),svg=document.getElementById('flowsvg');

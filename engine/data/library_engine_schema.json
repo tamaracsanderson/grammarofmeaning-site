@@ -1,0 +1,145 @@
+{
+ "generated_by": "export_library_engine_schema_s159.py",
+ "source": "SQLite live + committed engine artifacts (recall + drawers)",
+ "render_contract": "NODES = {node:{title,what,status,body:[[heading,html]…]}}; GAPMAP = {…}. design-SB: render library-schema.html FROM this artifact (fetch/build-time embed) — do NOT hardcode NODES/GAPMAP in the HTML (§2.13: single store of record; the memory 'site renders from engine data, not hardcoded').",
+ "GAPMAP": {
+  "closed": 11,
+  "total": 22,
+  "syriac_authors_silences": 120,
+  "clavis_cited": 120
+ },
+ "NODES": {
+  "overview": {
+   "title": "The library — what this engine is",
+   "what": "acquire → hold → serve / find-gaps / grow — the stock the whole project reads from",
+   "status": "Built · running",
+   "body": [
+    [
+     "What it is",
+     "The <b>library</b> is the corpus the Grammar-of-Meaning project reads: a strong, bias-visible, durably-backed store of primary sources across traditions. It is not a pipeline stage — it is the <em>stock</em> every other engine operates on. Its job: make it easy to <em>locate + acquire the sources we need, from a VARIETY of origins</em> (African / Latin American / Asian / oral / non-English), not just the Anglophone workhorses."
+    ],
+    [
+     "The reflexive turn",
+     "The library does not only hold — it <b>audits its own silence</b>. <a href='#gaps'>LACUNA</a> names what is missing by set-difference against a NAMED external authority (a <em>clavis</em>), so \"missing\" stops meaning \"a machine didn't recall it\" and starts meaning \"a named scholarly authority says it exists and we don't hold it.\""
+    ]
+   ]
+  },
+  "logic": {
+   "title": "Inputs → engine → outputs",
+   "what": "the black-box logic statement (every step: input · transform · output · gate)",
+   "status": "Spec",
+   "body": [
+    [
+     "Inputs",
+     "(1) a primary text / reading; (2) a coverage gap surfaced by the morphospace atlas; (3) a clavis (external authority enumerating a literature)."
+    ],
+    [
+     "Engine",
+     "<b>ACQUIRE</b> (CRADLE classify→route→resolve→dedup→gateway; §2.8 Parity fires non-Western with equal priority) → <b>HOLD</b> (sources + L4 passages; dual-store SQLite+Neon) → <b>SERVE</b> (held passages → the method instrument) · <b>FIND-GAPS</b> (LACUNA recall-vs-clavis) · <b>GROW</b> (silences → desiderata → acquire → round-trip closes them)."
+    ],
+    [
+     "Outputs",
+     "(1) held, chunked passages the instrument codes; (2) a cited gap-map + shopping list; (3) a defensible self-audit (held vs registered; recall vs clavis)."
+    ],
+    [
+     "Gate",
+     "no memory-enumeration — a silence must be an evidenced discrepancy vs a named authority; every acquisition routes through the gateway (provenance + dedup, §2.7)."
+    ]
+   ]
+  },
+  "corpus": {
+   "title": "The corpus — what we hold",
+   "what": "sources · passages — the stock we hold",
+   "status": "Built · run",
+   "body": [
+    [
+     "Data",
+     "<div class='selfaudit'><b>65,650</b> held as full text &nbsp;·&nbsp; of <b>376,726</b> registered &nbsp;·&nbsp; 142 silences named</div><p style='margin:10px 0 0'>Held = &gt;300 chars of real text (excerpts excluded — a snippet is not full text): <b>17.4%</b> of registered, across <b>12.85M</b> passages. The <b>honest 3-part count</b> — registered / held / reference — is first-class here; naming all three is the anti-inflation discipline (<code>corpus_headline_count_matches_db.py</code> guards it from drift).</p>"
+    ]
+   ]
+  },
+  "audit": {
+   "title": "Audit — recall vs clavis (the reflexive rigor)",
+   "what": "the library measures its own blindness against named authorities",
+   "status": "Built · run · LACUNA Phase 1",
+   "body": [
+    [
+     "The metric",
+     "<b>Recall vs clavis</b> = the % of a named authority's enumerated entries for which our corpus holds ≥1 witness. A silence = the residual (authority − holdings), each carrying the authority's citation (a <code>clavis_number</code>) so a third party can check it."
+    ],
+    [
+     "First result — Syriac authors",
+     "Clavis: <b>Syriaca.org</b> (machine-readable LOD). Reference population: <b>128</b> Syriac authors attested as author of ≥1 work. <div class='selfaudit'>RECALL = <b>7.0%</b> &nbsp;·&nbsp; 9/128 held &nbsp;·&nbsp; <b>119</b> cited silences</div><p style='margin:10px 0 0'>We hold the canonical/Greek-transmitted fathers + 3 famous Syriac (Ephrem, Jacob of Serugh, Aphrahat) — and are blind to the native tradition. Top silences (acquire first):</p><ul><li>ʿEnanishoʿ — Syriaca attests 155 works (<code>474</code>)</li><li>Narsai — Syriaca attests 109 works (<code>650</code>)</li><li>Jacob of Edessa — Syriaca attests 80 works (<code>113</code>)</li><li>John of Ephesus — Syriaca attests 62 works (<code>74</code>)</li><li>Palladius of Aspuna — Syriaca attests 59 works (<code>668</code>)</li><li>George Warda — Syriaca attests 44 works (<code>504</code>)</li><li>Jerome — Syriaca attests 35 works (<code>857</code>)</li><li>Eusebius of Caesarea — Syriaca attests 33 works (<code>480</code>)</li></ul>"
+    ],
+    [
+     "Matching is adjudicated",
+     "Deterministic candidate-generation (distinctive-token subset) → <b>LLM adjudication</b> (Haiku, temp 0, every verdict logged) rejects false matches (Syriac \"Thomas\" ≠ Thomas Hobbes; \"John Rufus\" ≠ Musonius Rufus). The number is defensible because the matcher is auditable, not because it is generous."
+    ],
+    [
+     "The reflexive finding (the clavis has silences too)",
+     "Syriaca.org does <b>not</b> enumerate gospel commentaries (0 of 2,824 works; even Ephrem's Diatessaron Commentary is absent). <em>The choice of clavis determines which silences are visible</em> — so gospel-commentary exegesis needs a PRINT clavis (Baumstark / CPG). A validated audit is not one with no blind spots; it is one whose blind spots are named."
+    ]
+   ]
+  },
+  "implementation": {
+   "title": "Implementation",
+   "what": "the stages, the store, the scripts",
+   "status": "Built",
+   "body": [
+    [
+     "Stages (LACUNA)",
+     "STAGE 0 define reference population (clavis) · STAGE 1 the fill (set-difference) · STAGE 2 measure (recall) · STAGE 5 queue (durable desiderata). Each is a black box: input → transform → output → gate (§2.15)."
+    ],
+    [
+     "Store of record",
+     "<code>silence_finding</code> (142 rows; 120 carry a clavis URI) — dual-store SQLite + Neon (§2.13). Each silence: type · wall · lifecycle · <code>fill_provenance</code> (endpoint-enumeration vs ai-memory-flagged) · status (identified→…→held/blocked; blocked never closes)."
+    ],
+    [
+     "Scripts",
+     "<code>fetch_syriaca_authors_clavis.py</code> (Stage 0) · <code>recall_vs_clavis.py</code> (Stage 1→2→5; seed-agnostic, idempotent) · <code>adjudicate_held_matches.py</code> (LLM match adjudication) · <code>export_library_engine_schema_s159.py</code> (this artifact)."
+    ]
+   ]
+  },
+  "acquisitions": {
+   "title": "Recent acquisitions — what's new",
+   "what": "the latest sources ingested (live from the DB)",
+   "status": "Live feed",
+   "body": [
+    [
+     "What this is",
+     "A running list of the most recent sources the library has acquired — so \"what's the latest?\" and \"what's really in the DB?\" have a first-class answer, live from the corpus (not a memory or a stale note). Total: <b>376,727</b> sources held."
+    ],
+    [
+     "Latest 20 acquisitions",
+     "<table class='dtbl'><thead><tr><th>source</th><th>title</th><th>tradition</th><th>L4 psg</th></tr></thead><tbody><tr><td><code>SRC-251030</code></td><td>The Sixth Book of the Select Letters of Severus (Brooks tr., 1903)</td><td>ABR-CHR-ORT-SYR</td><td style='text-align:right'>405</td></tr><tr><td><code>SRC-251029</code></td><td>Logia Iesou — Sayings of Our Lord from an Early Greek Papyrus (NON-CAN</td><td>ABR-CHR</td><td style='text-align:right'>55</td></tr><tr><td><code>SRC-251028</code></td><td>The Gospel according to Peter, and the Revelation of Peter (NON-CANONI</td><td>ABR-CHR</td><td style='text-align:right'>370</td></tr><tr><td><code>SRC-251027</code></td><td>The Book of Enoch (1 Enoch) — R. H. Charles (tr.)</td><td>ABR-JUD</td><td style='text-align:right'>744</td></tr><tr><td><code>SRC-251026</code></td><td>Revelations of Divine Love (Warrack ed.) — Julian of Norwich</td><td>ABR-CHR</td><td style='text-align:right'>1,542</td></tr><tr><td><code>SRC-251025</code></td><td>Pistis Sophia (NON-CANONICAL — Gnostic post-resurrection dialogue) — G</td><td>ANC-GNO</td><td style='text-align:right'>2,028</td></tr><tr><td><code>SRC-251024</code></td><td>The Apocryphal New Testament (NON-CANONICAL) — Gospel of Peter, Nicode</td><td>ABR-CHR</td><td style='text-align:right'>3,538</td></tr><tr><td><code>SRC-251023</code></td><td>The Septuagint Version of the Old Testament (Greek OT in English, Bren</td><td>ABR-JUD</td><td style='text-align:right'>5,402</td></tr><tr><td><code>SRC-251022</code></td><td>The Harmony of the Gospels (NPNF1-6) — Augustine of Hippo</td><td>ABR-CHR</td><td style='text-align:right'>1,666</td></tr><tr><td><code>SRC-251021</code></td><td>Commentary on the Gospel according to St. John, Vol. II (Library of Fa</td><td>ABR-CHR</td><td style='text-align:right'>1,896</td></tr><tr><td><code>SRC-251020</code></td><td>Catechetical Lectures (Library of Fathers) — Cyril of Jerusalem</td><td>ABR-CHR</td><td style='text-align:right'>1,583</td></tr><tr><td><code>SRC-251019</code></td><td>Homilies on the Gospel of St. Matthew (NPNF1-10) — John Chrysostom</td><td>ABR-CHR</td><td style='text-align:right'>6,358</td></tr><tr><td><code>SRC-251018</code></td><td>The Guide for the Perplexed (tr. M. Friedlander) — Moses Maimonides</td><td>ABR-JUD</td><td style='text-align:right'>1,084</td></tr><tr><td><code>SRC-251017</code></td><td>Commentary on St. Paul's Epistle to the Romans — Frederic Godet</td><td>ABR-CHR</td><td style='text-align:right'>1,172</td></tr><tr><td><code>SRC-251016</code></td><td>A Critical and Exegetical Commentary on the Epistle to the Romans (ICC</td><td>ABR-CHR</td><td style='text-align:right'>2,106</td></tr><tr><td><code>SRC-251015</code></td><td>Commentaries on the Epistle to the Romans (tr. John Owen) — John Calvi</td><td>ABR-CHR</td><td style='text-align:right'>2,034</td></tr><tr><td><code>SRC-251014</code></td><td>Homilies on the Epistle to the Romans (NPNF1-11) — John Chrysostom</td><td>ABR-CHR</td><td style='text-align:right'>1,688</td></tr><tr><td><code>SRC-251013</code></td><td>I Ching / Yi King (Legge SBE) — King Wen / Confucius</td><td>SEC</td><td style='text-align:right'>0</td></tr><tr><td><code>SRC-251012</code></td><td>The Enneads (MacKenna tr.) — Plotinus</td><td>SEC</td><td style='text-align:right'>0</td></tr><tr><td><code>SRC-251011</code></td><td>Ethics (Elwes tr.) — Baruch Spinoza</td><td>SEC</td><td style='text-align:right'>0</td></tr></tbody></table>"
+    ],
+    [
+     "Corpus by tradition (top 12)",
+     "<table class='dtbl'><thead><tr><th>tradition</th><th>sources</th></tr></thead><tbody><tr><td><code>ABR-CHR</code></td><td style='text-align:right'>82,789</td></tr><tr><td><code>ABR-JUD</code></td><td style='text-align:right'>29,633</td></tr><tr><td><code>MISC-QUARANTINE</code></td><td style='text-align:right'>20,314</td></tr><tr><td><code>PHI</code></td><td style='text-align:right'>19,097</td></tr><tr><td><code>ABR-ISL</code></td><td style='text-align:right'>15,870</td></tr><tr><td><code>META-CANON</code></td><td style='text-align:right'>13,831</td></tr><tr><td><code>DHR-BUD</code></td><td style='text-align:right'>8,184</td></tr><tr><td><code>META-ARC</code></td><td style='text-align:right'>6,855</td></tr><tr><td><code>ABR</code></td><td style='text-align:right'>6,449</td></tr><tr><td><code>ABR-CHR-CAT</code></td><td style='text-align:right'>5,037</td></tr><tr><td><code>ABR-CHR-PRO</code></td><td style='text-align:right'>4,623</td></tr><tr><td><code>DHR-HIN</code></td><td style='text-align:right'>3,957</td></tr></tbody></table>"
+    ]
+   ]
+  },
+  "serve": {
+   "title": "Serve",
+   "what": "give the instrument what we hold to read the source.",
+   "status": "Built · run",
+   "body": [
+    [
+     "Data",
+     "For the Resurrection: <b>16</b> held works → <b>33,282</b> passages (L4) — Septuagint · Chrysostom · Augustine · the non-canonical set · Julian…"
+    ]
+   ]
+  },
+  "gaps": {
+   "title": "Find the gaps (LACUNA)",
+   "what": "audit the corpus for what's missing — vs a clavis.",
+   "status": "Built · run · the reflexive turn",
+   "body": [
+    [
+     "Data",
+     "Gospels resurrection: <b>11/22</b> silences closed by acquisition round-trip. Syriac authors: <b>120</b> cited silences (the desiderata list). See the Audit drawer for the recall method."
+    ]
+   ]
+  }
+ }
+}
