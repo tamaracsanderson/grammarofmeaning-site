@@ -82,6 +82,10 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
 .n-corpus{max-width:42rem;background:var(--paper2);border-color:color-mix(in srgb,var(--eng) 45%,var(--line));text-align:center}
 button.node{font:inherit;cursor:pointer;text-align:left;display:block}
 button.node:hover{transform:translateY(-2px);box-shadow:0 12px 30px -18px rgba(40,48,42,.55)}
+.node.nolink{cursor:default}
+/* house focus ring (not the browser-default blue); only on keyboard focus */
+button.node:focus:not(:focus-visible),.metacard:focus:not(:focus-visible){outline:none}
+button.node:focus-visible,.metacard:focus-visible{outline:2px solid var(--out);outline-offset:2px}
 button.n-corpus{text-align:center}
 .openz{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:12px;opacity:.6;transition:opacity .2s}
 button.node:hover .openz{opacity:1}
@@ -226,25 +230,22 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
       <div class="rail"><span>Outputs</span></div>
       <div><span class="railm">Outputs</span>
         <div class="outgrid">
-          <button class="node out" id="n-out-serve" data-node="serve" style="border-color:var(--sub)">
+          <div class="node out nolink" id="n-out-serve" style="border-color:var(--sub)">
             <span class="onum" style="color:var(--sub)">① output</span>
             <h3>the instrument</h3>
             <p class="sub">what we hold to gloss it — the coding input</p>
-            <span class="openz">open ↗</span>
-          </button>
-          <button class="node out" id="n-out-gaps" data-node="gaps" style="border-color:var(--out)">
+          </div>
+          <div class="node out nolink" id="n-out-gaps" style="border-color:var(--out)">
             <span class="onum" style="color:var(--out)">② output</span>
             <h3>the gap-map</h3>
             <p class="sub">what we're missing, named</p>
-            <span class="openz">open ↗</span>
-          </button>
+          </div>
           <div class="out-list-wrap">
-            <button class="node out" id="n-out-list" data-node="acquisitions" style="border-color:var(--honey)">
+            <div class="node out nolink" id="n-out-list" style="border-color:var(--honey)">
               <span class="onum" style="color:#9a7420">③ output</span>
               <h3>the shopping list</h3>
               <p class="sub">what to acquire next — the desiderata</p>
-              <span class="openz">open ↗</span>
-            </button>
+            </div>
           </div>
         </div>
       </div>
