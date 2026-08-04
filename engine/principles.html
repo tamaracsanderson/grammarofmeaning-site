@@ -47,6 +47,14 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
 .det{padding:8px 0 2px}
 .det p{font-size:13.5px;line-height:1.6;color:var(--fg);margin:0 0 6px}
 .det .prov{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:6px}
+/* silence-taxonomy stance groups — the split IS the point (fillable = engine targets · acknowledge = honest limits) */
+.stancegrp{border-radius:11px;padding:14px 16px 4px;margin:0 0 16px;border:1px solid var(--line)}
+.stancegrp.stance-fillable{background:color-mix(in srgb,var(--sub) 6%,var(--bg));border-color:color-mix(in srgb,var(--sub) 30%,var(--line))}
+.stancegrp.stance-acknowledge{background:color-mix(in srgb,var(--out) 5%,var(--bg));border-color:color-mix(in srgb,var(--out) 28%,var(--line))}
+.stance-h{font-family:var(--serif);font-size:16.5px;font-weight:600;margin:0 0 3px}
+.stancegrp.stance-fillable .stance-h{color:var(--sub)}
+.stancegrp.stance-acknowledge .stance-h{color:var(--out)}
+.stance-blurb{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--muted);margin:0 0 12px;max-width:44rem}
 
 /* badge table */
 .badgesec{margin:40px 0 0;border-top:2px solid var(--eng);padding-top:18px}
@@ -116,15 +124,26 @@ fetch('data/library_principles.json').then(function(r){if(!r.ok)throw new Error(
    if(typeof h.silence_types==='number'&&h.silence_types>0) c.push('<b>'+h.silence_types+'</b> silence types');
    sr.innerHTML='<span class="k">on itself</span>'+c.map(function(x){return '<span class="chip">'+x+'</span>';}).join('');
 
+   function prinHTML(p){
+     var disp=(p.disposition||'').toLowerCase();
+     var det=p.detail? '<details class="more"><summary>why · the reasoning</summary><div class="det"><p>'+rich(p.detail)+'</p>'
+            +(p.provenance?'<p class="prov">'+esc(p.provenance)+'</p>':'')+'</div></details>':'';
+     return '<div class="pr"><div class="pr-h"><span class="disp disp-'+disp+'">'+esc(p.disposition_label||p.disposition)+'</span>'
+       +'<h3>'+rich(p.title)+'</h3></div><p class="stmt">'+rich(p.statement)+'</p>'+det+'</div>';
+   }
    document.getElementById('sections').innerHTML=(d.sections||[]).map(function(s){
-     var body=(s.principles||[]).map(function(p){
-       var disp=(p.disposition||'').toLowerCase();
-       var det=p.detail? '<details class="more"><summary>why · the reasoning</summary><div class="det"><p>'+rich(p.detail)+'</p>'
-              +(p.provenance?'<p class="prov">'+esc(p.provenance)+'</p>':'')+'</div></details>':'';
-       return '<div class="pr"><div class="pr-h"><span class="disp disp-'+disp+'">'+esc(p.disposition_label||p.disposition)+'</span>'
-         +'<h3>'+rich(p.title)+'</h3></div><p class="stmt">'+rich(p.statement)+'</p>'+det+'</div>';
-     }).join('');
-     return '<section class="sec"><div class="sec-h">'+esc(s.label||s.domain)+'</div>'+body+'</section>';
+     var inner;
+     if(s.stance_groups&&s.stance_groups.length){
+       // the silence taxonomy: render as TWO labeled groups — the Fillable/Acknowledge split IS the point
+       inner=s.stance_groups.map(function(g){
+         return '<div class="stancegrp stance-'+esc(g.stance)+'"><div class="stance-h">'+esc(g.label)+'</div>'
+           +(g.blurb?'<p class="stance-blurb">'+rich(g.blurb)+'</p>':'')
+           +(g.principles||[]).map(prinHTML).join('')+'</div>';
+       }).join('');
+     } else {
+       inner=(s.principles||[]).map(prinHTML).join('');
+     }
+     return '<section class="sec"><div class="sec-h">'+esc(s.label||s.domain)+'</div>'+inner+'</section>';
    }).join('');
 
    var bt=d.badge_table||[];

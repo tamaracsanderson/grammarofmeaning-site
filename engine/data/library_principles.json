@@ -1,13 +1,315 @@
 {
  "generated_by": "export_library_principles_s159.py",
  "source": "SQLite live (library_principle + access_tier_label registry)",
- "render_contract": "sections[] = {domain,label,principles[{id,title,statement,detail (drop-down),disposition,disposition_label,provenance}]} + badge_table[] (the access_tier field-table: label · precedence · definition · derives_from). design-SB: build principles.html FROM this; statement=always-visible, detail=drop-down. Do NOT hardcode (§2.13, §2.16).",
+ "render_contract": "sections[] = {domain,label,principles[{id,title,statement,detail (drop-down),disposition,disposition_label,stance,provenance}]}. The silence-taxonomy section ALSO carries stance_groups[] = [{stance:fillable,...},{stance:acknowledge,...}] each with label+blurb+principles[] — render it as TWO groups (Fillable = acquisition targets; Acknowledge = honest limits). Plus badge_table[] (the access_tier field-table: label · precedence · definition · derives_from). design-SB: build principles.html FROM this; statement=always-visible, detail=drop-down. Do NOT hardcode (§2.13, §2.16).",
  "header": {
-  "principles": 13,
-  "locked": 8,
-  "silence_types": 0
+  "principles": 27,
+  "locked": 22,
+  "silence_types": 14
  },
  "sections": [
+  {
+   "domain": "silence-taxonomy",
+   "label": "The silence taxonomy",
+   "principles": [
+    {
+     "id": "SILENCE-SUBTRADITION",
+     "title": "Sub-tradition silence",
+     "statement": "A tradition represented by a single proxy voice while its internal diversity — schools, regions, dissent — goes unrecorded.",
+     "detail": "Trouillot moment: assembly/canon. The corpus DR's intra-tradition flattening + proxy silence. LACUNA fills it: the clavis names the sub-traditions; the recall audit finds which have zero corpus witness, and the acquisition engine harvests them (Parity Principle §2.10).",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": "fillable",
+     "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+    },
+    {
+     "id": "SILENCE-LANGUAGE",
+     "title": "Language / translation silence",
+     "statement": "Knowledge that exists in only one or two languages sits artificially remote from every tradition that cannot read it.",
+     "detail": "Trouillot moment: retrieval + assembly. Translation is never neutral; the languages a work is available in narrow the archive. LACUNA fills it: non-Western claves (Coptic/Ethiopic/Armenian/Syriac) + translation harvest. The acquisitions feed now carries a lang field so the gap is legible.",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": "fillable",
+     "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+    },
+    {
+     "id": "SILENCE-GEOGRAPHY",
+     "title": "Geographic / Global-South silence",
+     "statement": "Regions outside the Anglophone-European core are thin because indexing, infrastructure, and digitization concentrate elsewhere.",
+     "detail": "Trouillot moment: retrieval. LACUNA fills it: the Parity Principle fires SciELO · Redalyc · AJOL for ANY query, so majority-world scholarship surfaces with equal priority (the C4 source stack). The pilot-100 found the wall is INVERTED — majority-world is often MORE open (diamond-OA) than Anglophone feminist/womanist work.",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": "fillable",
+     "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+    },
+    {
+     "id": "SILENCE-CANON-GENRE-PD",
+     "title": "Canon / genre silence (public-domain-recoverable)",
+     "statement": "Works outside the received canon or in low-prestige genres are excluded — recoverable whenever they are public-domain.",
+     "detail": "Trouillot moment: canon formation. The non-canonical gospels are the worked example: Peter, Nicodemus, the Epistle of the Apostles held as primary text once the PD edition is found; Judas/Philip gated by modern-translation copyright. LACUNA fills the PD slice; the copyright residue becomes an ACKNOWLEDGE silence (see copyright).",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": "fillable",
+     "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+    },
+    {
+     "id": "SILENCE-VOICE",
+     "title": "Voice / social-position silence",
+     "statement": "Whose account is absent — women, the enslaved, the laity — even when the tradition itself names them.",
+     "detail": "Trouillot moment: fact creation. LACUNA fills what it can: the Gospel of Mary (Magdalene as first witness), feminist/womanist exegesis (the pilot-100's most-walled slice). Where the voice was never recorded at all, it crosses into an ACKNOWLEDGE silence (orality, survivorship).",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": "fillable",
+     "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+    },
+    {
+     "id": "SILENCE-TEMPORAL",
+     "title": "Temporal-freeze silence",
+     "statement": "A living tradition frozen at one historical edition, its contemporary practice and reinterpretation unrepresented.",
+     "detail": "Trouillot moment: retrospective significance. The archive freezes a tradition at whatever edition got digitized. LACUNA fills it: acquire contemporary editions + reception. The counter-risk is treating a 1900 translation as the tradition's present voice.",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": "fillable",
+     "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+    },
+    {
+     "id": "SILENCE-DESCRIPTION",
+     "title": "Descriptive / metadata silence",
+     "statement": "Thin or missing metadata makes a held work unfindable and uncodeable — present in the store, absent from retrieval.",
+     "detail": "Trouillot moment: assembly + retrieval. A work you hold but cannot describe is functionally silent. LACUNA fills it: metadata backfill (Haiku classification, ~3-5K rows/hr) populates significance/artifact/language so held text becomes reachable.",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": "fillable",
+     "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+    },
+    {
+     "id": "SILENCE-OCR",
+     "title": "OCR / machine-legibility silence",
+     "statement": "Degraded scans and non-Roman scripts yield unreadable text — the work is present but illegible.",
+     "detail": "Trouillot moment: digitization. The Severus of Antioch case: the Syriac-original scans OCR'd to gibberish, so we used the 1903 English translation. LACUNA fills it: better OCR or finding a clean edition; until then the illegible scan is flagged, never counted as a usable witness.",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": "fillable",
+     "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+    },
+    {
+     "id": "SILENCE-ORALITY",
+     "title": "Orality / performance silence",
+     "statement": "Knowledge transmitted only through speech, memory, ritual, or the body was never text and cannot be fully textualized without distorting it.",
+     "detail": "Trouillot moment: fact creation. LACUNA NAMES it and partners (record contemporary holders, tag emic vs etic, mark where a tradition says 'this cannot be written') — but never claims to have captured it. Textualizing orality is itself a distortion; the honest move is to mark the boundary.",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": "acknowledge",
+     "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+    },
+    {
+     "id": "SILENCE-SURVIVORSHIP",
+     "title": "Material-survival / survivorship silence",
+     "statement": "What physically did not survive — burned libraries, decayed media, unpreserved formats — is gone; the archive is a survivorship-biased remnant.",
+     "detail": "Trouillot moment: assembly. LACUNA marks the loss (a named absence, not a void) but cannot fill it. The corpus is what survived, not what existed; saying so is the trustworthiness move.",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": "acknowledge",
+     "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+    },
+    {
+     "id": "SILENCE-CUSTODIAL",
+     "title": "Custodial / colonial-collection silence",
+     "statement": "Works held elsewhere by colonial collection or restricted custody are catalogued by their holders, not by their communities.",
+     "detail": "Trouillot moment: assembly. LACUNA names the custody + provenance; access and repatriation are not ours to grant. The map records where a work IS and whose it is — the honest limit is that holding ≠ belonging.",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": "acknowledge",
+     "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+    },
+    {
+     "id": "SILENCE-GOVERNANCE",
+     "title": "Governance / protected-knowledge silence (CARE)",
+     "statement": "Sacred, protected, or community-restricted knowledge is withheld by right — a silence we respect, not one we repair.",
+     "detail": "Trouillot moment: fact creation (strategic/sacred). Distinct from a copyright wall: this is the community's governance, not a legal barrier. LACUNA tags requires_care_review and routes to outreach as a DOCUMENTATION pathway (§2.11 CARE — default INCLUDE+TAG, but the restriction itself is honored, never overridden).",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": "acknowledge",
+     "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+    },
+    {
+     "id": "SILENCE-COPYRIGHT",
+     "title": "Copyright / access silence",
+     "statement": "A work behind a legal wall we cannot hold — made visible as CITED-NOT-HELD via the fallback ladder, never a blank void.",
+     "detail": "Trouillot moment: retrieval/access. The IRR230 lock (C1-C10): split rights_blocked from not_yet_found; the source stack + the fallback ladder + the discovery_attempt log + the access_tier badge. An ACKNOWLEDGE silence with the richest remediation — the wall is reported as a strength (C5), not hidden.",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": "acknowledge",
+     "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+    },
+    {
+     "id": "SILENCE-MEDIATED-VOICE",
+     "title": "Mediated-voice / surrogate silence",
+     "statement": "A voice reaching us only through a mediator, translator, or OA surrogate — the claim preserved, the primary words unheard.",
+     "detail": "Trouillot moment: fact creation + retrieval. The IRR230 C3 lock: a surrogate carries the CLAIM, never the VOICE; it is mediation-flagged and BARRED from fine-grained coding (diction, rhetoric, move-structure). LACUNA names the mediation so a mediated observation is never mistaken for a primary one.",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": "acknowledge",
+     "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+    }
+   ],
+   "stance_groups": [
+    {
+     "stance": "fillable",
+     "label": "Fillable — the acquisition engine's targets",
+     "blurb": "LACUNA finds these against a named clavis and the acquisition engine goes after them.",
+     "principles": [
+      {
+       "id": "SILENCE-SUBTRADITION",
+       "title": "Sub-tradition silence",
+       "statement": "A tradition represented by a single proxy voice while its internal diversity — schools, regions, dissent — goes unrecorded.",
+       "detail": "Trouillot moment: assembly/canon. The corpus DR's intra-tradition flattening + proxy silence. LACUNA fills it: the clavis names the sub-traditions; the recall audit finds which have zero corpus witness, and the acquisition engine harvests them (Parity Principle §2.10).",
+       "disposition": "locked",
+       "disposition_label": "LOCKED",
+       "stance": "fillable",
+       "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+      },
+      {
+       "id": "SILENCE-LANGUAGE",
+       "title": "Language / translation silence",
+       "statement": "Knowledge that exists in only one or two languages sits artificially remote from every tradition that cannot read it.",
+       "detail": "Trouillot moment: retrieval + assembly. Translation is never neutral; the languages a work is available in narrow the archive. LACUNA fills it: non-Western claves (Coptic/Ethiopic/Armenian/Syriac) + translation harvest. The acquisitions feed now carries a lang field so the gap is legible.",
+       "disposition": "locked",
+       "disposition_label": "LOCKED",
+       "stance": "fillable",
+       "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+      },
+      {
+       "id": "SILENCE-GEOGRAPHY",
+       "title": "Geographic / Global-South silence",
+       "statement": "Regions outside the Anglophone-European core are thin because indexing, infrastructure, and digitization concentrate elsewhere.",
+       "detail": "Trouillot moment: retrieval. LACUNA fills it: the Parity Principle fires SciELO · Redalyc · AJOL for ANY query, so majority-world scholarship surfaces with equal priority (the C4 source stack). The pilot-100 found the wall is INVERTED — majority-world is often MORE open (diamond-OA) than Anglophone feminist/womanist work.",
+       "disposition": "locked",
+       "disposition_label": "LOCKED",
+       "stance": "fillable",
+       "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+      },
+      {
+       "id": "SILENCE-CANON-GENRE-PD",
+       "title": "Canon / genre silence (public-domain-recoverable)",
+       "statement": "Works outside the received canon or in low-prestige genres are excluded — recoverable whenever they are public-domain.",
+       "detail": "Trouillot moment: canon formation. The non-canonical gospels are the worked example: Peter, Nicodemus, the Epistle of the Apostles held as primary text once the PD edition is found; Judas/Philip gated by modern-translation copyright. LACUNA fills the PD slice; the copyright residue becomes an ACKNOWLEDGE silence (see copyright).",
+       "disposition": "locked",
+       "disposition_label": "LOCKED",
+       "stance": "fillable",
+       "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+      },
+      {
+       "id": "SILENCE-VOICE",
+       "title": "Voice / social-position silence",
+       "statement": "Whose account is absent — women, the enslaved, the laity — even when the tradition itself names them.",
+       "detail": "Trouillot moment: fact creation. LACUNA fills what it can: the Gospel of Mary (Magdalene as first witness), feminist/womanist exegesis (the pilot-100's most-walled slice). Where the voice was never recorded at all, it crosses into an ACKNOWLEDGE silence (orality, survivorship).",
+       "disposition": "locked",
+       "disposition_label": "LOCKED",
+       "stance": "fillable",
+       "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+      },
+      {
+       "id": "SILENCE-TEMPORAL",
+       "title": "Temporal-freeze silence",
+       "statement": "A living tradition frozen at one historical edition, its contemporary practice and reinterpretation unrepresented.",
+       "detail": "Trouillot moment: retrospective significance. The archive freezes a tradition at whatever edition got digitized. LACUNA fills it: acquire contemporary editions + reception. The counter-risk is treating a 1900 translation as the tradition's present voice.",
+       "disposition": "locked",
+       "disposition_label": "LOCKED",
+       "stance": "fillable",
+       "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+      },
+      {
+       "id": "SILENCE-DESCRIPTION",
+       "title": "Descriptive / metadata silence",
+       "statement": "Thin or missing metadata makes a held work unfindable and uncodeable — present in the store, absent from retrieval.",
+       "detail": "Trouillot moment: assembly + retrieval. A work you hold but cannot describe is functionally silent. LACUNA fills it: metadata backfill (Haiku classification, ~3-5K rows/hr) populates significance/artifact/language so held text becomes reachable.",
+       "disposition": "locked",
+       "disposition_label": "LOCKED",
+       "stance": "fillable",
+       "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+      },
+      {
+       "id": "SILENCE-OCR",
+       "title": "OCR / machine-legibility silence",
+       "statement": "Degraded scans and non-Roman scripts yield unreadable text — the work is present but illegible.",
+       "detail": "Trouillot moment: digitization. The Severus of Antioch case: the Syriac-original scans OCR'd to gibberish, so we used the 1903 English translation. LACUNA fills it: better OCR or finding a clean edition; until then the illegible scan is flagged, never counted as a usable witness.",
+       "disposition": "locked",
+       "disposition_label": "LOCKED",
+       "stance": "fillable",
+       "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+      }
+     ]
+    },
+    {
+     "stance": "acknowledge",
+     "label": "Acknowledge — the honest limits that make the map trustworthy",
+     "blurb": "LACUNA names these but cannot fill them; saying so is what keeps the map honest.",
+     "principles": [
+      {
+       "id": "SILENCE-ORALITY",
+       "title": "Orality / performance silence",
+       "statement": "Knowledge transmitted only through speech, memory, ritual, or the body was never text and cannot be fully textualized without distorting it.",
+       "detail": "Trouillot moment: fact creation. LACUNA NAMES it and partners (record contemporary holders, tag emic vs etic, mark where a tradition says 'this cannot be written') — but never claims to have captured it. Textualizing orality is itself a distortion; the honest move is to mark the boundary.",
+       "disposition": "locked",
+       "disposition_label": "LOCKED",
+       "stance": "acknowledge",
+       "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+      },
+      {
+       "id": "SILENCE-SURVIVORSHIP",
+       "title": "Material-survival / survivorship silence",
+       "statement": "What physically did not survive — burned libraries, decayed media, unpreserved formats — is gone; the archive is a survivorship-biased remnant.",
+       "detail": "Trouillot moment: assembly. LACUNA marks the loss (a named absence, not a void) but cannot fill it. The corpus is what survived, not what existed; saying so is the trustworthiness move.",
+       "disposition": "locked",
+       "disposition_label": "LOCKED",
+       "stance": "acknowledge",
+       "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+      },
+      {
+       "id": "SILENCE-CUSTODIAL",
+       "title": "Custodial / colonial-collection silence",
+       "statement": "Works held elsewhere by colonial collection or restricted custody are catalogued by their holders, not by their communities.",
+       "detail": "Trouillot moment: assembly. LACUNA names the custody + provenance; access and repatriation are not ours to grant. The map records where a work IS and whose it is — the honest limit is that holding ≠ belonging.",
+       "disposition": "locked",
+       "disposition_label": "LOCKED",
+       "stance": "acknowledge",
+       "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+      },
+      {
+       "id": "SILENCE-GOVERNANCE",
+       "title": "Governance / protected-knowledge silence (CARE)",
+       "statement": "Sacred, protected, or community-restricted knowledge is withheld by right — a silence we respect, not one we repair.",
+       "detail": "Trouillot moment: fact creation (strategic/sacred). Distinct from a copyright wall: this is the community's governance, not a legal barrier. LACUNA tags requires_care_review and routes to outreach as a DOCUMENTATION pathway (§2.11 CARE — default INCLUDE+TAG, but the restriction itself is honored, never overridden).",
+       "disposition": "locked",
+       "disposition_label": "LOCKED",
+       "stance": "acknowledge",
+       "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+      },
+      {
+       "id": "SILENCE-COPYRIGHT",
+       "title": "Copyright / access silence",
+       "statement": "A work behind a legal wall we cannot hold — made visible as CITED-NOT-HELD via the fallback ladder, never a blank void.",
+       "detail": "Trouillot moment: retrieval/access. The IRR230 lock (C1-C10): split rights_blocked from not_yet_found; the source stack + the fallback ladder + the discovery_attempt log + the access_tier badge. An ACKNOWLEDGE silence with the richest remediation — the wall is reported as a strength (C5), not hidden.",
+       "disposition": "locked",
+       "disposition_label": "LOCKED",
+       "stance": "acknowledge",
+       "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+      },
+      {
+       "id": "SILENCE-MEDIATED-VOICE",
+       "title": "Mediated-voice / surrogate silence",
+       "statement": "A voice reaching us only through a mediator, translator, or OA surrogate — the claim preserved, the primary words unheard.",
+       "detail": "Trouillot moment: fact creation + retrieval. The IRR230 C3 lock: a surrogate carries the CLAIM, never the VOICE; it is mediation-flagged and BARRED from fine-grained coding (diction, rhetoric, move-structure). LACUNA names the mediation so a mediated observation is never mistaken for a primary one.",
+       "disposition": "locked",
+       "disposition_label": "LOCKED",
+       "stance": "acknowledge",
+       "provenance": "corpus silence DR (silence_DR.txt / silence_fable.txt / silence_gpt.txt, 2026-08-02..03; Trouillot's 4 moments); PI S159 CLC lock (fillable vs acknowledge)"
+      }
+     ]
+    }
+   ]
+  },
   {
    "domain": "copyright",
    "label": "Copyright & access",
@@ -19,6 +321,7 @@
      "detail": "The through-line all 5 IRR230 cohorts affirmed. The fix is a graduated fallback that keeps the work discoverable + cited. UNANIMOUS.",
      "disposition": "locked",
      "disposition_label": "LOCKED",
+     "stance": null,
      "provenance": "IRR230 reconciliation (research/00_irr/irr230_copyright_fallback_ladder_reconciliation_2026-08-03.md); S159 CLC walk"
     },
     {
@@ -28,6 +331,7 @@
      "detail": "The sharpest IRR230 consensus (5/5). Conflating them corrupts the whole audit; they need different remediation. Distinct access_tier values.",
      "disposition": "locked",
      "disposition_label": "LOCKED",
+     "stance": null,
      "provenance": "IRR230 reconciliation (research/00_irr/irr230_copyright_fallback_ladder_reconciliation_2026-08-03.md); S159 CLC walk"
     },
     {
@@ -37,6 +341,7 @@
      "detail": "UNANIMOUS. Surrogacy prevents disappearance but introduces a named silence: the primary voice remains unheard. Never equal evidentiary weight to primary-text coding.",
      "disposition": "locked",
      "disposition_label": "LOCKED",
+     "stance": null,
      "provenance": "IRR230 reconciliation (research/00_irr/irr230_copyright_fallback_ladder_reconciliation_2026-08-03.md); S159 CLC walk"
     },
     {
@@ -46,6 +351,7 @@
      "detail": "UNANIMOUS ranking. SciELO/Redalyc/AJOL are the only reliable route to liberation/African scholarship the Anglophone indexes miss.",
      "disposition": "locked",
      "disposition_label": "LOCKED",
+     "stance": null,
      "provenance": "IRR230 reconciliation (research/00_irr/irr230_copyright_fallback_ladder_reconciliation_2026-08-03.md); S159 CLC walk"
     },
     {
@@ -55,6 +361,7 @@
      "detail": "UNANIMOUS. Do not combine direct + mediated into one 'covered' number; expose the composition. Turns copyright into a visible variable in the archive's sociology, not an excuse.",
      "disposition": "locked",
      "disposition_label": "LOCKED",
+     "stance": null,
      "provenance": "IRR230 reconciliation (research/00_irr/irr230_copyright_fallback_ladder_reconciliation_2026-08-03.md); S159 CLC walk"
     },
     {
@@ -64,6 +371,7 @@
      "detail": "EXTEND. Author-permission is high-value for majority-world/theology voices. Fair-use excerpt is more faithful than surrogate → ranks above it, but as a policy-governed layer with a justification field. TDM/ILL create a read+code-not-host state that MUST be flagged so it is never mistaken for 'held'.",
      "disposition": "extend",
      "disposition_label": "EXTEND",
+     "stance": null,
      "provenance": "IRR230 reconciliation (research/00_irr/irr230_copyright_fallback_ladder_reconciliation_2026-08-03.md); S159 CLC walk"
     },
     {
@@ -73,6 +381,7 @@
      "detail": "EXTEND. This is what makes 'rights-blocked' CREDIBLE + replicable (a reviewer sees the good-faith trail). Same idea as CRADLE's per-row source-tried log (§2.8).",
      "disposition": "extend",
      "disposition_label": "EXTEND",
+     "stance": null,
      "provenance": "IRR230 reconciliation (research/00_irr/irr230_copyright_fallback_ladder_reconciliation_2026-08-03.md); S159 CLC walk"
     },
     {
@@ -82,6 +391,7 @@
      "detail": "DEFER-with-plan. Is rights_blocked 2% or 40%? That reshapes viability + messaging + whether surrogates even exist for the works we care about. Runs once the C4 source-stack is wired.",
      "disposition": "defer",
      "disposition_label": "DEFERRED",
+     "stance": null,
      "provenance": "IRR230 reconciliation (research/00_irr/irr230_copyright_fallback_ladder_reconciliation_2026-08-03.md); S159 CLC walk"
     },
     {
@@ -91,6 +401,7 @@
      "detail": "DEFER-with-plan. Adopt the source_system principle now; the fuzzy-match de-dup follows the Parity-enabled regional harvest.",
      "disposition": "defer",
      "disposition_label": "DEFERRED",
+     "stance": null,
      "provenance": "IRR230 reconciliation (research/00_irr/irr230_copyright_fallback_ladder_reconciliation_2026-08-03.md); S159 CLC walk"
     }
    ]
@@ -106,6 +417,7 @@
      "detail": "Reconciles GPT (orthogonal fields — the 5 values aren't mutually exclusive) with the badge's need to stay scannable, via Claude's bridge = the §2.13 pattern (rich store → rendered view). The badge is computed, stored nowhere → cannot drift. See access_tier_label for the badge vocabulary + precedence.",
      "disposition": "extend",
      "disposition_label": "EXTEND",
+     "stance": null,
      "provenance": "IRR230 reconciliation (research/00_irr/irr230_copyright_fallback_ladder_reconciliation_2026-08-03.md); S159 CLC walk"
     }
    ]
@@ -121,6 +433,7 @@
      "detail": "CLAUDE.md §2.4. The honesty substrate — a claim you cannot trace is a claim you cannot defend.",
      "disposition": "locked",
      "disposition_label": "LOCKED",
+     "stance": null,
      "provenance": "IRR230 reconciliation (research/00_irr/irr230_copyright_fallback_ladder_reconciliation_2026-08-03.md); S159 CLC walk"
     }
    ]
@@ -136,6 +449,7 @@
      "detail": "The LACUNA rigor principle (design-doc U1/U5). The difference between a demo and an instrument.",
      "disposition": "locked",
      "disposition_label": "LOCKED",
+     "stance": null,
      "provenance": "IRR230 reconciliation (research/00_irr/irr230_copyright_fallback_ladder_reconciliation_2026-08-03.md); S159 CLC walk"
     }
    ]
@@ -151,6 +465,7 @@
      "detail": "A standing project principle (CLAUDE.md §2.11). Distinct from the copyright wall: 'blocked' for CARE ≠ 'rights_blocked' for copyright. Enforced by a sprint invariant + a pre-recommendation gate.",
      "disposition": "locked",
      "disposition_label": "LOCKED",
+     "stance": null,
      "provenance": "IRR230 reconciliation (research/00_irr/irr230_copyright_fallback_ladder_reconciliation_2026-08-03.md); S159 CLC walk"
     }
    ]
