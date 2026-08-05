@@ -1337,6 +1337,43 @@ function renderOutReg(e){
   }
   return html+'</div>';
 }
+/* Resituation drawer refresh (#2/#3, S160) — render FROM the mirrored registry export
+   (never hardcode OUT_REG['R'] per reading-SB). Reuses the approved slots for
+   real-run/fields/rigor/reuse/companion via lookup, and adds the DATA-driven both-
+   directions logic + the CLC living-backlog + traps + see_also. Graceful: if the fetch
+   or render fails, the drawer falls back to the approved inline OUT_REG['R'] slots. */
+var RESIT_DRAWER=null;
+fetch('/engine/data/resituation_drawer.json').then(function(r){return r.ok?r.json():null;}).then(function(j){RESIT_DRAWER=j;}).catch(function(){});
+function _reEsc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function _slotB(needle){var sl=(typeof OUT_REG!=='undefined'&&OUT_REG['R']&&OUT_REG['R'].slots)||[];for(var i=0;i<sl.length;i++){if(sl[i].k&&sl[i].k.indexOf(needle)>=0)return sl[i].b;}return '';}
+function renderResitFromData(D){
+  if(!D||typeof _outSec!=='function') return renderOutReg('R');
+  var mono="'IBM Plex Mono',ui-monospace,monospace";
+  var html='<div class="odrawer">';
+  html+=_outSec(1,'overview · what it is',_slotB('overview')||_reEsc(D.one_liner),false);
+  html+=_outSec(2,'why it matters',_slotB('why')||'',false);
+  var dirs=(D.directions||[]).map(function(x){
+    return '<div style="border:1px solid #C9BE9F;border-radius:8px;padding:9px 12px;margin-bottom:8px;background:rgba(239,231,211,.4)"><div style="font-family:'+mono+';font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#C4602F;margin-bottom:4px">'+_reEsc(x.name)+' &middot; '+_reEsc(x.arrow)+'</div><div style="font-size:13.5px;line-height:1.5">'+_reEsc(x.detail)+'</div></div>';
+  }).join('');
+  html+=_outSec(3,'the logic — both directions',dirs+(D.three_axes?'<div style="font-size:11.5px;color:#7C8478;font-style:italic;margin-top:2px">'+_reEsc(D.three_axes)+'</div>':''),false);
+  html+=_outSec(4,'status','<div style="font-family:'+mono+';font-size:13px"><b>'+_reEsc(D.status||'pilot')+'</b></div><div style="margin-top:5px;font-size:13.5px;line-height:1.5">'+_reEsc(D.note||'')+'</div>'+(D.ssot_method_note?'<div style="margin-top:6px;font-size:12px;color:#7C8478;font-style:italic">'+_reEsc(D.ssot_method_note)+'</div>':''),false);
+  html+=_outSec(5,'a real run',_slotB('a real run'),false);
+  html+=_outSec(6,'data contract — the fields',_slotB('data contract'),true);
+  html+=_outSec(7,'rigor / validation',_slotB('rigor')+(D.validation?'<div style="margin-top:8px;font-size:12.5px;color:#52605A"><b>Falsifiable backbone:</b> '+_reEsc(D.validation)+'</div>':''),true);
+  html+=_outSec(8,'reuse — tools / APIs',_slotB('reuse'),true);
+  html+=_outSec(9,'audit — the decision chain','<span style="font-family:'+mono+';font-size:11.5px;color:#52605A">'+(D.validation?_reEsc(D.validation):'&mdash;')+'</span>',true);
+  var built=(D.also_built||[]).map(function(x){return '<div style="margin-bottom:3px">'+_reEsc(x)+'</div>';}).join('');
+  var dispCol={LOCK:'#3F7D57',EXTEND:'#B8924A',DROP:'#C4602F',DEFER:'#7C8478',pending:'#9A9384'};
+  var clc=(D.clc_next_steps||[]).map(function(c){var col=dispCol[c.disposition]||'#7C8478';
+    return '<div style="display:flex;gap:8px;align-items:baseline;margin-bottom:5px;font-size:12.5px;line-height:1.4"><span style="font-family:'+mono+';font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:#fff;background:'+col+';border-radius:4px;padding:1px 6px;white-space:nowrap">'+_reEsc(c.disposition)+'</span><span><b>'+_reEsc(c.id)+'</b> '+_reEsc(c.title)+'</span></div>';
+  }).join('');
+  var clcConv=D.clc_in_drawer_convention?'<p style="font-size:11.5px;color:#7C8478;font-style:italic;margin:0 0 8px">'+_reEsc(D.clc_in_drawer_convention)+'</p>':'';
+  html+=_outSec(10,'implementation','<div style="font-family:'+mono+';font-size:11.5px;color:#52605A;margin-bottom:10px">'+built+'</div><div style="border-top:1px solid #C9BE9F;padding-top:9px"><div style="font-family:'+mono+';font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#C4602F;margin-bottom:6px">next steps (CLC) — the living backlog</div>'+clcConv+clc+'</div>',true);
+  html+=_outSec(11,'read deeper — companion',_slotB('read deeper')||((typeof outCompanion==='function')?outCompanion('R'):''),true);
+  if(D.traps&&D.traps.length) html+=_outSec('⚑','traps — do not re-break these','<ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.5">'+D.traps.map(function(t){return '<li style="margin-bottom:5px">'+_reEsc(t)+'</li>';}).join('')+'</ul>',true);
+  if(D.see_also&&D.see_also.length) html+=_outSec('→','see also','<div style="font-family:'+mono+';font-size:11px;color:#52605A;line-height:1.7">'+D.see_also.map(function(x){return '<div>'+_reEsc(x)+'</div>';}).join('')+'</div>',true);
+  return html+'</div>';
+}
 /* Fail-safe monkey-patch: only wraps openOutput if the legacy fn exists; per-output
    OUT_REG gate + try/catch => any failure falls back to the legacy render. */
 (function(){
@@ -1354,7 +1391,9 @@ function renderOutReg(e){
         if((OUT_RUNS[e]||[]).length){
           runs='<div class="runs runs-addenda"><div class="runs-h">the three runs — each revision was forced by a test that failed</div>'+OUT_RUNS[e].map(function(r){return '<div class="run"><a href="'+r[1]+'"><code>'+r[0]+'</code> '+r[2]+'</a><div class="run-b">'+r[3]+'</div><div class="run-c">'+r[4]+'</div></div>';}).join('')+'</div>';
         }
-        document.getElementById('d-body').innerHTML='<p style="margin:2px 0 6px"><span class="epi '+st.toLowerCase()+'">'+st+'</span></p>'+renderOutReg(e)+runs+provShell();
+        var drawer;
+        try{ drawer=(e==='R'&&typeof RESIT_DRAWER!=='undefined'&&RESIT_DRAWER&&typeof renderResitFromData==='function')?renderResitFromData(RESIT_DRAWER):renderOutReg(e); }catch(_){ drawer=renderOutReg(e); }
+        document.getElementById('d-body').innerHTML='<p style="margin:2px 0 6px"><span class="epi '+st.toLowerCase()+'">'+st+'</span></p>'+drawer+runs+provShell();
         document.getElementById('dlg').showModal();
         if(typeof __afterDrawer==='function')__afterDrawer();
         return;
