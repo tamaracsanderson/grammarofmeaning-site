@@ -24,9 +24,10 @@ h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:cla
 /* two-column layout */
 .layout{display:grid;grid-template-columns:1fr 20rem;gap:clamp(20px,3vw,44px);max-width:66rem;margin:2vh auto 0;padding:0 22px 22vh;align-items:start}
 main.reading{min-width:0}
-.move-block{padding:4vh 0;border-top:1px solid color-mix(in srgb,var(--rule) 45%,transparent);scroll-margin-top:80px;transition:opacity .25s}
+.move-block{padding:4vh 16px;margin:0 -16px;border-top:1px solid color-mix(in srgb,var(--rule) 45%,transparent);scroll-margin-top:80px;border-radius:10px;transition:background .25s,box-shadow .25s,opacity .25s}
 .move-block:first-child{border-top:none}
-.move-block.dim{opacity:.5}
+.move-block.active{background:color-mix(in srgb,var(--fern) 7%,transparent);box-shadow:inset 3px 0 0 var(--fern)}
+.move-block.active .mb-para{color:var(--moss)}
 .mb-lab{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--gold);margin-bottom:8px}
 .mb-para{font-family:var(--disp);font-size:clamp(20px,2.4vw,26px);line-height:1.4;color:var(--ink)}
 .mb-meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin-top:10px;line-height:1.5}
@@ -50,6 +51,11 @@ main.reading{min-width:0}
 .rail-p{font-family:var(--serif);font-size:13.5px;line-height:1.5;color:var(--ink-2)}
 .rail-lin{margin-top:4px;padding:9px 11px;border-left:2px solid var(--fern);border-radius:0 7px 7px 0;background:color-mix(in srgb,var(--fern) 6%,transparent);font-family:var(--sans);font-size:11.5px;line-height:1.5;color:var(--ink-2)}
 .rail-lin.none{border-left-color:var(--rule);background:transparent;color:var(--ink-3);font-style:italic}
+.scrip{margin-top:16px;padding:12px 16px;border-left:3px solid var(--gold);border-radius:0 8px 8px 0;background:color-mix(in srgb,var(--gold) 7%,transparent);font-family:var(--serif);font-size:16px;line-height:1.55;color:var(--ink)}
+.scrip .sl{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.rail-gloss{font-family:var(--serif);font-size:14px;line-height:1.5;color:var(--ink);background:var(--paper-2);border-radius:8px;padding:9px 12px;margin:4px 0}
+.rail-delta{font-family:var(--sans);font-size:11.5px;color:var(--terracotta);margin:8px 0 0;line-height:1.45;padding:7px 10px;background:color-mix(in srgb,var(--terracotta) 6%,transparent);border-radius:7px}
+.rail-delta .dl{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--terracotta);margin-bottom:2px}
 .err{color:var(--terracotta);font-family:var(--mono);font-size:14px;text-align:center;margin:30px 0}
 .themebtn{position:fixed;top:11px;right:14px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:var(--sans);z-index:40}
 footer.foot{max-width:46rem;margin:0 auto;padding:2vh 22px 12vh;font-family:var(--sans);font-size:11.5px;line-height:1.6;color:var(--ink-3);text-align:center;border-top:1px solid var(--rule)}
@@ -87,25 +93,28 @@ function show(key){
 function build(key,j){
   var af=j.account_frame||{}, moves=j.moves||[];
   var left=moves.map(function(m){
-    var seam='';
-    (m.lineage||[]).forEach(function(l){ seam+='<div class="seam"><span class="sl">stands on a source · '+esc(l.source_ref||'')+(l.vehicle?(' · '+esc(l.vehicle)):'')+'</span>'+esc(l.seam||'')+'</div>'; });
+    // the inline green box is RESERVED for the actual scripture quote (renders m.scripture
+    // once the move→verse map lands); lineage now lives only on the right rail (no dup).
+    var scripture = m.scripture ? '<div class="scrip"><span class="sl">the text · '+esc(m.verse_label||'')+'</span>'+esc(m.scripture)+'</div>' : '';
     return '<div class="move-block" data-idx="'+esc(m.idx)+'"><div class="mb-lab">'+esc(m.label)+' · '+esc(m.operation||'')+'</div>'
       +'<div class="mb-para">'+esc(m.paraphrase||'')+'</div>'
       +'<div class="mb-meta"><b>'+esc(m.agent||'')+'</b>'+(m.outcome?(' → '+esc(m.outcome)):'')+(m.is_top_level===false&&m.nested_under?(' · nested under '+esc(m.nested_under)):'')+'</div>'
-      +seam+'</div>';
+      +scripture+'</div>';
   }).join('');
   document.getElementById('stage').innerHTML='<div class="layout"><main class="reading" id="reading">'+left+'</main><aside class="rail" id="rail"></aside></div>';
   // build a move lookup + init rail with move 1
   var byIdx={}; moves.forEach(function(m){byIdx[String(m.idx)]=m;});
   window.__af=af; window.__byIdx=byIdx; window.__axes=AXES;
   renderRail(moves[0]);
+  current=String(moves[0].idx);
+  var fb0=document.querySelector('.move-block'); if(fb0) fb0.classList.add('active');
   // scroll sync
   if(observer) observer.disconnect();
   observer=new IntersectionObserver(function(entries){
     // pick the entry nearest the top-third of the viewport that is intersecting
     var best=null, bestD=1e9;
     entries.forEach(function(e){ if(e.isIntersecting){ var d=Math.abs(e.boundingClientRect.top - window.innerHeight*0.28); if(d<bestD){bestD=d;best=e.target;} } });
-    if(best){ var idx=best.getAttribute('data-idx'); if(idx!==current){ current=idx; renderRail(byIdx[idx]); [].forEach.call(document.querySelectorAll('.move-block'),function(b){b.classList.toggle('dim', b.getAttribute('data-idx')!==idx);}); } }
+    if(best){ var idx=best.getAttribute('data-idx'); if(idx!==current){ current=idx; renderRail(byIdx[idx]); [].forEach.call(document.querySelectorAll('.move-block'),function(b){b.classList.toggle('active', b.getAttribute('data-idx')===idx);}); } }
   }, {rootMargin:'-20% 0px -55% 0px', threshold:0.01});
   [].forEach.call(document.querySelectorAll('.move-block'),function(b){observer.observe(b);});
   window.scrollTo(0,0);
@@ -119,10 +128,13 @@ function renderRail(m){
     return '<div class="axis'+(veer?' veer':'')+'"><span class="an">'+esc(a)+'</span><span class="av">'+esc(fp==null?'—':fp)+(veer?'<span class="base">'+esc(af[a]||'')+'</span>':'')+'</span></div>';
   }).join('');
   var lin=(m.lineage&&m.lineage.length)? '<div class="rail-lin"><b>'+esc(m.lineage[0].source_ref||'')+'</b> — '+esc((m.lineage[0].seam||'').slice(0,160))+((m.lineage[0].seam||'').length>160?'…':'')+'</div>' : '<div class="rail-lin none">this move stands on no source — most don’t (that’s correct, not missing).</div>';
+  var gloss = m.gloss ? '<div class="rail-gloss">'+esc(m.gloss)+'</div>' : '';
+  var delta = m.frame_delta ? '<div class="rail-delta"><span class="dl">what shifted</span>'+esc(m.frame_delta)+'</div>' : '';
   document.getElementById('rail').innerHTML=
      '<div class="rail-pos">move '+esc(m.idx)+' · '+esc(m.label)+'</div>'
     +'<div class="rail-lab">'+esc(m.operation||'')+'</div>'
-    +'<div class="rail-h">the frame — '+(veerN?(veerN+' axes veer'):'holds the baseline')+'</div>'+ribbon
+    + gloss
+    +'<div class="rail-h">the frame — '+(veerN?(veerN+' axes veer'):'holds the baseline')+'</div>'+ribbon+delta
     +'<div class="rail-h">paradigm</div><div class="rail-p">'+esc(m.paradigm||'—')+'</div>'
     +'<div class="rail-h">sitz — the world</div><div class="rail-p">'+esc(m.sitz||'—')+'</div>'
     +'<div class="rail-h">lineage</div>'+lin;
