@@ -1,0 +1,131 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>The Essays — the writing workstream</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Grammar of Meaning house pattern — sibling of engine/library-schema.html + method-schema.html. Same palette / drawer / grammar.
+   Renders essay-SB's EWS registry (engine/data/essay_workstream.json) — METRICS + NODES{node:{title,what,status,body:[[heading,html]…]}}. */
+:root{--bg:#F6F1E4;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;
+ --eng:#2C4A38;--sub:#3F7D57;--tbd:#8AA88B;--out:#C4602F;--in:#C4602F;--warn:#C4602F;--honey:#E0A93B;--olive:#6E7B3A;
+ --serif:"Newsreader",ui-serif,Georgia,serif;--sans:"Inter",ui-sans-serif,system-ui,sans-serif;
+ --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#1B211D;--paper2:#232A25;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;
+ --eng:#4A7A5C;--sub:#5C9A72;--tbd:#6B7A6D;--out:#D9793F;--in:#D9793F;--warn:#D9793F;--olive:#9CA86A}}
+:root[data-theme=dark]{--bg:#1B211D;--paper2:#232A25;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;--eng:#4A7A5C;--sub:#5C9A72;--tbd:#6B7A6D;--out:#D9793F;--in:#D9793F;--warn:#D9793F;--olive:#9CA86A}
+:root[data-theme=light]{--bg:#F6F1E4;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;--eng:#2C4A38;--sub:#3F7D57;--tbd:#8AA88B;--out:#C4602F;--in:#C4602F;--warn:#C4602F;--olive:#6E7B3A}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 var(--sans);font-feature-settings:"ss01","cv11"}
+.wrap{max-width:1080px;margin:0 auto;padding:26px 22px 40px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}
+.topbar a{font-size:13px;color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
+.topbar .nav{display:flex;gap:14px;flex-wrap:wrap}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;letter-spacing:-.01em;color:var(--eng);margin:0 0 12px;line-height:1.1}
+.lede{font-family:var(--serif);font-size:17px;line-height:1.6;color:var(--fg);max-width:44rem;margin:0 0 12px}
+.lede a{color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
+.click{font-size:14px;color:var(--muted);max-width:44rem;margin:0 0 4px}.click b{color:var(--fg);font-weight:600}
+/* METRICS widgets — the count-free node bodies keep numbers here */
+.metrics{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 4px}
+.metric{border:1px solid var(--line);border-radius:10px;background:var(--card);padding:11px 16px;display:flex;flex-direction:column;gap:1px;min-width:96px}
+.metric b{font-family:var(--serif);font-size:26px;font-weight:600;color:var(--eng);line-height:1}
+.metric .mk{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.metric.feat{border-color:var(--honey);background:color-mix(in srgb,var(--honey) 12%,var(--card))}.metric.feat b{color:#9a7420}
+.selfrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;border-top:1px solid var(--line);margin-top:22px;padding-top:14px}
+.selfrow .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+/* node cards */
+.metaband{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:22px 0 4px}
+@media(min-width:760px){.metaband{grid-template-columns:repeat(3,1fr)}}
+.metacard{text-align:left;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:13px 15px;cursor:pointer;font:inherit;display:flex;flex-direction:column;gap:5px;transition:box-shadow .2s,transform .2s}
+.metacard:hover{transform:translateY(-2px);box-shadow:0 10px 26px -18px rgba(40,48,42,.5)}
+.metacard b{font-family:var(--serif);font-size:15px;font-weight:600;color:var(--eng);line-height:1.2}
+.metacard .mc-g{font-size:11.5px;color:var(--muted);line-height:1.4}
+.metacard .mc-s{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);margin-top:2px}
+/* drawer (identical to library-schema/method-schema) */
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--fg);max-width:760px;width:92%;padding:0;max-height:92vh}
+dialog[open]{display:flex;flex-direction:column}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.dh{padding:16px 20px 12px;border-bottom:1px solid var(--line);flex-shrink:0}
+.close{float:right;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:3px 12px;cursor:pointer;font-size:12px}
+.dh h3{margin:0 0 3px;font-size:20px;font-family:var(--serif);font-weight:600;color:var(--eng)}
+.dh .w{color:var(--muted);font-size:13.5px;font-style:italic}
+.dh .tbl{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--sub);margin-top:7px}
+.db{padding:16px 20px 22px;overflow:auto;flex:1 1 auto;min-height:0}
+.osec{margin:0 0 16px;padding:0 0 14px;border-bottom:1px solid color-mix(in srgb,var(--line) 55%,transparent)}
+.osec:last-child{border-bottom:none}
+.osec-h{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--out);margin-bottom:8px}
+.osec-b{font-family:var(--serif);font-size:14.5px;line-height:1.6;color:var(--fg)}
+.osec-b code{font-family:var(--mono);font-size:12.5px}
+.osec-b a{color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 45%,transparent)}
+.osec-b ul{margin:8px 0;padding-left:20px}.osec-b li{margin:4px 0}
+.osec-b p{margin:8px 0}
+.err{color:var(--out)}
+</style>
+</head><body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="eyebrow">Grammar of Meaning · work-state</span>
+    <span class="nav"><a href="/engine/method-schema.html">Method &amp; Instrument</a><a href="/engine/library-schema.html">The Library</a></span>
+  </div>
+  <div class="eyebrow">the essay workstream</div>
+  <h1>The Essays</h1>
+  <p class="lede">Field notes on how meaning gets made — and the machine that makes them. This page renders the essay workstream from its own live record (<code>essay_workstream.json</code>): the pipeline that turns a text into an essay, the craft rules it runs on, and the register of what's published, drafting, and still a seed.</p>
+  <p class="click">Click any card to open its drawer. <b>Nothing here is hand-typed</b> — the counts and lists are scanned from the repo, the node bodies are the workstream's own durable description.</p>
+
+  <div class="metrics" id="metrics"></div>
+  <div class="metaband" id="metaband"></div>
+
+  <div class="selfrow" id="selfrow"><span class="k">the essays, on themselves</span></div>
+</div>
+
+<dialog id="dlg"><div class="dh"><button class="close" onclick="document.getElementById('dlg').close()">close</button>
+<h3 id="d-title"></h3><div class="w" id="d-what"></div><div class="tbl" id="d-tbl"></div></div>
+<div class="db" id="d-body"></div></dialog>
+
+<script>
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function nfmt(n){return (typeof n==='number')?n.toLocaleString():n;}
+function osec(h,b){return '<div class="osec"><div class="osec-h">'+h+'</div><div class="osec-b">'+b+'</div></div>';}
+var NODES={};
+// card order + one-word gloss key for the metaband (falls back to registry order if a node is added)
+var ORDER=['overview','pipeline','apparatus','essays','scripts','handover'];
+var FEAT={essays:1};
+function renderSimple(n){
+  document.getElementById('d-title').innerHTML=n.title||'';
+  document.getElementById('d-what').innerHTML=n.what||'';
+  document.getElementById('d-tbl').textContent=n.status||'';
+  document.getElementById('d-body').innerHTML=(n.body||[]).map(function(x){return osec(x[0],x[1]);}).join('');
+  document.getElementById('dlg').showModal();
+}
+function openNode(key){ if(NODES[key]) return renderSimple(NODES[key]); }
+function metricCard(k,v,feat){return '<div class="metric'+(feat?' feat':'')+'"><b>'+nfmt(v)+'</b><span class="mk">'+esc(k)+'</span></div>';}
+
+fetch('data/essay_workstream.json').then(function(r){if(!r.ok)throw new Error('essay registry '+r.status);return r.json();})
+.then(function(d){
+  NODES=d.NODES||{};
+  var M=d.METRICS||{};
+  // METRICS widgets — published (feat) · drafts · seeds · canon, whatever keys exist
+  var mkeys=['published','drafts','seeds','canon'].filter(function(k){return M[k]!=null;});
+  Object.keys(M).forEach(function(k){if(mkeys.indexOf(k)<0&&M[k]!=null)mkeys.push(k);});
+  document.getElementById('metrics').innerHTML=mkeys.map(function(k){return metricCard(k,M[k],k==='published');}).join('');
+  // node cards
+  var keys=ORDER.filter(function(k){return NODES[k];});
+  Object.keys(NODES).forEach(function(k){if(keys.indexOf(k)<0)keys.push(k);});
+  document.getElementById('metaband').innerHTML=keys.map(function(k){
+    var n=NODES[k], feat=FEAT[k]?' feat':'';
+    return '<button class="metacard'+feat+'" data-node="'+esc(k)+'"><b>'+esc(n.title||k)+(feat?' ↗':'')+'</b><span class="mc-g">'+esc(n.what||'')+'</span>'+(n.status?'<span class="mc-s">'+esc(n.status)+'</span>':'')+'</button>';
+  }).join('');
+  [].forEach.call(document.querySelectorAll('[data-node]'),function(b){b.addEventListener('click',function(){openNode(b.getAttribute('data-node'));});});
+  // self-row — provenance chips from the registry header
+  var sr=document.getElementById('selfrow');
+  if(sr){var c=[];
+    if(d.workstream) c.push('<span class="chip" style="border:1px solid var(--line);border-radius:.35rem;background:var(--paper2);padding:.32rem .6rem;font-size:12.5px">'+esc(d.workstream)+'</span>');
+    if(d.generated_at) c.push('<span class="chip" style="border:1px solid var(--line);border-radius:.35rem;background:var(--paper2);padding:.32rem .6rem;font-size:12.5px">scanned '+esc(d.generated_at)+'</span>');
+    if(d.generated_by) c.push('<span class="chip" style="border:1px solid var(--line);border-radius:.35rem;background:var(--paper2);padding:.32rem .6rem;font-size:12.5px"><code>'+esc(d.generated_by)+'</code></span>');
+    sr.innerHTML='<span class="k">the essays, on themselves</span>'+c.join('');
+  }
+})
+.catch(function(e){
+  document.getElementById('metaband').innerHTML='<p class="err">could not load the essay registry ('+esc(e.message)+'). It mirrors from <code>essay_workstream.json</code> on twelve-laws main.</p>';
+});
+</script>
+</body></html>
