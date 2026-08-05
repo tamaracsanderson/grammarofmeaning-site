@@ -1,0 +1,117 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The backward run — the instrument abduces, then tests itself · The Gospels</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600;0,9..144,400;0,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;--fern:#3F7D57;--moss:#2C4A38;--sage:#7E9E86;--gold:#B8924A;--terracotta:#C4602F;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--sage:#7E9E86;--gold:#D8B36A;--terracotta:#E08A54;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--sage:#7E9E86;--gold:#D8B36A;--terracotta:#E08A54;}
+:root[data-theme=light]{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;--fern:#3F7D57;--moss:#2C4A38;--sage:#7E9E86;--gold:#B8924A;--terracotta:#C4602F;}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.65}
+.bar{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 20px;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(5px);border-bottom:1px solid var(--rule)}
+.bar a{font-family:var(--sans);font-size:13px;color:var(--fern);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fern) 40%,transparent)}
+.bar .rm{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.wrap{max-width:46rem;margin:0 auto;padding:6vh 22px 16vh}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 12px;text-align:center}
+h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(28px,5vw,44px);line-height:1.08;color:var(--moss);margin:0 0 12px;text-align:center}
+.lede{font-family:var(--disp);font-style:italic;font-size:17px;color:var(--ink-2);margin:0 auto 8px;line-height:1.5;text-align:center;max-width:38rem}
+.explor{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--terracotta);border:1px solid color-mix(in srgb,var(--terracotta) 45%,transparent);border-radius:5px;padding:3px 9px;margin:6px 0}
+.frame-note{font-family:var(--sans);font-size:12.5px;color:var(--ink-3);text-align:center;max-width:40rem;margin:8px auto 0;line-height:1.55}
+.verdict{border:1px solid var(--rule);border-left:4px solid var(--gold);border-radius:0 12px 12px 0;background:var(--paper-2);padding:16px 20px;margin:34px 0 0}
+.verdict .vl{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:6px}
+.verdict p{margin:0;font-size:16px;line-height:1.55;color:var(--ink)}
+.verdict b{color:var(--moss)}
+.sec-h{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--terracotta);border-bottom:1px solid var(--rule);padding-bottom:8px;margin:40px 0 6px}
+.sec-sub{font-family:var(--sans);font-size:13px;color:var(--ink-3);margin:0 0 16px;line-height:1.55}
+/* Panel B bars */
+.fbar{margin:0 0 16px}
+.fbar-h{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:5px}
+.fbar .fk{font-family:var(--mono);font-size:13px;color:var(--moss);font-weight:500}
+.fbar .fs{font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-left:2px}
+.ftrack{height:12px;background:var(--paper-2);border:1px solid var(--rule);border-radius:999px;overflow:hidden}
+.ftrack i{display:block;height:100%;border-radius:999px}
+.ftrack .b-best{background:var(--fern)} .ftrack .b-mid{background:var(--sage)} .ftrack .b-decoy{background:repeating-linear-gradient(45deg,var(--ink-3),var(--ink-3) 4px,transparent 4px,transparent 8px)}
+.fwhy{font-family:var(--sans);font-size:12.5px;color:var(--ink-2);line-height:1.5;margin-top:6px}
+.tag{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:5px}
+.tag.best{color:#fff;background:var(--fern)} .tag.dtop{color:#fff;background:var(--terracotta)} .tag.decoy{color:var(--ink-3);background:var(--paper-2);border:1px solid var(--rule)}
+/* rendered md (Panel A + narrative) */
+.md h1{font-family:var(--disp);font-weight:600;font-size:26px;color:var(--moss);margin:38px 0 10px;line-height:1.15}
+.md h2{font-family:var(--disp);font-weight:600;font-size:21px;color:var(--moss);margin:28px 0 8px}
+.md h3{font-family:var(--mono);font-size:13px;letter-spacing:.02em;color:var(--gold);margin:20px 0 6px;text-transform:none}
+.md h4{font-family:var(--sans);font-size:14px;color:var(--ink-2);margin:16px 0 4px}
+.md p{margin:0 0 14px}
+.md ul{margin:0 0 14px;padding-left:22px} .md li{margin:0 0 7px;line-height:1.55}
+.md blockquote{margin:12px 0;padding:12px 18px;border-left:3px solid var(--fern);border-radius:0 8px 8px 0;background:color-mix(in srgb,var(--fern) 6%,transparent);font-style:italic;color:var(--ink)}
+.md code{font-family:var(--mono);font-size:.86em;background:var(--paper-2);padding:1px 5px;border-radius:4px}
+.md hr{border:none;border-top:1px solid var(--rule);margin:28px 0}
+.md strong{color:var(--moss)}
+.err{color:var(--terracotta);font-family:var(--mono);font-size:14px;text-align:center;margin:30px 0}
+.themebtn{position:fixed;top:12px;right:14px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:var(--sans);z-index:30}
+footer.foot{max-width:46rem;margin:0 auto;padding:2vh 22px 12vh;font-family:var(--sans);font-size:11.5px;line-height:1.6;color:var(--ink-3);text-align:center;border-top:1px solid var(--rule);margin-top:34px}
+footer.foot a{color:var(--fern)}
+</style>
+<script>(function(){try{var t=localStorage.getItem("gom-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+</head><body>
+<button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gom-theme',r.dataset.theme)}catch(e){}">theme</button>
+<div class="bar"><a href="all.html">&larr; everything</a><span class="rm">Resituation · the abductive run</span><a href="resituate.html">the sensitivity map &rarr;</a></div>
+<div class="wrap">
+  <p class="kick">The Gospels · Resituation · the backward run</p>
+  <h1 class="title">The instrument abduces, then tests itself</h1>
+  <p class="lede">RESITUATE run <em>backward</em>: from the observed divergence between the four accounts, a three-agent debate <b>abduces</b> which condition of the world could have produced it — then a forward-test <b>disposes</b> of the guesses.</p>
+  <div style="text-align:center"><span class="explor">Exploratory</span></div>
+  <p class="frame-note" id="framenote">loading…</p>
+  <div id="verdict"></div>
+  <div id="panelB"></div>
+  <div id="panelA"></div>
+</div>
+<footer class="foot">
+  Panel B renders live from <code>abductive_forward_test.json</code>; the deliberation renders from the readable Concordia transcript — both on main. &nbsp;·&nbsp; <a href="resituate.html">the sensitivity map</a> &nbsp;·&nbsp; <a href="all.html">everything</a> &nbsp;·&nbsp; <a href="/engine/method-schema.html">the method</a>
+</footer>
+<script>
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function inl(s){return s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<em>$2</em>').replace(/`([^`]+)`/g,'<code>$1</code>');}
+function mdToHtml(md){
+  md=md.replace(/<!--[\s\S]*?-->/g,'');
+  md=md.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/,'');
+  var lines=md.split(/\r?\n/), out=[], i=0;
+  while(i<lines.length){
+    var ln=lines[i];
+    if(/^\s*$/.test(ln)){ i++; continue; }
+    var hm=ln.match(/^(#{1,4})\s+(.*)$/);
+    if(hm){ var lv=hm[1].length; out.push('<h'+lv+'>'+inl(esc(hm[2]))+'</h'+lv+'>'); i++; continue; }
+    if(/^\s*---+\s*$/.test(ln)){ out.push('<hr>'); i++; continue; }
+    if(/^\s*>/.test(ln)){ var bq=[]; while(i<lines.length && /^\s*>/.test(lines[i])){ bq.push(lines[i].replace(/^\s*>\s?/,'')); i++; } out.push('<blockquote>'+inl(esc(bq.join(' ').trim()))+'</blockquote>'); continue; }
+    if(/^\s*[-*]\s+/.test(ln)){ var it=[]; while(i<lines.length && /^\s*[-*]\s+/.test(lines[i])){ it.push(lines[i].replace(/^\s*[-*]\s+/,'')); i++; } out.push('<ul>'+it.map(function(x){return '<li>'+inl(esc(x))+'</li>';}).join('')+'</ul>'); continue; }
+    var para=[]; while(i<lines.length && !/^\s*$/.test(lines[i]) && !/^(#{1,4}\s|\s*>|\s*[-*]\s|\s*---+\s*$)/.test(lines[i])){ para.push(lines[i]); i++; }
+    out.push('<p>'+inl(esc(para.join(' ')))+'</p>');
+  }
+  return out.join('\n');
+}
+function renderPanelB(D){
+  var results=D.results||{}, best=D.best_reproducing, dtop=D.debate_top, decoy=D.decoy;
+  var rows=Object.keys(results).map(function(k){var v=results[k]||{};return {k:k,score:(typeof v.reproduction_score==='number'?v.reproduction_score:0),why:v.why||''};});
+  rows.sort(function(a,b){return b.score-a.score;});
+  var bars=rows.map(function(r){
+    var pct=Math.round(r.score*100), tags='', cls='b-mid';
+    if(r.k===best){tags+='<span class="tag best">best reproducer</span>';cls='b-best';}
+    if(r.k===dtop){tags+='<span class="tag dtop">debate top &middot; reproduces worst</span>';}
+    if(r.k===decoy){tags+='<span class="tag decoy">decoy &middot; floored</span>';cls='b-decoy';}
+    return '<div class="fbar"><div class="fbar-h"><span class="fk">'+esc(r.k)+'</span><span class="fs">'+r.score.toFixed(2)+'</span>'+tags+'</div><div class="ftrack"><i class="'+cls+'" style="width:'+pct+'%"></i></div><div class="fwhy">'+esc(r.why)+'</div></div>';
+  }).join('');
+  return '<div class="sec-h">Step 2 · the forward-test — reproduction-fit per abduced factor</div>'
+    +'<p class="sec-sub">Each factor the debate abduced, forward-tested: if <em>this</em> were the differentiator, would it reproduce the observed four-way spread? A pilot LLM-judge fit (0–1). The decoy is a pre-registered false factor — it should floor.</p>'+bars;
+}
+Promise.all([
+  fetch('/engine/data/abductive_forward_test.json').then(function(r){if(!r.ok)throw new Error('forward-test '+r.status);return r.json();}),
+  fetch('/engine/data/abductive_concordia_readable.md').then(function(r){if(!r.ok)throw new Error('readable '+r.status);return r.text();})
+]).then(function(res){
+  var D=res[0], md=res[1];
+  document.getElementById('framenote').innerHTML='This run is <b>exploratory</b> — the four gospels have no external anchor, so this is Campbell&ndash;Fiske method-triangulation, not proof. The forward-test score is a <b>pilot LLM-judge</b> metric (a permutation-null + tree-edit-distance successor is the rigorous version — CLC&nbsp;C10).';
+  document.getElementById('verdict').innerHTML='<div class="verdict"><span class="vl">the teaching moment</span><p>The debate&rsquo;s eloquent top pick &mdash; <b>'+esc(D.debate_top)+' ('+(D.results[D.debate_top]||{}).reproduction_score+')</b> &mdash; is <em>not</em> the best reproducer. <b>'+esc(D.best_reproducing)+' ('+(D.results[D.best_reproducing]||{}).reproduction_score+')</b> reproduces the observed four-way divergence best. <b>The debate generates; the forward-test disposes.</b></p></div>';
+  document.getElementById('panelB').innerHTML=renderPanelB(D);
+  document.getElementById('panelA').innerHTML='<div class="sec-h">Step 1 · the debate — how the abduction happened</div><div class="md">'+mdToHtml(md)+'</div>';
+}).catch(function(e){document.getElementById('framenote').innerHTML='<span class="err">Could not load the run ('+esc(e.message)+').</span>';});
+</script>
+</body></html>

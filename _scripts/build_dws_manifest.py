@@ -44,6 +44,10 @@ MIRROR_MAP = {
   "/engine/artifacts/method_rebuttals_faq.md": ("reading-SB / Main", "twelve-laws:(rebuttals faq)", "schema.html objections/answers"),
   "/engine/artifacts/morphospace_findings_companion_s156_2026-07-31.md": ("Librarian", "twelve-laws:(morphospace findings)", "morphospace companion"),
   "/reading-room-preview/data/reception_endgap.json": ("reading-SB", "twelve-laws:(reception end-gap export — verify path)", "reception.html end-gap graph"),
+  "/engine/data/abductive_forward_test.json": ("reading-SB", "twelve-laws:pm/40_architecture/resituate_3room/DATA_abductive_forward_test_s160.json", "abduction.html Panel B — forward-test bars"),
+  "/engine/data/abductive_concordia_readable.md": ("reading-SB", "twelve-laws:pm/40_architecture/resituate_3room/RESITUATE_abductive_concordia_readable_s160.md", "abduction.html Panel A — the verbatim deliberation"),
+  "/engine/data/dws_manifest.json": ("design-SB", "(this file — self-generated)", "the DWS render-manifest itself"),
+  "/engine/data/dws_status.json": ("design-SB", "(hand-maintained)", "the DWS open-threads + conventions"),
 }
 
 # DYNAMIC_MAP — fetches whose path is built at runtime (`base+key+'.json'`); the scanner
