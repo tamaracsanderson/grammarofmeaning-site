@@ -17,10 +17,10 @@
    "logic": "IN: a harvested artifact + its provenance → BOX: register a `sources` row (provenance triad, tradition binding, dedup), then chunk at native divisions into L4 `passages` → OUT: held full text + quotable L4 anchors → NEXT: SERVE hands them to the instrument.",
    "status": {
     "status": "Built · running",
-    "coverage": "65,546 held as full text of 375,433 registered (17.5%)",
+    "coverage": "64,448 held as full text of 373,220 registered (17.3%)",
     "output": "12,824,418 L4 passages (the analytical atoms)",
     "unit": "one source (container) → 0..N L4 passages",
-    "limit": "Only ~17.5% is held as full text. holding_mode: stub=362,018 (registered pointer, no text yet) vs ingested=8,398; content_status='present'=73,966. The bulk is a REGISTERED pointer, not text on disk — 'registered' must never be read as 'held'."
+    "limit": "Only ~17.3% is held as full text. holding_mode: stub=359,805 (registered pointer, no text yet) vs ingested=8,398; content_status='present'=72,904. The bulk is a REGISTERED pointer, not text on disk — 'registered' must never be read as 'held'."
    },
    "example": {
     "id": "SRC-250618",
@@ -50,7 +50,7 @@
      "state": "controlled-not-enforced",
      "allowed": "stub · ingested · embed_only",
      "vset": {
-      "stub": 362018,
+      "stub": 359805,
       "ingested": 8398
      },
      "desc": "the honest held/registered distinction: stub=registered pointer, ingested=text on disk.",
@@ -63,7 +63,7 @@
      "state": "controlled-not-enforced",
      "allowed": "present · fetch_pending · visual · stub_boilerplate · corrupt_wiped · no_url · (empty)",
      "vset": {
-      "present": 73966
+      "present": 72904
      },
      "desc": "whether real text is actually on disk for this container.",
      "caveat": "227,842 rows carry an EMPTY content_status — the column was added after most rows landed and never backfilled. 'empty' means 'we never classified', not 'no content' (§2.8: name the not-asked)."
