@@ -223,6 +223,40 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
 .ins-dv{color:var(--fg)}
 .ins-ladder{display:inline-block;margin-top:9px;font-family:var(--sans);font-size:12px;color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
 .out-xref{display:inline-block;margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
+.out-open{display:inline-block;margin-top:8px;font-family:var(--mono);font-size:10px;color:var(--out);letter-spacing:.03em}
+.gm-sum{display:flex;flex-wrap:wrap;gap:8px 16px;margin:2px 0 10px}
+.gm-stat{font-family:var(--sans);font-size:13px;color:var(--muted)}
+.gm-stat b{font-family:var(--serif);font-size:20px;color:var(--eng);margin-right:3px}
+.gm-gloss{font-family:var(--serif);font-size:14px;color:var(--fg);margin:0 0 12px;line-height:1.5}
+.gm-dists{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:0 0 16px}
+.gm-dl{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--out);margin-bottom:5px}
+.gm-drow{display:grid;grid-template-columns:6rem 1fr 2rem;gap:6px;align-items:center;font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-bottom:2px}
+.gm-dbar{height:6px;background:color-mix(in srgb,var(--line) 45%,transparent);border-radius:3px;overflow:hidden}
+.gm-dbar i{display:block;height:100%;background:var(--sub);border-radius:3px}
+.gm-dv{text-align:right;color:var(--fg)}
+.gm-combhead{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--out);border-top:1px solid var(--line);padding-top:14px;margin:6px 0 10px}
+.gm-search{width:100%;font-family:var(--sans);font-size:14px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);margin-bottom:8px}
+.gm-chips{display:flex;flex-wrap:wrap;gap:5px 4px;margin-bottom:6px;align-items:center}
+.gm-cg{display:inline-flex;align-items:center;gap:4px;flex-wrap:wrap;margin-right:8px}
+.gm-cgl{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+.gm-chip{font-family:var(--mono);font-size:10.5px;color:var(--fg);background:var(--paper2);border:1px solid var(--line);border-radius:999px;padding:3px 9px;cursor:pointer}
+.gm-chip.on{background:var(--eng);color:#FFFDF6;border-color:var(--eng)}
+.gm-chip .gm-cn{opacity:.6;margin-left:2px}
+.gm-count{font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:6px}
+.gm-tablewrap{max-height:52vh;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.gm-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.gm-table thead th{position:sticky;top:0;background:var(--paper2);text-align:left;font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:400;padding:7px 10px;border-bottom:1px solid var(--line);z-index:1}
+.gm-r{cursor:pointer;border-bottom:1px solid color-mix(in srgb,var(--line) 45%,transparent)}
+.gm-r:hover{background:color-mix(in srgb,var(--sub) 6%,transparent)}
+.gm-r td{padding:6px 10px;vertical-align:top}
+.gm-title{font-family:var(--serif);color:var(--eng);font-weight:500}
+.gm-pill{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.04em;border:1px solid;border-radius:5px;padding:1px 6px;white-space:nowrap}
+.gm-detail{display:none}
+.gm-detail.open{display:table-row}
+.gm-dbody{padding:2px 10px 10px;font-size:12.5px;line-height:1.5;color:var(--fg)}
+.gm-dbody b{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--out);margin-right:5px}
+.gm-dbody>div{margin-bottom:4px}
+.gm-id{font-family:var(--mono);font-size:9.5px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -319,10 +353,11 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
             <p class="sub">what we hold to gloss it — the coding input</p>
             <a class="out-xref" href="/engine/method-schema.html">Method &amp; Instrument &rarr;</a>
           </div>
-          <div class="node out nolink" id="n-out-gaps" style="border-color:var(--out)">
+          <div class="node out" id="n-out-gaps" data-node="out-gaps" style="border-color:var(--out);cursor:pointer">
             <span class="onum" style="color:var(--out)">② output</span>
             <h3>the gap-map</h3>
             <p class="sub">what we're missing, named</p>
+            <span class="out-open">open &middot; comb all 348 &rarr;</span>
           </div>
           <div class="out-list-wrap">
             <div class="node out nolink" id="n-out-list" style="border-color:var(--honey)">
@@ -478,7 +513,62 @@ function renderSimple(n){
   document.getElementById('d-body').innerHTML=(n.body||[]).map(function(x){return osec(x[0],x[1]);}).join('');
   document.getElementById('dlg').showModal();
 }
+/* ── OUTPUT ② the gap-map — render-from-DATA drawer (bibliographic, single-purpose) ── */
+var GM=null, GMF={status:null,seed:null,wall:null};
+function gmEsc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function gmWall(w){return {language:'#B8924A',paywall:'#C4602F',canon:'#6E7B3A',governance:'#8A2B0F',none:'#7C8478'}[w]||'#7C8478';}
+function gmStat(s){return {identified:'#7C8478',sourced:'#B8924A',held:'#3F7D57',blocked:'#C4602F'}[s]||'#7C8478';}
+function gmDist(label,obj){
+  if(!obj) return '';
+  var e=Object.keys(obj).map(function(k){return [k,obj[k]];}).sort(function(a,b){return b[1]-a[1];});
+  var tot=e.reduce(function(s,x){return s+x[1];},0)||1;
+  return '<div class="gm-dist"><div class="gm-dl">'+label+'</div>'+e.map(function(x){return '<div class="gm-drow"><span class="gm-dk">'+gmEsc(x[0])+'</span><span class="gm-dbar"><i style="width:'+Math.round(100*x[1]/tot)+'%"></i></span><span class="gm-dv">'+x[1]+'</span></div>';}).join('')+'</div>';
+}
+function openGapMap(){
+  document.getElementById('d-title').textContent='The gap-map';
+  document.getElementById('d-what').innerHTML='what we’re missing, named';
+  var t=document.getElementById('d-tbl'); if(t) t.textContent='bibliographic';
+  document.getElementById('dlg').showModal();
+  if(GM){ renderGapMap(GM); return; }
+  document.getElementById('d-body').innerHTML='<p style="color:var(--muted)">loading the gap-map…</p>';
+  fetch('data/library_gapmap.json').then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(j){GM=j;renderGapMap(j);}).catch(function(e){document.getElementById('d-body').innerHTML='<p style="color:var(--out)">could not load the gap-map ('+gmEsc(e.message)+')</p>';});
+}
+function renderGapMap(d){
+  var sil=d.silences||[], hd=d.headline||{};
+  var stat=[['named silences',hd.named_silences||sil.length],['closed',hd.closed],['shopping-list',hd.shopping_list],['blocked',hd.blocked],['seeds',hd.seeds]].filter(function(x){return x[1]!=null;});
+  var h='<div class="gm-sum">'+stat.map(function(s){return '<div class="gm-stat"><b>'+s[1]+'</b> '+s[0]+'</div>';}).join('')+'</div>';
+  if(hd.gloss) h+='<p class="gm-gloss">'+gmEsc(hd.gloss)+'</p>';
+  h+='<div class="gm-dists">'+gmDist('the walls',d.by_wall)+gmDist('by seed',d.by_seed)+gmDist('by status',d.by_status)+'</div>';
+  h+='<div class="gm-combhead">Comb through all '+sil.length+' &mdash; line by line</div>';
+  h+='<input class="gm-search" id="gmSearch" placeholder="search titles, evidence, candidates…" oninput="gmFilter()">';
+  h+='<div class="gm-chips" id="gmChips"></div><div class="gm-count" id="gmCount"></div>';
+  h+='<div class="gm-tablewrap"><table class="gm-table"><thead><tr><th>silence</th><th>seed</th><th>type</th><th>wall</th><th>status</th></tr></thead><tbody id="gmRows"></tbody></table></div>';
+  document.getElementById('d-body').innerHTML=h;
+  var cw=document.getElementById('gmChips');
+  function grp(dim,obj,lab){var ks=Object.keys(obj||{}).sort(function(a,b){return obj[b]-obj[a];});return '<span class="gm-cg"><span class="gm-cgl">'+lab+'</span>'+ks.map(function(k){return '<button class="gm-chip" data-dim="'+dim+'" data-val="'+gmEsc(k)+'" onclick="gmChip(this)">'+gmEsc(k)+' <span class="gm-cn">'+obj[k]+'</span></button>';}).join('')+'</span>';}
+  cw.innerHTML=grp('status',d.by_status,'status')+grp('seed',d.by_seed,'seed')+grp('wall',d.by_wall,'wall');
+  gmFilter();
+}
+function gmChip(b){var dim=b.getAttribute('data-dim'),v=b.getAttribute('data-val');GMF[dim]=(GMF[dim]===v)?null:v;[].forEach.call(document.querySelectorAll('.gm-chip[data-dim="'+dim+'"]'),function(x){x.classList.toggle('on',x.getAttribute('data-val')===GMF[dim]);});gmFilter();}
+function gmFilter(){
+  if(!GM) return;
+  var q=((document.getElementById('gmSearch')||{}).value||'').toLowerCase();
+  var rows=GM.silences.filter(function(s){
+    if(GMF.status&&s.status!==GMF.status) return false;
+    if(GMF.seed&&s.primary_text!==GMF.seed) return false;
+    if(GMF.wall&&s.wall!==GMF.wall) return false;
+    if(q){var blob=((s.title||'')+' '+(s.evidence||'')+' '+(s.candidate_fill||'')+' '+(s.candidate_authority||'')+' '+(s.finding_id||'')).toLowerCase();if(blob.indexOf(q)<0) return false;}
+    return true;
+  });
+  var tb=document.getElementById('gmRows'); if(!tb) return;
+  tb.innerHTML=rows.slice(0,600).map(function(s){
+    return '<tr class="gm-r" onclick="var n=this.nextElementSibling;if(n)n.classList.toggle(\'open\')"><td class="gm-title">'+gmEsc(s.title||s.finding_id)+'</td><td>'+gmEsc(s.primary_text||'')+'</td><td>'+gmEsc(s.silence_type||'')+'</td><td><span class="gm-pill" style="color:'+gmWall(s.wall)+';border-color:'+gmWall(s.wall)+'">'+gmEsc(s.wall||'')+'</span></td><td><span class="gm-pill" style="color:'+gmStat(s.status)+';border-color:'+gmStat(s.status)+'">'+gmEsc(s.status||'')+'</span></td></tr>'
+      +'<tr class="gm-detail"><td colspan="5"><div class="gm-dbody">'+(s.evidence?'<div><b>evidence</b> '+gmEsc(s.evidence)+'</div>':'')+(s.candidate_fill?'<div><b>candidate</b> '+gmEsc(s.candidate_fill)+(s.candidate_authority?' &middot; '+gmEsc(s.candidate_authority):'')+'</div>':'')+(s.fill_provenance?'<div><b>how found</b> '+gmEsc(s.fill_provenance)+'</div>':'')+(s.lens_or_panel?'<div><b>lens</b> '+gmEsc(s.lens_or_panel)+'</div>':'')+'<div class="gm-id">'+gmEsc(s.finding_id)+'</div></div></td></tr>';
+  }).join('');
+  var c=document.getElementById('gmCount'); if(c) c.textContent=rows.length+' of '+GM.silences.length+(rows.length>600?' · showing first 600':'');
+}
 function openNode(key){
+  if(key==='out-gaps') return openGapMap();
   if(STAGES[key]) return renderDeep(STAGES[key]);      // deep 5-layer wins the overlap (grounded)
   if(NODES[key]) return renderSimple(NODES[key]);       // meta-band (overview/logic/acquisitions)
 }

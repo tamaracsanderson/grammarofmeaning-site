@@ -46,6 +46,7 @@ MIRROR_MAP = {
   "/reading-room-preview/data/reception_endgap.json": ("reading-SB", "twelve-laws:(reception end-gap export — verify path)", "reception.html end-gap graph"),
   "/engine/data/abductive_forward_test.json": ("reading-SB", "twelve-laws:pm/40_architecture/resituate_3room/DATA_abductive_forward_test_s160.json", "abduction.html Panel B — forward-test bars"),
   "/engine/data/abductive_concordia_readable.md": ("reading-SB", "twelve-laws:pm/40_architecture/resituate_3room/RESITUATE_abductive_concordia_readable_s160.md", "abduction.html Panel A — the verbatim deliberation"),
+  "/engine/data/library_gapmap.json": ("Librarian", "twelve-laws:pm/40_architecture/DATA_library_gapmap_librarywide_s161_2026-08-05.json", "OUTPUT ② gap-map drawer — 348 bibliographic silences"),
   "/engine/data/dws_manifest.json": ("design-SB", "(this file — self-generated)", "the DWS render-manifest itself"),
   "/engine/data/dws_status.json": ("design-SB", "(hand-maintained)", "the DWS open-threads + conventions"),
 }
