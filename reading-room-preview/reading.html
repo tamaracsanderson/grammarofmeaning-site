@@ -71,6 +71,9 @@ main.reading{min-width:0}
 .rail-p{font-family:var(--serif);font-size:13.5px;line-height:1.5;color:var(--ink-2)}
 .rail-lin{margin-top:4px;padding:9px 11px;border-left:2px solid var(--fern);border-radius:0 7px 7px 0;background:color-mix(in srgb,var(--fern) 6%,transparent);font-family:var(--sans);font-size:11.5px;line-height:1.5;color:var(--ink-2)}
 .rail-lin.none{border-left-color:var(--rule);background:transparent;color:var(--ink-3);font-style:italic}
+.rail-lin .lin-item+.lin-item{margin-top:7px;border-top:1px dotted color-mix(in srgb,var(--fern) 30%,transparent);padding-top:7px}
+.rail-lin .lin-meta{font-family:var(--mono);font-size:9px;color:var(--fern);letter-spacing:.04em;text-transform:lowercase}
+.rail-lin .lin-seam{margin-top:2px;color:var(--ink-2)}
 .scrip{margin-top:16px;padding:12px 16px;border-left:3px solid var(--gold);border-radius:0 8px 8px 0;background:color-mix(in srgb,var(--gold) 7%,transparent);font-family:var(--serif);font-size:16px;line-height:1.55;color:var(--ink)}
 .scrip .sl{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
 .scrip-same{margin-top:12px;font-family:var(--mono);font-size:10.5px;color:var(--ink-3);padding:5px 0 5px 12px;border-left:2px solid color-mix(in srgb,var(--gold) 30%,transparent)}
@@ -187,7 +190,18 @@ function renderRail(m){
     // raw axis + raw value live in the title tooltip = the audit receipt (fix #3: code-names only on hover)
     return '<div class="axis'+(veer?' veer':'')+'" title="'+esc(a)+(fp!=null?' = '+esc(fp):'')+'"><span class="an">'+esc(axLabel(a))+'</span><span class="av">'+vlab+blab+'</span></div>';
   }).join('');
-  var lin=(m.lineage&&m.lineage.length)? '<div class="rail-lin"><b>'+esc(m.lineage[0].source_ref||'')+'</b> — '+esc((m.lineage[0].seam||'').slice(0,160))+((m.lineage[0].seam||'').length>160?'…':'')+'</div>' : '<div class="rail-lin none">this move stands on no source — most don’t (that’s correct, not missing).</div>';
+  var lin;
+  if(m.lineage && m.lineage.length){
+    lin='<div class="rail-lin">'+m.lineage.map(function(L){
+      var ref=esc(L.source_ref||'');
+      var seam=String(L.seam||''); var seamShort=esc(seam.slice(0,150))+(seam.length>150?'\u2026':'');
+      var meta=[L.vehicle,L.certainty].filter(Boolean).map(esc).join(' \u00b7 ');
+      var tip=esc([L.vehicle,L.function,L.fidelity,L.certainty].filter(Boolean).join(' \u00b7 '));
+      return '<div class="lin-item"'+(tip?' title="'+tip+'"':'')+'><b>'+ref+'</b>'+(meta?' <span class="lin-meta">'+meta+'</span>':'')+(seamShort?'<div class="lin-seam">'+seamShort+'</div>':'')+'</div>';
+    }).join('')+'</div>';
+  } else {
+    lin='<div class="rail-lin none">this move stands on no source \u2014 most don\u2019t (that\u2019s correct, not missing).</div>';
+  }
   var gloss = m.gloss ? '<div class="rail-gloss">'+esc(m.gloss)+'</div>' : '';
   // PHASE 2b: the sequential shift (what changed from the PRIOR move) as a TRANSLATED line, built from the structured
   // triple (frame_delta_axis/from/to) — reader-words axis + values via the lookups, ONE Unicode → (never the raw ASCII
