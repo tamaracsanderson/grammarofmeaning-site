@@ -1,0 +1,132 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reading the gospel as moves — the frame, as it shifts · The Gospels</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600;0,9..144,400;0,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;--fern:#3F7D57;--moss:#2C4A38;--sage:#7E9E86;--gold:#B8924A;--terracotta:#C4602F;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--sage:#7E9E86;--gold:#D8B36A;--terracotta:#E08A54;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--sage:#7E9E86;--gold:#D8B36A;--terracotta:#E08A54;}
+:root[data-theme=light]{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;--fern:#3F7D57;--moss:#2C4A38;--sage:#7E9E86;--gold:#B8924A;--terracotta:#C4602F;}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.65}
+.bar{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 20px;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(5px);border-bottom:1px solid var(--rule)}
+.bar a{font-family:var(--sans);font-size:13px;color:var(--fern);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fern) 40%,transparent)}
+.bar .rm{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+header.pg{max-width:52rem;margin:0 auto;padding:5vh 22px 0;text-align:center}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 12px}
+h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(26px,4.5vw,40px);line-height:1.1;color:var(--moss);margin:0 0 10px}
+.lede{font-family:var(--disp);font-style:italic;font-size:16px;color:var(--ink-2);max-width:38rem;margin:0 auto;line-height:1.5}
+.pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:22px 0 6px}
+.pill{font-family:var(--sans);font-size:14px;padding:7px 18px;border-radius:999px;border:1px solid var(--rule);background:var(--paper);color:var(--ink-2);cursor:pointer}
+.pill.on{background:var(--moss);color:#FCFBF7;border-color:var(--moss)}
+.note{font-family:var(--sans);font-size:12px;color:var(--ink-3);text-align:center;max-width:40rem;margin:6px auto 0;line-height:1.5}
+/* two-column layout */
+.layout{display:grid;grid-template-columns:1fr 20rem;gap:clamp(20px,3vw,44px);max-width:66rem;margin:2vh auto 0;padding:0 22px 22vh;align-items:start}
+main.reading{min-width:0}
+.move-block{padding:4vh 0;border-top:1px solid color-mix(in srgb,var(--rule) 45%,transparent);scroll-margin-top:80px;transition:opacity .25s}
+.move-block:first-child{border-top:none}
+.move-block.dim{opacity:.5}
+.mb-lab{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--gold);margin-bottom:8px}
+.mb-para{font-family:var(--disp);font-size:clamp(20px,2.4vw,26px);line-height:1.4;color:var(--ink)}
+.mb-meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin-top:10px;line-height:1.5}
+.mb-meta b{color:var(--fern)}
+.seam{margin-top:14px;padding:12px 16px;border-left:3px solid var(--fern);border-radius:0 8px 8px 0;background:color-mix(in srgb,var(--fern) 6%,transparent);font-family:var(--sans);font-size:13px;line-height:1.55;color:var(--ink-2)}
+.seam .sl{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--fern);margin-bottom:4px}
+.seam b{color:var(--moss)}
+/* sticky rail */
+.rail{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 80px);overflow:auto;border:1px solid var(--rule);border-radius:12px;background:var(--paper-3);padding:16px 16px 18px;box-shadow:0 14px 30px -24px rgba(36,48,42,.3)}
+.rail-pos{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:2px}
+.rail-lab{font-family:var(--disp);font-style:italic;font-weight:600;font-size:18px;color:var(--moss);margin-bottom:12px}
+.rail-h{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:14px 0 6px;border-top:1px dotted var(--rule);padding-top:10px}
+.rail-h:first-of-type{border-top:none;padding-top:0}
+/* frame ribbon */
+.axis{display:grid;grid-template-columns:8.5rem 1fr;gap:6px;align-items:baseline;padding:3px 0;font-size:12px}
+.axis .an{font-family:var(--mono);font-size:9.5px;color:var(--ink-3);letter-spacing:.02em}
+.axis .av{font-family:var(--sans);font-size:12px;color:var(--ink-2)}
+.axis.veer .av{color:var(--terracotta);font-weight:600}
+.axis.veer .av .base{display:block;font-size:10px;color:var(--ink-3);font-weight:400;text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--ink-3) 60%,transparent)}
+.rail-veers{font-family:var(--mono);font-size:10px;color:var(--terracotta);margin-top:6px}
+.rail-p{font-family:var(--serif);font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.rail-lin{margin-top:4px;padding:9px 11px;border-left:2px solid var(--fern);border-radius:0 7px 7px 0;background:color-mix(in srgb,var(--fern) 6%,transparent);font-family:var(--sans);font-size:11.5px;line-height:1.5;color:var(--ink-2)}
+.rail-lin.none{border-left-color:var(--rule);background:transparent;color:var(--ink-3);font-style:italic}
+.err{color:var(--terracotta);font-family:var(--mono);font-size:14px;text-align:center;margin:30px 0}
+.themebtn{position:fixed;top:11px;right:14px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:var(--sans);z-index:40}
+footer.foot{max-width:46rem;margin:0 auto;padding:2vh 22px 12vh;font-family:var(--sans);font-size:11.5px;line-height:1.6;color:var(--ink-3);text-align:center;border-top:1px solid var(--rule)}
+footer.foot a{color:var(--fern)}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.rail{position:static;max-height:none;margin-top:20px}}
+</style>
+<script>(function(){try{var t=localStorage.getItem("gom-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+</head><body>
+<button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gom-theme',r.dataset.theme)}catch(e){}">theme</button>
+<div class="bar"><a href="all.html">&larr; everything</a><span class="rm">The Gospels · reading as moves</span><a href="moves.html">the heatmap &rarr;</a></div>
+<header class="pg">
+  <p class="kick">The Gospels · reading as moves</p>
+  <h1 class="title">Read the account, watch the frame shift</h1>
+  <p class="lede">Each gospel read as its coded <b>moves</b>, in order. As you scroll, the rail on the right holds the <b>frame</b> the current move is working in — and lights up wherever it <b>veers</b> from the account's baseline.</p>
+  <div class="pills" id="pills"></div>
+  <p class="note">One coder, one pass — a reference read, not a measured-reliability one. The reading is the coded moves (their paraphrase), not yet the verbatim verse-by-verse text (that needs a move→verse map).</p>
+</header>
+<div id="stage"><p class="err" id="msg">loading…</p></div>
+<footer class="foot">
+  Rendered live from the coded-move export. &nbsp;·&nbsp; <a href="moves.html">the frame heatmap</a> &nbsp;·&nbsp; <a href="all.html">everything</a> &nbsp;·&nbsp; <a href="/engine/method-schema.html">the method</a>
+</footer>
+<script>
+var GOSPELS=[['MATT-28','Matthew'],['MARK-16','Mark'],['LUKE-24','Luke'],['JOHN-20','John']];
+var AXES=['epistemic-warrant','inferential-operation','hermeneutic-posture','evaluative-stance','ontological-commitment','telos','r_condition','r_topology'];
+var cache={}, current=null, observer=null;
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function pills(cur){document.getElementById('pills').innerHTML=GOSPELS.map(function(g){return '<button class="pill'+(g[0]===cur?' on':'')+'" onclick="show(\''+g[0]+'\')">'+g[1]+'</button>';}).join('');}
+function show(key){
+  pills(key);
+  var stage=document.getElementById('stage');
+  if(cache[key]){ build(key,cache[key]); return; }
+  stage.innerHTML='<p class="err">loading '+esc(key)+'…</p>';
+  fetch('/engine/data/coded_move_state_'+key+'.json').then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(j){cache[key]=j;build(key,j);}).catch(function(e){stage.innerHTML='<p class="err">Could not load '+esc(key)+' ('+esc(e.message)+').</p>';});
+}
+function build(key,j){
+  var af=j.account_frame||{}, moves=j.moves||[];
+  var left=moves.map(function(m){
+    var seam='';
+    (m.lineage||[]).forEach(function(l){ seam+='<div class="seam"><span class="sl">stands on a source · '+esc(l.source_ref||'')+(l.vehicle?(' · '+esc(l.vehicle)):'')+'</span>'+esc(l.seam||'')+'</div>'; });
+    return '<div class="move-block" data-idx="'+esc(m.idx)+'"><div class="mb-lab">'+esc(m.label)+' · '+esc(m.operation||'')+'</div>'
+      +'<div class="mb-para">'+esc(m.paraphrase||'')+'</div>'
+      +'<div class="mb-meta"><b>'+esc(m.agent||'')+'</b>'+(m.outcome?(' → '+esc(m.outcome)):'')+(m.is_top_level===false&&m.nested_under?(' · nested under '+esc(m.nested_under)):'')+'</div>'
+      +seam+'</div>';
+  }).join('');
+  document.getElementById('stage').innerHTML='<div class="layout"><main class="reading" id="reading">'+left+'</main><aside class="rail" id="rail"></aside></div>';
+  // build a move lookup + init rail with move 1
+  var byIdx={}; moves.forEach(function(m){byIdx[String(m.idx)]=m;});
+  window.__af=af; window.__byIdx=byIdx; window.__axes=AXES;
+  renderRail(moves[0]);
+  // scroll sync
+  if(observer) observer.disconnect();
+  observer=new IntersectionObserver(function(entries){
+    // pick the entry nearest the top-third of the viewport that is intersecting
+    var best=null, bestD=1e9;
+    entries.forEach(function(e){ if(e.isIntersecting){ var d=Math.abs(e.boundingClientRect.top - window.innerHeight*0.28); if(d<bestD){bestD=d;best=e.target;} } });
+    if(best){ var idx=best.getAttribute('data-idx'); if(idx!==current){ current=idx; renderRail(byIdx[idx]); [].forEach.call(document.querySelectorAll('.move-block'),function(b){b.classList.toggle('dim', b.getAttribute('data-idx')!==idx);}); } }
+  }, {rootMargin:'-20% 0px -55% 0px', threshold:0.01});
+  [].forEach.call(document.querySelectorAll('.move-block'),function(b){observer.observe(b);});
+  window.scrollTo(0,0);
+}
+function renderRail(m){
+  if(!m) return;
+  var af=window.__af||{}, axes=window.__axes;
+  var veerN=0;
+  var ribbon=axes.map(function(a){
+    var fp=(m.frame_permove||{})[a]; var veer=(fp!=null && fp!==af[a]); if(veer)veerN++;
+    return '<div class="axis'+(veer?' veer':'')+'"><span class="an">'+esc(a)+'</span><span class="av">'+esc(fp==null?'—':fp)+(veer?'<span class="base">'+esc(af[a]||'')+'</span>':'')+'</span></div>';
+  }).join('');
+  var lin=(m.lineage&&m.lineage.length)? '<div class="rail-lin"><b>'+esc(m.lineage[0].source_ref||'')+'</b> — '+esc((m.lineage[0].seam||'').slice(0,160))+((m.lineage[0].seam||'').length>160?'…':'')+'</div>' : '<div class="rail-lin none">this move stands on no source — most don’t (that’s correct, not missing).</div>';
+  document.getElementById('rail').innerHTML=
+     '<div class="rail-pos">move '+esc(m.idx)+' · '+esc(m.label)+'</div>'
+    +'<div class="rail-lab">'+esc(m.operation||'')+'</div>'
+    +'<div class="rail-h">the frame — '+(veerN?(veerN+' axes veer'):'holds the baseline')+'</div>'+ribbon
+    +'<div class="rail-h">paradigm</div><div class="rail-p">'+esc(m.paradigm||'—')+'</div>'
+    +'<div class="rail-h">sitz — the world</div><div class="rail-p">'+esc(m.sitz||'—')+'</div>'
+    +'<div class="rail-h">lineage</div>'+lin;
+}
+show('MATT-28');
+</script>
+</body></html>
