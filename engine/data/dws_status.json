@@ -1,0 +1,18 @@
+{
+  "what": "DWS maintained status — the human-knowledge layer (open threads, waiting-on-whom). The pages/sources map is auto-derived in dws_manifest.json; this file holds what a scanner can't know. Edit by hand when a thread opens/closes.",
+  "last_updated": "2026-08-05",
+  "role_one_liner": "design-SB is the RENDER layer: it owns the deploy repo (grammarofmeaning-site), renders every drawer/page from the other SBs' DATA exports, self-merges site PRs, and is read-only on twelve-laws.",
+  "conventions": [
+    "Render-from-data, never hardcode (§2.16). A page fetches a mirrored DATA artifact; if it can't render from data yet, that's a flagged gap, not a licence to hardcode.",
+    "Mirror flow: owner-SB exports DATA on twelve-laws main → design-SB `git show origin/main:… > engine/data/X.json` → page fetches it → deploy (self-merged site PR).",
+    "schema.html is the flagship (PI author-watches it): change it only via fail-safe monkey-patches in an isolated <script> block — main script byte-identical, typeof-guards + try/catch → fall back to the prior render. Never edit the 175KB const P blob by hand.",
+    "Offline validation (no pane needed for static pages): regex-aware JS balance scan + replay the render logic against the real data in Python + curl the deployed file. Confirm zero bracket-delta vs known-good HEAD.",
+    "Pane-gated = scroll/drag/step interaction that only exists live; can't be verified offline. Build those with a live browser (mine, or the PI as eyes)."
+  ],
+  "open_threads": [
+    {"item": "Frame drawer + no-fork gospel morphospace", "status": "waiting", "on": "Librarian", "detail": "needs the corrected 8-axis atlas export (n=911 site JSON replacing the hardcoded MS_PTS ×15 + 3 exclusions + Frame-drawer export). No longer blocked on the MCA-builder question; queued as atlas-lane work after the PI's morning go-ahead."},
+    {"item": "Abduction-run viz (2 panels: Concordia debate + forward-test lineup)", "status": "buildable-now", "on": "design-SB", "detail": "render-from-data from the readable + DATA_abductive_forward_test_s160.json (on main). NOT truly pane-gated — build offline-validated like moves.html, then reading-SB + PI eyeball. Render the CORRECTED forward-test (Lineage 0.85 best); the removed 3-lever gate table must NOT reappear."},
+    {"item": "Scroll-ribbon dual reading (text⇄moves, scroll-linked frame ribbon)", "status": "pane-gated", "on": "browser", "detail": "the centerpiece of DESIGN_reading_room_coded_move_layer_s160. Scroll-driven — needs a live browser to verify the ribbon sync. Waits on a connected pane OR the PI driving it live."},
+    {"item": "Resituation CLC dispositions", "status": "waiting", "on": "PI + reading-SB", "detail": "after the PI walks the 12 CLC candidates, reading-SB re-runs export_resituation_drawer_s160.py → design-SB re-mirrors resituation_drawer.json (pure data swap) → the drawer's next-steps flip pending→LOCK/EXTEND/DROP/DEFER automatically."}
+  ]
+}

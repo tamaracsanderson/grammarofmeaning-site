@@ -1,0 +1,101 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DWS — Design Work-State</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600;0,9..144,400;0,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;}
+:root[data-theme=light]{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.6}
+.wrap{max-width:60rem;margin:0 auto;padding:6vh 22px 16vh}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 12px}
+h1{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(30px,5vw,46px);line-height:1.08;color:var(--moss);margin:0 0 10px}
+.lede{font-family:var(--disp);font-style:italic;font-size:17px;color:var(--ink-2);max-width:44rem;margin:0 0 6px;line-height:1.5}
+.upd{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin:0 0 8px}
+h2{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--terracotta);border-bottom:1px solid var(--rule);padding-bottom:8px;margin:44px 0 14px}
+.own{display:grid;grid-template-columns:1fr;gap:10px}
+.owncard{border:1px solid var(--rule);border-radius:10px;background:var(--paper-3);padding:12px 16px}
+.owncard b{color:var(--moss);font-family:var(--disp);font-size:18px}
+.owncard .r{font-family:var(--mono);font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-left:6px}
+.owncard p{margin:6px 0 0;font-size:14px;color:var(--ink-2)}
+.thread{border:1px solid var(--rule);border-left-width:4px;border-radius:0 10px 10px 0;background:var(--paper-3);padding:12px 16px;margin:0 0 10px}
+.thread .th-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.thread .th-t{font-family:var(--disp);font-size:18px;font-weight:600;color:var(--moss)}
+.thread .th-on{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-left:auto}
+.thread p{margin:6px 0 0;font-size:14px;line-height:1.55;color:var(--ink-2)}
+.badge{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:5px;color:#fff}
+.b-waiting{background:var(--gold)} .b-buildable-now{background:var(--fern)} .b-pane-gated{background:var(--terracotta)}
+.t-waiting{border-left-color:var(--gold)} .t-buildable-now{border-left-color:var(--fern)} .t-pane-gated{border-left-color:var(--terracotta)}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid color-mix(in srgb,var(--rule) 55%,transparent);vertical-align:top}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+td code,.mono{font-family:var(--mono);font-size:12px}
+.own-tag{font-family:var(--mono);font-size:10px;padding:1px 6px;border-radius:4px;background:var(--paper-2);border:1px solid var(--rule);color:var(--ink-2);white-space:nowrap}
+.conv li{margin:0 0 9px;font-size:14.5px;line-height:1.55;color:var(--ink-2)}
+.conv li b{color:var(--moss)}
+.counts{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:10px}
+.err{color:var(--terracotta);font-family:var(--mono);font-size:14px}
+.themebtn{position:fixed;top:12px;right:14px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:var(--sans);z-index:30}
+.foot{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:11.5px;color:var(--ink-3);line-height:1.6}
+.foot a{color:var(--fern)}
+</style>
+<script>(function(){try{var t=localStorage.getItem("gom-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+</head><body>
+<button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gom-theme',r.dataset.theme)}catch(e){}">theme</button>
+<div class="wrap">
+  <p class="kick">DWS · design-SB · the render layer</p>
+  <h1>Design Work-State</h1>
+  <p class="lede" id="lede">loading…</p>
+  <p class="upd" id="upd"></p>
+  <div id="body"></div>
+  <div class="foot">
+    Auto-derived from <code>dws_manifest.json</code> (pages → data → owners; can't drift) + hand-maintained <code>dws_status.json</code> (open threads). Full handover in <code>DWS_STATE.md</code>. &nbsp;·&nbsp;
+    Siblings: <a href="/engine/schema.html">the Method (IWS)</a> · <a href="/engine/library-schema.html">the Library (LWS)</a>
+  </div>
+</div>
+<script>
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+Promise.all([
+  fetch('/engine/data/dws_manifest.json').then(function(r){if(!r.ok)throw new Error('manifest '+r.status);return r.json();}),
+  fetch('/engine/data/dws_status.json').then(function(r){if(!r.ok)throw new Error('status '+r.status);return r.json();})
+]).then(function(res){
+  var M=res[0], S=res[1];
+  document.getElementById('lede').textContent=S.role_one_liner||'';
+  document.getElementById('upd').textContent='status last updated '+esc(S.last_updated||'');
+  var h='';
+  // ownership
+  h+='<h2>The 3-way ownership model</h2><div class="own">';
+  var om=M.ownership_model||{};
+  Object.keys(om).forEach(function(k){var parts=k.split(' (');var name=parts[0];var role=parts[1]?('<span class="r">'+esc(parts[1].replace(')',''))+'</span>'):'';
+    h+='<div class="owncard"><b>'+esc(name)+'</b>'+role+'<p>'+esc(om[k])+'</p></div>';});
+  h+='</div>';
+  // open threads
+  h+='<h2>Open threads — what’s waiting on whom</h2>';
+  (S.open_threads||[]).forEach(function(t){var st=(t.status||'').replace(/[^a-z-]/g,'');
+    h+='<div class="thread t-'+esc(st)+'"><div class="th-h"><span class="badge b-'+esc(st)+'">'+esc(t.status)+'</span><span class="th-t">'+esc(t.item)+'</span><span class="th-on">on: '+esc(t.on)+'</span></div><p>'+esc(t.detail)+'</p></div>';});
+  // data sources
+  h+='<h2>Data sources — every page renders from these</h2><table><thead><tr><th>artifact</th><th>owner</th><th>fetched by</th><th>what</th></tr></thead><tbody>';
+  (M.data_sources||[]).forEach(function(d){
+    h+='<tr><td><code>'+esc(d.file)+'</code></td><td><span class="own-tag">'+esc(d.owner)+'</span></td><td class="mono">'+d.fetched_by.map(function(x){return esc(x.split('/').pop());}).join('<br>')+'</td><td>'+esc(d.note||'')+'</td></tr>';});
+  (M.dynamic_families||[]).forEach(function(d){
+    h+='<tr><td><code>'+esc(d.prefix)+'…</code></td><td><span class="own-tag">'+esc(d.owner)+'</span></td><td class="mono">'+d.fetched_by.map(function(x){return esc(x.split('/').pop());}).join('<br>')+'</td><td>'+esc(d.note||'')+' <em>(dynamic)</em></td></tr>';});
+  h+='</tbody></table>';
+  var c=M.counts||{};
+  h+='<p class="counts">'+esc(c.pages)+' pages · '+esc(c.mapped_sources)+' mapped sources · '+esc(c.dynamic_families)+' dynamic families · '+esc(c.unmapped)+' unmapped'+((c.unmapped>0)?' ⚠ (add to MIRROR_MAP)':' ✓')+'</p>';
+  // pages
+  h+='<h2>Pages design-SB renders ('+esc((M.pages||[]).length)+')</h2><table><thead><tr><th>page</th><th>fetches</th></tr></thead><tbody>';
+  (M.pages||[]).filter(function(p){return p.n_fetches>0;}).forEach(function(p){
+    h+='<tr><td><code>'+esc(p.page)+'</code></td><td class="mono">'+p.fetches.map(esc).join('<br>')+'</td></tr>';});
+  h+='</tbody></table>';
+  // conventions
+  h+='<h2>Conventions (the non-negotiables)</h2><ul class="conv">';
+  (S.conventions||[]).forEach(function(x){h+='<li>'+esc(x)+'</li>';});
+  h+='</ul>';
+  document.getElementById('body').innerHTML=h;
+}).catch(function(e){document.getElementById('lede').innerHTML='<span class="err">Could not load DWS ('+esc(e.message)+')</span>';});
+</script>
+</body></html>
