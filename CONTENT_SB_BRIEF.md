@@ -45,7 +45,7 @@ Our outputs are accurate but *labelled*: a reading shows `epistemic-warrant: rev
 
 1. **`gloss` + `frame_delta` on the coded moves** — the render slots are LIVE and dormant in `reading.html` (the scroll-ribbon gospel reading). Per move in `DATA_coded_move_state_<gospel>_s160.json`:
    - `gloss` (string): one plain-language sentence — what this move's frame + paradigm + sitz *combination* means. Worked example (MATT M16, `raise`): *"The messenger doesn't argue the resurrection — he declares it, as revealed fact, in the triumphal key of early proclamation; 'has been raised' hides God's hand behind the reverent passive."*
-   - `frame_delta` (string, optional/null): the one shift from the prior move — *"warrant moves revelation → testimony."*
+   - `frame_delta` (string, optional/null): the one shift from the prior move — *"warrant moves revelation → testimony."* **Computed, then wrapped (§2.15 black-box):** the mechanical delta (which axis, from-value → to-value) is DERIVED deterministically by comparing consecutive moves' coded `frame_permove` — design-SB computes it render-side and hands Content SB the flagged axis-shifts; Content SB writes only the plain-language sentence, so every delta stays auditable against the codes.
 2. **Adopt the prose gap/silence finder** from Reading/Method SB — take it over, harden it, and run it as a standing quality pass on our prose (essays, drawer copy, glosses).
 3. **Take Essay SB's content-sharpening handover** — whatever non-essay language work Essay SB holds.
 
