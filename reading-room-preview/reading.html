@@ -79,6 +79,7 @@ main.reading{min-width:0}
 .rail-gloss{font-family:var(--serif);font-size:14px;line-height:1.5;color:var(--ink);background:var(--paper-2);border-radius:8px;padding:9px 12px;margin:4px 0}
 .rail-delta{font-family:var(--sans);font-size:11.5px;color:var(--terracotta);margin:8px 0 0;line-height:1.45;padding:7px 10px;background:color-mix(in srgb,var(--terracotta) 6%,transparent);border-radius:7px}
 .rail-delta .dl{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--terracotta);margin-bottom:2px}
+.rail-delta .sh-arw{color:var(--terracotta);font-weight:700;padding:0 3px}
 .err{color:var(--terracotta);font-family:var(--mono);font-size:14px;text-align:center;margin:30px 0}
 .themebtn{position:fixed;top:11px;right:14px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:var(--sans);z-index:40}
 footer.foot{max-width:46rem;margin:0 auto;padding:2vh 22px 12vh;font-family:var(--sans);font-size:11.5px;line-height:1.6;color:var(--ink-3);text-align:center;border-top:1px solid var(--rule)}
@@ -103,8 +104,15 @@ footer.foot a{color:var(--fern)}
 <script>
 var GOSPELS=[['MATT-28','Matthew'],['MARK-16','Mark'],['LUKE-24','Luke'],['JOHN-20','John']];
 var AXES=['epistemic-warrant','inferential-operation','hermeneutic-posture','evaluative-stance','ontological-commitment','telos','r_condition','r_topology'];
-var cache={}, current=null, observer=null, WEB=null, AXMAP={};
+var cache={}, current=null, observer=null, WEB=null, AXMAP={}, VALMAP={};
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// Phase-2 reader-words lookups (§2.16 render-from-data). AXMAP = axis-NAME → reader-words (blessed map).
+// VALMAP = "axisvalue" → reader_phrase, populated from Content SB's value_gloss export when it ships;
+// until reading-SB fills the 279 value phrases, valLabel falls back to the HUMANIZED raw value per the
+// value_gloss lookup contract (SPEC_value_gloss_lookup_s161) — de-tokenize only (-/_ → space), never invent sense.
+function humanize(v){return String(v==null?'':v).replace(/[-_]/g,' ');}
+function axLabel(a){return AXMAP[a]||humanize(a);}
+function valLabel(axis,v){if(v==null)return '';var k=axis+'|'+v;return VALMAP[k]||humanize(v);}
 function pills(cur){document.getElementById('pills').innerHTML=GOSPELS.map(function(g){return '<button class="pill'+(g[0]===cur?' on':'')+'" onclick="show(\''+g[0]+'\')">'+g[1]+'</button>';}).join('');}
 function show(key){
   pills(key);
@@ -174,16 +182,25 @@ function renderRail(m){
   var veerN=0;
   var ribbon=axes.map(function(a){
     var fp=(m.frame_permove||{})[a]; var veer=(fp!=null && fp!==af[a]); if(veer)veerN++;
-    var alabel = AXMAP[a] || a;  // PHASE 2a: reader-words axis label from the blessed map; raw code-name → title tooltip (fix #3)
-    return '<div class="axis'+(veer?' veer':'')+'" title="'+esc(a)+'"><span class="an">'+esc(alabel)+'</span><span class="av">'+esc(fp==null?'—':fp)+(veer?'<span class="base">'+esc(af[a]||'')+'</span>':'')+'</span></div>';
+    var vlab = (fp==null) ? '—' : esc(valLabel(a,fp));                                    // PHASE 2b: reader-words value
+    var blab = veer ? '<span class="base">'+esc(valLabel(a,af[a]))+'</span>' : '';         // struck baseline, translated
+    // raw axis + raw value live in the title tooltip = the audit receipt (fix #3: code-names only on hover)
+    return '<div class="axis'+(veer?' veer':'')+'" title="'+esc(a)+(fp!=null?' = '+esc(fp):'')+'"><span class="an">'+esc(axLabel(a))+'</span><span class="av">'+vlab+blab+'</span></div>';
   }).join('');
   var lin=(m.lineage&&m.lineage.length)? '<div class="rail-lin"><b>'+esc(m.lineage[0].source_ref||'')+'</b> — '+esc((m.lineage[0].seam||'').slice(0,160))+((m.lineage[0].seam||'').length>160?'…':'')+'</div>' : '<div class="rail-lin none">this move stands on no source — most don’t (that’s correct, not missing).</div>';
   var gloss = m.gloss ? '<div class="rail-gloss">'+esc(m.gloss)+'</div>' : '';
-  // PHASE 1 (design-crit 8-persona verdict): render the GLOSS line alone — it carries the shift in reader-words.
-  // The terse frame_delta prose ("warrant moves revelation → testimony") surfaces a raw axis-name + raw values
-  // (fixes #2/#3: no raw field names/values on the reader surface), so it is NOT lit here. PHASE 2 restores the
-  // shift as a TRANSLATED hover-receipt off reading-SB's blessed axis→reader-words map. Do NOT re-enable raw m.frame_delta.
+  // PHASE 2b: the sequential shift (what changed from the PRIOR move) as a TRANSLATED line, built from the structured
+  // triple (frame_delta_axis/from/to) — reader-words axis + values via the lookups, ONE Unicode → (never the raw ASCII
+  // "->" prose), raw triple in the title as the audit receipt. This is NOT the gated-off jargon prose line: it's reader
+  // -clean and distinct from the ribbon (ribbon = this move vs the account baseline; this = move-to-move progression).
   var delta = '';
+  if(m.frame_delta_axis && m.frame_delta_from!=null && m.frame_delta_to!=null){
+    delta = '<div class="rail-delta" title="'+esc(m.frame_delta_axis+': '+m.frame_delta_from+' → '+m.frame_delta_to)+'">'
+      + '<span class="dl">what shifted from the last move</span>'
+      + esc(axLabel(m.frame_delta_axis))+' — '+esc(valLabel(m.frame_delta_axis,m.frame_delta_from))
+      + ' <span class="sh-arw">→</span> '+esc(valLabel(m.frame_delta_axis,m.frame_delta_to))
+      + '</div>';
+  }
   document.getElementById('rail').innerHTML=
      '<div class="rail-pos">move '+esc(m.idx)+' · '+esc(m.label)+'</div>'
     +'<div class="rail-lab">'+esc(m.operation||'')+'</div>'
