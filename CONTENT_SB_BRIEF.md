@@ -29,6 +29,8 @@ Our outputs are accurate but *labelled*: a reading shows `epistemic-warrant: rev
 - **Library / atlas / morphospace data** → Librarian.
 - **Rendering — any HTML, any page, any drawer** → design-SB. Content SB never touches the deploy repo or a page; it produces data, design-SB renders it.
 
+**The interpretive boundary (load-bearing, not a style note).** Content SB renders meaning **already carried by the codes** into plain prose. It does **NOT introduce interpretive claims the codes don't carry** — new interpretation is Reading/Method SB's lane and must go through their coding + IRR, not a gloss. Without this line, glosses quietly become a second, un-IRR'd coding pass and reliability drifts (§2.8 over-claim).
+
 ## 5. The contract (how Content SB delivers — non-negotiable)
 
 **Content SB produces DATA, not pages.** Everything it writes lands as **fields on the existing DATA artifacts** (or a new artifact), on `twelve-laws` main, and **design-SB renders them** into slots already built for them. This is the same render-from-data pattern reading-SB and the Librarian already use.
@@ -66,6 +68,10 @@ design-SB (me) is the **render-side manager**: I define the exact field shape + 
 - **Term-first where a term earns its place** — name the precise thing, gloss it in plain words (the project's term-first convention).
 - **Honest** — if a combination is genuinely ambiguous or thin, say so; don't over-claim meaning that isn't there (§2.8 bias-visibility applies to prose too).
 - **The model to match:** the sitz-sharpening Essay SB already did — that's the target register.
+
+## 10. Validate — the comprehensibility loop (named, not aspirational)
+
+The whole layer is graded on "a reader with zero context understands it," so it needs a mechanism, not a hope. **Content SB's VALIDATE step = the design-crit 8-persona comprehensibility battery** (the `design-crit` skill — the Parents/mom-test + HDS-peer + IDEO + Tufte etc. personas built for "does this read to someone with no context"). The loop: draft glosses → run the battery on a sample → bucket findings UNANIMOUS / MAJORITY / SOLO → fix the ones that don't read → re-run. A gloss ships when it clears the battery, not when it sounds good to its author.
 
 ---
 
