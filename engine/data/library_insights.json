@@ -63,32 +63,33 @@
    "insight_id": "INSIGHT-COPYRIGHT-2X-LIBERATION-S160",
    "domain": "copyright",
    "title": "The double silence of copyright — recent marginalized theologies",
-   "finding": "Women's, Black, Latino, and queer theologies emerged comparatively recently (in America, largely post-1960s). They are silenced twice: first by the historical and political climate that denied them a public voice; and again in the corpus, because their recent work is under copyright — not public domain — and so cannot be freely held. A preliminary corpus measurement (S160) puts the marginalized-theology copyright-walled rate at ~2× the Christian baseline — directional, not yet defensible.",
+   "finding": "Women's, Black, Latino, and queer theologies emerged comparatively recently (in America, largely post-1960s). They are silenced twice: first by the historical and political climate that denied them a public voice; and again in the corpus, because their recent work is under copyright — not public domain — and so cannot be freely held. On the atlas-cleaned corpus (S160), the marginalized-theology copyright-walled rate is ~2.0× the Christian baseline (~11% vs ~5.5%) — directional and noise-cleaned, but bounded by an incomplete rights triage.",
    "detail": {
     "why": "Building a bottom-up cross-tradition corpus from public-domain + open-access sources — and the PI asked whether copyright's double-silence could be turned from an argument into a number.",
     "expected": "A comprehensive corpus would represent liberation, feminist, Black, Latino, and queer theology alongside the canon.",
-    "found": "These theologies are recent, so most of their primary work falls under copyright (post-~1929) and is excluded from the public-domain corpus — the same filter that admits centuries-old canonical Western texts. A preliminary measurement: among rights-triaged sources, the marginalized-theology tags are copyright-walled at ~11% vs ~6% for the Christian baseline (~2×). NOT yet defensible — the main tag (ABR-CHR-LIB) still holds surname-collision noise the atlas audit is removing (mostly OA, so cleanup likely RAISES the rate toward ~3×), and rights_status is 68% un-triaged.",
+    "found": "These theologies are recent, so most of their primary work falls under copyright (post-~1929) and is excluded from the public-domain corpus — the same filter that admits centuries-old canonical Western texts. Measured on the atlas-cleaned corpus (post-#2872), the marginalized-theology tags are copyright-walled at ~11% (113/1016 rights-determined) vs ~5.5% (1747/31722) for the Christian baseline — a ~2.0× gap. The noise caveat is now RESOLVED (the collision-noise was spread thin — only 111 rows in this tag — so cleanup left the ratio ~stable; my earlier ~3× prediction was disproven). The ONE remaining caveat: rights_status is 68% PENDING, so this is measured on the rights-determined minority — defensible once the rights triage advances.",
     "what_it_says": "The corpus's skew is not only a digitization artifact (see the Syriac acquisition wall) — it is also a COPYRIGHT-TERM artifact. Because marginalized voices were silenced FIRST (they gained a public voice late), copyright silences them a SECOND time (their recent work is enclosed). Hold the paradox: copyright is important and legitimate AND it has this regressive, doubly-silencing effect. And the corpus cannot yet fully measure this, because two-thirds of it is un-triaged for rights — a silence about the silence."
    },
    "evidences_stance": "acknowledge",
    "ladders_to": "principles.html — copyright ladder (Decision 213) + silence taxonomy (acknowledge stance)",
-   "source_run": "S160 corpus-composition measurement (PI-directed; preliminary, caveated)",
+   "source_run": "S160 corpus-composition measurement (PI-directed; atlas-cleaned; SELECT on project.db)",
    "sort_order": 3,
    "metrics": {
-    "kind": "structural / observed → preliminary measured (S160)",
+    "kind": "measured (atlas-cleaned) — bounded by incomplete rights triage",
     "mechanism": "copyright term (post-~1929 largely enclosed) × recency of marginalized theologies",
     "preliminary": {
-     "marginalized_walled_pct": 11.3,
-     "baseline_walled_pct": 5.6,
-     "ratio": "~2x",
-     "basis": "of rights-triaged sources only (rights_status is 68% PENDING corpus-wide)",
-     "caveat": "ABR-CHR-LIB still contains surname-collision noise (atlas cleanup pending); the noise is mostly OA, so removing it likely RAISES the marginalized rate toward ~3× — directional, NOT yet defensible",
+     "marginalized_walled_pct": 11.1,
+     "baseline_walled_pct": 5.5,
+     "ratio": "~2.0x",
+     "marginalized_n": "113 walled / 1016 rights-determined",
+     "baseline_n": "1747 walled / 31722 rights-determined",
+     "basis": "of rights-DETERMINED sources on the atlas-cleaned corpus (post-#2872); rights_status is 68% PENDING corpus-wide",
+     "caveat": "noise-cleaned (the earlier ~3× prediction was DISPROVEN — collision-noise was only 111 rows in this tag, spread thin, so cleanup left the ratio ~stable). The ONE remaining caveat is the 68% PENDING rights-triage — the measurement runs on the rights-determined minority.",
      "defensibility_blockers": [
-      "atlas noise-cleanup",
-      "rights-triage of the 68% PENDING"
+      "rights-triage of the 68% PENDING (the only remaining one)"
      ]
     },
-    "measurement_todo": "re-run clean after the atlas cleanup lands + rights-triage progresses",
+    "measurement_todo": "re-run once the rights triage advances — that closes the last caveat to defensible",
     "paradox": "copyright legitimate AND doubly-silencing"
    }
   }
