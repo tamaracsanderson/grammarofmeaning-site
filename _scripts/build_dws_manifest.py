@@ -104,9 +104,11 @@ def build():
         "generated_by": "_scripts/build_dws_manifest.py",
         "what": "DWS render-manifest: page->fetches auto-scanned; owner/source from the maintained MIRROR_MAP; unmapped fetches flagged as a drift-detector.",
         "ownership_model": {
-            "reading-SB (IWS · schema.html)": "Resituate + method + coded-move data — exports the SSOT-accurate DATA",
+            "reading-SB (IWS · method-schema.html)": "Resituate + method + coded-move data — exports the SSOT-accurate DATA",
             "Librarian (LWS · library-schema.html)": "Frame / atlas / morphospace + library data — exports the SSOT-accurate DATA",
-            "design-SB (DWS · this manifest)": "renders EVERY page from those exports; owns the deploy repo; read-only on twelve-laws",
+            "Content SB (🐞 · language-sharpening)": "turns coded material into reader-facing prose — gloss / frame_delta / sharpened descriptions / the prose gap-finder; produces DATA fields, design-SB renders; managed by design-SB",
+            "Essay SB (✍️ · essays)": "long-form essays only (handed its sharpening scope to Content SB)",
+            "design-SB (DWS · this manifest)": "renders EVERY page from those exports; owns the deploy repo; read-only on twelve-laws; manages Content SB's render targets",
         },
         "pages": pages,
         "data_sources": data_sources,
