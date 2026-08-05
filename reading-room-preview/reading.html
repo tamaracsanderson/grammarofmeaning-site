@@ -91,7 +91,7 @@ footer.foot a{color:var(--fern)}
   <h1 class="title">Read the account, watch the frame shift</h1>
   <p class="lede">Each gospel read as its coded <b>moves</b>, in order. As you scroll, the rail on the right holds the <b>frame</b> the current move is working in — and lights up wherever it <b>veers</b> from the account's baseline.</p>
   <div class="pills" id="pills"></div>
-  <p class="note">One coder, one pass — a reference read, not a measured-reliability one. The reading is the coded moves (their paraphrase), not yet the verbatim verse-by-verse text (that needs a move→verse map).</p>
+  <p class="note">One coder, one pass — a reference read, not a measured-reliability one. Each move now carries its <b>WEB scripture</b>, aligned by verse. <b>Mark is full-chapter</b>; Matthew · Luke · John cover the empty-tomb <b>opening</b> so far — full-chapter coding is in progress.</p>
 </header>
 <div id="stage"><p class="err" id="msg">loading…</p></div>
 <footer class="foot">
@@ -100,7 +100,7 @@ footer.foot a{color:var(--fern)}
 <script>
 var GOSPELS=[['MATT-28','Matthew'],['MARK-16','Mark'],['LUKE-24','Luke'],['JOHN-20','John']];
 var AXES=['epistemic-warrant','inferential-operation','hermeneutic-posture','evaluative-stance','ontological-commitment','telos','r_condition','r_topology'];
-var cache={}, current=null, observer=null;
+var cache={}, current=null, observer=null, WEB=null;
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function pills(cur){document.getElementById('pills').innerHTML=GOSPELS.map(function(g){return '<button class="pill'+(g[0]===cur?' on':'')+'" onclick="show(\''+g[0]+'\')">'+g[1]+'</button>';}).join('');}
 function show(key){
@@ -113,9 +113,17 @@ function show(key){
 function build(key,j){
   var af=j.account_frame||{}, moves=j.moves||[];
   var left=moves.map(function(m){
-    // the inline green box is RESERVED for the actual scripture quote (renders m.scripture
-    // once the move→verse map lands); lineage now lives only on the right rail (no dup).
-    var scripture = m.scripture ? '<div class="scrip"><span class="sl">the text · '+esc(m.verse_label||'')+'</span>'+esc(m.scripture)+'</div>' : '';
+    // the inline box now holds the actual WEB scripture the move covers (verse_refs → voices_web);
+    // lineage lives only on the right rail (no dup).
+    var scripture='';
+    if(WEB && m.gospel_key && WEB[m.gospel_key] && m.verse_refs && m.verse_refs.length){
+      var gv=WEB[m.gospel_key];
+      var txt=m.verse_refs.map(function(v){return gv.verses[v]||'';}).filter(Boolean).join(' ');
+      if(txt){
+        var vl=gv.ref+':'+((m.verse_start===m.verse_end)?m.verse_start:(m.verse_start+'–'+m.verse_end));
+        scripture='<div class="scrip"><span class="sl">'+esc(vl)+' · WEB</span>'+esc(txt)+'</div>';
+      }
+    }
     return '<div class="move-block" data-idx="'+esc(m.idx)+'"><div class="mb-lab">'+esc(m.label)+' · '+esc(m.operation||'')+'</div>'
       +'<div class="mb-para">'+esc(m.paraphrase||'')+'</div>'
       +scripture+'</div>';
@@ -173,6 +181,9 @@ function renderRail(m){
     +'<div class="rail-h">sitz — the world</div><div class="rail-p">'+esc(m.sitz||'—')+'</div>'
     +'<div class="rail-h">lineage</div>'+lin;
 }
-show('MATT-28');
+fetch('/engine/data/voices_web.json').then(function(r){return r.ok?r.json():null;}).then(function(j){
+  if(j){ WEB={}; (j.gospels||[]).forEach(function(g){ var vm={}; (g.verses||[]).forEach(function(v){vm[v.v]=v.t;}); WEB[g.key]={ref:g.ref, verses:vm}; }); }
+  show('MATT-28');
+}).catch(function(){ show('MATT-28'); });
 </script>
 </body></html>
