@@ -49,6 +49,12 @@ h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:cla
 .md code{font-family:var(--mono);font-size:.86em;background:var(--paper-2);padding:1px 5px;border-radius:4px}
 .md hr{border:none;border-top:1px solid var(--rule);margin:28px 0}
 .md strong{color:var(--moss)}
+.ot{width:100%;border-collapse:collapse;font-size:13px;margin:4px 0}
+.ot th{text-align:left;font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);font-weight:400;padding:7px 10px;border-bottom:1px solid var(--rule)}
+.ot td{padding:7px 10px;border-bottom:1px solid color-mix(in srgb,var(--rule) 45%,transparent);font-family:var(--sans);font-size:12.5px;color:var(--ink-2);vertical-align:top}
+.ot .ot-axis{font-family:var(--mono);font-size:11px;color:var(--moss);white-space:nowrap}
+.ot .ot-diff{color:var(--terracotta);font-weight:600;background:color-mix(in srgb,var(--terracotta) 6%,transparent)}
+.ot-note{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:italic;margin:8px 0 0;line-height:1.5}
 .err{color:var(--terracotta);font-family:var(--mono);font-size:14px;text-align:center;margin:30px 0}
 .themebtn{position:fixed;top:12px;right:14px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:var(--sans);z-index:30}
 footer.foot{max-width:46rem;margin:0 auto;padding:2vh 22px 12vh;font-family:var(--sans);font-size:11.5px;line-height:1.6;color:var(--ink-3);text-align:center;border-top:1px solid var(--rule);margin-top:34px}
@@ -112,6 +118,30 @@ function renderPanelB(D){
   return '<div class="sec-h">Step 2 · the forward-test — reproduction-fit per abduced factor</div>'
     +'<p class="sec-sub">Each factor the debate abduced, forward-tested: if <em>this</em> were the differentiator, would it reproduce the observed four-way spread? A pilot LLM-judge fit (0–1). The decoy is a pre-registered false factor — it should floor.</p>'+bars;
 }
+function observedTable(obs){
+  if(!obs) return '';
+  var rows=[], footer='';
+  obs.split('\n').forEach(function(l){
+    l=l.trim();
+    var m=l.match(/^([a-z_\-]+):\s*(.+)$/);
+    if(m && /(MATT|MARK|LUKE|JOHN)=/.test(l)){
+      var cells={}; m[2].split(',').forEach(function(p){var mm=p.trim().match(/^(MATT|MARK|LUKE|JOHN)=(.+)$/);if(mm)cells[mm[1]]=mm[2].trim();});
+      rows.push({axis:m[1],cells:cells});
+    } else if(/^Plus /.test(l)){ footer=l; }
+  });
+  if(!rows.length) return '';
+  var G=[['MATT','Matthew'],['MARK','Mark'],['LUKE','Luke'],['JOHN','John']];
+  var head='<tr><th>frame axis</th>'+G.map(function(g){return '<th>'+g[1]+'</th>';}).join('')+'</tr>';
+  var body=rows.map(function(r){
+    var counts={}; G.forEach(function(g){var v=r.cells[g[0]];if(v)counts[v]=(counts[v]||0)+1;});
+    var maj=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a];})[0], majN=counts[maj]||0;
+    return '<tr><td class="ot-axis">'+esc(r.axis)+'</td>'+G.map(function(g){var v=r.cells[g[0]]||'—';var diff=(majN>1 && v!==maj);return '<td'+(diff?' class="ot-diff"':'')+'>'+esc(v)+'</td>';}).join('')+'</tr>';
+  }).join('');
+  return '<div class="sec-h">The observed divergence — the evidence the debate reads</div>'
+    +'<p class="sec-sub">The four accounts side by side on the coded frame axes. Highlighted cells are where one (or two) accounts <b>stand apart</b> — the grid the debate abduces a cause for.</p>'
+    +'<div style="overflow-x:auto"><table class="ot">'+head+body+'</table></div>'
+    +(footer?'<p class="ot-note">'+esc(footer)+'</p>':'');
+}
 Promise.all([
   fetch('/engine/data/abductive_forward_test.json').then(function(r){if(!r.ok)throw new Error('forward-test '+r.status);return r.json();}),
   fetch('/engine/data/abductive_concordia_readable.md').then(function(r){if(!r.ok)throw new Error('readable '+r.status);return r.text();})
@@ -120,7 +150,7 @@ Promise.all([
   document.getElementById('framenote').innerHTML='This run is <b>exploratory</b> — the four gospels have no external anchor, so this is Campbell&ndash;Fiske method-triangulation, not proof. The forward-test score is a <b>pilot LLM-judge</b> metric (a permutation-null + tree-edit-distance successor is the rigorous version — CLC&nbsp;C10).';
   document.getElementById('verdict').innerHTML='<div class="verdict"><span class="vl">the teaching moment</span><p>The debate&rsquo;s eloquent top pick &mdash; <b>'+esc(D.debate_top)+' ('+(D.results[D.debate_top]||{}).reproduction_score+')</b> &mdash; is <em>not</em> the best reproducer. <b>'+esc(D.best_reproducing)+' ('+(D.results[D.best_reproducing]||{}).reproduction_score+')</b> reproduces the observed four-way divergence best. <b>The debate generates; the forward-test disposes.</b></p><p style="margin:8px 0 0;font-size:13px;color:var(--ink-3);line-height:1.5"><em>Why didn&rsquo;t the debate just pick Lineage?</em> Because the debate is <em>generative</em>, not adjudicative &mdash; an earlier run <em>did</em> abduce Lineage; the forward-test is what adjudicates across runs.</p></div>';
   document.getElementById('panelB').innerHTML=renderPanelB(D);
-  document.getElementById('panelA').innerHTML='<div class="sec-h">Step 1 · the debate — how the abduction happened</div><div class="md">'+mdToHtml(md)+'</div>';
+  document.getElementById('panelA').innerHTML=observedTable(D.observed)+'<div class="sec-h">Step 1 · the debate — how the abduction happened</div><div class="md">'+mdToHtml(md)+'</div>';
 }).catch(function(e){document.getElementById('framenote').innerHTML='<span class="err">Could not load the run ('+esc(e.message)+').</span>';});
 </script>
 </body></html>
