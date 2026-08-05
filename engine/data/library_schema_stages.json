@@ -17,10 +17,10 @@
    "logic": "IN: a harvested artifact + its provenance → BOX: register a `sources` row (provenance triad, tradition binding, dedup), then chunk at native divisions into L4 `passages` → OUT: held full text + quotable L4 anchors → NEXT: SERVE hands them to the instrument.",
    "status": {
     "status": "Built · running",
-    "coverage": "65,650 held as full text of 376,729 registered (17.4%)",
-    "output": "12,824,259 L4 passages (the analytical atoms)",
+    "coverage": "65,650 held as full text of 375,433 registered (17.5%)",
+    "output": "12,824,418 L4 passages (the analytical atoms)",
     "unit": "one source (container) → 0..N L4 passages",
-    "limit": "Only ~17.4% is held as full text. holding_mode: stub=363,314 (registered pointer, no text yet) vs ingested=8,398; content_status='present'=73,966. The bulk is a REGISTERED pointer, not text on disk — 'registered' must never be read as 'held'."
+    "limit": "Only ~17.5% is held as full text. holding_mode: stub=362,018 (registered pointer, no text yet) vs ingested=8,398; content_status='present'=73,966. The bulk is a REGISTERED pointer, not text on disk — 'registered' must never be read as 'held'."
    },
    "example": {
     "id": "SRC-250618",
@@ -50,7 +50,7 @@
      "state": "controlled-not-enforced",
      "allowed": "stub · ingested · embed_only",
      "vset": {
-      "stub": 363314,
+      "stub": 362018,
       "ingested": 8398
      },
      "desc": "the honest held/registered distinction: stub=registered pointer, ingested=text on disk.",
@@ -158,7 +158,7 @@
    "status": {
     "status": "Built · running · funnel leaks hard",
     "coverage": "4,761 endpoints catalogued · 3,341 status='built' · 2,837 built+healthy",
-    "output": "shopping_list: 81,018 rows (313 pending · 4,294 fetched · 34 care_pending)",
+    "output": "shopping_list: 81,018 rows (307 pending · 4,297 fetched · 34 care_pending)",
     "unit": "one endpoint → 0..N harvested sources",
     "limit": "The health columns are DEFAULT-INFLATED: 3,201 rows read 'healthy' but last_audit_firing_rate_pct>0 for 0 of them — the audit-firing column is entirely unpopulated. Per the S94 funnel-state ~134 endpoints ACTUALLY yield. 'built+healthy' is an aspiration column, not a measured one (§2.7 data-quality gap)."
    },
@@ -306,7 +306,7 @@
    "status": {
     "status": "Built · run · LACUNA Phase 1",
     "coverage": "348 silences named · 322 carry a clavis URI",
-    "output": "328 open desiderata · 13 closed (held) · 4 blocked",
+    "output": "327 open desiderata · 16 closed (held) · 4 blocked",
     "unit": "one clavis entry with 0 corpus witnesses → one silence_finding ticket",
     "limit": "The CLAVIS has silences too: Syriaca.org does NOT enumerate gospel commentaries (0 works; even Ephrem's Diatessaron Commentary is absent). The choice of clavis determines which silences are visible — a validated audit is not one with no blind spots, but one whose blind spots are NAMED. Coverage so far: Syriac + Ethiopic authors + gospels-resurrection."
    },
@@ -332,6 +332,14 @@
      "status": "identified"
     },
     "tests": "Matching is ADJUDICATED, not generous: deterministic distinctive-token candidate-generation → LLM adjudication rejects false matches (Syriac 'Thomas' ≠ Thomas Hobbes; 'John Rufus' ≠ Musonius Rufus). The recall number is defensible because the matcher is auditable. LACUNA runs WITH a 3-pass CRT; the copyright fallback ladder (IRR230, LOCKED Decision 213) governs Mode-A cite vs Mode-B breadth."
+   },
+   "closure_modes": {
+    "label": "Closing a silence — two modes (S159, Decision 217)",
+    "recognition": "The text is already held, even bundled inside an anthology/collection under a different title/authority. The held-check probes the actual passage TEXT (≥3 distinct co-occurring phrases via passages_fts), not just the name registry — so a work hiding inside a 3,500-passage anthology is found and LINKED (no fetch).",
+    "acquisition": "Genuinely absent, or held only MEDIATED (quoted inside a secondary work). GROW fetches a public-domain primary, chunks it, and closes — upgrading mediated→clean-primary.",
+    "quality_axis": "'Held' is not binary: <b>clean-PD</b> (a PD edition/anthology) · <b>mediated</b> (quoted inside a secondary work — flagged, upgraded to a clean primary when load-bearing) · <b>present-via-copyright</b> (exists only through a copyright edition — cited, never a clean hold).",
+    "example": "S159 gospels: the Gospel of the Egyptians + the Oxyrhynchus sayings of Thomas were already held inside a PD anthology (recognition); Papias — the earliest gospel-authorship witness — was held only inside an 1870s polemic, so a clean primary (Eusebius III.39) was acquired (acquisition).",
+    "probe": "scripts/lib/lacuna_held_probe.py — the anthology-aware held-by-text check."
    },
    "fields": [
     {
@@ -380,8 +388,8 @@
      "state": "controlled-not-enforced",
      "allowed": "identified → sourced → held · blocked(never closes)",
      "vset": {
-      "identified": 328,
-      "held": 13,
+      "identified": 327,
+      "held": 16,
       "blocked": 4
      },
      "desc": "the desiderata lifecycle; blocked never closes (an honest dead-end, not a silent drop).",
@@ -395,7 +403,7 @@
      "allowed": "endpoint-enumeration · verified-acquired · unfilled · ai-memory-flagged",
      "vset": {
       "endpoint-enumeration": 322,
-      "verified-acquired": 16
+      "verified-acquired": 18
      },
      "desc": "HOW the silence was established — endpoint enumeration (defensible) vs ai-memory (flagged).",
      "caveat": "the whole rigor leap: 'ai-memory-flagged' is a SUSPECT value that must be re-grounded against a clavis before it counts."
@@ -412,9 +420,9 @@
      "field": "filled_by_source_id",
      "type": "TEXT FK",
      "tier": "plumbing",
-     "state": "ENFORCEMENT GAP",
-     "desc": "the acquired source that closed this silence (the round-trip link to CORPUS).",
-     "caveat": "NULL on 0 of 13 held rows — the FK is NOT back-filled even when status='held'/fill_provenance='verified-acquired'. The close is recorded on status but the LINK to the landed source is missing (a real §2.7 gap to fix)."
+     "state": "closing the gap",
+     "desc": "the acquired/recognized source that closed this silence (the round-trip link to CORPUS).",
+     "caveat": "NULL on 0 of 16 held rows — a legacy gap being closed: the S159 round-trip work (Decision 217) back-fills the FK on every new close, both recognition (link an already-held source) and acquisition (link the fetched source). Older held rows may still carry the close on status only; the FK is now written on all new closes."
     },
     {
      "field": "run_tag · extraction_provenance · methodology_notes · description_author",
@@ -448,6 +456,7 @@
      "example"
     ],
     "drawer": [
+     "closure_modes",
      "fields",
      "irr",
      "code"
@@ -466,7 +475,7 @@
    "logic": "IN: a reading target (a seed + its reception) → BOX: select the held L4 passages for those sources → OUT: a passage-set the instrument codes → NEXT: the engine's SITUATE/ANALYZE stages.",
    "status": {
     "status": "Built · run (per-reading)",
-    "coverage": "e.g. the Resurrection reading: ~25454 held Christian works",
+    "coverage": "e.g. the Resurrection reading: ~25455 held Christian works",
     "output": "a bounded L4 passage-set per reading",
     "unit": "one reading → its curated passage-set",
     "limit": "SERVE is per-reading + manual today; there is no general 'serve any query' index yet — it is assembled per flower. Coding targets the curated set, never '% of corpus coded'."
@@ -476,7 +485,7 @@
     "label": "SPEC — grounded in the Resurrection reading",
     "row": {
      "reading": "gospels-resurrection",
-     "held_works": 25454
+     "held_works": 25455
     },
     "tests": "Deepen this drawer's data contract once SERVE has a queryable serve-set table (§2.13)."
    },
@@ -535,7 +544,7 @@
    "logic": "IN: an open silence_finding (identified) → BOX: route its clavis_number/title through ACQUIRE's Parity fan → OUT: a landed source + the silence advanced to held → NEXT: recall re-measures, higher.",
    "status": {
     "status": "Built · run (round-trip proven)",
-    "coverage": "gospels-resurrection: 12/26 silences closed by acquisition",
+    "coverage": "gospels-resurrection: 15/26 silences closed by acquisition",
     "output": "silences advancing identified → sourced → held",
     "unit": "one silence → one acquisition → one closed gap",
     "limit": "The round-trip is proven on small N; the filled_by_source_id FK gap (see LACUNA drawer) means the close is recorded on status but the source-link is not yet back-filled."
@@ -544,7 +553,7 @@
     "id": "gospels-resurrection-roundtrip",
     "label": "SPEC — grounded in the gospels-resurrection round-trip",
     "row": {
-     "closed": 12,
+     "closed": 15,
      "total": 26
     },
     "tests": "SIL-GOS-POSTCOLONIAL is the S159 worked case: silence → Parity fan → non-Western source."
