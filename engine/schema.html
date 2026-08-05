@@ -1270,6 +1270,16 @@ function __afterDrawer(){ injectLogicMermaid(); initIrrTips(document.getElementB
    worked specimen); the other five follow after PI approval + reading-SB authoritative
    fields. Render-from-registry, never free-form (§2.13/§2.16). */
 var OUT_REG={
+ '2':{why:`The swaps a text did NOT make are as telling as the one it did — laying the coherent alternatives beside the actual reading shows which choices were load-bearing.`,
+      logic:{in:`coded text + one slot`,box:`swap the slot · ripple the consequences · fan the alternatives · bundle same-world ones`,out:`a tree of alt-worlds`,next:`gated: is the swap faithful to the text? do the steps hold together?`}},
+ '3':{why:`A passage's unfilled gaps are where interpretation happens — a diverse seated panel surfaces which silences matter and reads them without flattening the disagreement.`,
+      logic:{in:`a passage + its gaps`,box:`seat the critics on real fetched work · each reads a silence · cluster the readings`,out:`nominated silences + commentary`,next:``}},
+ '4':{why:`A text's meaning includes what later readers made of it — the reception graph makes that downstream inheritance legible and separates grounded links from inferred ones.`,
+      logic:{in:`a text + its readers`,box:`link who read whom · tag cites / refutes / reframes · mark grounded vs inferred`,out:`a reception graph`,next:``}},
+ '5':{why:`Holding the frame constant across several tellings makes any difference attributable to the texts, not the instrument — the control that turns comparison into evidence.`,
+      logic:{in:`several tellings`,box:`align them · find the shared spine · mark where they diverge`,out:`a spine + branches`,next:``}},
+ 'C':{why:`Some texts don't run in a line — rendering the coded moves + their sonic ties as a spatial field lets the reader see the whole shape and move through it non-linearly.`,
+      logic:{in:`a coded text`,box:`compute the sonic ties · overlay the coded moves`,out:`a non-linear field of arcs`,next:``}},
  'R':{slots:[
   {k:'overview · what it is',b:`Re-runs a text's originating scene with one world-condition perturbed, to see whether the same <b>move</b> survives, reorganizes, or breaks.`},
   {k:'why it matters',b:`The same move can mean different things in different worlds; perturbing one condition shows which moves are load-bearing vs. robust.`},
@@ -1284,14 +1294,47 @@ var OUT_REG={
   {k:'read deeper — companion',drop:true,b:`<a href="/reading-room-preview/resituate-long.html" style="color:#C4602F;font-weight:600;text-decoration:none">the gospels resituation — full transcript →</a> &nbsp;·&nbsp; <a href="/reading-room-preview/resituate.html" style="color:#C4602F;text-decoration:none">the reading-room sensitivity strip →</a>`}
  ]}
 };
+function _outSec(n,k,body,drop){
+  var lab=n+' · '+k;
+  if(drop) return '<details class="osec"><summary class="osec-h" style="cursor:pointer;list-style:none">▸ '+lab+'</summary><div class="osec-b" style="margin-top:8px">'+body+'</div></details>';
+  return '<div class="osec"><div class="osec-h">'+lab+'</div><div class="osec-b">'+body+'</div></div>';
+}
+function _outGap(w){return '<span style="color:#7C8478;font-style:italic">— '+w+'</span>';}
+function _outLogic(l){
+  function bx(k,t,hl){return '<div style="flex:1;min-width:120px;border:1px solid '+(hl?'#3F7D57':'#C9BE9F')+';border-radius:8px;padding:8px 10px;background:'+(hl?'rgba(231,243,234,.6)':'rgba(239,231,211,.5)')+'"><div style="font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:'+(hl?'#3F7D57':'#7C8478')+';margin-bottom:3px">'+k+'</div>'+t+'</div>';}
+  var arw='<div style="align-self:center;color:#3F7D57">→</div>';
+  var h='<div style="display:flex;gap:8px;align-items:stretch;flex-wrap:wrap;font-family:\'IBM Plex Mono\',ui-monospace,monospace;font-size:12px">'+bx('In',l.in,false)+arw+bx('Box',l.box,true)+arw+bx('Out',l.out,false)+'</div>';
+  if(l.next) h+='<div style="font-size:12px;color:#7C8478;font-style:italic;margin-top:6px">'+l.next+'</div>';
+  return h;
+}
 function renderOutReg(e){
-  var R=OUT_REG[e]; if(!R||!R.slots) return '';
+  var R=OUT_REG[e]; if(!R) return '';
   var html='<div class="odrawer">';
-  R.slots.forEach(function(s,i){
-    var lab=(i+1)+' · '+s.k;
-    if(s.drop){ html+='<details class="osec"><summary class="osec-h" style="cursor:pointer;list-style:none">▸ '+lab+'</summary><div class="osec-b" style="margin-top:8px">'+s.b+'</div></details>'; }
-    else { html+='<div class="osec"><div class="osec-h">'+lab+'</div><div class="osec-b">'+s.b+'</div></div>'; }
-  });
+  if(R.slots){ // explicit form (Resituation — approved, untouched)
+    R.slots.forEach(function(s,i){ html+=_outSec(i+1,s.k,s.b,s.drop); });
+    return html+'</div>';
+  }
+  // compact form — build the 11 slots from OUT_REG[e] + the existing consts + honest-empty
+  var C=function(o){return (typeof o!=='undefined'&&o[e])?o[e]:null;};
+  var gapF=_outGap('not separately declared for this output yet · reading-SB owns these fields');
+  var ov=C(typeof OUT_WHAT!=='undefined'?OUT_WHAT:{})||C(typeof OUT_ONELINE!=='undefined'?OUT_ONELINE:{})||gapF;
+  var st=((typeof OUT_STATE!=='undefined'&&OUT_STATE[e])||'pilot');
+  html+=_outSec(1,'overview · what it is',ov,false);
+  html+=_outSec(2,'why it matters',R.why||gapF,false);
+  html+=_outSec(3,'the logic — in → box → out',R.logic?_outLogic(R.logic):gapF,false);
+  html+=_outSec(4,'status','<div style="font-family:\'IBM Plex Mono\',ui-monospace,monospace;font-size:13px"><span style="color:#7C8478;text-transform:uppercase;font-size:10px;letter-spacing:.06em">status</span> &nbsp;'+st.toLowerCase()+'</div><div style="margin-top:4px">'+_outGap('coverage / output / unit / limit — not separately declared for this output yet')+'</div>',false);
+  html+=_outSec(5,'a real run',(typeof OUT_RESULT4!=='undefined'&&OUT_RESULT4[e])?OUT_RESULT4[e]:gapF,false);
+  html+=_outSec(6,'data contract — the fields',gapF,true);
+  html+=_outSec(7,'rigor / validation',(typeof OUT_VALID!=='undefined'&&OUT_VALID[e])?('<div class="ov-box">'+OUT_VALID[e]+'</div>'):gapF,true);
+  html+=_outSec(8,'reuse — tools / APIs',(typeof OUT_REUSE!=='undefined'&&OUT_REUSE[e])?('<div class="osec-reuse">'+OUT_REUSE[e]+'</div>'):gapF,true);
+  html+=_outSec(9,'audit — the decision chain',gapF,true);
+  html+=_outSec(10,'implementation',gapF,true);
+  html+=_outSec(11,'read deeper — companion',(typeof outCompanion==='function')?outCompanion(e):gapF,true);
+  if(e==='3'){
+    if(typeof OUT_MODES!=='undefined'&&OUT_MODES[e]) html+=_outSec('+','the gloss modes — pick one to fit the text',OUT_MODES[e],true);
+    if(typeof OUT_STEPS!=='undefined'&&OUT_STEPS[e]) html+=_outSec('+','the process — seeding is step 1',OUT_STEPS[e],true);
+    if(typeof OUT_PANELS!=='undefined'&&OUT_PANELS[e]) html+=_outSec('+','the crit panel — a declared, reusable parameter',OUT_PANELS[e],true);
+  }
   return html+'</div>';
 }
 /* Fail-safe monkey-patch: only wraps openOutput if the legacy fn exists; per-output
