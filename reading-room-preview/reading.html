@@ -73,6 +73,9 @@ main.reading{min-width:0}
 .rail-lin.none{border-left-color:var(--rule);background:transparent;color:var(--ink-3);font-style:italic}
 .scrip{margin-top:16px;padding:12px 16px;border-left:3px solid var(--gold);border-radius:0 8px 8px 0;background:color-mix(in srgb,var(--gold) 7%,transparent);font-family:var(--serif);font-size:16px;line-height:1.55;color:var(--ink)}
 .scrip .sl{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.scrip-same{margin-top:12px;font-family:var(--mono);font-size:10.5px;color:var(--ink-3);padding:5px 0 5px 12px;border-left:2px solid color-mix(in srgb,var(--gold) 30%,transparent)}
+.scrip-same em{font-family:var(--sans);font-style:italic}
+.scrip-same .ss-arw{color:var(--gold)}
 .rail-gloss{font-family:var(--serif);font-size:14px;line-height:1.5;color:var(--ink);background:var(--paper-2);border-radius:8px;padding:9px 12px;margin:4px 0}
 .rail-delta{font-family:var(--sans);font-size:11.5px;color:var(--terracotta);margin:8px 0 0;line-height:1.45;padding:7px 10px;background:color-mix(in srgb,var(--terracotta) 6%,transparent);border-radius:7px}
 .rail-delta .dl{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--terracotta);margin-bottom:2px}
@@ -112,16 +115,21 @@ function show(key){
 }
 function build(key,j){
   var af=j.account_frame||{}, moves=j.moves||[];
-  var left=moves.map(function(m){
-    // the inline box now holds the actual WEB scripture the move covers (verse_refs → voices_web);
-    // lineage lives only on the right rail (no dup).
+  var left=moves.map(function(m,i){
+    // the inline box holds the actual WEB scripture the move covers (verse_refs → voices_web);
+    // when a run of moves decompose the SAME verse, show the text once, then mark the repeats
+    // (density is ~1.8 moves/verse; each move works a different clause of the shared verse).
     var scripture='';
     if(WEB && m.gospel_key && WEB[m.gospel_key] && m.verse_refs && m.verse_refs.length){
       var gv=WEB[m.gospel_key];
-      var txt=m.verse_refs.map(function(v){return gv.verses[v]||'';}).filter(Boolean).join(' ');
-      if(txt){
-        var vl=gv.ref+':'+((m.verse_start===m.verse_end)?m.verse_start:(m.verse_start+'–'+m.verse_end));
-        scripture='<div class="scrip"><span class="sl">'+esc(vl)+' · WEB</span>'+esc(txt)+'</div>';
+      var vl=gv.ref+':'+((m.verse_start===m.verse_end)?m.verse_start:(m.verse_start+'–'+m.verse_end));
+      var prev=i>0?moves[i-1]:null;
+      var same=prev && prev.gospel_key===m.gospel_key && (prev.verse_refs||[]).join(',')===(m.verse_refs||[]).join(',');
+      if(same){
+        scripture='<div class="scrip-same"><span class="ss-arw">&uarr;</span> '+esc(vl)+' &middot; <em>same verse — a different move within it</em></div>';
+      } else {
+        var txt=m.verse_refs.map(function(v){return gv.verses[v]||'';}).filter(Boolean).join(' ');
+        if(txt) scripture='<div class="scrip"><span class="sl">'+esc(vl)+' · WEB</span>'+esc(txt)+'</div>';
       }
     }
     return '<div class="move-block" data-idx="'+esc(m.idx)+'"><div class="mb-lab">'+esc(m.label)+' · '+esc(m.operation||'')+'</div>'
