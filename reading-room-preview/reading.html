@@ -178,7 +178,11 @@ function renderRail(m){
   }).join('');
   var lin=(m.lineage&&m.lineage.length)? '<div class="rail-lin"><b>'+esc(m.lineage[0].source_ref||'')+'</b> — '+esc((m.lineage[0].seam||'').slice(0,160))+((m.lineage[0].seam||'').length>160?'…':'')+'</div>' : '<div class="rail-lin none">this move stands on no source — most don’t (that’s correct, not missing).</div>';
   var gloss = m.gloss ? '<div class="rail-gloss">'+esc(m.gloss)+'</div>' : '';
-  var delta = m.frame_delta ? '<div class="rail-delta"><span class="dl">what shifted</span>'+esc(m.frame_delta)+'</div>' : '';
+  // PHASE 1 (design-crit 8-persona verdict): render the GLOSS line alone — it carries the shift in reader-words.
+  // The terse frame_delta prose ("warrant moves revelation → testimony") surfaces a raw axis-name + raw values
+  // (fixes #2/#3: no raw field names/values on the reader surface), so it is NOT lit here. PHASE 2 restores the
+  // shift as a TRANSLATED hover-receipt off reading-SB's blessed axis→reader-words map. Do NOT re-enable raw m.frame_delta.
+  var delta = '';
   document.getElementById('rail').innerHTML=
      '<div class="rail-pos">move '+esc(m.idx)+' · '+esc(m.label)+'</div>'
     +'<div class="rail-lab">'+esc(m.operation||'')+'</div>'
