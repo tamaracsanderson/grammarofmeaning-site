@@ -1,0 +1,96 @@
+{
+ "generated_by": "export_library_insights_s160.py",
+ "source": "SQLite live (Neon parity queued — Decision 144)",
+ "purpose": "Field findings — the walls, measured. Empirical evidence laddering to the silence/gap thesis (principles.html). Render as a strip on the library-schema FIND-GAPS/LACUNA drawer.",
+ "count": 3,
+ "insights": [
+  {
+   "insight_id": "INSIGHT-ACQWALL-SYRIAC-S160",
+   "domain": "acquisition",
+   "title": "The acquisition wall, measured (Syriac)",
+   "finding": "Systematically probing 25 clavis-attested Syriac author-silences: 20% (5) have a public-domain, OCR-clean edition recoverable — including Jacob of Edessa and the Doctrine of Addai; 72% (18) have no digitized public-domain witness at all. The 'acknowledge' stance is not a hedge — it is the empirical majority.",
+   "detail": {
+    "why": "To turn NAMED silences into HELD text — test whether the LACUNA fill-loop works end-to-end on real non-Western author-gaps (LWS #1: breach the canon + Anglophone walls).",
+    "expected": "For obscure Syriac authors, the public-domain digitized record likely holds usable editions for only a handful (§2.8 — yield honestly modest).",
+    "found": "Of 25 probed — 5 fillable (PD + OCR-clean), 18 with zero Internet Archive text, 1 OCR-gibberish scan auto-rejected (the 'Swete case'), 1 rights-status-unknown flagged (not silently served).",
+    "what_it_says": "Most named non-Western author-silences cannot be filled from the accessible public-domain record — so NAMING the silence, with a verifiable clavis citation, is most of the value. The corpus's Western/canonical skew is partly a digitization-availability artifact, now made visible rather than masked. (Method: IA advancedsearch per clavis-author → rights-gate → OCR-gate; dry-run pilot — the 5 fillable await the v2 ingest.)"
+   },
+   "evidences_stance": "both",
+   "ladders_to": "principles.html — silence taxonomy (fillable vs acknowledge)",
+   "source_run": "lacuna_nonwestern_harvester_s160.py --clavis syriaca --limit 25 (dry-run, 2026-08-04)",
+   "sort_order": 1,
+   "metrics": {
+    "gaps_probed": 25,
+    "fillable": 5,
+    "walled_no_text": 18,
+    "ocr_rejected": 1,
+    "rights_unknown": 1,
+    "fillable_pct": 20,
+    "wall_pct": 72,
+    "kind": "measured",
+    "notable_fills": [
+     "Jacob of Edessa",
+     "Doctrine of Addai",
+     "George bishop of the Arabs"
+    ]
+   }
+  },
+  {
+   "insight_id": "INSIGHT-COPYRIGHT-2X-MARY-S160",
+   "domain": "copyright",
+   "title": "The double silence of copyright — recovered-suppressed texts (Gospel of Mary)",
+   "finding": "The Gospel of Mary — suppressed and lost in antiquity, then RECOVERED only in modern critical editions — is copyright-walled, because the reconstruction and translation are post-1955. It is silenced twice: once by historical suppression (why it is non-canonical and was lost), and again now by copyright (its recovery is locked out of the public-domain corpus).",
+   "detail": {
+    "why": "Cataloguing the non-canonical gospels surfaced that some primaries are copyright-walled, not public domain.",
+    "expected": "Ancient texts are public domain.",
+    "found": "The Gospel of Mary's ANCIENT text is public domain in principle, but the only usable form — the modern critical reconstruction + translation — is post-1955 and under copyright, so it cannot be freely held or served.",
+    "what_it_says": "Copyright, though legitimate and important, has a regressive effect on already-silenced texts — the very act of RECOVERING a suppressed voice (a modern scholarly edition) re-locks it out of the free corpus. The double silence is structural: first the historical erasure, then the modern re-enclosure. This is NOT an argument against copyright — it makes copyright's silencing EFFECT visible (§2.8)."
+   },
+   "evidences_stance": "acknowledge",
+   "ladders_to": "principles.html — copyright ladder (Decision 213) + silence taxonomy (acknowledge stance)",
+   "source_run": "S159 non-canonical gospels inventory (copyright-walled primaries)",
+   "sort_order": 2,
+   "metrics": {
+    "exemplar": "Gospel of Mary",
+    "silencing_layers": 2,
+    "layer_1": "historical suppression → non-canonical / lost",
+    "layer_2": "modern recovery post-1955 → copyright-walled from PD",
+    "kind": "structural (named exemplar, not a yield)",
+    "paradox": "copyright legitimate AND doubly-silencing"
+   }
+  },
+  {
+   "insight_id": "INSIGHT-COPYRIGHT-2X-LIBERATION-S160",
+   "domain": "copyright",
+   "title": "The double silence of copyright — recent marginalized theologies",
+   "finding": "Women's, Black, Latino, and queer theologies emerged comparatively recently (in America, largely post-1960s). They are silenced twice: first by the historical and political climate that denied them a public voice; and again in the corpus, because their recent work is under copyright — not public domain — and so cannot be freely held. A preliminary corpus measurement (S160) puts the marginalized-theology copyright-walled rate at ~2× the Christian baseline — directional, not yet defensible.",
+   "detail": {
+    "why": "Building a bottom-up cross-tradition corpus from public-domain + open-access sources — and the PI asked whether copyright's double-silence could be turned from an argument into a number.",
+    "expected": "A comprehensive corpus would represent liberation, feminist, Black, Latino, and queer theology alongside the canon.",
+    "found": "These theologies are recent, so most of their primary work falls under copyright (post-~1929) and is excluded from the public-domain corpus — the same filter that admits centuries-old canonical Western texts. A preliminary measurement: among rights-triaged sources, the marginalized-theology tags are copyright-walled at ~11% vs ~6% for the Christian baseline (~2×). NOT yet defensible — the main tag (ABR-CHR-LIB) still holds surname-collision noise the atlas audit is removing (mostly OA, so cleanup likely RAISES the rate toward ~3×), and rights_status is 68% un-triaged.",
+    "what_it_says": "The corpus's skew is not only a digitization artifact (see the Syriac acquisition wall) — it is also a COPYRIGHT-TERM artifact. Because marginalized voices were silenced FIRST (they gained a public voice late), copyright silences them a SECOND time (their recent work is enclosed). Hold the paradox: copyright is important and legitimate AND it has this regressive, doubly-silencing effect. And the corpus cannot yet fully measure this, because two-thirds of it is un-triaged for rights — a silence about the silence."
+   },
+   "evidences_stance": "acknowledge",
+   "ladders_to": "principles.html — copyright ladder (Decision 213) + silence taxonomy (acknowledge stance)",
+   "source_run": "S160 corpus-composition measurement (PI-directed; preliminary, caveated)",
+   "sort_order": 3,
+   "metrics": {
+    "kind": "structural / observed → preliminary measured (S160)",
+    "mechanism": "copyright term (post-~1929 largely enclosed) × recency of marginalized theologies",
+    "preliminary": {
+     "marginalized_walled_pct": 11.3,
+     "baseline_walled_pct": 5.6,
+     "ratio": "~2x",
+     "basis": "of rights-triaged sources only (rights_status is 68% PENDING corpus-wide)",
+     "caveat": "ABR-CHR-LIB still contains surname-collision noise (atlas cleanup pending); the noise is mostly OA, so removing it likely RAISES the marginalized rate toward ~3× — directional, NOT yet defensible",
+     "defensibility_blockers": [
+      "atlas noise-cleanup",
+      "rights-triage of the 68% PENDING"
+     ]
+    },
+    "measurement_todo": "re-run clean after the atlas cleanup lands + rights-triage progresses",
+    "paradox": "copyright legitimate AND doubly-silencing"
+   }
+  }
+ ]
+}
