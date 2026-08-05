@@ -104,15 +104,15 @@ footer.foot a{color:var(--fern)}
 <script>
 var GOSPELS=[['MATT-28','Matthew'],['MARK-16','Mark'],['LUKE-24','Luke'],['JOHN-20','John']];
 var AXES=['epistemic-warrant','inferential-operation','hermeneutic-posture','evaluative-stance','ontological-commitment','telos','r_condition','r_topology'];
-var cache={}, current=null, observer=null, WEB=null, AXMAP={}, VALMAP={};
+var cache={}, current=null, observer=null, WEB=null, VALMAP={};
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-// Phase-2 reader-words lookups (§2.16 render-from-data). AXMAP = axis-NAME → reader-words (blessed map).
-// VALMAP = "axisvalue" → reader_phrase, populated from Content SB's value_gloss export when it ships;
-// until reading-SB fills the 279 value phrases, valLabel falls back to the HUMANIZED raw value per the
-// value_gloss lookup contract (SPEC_value_gloss_lookup_s161) — de-tokenize only (-/_ → space), never invent sense.
+// Phase-2 reader-words lookups (§2.16 render-from-data). VALMAP = Content SB value_gloss export map,
+// keyed "field|value" — axis-NAME rows use key "field|" (value empty). Each entry is a reader_phrase or NULL.
+// NULL falls back to the HUMANIZED raw value per the value_gloss lookup contract (SPEC_value_gloss_lookup_s161):
+// de-tokenize only (-/_ to space), never invent sense. Single store (§2.13): value_gloss retired the interim file.
 function humanize(v){return String(v==null?'':v).replace(/[-_]/g,' ');}
-function axLabel(a){return AXMAP[a]||humanize(a);}
-function valLabel(axis,v){if(v==null)return '';var k=axis+'|'+v;return VALMAP[k]||humanize(v);}
+function axLabel(a){return VALMAP[a+'|']||humanize(a);}
+function valLabel(axis,v){if(v==null)return '';return VALMAP[axis+'|'+v]||humanize(v);}
 function pills(cur){document.getElementById('pills').innerHTML=GOSPELS.map(function(g){return '<button class="pill'+(g[0]===cur?' on':'')+'" onclick="show(\''+g[0]+'\')">'+g[1]+'</button>';}).join('');}
 function show(key){
   pills(key);
@@ -211,9 +211,9 @@ function renderRail(m){
     +'<div class="rail-h">sitz — the world</div><div class="rail-p">'+esc(m.sitz||'—')+'</div>'
     +'<div class="rail-h">lineage</div>'+lin;
 }
-// load the blessed axis-name → reader-words map first (Phase 2a; graceful — falls back to raw names if absent),
-// then voices, then first render — so the ribbon labels resolve on first paint.
-fetch('/engine/data/frame_axis_reader_words.json').then(function(r){return r.ok?r.json():null;}).then(function(am){ if(am&&am.map) AXMAP=am.map; }).catch(function(){}).then(function(){
+// load Content SB's value_gloss map first (§2.16; graceful — falls back to humanized-raw if absent),
+// then voices, then first render — so the ribbon labels + values resolve on first paint.
+fetch('/engine/data/value_gloss.json').then(function(r){return r.ok?r.json():null;}).then(function(g){ if(g&&g.map) VALMAP=g.map; }).catch(function(){}).then(function(){
   fetch('/engine/data/voices_web.json').then(function(r){return r.ok?r.json():null;}).then(function(j){
     if(j){ WEB={}; (j.gospels||[]).forEach(function(g){ var vm={}; (g.verses||[]).forEach(function(v){vm[v.v]=v.t;}); WEB[g.key]={ref:g.ref, verses:vm}; }); }
     show('MATT-28');

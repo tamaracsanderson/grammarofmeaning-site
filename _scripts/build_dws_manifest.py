@@ -50,6 +50,7 @@ MIRROR_MAP = {
   "/engine/data/dws_manifest.json": ("design-SB", "(this file — self-generated)", "the DWS render-manifest itself"),
   "/engine/data/dws_status.json": ("design-SB", "(hand-maintained)", "the DWS open-threads + conventions"),
   "/engine/data/essay_workstream.json": ("Essay SB", "twelve-laws:field_ed/_essay_workstream/essay_workstream.json", "essay-schema.html (EWS) — METRICS + NODES; via export_essay_workstream.py"),
+  "/engine/data/value_gloss.json": ("Content SB (store) / reading-SB (fills values)", "twelve-laws:pm/40_architecture/DATA_value_gloss_s161.json", "reading.html Phase-2 axis-name + value → reader-words map (retired the interim frame_axis_reader_words.json; §2.13 one store)"),
 }
 
 # DYNAMIC_MAP — fetches whose path is built at runtime (`base+key+'.json'`); the scanner
