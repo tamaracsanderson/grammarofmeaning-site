@@ -1,0 +1,218 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Output-drawer template — a spec</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* schema.html house tokens — this is a spec for the INSTRUMENT page's output drawers */
+:root{--bg:#F6F1E4;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;
+ --eng:#2C4A38;--sub:#3F7D57;--tbd:#8AA88B;--out:#C4602F;--honey:#E0A93B;
+ --serif:"Newsreader",ui-serif,Georgia,serif;--sans:"Inter",ui-sans-serif,system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#1B211D;--paper2:#232A25;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;--eng:#8Fc7a0;--sub:#5C9A72;--tbd:#6B7A6D;--out:#D9793F;--honey:#E0A93B}}
+:root[data-theme=dark]{--bg:#1B211D;--paper2:#232A25;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;--eng:#8Fc7a0;--sub:#5C9A72;--tbd:#6B7A6D;--out:#D9793F;--honey:#E0A93B}
+:root[data-theme=light]{--bg:#F6F1E4;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;--eng:#2C4A38;--sub:#3F7D57;--tbd:#8AA88B;--out:#C4602F;--honey:#E0A93B}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15.5px/1.65 var(--sans)}
+.wrap{max-width:60rem;margin:0 auto;padding:5vh 24px 14vh}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+h1{font-family:var(--serif);font-size:clamp(30px,5vw,44px);font-weight:600;color:var(--eng);line-height:1.08;margin:0 0 12px}
+.manifesto{font-family:var(--serif);font-size:19px;line-height:1.5;color:var(--fg);max-width:44rem;margin:0 0 8px}
+.manifesto b{color:var(--eng)}
+.sub{font-size:14.5px;color:var(--muted);max-width:46rem;line-height:1.6;margin:8px 0 0}
+section{margin-top:46px}
+.sec-k{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--out);border-top:1px solid var(--line);padding-top:14px;margin:0 0 6px}
+h2{font-family:var(--serif);font-size:24px;font-weight:600;color:var(--eng);margin:2px 0 12px}
+.note{font-size:14.5px;color:var(--muted);line-height:1.6;max-width:47rem;margin:12px 0}
+.note b{color:var(--eng)}.note em{font-style:italic}
+code{font-family:var(--mono);font-size:12.5px;background:var(--paper2);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+
+/* the problem: engines vs outputs, side by side */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0}
+@media(max-width:640px){.vs{grid-template-columns:1fr}}
+.vscol{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--card)}
+.vscol h3{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin:0 0 8px}
+.vscol.good h3{color:var(--sub)}.vscol.bad h3{color:var(--out)}
+.vscol ul{margin:0;padding-left:16px;font-size:13px;line-height:1.6;color:var(--fg)}
+.vscol .free{color:var(--muted);font-style:italic}
+
+/* the SPECIMEN drawer (RESITUATE, real data) with template-section annotations */
+.drawer{border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden;margin:14px 0}
+.dh{padding:16px 20px 12px;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--paper2) 50%,var(--card))}
+.dh h3{margin:0;font-family:var(--serif);font-size:20px;font-weight:600;color:var(--eng)}
+.dh .w{color:var(--muted);font-size:13.5px;font-style:italic;margin-top:3px}
+.dh .tbl{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--sub);margin-top:7px}
+.db{padding:6px 20px 20px}
+.slot{border-top:1px dashed color-mix(in srgb,var(--line) 70%,transparent);padding:14px 0 4px;position:relative}
+.slot:first-child{border-top:none}
+.slot-k{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--out);display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.slot-k .n{background:var(--out);color:#FFFDF6;border-radius:4px;padding:1px 6px;font-weight:500}
+.slot-k .band{margin-left:auto;color:var(--muted);font-size:8.5px;letter-spacing:.08em}
+.slot-b{font-family:var(--serif);font-size:14.5px;line-height:1.6;color:var(--fg)}
+.slot-b b{color:var(--eng)}
+.lf{display:flex;flex-wrap:wrap;align-items:stretch;margin:4px 0}
+.lf-box{flex:1 1 0;min-width:120px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--bg)}
+.lf-box.box{background:color-mix(in srgb,var(--eng) 8%,var(--bg));border-color:color-mix(in srgb,var(--eng) 35%,var(--line))}
+.lf-box .k{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--out);margin-bottom:3px}
+.lf-box .t{font-size:11.5px;line-height:1.4}
+.lf-arw{display:flex;align-items:center;color:var(--muted);padding:0 5px}
+.statusgrid{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:13px}
+.statusgrid dt{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.statusgrid dd{margin:0}.statusgrid dd.lim{color:var(--out)}
+.exbox{border:1px solid var(--sub);border-radius:8px;overflow:hidden;margin:2px 0}
+.exrib{background:var(--sub);color:#FFFDF6;font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;padding:5px 11px}
+.exrow{display:grid;grid-template-columns:120px 1fr;gap:10px;padding:6px 11px;border-top:1px solid var(--line);font-size:12.5px}
+.exrow:first-of-type{border-top:none}
+.exk{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+.fieldline{font-size:12.5px;line-height:1.7}.fieldline .fk{font-family:var(--mono);font-size:11px;color:var(--eng)}
+.state{font-family:var(--mono);font-size:8px;letter-spacing:.04em;text-transform:uppercase;padding:1px 5px;border-radius:3px;border:1px solid var(--line);color:var(--muted)}
+.state.warn{color:#8a5a12;background:color-mix(in srgb,var(--honey) 22%,var(--bg));border-color:color-mix(in srgb,var(--honey) 50%,var(--line))}
+.floorbar{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;background:color-mix(in srgb,var(--sub) 12%,var(--bg));border:1px solid color-mix(in srgb,var(--sub) 40%,var(--line));border-radius:6px;padding:4px 10px;color:var(--eng);margin:2px 0}
+.mono-s{font-family:var(--mono);font-size:11.5px;color:var(--fg);line-height:1.7}
+.readmore{font-family:var(--sans);font-size:12.5px;color:var(--out)}
+.opt{border-left:2px solid var(--honey);padding-left:11px;margin:4px 0;background:color-mix(in srgb,var(--honey) 5%,transparent)}
+
+/* tables + registry + grid */
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin:12px 0}
+th{text-align:left;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:400;padding:7px 8px 7px 0;border-bottom:1px solid var(--line)}
+td{padding:8px 8px 8px 0;vertical-align:top;border-bottom:1px solid color-mix(in srgb,var(--line) 55%,transparent);line-height:1.5}
+td:first-child{font-weight:600;color:var(--eng)}
+.eng-tag{font-family:var(--mono);font-size:10px;color:var(--sub)}.out-tag{font-family:var(--mono);font-size:10px;color:var(--out)}
+pre{background:var(--eng);color:#F3EEDF;border-radius:10px;padding:16px 18px;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.6}
+pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit}
+.grid td{font-family:var(--mono);font-size:11px;text-align:center}
+.grid td:first-child{font-family:var(--sans);text-align:left}
+.grid .full{color:var(--sub)}.grid .part{color:var(--honey)}.grid .tbd{color:var(--muted);opacity:.6}
+.foot{margin-top:50px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.7}
+.foot a{color:var(--out)}
+.themebtn{position:fixed;top:14px;right:14px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:var(--sans);z-index:10}
+</style>
+<script>(function(){try{var t=localStorage.getItem("gom-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+</head>
+<body>
+<button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('gom-theme',r.dataset.theme)}catch(e){}">theme</button>
+<div class="wrap">
+  <p class="eyebrow">Grammar of Meaning · instrument schema · output-drawer template · S159</p>
+  <h1>Every output drawer, one schema</h1>
+  <p class="manifesto">The engines (Situate · Analyze) already have rigorous drawers. The <b>outputs</b> are free-form — so their schemas, fields, scripts and tests get lost. This template gives every output the <b>same rigor</b>, so there's a fixed place for each output's work — and future reading-SBs know where it goes.</p>
+  <p class="sub">Like the engine drawers (and the library page), an output drawer <b>renders from a registry</b>, never free-form — so it can't drift, and the Resituate update becomes a clean data addition, not fragile <code>const&nbsp;P</code> surgery.</p>
+
+  <section>
+    <p class="sec-k">the problem</p>
+    <h2>Rigorous engines, free-form outputs</h2>
+    <div class="vs">
+      <div class="vscol good"><h3>engine drawers — structured (7 keys)</h3>
+        <ul><li>what · why · logic · status</li><li>example (a real row)</li><li>fields (data contract, by tier)</li><li>irr (audit) · code (implementation)</li></ul></div>
+      <div class="vscol bad"><h3>output drawers — free-form, ad-hoc</h3>
+        <ul class="free"><li>"what it does"</li><li>"how it runs, step by step"</li><li>"real result"</li><li>"how we validated it"</li><li>"the gloss modes" … every output invented its own</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-k">the template — shown</p>
+    <h2>The 11 slots, on a real output (Resituation)</h2>
+    <p class="note">This is the template rendered with <b>live Resituate data</b>. The orange tags are the template slots; the content is the real S159 run. <em>Slots 1–5 are always-visible; 6–11 are drop-downs. Bands mark which are engine-parallel vs output-specific.</em></p>
+    <div class="drawer">
+      <div class="dh"><h3>Resituation <span style="font-family:var(--mono);font-size:11px;color:var(--sub);text-transform:uppercase;letter-spacing:.08em">· engine 2.R</span></h3>
+        <div class="w">the same text, re-situated in another world</div>
+        <div class="tbl">pilot · resituate_results</div></div>
+      <div class="db">
+        <div class="slot"><div class="slot-k"><span class="n">1</span> overview · what it is <span class="band">engine-parallel</span></div><div class="slot-b">Re-runs a text's originating scene with one world-condition perturbed, to see whether the same <b>move</b> survives, reorganizes, or breaks.</div></div>
+        <div class="slot"><div class="slot-k"><span class="n">2</span> why it matters <span class="band">engine-parallel</span></div><div class="slot-b">The same move can mean different things in different worlds; perturbing one condition shows which moves are load-bearing vs. robust.</div></div>
+        <div class="slot"><div class="slot-k"><span class="n">3</span> the logic (IN→BOX→OUT→NEXT) <span class="band">engine-parallel</span></div><div class="slot-b">
+          <div class="lf"><div class="lf-box"><div class="k">In</div><div class="t">coded moves + one perturbed Sitz lever + documented forces</div></div><div class="lf-arw">→</div><div class="lf-box box"><div class="k">Box</div><div class="t">single-pass re-dispose + skeptic ‖ Concordia simulate</div></div><div class="lf-arw">→</div><div class="lf-box"><div class="k">Out</div><div class="t">per-move survive/reorganize/break + verdict + reception</div></div></div>
+          <div style="font-size:12px;color:var(--muted);font-style:italic;margin-top:6px">Next — the head-to-head. <b style="color:var(--out);font-style:normal">Replaces the old linear chain</b> with two independent methods in parallel → COMPARE.</div>
+        </div></div>
+        <div class="slot"><div class="slot-k"><span class="n">4</span> status <span class="band">engine-parallel</span></div><div class="slot-b"><dl class="statusgrid">
+          <dt>status</dt><dd>pilot</dd>
+          <dt>coverage</dt><dd>4 texts × 4 levers × 3 rooms</dd>
+          <dt>output</dt><dd>per-move disposition (SURVIVE/WEAKEN/VANISH/INVERT/NEW) + skeptic verdict + reception anchor</dd>
+          <dt>unit</dt><dd>one disposition-set per (text × lever × room)</dd>
+          <dt>limit</dt><dd class="lim">single-pass validated (Luther/Nicaea); Concordia cross-check in progress (2-step spike); gospels = the out-of-domain test</dd>
+        </dl></div></div>
+        <div class="slot"><div class="slot-k"><span class="n">5</span> a real run <span class="band">engine-parallel</span></div><div class="slot-b"><div class="exbox">
+          <div class="exrib">real row · john-20 · testimony→scripture (lineage)</div>
+          <div class="exrow"><span class="exk">retold</span><span>Under a scripture-leaning ground (1 Cor 15:3-4 <em>kata tas graphas</em>), the resurrection is known because the prophets foretold it — not because Mary or the disciples saw.</span></div>
+          <div class="exrow"><span class="exk">dispositions</span><span>M1–M3 <b>SURVIVE</b> · M4–M5 reweighted …</span></div>
+          <div class="exrow"><span class="exk">skeptic</span><span>PLAUSIBLE_REORGANIZATION</span></div>
+          <div class="exrow"><span class="exk">reception</span><span>1 Cor 15:3-4 "raised … according to the scriptures" + OT typology (Jonah, Hosea, Ps 16)</span></div>
+        </div></div></div>
+        <div class="slot"><div class="slot-k"><span class="n">6</span> ▾ data contract — the fields <span class="band">engine-parallel</span></div><div class="slot-b">
+          <div class="fieldline"><b>key:</b> <span class="fk">lever · lever_layer · move_dispositions_json · retold · skeptic_verdict · reception_anchor</span></div>
+          <div class="fieldline"><b>supporting:</b> <span class="fk">skeptic_confidence · skeptic_reasoning · skeptic_fanfiction_json · grounding_note · is_seeded_fabrication · room</span></div>
+          <div class="fieldline"><b>plumbing:</b> <span class="fk">result_id · run_tag · source_key · method · coder_version · provenance</span></div>
+          <div class="fieldline" style="margin-top:6px"><span class="fk">skeptic_verdict</span> <span class="state warn">controlled-not-enforced</span> no CHECK yet — CORRECTLY_REFUSED is new (§2.1)</div>
+        </div></div>
+        <div class="slot"><div class="slot-k"><span class="n">7</span> ▾ rigor / validation <span class="band" style="color:var(--out)">★ output-specific</span></div><div class="slot-b">
+          <div style="margin-bottom:6px"><em>"Why isn't this fan-fiction?"</em> — the guards:</div>
+          <div class="floorbar">◆ seeded-fabrication floor <b>12/12</b> caught · HOLDS</div>
+          <div class="mono-s">verdicts: 36 PLAUSIBLE_REORGANIZATION · 12 CORRECTLY_REFUSED (decoys refused) · two independent methods triangulated · adjudicated, not generous.</div>
+        </div></div>
+        <div class="slot"><div class="slot-k"><span class="n">8</span> ▾ reuse — tools / APIs <span class="band" style="color:var(--out)">★ output-specific</span></div><div class="slot-b"><span class="mono-s">Concordia (DeepMind — the fuller world-sim, in progress) · Mesa (planned — deterministic constraints).</span></div></div>
+        <div class="slot"><div class="slot-k"><span class="n">9</span> ▾ audit — the decision chain <span class="band">engine-parallel</span></div><div class="slot-b"><span class="mono-s">Decision 197 → reuse-research (generative_agents frozen → Concordia) → S158 lever-CRT → S159 method CRT → S159 pre-registered gospels run.</span></div></div>
+        <div class="slot"><div class="slot-k"><span class="n">10</span> ▾ implementation <span class="band">engine-parallel</span></div><div class="slot-b"><span class="mono-s">resituate_probe_v1.py · resituate_gospels_hardened_s159.py · resituate_v2_concordia_sim.py · resituate_concordia_verdict_scorer_s159.py</span></div></div>
+        <div class="slot"><div class="slot-k"><span class="n">11</span> ▾ read deeper — companion <span class="band" style="color:var(--out)">★ output-specific</span></div><div class="slot-b"><span class="readmore">→ the reading-room sensitivity strip (coming) · the rigor report</span></div></div>
+        <div class="slot"><div class="slot-k">＋ optional result panels <span class="band" style="color:var(--honey)">per-output</span></div><div class="slot-b">
+          <div class="opt"><b>Head-to-head</b> (single-pass vs Concordia) — single-pass has verdicts; Concordia <b>INCONCLUSIVE</b> (2-step spike). Shown honestly.</div>
+          <div class="opt"><b>Seeded-fabrication floor</b> panel — the negative-control catch-rate.</div>
+          <div style="font-size:12px;color:var(--muted);font-style:italic;margin-top:4px">Fan → world-tree · Gloss → the modes · Comparison → variant-graph · Constellation → the field. One panel key per output.</div>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-k">the slot set</p>
+    <h2>Fixed slots — engine-parallel + output-specific</h2>
+    <table><thead><tr><th>#</th><th>slot</th><th>visibility</th><th>origin</th></tr></thead><tbody>
+      <tr><td>1–4</td><td>what · why · logic · status</td><td>always</td><td class="eng-tag">engine template</td></tr>
+      <tr><td>5</td><td>a real run (worked example)</td><td>always</td><td class="eng-tag">engine template</td></tr>
+      <tr><td>6</td><td>data contract (fields by tier)</td><td>drawer</td><td class="eng-tag">engine template</td></tr>
+      <tr><td>7</td><td>rigor / validation ("why not fan-fiction")</td><td>drawer</td><td class="out-tag">★ output-only</td></tr>
+      <tr><td>8</td><td>reuse — tools / APIs</td><td>drawer</td><td class="out-tag">★ output-only</td></tr>
+      <tr><td>9</td><td>audit (decision / IRR chain)</td><td>drawer</td><td class="eng-tag">engine template</td></tr>
+      <tr><td>10</td><td>implementation (scripts)</td><td>drawer</td><td class="eng-tag">engine template</td></tr>
+      <tr><td>11</td><td>read deeper — companion</td><td>drawer</td><td class="out-tag">★ output-only</td></tr>
+      <tr><td>＋</td><td>optional per-output result panels</td><td>drawer</td><td class="out-tag">★ per-output</td></tr>
+    </tbody></table>
+  </section>
+
+  <section>
+    <p class="sec-k">the registry</p>
+    <h2>What each output fills (render-from-DATA)</h2>
+    <pre><code>output = {
+  key:"resituation", name:"Resituation", eng:"2.R", tag:"the same text, re-situated in another world",
+  table:"resituate_results", status:{status,coverage,output,unit,limit},
+  what, why, logic,                         // IN→BOX→OUT→NEXT
+  example:{ id, label, row, note },         // a real run
+  fields:[ {field,type,tier,state,desc,caveat}, … ],
+  rigor:{ headline, guards[], floor:{n,caught,holds} },   // ★ output-only
+  reuse:[ {name, note} ],                   // ★ output-only
+  irr:{ primary[], touches[] },  code:[ … ],
+  companion:{ label, href },                // ★ output-only
+  panels:[ {kind, …} ],                     // ★ per-output (head-to-head, world-tree, …)
+  split:{ always:[…], drawer:[…] },
+}</code></pre>
+    <p class="note">One <code>DATA_schema_outputs.json</code> registry, six output objects — the same fetch-and-render pattern as the library page. Reading-SBs write into the registry; the drawer renders it.</p>
+  </section>
+
+  <section>
+    <p class="sec-k">backfill status</p>
+    <h2>The fresh start — what's filled, what's a slot to fill</h2>
+    <p class="note">Honest starting grid (from the current free-form drawers). Resituation is fully specced (S159); the rest have partial free-form content to backfill + empty slots that are now <em>somewhere to put the work</em>.</p>
+    <table class="grid"><thead><tr><th>output</th><th>what/why</th><th>logic</th><th>status</th><th>example</th><th>fields</th><th>rigor</th><th>audit</th><th>code</th></tr></thead><tbody>
+      <tr><td>Resituation</td><td class="full">●</td><td class="full">●</td><td class="full">●</td><td class="full">●</td><td class="full">●</td><td class="full">●</td><td class="full">●</td><td class="full">●</td></tr>
+      <tr><td>Gloss</td><td class="part">◐</td><td class="part">◐</td><td class="tbd">○</td><td class="part">◐</td><td class="tbd">○</td><td class="part">◐</td><td class="tbd">○</td><td class="tbd">○</td></tr>
+      <tr><td>Reception</td><td class="part">◐</td><td class="part">◐</td><td class="tbd">○</td><td class="part">◐</td><td class="tbd">○</td><td class="tbd">○</td><td class="tbd">○</td><td class="tbd">○</td></tr>
+      <tr><td>Fan</td><td class="part">◐</td><td class="tbd">○</td><td class="tbd">○</td><td class="part">◐</td><td class="tbd">○</td><td class="tbd">○</td><td class="tbd">○</td><td class="tbd">○</td></tr>
+      <tr><td>Comparison</td><td class="part">◐</td><td class="tbd">○</td><td class="tbd">○</td><td class="tbd">○</td><td class="tbd">○</td><td class="tbd">○</td><td class="tbd">○</td><td class="tbd">○</td></tr>
+      <tr><td>Constellation</td><td class="part">◐</td><td class="tbd">○</td><td class="tbd">○</td><td class="tbd">○</td><td class="tbd">○</td><td class="tbd">○</td><td class="tbd">○</td><td class="tbd">○</td></tr>
+    </tbody></table>
+    <p class="note"><span class="full" style="font-family:var(--mono)">●</span> filled &nbsp; <span class="part" style="font-family:var(--mono)">◐</span> partial (free-form to restructure) &nbsp; <span class="tbd" style="font-family:var(--mono)">○</span> empty slot — the honest gap. <em>(Grid is a first estimate from the current drawers; reading-SBs confirm + fill per output.)</em></p>
+  </section>
+
+  <div class="foot">
+    Output-drawer template · design-SB · S159 · 2026-08-04<br>
+    Sources: the engine (Situate/Analyze) const-P template · the current free-form output drawers · the RESITUATE spec + export (the worked specimen) · the library-schema stage registry (the render-from-DATA precedent) · §2.13/§2.16 · §2.15.<br>
+    <a href="/engine/schema.html">the instrument schema →</a> &nbsp;·&nbsp; <a href="/_staging/reading_room_house_pattern.html">the reading-room house pattern →</a>
+  </div>
+</div>
+</body></html>
