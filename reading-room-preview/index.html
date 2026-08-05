@@ -271,12 +271,12 @@ a.vi:hover em{color:var(--fern)}
     c.addEventListener('focus', function(){setActive(c);});
     c.addEventListener('click', function(){var r=c.getAttribute('data-room'); if(r) location.href=r;});
   });
-  // four-voices icons hover-swap the plate too (click still opens the KJV gospel)
+  // four-voices icons hover-swap the plate too (click still opens the WEB gospel)
   var VOICES={matthew:'Matthew',mark:'Mark',luke:'Luke',john:'John'};
   function showVoice(g){
     pimg.src='assets/panels/icon-'+g+'.svg'; pimg.style.objectPosition='50% 50%'; pimg.alt=VOICES[g]+' — evangelist';
     cap.innerHTML='<b>'+VOICES[g].toUpperCase()+'</b><br>the voice';
-    cred.innerHTML='Illuminated panel &mdash; authored design, Grammar of Meaning &middot; <a href="voices.html?g='+g+'">read '+VOICES[g]+' in full (KJV) &rarr;</a>';
+    cred.innerHTML='Illuminated panel &mdash; authored design, Grammar of Meaning &middot; <a href="voices.html?g='+g+'">read '+VOICES[g]+' in full (WEB) &rarr;</a>';
   }
   [].forEach.call(document.querySelectorAll('a.vi'), function(a){
     var g=(a.getAttribute('href').match(/g=([a-z]+)/)||[])[1];
