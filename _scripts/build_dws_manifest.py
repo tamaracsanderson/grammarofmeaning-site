@@ -49,6 +49,7 @@ MIRROR_MAP = {
   "/engine/data/library_gapmap.json": ("Librarian", "twelve-laws:pm/40_architecture/DATA_library_gapmap_librarywide_s161_2026-08-05.json", "OUTPUT ② gap-map drawer — 348 bibliographic silences"),
   "/engine/data/dws_manifest.json": ("design-SB", "(this file — self-generated)", "the DWS render-manifest itself"),
   "/engine/data/dws_status.json": ("design-SB", "(hand-maintained)", "the DWS open-threads + conventions"),
+  "/engine/data/essay_workstream.json": ("Essay SB", "twelve-laws:field_ed/_essay_workstream/essay_workstream.json", "essay-schema.html (EWS) — METRICS + NODES; via export_essay_workstream.py"),
 }
 
 # DYNAMIC_MAP — fetches whose path is built at runtime (`base+key+'.json'`); the scanner
