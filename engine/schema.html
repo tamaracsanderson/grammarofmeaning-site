@@ -1363,5 +1363,40 @@ function renderOutReg(e){
     return __legacy(e);
   };
 })();
+/* Fail-safe upgrade of the Coded Object drawer to instrument-depth (bundle pipeline +
+   the four coded aspects incl. the now-folded-in lineage, with its honest punctual state).
+   Only patches if the legacy fn exists; try/catch => any failure falls back to legacy. */
+(function(){
+  if(typeof openCodedObject!=='function') return;
+  var __co=openCodedObject;
+  window.openCodedObject=function(){
+    try{
+      if(typeof _outSec!=='function'||typeof _outLogic!=='function') return __co();
+      document.getElementById('d-title').textContent='Coded Object';
+      document.getElementById('d-what').textContent='the atomic result of coding an account — moves × four aspects';
+      document.getElementById('d-tbl').textContent='the shared substrate every output is built from';
+      var bundle=_outLogic({in:'one text (an account)',box:'decompose into moves · bundle the nested sub-moves · code each move on all four aspects',out:'a CODED TEXT — moves × (sitz · paradigm · lineage · frame)',next:'every recomposition downstream (Fan · Resituate · Gloss · Reception · Comparison · Constellation) is built from this one object.'});
+      var aspects='<div style="display:grid;gap:9px;font-size:14.5px;line-height:1.5">'
+        +'<div><b style="color:#2C4A38">sitz</b> — per move · the world the move was made in (the same world, re-focused; shifts little within an account)</div>'
+        +'<div><b style="color:#2C4A38">paradigm</b> — per move · the controlling metaphor (theophany → sign → throne → commission)</div>'
+        +'<div><b style="color:#2C4A38">lineage</b> — <b style="color:#C4602F">punctual</b> · only the few moves that stand on a source carry it (MATT 7 · MARK 4 · LUKE 4 · JOHN 4); <b>most moves have none, and that is correct, not missing data</b>. Folded into code_account_full as step 5 (S160) — no longer a separate/missing pass.</div>'
+        +'<div><b style="color:#2C4A38">frame</b> — per move · the 8-axis read, and it <b>veers</b> move to move (MATT 29/29 · MARK 35/36 · LUKE 25/29 · JOHN 33/36) — see the heatmap.</div></div>';
+      var live=(typeof liveCountsHTML==='function')?liveCountsHTML():'';
+      var html='<div class="odrawer">'
+        +_outSec(1,'what it is','One text, coded into an atomic object. <b>Situate</b> fixes where it stands and <b>Analyze</b> breaks it into <b>moves</b> + their typed edges; the two converge and each move is coded on <b>four aspects</b> — sitz · paradigm · lineage · frame. The result is the CODED TEXT every output is built from.',false)
+        +_outSec(2,'the bundle — in → box → out',bundle,false)
+        +_outSec(3,'the four coded aspects',aspects,false)
+        +_outSec(4,'a real coded object','<a href="/reading-room-preview/moves.html" target="_blank" rel="noopener" style="display:block;border:1px solid #C4602F;border-radius:8px;padding:9px 12px;background:rgba(196,96,47,.07);color:#C4602F;font-family:\'Inter\',system-ui,sans-serif;font-size:12.5px;font-weight:600;text-decoration:none">▶ the coded moves, live — Mt / Mk / Lk / Jn (move × frame, veers highlighted) →</a><div style="margin-top:6px;font-family:\'IBM Plex Mono\',ui-monospace,monospace;font-size:11px;color:#7C8478">the per-source coded data (all four aspects) is in the provenance panel below.</div>',false)
+        +'</div>'
+        +'<section class="lay"><div class="lhd"><span class="lnum">L</span><span class="lname">Live corpus</span><span class="lsub">generated from the tables, not hardcoded</span></div><div class="lbody">'+live+'</div></section>'
+        +'<section class="lay"><div class="lhd"><span class="lnum">≡</span><span class="lname">Coded ledger</span><span class="lsub">every coded source, with its counts</span></div><div class="lbody"><details class="clpanel"><summary class="cl-sum">show all coded sources</summary><div class="cl-body" data-ledger="1">loading…</div></details></div></section>';
+      document.getElementById('d-body').innerHTML=html;
+      document.getElementById('dlg').showModal();
+      if(typeof __afterDrawer==='function')__afterDrawer();
+      return;
+    }catch(err){ if(window.console)console.warn('Coded Object v2 failed; legacy fallback',err); }
+    return __co();
+  };
+})();
 </script>
 </body></html>
