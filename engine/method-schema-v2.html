@@ -113,7 +113,7 @@ function osec(h,b){return '<div class="osec"><div class="osec-h">'+h+'</div><div
    awaiting=needs its DATA export wired (owner + what). data= the fetchable export for live ones. */
 var FAMILIES=[
  {band:'A',n:'1',id:'analyze',name:'Analyze',what:'the moves — said + unsaid',subs:'moves-grammar · silences',status:'awaiting',owner:'reading-SB',need:'moves-layer export (engine1 extract + layer2b silences)'},
- {band:'A',n:'2',id:'situate',name:'Situate',what:'where the text stands',subs:'sitz · paradigm · frame · lineage',status:'awaiting',owner:'reading-SB + Librarian',need:'situate viz (live) + lineage/tributary + corrected frame/morphospace export'},
+ {band:'A',n:'2',id:'situate',name:'Situate',what:'the upstream conditions',subs:'sitz · paradigm · frame · lineage · witness',status:'awaiting',owner:'reading-SB + Librarian',need:'situate viz (live) + lineage/tributary + corrected frame/morphospace export'},
  {band:'A',n:'3',id:'compare',name:'Compare',what:'the same life, four times / four tongues',subs:'narrative-braid · translation-partiture',status:'awaiting',owner:'reading-SB',need:'partiture v1 export ON MAIN (DATA_partiture_mark16_v1) + braid export — hero viz, builds next'},
  {band:'A',n:'4',id:'constellation',name:'Constellation',what:'the sound-field',subs:'sonic + recurrence',status:'awaiting',owner:'reading-SB',need:'constellation_v3 export (edge-taxonomy caveat)'},
  {band:'A',n:'5',id:'resituation',name:'Resituate',what:'the same text under a changed world',subs:'deductive · abductive',status:'live',data:'data/resituation_drawer.json'},
@@ -121,7 +121,7 @@ var FAMILIES=[
  {band:'A',n:'7',id:'gloss',name:'Gloss',what:'said plainly',subs:'reader-gloss · persona-crit · silence',status:'awaiting',owner:'Content SB + reading-SB',need:'reader-gloss lives via coded_move_state (reading rail); persona-crit + silence exports TO BUILD'},
  {band:'A',n:'8',id:'joins',name:'JOINS',what:'cross-engine views',subs:'variance × lineage …',status:'awaiting',owner:'reading-SB',need:'new family export (seed: the Variance×Lineage join)'},
  {band:'B',n:'9',id:'reception',name:'Reception',what:'how the canon was received + the gaps',subs:'reception-history · gap-fill gloss',status:'awaiting',owner:'Librarian',need:'reception export (gated on the Acquire-SB chunk-index of the held Fathers)'},
- {band:'B',n:'10',id:'witness',name:'Witness',what:'who carried the text, and how it moved',subs:'witness · transmission',status:'awaiting',owner:'reading-SB',need:'DATA_witness export (built + dual-stored; viz ref VIZ_witness_transmission_s161)'}
+ {band:'A',n:'W',id:'witness',name:'Witness',what:'who carried the text, and how it moved',subs:'witness · transmission — a Situate aspect (upstream)',status:'pilot',data:'data/witness_transmission.json'}
 ];
 var CACHE={};
 function pill(status){var c={live:'live',pilot:'pilot',awaiting:'awaitp'}[status]||'awaitp';var t={live:'live',pilot:'pilot',awaiting:'awaiting export'}[status]||status;return '<span class="pill '+c+'">'+t+'</span>';}
@@ -166,7 +166,28 @@ function openFamily(id){
 /* ── Resituate drawer — render-from-data (DATA_resituation_drawer_s160) ── */
 function renderDrawer(f,d){
   if(f.id==='resituation') return renderResituation(d);
+  if(f.id==='witness') return renderWitness(d);
   document.getElementById('d-body').innerHTML='<p class="err">no renderer for '+esc(f.id)+'</p>';
+}
+/* ── Witness drawer — render-from-data (DATA_witness_transmission_s161: nodes + edges + meta) ── */
+function renderWitness(d){
+  var m=d.meta||{}, nodes=d.nodes||[], edges=d.edges||[], b='';
+  if(m.finding) b+=osec('what it found','<p>'+esc(m.finding)+'</p>');
+  var sorted=nodes.slice().sort(function(a,c){var x=a.degrees_from_origin==null?99:a.degrees_from_origin,y=c.degrees_from_origin==null?99:c.degrees_from_origin;return x-y;});
+  var wl=sorted.map(function(n){
+    var meta=[(n.degrees_from_origin!=null?n.degrees_from_origin+'°':''),n.composition_year,n.composition_place,n.mode].filter(Boolean).map(esc).join(' · ');
+    return '<li><b>'+esc(n.label||n.key)+'</b>'+(meta?' <span style="color:var(--muted);font-size:12px">'+meta+'</span>':'')+'</li>';
+  }).join('');
+  b+=osec('the witnesses — by distance from the origin','<ul>'+wl+'</ul>');
+  var el=edges.map(function(e){
+    return '<li><b>'+esc(e.label_from||e.from)+'</b> → <b>'+esc(e.label_to||e.to)+'</b> <span style="color:var(--muted);font-size:11.5px">'+esc(e.edge_type||'')+(e.confidence?' · '+esc(e.confidence):'')+'</span>'+(e.note?'<br><span style="font-size:12.5px;color:var(--muted)">'+esc(e.note)+'</span>':'')+'</li>';
+  }).join('');
+  b+=osec('how it moved — the transmission','<ul>'+el+'</ul>');
+  if(m.estimate_caveat) b+=osec('the caveat — honest (§2.8)','<p>'+esc(m.estimate_caveat)+'</p>');
+  if(m.render_hint) b+='<details class="clc"><summary>render hint (for the hero viz)</summary><div class="osec-b"><p>'+esc(m.render_hint)+'</p></div></details>';
+  var c=m.counts||{};
+  document.getElementById('d-tbl').textContent='grammar · situate aspect · '+(c.total_nodes||nodes.length)+' witnesses / '+(c.edges||edges.length)+' links · render-from-data';
+  document.getElementById('d-body').innerHTML=b;
 }
 function asList(v){return Array.isArray(v)?v:(v==null?[]:[v]);}
 function ul(items){return '<ul>'+items.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';}

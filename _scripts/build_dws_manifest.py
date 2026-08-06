@@ -32,6 +32,7 @@ MIRROR_MAP = {
   "/engine/data/library_insights.json":      ("Librarian", "twelve-laws:pm/40_architecture/DATA_library_insights_s160_2026-08-04.json", "Field-findings insight strip (LACUNA drawer)"),
   "/engine/data/voices_web.json":            ("Librarian", "twelve-laws:pm/40_architecture/DATA_voices_web_s160.json", "WEB text of the 4 resurrection chapters"),
   "/engine/data/resituate_gospels_export.json": ("reading-SB", "twelve-laws:pm/40_architecture/resituate_3room/RESITUATE_gospels_readable_2026-08-04.md (export)", "RESITUATE gospels sensitivity strip"),
+  "/engine/data/witness_transmission.json": ("reading-SB", "twelve-laws:pm/40_architecture/DATA_witness_transmission_s161.json", "method-schema-v2 Witness drawer — transmission nodes+edges (Situate aspect, Band A)"),
   "/engine/data/resituation_drawer.json":    ("reading-SB", "twelve-laws:pm/40_architecture/DATA_resituation_drawer_s160.json", "Resituation drawer: both directions + CLC backlog"),
   "/engine/data/coded_move_state_MATT-28.json": ("reading-SB", "twelve-laws:pm/50_audits/DATA_coded_move_state_MATT-28_s160.json", "coded-move heatmap + moves-list"),
   "/engine/data/coded_move_state_MARK-16.json": ("reading-SB", "twelve-laws:pm/50_audits/DATA_coded_move_state_MARK-16_s160.json", "coded-move heatmap + moves-list"),
