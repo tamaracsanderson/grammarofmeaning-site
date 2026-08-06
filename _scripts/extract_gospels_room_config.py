@@ -87,14 +87,16 @@ for o in objs(array_after(idx_src, "const VARIANTS")[1:-1]):
     filt = re.search(r'imgFilter\s*:\s*\n?\s*"([^"]+)"', o)
     is_met = fn in MET_SOURCED
     grounds.append({"id": vid, "label": field(o, 'label'), "note": field(o, 'note'),
+                    "alt": field(o, 'alt'),
                     "img": ("assets/grounds/" + fn) if fn else None,
                     "source": "met" if is_met else "project",
                     "credit_tail": ("The Met — Open Access (CC0)" if is_met else "ground texture — Grammar of Meaning"),
                     "met_url": MET_SOURCED.get(fn) if is_met else None,
+                    "ground_color": field(o, 'ground'), "focus": field(o, 'focus'),
                     "vignette": vig.group(1) if vig else None,
                     "imgFilter": filt.group(1) if filt else None,
                     "kicker": field(o, 'kicker'), "title_color": field(o, 'title'),
-                    "body_color": field(o, 'body')})
+                    "rule": field(o, 'rule'), "body_color": field(o, 'body')})
 
 config = {
  "_note": "Gospels reading-room image config — extracted from the Lovable gospel-depths mock via _scripts/extract_gospels_room_config.py. render-from-data (§2.16). Images MET Open Access (CC0) or project-owned ground textures; provenance authoritative in the mock's IMAGE-CREDITS.md. RULES: never swap/regenerate images; crop = curation, tune don't reset; on 404 look up SAME object via Met API. 'credit' = museum caption + PD-source record (§2.4).",
