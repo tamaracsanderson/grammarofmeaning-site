@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The Gospels — a reading room · Grammar of Meaning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* The Gospels — the threshold (door). Rebuilt from the Lovable gospel-depths mock:
+   rotating full-bleed material grounds + wordmark + museum caption. render-from-data
+   (data/gospels_room_config.json). Ground images MET Open Access (CC0) or project-owned
+   textures — NEVER swap/regenerate (IMAGE-CREDITS.md). Ports the door's evensong + theme. */
+:root{--serif:"Cormorant Garamond",Georgia,serif;--mono:"IBM Plex Mono",ui-monospace,monospace;
+  --title:#f2e6d6;--body:#e8dfce;--kicker:#d8c9a8;
+  --tshadow:0 1px 2px rgba(0,0,0,.42),0 0 18px rgba(0,0,0,.32),0 0 40px rgba(0,0,0,.14);
+  --bshadow:0 1px 2px rgba(0,0,0,.38),0 0 12px rgba(0,0,0,.26),0 0 28px rgba(0,0,0,.1)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:#0b0507;color:var(--body);font-family:var(--serif);overflow:hidden}
+/* two stacked ground layers cross-fade between grounds */
+.bg{position:fixed;inset:0;z-index:0;background-size:cover;background-position:50% 44%;
+  opacity:0;transition:opacity 1.6s ease}
+.bg.on{opacity:1}
+.vig{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 42%,rgba(0,0,0,0) 0%,rgba(6,4,3,.72) 88%);
+  transition:background 1.6s ease}
+/* content */
+.wrap{position:relative;z-index:2;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:6vh 24px 5vh;gap:2px}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--kicker);text-shadow:var(--bshadow);margin:0 0 22px;min-height:1.2em;transition:color 1.6s ease}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(46px,11vw,120px);line-height:.94;
+  letter-spacing:.01em;color:var(--title);text-shadow:var(--tshadow);margin:0;transition:color 1.6s ease}
+.tag{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(16px,2.3vw,22px);
+  line-height:1.5;color:var(--body);text-shadow:var(--bshadow);max-width:30rem;margin:22px 0 30px;transition:color 1.6s ease}
+.actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center}
+.enter{font-family:var(--mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#1a120a;
+  background:color-mix(in srgb,var(--kicker) 88%,#fff);border:none;border-radius:999px;padding:13px 34px;
+  cursor:pointer;transition:transform .2s,background .25s;text-decoration:none;display:inline-block}
+.enter:hover{transform:translateY(-1px);background:#f3e7cf}
+.audio{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--body);background:rgba(10,8,6,.35);
+  border:1px solid rgba(230,220,200,.35);border-radius:999px;padding:11px 16px;cursor:pointer;backdrop-filter:blur(3px)}
+.audio[aria-pressed=true]{color:#f0d9a8;border-color:rgba(240,217,168,.6)}
+.credit{font-family:var(--mono);font-size:10px;letter-spacing:.02em;color:var(--kicker);text-shadow:var(--bshadow);
+  opacity:.9;margin:34px 0 0;max-width:64ch;line-height:1.7;min-height:2.6em;transition:color 1.6s ease}
+.credit a{color:inherit}
+.themebtn{position:fixed;top:16px;right:16px;z-index:5;background:rgba(10,8,6,.4);
+  border:1px solid rgba(230,220,200,.35);border-radius:999px;padding:6px 14px;
+  font:12px var(--mono);letter-spacing:.06em;cursor:pointer;color:var(--body);backdrop-filter:blur(3px)}
+:root[data-theme=light] .vig{background:radial-gradient(ellipse at 50% 42%,rgba(0,0,0,0) 0%,rgba(6,4,3,.55) 92%)}
+@media(prefers-reduced-motion:reduce){.bg,.vig,.kicker,h1,.tag,.credit{transition:none}}
+@media(max-width:600px){.credit{font-size:9px}}
+</style>
+<script>(function(){try{var t=localStorage.getItem("gom-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();
+function gomTheme(){var r=document.documentElement;var t=r.dataset.theme==="dark"?"light":"dark";r.dataset.theme=t;try{localStorage.setItem("gom-theme",t);}catch(e){}}</script>
+</head>
+<body>
+<div class="bg" id="bgA" aria-hidden="true"></div>
+<div class="bg" id="bgB" aria-hidden="true"></div>
+<div class="vig" id="vig" aria-hidden="true"></div>
+<button class="themebtn" onclick="gomTheme()">theme</button>
+
+<main class="wrap">
+  <p class="kicker" id="kicker"></p>
+  <h1>The Gospels</h1>
+  <p class="tag" id="tag">Six movements. Four witnesses. One life, told four times over — read slowly, in the old manner.</p>
+  <div class="actions">
+    <a class="enter" id="enterBtn" href="all.html">Enter</a>
+    <button class="audio" id="audioBtn" aria-pressed="false" title="Ambient plainsong — off by default, plays softly">&#9835; <span id="audioLabel">play evensong</span></button>
+    <audio id="evensong" preload="none"></audio>
+  </div>
+  <p class="credit" id="credit"></p>
+</main>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var bgA=document.getElementById('bgA'), bgB=document.getElementById('bgB'), vig=document.getElementById('vig'),
+      kicker=document.getElementById('kicker'), tag=document.getElementById('tag'), credit=document.getElementById('credit'),
+      root=document.documentElement.style, front=bgA, back=bgB;
+  var GROUNDS=[], ENTRY=null, i=0, timer=null;
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+  function paint(g){
+    // swap the back layer in with the new ground, then make it the front
+    back.style.backgroundImage = "url('"+g.img+"')";
+    back.style.filter = g.imgFilter || 'none';
+    if(g.vignette) vig.style.background = g.vignette;
+    back.classList.add('on'); front.classList.remove('on');
+    var t=front; front=back; back=t;
+    // type colours + caption from the ground (per §2.4: note = museum caption + PD source)
+    root.setProperty('--kicker', g.kicker || '#d8c9a8');
+    root.setProperty('--title', g.title_color || '#f2e6d6');
+    root.setProperty('--body', g.body_color || '#e8dfce');
+    kicker.textContent = (g.label||'').toUpperCase();
+    var tail = g.met_url ? '<a href="'+g.met_url+'" target="_blank" rel="noopener">'+esc(g.credit_tail||'The Met — Open Access (CC0)')+'</a>' : esc(g.credit_tail||'');
+    credit.innerHTML = esc(g.note||'') + (g.note&&tail?' &middot; ':'') + tail;
+  }
+  function next(){ i=(i+1)%GROUNDS.length; paint(GROUNDS[i]); }
+
+  fetch('data/gospels_room_config.json').then(function(r){return r.json();}).then(function(c){
+    GROUNDS = (c.grounds||[]).filter(function(g){return g.img;});
+    ENTRY = c.entry||{};
+    if(ENTRY.tagline) tag.textContent = ENTRY.tagline;
+    if(!GROUNDS.length){ document.body.style.background='#1b1a16'; return; }
+    // start on the default ground (Carved Stone), then rotate — per-visit freshness
+    var di = GROUNDS.findIndex(function(g){return g.id===(ENTRY.default_ground||'stone');});
+    i = di>=0 ? di : 0;
+    // preload images so cross-fades are smooth
+    GROUNDS.forEach(function(g){ var im=new Image(); im.src=g.img; });
+    paint(GROUNDS[i]);
+    if(ENTRY.rotate!==false && !reduce && GROUNDS.length>1){
+      timer = setInterval(next, 14000);        // slow drift while you linger
+      document.addEventListener('visibilitychange', function(){
+        if(document.hidden){ clearInterval(timer); } else if(ENTRY.rotate!==false && !reduce){ timer=setInterval(next,14000); }
+      });
+    }
+  }).catch(function(){ document.body.style.background='#1b1a16'; kicker.textContent=''; });
+
+  // ── evensong — ported from the door; off by default, the 3 tracks rotate ──
+  var ab=document.getElementById('audioBtn'), au=document.getElementById('evensong'), al=document.getElementById('audioLabel');
+  var TRACKS=[
+   {t:'Palestrina, Sicut lilium inter spinas — The Tudor Consort',src:'assets/palestrina-sicut-lilium.mp3'},
+   {t:'Palestrina, Agnus Dei (Missa Sicut lilium) — The Tudor Consort',src:'assets/palestrina-agnus-dei.mp3'},
+   {t:'Gregorian, Audi Benigne Conditor — Gregoriana',src:'assets/gregorian-audi-benigne.mp3'}
+  ];
+  var cur=0; au.volume=0.32; au.src=TRACKS[0].src;
+  function playTrack(n){ cur=n; au.src=TRACKS[n].src;
+    au.play().then(function(){ ab.setAttribute('aria-pressed','true'); al.textContent='pause evensong'; })
+             .catch(function(){ al.textContent='evensong unavailable'; }); }
+  ab.addEventListener('click', function(){
+    if(ab.getAttribute('aria-pressed')==='true'){ au.pause(); ab.setAttribute('aria-pressed','false'); al.textContent='play evensong'; }
+    else { playTrack(cur); } });
+  au.addEventListener('ended', function(){ playTrack((cur+1)%TRACKS.length); });
+})();
+</script>
+</body>
+</html>

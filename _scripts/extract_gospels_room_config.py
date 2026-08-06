@@ -69,6 +69,14 @@ imp = {}
 for m in re.finditer(r'import\s+(\w+)\s+from\s+"@/assets/([^"]+?)(?:\.asset\.json)?"', idx_src):
     imp[m.group(1)] = m.group(2)
 WANT = ['coptic', 'gold', 'stone', 'glass', 'ivory', 'enamel', 'ktisis', 'lawrence', 'armenian']
+# per IMAGE-CREDITS.md: which ground filenames are MET Open Access (CC0) vs project-rendered textures.
+MET_SOURCED = {  # filename -> Met collection object URL (where IMAGE-CREDITS gives one)
+    'four-gospels-armenian.jpg': 'https://www.metmuseum.org/art/collection/search/478665',
+    'met-ktisis.jpg': 'https://www.metmuseum.org/art/collection/search/469960',
+    'met-lawrence.jpg': None, 'met-eleousa.jpg': None,
+    'ivory-diptych.jpg': None, 'limoges-enamel.jpg': None,
+    'coptic-tapestry.jpg': None, 'glass-plate.jpg': None,
+}
 grounds = []
 for o in objs(array_after(idx_src, "const VARIANTS")[1:-1]):
     vid = field(o, 'id')
@@ -77,8 +85,12 @@ for o in objs(array_after(idx_src, "const VARIANTS")[1:-1]):
     fn = imp.get(sm.group(1)) if sm else None
     vig = re.search(r'vignette\s*:\s*"([^"]+)"', o)
     filt = re.search(r'imgFilter\s*:\s*\n?\s*"([^"]+)"', o)
+    is_met = fn in MET_SOURCED
     grounds.append({"id": vid, "label": field(o, 'label'), "note": field(o, 'note'),
                     "img": ("assets/grounds/" + fn) if fn else None,
+                    "source": "met" if is_met else "project",
+                    "credit_tail": ("The Met — Open Access (CC0)" if is_met else "ground texture — Grammar of Meaning"),
+                    "met_url": MET_SOURCED.get(fn) if is_met else None,
                     "vignette": vig.group(1) if vig else None,
                     "imgFilter": filt.group(1) if filt else None,
                     "kicker": field(o, 'kicker'), "title_color": field(o, 'title'),
