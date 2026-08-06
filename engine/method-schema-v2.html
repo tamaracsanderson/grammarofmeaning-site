@@ -1,0 +1,201 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Method &amp; Instrument (v2 · staging) — Grammar of Meaning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* METHOD-ENGINE SCHEMA REBUILD — v2 staging (SPEC_method_engine_schema_rebuild_s161).
+   NOT the live flagship: build here, grow drawer-by-drawer render-from-data, flip method-schema.html → v2
+   once Band A's live drawers land. TWO BANDS (grammar/canon axis) so §1 domain-agnostic claim stays visible.
+   Every drawer renders from a fetchable DATA_*.json — a drawer that can't = 'awaiting export' placeholder
+   (§2.16 'flag it, don't fake it', made visible = the SSOT audit). House pattern = library-schema sibling. */
+:root{--bg:#F6F1E4;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;
+ --eng:#2C4A38;--sub:#3F7D57;--tbd:#8AA88B;--out:#C4602F;--honey:#E0A93B;--olive:#6E7B3A;
+ --serif:"Newsreader",ui-serif,Georgia,serif;--sans:"Inter",ui-sans-serif,system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#1B211D;--paper2:#232A25;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;--eng:#4A7A5C;--sub:#5C9A72;--tbd:#6B7A6D;--out:#D9793F;--olive:#9CA86A}}
+:root[data-theme=dark]{--bg:#1B211D;--paper2:#232A25;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;--eng:#4A7A5C;--sub:#5C9A72;--tbd:#6B7A6D;--out:#D9793F;--olive:#9CA86A}
+:root[data-theme=light]{--bg:#F6F1E4;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;--eng:#2C4A38;--sub:#3F7D57;--tbd:#8AA88B;--out:#C4602F;--olive:#6E7B3A}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 var(--sans);font-feature-settings:"ss01","cv11"}
+.wrap{max-width:1080px;margin:0 auto;padding:26px 22px 60px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.topbar a{font-size:13px;color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
+.topbar .nav{display:flex;gap:14px;flex-wrap:wrap}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.stagetag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--out);border:1px dashed color-mix(in srgb,var(--out) 50%,var(--line));border-radius:5px;padding:2px 8px;margin-left:8px;vertical-align:middle}
+h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;letter-spacing:-.01em;color:var(--eng);margin:0 0 12px;line-height:1.1}
+.lede{font-family:var(--serif);font-size:17px;line-height:1.6;color:var(--fg);max-width:46rem;margin:0 0 10px}
+.click{font-size:14px;color:var(--muted);max-width:46rem;margin:0 0 4px}.click b{color:var(--fg);font-weight:600}
+/* band */
+.band{margin:30px 0 4px}
+.band-h{display:flex;align-items:baseline;gap:12px;border-top:2px solid var(--line);padding-top:14px;margin-bottom:4px;flex-wrap:wrap}
+.band-k{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--sub);font-weight:500}
+.band-t{font-family:var(--serif);font-size:21px;font-weight:600;color:var(--eng)}
+.band-g{font-size:13px;color:var(--muted);max-width:44rem;margin:0 0 14px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:720px){.grid{grid-template-columns:repeat(4,1fr)}}
+.fcard{text-align:left;border:1px solid var(--line);border-radius:11px;background:var(--card);padding:13px 14px;cursor:pointer;font:inherit;display:flex;flex-direction:column;gap:5px;transition:box-shadow .2s,transform .2s;position:relative}
+.fcard:hover{transform:translateY(-2px);box-shadow:0 10px 26px -18px rgba(40,48,42,.5)}
+.fcard .fn{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--muted)}
+.fcard b{font-family:var(--serif);font-size:15.5px;font-weight:600;color:var(--eng);line-height:1.15}
+.fcard .fw{font-size:11.5px;color:var(--muted);line-height:1.4}
+.fcard .subs{font-family:var(--mono);font-size:9px;color:var(--sub);letter-spacing:.02em;margin-top:2px}
+.fcard.await{opacity:.62;cursor:default;border-style:dashed;background:transparent}
+.fcard.await:hover{transform:none;box-shadow:none}
+.fcard.live b{color:var(--eng)}
+.pill{position:absolute;top:10px;right:11px;font-family:var(--mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:4px}
+.pill.live{color:#2f6b45;background:color-mix(in srgb,var(--sub) 16%,transparent)}
+.pill.pilot{color:#9a7420;background:color-mix(in srgb,var(--honey) 18%,transparent)}
+.pill.awaitp{color:var(--muted);background:color-mix(in srgb,var(--line) 40%,transparent)}
+/* drawer (house pattern) */
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--fg);max-width:760px;width:92%;padding:0;max-height:92vh}
+dialog[open]{display:flex;flex-direction:column}dialog::backdrop{background:rgba(0,0,0,.45)}
+.dh{padding:16px 20px 12px;border-bottom:1px solid var(--line);flex-shrink:0}
+.close{float:right;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:3px 12px;cursor:pointer;font-size:12px}
+.dh h3{margin:0 0 3px;font-size:20px;font-family:var(--serif);font-weight:600;color:var(--eng)}
+.dh .w{color:var(--muted);font-size:13.5px;font-style:italic}
+.dh .tbl{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--sub);margin-top:7px}
+.db{padding:16px 20px 22px;overflow:auto;flex:1 1 auto;min-height:0}
+.osec{margin:0 0 16px;padding:0 0 14px;border-bottom:1px solid color-mix(in srgb,var(--line) 55%,transparent)}
+.osec:last-child{border-bottom:none}
+.osec-h{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--out);margin-bottom:8px}
+.osec-b{font-family:var(--serif);font-size:14.5px;line-height:1.6;color:var(--fg)}
+.osec-b code{font-family:var(--mono);font-size:12.5px}
+.osec-b ul{margin:8px 0;padding-left:20px}.osec-b li{margin:4px 0}
+.twoarm{display:grid;grid-template-columns:1fr;gap:10px;margin:6px 0}@media(min-width:560px){.twoarm{grid-template-columns:1fr 1fr}}
+.arm{border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:var(--bg)}
+.arm .ak{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);margin-bottom:4px}
+.arm .at{font-family:var(--serif);font-size:14px;font-weight:600;color:var(--eng);margin-bottom:3px}
+.awaitbody{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7}
+.awaitbody b{color:var(--out);font-weight:500}
+.clc{border-top:1px dashed var(--line);margin-top:12px;padding-top:10px}
+.clc summary{cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--out);list-style:none}
+.clc summary::-webkit-details-marker{display:none}.clc summary::before{content:"▸ ";color:var(--muted)}.clc[open] summary::before{content:"▾ "}
+.selfrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;border-top:1px solid var(--line);margin-top:30px;padding-top:16px}
+.selfrow .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.chip{display:inline-block;border-radius:.35rem;border:1px solid var(--line);background:var(--paper2);padding:.32rem .6rem;font-size:12.5px;color:var(--fg)}
+.err{color:var(--out)}
+</style>
+</head><body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="eyebrow">Grammar of Meaning · the method engine <span class="stagetag">v2 · staging</span></span>
+    <span class="nav"><a href="/engine/library-schema.html">The Library</a><a href="/engine/essay-schema.html">The Essays</a></span>
+  </div>
+  <div class="eyebrow">what a text is made of</div>
+  <h1>Method &amp; Instrument</h1>
+  <p class="lede">The engine reads across two bands. <b>Above</b>: the <b>grammar</b> — the domain-agnostic instrument that can be pointed at any corpus (what a move is, how the frame shifts, where texts rhyme). <b>Below</b>: the <b>Christian canon</b> — the proof-of-concept domain's own voice (its reception, its lineage, its witnesses). The grammar transfers; the canon is <em>this</em> domain's content.</p>
+  <p class="click">Click any output for its drawer. <b>Every drawer renders from live data</b> — an output with no data export yet shows as a dimmed <em>awaiting-export</em> card, so the page can't hide un-built work (that honesty is the point).</p>
+
+  <div class="band" id="bandA">
+    <div class="band-h"><span class="band-k">Band A</span><span class="band-t">Grammar — the instrument</span></div>
+    <p class="band-g">Domain-agnostic. Point it at Romans or at a pop lyric and it does the same thing: name the moves, watch the frame, find the rhyme.</p>
+    <div class="grid" id="gridA"></div>
+  </div>
+
+  <div class="band" id="bandB">
+    <div class="band-h"><span class="band-k">Band B</span><span class="band-t">Christian Canon — the proof-of-concept domain</span></div>
+    <p class="band-g">Tradition-specific. Where the instrument's outputs meet <em>this</em> corpus's own history — how the texts were received, what they inherit, who witnessed them.</p>
+    <div class="grid" id="gridB"></div>
+  </div>
+
+  <div class="selfrow" id="selfrow"><span class="k">the engine, on itself</span></div>
+</div>
+
+<dialog id="dlg"><div class="dh"><button class="close" onclick="document.getElementById('dlg').close()">close</button>
+<h3 id="d-title"></h3><div class="w" id="d-what"></div><div class="tbl" id="d-tbl"></div></div>
+<div class="db" id="d-body"></div></dialog>
+
+<script>
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function osec(h,b){return '<div class="osec"><div class="osec-h">'+h+'</div><div class="osec-b">'+b+'</div></div>';}
+/* ── the taxonomy scaffold (PI-locked grammar/canon axis; reading-SB owns registry.yaml — a
+   taxonomy export will replace this hardcode later). status: live=render-from-data drawer;
+   awaiting=needs its DATA export wired (owner + what). data= the fetchable export for live ones. */
+var FAMILIES=[
+ {band:'A',n:'1',id:'analyze',name:'Analyze',what:'the moves — said + unsaid',subs:'moves-grammar · silences',status:'awaiting',owner:'reading-SB',need:'moves-layer export (engine1 extract + layer2b silences)'},
+ {band:'A',n:'2',id:'situate',name:'Situate',what:'where the text stands',subs:'sitz · paradigm · frame · lineage',status:'awaiting',owner:'reading-SB + Librarian',need:'situate viz (live) + lineage/tributary + corrected frame/morphospace export'},
+ {band:'A',n:'3',id:'compare',name:'Compare',what:'the same life, four times / four tongues',subs:'narrative-braid · translation-partiture',status:'awaiting',owner:'reading-SB',need:'partiture v1 export ON MAIN (DATA_partiture_mark16_v1) + braid export — hero viz, builds next'},
+ {band:'A',n:'4',id:'constellation',name:'Constellation',what:'the sound-field',subs:'sonic + recurrence',status:'awaiting',owner:'reading-SB',need:'constellation_v3 export (edge-taxonomy caveat)'},
+ {band:'A',n:'5',id:'resituation',name:'Resituate',what:'the same text under a changed world',subs:'deductive · abductive',status:'live',data:'data/resituation_drawer.json'},
+ {band:'A',n:'6',id:'explain',name:'Explain',what:'the scholar-panel — language vs theology',subs:'variance panel',status:'awaiting',owner:'reading-SB',need:'panel-verdict export (thin/rich by confidence; full after CLC C1)'},
+ {band:'A',n:'7',id:'gloss',name:'Gloss',what:'said plainly',subs:'reader-gloss · persona-crit · silence',status:'awaiting',owner:'Content SB + reading-SB',need:'reader-gloss lives via coded_move_state (reading rail); persona-crit + silence exports TO BUILD'},
+ {band:'A',n:'8',id:'joins',name:'JOINS',what:'cross-engine views',subs:'variance × lineage …',status:'awaiting',owner:'reading-SB',need:'new family export (seed: the Variance×Lineage join)'},
+ {band:'B',n:'9',id:'reception',name:'Reception',what:'how the canon was received + the gaps',subs:'reception-history · gap-fill gloss',status:'awaiting',owner:'Librarian',need:'reception export (gated on the Acquire-SB chunk-index of the held Fathers)'},
+ {band:'B',n:'10',id:'witness',name:'Witness',what:'who carried the text, and how it moved',subs:'witness · transmission',status:'awaiting',owner:'reading-SB',need:'DATA_witness export (built + dual-stored; viz ref VIZ_witness_transmission_s161)'}
+];
+var CACHE={};
+function pill(status){var c={live:'live',pilot:'pilot',awaiting:'awaitp'}[status]||'awaitp';var t={live:'live',pilot:'pilot',awaiting:'awaiting export'}[status]||status;return '<span class="pill '+c+'">'+t+'</span>';}
+function card(f){
+  var live=(f.status==='live'||f.status==='pilot');
+  return '<button class="fcard '+(live?'live':'await')+'" data-fam="'+f.id+'"'+(live?'':' disabled')+'>'
+    +pill(f.status)
+    +'<span class="fn">'+esc(f.n)+'</span><b>'+esc(f.name)+'</b>'
+    +'<span class="fw">'+esc(f.what)+'</span>'
+    +'<span class="subs">'+esc(f.subs)+'</span></button>';
+}
+function render(){
+  document.getElementById('gridA').innerHTML=FAMILIES.filter(function(f){return f.band==='A';}).map(card).join('');
+  document.getElementById('gridB').innerHTML=FAMILIES.filter(function(f){return f.band==='B';}).map(card).join('');
+  [].forEach.call(document.querySelectorAll('.fcard[data-fam]:not([disabled])'),function(b){
+    b.addEventListener('click',function(){openFamily(b.getAttribute('data-fam'));});});
+  var live=FAMILIES.filter(function(f){return f.status==='live'||f.status==='pilot';}).length;
+  document.getElementById('selfrow').innerHTML='<span class="k">the engine, on itself</span>'
+    +'<span class="chip"><b>'+FAMILIES.length+'</b> outputs · <b>'+live+'</b> live · <b>'+(FAMILIES.length-live)+'</b> awaiting export</span>'
+    +'<span class="chip">two bands: grammar (instrument) · canon (this domain)</span>'
+    +'<span class="chip">every drawer render-from-data (§2.16)</span>';
+}
+function openFamily(id){
+  var f=FAMILIES.filter(function(x){return x.id===id;})[0]; if(!f) return;
+  document.getElementById('d-title').textContent=f.name;
+  document.getElementById('d-what').textContent=f.what;
+  document.getElementById('d-tbl').textContent=(f.band==='A'?'grammar':'christian canon')+' · '+f.subs;
+  var body=document.getElementById('d-body');
+  document.getElementById('dlg').showModal();
+  if(f.status==='awaiting'){
+    body.innerHTML='<div class="osec"><div class="osec-h">awaiting data export</div><div class="awaitbody">This output is real, but its drawer isn’t wired to live data yet, so it’s shown honestly as pending rather than faked (§2.16).<br><br><b>owner</b> '+esc(f.owner||'—')+'<br><b>needs</b> '+esc(f.need||'—')+'</div></div>';
+    return;
+  }
+  if(f.data){
+    if(CACHE[f.id]) return renderDrawer(f,CACHE[f.id]);
+    body.innerHTML='<p style="color:var(--muted)">loading…</p>';
+    fetch(f.data).then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+      .then(function(d){CACHE[f.id]=d;renderDrawer(f,d);})
+      .catch(function(e){body.innerHTML='<p class="err">could not load '+esc(f.name)+' data ('+esc(e.message)+')</p>';});
+  }
+}
+/* ── Resituate drawer — render-from-data (DATA_resituation_drawer_s160) ── */
+function renderDrawer(f,d){
+  if(f.id==='resituation') return renderResituation(d);
+  document.getElementById('d-body').innerHTML='<p class="err">no renderer for '+esc(f.id)+'</p>';
+}
+function asList(v){return Array.isArray(v)?v:(v==null?[]:[v]);}
+function ul(items){return '<ul>'+items.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';}
+function renderResituation(d){
+  var b='';
+  if(d.one_liner) b+=osec('what it asks','<em>'+esc(d.one_liner)+'</em>');
+  // two arms — deductive / abductive (list of {name, arrow, detail})
+  if(Array.isArray(d.directions) && d.directions.length){
+    var arms=d.directions.map(function(v){
+      return '<div class="arm"><div class="ak">'+esc(v.name||'')+'</div><div class="at">'+esc(v.arrow||'')+'</div><div>'+esc(v.detail||v.note||'')+'</div></div>';
+    }).join('');
+    b+=osec('two directions','<div class="twoarm">'+arms+'</div>');
+  }
+  if(d.note) b+=osec('the move','<p>'+esc(d.note)+'</p>');
+  if(d.three_axes) b+=osec('three axes','<p>'+esc(d.three_axes)+'</p>');
+  if(d.ssot_method_note) b+=osec('method — the SSOT note','<p>'+esc(d.ssot_method_note)+'</p>');
+  if(d.also_built && asList(d.also_built).length) b+=osec('also built',ul(asList(d.also_built).map(esc)));
+  if(d.traps && asList(d.traps).length) b+=osec('traps',ul(asList(d.traps).map(esc)));
+  if(d.validation) b+=osec('validation','<p>'+esc(d.validation)+'</p>');
+  if(d.clc_next_steps && asList(d.clc_next_steps).length){
+    var cn=asList(d.clc_next_steps).map(function(x){
+      if(x && typeof x==='object') return '<b>'+esc(x.id||'')+'</b> '+esc(x.title||'')+(x.disposition?' — <code>'+esc(x.disposition)+'</code>':'');
+      return esc(x);
+    });
+    b+='<details class="clc"><summary>next steps (CLC)</summary><div class="osec-b">'+ul(cn)+'</div></details>';
+  }
+  document.getElementById('d-tbl').textContent='grammar · '+(d.status||'')+' · render-from-data';
+  document.getElementById('d-body').innerHTML=b||'<p style="color:var(--muted)">(no sections in export)</p>';
+}
+render();
+</script>
+</body></html>
