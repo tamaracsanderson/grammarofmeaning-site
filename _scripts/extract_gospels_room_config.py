@@ -63,8 +63,15 @@ for sec in objs(array_after(plates_src, "const SECTIONS")[1:-1]):
                       "latin": field(sec, 'latin'), "brief": field(sec, 'brief'),
                       "candidates": cands})
 
-# ---- entry grounds (index.tsx VARIANTS) ----
+# ---- entry grounds (index.tsx VARIANTS + entry.ts hAlign overrides) ----
 idx_src = open(GDE + "/src/routes/index.tsx").read()
+ent_src = open(GDE + "/src/config/entry.ts").read()
+# per-variant hAlign override (entry.ts VARIANT_OVERRIDES); default = ENTRY_DEFAULTS lower-middle.
+# alignPosition() uses the focus's X but the hAlign's Y — so object-position-Y comes from hAlign.
+HALIGN_Y = {'top': '0%', 'upper': '20%', 'upper-middle': '35%', 'center': '50%', 'lower-middle': '62%', 'bottom': '100%'}
+halign_over = {}
+for mm in re.finditer(r'(\w+):\s*\{[^}]*?hAlign:\s*"([^"]+)"', ent_src):
+    halign_over[mm.group(1)] = mm.group(2)
 imp = {}
 for m in re.finditer(r'import\s+(\w+)\s+from\s+"@/assets/([^"]+?)(?:\.asset\.json)?"', idx_src):
     imp[m.group(1)] = m.group(2)
@@ -86,6 +93,16 @@ for o in objs(array_after(idx_src, "const VARIANTS")[1:-1]):
     vig = re.search(r'vignette\s*:\s*"([^"]+)"', o)
     filt = re.search(r'imgFilter\s*:\s*\n?\s*"([^"]+)"', o)
     is_met = fn in MET_SOURCED
+    # cropping (match the mock's WideLayout): object-position = focus-X + hAlign-Y; scale = wideZoom; origin = wideOrigin; flip
+    focus = field(o, 'focus') or '50% 50%'
+    focus_x = focus.split()[0]
+    ha = halign_over.get(vid, 'lower-middle')
+    obj_pos = focus_x + ' ' + HALIGN_Y.get(ha, '62%')
+    wz = re.search(r'wideZoom\s*:\s*([\d.]+)', o)
+    wide_zoom = float(wz.group(1)) if wz else 1.05
+    wo = re.search(r'wideOrigin\s*:\s*"([^"]+)"', o)
+    wide_origin = wo.group(1) if wo else 'center center'
+    flip = bool(re.search(r'flip\s*:\s*true', o))
     grounds.append({"id": vid, "label": field(o, 'label'), "note": field(o, 'note'),
                     "alt": field(o, 'alt'),
                     "img": ("assets/grounds/" + fn) if fn else None,
@@ -93,6 +110,7 @@ for o in objs(array_after(idx_src, "const VARIANTS")[1:-1]):
                     "credit_tail": ("The Met — Open Access (CC0)" if is_met else "ground texture — Grammar of Meaning"),
                     "met_url": MET_SOURCED.get(fn) if is_met else None,
                     "ground_color": field(o, 'ground'), "focus": field(o, 'focus'),
+                    "object_position": obj_pos, "wide_zoom": wide_zoom, "wide_origin": wide_origin, "flip": flip,
                     "vignette": vig.group(1) if vig else None,
                     "imgFilter": filt.group(1) if filt else None,
                     "kicker": field(o, 'kicker'), "title_color": field(o, 'title'),
