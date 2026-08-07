@@ -145,8 +145,8 @@ function gapMirror() {
   s.appendChild(gapWrap);
 
   const arms = el("div", "me-mirror-arms");
-  [["gloss", "grammar side · constructed", ""],
-   ["reception", "canon side · retrieved", " is-canon"]].forEach(([id, side, extra]) => {
+  [["gloss", "the instrument's voices · constructed", " is-grammar"],
+   ["reception", "the tradition's voices · retrieved", " is-canon"]].forEach(([id, side, extra]) => {
     const arm = el("div", `me-mirror-arm${extra}`);
     arm.appendChild(nodeCard(byId[id]));
     arm.appendChild(el("span", "me-mirror-side", side));
