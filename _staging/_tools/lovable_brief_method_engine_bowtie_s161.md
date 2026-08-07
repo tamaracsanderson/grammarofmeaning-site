@@ -89,7 +89,7 @@ Each node has: `id`, `label`, `level`, `band` (grammar / canon / — ), `kind`, 
 
 **Level 2a — GRAMMAR / ANALYZE (top branch; a STAGE that is also an output family, drawn UP here — never mirrored lower)**
 - Analyze — `awaiting`. sub: "the moves, the silences, what ranks." layers: Grammar (moves) · Gaps · Seed ranking.
-  badge: "monotone gap-grammar — a known limit (missed the women's silence at Mark 16)."
+  badge: "Gaps on Mark-16-WEB: lineage-only run so far — the canonical multi-locus seer scan hasn't been pointed at this move-set yet. The gap taxonomy itself is rich (7 locus × 6 subtype), populated elsewhere; M23-class not yet scanned here. Run-coverage, NOT a taxonomy/engine limit."
 
 **Level 2b — SITUATE (bottom branch; text-level)**
 - Sitz — `awaiting`. sub: "the world the text was made in." produces DIRECT output. badge: "DB-rendered engine-0 output
@@ -113,7 +113,7 @@ Each node has: `id`, `label`, `level`, `band` (grammar / canon / — ), `kind`, 
 - Tributary — `awaiting`. COMBINATION (off the waist; ◄ Lineage, move-level). sub: "how sources flow into the text."
 - Gloss — `awaiting`. COMBINATION. layers: reader-gloss · persona-crit · gap-fill. badge: "its mode menu renders as a
   (stance × method) GRID — not a tree; cells marked PROPOSED."
-- Gaps-as-output — `awaiting`. COMBINATION. badge: "monotone gap-grammar known-limit."
+- Gaps-as-output — `awaiting`. COMBINATION. badge: "Mark-16-WEB has a lineage-only run; the multi-locus seer scan (7 locus × 6 subtype) hasn't been run on this move-set — run-coverage gap, not a taxonomy limit."
 - JOINS — `awaiting`. COMBINATION, and **also feeds SYNTHESIS** (draw a second edge to the synthesis band). layers:
   Variance × Lineage · Lineage-headwaters · Frame-veer × Variance · Sonic × Lineage · Panel-verdict × variance-type.
   badge: "analysis-only, no export yet."
@@ -215,7 +215,9 @@ verified mismatches. Uses the paste-ready handoff convention from lovable_mock_h
 SOURCES: CRT_method_schema_v2_vs_engine_reality_s161_2026-08-07.md §4 + §2 (the 5 questions) + §3 (mismatch table);
 DESIGN_REVIEW_method_schema_output_levels_spec_s161 §1; Decisions 219/220; the house tokens from method-schema-v2.html;
 reference_lovable_mock_handoff_files.md; CLAUDE.md §2.13 (single store → honesty badges) + §2.16 (render-from-data).
-WHAT NEEDS VERIFICATION: (1) reading-SB to confirm the edge-type assignments (direct vs combination) + node homes match
-engine truth before the PI pastes. (2) gloss-mode grid cell membership still PROPOSED (pending CLC). (3) whether Lovable's
-mobile arc-degradation is acceptable or we stack vertically.
+WHAT NEEDS VERIFICATION: (1) reading-SB faithfulness check DONE — 9/10 lines confirmed against engine truth; the one
+correction (Gaps badge: "monotone limit / missed M23" was superseded by Decision 221 — it's a RUN-COVERAGE gap, the
+seer scan was never pointed at Mark-16-WEB; the 7-locus × 6-subtype taxonomy is rich) is applied. Clean to paste.
+(2) gloss-mode grid cell membership still PROPOSED (pending CLC). (3) whether Lovable's mobile arc-degradation is
+acceptable or we stack vertically.
 -->
