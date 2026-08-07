@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "title": "The method engine — graduated flow",
+    "source_spec": "pm/30_methodology/DESIGN_REVIEW_method_schema_output_levels_spec_s161_2026-08-07.md §1",
+    "built_to": "the PI's 2026-08-05 output-taxonomy lock (PROPOSAL_output_taxonomy_revamp_s161) × the three S161-08-07 settlements (Explain→Partiture · Constellation-distinct · Lineage→Tributary), NOT the deployed flat-6 page",
+    "principle": "The panel is the invention — the value is the argument-SPACE across frames, not any single gloss (3DR-9 UNANIMOUS). So the panel-synthesis is the headline of SYNTHESIS; the individual glosses feed it.",
+    "vocab_version": "s161-2026-08-07",
+    "ssot_status": "in-flight — the deployed method-schema.html lags this lock (registry ssot_status)"
+  },
+  "flow": [
+    {
+      "k": "input", "t": "Input", "g": "the text as it arrives",
+      "kind": "spine",
+      "nodes": [
+        { "id": "text", "name": "Text", "sub": "a chunked, move-bearing passage", "status": "live" }
+      ]
+    },
+    {
+      "k": "grammar", "t": "Grammar", "g": "code the operations — the domain-agnostic instrument",
+      "kind": "spine",
+      "nodes": [
+        { "id": "code", "name": "Code", "sub": "name the operation the text performs", "status": "live" },
+        { "id": "move", "name": "Coded move", "sub": "one operation + its arguments — the analytic atom", "status": "live" }
+      ]
+    },
+    {
+      "k": "situate", "t": "Situate", "g": "the upstream conditions — coded at the text AND the move level; each category surfaces a direct output, and all of them feed (in combination) the output engines below",
+      "kind": "categories",
+      "nodes": [
+        { "id": "sitz", "name": "Sitz", "sub": "the world the text was made in", "produces": "Content-SB write-up", "status": "awaiting", "owner": "Content SB", "need": "sitz/paradigm write-up export" },
+        { "id": "paradigm", "name": "Paradigm", "sub": "the frame it argues within", "produces": "Content-SB write-up", "status": "awaiting", "owner": "Content SB", "need": "sitz/paradigm write-up export" },
+        { "id": "frame", "name": "Frame", "sub": "the 8-axis stance the move takes", "produces": "Morphospace / MCA", "status": "awaiting", "owner": "Librarian (atlas reader) + reading-SB", "need": "atlas_frame_reader placement on approved 8-axis vocab (primary — never a proxy); MCA rebuild pending" },
+        { "id": "lineage", "name": "Lineage", "sub": "the sources standing behind the move", "produces": "Tributary", "status": "awaiting", "owner": "reading-SB", "need": "DATA_lineage_matrix → the tributary figure (③ promoted)" },
+        { "id": "witness", "name": "Witness", "sub": "transmission distance from the event / autograph", "produces": "Degrees-of-separation", "status": "pilot", "data": "data/witness_transmission_v2.json" }
+      ]
+    },
+    {
+      "k": "outputs", "t": "Outputs", "g": "the coded move + the situate categories drive the output engines — usually in combination. Two bands: the instrument speaking (grammar), and the tradition speaking (canon).",
+      "kind": "bands",
+      "bands": [
+        {
+          "band": "grammar", "band_t": "Grammar — the instrument", "band_g": "domain-agnostic: point it at Romans or a pop lyric and it does the same thing.",
+          "nodes": [
+            { "id": "analyze", "name": "Analyze", "sub": "the moves, the silences, what ranks", "layers": ["Grammar (moves)", "Gaps", "Seed ranking"], "status": "awaiting", "owner": "reading-SB", "need": "moves-layer + gaps + seed-ranking export", "limit": "3DR (Fable): the gap-grammar reads MONOTONE (nearly every gap = 'is X standing on source Y?') and missed M23 (the women's silence). Needs more shapes of silence — a known limit." },
+            { "id": "compare", "name": "Compare", "sub": "the same life, four times / four tongues", "layers": ["Braid — narrative (moves across the gospels; the convergence)", "Partiture — translation: SHOW (aligned score) · LOCATE (variance-ranking) · EXPLAIN (language-vs-theology scholar-panel)"], "status": "awaiting", "owner": "reading-SB", "need": "DATA_partiture_mark16_v1 ON MAIN + braid export — the hero viz; builds next", "note": "① Explain folds in HERE, as Partiture's EXPLAIN layer — not a standalone output. Two named siblings: Braid + Partiture." },
+            { "id": "constellation", "name": "Constellation", "sub": "the sound-field", "layers": ["sonic / phonetic recurrence"], "status": "awaiting", "owner": "reading-SB", "need": "constellation_v3 export", "note": "② distinct from Compare — Compare carries NO sonic." },
+            { "id": "resituation", "name": "Resituate", "sub": "the same text under a changed world", "layers": ["deductive", "abductive"], "status": "live", "data": "data/resituation_drawer.json" },
+            { "id": "tributary", "name": "Tributary", "sub": "how sources flow into the text", "layers": ["source → text confluence"], "status": "awaiting", "owner": "reading-SB", "need": "DATA_lineage_matrix render (③ Lineage promoted stage→output); the one homeless built artifact — its home is here" },
+            { "id": "gloss", "name": "Gloss", "sub": "said plainly — and the panel that is the invention", "layers": ["reader-gloss (move_gloss — the plain-reading view)", "persona-crit", "gap-fill"], "status": "awaiting", "owner": "Content SB + reading-SB", "need": "reader-gloss lives via coded_move_state; persona-crit + gap-fill exports to build", "note": "each gloss runs on the Decision-220 (stance × method) GRID — Interpret is the genus. Its synthesis layer produces the SYNTHESIS colloquy." },
+            { "id": "joins", "name": "JOINS", "sub": "cross-engine views", "layers": ["Variance × Lineage", "Lineage-headwaters", "Frame-veer × Variance", "Sonic × Lineage", "Panel-verdict × variance-type"], "status": "awaiting", "owner": "reading-SB", "need": "new family export (seed: the Variance × Lineage join)", "note": "PI: load-bearing — a first-class family." },
+            { "id": "fan", "name": "Fan", "sub": "many voices at once", "layers": [], "status": "paused", "note": "PI paused it 08-05; the argument-graph does many-voices better. Data kept; tile retired." }
+          ]
+        },
+        {
+          "band": "canon", "band_t": "Christian canon — the proof-of-concept domain", "band_g": "tradition-specific: where the instrument's outputs meet this corpus's own history — the tradition speaking, not the method.",
+          "nodes": [
+            { "id": "reception", "name": "Reception", "sub": "the real retrieved texts answering the gap", "layers": ["real downstream retrieved passages", "gap-fill reception gloss (cites REAL held sources)"], "status": "awaiting", "owner": "Librarian", "need": "reception export (gated on the Acquire-SB chunk-index of the held Fathers)", "note": "DISTINCT from the generated panel — a retrieval + gap-match on the corpus, provenance-badged (generated frame vs real retrieved text). The pairing (generated-Calvin-frame next to Calvin's-real-words) is the payoff; where they diverge = a finding." }
+          ]
+        }
+      ]
+    },
+    {
+      "k": "synthesis", "t": "Synthesis", "g": "across outputs",
+      "kind": "spine",
+      "nodes": [
+        { "id": "colloquy", "name": "Panel colloquy / argument-graph", "sub": "THE headline (3DR-9): per gap, nodes = frame-claims, edges LABELED", "layers": ["AGREES", "CONTESTS", "REFRAMES", "EXTENDS", "CONCEPTUALLY-ENABLES", "HISTORICALLY-DEVELOPS-FROM"], "status": "awaiting", "owner": "reading-SB", "need": "argument-graph export", "note": "CONCEPTUALLY-ENABLES and HISTORICALLY-DEVELOPS-FROM stay DISTINCT (3DR STRONG-MAJORITY): a conceptual pathway the panel exposes is NOT the historical genealogy." },
+        { "id": "joins_synth", "name": "Cross-output joins", "sub": "Variance × Lineage · Braid × Situate (secondary tab)", "status": "awaiting", "owner": "reading-SB", "need": "the JOINS family export" }
+      ]
+    },
+    {
+      "k": "meta", "t": "Meta", "g": "the instrument on itself",
+      "kind": "spine",
+      "nodes": [
+        { "id": "reading_room", "name": "Reading Room", "sub": "the integrated reader-facing surface (e.g. the gospels) where several outputs land per move; + the church/institution map", "status": "live", "href": "/reading-room-preview/all.html" },
+        { "id": "recursive", "name": "Instrument reads itself", "sub": "the recursive abductive run + provenance / engine / vocab-version / SSOT-freshness", "status": "awaiting", "owner": "reading-SB", "need": "the recursive run export" }
+      ]
+    }
+  ]
+}
