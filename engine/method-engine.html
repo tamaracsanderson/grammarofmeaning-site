@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The Method Engine — a bow-tie schema of the text-analysis pipeline</title>
+<meta name="description" content="One figure: decompose and situate run in parallel, converge on a single enriched move, and every recomposition fans out from that waist.">
+<!-- FONTS: GitHub Pages allows external requests, so the house families load here.
+     If ever self-hosting, swap for woff2 @font-face; the stack degrades to Georgia / system-ui / ui-monospace. -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./method-engine.css">
+</head>
+<body class="me-page">
+  <div class="me-shell">
+    <header class="me-head">
+      <div class="me-head-main">
+        <p class="me-kicker" id="me-kicker"></p>
+        <h1 class="me-title" id="me-title"></h1>
+        <p class="me-lede" id="me-lede"></p>
+      </div>
+      <div class="me-tools">
+        <div class="me-mode" id="me-mode" role="group" aria-label="reading mode"></div>
+        <button class="me-theme-toggle" id="me-theme">dark</button>
+      </div>
+    </header>
+    <div class="me-legend" id="me-legend"></div>
+
+    <!-- the figure: CSS grid + one absolute SVG edge layer, both built by JS -->
+    <div class="me-figure" id="me-figure"></div>
+
+    <div class="me-strip" id="me-strip"></div>
+    <p class="me-foot">content · presentation · tokens are separate files — method_flow.json · method-engine.js · tokens.json · render-from-data (§2.16)</p>
+  </div>
+  <div id="me-drawer-host"></div>
+
+  <!-- CONTENT: render-from-data — the figure reads engine/data/method_flow.json (the single
+       source of truth), never a hardcoded/inlined copy. Fetch first, then load the renderer. -->
+  <script>
+  (function(){
+    function fail(m){var f=document.getElementById('me-figure'); if(f) f.innerHTML='<p style="color:#C4602F;font-family:system-ui;padding:20px">could not load the method flow ('+m+')</p>';}
+    fetch('./data/method_flow.json')
+      .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(d){
+        window.METHOD_FLOW = d;
+        var s = document.createElement('script');
+        s.src = './method-engine.js';
+        s.onerror = function(){ fail('renderer script failed'); };
+        document.body.appendChild(s);
+      })
+      .catch(function(e){ fail(e.message); });
+  })();
+  </script>
+</body>
+</html>
