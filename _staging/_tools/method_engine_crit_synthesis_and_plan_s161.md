@@ -93,7 +93,9 @@ any "independent branch but move-level" tension automatically).
 
 ## D. THE PLAN (sequenced)
 
-**Gate 0 — ONTOLOGY LOCK** *(reading-SB + PI; blocks the redraw).* Resolve: (1) waist = enriched-move-record; Situate
+**Gate 0 — ONTOLOGY LOCK ✅ CLEAR (2026-08-07)** — reading-SB ruled all 5, no engine-spec change; PI locked #5. Folded
+into the revision brief `_staging/_tools/lovable_brief_method_engine_bowtie_v2_s161.md` (Step 2 DONE, ready for PI paste).
+*(reading-SB + PI; blocked the redraw).* Resolve: (1) waist = enriched-move-record; Situate
 *attaches* not produces; (2) direct/combination → waist-independent/move-conditioned rename; (3) Frame label reword
 (text-level confirmed); (4) Reception = gap-driven (move→gap→retrieval); (5) Reading Room = delivery, reflexive-audit =
 thin strip. Output: a 1-paragraph ontology addendum design-SB folds into the brief.
