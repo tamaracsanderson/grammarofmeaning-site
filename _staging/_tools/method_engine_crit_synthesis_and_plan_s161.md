@@ -114,6 +114,58 @@ render-from-`method_flow.json`; drawers carry the detail; AUDIT toggle) → **st
 **Parallel track (independent):** PI + reading-SB finalize the master engine (7 DPs; DP-3 `gap_gloss` + the name are the
 PI's). The diagram track above needs no PI real-time except Gate 0 + Step 2 + Step 4.
 
+---
+
+## E. ChatGPT crit of the 2nd Lovable crack (2026-08-07) — "close to thesis-ready," ~8 changes then STOP
+
+Verdict: the reduce-pass worked — governing idea first, machinery second. Landed: enriched-move waist as the hinge; the
+GAP MIRROR as the centerpiece; METHOD/AUDIT (implementation ≠ epistemic); reflexive-audit off the flow; readable at
+ordinary scale. **8 priorities for one LAST pass, then stop (removing more would delete real methodological distinctions).**
+
+**Semantic/accuracy (all ALIGN with our locked ontology — render/label fixes, not new ontology; quick reading-SB confirm):**
+1. **Selected Gap originates from the ENRICHED MOVE, not Cross-analysis.** The 2nd crack's heavy curve into Gap appears to
+   come from Cross-analysis → implies the wrong method. Give Gap its OWN thick branch off the waist. (Matches locked item
+   4: Reception is gap-driven, move → gap → retrieval.) The waist should split into two destinations: **recompositions** +
+   **interpretive Gap** ("recompose the move" ∥ "interrogate its silence").
+2. **The mirror must visibly REJOIN at Synthesis** — a little bow-tie nested in the big one: Gap → {Gloss | Reception} →
+   **Synthesis** → Reading Room. Gives Synthesis an unmistakable job (relate the two voices). Reword its gloss "the argument
+   across frames" → **"relates claims across frames + voices."** (Aligns with CRT: Synthesis = per-gap colloquy + joins.)
+3. **Three gap LEVELS, currently blurred:** Gap detection (in Decompose) → **Gap findings** (the mapped set; rename the
+   "Gap-map" card) → **Selected gap** (one named QUD; rename the centerpiece "Gap" → "Selected gap"). Light selection edge
+   Gap-findings ⇢ Selected-gap; heavy dependency edge Enriched-move ⇒ Selected-gap. (Matches `source_move_gap` store +
+   S7 "top selected gaps.")
+
+**Reduction/labels (design-SB's lane — fold directly):**
+4. **Drop the duplicate Sitz-view / Paradigm-view cards** (they only say "rendered" — no transform). Keep only genuinely
+   transformed views as output objects: **Morphospace · Degrees · Constellation.** Sitz/Paradigm stay in Situate tagged
+   "↳ rendered." (Frame→Morphospace and Witness→Degrees dup IS meaningful — keep.)
+5. **Collapse Situate's 5 children in METHOD mode** so Decompose ∥ Situate look genuinely parallel (equal size); the 5 rows
+   move to the drawer / AUDIT. (Right now Situate towers over Decompose.)
+6. **De-border the output leaves** (plain labels on the tinted band, still `<button>` full-hit-area); reserve bordered
+   cards for the structural spine.
+7. **Rename "maturity dot" → "build/implementation status"; fix legend "coded move" → "enriched move"** (symmetry: "does
+   not require / requires the enriched move").
+8. **Integrate the waist-independent RAIL into the band heading** (concept currently named 3×: legend + rail label + band
+   heading — drop the rail's separate label; make the rail the band's upper edge).
++ Textual: subtitle "one shared enriched move" → **"shared enriched-move record"** (a data type, not a count); Situate
+  "annotate each move in its world" → **"attach context to each move"**; AUDIT shows state on PRIMARY nodes only, the
+  per-component Situate table lives in its DRAWER (inline sub-node pills break legibility). + design-SB color rec:
+  **Reception (canon/tradition voice) → warm terracotta; all instrument outputs → cool fern** (the gap mirror = two colors).
+
+**Engineering caveat (ChatGPT):** the DEPLOYED Lovable URL still serves the OLD build (direct/combination/coded-move) —
+deployment/crawl lag. Don't treat that URL as canonical; the crit is from the new screenshots. ⇒ argues for NOT depending
+on Lovable's export.
+
+## F. THE FORK (2026-08-07) — take it in-house now vs one more Lovable pass
+Design is proven + only refinements remain (ChatGPT: stop after these). The 8 are exactly connector-accuracy (#1/#2 =
+precise SVG geometry design-SB draws anyway), reduction (#4-6), and labels (#7/8) — design-SB's lane + the react→html
+rebuild is design-SB's regardless. Lovable's deployed export is stale (caveat above). **Recommendation: take it in-house —
+design-SB rebuilds the canonical static page from scratch** (own method_flow.json extended to the final structure + house
+tokens + the 2nd-crack screenshots as the visual target), folding all 8 + Reception-warm → staging. One step, becomes the
+canonical page, no stale-export dependency. Alternative: one more Lovable v3 pass, then rebuild (slower; keeps Lovable in
+the loop). The calculus flipped since the PI's earlier "another crack vs takeover" — that was right when the design was
+rough; now it's proven. PI's call.
+
 <!--
 HOW PRODUCED: design-SB S161 (2026-08-07). Synthesis of Lovable's first method-engine crack + reading-SB's reduction crit
 + ChatGPT's 17-section crit + design-SB's crit, at the PI's request ("synthesize and develop a plan"). Decision: another
