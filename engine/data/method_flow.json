@@ -55,7 +55,7 @@
     {
       "id": "decompose",
       "label": "Decompose",
-      "function": "segment into moves; find silences",
+      "function": "segment into moves",
       "band": "input",
       "kind": "card",
       "status": "populated",
@@ -71,10 +71,8 @@
       "sub": "the coding stage — \"Grammar\" is the move-grammar inside it. Only Decompose sets boundaries.",
       "layers": [
         "Grammar (moves)",
-        "Detect-gaps",
         "Seed-ranking"
-      ],
-      "badge": "known-limit: Mark-16-WEB has a lineage-only run — the multi-locus seer scan hasn't been pointed at it yet. The 7-locus × 6-subtype gap taxonomy is rich: this is run-coverage, not a taxonomy limit."
+      ]
     },
     {
       "id": "situate",
@@ -229,7 +227,8 @@
         "view"
       ],
       "implementation": "specified",
-      "validation": "untested"
+      "validation": "untested",
+      "sub": "renders from the library-owned atlas reader (atlas_frame_reader) on the 8 named axes — the Librarian owns the frame vocab + morphospace; the method engine consumes it (both have access, never a proxy)."
     },
     {
       "id": "degrees",
@@ -330,7 +329,7 @@
     {
       "id": "gap_map",
       "label": "Gap findings",
-      "function": "the mapped set of silences",
+      "function": "the 8-locus scan on the enriched move",
       "band": "band_mc",
       "kind": "tile",
       "status": "specified",
@@ -342,7 +341,19 @@
         "gap"
       ],
       "implementation": "specified",
-      "validation": "untested"
+      "validation": "untested",
+      "sub": "the unified 8-locus × subtype silence scan reads the enriched move (source_move) → the findings store (source_move_gap). One door (Decision 221). Renders from the engine's store.",
+      "layers": [
+        "frame-role",
+        "grammar-slot",
+        "edge",
+        "incongruity",
+        "cross-source",
+        "lineage",
+        "witness-seam",
+        "wild-catch"
+      ],
+      "badge": "known-limit: Mark-16-WEB has a lineage-only run so far — the unified multi-locus scan hasn't been pointed at it yet (run-coverage, not a taxonomy limit). Acceptance test: the first full run must surface M23 (the women's silence)."
     },
     {
       "id": "cross_analysis",
@@ -456,7 +467,7 @@
         "CONCEPTUALLY-ENABLES",
         "HISTORICALLY-DEVELOPS-FROM"
       ],
-      "badge": "⚠ mostly spec, no store."
+      "badge": "⚠ mostly spec, no store yet — the per-gap colloquy is panel_colloquy / panel_colloquy_edge, NOT advisory_panel (the simulated board)."
     },
     {
       "id": "reading_room",
