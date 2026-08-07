@@ -81,9 +81,10 @@ any "independent branch but move-level" tension automatically).
 
 ## C. DIVERGENCES to put to the PI / reading-SB
 
-1. **Reading Room: META (CRT) vs delivery-surface (ChatGPT).** CRT Q1 placed it in META; ChatGPT says it's the delivery
-   endpoint and only "instrument reads itself" is meta. *Lean: ChatGPT's — end at Reading Room, reflexive-audit as a thin
-   strip. Reconcile w/ reading-SB (it's a labeling refinement of the CRT, not a contradiction of the engine).* 
+1. **Reading Room: META (CRT) vs delivery-surface (ChatGPT). → RESOLVED (PI, 2026-08-07): NOT meta.** The main flow ENDS
+   at **Reading Room** (the reader-facing delivery surface); **"instrument reads itself" drops to a thin reflexive-audit
+   strip below the whole diagram.** This becomes ontology-addendum item 5 (LOCKED by PI); reading-SB item 5 = FYI, not a
+   ruling. Fold into the Lovable revision brief.
 2. **Frame text-level vs move-level.** Resolves to engine-truth (text-level) + a label reword — but reading-SB confirms.
 3. **How many modes to ship now.** METHOD-only first, or METHOD+AUDIT toggle in the first rebuild? *Lean: build the JSON to
    support both; ship METHOD default + AUDIT toggle if cheap, else METHOD first.*
