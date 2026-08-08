@@ -32,7 +32,7 @@
       "ref": "Mark 16:1 to 8",
       "from_marker": "016:001",
       "through_verse": "016:008",
-      "note": "The reading focus, chosen within the checked-out pieces. The checkout returns the covering pieces; the goal picks this reading inside them. Stored as a field, not just shown."
+      "note": "The reading focus within the checked-out pieces. Stored as a field, not just shown."
     },
     "rights_basis": {
       "field": "sources.rights_status",
@@ -42,7 +42,7 @@
       "plain": "The gate's 'permission to share' reads sources.rights_status for GUT-8268, which is 'public_domain'. Anyone can verify it at the source: https://www.gutenberg.org/ebooks/8268. That is why the copyright claim holds: it points at a field, not a promise."
     },
     "verbatim_text": "When the Sabbath was past, Mary Magdalene, and Mary the mother of James, and Salome, bought spices, that they might come and anoint him. Very early on the first day of the week, they came to the tomb when the sun had risen. They were saying among themselves, \"Who will roll away the stone from the door of the tomb for us?\" for it was very big. Looking up, they saw that the stone was rolled back. Entering into the tomb, they saw a young man sitting on the right side, dressed in a white robe, and they were amazed. He said to them, \"Don't be amazed. You seek Jesus, the Nazarene, who has been crucified. He has risen. He is not here. Behold, the place where they laid him! But go, tell his disciples and Peter, 'He goes before you into Galilee. There you will see him, as he said to you.'\" They went out,{TR adds \"quickly\"} and fled from the tomb, for trembling and astonishment had come on them. They said nothing to anyone; for they were afraid.",
-    "reading_source": "The checkout package holds chapter 16 as 2 pieces (15:43 to 16:20). This reading is 16:1 to 8, sliced from the package's own text for the resurrection focus (verse 8 spans the piece seam, so the slice crosses both pieces). It is not a parallel copy: the words, the straight quotes, and the apparatus are exactly what the checkout returned.",
+    "reading_source": "Shown from the checkout package's own bytes, not a parallel copy: the words, the straight quotes, and the apparatus are exactly what the checkout returned.",
     "apparatus_note": "The braces {TR adds \"quickly\"} are the World English Bible's own translator note (the Textus Receptus adds a word here). They are shown as they appear in the checkout, not edited out.",
     "the_contrast": {
       "coder_saw_paraphrase": "They kept silent, telling no one anything.",
@@ -54,12 +54,11 @@
     "level_legend": "The library stores a text in a shallow hierarchy, level 0 to level 4. Level 0 is a cross-tradition root shared across traditions; levels 1 to 3 are organizing scaffolding (a work, a section); level 4 is the quotable piece the method actually reads. Mark has no level 0 (that is only for texts shared across traditions) and no level 1 to 3 scaffolding: the source GUT-8268 goes straight to its level-4 pieces.",
     "plain": "The book of Mark is one source (GUT-8268). The library splits it into 56 paragraph-pieces (level 4), numbered 1 to 56, so chapter 16 sits in the last two (pieces 55 and 56). There is no chapter object above them. So a passage is not a fixed size. It is a span of pieces, chosen by the goal.",
     "passage_types": [
-      "the resurrection reading: 16:1 to 8, the goal-span shown, read from inside the 2 pieces that hold chapter 16",
+      "the resurrection reading: 16:1 to 8",
       "all of Mark: 56 pieces",
       "a single gloss on one passage: 1 piece"
     ],
-    "how_chapter_16_is_stored": "Chapter 16 is spread across 2 paragraph-pieces (the pieces follow the text's own paragraphs, which do not stop at chapter lines, so a piece can straddle 15 and 16). Piece 55 is one paragraph that begins with the burial (15:43) and runs through the first half of verse 16:8 ('...trembling and astonishment had come on them'). Piece 56 opens with the second half of 16:8 ('They said nothing to anyone; for they were afraid') and runs to 16:20. So even the 16:1 to 8 reading touches both pieces: the fear-clause the whole reading turns on sits just past the piece seam, in piece 56.",
-    "this_checkout": "Asked for chapter 16, the checkout returned the 2 pieces that hold it (15:43 to 16:20). The reading shown above is 16:1 to 8, the resurrection goal-span within those pieces. This is why a passage is a goal-chosen span of pieces, not a fixed unit: the checkout returns the covering pieces, and the goal picks the reading inside them."
+    "how_chapter_16_is_stored": "Chapter 16 is spread across 2 paragraph-pieces (the pieces follow the text's own paragraphs, which do not stop at chapter lines, so a piece can straddle 15 and 16). Piece 55 is one paragraph that begins with the burial (15:43) and runs through the first half of verse 16:8 ('...trembling and astonishment had come on them'). Piece 56 opens with the second half of 16:8 ('They said nothing to anyone; for they were afraid') and runs to 16:20. So even the 16:1 to 8 reading touches both pieces: the fear-clause the whole reading turns on sits just past the piece seam, in piece 56."
   },
   "where_saved": {
     "plain": "The words in this checkout are a copy. Everything the method builds on them saves to the corpus, in the same tables every text uses: the moves, the situating, the gaps, the glosses. One record ties them together for this passage, the text's home: a row in the text_checkout table. It holds the checkout and crosswalks two keys: the library side finds the text by its source and passage, the method side joins every coded output (moves, situating, gaps, glosses) on the method key MARK-16-WEB. So this passage's coding sits in one findable place. Every text gets the same home, from the first one. The reading room reads it, the library folds results from it back into the corpus, and any later report or model reads the same store.",
