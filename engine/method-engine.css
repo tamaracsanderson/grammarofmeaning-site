@@ -899,13 +899,31 @@
 /* ── S161 design-SB refinements (ChatGPT crit pass) ───────────────────────── */
 /* #5 — METHOD mode collapses Situate's 5 children to one inline line, so
    Decompose ∥ Situate read as genuinely parallel; AUDIT expands the leaf rows. */
-.me-leaf-inline{
-  font-family:var(--me-font-mono);
-  font-size:10.5px;
-  line-height:1.6;
-  color:var(--me-muted);
+/* the 5 Situate aspects as a compact clickable pill row (parallel lenses, not a sequence) */
+.me-situate-pills{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
   padding:7px 2px 2px;
+}
+.me-situate-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-family:var(--me-font-mono);
+  font-size:10px;
   letter-spacing:.02em;
+  color:var(--me-ink);
+  background:var(--me-card);
+  border:1px solid var(--me-hairline);
+  border-radius:999px;
+  padding:3px 9px 3px 7px;
+  cursor:pointer;
+  transition:border-color .12s ease, background .12s ease;
+}
+.me-situate-pill:hover{
+  border-color:var(--me-fern);
+  background:var(--me-tint);
 }
 /* Colour the instrument-vs-tradition axis (the gold distinction): the gap mirror's
    two voices become two colours — Reception = the tradition's warm/real voice;

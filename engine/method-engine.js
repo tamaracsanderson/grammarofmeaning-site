@@ -74,7 +74,7 @@ function mirrorPath(gap, target) {
 /* ------------------------------------------------------------------- state */
 
 const state = {
-  mode: localStorage.getItem("me-mode") === "audit" ? "audit" : "method",
+  mode: "method", // one view; the METHOD/AUDIT toggle was retired per PI S162 (status → inline dot + drawer + the Reflexive-audit node)
   focused: null,
   open: null,
 };
@@ -102,14 +102,7 @@ function nodeCard(node, variant) {
   if (node.rendered) label.appendChild(el("span", "me-rendered", "↳ rendered"));
   b.appendChild(label);
   b.appendChild(el("span", "me-node-fn", node.function));
-
-  if (state.mode === "audit") {
-    const audit = el("span", "me-audit");
-    audit.appendChild(el("span", "me-audit-tag", node.implementation));
-    audit.appendChild(el("span", "me-audit-tag is-val", node.validation));
-    if (node.badge) audit.appendChild(el("span", "me-audit-warn", "⚠"));
-    b.appendChild(audit);
-  }
+  // one view: the status dot above is the lightweight canvas signal; full detail lives one click into the drawer
 
   b.addEventListener("click", () => openDrawer(node.id));
   b.addEventListener("mouseenter", () => setFocus(node.id));
@@ -205,24 +198,14 @@ function renderLegend() {
     item.appendChild(el("span", "me-legend-desc", `${desc}`));
     host.appendChild(item);
   });
-  if (state.mode === "audit") {
-    Object.entries(FLOW.meta.maturity).forEach(([key, desc]) => {
-      const item = el("span", "me-legend-item");
-      item.appendChild(el("span", `me-legend-dot is-${key}`));
-      item.appendChild(document.createTextNode(key));
-      item.appendChild(el("span", "me-legend-desc", `${desc}`));
-      host.appendChild(item);
-    });
-  } else {
-    const item = el("span", "me-legend-item is-quiet");
-    item.appendChild(el("span", "me-legend-dot is-populated"));
-    item.appendChild(
-      document.createTextNode(
-        "build-status dot: operational, not epistemic; switch to AUDIT for detail",
-      ),
-    );
-    host.appendChild(item);
-  }
+  const item = el("span", "me-legend-item is-quiet");
+  item.appendChild(el("span", "me-legend-dot is-populated"));
+  item.appendChild(
+    document.createTextNode(
+      "build-status dot: operational, not epistemic; click a node for detail",
+    ),
+  );
+  host.appendChild(item);
 }
 
 /* ----------------------------------------------------------------- figure */
@@ -270,17 +253,18 @@ function renderFigure() {
   branches.appendChild(nodeCard(byId["decompose"]));
   const situate = el("div", "me-situate");
   situate.appendChild(nodeCard(byId["situate"]));
-  // #5 — METHOD: collapse the 5 children to one inline line so Decompose ∥ Situate read as parallel;
-  //      AUDIT: expand the detailed leaf rows (per-component status lives here, not on the canvas in METHOD).
-  if (state.mode === "audit") {
-    const leaves = el("div", "me-leaves");
-    LEAVES.forEach((n) => leaves.appendChild(nodeCard(n, "leaf")));
-    situate.appendChild(leaves);
-  } else {
-    situate.appendChild(
-      el("div", "me-leaf-inline", LEAVES.map((n) => n.label).join("  ·  ")),
-    );
-  }
+  // the 5 aspects are parallel lenses, not a sequence: a compact clickable pill row, each opening its own drawer
+  const pills = el("div", "me-situate-pills");
+  LEAVES.forEach((n) => {
+    const pill = el("button", `me-situate-pill is-${n.status}`);
+    pill.type = "button";
+    pill.dataset.id = n.id;
+    pill.appendChild(el("span", `me-status-dot is-${n.status}`));
+    pill.appendChild(document.createTextNode(n.label));
+    pill.addEventListener("click", (e) => { e.stopPropagation(); openDrawer(n.id); });
+    pills.appendChild(pill);
+  });
+  situate.appendChild(pills);
   branches.appendChild(situate);
   cone.appendChild(branches);
   grid.appendChild(cone);
@@ -551,8 +535,8 @@ function openDrawer(id) {
     aside.appendChild(s);
   }
 
-  // ---- AUDIT only: the engineering detail (build status · dependency · metadata · edges) ----
-  if (state.mode === "audit") {
+  // the engineering detail (build status, dependency, metadata, edges): always available, one click into the drawer
+  {
     const meta = el("div", "me-drawer-meta");
     meta.appendChild(el("span", null, `grain ${node.grain}`));
     meta.appendChild(el("span", null, `impl ${node.implementation}`));
@@ -979,20 +963,9 @@ function renderHead() {
   document.getElementById("me-title").textContent = FLOW.meta.title;
   document.getElementById("me-lede").textContent = FLOW.meta.lede;
 
+  // one view (METHOD): the METHOD/AUDIT toggle was retired per PI S162; hide the now-empty toggle host
   const modeHost = document.getElementById("me-mode");
-  modeHost.textContent = "";
-  ["method", "audit"].forEach((m) => {
-    const b = el("button", `me-mode-btn${state.mode === m ? " is-on" : ""}`, m);
-    b.type = "button";
-    b.addEventListener("click", () => {
-      state.mode = m;
-      localStorage.setItem("me-mode", m);
-      renderHead();
-      renderLegend();
-      renderFigure();
-    });
-    modeHost.appendChild(b);
-  });
+  if (modeHost) { modeHost.textContent = ""; modeHost.style.display = "none"; }
 }
 
 function initTheme() {
