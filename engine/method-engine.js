@@ -496,92 +496,111 @@ function openDrawer(id) {
   close.addEventListener("click", closeDrawer);
   aside.appendChild(close);
 
-  const kicker = el("p", "me-kicker", `${node.band} · ${node.kind}`);
+  // a sequence step + the stage — tells you WHERE you are in the walk; never the internal "kind"
+  const STAGE = {
+    input: "INPUT", grammar: "ANALYZE", situate: "SITUATE", waist: "THE WAIST",
+    band_wi: "OUTPUT · doesn’t need the move", band_mc: "OUTPUT · needs the move",
+    mirror: "THE GAP MIRROR", canon: "THE GAP MIRROR", panel: "THE PANEL",
+    end: "SYNTHESIS → READING ROOM", strip: "OFF THE FLOW", history: "RETIRED",
+  };
+  const stage = STAGE[node.band] || String(node.band || "").toUpperCase();
+  const kicker = el("p", "me-kicker", node.step ? ("STEP " + node.step + " · " + stage) : stage);
   kicker.style.margin = "0";
   aside.appendChild(kicker);
   aside.appendChild(el("h2", null, node.label));
   aside.appendChild(el("p", "me-drawer-fn", node.function));
 
-  const meta = el("div", "me-drawer-meta");
-  meta.appendChild(el("span", null, `grain ${node.grain}`));
-  meta.appendChild(el("span", null, `impl ${node.implementation}`));
-  meta.appendChild(el("span", null, `validation ${node.validation}`));
-  const statusSpan = el("span");
-  statusSpan.appendChild(el("span", `me-status-dot is-${node.status}`));
-  statusSpan.appendChild(
-    document.createTextNode(`${node.status} — ${FLOW.meta.maturity[node.status]}`),
-  );
-  meta.appendChild(statusSpan);
-  aside.appendChild(meta);
-
   if (node.sub) aside.appendChild(el("p", "me-drawer-sub", node.sub));
+
+  // Step 1 (Text): the real Library checkout, told plainly — the golden-path worked example
+  if (id === "text") renderTextCheckout(aside);
 
   const incoming = FLOW.edges.filter((e) => e.to === node.id);
   const outgoing = FLOW.edges.filter((e) => e.from === node.id);
-  const dep = incoming.find(
-    (e) => e.type === "waist_independent" || e.type === "move_conditioned",
-  );
+  const labelOf = (nid) => (byId[nid] ? byId[nid].label : nid);
 
-  const depSection = el("div", "me-drawer-section");
-  depSection.appendChild(el("h3", null, "Waist dependency"));
-  const depP = el("p", "me-drawer-p");
-  if (dep) {
-    depP.appendChild(
-      el("span", `me-kind-tag is-${dep.type}`, dep.type.replace("_", "-")),
-    );
-    depP.appendChild(el("br"));
-    depP.appendChild(document.createTextNode(FLOW.meta.edgeTypes[dep.type]));
-  } else {
-    depP.textContent = "structural — part of the spine, not an output.";
-  }
-  depSection.appendChild(depP);
-  aside.appendChild(depSection);
-
+  // "What's inside" — the step's parts / sub-outputs, in plain view
   if (node.layers && node.layers.length) {
     const s = el("div", "me-drawer-section");
-    s.appendChild(el("h3", null, "Expands to"));
+    s.appendChild(el("h3", null, "What’s inside"));
     const ul = el("ul", "me-drawer-list");
     node.layers.forEach((l) => ul.appendChild(el("li", null, l)));
     s.appendChild(ul);
     aside.appendChild(s);
   }
 
-  if (node.badge) {
+  // "Leads to" — where this step goes next, in plain words
+  if (outgoing.length) {
     const s = el("div", "me-drawer-section");
-    s.appendChild(el("h3", null, "Implementation note"));
-    s.appendChild(el("span", "me-badge is-block", node.badge));
+    s.appendChild(el("h3", null, "Leads to"));
+    s.appendChild(el("p", "me-drawer-p", outgoing.map((e) => labelOf(e.to)).join("  ·  ")));
     aside.appendChild(s);
   }
 
-  const req = node.requires || [];
-  const prod = node.produces || [];
-  if (req.length + prod.length > 0) {
-    const s = el("div", "me-drawer-section");
-    s.appendChild(el("h3", null, "Dependency metadata"));
-    const p = el("p", "me-drawer-p");
-    p.appendChild(document.createTextNode(`requires: ${req.length ? req.join(" · ") : "—"}`));
-    p.appendChild(el("br"));
-    p.appendChild(document.createTextNode(`produces: ${prod.length ? prod.join(" · ") : "—"}`));
-    s.appendChild(p);
-    aside.appendChild(s);
-  }
+  // ---- AUDIT only: the engineering detail (build status · dependency · metadata · edges) ----
+  if (state.mode === "audit") {
+    const meta = el("div", "me-drawer-meta");
+    meta.appendChild(el("span", null, `grain ${node.grain}`));
+    meta.appendChild(el("span", null, `impl ${node.implementation}`));
+    meta.appendChild(el("span", null, `validation ${node.validation}`));
+    const statusSpan = el("span");
+    statusSpan.appendChild(el("span", `me-status-dot is-${node.status}`));
+    statusSpan.appendChild(
+      document.createTextNode(`${node.status} — ${FLOW.meta.maturity[node.status]}`),
+    );
+    meta.appendChild(statusSpan);
+    aside.appendChild(meta);
 
-  if (incoming.length + outgoing.length > 0) {
-    const s = el("div", "me-drawer-section");
-    s.appendChild(el("h3", null, "Edges"));
-    const ul = el("ul", "me-drawer-list");
-    const labelOf = (nid) => (byId[nid] ? byId[nid].label : nid);
-    const row = (arrow, other, e) => {
-      const li = el("li");
-      li.appendChild(document.createTextNode(`${arrow} ${labelOf(other)} · `));
-      li.appendChild(el("span", `me-kind-tag is-${e.type}`, e.type.replace("_", "-")));
-      if (e.note) li.appendChild(document.createTextNode(` — ${e.note}`));
-      return li;
-    };
-    incoming.forEach((e) => ul.appendChild(row("◄", e.from, e)));
-    outgoing.forEach((e) => ul.appendChild(row("►", e.to, e)));
-    s.appendChild(ul);
-    aside.appendChild(s);
+    const dep = incoming.find(
+      (e) => e.type === "waist_independent" || e.type === "move_conditioned",
+    );
+    const depSection = el("div", "me-drawer-section");
+    depSection.appendChild(el("h3", null, "Waist dependency"));
+    const depP = el("p", "me-drawer-p");
+    if (dep) {
+      depP.appendChild(el("span", `me-kind-tag is-${dep.type}`, dep.type.replace("_", "-")));
+      depP.appendChild(el("br"));
+      depP.appendChild(document.createTextNode(FLOW.meta.edgeTypes[dep.type]));
+    } else {
+      depP.textContent = "structural — part of the spine, not an output.";
+    }
+    depSection.appendChild(depP);
+    aside.appendChild(depSection);
+
+    if (node.badge) {
+      const s = el("div", "me-drawer-section");
+      s.appendChild(el("h3", null, "Implementation note"));
+      s.appendChild(el("span", "me-badge is-block", node.badge));
+      aside.appendChild(s);
+    }
+    const req = node.requires || [];
+    const prod = node.produces || [];
+    if (req.length + prod.length > 0) {
+      const s = el("div", "me-drawer-section");
+      s.appendChild(el("h3", null, "Dependency metadata"));
+      const p = el("p", "me-drawer-p");
+      p.appendChild(document.createTextNode(`requires: ${req.length ? req.join(" · ") : "—"}`));
+      p.appendChild(el("br"));
+      p.appendChild(document.createTextNode(`produces: ${prod.length ? prod.join(" · ") : "—"}`));
+      s.appendChild(p);
+      aside.appendChild(s);
+    }
+    if (incoming.length + outgoing.length > 0) {
+      const s = el("div", "me-drawer-section");
+      s.appendChild(el("h3", null, "Edges"));
+      const ul = el("ul", "me-drawer-list");
+      const row = (arrow, other, e) => {
+        const li = el("li");
+        li.appendChild(document.createTextNode(`${arrow} ${labelOf(other)} · `));
+        li.appendChild(el("span", `me-kind-tag is-${e.type}`, e.type.replace("_", "-")));
+        if (e.note) li.appendChild(document.createTextNode(` — ${e.note}`));
+        return li;
+      };
+      incoming.forEach((e) => ul.appendChild(row("◄", e.from, e)));
+      outgoing.forEach((e) => ul.appendChild(row("►", e.to, e)));
+      s.appendChild(ul);
+      aside.appendChild(s);
+    }
   }
 
   host.appendChild(aside);
@@ -590,6 +609,75 @@ function openDrawer(id) {
 function closeDrawer() {
   state.open = null;
   document.getElementById("me-drawer-host").textContent = "";
+}
+
+/* ---- Step 1 (Text): render the REAL Library checkout, in plain language ---- */
+var CHECKOUT = null;
+function cleanVerbatim(t) {
+  if (!t) return "";
+  var s = String(t)
+    .replace(/\r?\n\s*/g, " ")
+    .replace(/\d{3}:\d{3}\s*/g, "") // strip chunk-internal verse markers (015:044 …) for readability
+    .replace(/\s+/g, " ")
+    .trim();
+  if (s.length > 640) s = s.slice(0, 640).replace(/\s+\S*$/, "") + " …";
+  return s;
+}
+function verseRange(ids) {
+  if (!ids || !ids.length) return "";
+  var f = ids[0].split(":").map(function (x) { return parseInt(x, 10); });
+  var l = ids[ids.length - 1].split(":").map(function (x) { return parseInt(x, 10); });
+  return f[0] + ":" + f[1] + "–" + (l[0] === f[0] ? l[1] : l[0] + ":" + l[1]);
+}
+function renderTextCheckout(aside) {
+  var host = el("div", "me-checkout");
+  host.appendChild(el("p", "me-drawer-p", "loading the checkout…"));
+  aside.appendChild(host);
+  var paint = function (d) {
+    host.textContent = "";
+    var r = d.request || {}, g = d.gate || {}, rs = d.resolved || {};
+    // 1 — how we got it (the checkout, plainly)
+    var s1 = el("div", "me-drawer-section");
+    s1.appendChild(el("h3", null, "How we got it — the Library checkout"));
+    s1.appendChild(el("p", "me-drawer-p",
+      "We ask the Library for " + (r.ref || "the passage") + " (" + (r.edition || "—") +
+      "). It checks the text out and hands back a sealed package — the exact words, tagged to every verse, and stamped with a version so we can prove it never changed."));
+    var ul = el("ul", "me-checkout-checks");
+    var chk = function (ok, label) { return el("li", ok ? "is-ok" : "is-pending", (ok ? "✓ " : "◦ ") + label); };
+    ul.appendChild(chk(g.in_corpus, "in our collection"));
+    ul.appendChild(chk(g.chunked, "split into passages"));
+    ul.appendChild(chk(g.verbatim_integrity, "exact wording (verbatim)"));
+    ul.appendChild(chk(g.rights_cleared, "rights cleared" + (g.rights_cleared ? "" : " — pending")));
+    s1.appendChild(ul);
+    host.appendChild(s1);
+    // 2 — what we're reading (the real Mark 16)
+    var units = d.units || [];
+    if (units.length) {
+      var u = units[0];
+      var verses = (u.anchors && u.anchors.verse_ids) || u.verse_markers_in_chunk || [];
+      var range = verseRange(verses);
+      var raw = u.text || "";
+      if (verses[0]) { var ix = raw.indexOf(verses[0]); if (ix > 0) raw = raw.slice(ix); } // start at the anchored first verse
+      var s2 = el("div", "me-drawer-section");
+      s2.appendChild(el("h3", null, "What we’re reading"));
+      s2.appendChild(el("p", "me-checkout-ref",
+        (range ? "Mark " + range : (r.ref || "the text")) + " · " + (rs.text_title || r.edition || "")));
+      s2.appendChild(el("p", "me-checkout-text", "“" + cleanVerbatim(raw) + "”"));
+      s2.appendChild(el("p", "me-checkout-stamp",
+        "anchored to " + (u.anchors ? u.anchors.passage_id : "—") +
+        " · version " + String(d.package_hash || "").slice(0, 10) +
+        " · fidelity " + (rs.current_fidelity || "—")));
+      host.appendChild(s2);
+    }
+  };
+  if (CHECKOUT) return paint(CHECKOUT);
+  fetch("./data/checkout_mark16_web_v1.json")
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(function (d) { CHECKOUT = d; paint(d); })
+    .catch(function (e) {
+      host.textContent = "";
+      host.appendChild(el("p", "me-drawer-p", "(the checkout package isn’t wired here yet — " + e + ")"));
+    });
 }
 
 /* ------------------------------------------------------------------ chrome */
