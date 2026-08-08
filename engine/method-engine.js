@@ -512,7 +512,20 @@ function openDrawer(id) {
 
   if (node.sub) aside.appendChild(el("p", "me-drawer-sub", node.sub));
 
-  // Step 1 (Text): the real Library checkout, told plainly — the golden-path worked example
+  // honest status pill — never claim built-what-isn't (§13)
+  if (node.status_pill) aside.appendChild(el("p", "me-drawer-pill", node.status_pill));
+
+  // Layer 1 — plain "what it is / why it matters / how it works" (any node may carry these)
+  [["What it is", node.what_it_is], ["Why it matters", node.why_it_matters], ["How it works", node.logic]]
+    .forEach(function (row) {
+      if (!row[1]) return;
+      var s = el("div", "me-drawer-section");
+      s.appendChild(el("h3", null, row[0]));
+      s.appendChild(el("p", "me-drawer-p", row[1]));
+      aside.appendChild(s);
+    });
+
+  // Step 1 (Text): the checkout worked example + the M23 contrast + evidence + research view
   if (id === "text") renderTextCheckout(aside);
 
   const incoming = FLOW.edges.filter((e) => e.to === node.id);
@@ -612,7 +625,7 @@ function closeDrawer() {
 }
 
 /* ---- Step 1 (Text): render the REAL Library checkout, in plain language ---- */
-var CHECKOUT = null;
+var CHECKOUT = null, M23 = null;
 function cleanVerbatim(t) {
   if (!t) return "";
   var s = String(t)
@@ -633,51 +646,112 @@ function renderTextCheckout(aside) {
   var host = el("div", "me-checkout");
   host.appendChild(el("p", "me-drawer-p", "loading the checkout…"));
   aside.appendChild(host);
-  var paint = function (d) {
+  var paint = function () {
+    var d = CHECKOUT || {};
     host.textContent = "";
-    var r = d.request || {}, g = d.gate || {}, rs = d.resolved || {};
-    // 1 — how we got it (the checkout, plainly)
-    var s1 = el("div", "me-drawer-section");
-    s1.appendChild(el("h3", null, "How we got it — the Library checkout"));
-    s1.appendChild(el("p", "me-drawer-p",
+    var r = d.request || {}, g = d.gate || {}, rs = d.resolved || {}, units = d.units || [];
+
+    // ── LAYER 2 · ON MARK 16 — the checkout (render from the package) ──
+    var L2 = el("div", "me-drawer-section");
+    L2.appendChild(el("h3", null, "On Mark 16 — the checkout"));
+    L2.appendChild(el("span", "me-badge is-block", "engine proposal / seam design — not yet the automated checkout"));
+    L2.appendChild(el("p", "me-drawer-p",
       "We ask the Library for " + (r.ref || "the passage") + " (" + (r.edition || "—") +
-      "). It checks the text out and hands back a sealed package — the exact words, tagged to every verse, and stamped with a version so we can prove it never changed."));
+      "). It checks the text out and hands back a sealed package — the exact words, tagged to every verse, stamped with a version so we can prove it never changed."));
     var ul = el("ul", "me-checkout-checks");
     var chk = function (ok, label) { return el("li", ok ? "is-ok" : "is-pending", (ok ? "✓ " : "◦ ") + label); };
     ul.appendChild(chk(g.in_corpus, "in our collection"));
     ul.appendChild(chk(g.chunked, "split into passages"));
     ul.appendChild(chk(g.verbatim_integrity, "exact wording (verbatim)"));
     ul.appendChild(chk(g.rights_cleared, "rights cleared" + (g.rights_cleared ? "" : " — pending")));
-    s1.appendChild(ul);
-    host.appendChild(s1);
-    // 2 — what we're reading (the real Mark 16)
-    var units = d.units || [];
+    L2.appendChild(ul);
+    host.appendChild(L2);
+
+    // the M23 money shot — the coder's paraphrase vs the corpus verbatim
+    if (M23) {
+      var mv = el("div", "me-drawer-section me-m23");
+      mv.appendChild(el("h3", null, "Why the checkout matters — " + (M23.verse_label || "Mark 16:8")));
+      var grid = el("div", "me-m23-grid");
+      var col = function (tag, txt, cls) {
+        var c = el("div", "me-m23-col " + cls);
+        c.appendChild(el("span", "me-m23-tag", tag));
+        c.appendChild(el("p", "me-m23-text", "“" + txt + "”"));
+        return c;
+      };
+      grid.appendChild(col("the coder’s paraphrase", M23.paraphrase || "", "is-paraphrase"));
+      grid.appendChild(col("the corpus verbatim", M23.verbatim || "", "is-verbatim"));
+      mv.appendChild(grid);
+      if (M23.caption) mv.appendChild(el("p", "me-m23-caption", M23.caption));
+      host.appendChild(mv);
+    }
+
+    // what we're reading (the real Mark 16 opening) + the units + version stamp
     if (units.length) {
       var u = units[0];
       var verses = (u.anchors && u.anchors.verse_ids) || u.verse_markers_in_chunk || [];
       var range = verseRange(verses);
       var raw = u.text || "";
-      if (verses[0]) { var ix = raw.indexOf(verses[0]); if (ix > 0) raw = raw.slice(ix); } // start at the anchored first verse
+      if (verses[0]) { var ix = raw.indexOf(verses[0]); if (ix > 0) raw = raw.slice(ix); }
       var s2 = el("div", "me-drawer-section");
       s2.appendChild(el("h3", null, "What we’re reading"));
       s2.appendChild(el("p", "me-checkout-ref",
         (range ? "Mark " + range : (r.ref || "the text")) + " · " + (rs.text_title || r.edition || "")));
       s2.appendChild(el("p", "me-checkout-text", "“" + cleanVerbatim(raw) + "”"));
       s2.appendChild(el("p", "me-checkout-stamp",
-        "anchored to " + (u.anchors ? u.anchors.passage_id : "—") +
+        "2 passages: " + units.map(function (x) {
+          var vs = (x.anchors && x.anchors.verse_ids) || [];
+          return "Mark " + verseRange(vs);
+        }).join(" · ") +
         " · version " + String(d.package_hash || "").slice(0, 10) +
         " · fidelity " + (rs.current_fidelity || "—")));
       host.appendChild(s2);
     }
+
+    // ── LAYER 3 · EVIDENCE — prove it (for Saquib) ──
+    var L3 = el("div", "me-drawer-section");
+    L3.appendChild(el("h3", null, "Evidence — prove it"));
+    var e3 = el("ul", "me-drawer-list");
+    e3.appendChild(el("li", null, "store: the package is a file (an immutable snapshot); the checkout registry is a table (Phase-1, dual-stored)"));
+    e3.appendChild(el("li", null, "producer: build_checkout_package_s162.py (v0 exemplar)"));
+    e3.appendChild(el("li", null, "provenance: World English Bible (public domain) · corpus source GUT-8268 · anchors trace every move back to the verse"));
+    L3.appendChild(e3);
+    var hl = el("div", "me-limits");
+    hl.appendChild(el("h4", null, "honest limits"));
+    var hul = el("ul", "me-drawer-list");
+    hul.appendChild(el("li", null, "rights: PENDING on GUT-8268 → the gate returns FALSE even though WEB is public-domain. A 1-row catalogue fix unblocks it — the live demo that catalogue coding feeds the checkout gate."));
+    hul.appendChild(el("li", null, "dedup: the corpus holds both the chunk (GUT-8268) and a verse scheme — RESOLVE anchors to GUT-8268, dedups the rest at Phase-1."));
+    hul.appendChild(el("li", null, "the automated checkout (RESOLVE-by-work_id + registry + acquire/chunk fallback) = TBD-build (WEMI Phase-1)."));
+    hl.appendChild(hul);
+    L3.appendChild(hl);
+    host.appendChild(L3);
+
+    // ── RESEARCH VIEW (nested, per SITUATE/Fan) ──
+    var det = el("details", "me-research");
+    det.appendChild(el("summary", null, "show the research view"));
+    var rv = el("div", "me-research-body");
+    rv.appendChild(el("h4", null, "data contract — the fields"));
+    rv.appendChild(el("p", "me-drawer-p", "source_id · passage_id · verse_ids · text (verbatim) · content_hash · package_hash · checkout_version · provenance · rights_status · fidelity"));
+    rv.appendChild(el("h4", null, "audit — the decision chain"));
+    rv.appendChild(el("p", "me-drawer-p", "Decision 221 (schema redesign) · the S162 golden-path seam catch · the package-model endorsement (PI, S162) · the Librarian’s checkout co-design"));
+    rv.appendChild(el("h4", null, "implementation — the code path"));
+    rv.appendChild(el("p", "me-drawer-p", "build_checkout_package_s162.py (v0) → library_checkout.py (Phase-1, TBD)"));
+    det.appendChild(rv);
+    host.appendChild(det);
   };
-  if (CHECKOUT) return paint(CHECKOUT);
-  fetch("./data/checkout_mark16_web_v1.json")
-    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-    .then(function (d) { CHECKOUT = d; paint(d); })
-    .catch(function (e) {
-      host.textContent = "";
-      host.appendChild(el("p", "me-drawer-p", "(the checkout package isn’t wired here yet — " + e + ")"));
-    });
+  var need = 2;
+  var done = function () { need -= 1; if (need <= 0) paint(); };
+  if (CHECKOUT) { done(); } else {
+    fetch("./data/goldenpath/mark16/checkout.json")
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (x) { CHECKOUT = x; done(); })
+      .catch(function () { CHECKOUT = {}; done(); });
+  }
+  if (M23) { done(); } else {
+    fetch("./data/goldenpath/mark16/m23_seam.json")
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (x) { M23 = x; done(); })
+      .catch(function () { M23 = null; done(); });
+  }
 }
 
 /* ------------------------------------------------------------------ chrome */

@@ -954,3 +954,21 @@
 .me-checkout-ref{ margin: 0 0 6px; font-family: var(--me-font-mono); font-size: 10.5px; letter-spacing: .04em; color: var(--me-terracotta); text-transform: uppercase; }
 .me-checkout-text{ margin: 0 0 8px; font-family: var(--me-font-serif); font-size: 15px; line-height: 1.55; color: var(--me-ink); border-left: 2px solid var(--me-hairline); padding-left: 12px; }
 .me-checkout-stamp{ margin: 0; font-family: var(--me-font-mono); font-size: 10px; color: var(--me-muted); }
+
+/* ---- Text drawer (golden-path Step 1): status pill · M23 contrast · limits · research view ---- */
+.me-drawer-pill{ margin: 4px 0 10px; display: inline-block; font-family: var(--me-font-mono); font-size: 10px; letter-spacing: .04em; line-height: 1.5; color: var(--me-terracotta); background: color-mix(in srgb, var(--me-terracotta) 8%, transparent); border: 1px dashed color-mix(in srgb, var(--me-terracotta) 45%, var(--me-hairline)); border-radius: 6px; padding: 5px 9px; }
+/* the money shot — paraphrase vs verbatim, side by side */
+.me-m23-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 4px 0 8px; }
+.me-m23-col{ border-radius: var(--me-radius-tile); padding: 8px 10px; }
+.me-m23-col.is-paraphrase{ background: color-mix(in srgb, var(--me-muted) 10%, transparent); border: 1px solid var(--me-hairline); }
+.me-m23-col.is-verbatim{ background: color-mix(in srgb, var(--me-moss) 10%, transparent); border: 1px solid color-mix(in srgb, var(--me-moss) 45%, var(--me-hairline)); }
+.me-m23-tag{ display: block; font-family: var(--me-font-mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--me-muted); margin-bottom: 4px; }
+.me-m23-col.is-verbatim .me-m23-tag{ color: var(--me-moss); }
+.me-m23-text{ margin: 0; font-family: var(--me-font-serif); font-size: 13.5px; line-height: 1.5; color: var(--me-ink); }
+.me-m23-caption{ margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--me-muted); }
+.me-limits{ margin-top: 10px; }
+.me-limits h4, .me-research-body h4{ margin: 8px 0 3px; font-family: var(--me-font-mono); font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--me-terracotta); }
+.me-research{ margin-top: 14px; border-top: 1px solid var(--me-hairline); padding-top: 8px; }
+.me-research > summary{ cursor: pointer; font-family: var(--me-font-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--me-muted); }
+.me-research-body{ margin-top: 6px; }
+@media (max-width: 560px){ .me-m23-grid{ grid-template-columns: 1fr; } }
