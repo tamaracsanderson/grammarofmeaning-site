@@ -666,6 +666,8 @@ function renderCrt(host, crt) {
   wrap.appendChild(pill);
   if (crt.checks) wrap.appendChild(el("span", "me-crt-checks", "checked: " + crt.checks));
   host.appendChild(wrap);
+  // the run doc is a repo path (not web-served), so surface it as a visible path, not a 404-ing link
+  if (crt.run_doc) host.appendChild(el("p", "me-crt-run", "run: " + crt.run_doc));
 }
 
 /* one move's four slots (who / operation / on / result) as a labeled row — never the raw object */
