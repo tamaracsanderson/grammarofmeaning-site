@@ -1,0 +1,89 @@
+{
+  "node": "decompose",
+  "_generated_by": "build_decompose_node_drawer_data_s162.py (render-from-data; re-run to refresh)",
+  "_reads_from": {
+    "moves": "source_move (MARK-16-WEB)",
+    "edges": "source_move_edge (MARK-16-WEB)"
+  },
+  "card": {
+    "title": "Decompose",
+    "subtitle": "break the passage into moves",
+    "grain": "moves (small labelled actions)",
+    "status_plain": "The moves for this passage exist (55 of them). They were read from a retyped copy, not yet the library checkout — so this is a worked example, honest about that.",
+    "status_tag": "BUILT (55 moves) · from retyped copy — re-run fresh from checkout to finalize"
+  },
+  "layer_1_what_it_is": {
+    "what_it_is": "Break the passage into 'moves' — the small actions the text makes. A move is one thing done: an agent does an operation to something, with a result (e.g. 'the women flee the tomb', 'they say nothing to anyone').",
+    "why_it_matters": "The move is the unit we actually analyze. It's small enough to see exactly what the text does, and everything later — the gaps, the glosses — hangs off moves. Break it well and the rest follows; break it badly and everything downstream inherits the mistake.",
+    "the_process": {
+      "you ask for": "the checked-out passage (the output of the Text step)",
+      "the method does": "reads it sentence by sentence · marks each small action as a move · labels who does it, the operation, what it acts on, and the result · notes how moves connect (one feeds the next, or one reports another's speech)",
+      "you get back": "an ordered list of moves — the passage as a sequence of small, labelled actions"
+    }
+  },
+  "layer_2_on_mark_16": {
+    "move_count": 55,
+    "edge_count": 25,
+    "featured_moves": [
+      {
+        "move": "M1",
+        "plain": "Once the rest-day had ended, the three named women purchased aromatic spices intending to go and dress the body.",
+        "grammar": {
+          "who": "Mary Magdalene, Mary mother of James, and Salome",
+          "does": "buy",
+          "to": "spices",
+          "result": "spices in hand, with the intent to come and anoint him"
+        }
+      },
+      {
+        "move": "M14",
+        "plain": "He announces that the one they seek has been raised.",
+        "grammar": {
+          "who": "the young man (as announcer)",
+          "does": "announce (he has risen)",
+          "to": "Jesus (as the one whose state is proclaimed)",
+          "result": "the raising declared as accomplished; doer of the raising unnamed"
+        }
+      },
+      {
+        "move": "M22",
+        "plain": "The women rushed out of the tomb in flight.",
+        "grammar": {
+          "who": "the three women",
+          "does": "flee (out of the tomb)",
+          "to": "the tomb (as place fled from)",
+          "result": "the women away from the tomb"
+        }
+      },
+      {
+        "move": "M23",
+        "plain": "They kept silent, telling no one anything.",
+        "grammar": {
+          "who": "the three women",
+          "does": "say nothing (to anyone)",
+          "to": "the message they had just been given (M10a-c)",
+          "result": "the commission un-executed; the news withheld"
+        }
+      }
+    ],
+    "the_silence_thread": "M22 (the women flee) → M23 (they say nothing) — the ending the whole reading turns on. Watch this move-pair through the later steps.",
+    "all_moves_note": "The full list of 55 moves is the feed the reading room already renders (reading.html renders 'live from the coded-move export')."
+  },
+  "layer_3_evidence": {
+    "where_it_lives_plain": "The moves live in the database (one row per move), joined to the passage. Any surface reads them from there — the diagram here, and the reading room.",
+    "made_by": "scripts/analysis/engine1_layer1_extract_moves.py (+ engine1_spine_and_bundles.py for the connections)",
+    "provenance": "engine1_layer1_extract_moves.py — text=Mark_16_WEB.txt sitz=70 temp=0.0 tag=translations_s161 qud=\"How is Jesus' resurrection made known — who finds the tomb empty, who encounters the risen Jesus, and how is it attested to others?\"",
+    "honest_limits": [
+      {
+        "plain": "These moves were read from a retyped copy of the text, not yet from the library checkout — so the wording is a paraphrase. Re-run this step from the verbatim checkout (the fresh walk) and the moves refresh from the real words.",
+        "field": "source_move.extraction_provenance references a .txt file (not the checkout)"
+      },
+      {
+        "plain": "This is one coder, one pass — a reference reading, not a reliability-tested one yet.",
+        "field": "no inter-rater reliability run on this move-set"
+      }
+    ]
+  },
+  "whats_next_plain": "After DECOMPOSE comes SITUATE (the world the text came out of). The feed now carries {raw text + moves}; SITUATE adds the situating context.",
+  "deep_dive": "the moves reader (reading.html) — the passage read as its coded moves, in order, with the frame shifting."
+}

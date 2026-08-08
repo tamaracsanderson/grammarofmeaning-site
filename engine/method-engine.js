@@ -510,8 +510,8 @@ function openDrawer(id) {
   aside.appendChild(el("h2", null, node.label));
   aside.appendChild(el("p", "me-drawer-fn", node.function));
 
-  // Text (Step 1): fully custom drawer, rendered from the single generated file (the neutral feed)
-  if (id === "text") { renderTextCheckout(aside); host.appendChild(aside); return; }
+  // Golden-path step drawers: fully custom, rendered from each step's generated file (the neutral feed)
+  if (STEP_DATA[id]) { renderStepDrawer(aside, node); host.appendChild(aside); return; }
 
   if (node.sub) aside.appendChild(el("p", "me-drawer-sub", node.sub));
 
@@ -625,8 +625,9 @@ function closeDrawer() {
   document.getElementById("me-drawer-host").textContent = "";
 }
 
-/* ---- Step 1 (Text): render from the single generated drawer file (the neutral feed) ---- */
-var TEXTDRAWER = null, CHECKOUT = null;
+/* ---- Golden-path step drawers: render from each step's single generated file (the neutral feed) ---- */
+var STEP_DATA = { text: "text_node_drawer.json", decompose: "decompose_node_drawer.json" };
+var STEP_CACHE = {}, CHECKOUT = null;
 function cleanVerbatim(t) {
   if (!t) return "";
   var s = String(t)
@@ -643,15 +644,17 @@ function verseRange(ids) {
   var l = ids[ids.length - 1].split(":").map(function (x) { return parseInt(x, 10); });
   return f[0] + ":" + f[1] + "–" + (l[0] === f[0] ? l[1] : l[0] + ":" + l[1]);
 }
-function renderTextCheckout(aside) {
+/* one shell for every golden-path step drawer; per-step layer-2 renderers below */
+function renderStepDrawer(aside, node) {
+  var id = node.id;
   var host = el("div", "me-checkout");
   host.appendChild(el("p", "me-drawer-p", "loading…"));
   aside.appendChild(host);
   var paint = function () {
-    var D = TEXTDRAWER || {};
+    var D = STEP_CACHE[id] || {};
     host.textContent = "";
     var card = D.card || {}, l1 = D.layer_1_what_it_is || {}, l2 = D.layer_2_on_mark_16 || {}, l3 = D.layer_3_evidence || {};
-    var gate = l3.gate_result || {}, ct = l2.the_contrast || {}, proc = l1.the_process || {}, from = l2.from || {};
+    var proc = l1.the_process || {};
     var sect = function (h, p) { var s = el("div", "me-drawer-section"); s.appendChild(el("h3", null, h)); s.appendChild(el("p", "me-drawer-p", p)); host.appendChild(s); };
 
     // honest status (plain — no raw tokens)
@@ -664,51 +667,15 @@ function renderTextCheckout(aside) {
     if (proc && Object.keys(proc).length) {
       var sp = el("div", "me-drawer-section"); sp.appendChild(el("h3", null, "How it works"));
       var up = el("ul", "me-drawer-list");
-      ["you ask for", "the library does", "you get back"].forEach(function (k) { if (proc[k]) up.appendChild(el("li", null, k + " — " + proc[k])); });
+      Object.keys(proc).forEach(function (k) { up.appendChild(el("li", null, k + " — " + proc[k])); });
       sp.appendChild(up); host.appendChild(sp);
     }
 
-    // LAYER 2 — the checkout: gate checklist (plain, warm) + the M23 money shot
-    var s2 = el("div", "me-drawer-section");
-    s2.appendChild(el("h3", null, "On Mark 16 — the checkout"));
-    var ul2 = el("ul", "me-checkout-checks");
-    var chk = function (ok, label) { return el("li", ok ? "is-ok" : "is-pending", (ok ? "✓ " : "◦ ") + label); };
-    ul2.appendChild(chk(gate.in_corpus, "in our collection"));
-    ul2.appendChild(chk(gate.chunked, "split into passages"));
-    ul2.appendChild(chk(gate.verbatim_integrity, "exact wording"));
-    ul2.appendChild(chk(gate.rights_cleared, "permission to share"));
-    s2.appendChild(ul2);
-    host.appendChild(s2);
+    // LAYER 2 — per step (the worked result on Mark 16)
+    if (id === "text") renderLayer2Text(host, l2, D);
+    else if (id === "decompose") renderLayer2Decompose(host, l2);
 
-    if (ct.coder_saw_paraphrase || ct.corpus_verbatim) {
-      var mv = el("div", "me-drawer-section me-m23");
-      mv.appendChild(el("h3", null, ct.heading || "What the coder saw vs. what the passage says"));
-      var grid = el("div", "me-m23-grid");
-      var col = function (tag, txt, cls) { var c = el("div", "me-m23-col " + cls); c.appendChild(el("span", "me-m23-tag", tag)); c.appendChild(el("p", "me-m23-text", "“" + txt + "”")); return c; };
-      grid.appendChild(col("the coder’s paraphrase", ct.coder_saw_paraphrase || "", "is-paraphrase"));
-      grid.appendChild(col("the corpus verbatim", ct.corpus_verbatim || "", "is-verbatim"));
-      mv.appendChild(grid);
-      if (ct.plain_caption) mv.appendChild(el("p", "me-m23-caption", ct.plain_caption));
-      host.appendChild(mv);
-    }
-
-    // what we're reading — the full passage from the checkout package + a humanized version line
-    if (CHECKOUT && CHECKOUT.units && CHECKOUT.units.length) {
-      var u = CHECKOUT.units[0];
-      var verses = (u.anchors && u.anchors.verse_ids) || [];
-      var range = verseRange(verses);
-      var raw = u.text || "";
-      if (verses[0]) { var ix = raw.indexOf(verses[0]); if (ix > 0) raw = raw.slice(ix); }
-      var s3 = el("div", "me-drawer-section");
-      s3.appendChild(el("h3", null, "What we’re reading"));
-      var edn = from.title ? from.title.replace(/:\s*Mark\s*$/i, "").trim() : (from.edition || "World English Bible");
-      s3.appendChild(el("p", "me-checkout-ref", (range ? "Mark " + range : "Mark 16") + " · " + edn));
-      s3.appendChild(el("p", "me-checkout-text", "“" + cleanVerbatim(raw) + "”"));
-      s3.appendChild(el("p", "me-checkout-stamp", "✓ version-locked · verified unchanged"));
-      host.appendChild(s3);
-    }
-
-    // LAYER 3 — evidence + honest limits (plain, from the file)
+    // LAYER 3 — evidence + honest limits (generic)
     var L3 = el("div", "me-drawer-section");
     L3.appendChild(el("h3", null, "Evidence — prove it"));
     var e3 = el("ul", "me-drawer-list");
@@ -726,39 +693,112 @@ function renderTextCheckout(aside) {
 
     if (D.whats_next_plain) sect("What’s next", D.whats_next_plain);
 
-    // RESEARCH VIEW (nested) — the raw receipt lives HERE, not in METHOD (Content SB principle:
-    // the MEANING is in METHOD, the raw token lives in the research view)
+    // RESEARCH VIEW (nested) — the raw receipt lives HERE, not in METHOD (Content SB principle)
     var det = el("details", "me-research");
     det.appendChild(el("summary", null, "show the research view"));
     var rv = el("div", "me-research-body");
-    rv.appendChild(el("h4", null, "the receipt (raw fields)"));
-    var raw3 = el("ul", "me-drawer-list");
-    if (l2.checkout_version) raw3.appendChild(el("li", null, "checkout_version: " + l2.checkout_version));
-    if (l2.package_seal) raw3.appendChild(el("li", null, "package_seal: " + String(l2.package_seal).slice(0, 16) + "…"));
-    if (l2.fidelity) raw3.appendChild(el("li", null, "fidelity: " + l2.fidelity));
-    (l2.units || []).forEach(function (u) { raw3.appendChild(el("li", null, (u.passage_id || "") + " · hash " + String(u.content_hash || "").slice(0, 12) + "…")); });
-    rv.appendChild(raw3);
-    rv.appendChild(el("h4", null, "code path"));
-    rv.appendChild(el("p", "me-drawer-p", "build_checkout_package_s162.py + build_text_node_drawer_data_s162.py (v0) → library_checkout.py (Phase-1, TBD)"));
+    if (id === "text") {
+      rv.appendChild(el("h4", null, "the receipt (raw fields)"));
+      var raw3 = el("ul", "me-drawer-list");
+      if (l2.checkout_version) raw3.appendChild(el("li", null, "checkout_version: " + l2.checkout_version));
+      if (l2.package_seal) raw3.appendChild(el("li", null, "package_seal: " + String(l2.package_seal).slice(0, 16) + "…"));
+      if (l2.fidelity) raw3.appendChild(el("li", null, "fidelity: " + l2.fidelity));
+      (l2.units || []).forEach(function (u) { raw3.appendChild(el("li", null, (u.passage_id || "") + " · hash " + String(u.content_hash || "").slice(0, 12) + "…")); });
+      rv.appendChild(raw3);
+    }
+    rv.appendChild(el("h4", null, "data source"));
+    var reads = (D._reads_from && Object.keys(D._reads_from).map(function (k) { return D._reads_from[k]; }).join(" · ")) || "";
+    rv.appendChild(el("p", "me-drawer-p", (reads ? reads + " · " : "") + "generated by " + (D._generated_by || "—")));
     det.appendChild(rv);
     host.appendChild(det);
 
     if (D.deep_dive) host.appendChild(el("p", "me-drawer-p me-deepdive", "→ " + D.deep_dive));
   };
-  var need = 2;
+  var need = (id === "text") ? 2 : 1;
   var done = function () { need -= 1; if (need <= 0) paint(); };
-  if (TEXTDRAWER) { done(); } else {
-    fetch("./data/goldenpath/mark16/text_node_drawer.json")
+  if (STEP_CACHE[id]) { done(); } else {
+    fetch("./data/goldenpath/mark16/" + (STEP_DATA[id] || ""))
       .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-      .then(function (x) { TEXTDRAWER = x; done(); })
-      .catch(function () { TEXTDRAWER = {}; done(); });
+      .then(function (x) { STEP_CACHE[id] = x; done(); })
+      .catch(function () { STEP_CACHE[id] = {}; done(); });
   }
-  if (CHECKOUT) { done(); } else {
-    fetch("./data/goldenpath/mark16/checkout.json")
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-      .then(function (x) { CHECKOUT = x; done(); })
-      .catch(function () { CHECKOUT = null; done(); });
+  if (id === "text") {
+    if (CHECKOUT) { done(); } else {
+      fetch("./data/goldenpath/mark16/checkout.json")
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+        .then(function (x) { CHECKOUT = x; done(); })
+        .catch(function () { CHECKOUT = null; done(); });
+    }
   }
+}
+
+/* LAYER 2 — Text (Step 1): the checkout gate + the M23 money shot + the verbatim passage */
+function renderLayer2Text(host, l2, D) {
+  var gate = (D.layer_3_evidence && D.layer_3_evidence.gate_result) || {}, ct = l2.the_contrast || {}, from = l2.from || {};
+  var s2 = el("div", "me-drawer-section");
+  s2.appendChild(el("h3", null, "On Mark 16 — the checkout"));
+  var ul2 = el("ul", "me-checkout-checks");
+  var chk = function (ok, label) { return el("li", ok ? "is-ok" : "is-pending", (ok ? "✓ " : "◦ ") + label); };
+  ul2.appendChild(chk(gate.in_corpus, "in our collection"));
+  ul2.appendChild(chk(gate.chunked, "split into passages"));
+  ul2.appendChild(chk(gate.verbatim_integrity, "exact wording"));
+  ul2.appendChild(chk(gate.rights_cleared, "permission to share"));
+  s2.appendChild(ul2);
+  host.appendChild(s2);
+  if (ct.coder_saw_paraphrase || ct.corpus_verbatim) {
+    var mv = el("div", "me-drawer-section me-m23");
+    mv.appendChild(el("h3", null, ct.heading || "What the coder saw vs. what the passage says"));
+    var grid = el("div", "me-m23-grid");
+    var col = function (tag, txt, cls) { var c = el("div", "me-m23-col " + cls); c.appendChild(el("span", "me-m23-tag", tag)); c.appendChild(el("p", "me-m23-text", "“" + txt + "”")); return c; };
+    grid.appendChild(col("the coder’s paraphrase", ct.coder_saw_paraphrase || "", "is-paraphrase"));
+    grid.appendChild(col("the corpus verbatim", ct.corpus_verbatim || "", "is-verbatim"));
+    mv.appendChild(grid);
+    if (ct.plain_caption) mv.appendChild(el("p", "me-m23-caption", ct.plain_caption));
+    host.appendChild(mv);
+  }
+  if (CHECKOUT && CHECKOUT.units && CHECKOUT.units.length) {
+    var u = CHECKOUT.units[0];
+    var verses = (u.anchors && u.anchors.verse_ids) || [];
+    var range = verseRange(verses);
+    var raw = u.text || "";
+    if (verses[0]) { var ix = raw.indexOf(verses[0]); if (ix > 0) raw = raw.slice(ix); }
+    var s3 = el("div", "me-drawer-section");
+    s3.appendChild(el("h3", null, "What we’re reading"));
+    var edn = from.title ? from.title.replace(/:\s*Mark\s*$/i, "").trim() : (from.edition || "World English Bible");
+    s3.appendChild(el("p", "me-checkout-ref", (range ? "Mark " + range : "Mark 16") + " · " + edn));
+    s3.appendChild(el("p", "me-checkout-text", "“" + cleanVerbatim(raw) + "”"));
+    s3.appendChild(el("p", "me-checkout-stamp", "✓ version-locked · verified unchanged"));
+    host.appendChild(s3);
+  }
+}
+
+/* LAYER 2 — Decompose (Step 2a): the move count + featured moves + the M22→M23 silence thread */
+function renderLayer2Decompose(host, l2) {
+  var s2 = el("div", "me-drawer-section");
+  s2.appendChild(el("h3", null, "On Mark 16 — the moves"));
+  s2.appendChild(el("p", "me-drawer-p",
+    "The passage becomes " + (l2.move_count || "—") + " moves" +
+    (l2.edge_count ? ", linked by " + l2.edge_count + " connections" : "") + "."));
+  var fm = l2.featured_moves || [];
+  if (fm.length) {
+    var ul = el("ul", "me-drawer-list");
+    fm.forEach(function (m) {
+      var li = el("li");
+      li.appendChild(el("b", null, (m.move || "") + " "));
+      li.appendChild(document.createTextNode(m.plain || ""));
+      if (m.grammar) li.appendChild(el("span", "me-move-grammar", " — " + m.grammar));
+      ul.appendChild(li);
+    });
+    s2.appendChild(ul);
+  }
+  host.appendChild(s2);
+  if (l2.the_silence_thread) {
+    var mv = el("div", "me-drawer-section me-m23");
+    mv.appendChild(el("h3", null, "The silence thread"));
+    mv.appendChild(el("p", "me-m23-caption", l2.the_silence_thread));
+    host.appendChild(mv);
+  }
+  if (l2.all_moves_note) host.appendChild(el("p", "me-drawer-p me-deepdive", l2.all_moves_note));
 }
 
 /* ------------------------------------------------------------------ chrome */
