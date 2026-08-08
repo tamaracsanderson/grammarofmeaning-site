@@ -767,6 +767,19 @@ function renderStepDrawer(aside, node) {
       (receipt.units || []).forEach(function (u) { r3.appendChild(el("li", null, (u.passage_id || "") + " · hash " + String(u.content_hash || "").slice(0, 12) + "…")); });
       rv.appendChild(r3);
     }
+    // how to run it — so a reader can REPRODUCE the step, not just read about it
+    var htr = (D.research_view && D.research_view.how_to_run);
+    if (htr) {
+      rv.appendChild(el("h4", null, "how to run it"));
+      var cmd = htr["reproduce this checkout"] || htr.command || htr.reproduce;
+      if (cmd) { var pre = el("pre", "me-code"); pre.textContent = cmd; rv.appendChild(pre); }
+      var hu = el("ul", "me-drawer-list");
+      Object.keys(htr).forEach(function (k) {
+        if (k === "reproduce this checkout" || k === "command" || k === "reproduce") return;
+        hu.appendChild(el("li", null, k + ": " + htr[k]));
+      });
+      if (hu.childNodes.length) rv.appendChild(hu);
+    }
     rv.appendChild(el("h4", null, "data source"));
     rv.appendChild(el("p", "me-drawer-p", dataSource));
     det.appendChild(rv);
