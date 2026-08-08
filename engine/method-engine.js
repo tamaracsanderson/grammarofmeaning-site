@@ -178,6 +178,11 @@ function panelCluster() {
   });
   s.appendChild(tracks);
   s.appendChild(el("div", "me-panel-conn", "▾"));
+  // U2 — the fidelity gate: a small standalone glyph on the glosses' path into pick-top;
+  //      glosses can DIE here (S6 / DP-5) — "no-grounded-gloss" is an allowable verdict.
+  const gate = el("div", "me-panel-gate");
+  gate.appendChild(nodeCard(byId["fidelity_gate"]));
+  s.appendChild(gate);
   const pk = el("div", "me-panel-beat");
   pk.appendChild(nodeCard(byId["pick_top"]));
   s.appendChild(pk);
