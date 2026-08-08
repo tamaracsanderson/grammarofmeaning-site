@@ -713,12 +713,17 @@ function renderTextCheckout(aside) {
     var e3 = el("ul", "me-drawer-list");
     e3.appendChild(el("li", null, "store: the package is a file (an immutable snapshot); the checkout registry is a table (Phase-1, dual-stored)"));
     e3.appendChild(el("li", null, "producer: build_checkout_package_s162.py (v0 exemplar)"));
-    e3.appendChild(el("li", null, "provenance: World English Bible (public domain) · corpus source GUT-8268 · anchors trace every move back to the verse"));
+    var prov = d.provenance || {};
+    e3.appendChild(el("li", null, "provenance: " + (prov.edition || "World English Bible") +
+      (prov.rights_status ? " (" + String(prov.rights_status).replace(/_/g, " ") + ")" : "") +
+      " · corpus source " + (prov.corpus_source_id || rs.manifestation_source_id || "GUT-8268") +
+      " · anchors trace every move back to the verse"));
     L3.appendChild(e3);
     var hl = el("div", "me-limits");
     hl.appendChild(el("h4", null, "honest limits"));
     var hul = el("ul", "me-drawer-list");
-    hul.appendChild(el("li", null, "rights: PENDING on GUT-8268 → the gate returns FALSE even though WEB is public-domain. A 1-row catalogue fix unblocks it — the live demo that catalogue coding feeds the checkout gate."));
+    // limits compute from the gate — the rights line drops off once the gate clears
+    if (!g.rights_cleared) hul.appendChild(el("li", null, "rights: PENDING on GUT-8268 → the gate returns FALSE even though WEB is public-domain. A 1-row catalogue fix unblocks it."));
     hul.appendChild(el("li", null, "dedup: the corpus holds both the chunk (GUT-8268) and a verse scheme — RESOLVE anchors to GUT-8268, dedups the rest at Phase-1."));
     hul.appendChild(el("li", null, "the automated checkout (RESOLVE-by-work_id + registry + acquire/chunk fallback) = TBD-build (WEMI Phase-1)."));
     hl.appendChild(hul);
