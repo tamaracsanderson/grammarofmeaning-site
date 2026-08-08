@@ -530,6 +530,62 @@
       "implementation": "retired",
       "validation": "untested",
       "sub": "retired — kept in provenance / history only, never drawn in the overview."
+    },
+    {
+      "id": "nominate",
+      "label": "Nominate",
+      "function": "42 agents each pick their most-generative gap",
+      "band": "panel",
+      "kind": "panel",
+      "status": "specified",
+      "grain": "gap",
+      "implementation": "specified",
+      "validation": "untested",
+      "sub": "S3 — each of the 42 coded frames nominates its top-1 gap (panel_nomination). Dispersion is an audit signal."
+    },
+    {
+      "id": "chair_convergence",
+      "label": "Convergence",
+      "function": "selects develops-WITH gaps",
+      "band": "panel",
+      "kind": "chair",
+      "status": "specified",
+      "implementation": "specified",
+      "validation": "untested",
+      "sub": "the chair that reads how the frames build together."
+    },
+    {
+      "id": "chair_divergence",
+      "label": "Divergence",
+      "function": "selects reads-AGAINST gaps",
+      "band": "panel",
+      "kind": "chair",
+      "status": "specified",
+      "implementation": "specified",
+      "validation": "untested",
+      "sub": "the chair that reads where the frames contest."
+    },
+    {
+      "id": "pick_top",
+      "label": "Pick-top",
+      "function": "the two chairs rate + pick the top glosses",
+      "band": "panel",
+      "kind": "panel",
+      "status": "specified",
+      "implementation": "specified",
+      "validation": "untested",
+      "sub": "S8 — rates the fidelity-gated gap_gloss (S6: no-grounded-gloss is an allowable verdict) + reception; each chair picks top-N."
+    },
+    {
+      "id": "the_finding",
+      "label": "The finding",
+      "function": "agree = load-bearing · split = the fault-line",
+      "band": "panel",
+      "kind": "finding",
+      "status": "specified",
+      "implementation": "specified",
+      "validation": "untested",
+      "sub": "the symmetric-difference of the two chairs' slates (chair_selection) — a first-class finding: agreement is load-bearing, a split marks the fault-line. 'the disagreement is the content.'"
     }
   ],
   "edges": [
@@ -630,18 +686,6 @@
       "note": "retrieved voices"
     },
     {
-      "from": "gloss",
-      "to": "synthesis",
-      "type": "flow",
-      "note": "built voices enter the argument"
-    },
-    {
-      "from": "reception",
-      "to": "synthesis",
-      "type": "flow",
-      "note": "real voices enter the argument"
-    },
-    {
       "from": "cross_analysis",
       "to": "synthesis",
       "type": "flow",
@@ -652,6 +696,24 @@
       "to": "reading_room",
       "type": "flow",
       "note": "the argument lands where the reader reads"
+    },
+    {
+      "from": "gloss",
+      "to": "pick_top",
+      "type": "flow",
+      "note": "the built voices enter the panel"
+    },
+    {
+      "from": "reception",
+      "to": "pick_top",
+      "type": "flow",
+      "note": "the retrieved voices enter the panel"
+    },
+    {
+      "from": "the_finding",
+      "to": "synthesis",
+      "type": "flow",
+      "note": "the panel's finding enters the argument"
     }
   ]
 }

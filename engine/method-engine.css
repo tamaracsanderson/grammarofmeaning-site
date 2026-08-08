@@ -63,6 +63,7 @@
 /* ---------- page shell ---------- */
 
 .me-page {
+  margin: 0;
   min-height: 100vh;
   background: var(--me-ground);
   color: var(--me-ink);
@@ -73,7 +74,7 @@
 .me-shell {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 10px 20px 14px;
+  padding: 8px 20px 6px;
 }
 
 .me-head {
@@ -149,8 +150,8 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 4px 16px;
-  margin: 7px 0 0;
-  padding: 5px 0;
+  margin: 5px 0 0;
+  padding: 3px 0;
   border-top: 1px solid var(--me-hairline);
   border-bottom: 1px solid var(--me-hairline);
   font-family: var(--me-font-mono);
@@ -341,7 +342,7 @@
 
 .me-fan {
   flex-direction: column;
-  gap: 14px;
+  gap: 8px;
   padding: 0 12px;
 }
 
@@ -349,7 +350,7 @@
 .me-mirror {
   background: var(--me-tint);
   border-radius: var(--me-radius-band);
-  padding: 7px 9px 9px;
+  padding: 5px 9px 6px;
 }
 
 .me-band-head {
@@ -401,7 +402,7 @@
 }
 
 .me-mirror-arms {
-  margin-top: 46px;
+  margin-top: 18px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 22px;
@@ -916,4 +917,27 @@
 .me-node[data-id="gloss"]{
   border-left:3px solid var(--me-moss);
   background:color-mix(in srgb, var(--me-moss) 9%, var(--me-card));
+}
+
+/* ── THE PANEL cluster (U1 — the crown jewel; the panel is the invention) ──
+   Compact: it must be visible AND keep the 1440x900 no-scroll fit. */
+.me-panel{
+  margin-top: 10px;
+  background: var(--me-tint);
+  border-radius: var(--me-radius-band);
+  padding: 6px 10px 9px;
+}
+.me-panel .me-node{ padding: 3px 8px; }
+.me-panel .me-node .me-node-fn{ line-height: 1.3; }
+.me-panel-beat{ display: flex; justify-content: center; }
+.me-panel-beat .me-node{ flex: 0 1 320px; max-width: 320px; }
+.me-panel-conn{ text-align: center; color: var(--me-olive); font-size: 9px; line-height: 1; margin: 1px 0; letter-spacing: .3em; }
+/* the two chairs as parallel tracks — the parallelism is the point */
+.me-panel-tracks{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.me-panel-track{ display: flex; flex-direction: column; gap: 1px; }
+.me-panel-track-tag{ font-family: var(--me-font-mono); font-size: 8px; letter-spacing: .09em; text-transform: uppercase; color: var(--me-muted); text-align: center; }
+/* the finding — the symmetric-difference; a honey accent (payoff), not a grouping hue */
+.me-node[data-id="the_finding"]{
+  border: 2px solid var(--me-honey);
+  background: color-mix(in srgb, var(--me-honey) 12%, var(--me-card));
 }

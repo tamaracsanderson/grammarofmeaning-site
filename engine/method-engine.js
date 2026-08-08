@@ -157,6 +157,37 @@ function gapMirror() {
   return s;
 }
 
+/* --------------------------------------------------------- the panel (U1) */
+/* The panel is the invention — it must have pixels. A visible cluster on the
+   Selected-gap → Synthesis path: nominate 42 → two CHAIRS as parallel tracks
+   (convergence ∥ divergence) → pick-top → the symmetric-difference FINDING. */
+function panelCluster() {
+  const s = el("section", "me-panel");
+  s.dataset.band = "panel";
+  s.appendChild(bandHead("The panel", "the invention — the argument gets made here"));
+  const nom = el("div", "me-panel-beat");
+  nom.appendChild(nodeCard(byId["nominate"]));
+  s.appendChild(nom);
+  s.appendChild(el("div", "me-panel-conn", "▾"));
+  const tracks = el("div", "me-panel-tracks");
+  [["chair_convergence", "develops-with"], ["chair_divergence", "reads-against"]].forEach(([id, tag]) => {
+    const t = el("div", "me-panel-track");
+    t.appendChild(nodeCard(byId[id]));
+    t.appendChild(el("span", "me-panel-track-tag", tag));
+    tracks.appendChild(t);
+  });
+  s.appendChild(tracks);
+  s.appendChild(el("div", "me-panel-conn", "▾"));
+  const pk = el("div", "me-panel-beat");
+  pk.appendChild(nodeCard(byId["pick_top"]));
+  s.appendChild(pk);
+  s.appendChild(el("div", "me-panel-conn", "▾"));
+  const fnd = el("div", "me-panel-beat");
+  fnd.appendChild(nodeCard(byId["the_finding"]));
+  s.appendChild(fnd);
+  return s;
+}
+
 /* ----------------------------------------------------------------- legend */
 
 function renderLegend() {
@@ -264,6 +295,7 @@ function renderFigure() {
   fan.appendChild(bandRow(bandWi, WI));
   fan.appendChild(bandRow(bandMc, MC));
   fan.appendChild(gapMirror());
+  fan.appendChild(panelCluster());
   grid.appendChild(fan);
 
   // end
