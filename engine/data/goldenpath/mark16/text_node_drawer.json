@@ -1,0 +1,102 @@
+{
+  "node": "text",
+  "_generated_by": "build_text_node_drawer_data_s162.py (render-from-data; re-run to refresh)",
+  "_reads_from": {
+    "package": "pm/40_architecture/DATA_checkout_mark16_web_v1.json",
+    "moves": "source_move (MARK-16-WEB)"
+  },
+  "card": {
+    "title": "Text",
+    "subtitle": "a passage, checked out of the library",
+    "grain": "one passage (already broken into pieces)",
+    "status_plain": "The passage is really in our library. The hand-made checkout for it works; the automatic version isn't built yet.",
+    "status_tag": "SEAM · in the library ✓ · automatic checkout = example only"
+  },
+  "layer_1_what_it_is": {
+    "what_it_is": "The library hands the method the exact passage to read — already broken into pieces, with a record of where every word came from. It's the join between the library (what we hold) and the method (how we read it).",
+    "why_it_matters": "If the method reads a loose, retyped copy, it can drift from the real text — and it did: the copy we coded from flattened the ending of Mark, dropping 'for they were afraid.' A checkout hands over the verbatim words plus their address, so every reading traces back to the real passage.",
+    "the_process": {
+      "you ask for": "a passage — e.g. 'Mark chapter 16, the World English Bible'",
+      "the library does": "finds it · checks it's really in our collection, already broken into pieces, and OK to use · packages the exact words with a record of where each came from",
+      "you get back": "a small, sealed package of the verbatim passage the method reads — with its address baked in"
+    }
+  },
+  "layer_2_on_mark_16": {
+    "checkout_version": "gut-8268_016_v1",
+    "from": {
+      "source": "GUT-8268",
+      "title": "The World English Bible (WEB): Mark",
+      "edition": "WEB",
+      "public_domain": true
+    },
+    "units": [
+      {
+        "passage_id": "PASS-L4-540c3f83ce87",
+        "chunk_index": 54,
+        "verses": [
+          "016:001",
+          "016:002",
+          "016:003",
+          "016:004",
+          "016:005",
+          "016:006",
+          "016:007",
+          "016:008"
+        ],
+        "text_head": "He boldly went\r\n        in to Pilate, and asked for Jesus' body.\r\n015:044 Pilate marveled if he were already dead; and summoning\r\n        the centurion, he asked him whether he had been dead long.\r\n01",
+        "content_hash": "cbe2fb87c828ee3aa470fe0bc700a403ce1597fa03baa6b1de5d2c5dd2c49874"
+      },
+      {
+        "passage_id": "PASS-L4-6edf5da12f52",
+        "chunk_index": 55,
+        "verses": [
+          "016:009",
+          "016:010",
+          "016:011",
+          "016:012",
+          "016:013",
+          "016:014",
+          "016:015",
+          "016:016",
+          "016:017",
+          "016:018",
+          "016:019",
+          "016:020"
+        ],
+        "text_head": "They said nothing to anyone; for they were afraid.\r\n016:009 Now when he had risen early on the first day of the week,\r\n        he appeared first to Mary Magdalene, from whom he had cast\r\n        out s",
+        "content_hash": "183d57792f0c153ba07d45a5724a6a5e159e6174364b933d73da9c063ff0340e"
+      }
+    ],
+    "package_seal": "9365796acc8af4c4b3d407ed80e53155ae4ddd9cee93ea35227c5c5d3cedd0b7",
+    "fidelity": "F1",
+    "the_contrast": {
+      "heading": "What the coder saw vs. what the passage actually says (Mark 16:8)",
+      "coder_saw_paraphrase": "They kept silent, telling no one anything.",
+      "corpus_verbatim": "They went out, and fled from the tomb, for trembling and astonishment had come on them. They said nothing to anyone; for they were afraid.",
+      "plain_caption": "The retyped copy dropped 'trembling and astonishment' and 'for they were afraid' — exactly the fear the method needs to notice the women's silence. The checkout hands over the real words, so it's there."
+    }
+  },
+  "layer_3_evidence": {
+    "where_it_lives_plain": "The package is a small sealed file (a snapshot you can re-open exactly). A running list of what's been checked out will become a proper table later.",
+    "made_by": "scripts/analysis/build_checkout_package_s162.py",
+    "provenance": "World English Bible (public domain); from library source GUT-8268",
+    "gate_result": {
+      "in_corpus": true,
+      "chunked": true,
+      "rights_cleared": true,
+      "verbatim_integrity": true
+    },
+    "honest_limits": [
+      {
+        "plain": "The same passage exists two ways in the library (whole-chapter + verse-by-verse). We pick the whole-chapter one and tidy the duplicate later.",
+        "field": "canonical-resolution — deferred to WEMI Phase-1"
+      },
+      {
+        "plain": "The automatic checkout (ask for any text, get a package) isn't built yet — this is a worked example for Mark.",
+        "field": "library_checkout.py — TBD (WEMI Phase-1)"
+      }
+    ]
+  },
+  "whats_next_plain": "Once 'Text' is finalized, the same drawer shape carries the next two steps: DECOMPOSE (break the passage into 'moves' — the small actions the text makes) and SITUATE (the world the text came out of).",
+  "deep_dive": "the passage ladder (how Mark 16 breaks into pieces) + the library's SERVE view (the same handoff, from the library's side)."
+}

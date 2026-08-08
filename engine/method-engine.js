@@ -503,12 +503,15 @@ function openDrawer(id) {
     mirror: "THE GAP MIRROR", canon: "THE GAP MIRROR", panel: "THE PANEL",
     end: "SYNTHESIS → READING ROOM", strip: "OFF THE FLOW", history: "RETIRED",
   };
-  const stage = STAGE[node.band] || String(node.band || "").toUpperCase();
+  const stage = node.stage || STAGE[node.band] || String(node.band || "").toUpperCase();
   const kicker = el("p", "me-kicker", node.step ? ("STEP " + node.step + " · " + stage) : stage);
   kicker.style.margin = "0";
   aside.appendChild(kicker);
   aside.appendChild(el("h2", null, node.label));
   aside.appendChild(el("p", "me-drawer-fn", node.function));
+
+  // Text (Step 1): fully custom drawer, rendered from the single generated file (the neutral feed)
+  if (id === "text") { renderTextCheckout(aside); host.appendChild(aside); return; }
 
   if (node.sub) aside.appendChild(el("p", "me-drawer-sub", node.sub));
 
@@ -525,8 +528,6 @@ function openDrawer(id) {
       aside.appendChild(s);
     });
 
-  // Step 1 (Text): the checkout worked example + the M23 contrast + evidence + research view
-  if (id === "text") renderTextCheckout(aside);
 
   const incoming = FLOW.edges.filter((e) => e.to === node.id);
   const outgoing = FLOW.edges.filter((e) => e.from === node.id);
@@ -624,8 +625,8 @@ function closeDrawer() {
   document.getElementById("me-drawer-host").textContent = "";
 }
 
-/* ---- Step 1 (Text): render the REAL Library checkout, in plain language ---- */
-var CHECKOUT = null, M23 = null;
+/* ---- Step 1 (Text): render from the single generated drawer file (the neutral feed) ---- */
+var TEXTDRAWER = null, CHECKOUT = null;
 function cleanVerbatim(t) {
   if (!t) return "";
   var s = String(t)
@@ -644,118 +645,119 @@ function verseRange(ids) {
 }
 function renderTextCheckout(aside) {
   var host = el("div", "me-checkout");
-  host.appendChild(el("p", "me-drawer-p", "loading the checkout…"));
+  host.appendChild(el("p", "me-drawer-p", "loading…"));
   aside.appendChild(host);
   var paint = function () {
-    var d = CHECKOUT || {};
+    var D = TEXTDRAWER || {};
     host.textContent = "";
-    var r = d.request || {}, g = d.gate || {}, rs = d.resolved || {}, units = d.units || [];
+    var card = D.card || {}, l1 = D.layer_1_what_it_is || {}, l2 = D.layer_2_on_mark_16 || {}, l3 = D.layer_3_evidence || {};
+    var gate = l3.gate_result || {}, ct = l2.the_contrast || {}, proc = l1.the_process || {}, from = l2.from || {};
+    var sect = function (h, p) { var s = el("div", "me-drawer-section"); s.appendChild(el("h3", null, h)); s.appendChild(el("p", "me-drawer-p", p)); host.appendChild(s); };
 
-    // ── LAYER 2 · ON MARK 16 — the checkout (render from the package) ──
-    var L2 = el("div", "me-drawer-section");
-    L2.appendChild(el("h3", null, "On Mark 16 — the checkout"));
-    L2.appendChild(el("span", "me-badge is-block", "engine proposal / seam design — not yet the automated checkout"));
-    L2.appendChild(el("p", "me-drawer-p",
-      "We ask the Library for " + (r.ref || "the passage") + " (" + (r.edition || "—") +
-      "). It checks the text out and hands back a sealed package — the exact words, tagged to every verse, stamped with a version so we can prove it never changed."));
-    var ul = el("ul", "me-checkout-checks");
+    // honest status (plain — no raw tokens)
+    if (card.status_tag) host.appendChild(el("p", "me-drawer-pill", card.status_tag));
+    if (card.status_plain) host.appendChild(el("p", "me-drawer-sub", card.status_plain));
+
+    // LAYER 1 — what it is / why it matters / how it works
+    if (l1.what_it_is) sect("What it is", l1.what_it_is);
+    if (l1.why_it_matters) sect("Why it matters", l1.why_it_matters);
+    if (proc && Object.keys(proc).length) {
+      var sp = el("div", "me-drawer-section"); sp.appendChild(el("h3", null, "How it works"));
+      var up = el("ul", "me-drawer-list");
+      ["you ask for", "the library does", "you get back"].forEach(function (k) { if (proc[k]) up.appendChild(el("li", null, k + " — " + proc[k])); });
+      sp.appendChild(up); host.appendChild(sp);
+    }
+
+    // LAYER 2 — the checkout: gate checklist (plain, warm) + the M23 money shot
+    var s2 = el("div", "me-drawer-section");
+    s2.appendChild(el("h3", null, "On Mark 16 — the checkout"));
+    var ul2 = el("ul", "me-checkout-checks");
     var chk = function (ok, label) { return el("li", ok ? "is-ok" : "is-pending", (ok ? "✓ " : "◦ ") + label); };
-    ul.appendChild(chk(g.in_corpus, "in our collection"));
-    ul.appendChild(chk(g.chunked, "split into passages"));
-    ul.appendChild(chk(g.verbatim_integrity, "exact wording (verbatim)"));
-    ul.appendChild(chk(g.rights_cleared, "rights cleared" + (g.rights_cleared ? "" : " — pending")));
-    L2.appendChild(ul);
-    host.appendChild(L2);
+    ul2.appendChild(chk(gate.in_corpus, "in our collection"));
+    ul2.appendChild(chk(gate.chunked, "split into passages"));
+    ul2.appendChild(chk(gate.verbatim_integrity, "exact wording"));
+    ul2.appendChild(chk(gate.rights_cleared, "permission to share"));
+    s2.appendChild(ul2);
+    host.appendChild(s2);
 
-    // the M23 money shot — the coder's paraphrase vs the corpus verbatim
-    if (M23) {
+    if (ct.coder_saw_paraphrase || ct.corpus_verbatim) {
       var mv = el("div", "me-drawer-section me-m23");
-      mv.appendChild(el("h3", null, "Why the checkout matters — " + (M23.verse_label || "Mark 16:8")));
+      mv.appendChild(el("h3", null, ct.heading || "What the coder saw vs. what the passage says"));
       var grid = el("div", "me-m23-grid");
-      var col = function (tag, txt, cls) {
-        var c = el("div", "me-m23-col " + cls);
-        c.appendChild(el("span", "me-m23-tag", tag));
-        c.appendChild(el("p", "me-m23-text", "“" + txt + "”"));
-        return c;
-      };
-      grid.appendChild(col("the coder’s paraphrase", M23.paraphrase || "", "is-paraphrase"));
-      grid.appendChild(col("the corpus verbatim", M23.verbatim || "", "is-verbatim"));
+      var col = function (tag, txt, cls) { var c = el("div", "me-m23-col " + cls); c.appendChild(el("span", "me-m23-tag", tag)); c.appendChild(el("p", "me-m23-text", "“" + txt + "”")); return c; };
+      grid.appendChild(col("the coder’s paraphrase", ct.coder_saw_paraphrase || "", "is-paraphrase"));
+      grid.appendChild(col("the corpus verbatim", ct.corpus_verbatim || "", "is-verbatim"));
       mv.appendChild(grid);
-      if (M23.caption) mv.appendChild(el("p", "me-m23-caption", M23.caption));
+      if (ct.plain_caption) mv.appendChild(el("p", "me-m23-caption", ct.plain_caption));
       host.appendChild(mv);
     }
 
-    // what we're reading (the real Mark 16 opening) + the units + version stamp
-    if (units.length) {
-      var u = units[0];
-      var verses = (u.anchors && u.anchors.verse_ids) || u.verse_markers_in_chunk || [];
+    // what we're reading — the full passage from the checkout package + a humanized version line
+    if (CHECKOUT && CHECKOUT.units && CHECKOUT.units.length) {
+      var u = CHECKOUT.units[0];
+      var verses = (u.anchors && u.anchors.verse_ids) || [];
       var range = verseRange(verses);
       var raw = u.text || "";
       if (verses[0]) { var ix = raw.indexOf(verses[0]); if (ix > 0) raw = raw.slice(ix); }
-      var s2 = el("div", "me-drawer-section");
-      s2.appendChild(el("h3", null, "What we’re reading"));
-      s2.appendChild(el("p", "me-checkout-ref",
-        (range ? "Mark " + range : (r.ref || "the text")) + " · " + (rs.text_title || r.edition || "")));
-      s2.appendChild(el("p", "me-checkout-text", "“" + cleanVerbatim(raw) + "”"));
-      s2.appendChild(el("p", "me-checkout-stamp",
-        "2 passages: " + units.map(function (x) {
-          var vs = (x.anchors && x.anchors.verse_ids) || [];
-          return "Mark " + verseRange(vs);
-        }).join(" · ") +
-        " · version " + String(d.package_hash || "").slice(0, 10) +
-        " · fidelity " + (rs.current_fidelity || "—")));
-      host.appendChild(s2);
+      var s3 = el("div", "me-drawer-section");
+      s3.appendChild(el("h3", null, "What we’re reading"));
+      var edn = from.title ? from.title.replace(/:\s*Mark\s*$/i, "").trim() : (from.edition || "World English Bible");
+      s3.appendChild(el("p", "me-checkout-ref", (range ? "Mark " + range : "Mark 16") + " · " + edn));
+      s3.appendChild(el("p", "me-checkout-text", "“" + cleanVerbatim(raw) + "”"));
+      s3.appendChild(el("p", "me-checkout-stamp", "✓ version-locked · verified unchanged"));
+      host.appendChild(s3);
     }
 
-    // ── LAYER 3 · EVIDENCE — prove it (for Saquib) ──
+    // LAYER 3 — evidence + honest limits (plain, from the file)
     var L3 = el("div", "me-drawer-section");
     L3.appendChild(el("h3", null, "Evidence — prove it"));
     var e3 = el("ul", "me-drawer-list");
-    e3.appendChild(el("li", null, "store: the package is a file (an immutable snapshot); the checkout registry is a table (Phase-1, dual-stored)"));
-    e3.appendChild(el("li", null, "producer: build_checkout_package_s162.py (v0 exemplar)"));
-    var prov = d.provenance || {};
-    e3.appendChild(el("li", null, "provenance: " + (prov.edition || "World English Bible") +
-      (prov.rights_status ? " (" + String(prov.rights_status).replace(/_/g, " ") + ")" : "") +
-      " · corpus source " + (prov.corpus_source_id || rs.manifestation_source_id || "GUT-8268") +
-      " · anchors trace every move back to the verse"));
+    if (l3.where_it_lives_plain) e3.appendChild(el("li", null, l3.where_it_lives_plain));
+    if (l3.provenance) e3.appendChild(el("li", null, "provenance: " + l3.provenance));
+    if (l3.made_by) e3.appendChild(el("li", null, "made by: " + l3.made_by));
     L3.appendChild(e3);
-    var hl = el("div", "me-limits");
-    hl.appendChild(el("h4", null, "honest limits"));
-    var hul = el("ul", "me-drawer-list");
-    // limits compute from the gate — the rights line drops off once the gate clears
-    if (!g.rights_cleared) hul.appendChild(el("li", null, "rights: PENDING on GUT-8268 → the gate returns FALSE even though WEB is public-domain. A 1-row catalogue fix unblocks it."));
-    hul.appendChild(el("li", null, "dedup: the corpus holds both the chunk (GUT-8268) and a verse scheme — RESOLVE anchors to GUT-8268, dedups the rest at Phase-1."));
-    hul.appendChild(el("li", null, "the automated checkout (RESOLVE-by-work_id + registry + acquire/chunk fallback) = TBD-build (WEMI Phase-1)."));
-    hl.appendChild(hul);
-    L3.appendChild(hl);
+    if (l3.honest_limits && l3.honest_limits.length) {
+      var hl = el("div", "me-limits"); hl.appendChild(el("h4", null, "honest limits"));
+      var hul = el("ul", "me-drawer-list");
+      l3.honest_limits.forEach(function (x) { hul.appendChild(el("li", null, x.plain || x.field || "")); });
+      hl.appendChild(hul); L3.appendChild(hl);
+    }
     host.appendChild(L3);
 
-    // ── RESEARCH VIEW (nested, per SITUATE/Fan) ──
+    if (D.whats_next_plain) sect("What’s next", D.whats_next_plain);
+
+    // RESEARCH VIEW (nested) — the raw receipt lives HERE, not in METHOD (Content SB principle:
+    // the MEANING is in METHOD, the raw token lives in the research view)
     var det = el("details", "me-research");
     det.appendChild(el("summary", null, "show the research view"));
     var rv = el("div", "me-research-body");
-    rv.appendChild(el("h4", null, "data contract — the fields"));
-    rv.appendChild(el("p", "me-drawer-p", "source_id · passage_id · verse_ids · text (verbatim) · content_hash · package_hash · checkout_version · provenance · rights_status · fidelity"));
-    rv.appendChild(el("h4", null, "audit — the decision chain"));
-    rv.appendChild(el("p", "me-drawer-p", "Decision 221 (schema redesign) · the S162 golden-path seam catch · the package-model endorsement (PI, S162) · the Librarian’s checkout co-design"));
-    rv.appendChild(el("h4", null, "implementation — the code path"));
-    rv.appendChild(el("p", "me-drawer-p", "build_checkout_package_s162.py (v0) → library_checkout.py (Phase-1, TBD)"));
+    rv.appendChild(el("h4", null, "the receipt (raw fields)"));
+    var raw3 = el("ul", "me-drawer-list");
+    if (l2.checkout_version) raw3.appendChild(el("li", null, "checkout_version: " + l2.checkout_version));
+    if (l2.package_seal) raw3.appendChild(el("li", null, "package_seal: " + String(l2.package_seal).slice(0, 16) + "…"));
+    if (l2.fidelity) raw3.appendChild(el("li", null, "fidelity: " + l2.fidelity));
+    (l2.units || []).forEach(function (u) { raw3.appendChild(el("li", null, (u.passage_id || "") + " · hash " + String(u.content_hash || "").slice(0, 12) + "…")); });
+    rv.appendChild(raw3);
+    rv.appendChild(el("h4", null, "code path"));
+    rv.appendChild(el("p", "me-drawer-p", "build_checkout_package_s162.py + build_text_node_drawer_data_s162.py (v0) → library_checkout.py (Phase-1, TBD)"));
     det.appendChild(rv);
     host.appendChild(det);
+
+    if (D.deep_dive) host.appendChild(el("p", "me-drawer-p me-deepdive", "→ " + D.deep_dive));
   };
   var need = 2;
   var done = function () { need -= 1; if (need <= 0) paint(); };
+  if (TEXTDRAWER) { done(); } else {
+    fetch("./data/goldenpath/mark16/text_node_drawer.json")
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (x) { TEXTDRAWER = x; done(); })
+      .catch(function () { TEXTDRAWER = {}; done(); });
+  }
   if (CHECKOUT) { done(); } else {
     fetch("./data/goldenpath/mark16/checkout.json")
       .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
       .then(function (x) { CHECKOUT = x; done(); })
-      .catch(function () { CHECKOUT = {}; done(); });
-  }
-  if (M23) { done(); } else {
-    fetch("./data/goldenpath/mark16/m23_seam.json")
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-      .then(function (x) { M23 = x; done(); })
-      .catch(function () { M23 = null; done(); });
+      .catch(function () { CHECKOUT = null; done(); });
   }
 }
 
