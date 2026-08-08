@@ -771,14 +771,20 @@ function renderStepDrawer(aside, node) {
     var htr = (D.research_view && D.research_view.how_to_run);
     if (htr) {
       rv.appendChild(el("h4", null, "how to run it"));
-      var cmd = htr["reproduce this checkout"] || htr.command || htr.reproduce;
-      if (cmd) { var pre = el("pre", "me-code"); pre.textContent = cmd; rv.appendChild(pre); }
-      var hu = el("ul", "me-drawer-list");
       Object.keys(htr).forEach(function (k) {
-        if (k === "reproduce this checkout" || k === "command" || k === "reproduce") return;
-        hu.appendChild(el("li", null, k + ": " + htr[k]));
+        var v = htr[k];
+        if (typeof v !== "string") return;
+        var isCmd = /^\.\//.test(v.trim()); // only the actual invocation (a command starts with ./); prose that merely names a script stays prose
+        if (isCmd) {
+          rv.appendChild(el("p", "me-htr-step", k));
+          var pre = el("pre", "me-code"); pre.textContent = v; rv.appendChild(pre);
+        } else {
+          var p = el("p", "me-htr-step");
+          p.appendChild(el("b", null, k + ": "));
+          p.appendChild(document.createTextNode(v));
+          rv.appendChild(p);
+        }
       });
-      if (hu.childNodes.length) rv.appendChild(hu);
     }
     rv.appendChild(el("h4", null, "data source"));
     rv.appendChild(el("p", "me-drawer-p", dataSource));
