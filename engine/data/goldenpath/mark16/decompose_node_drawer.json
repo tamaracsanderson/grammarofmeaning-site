@@ -3,87 +3,220 @@
   "_generated_by": "build_decompose_node_drawer_data_s162.py (render-from-data; re-run to refresh)",
   "_reads_from": {
     "moves": "source_move (MARK-16-WEB)",
-    "edges": "source_move_edge (MARK-16-WEB)"
+    "edges": "source_move_edge (MARK-16-WEB)",
+    "home": "text_checkout"
   },
   "card": {
     "title": "Decompose",
     "subtitle": "break the passage into moves",
-    "grain": "moves (small labelled actions)",
-    "status_plain": "The moves for this passage exist (55 of them). They were read from a retyped copy, not yet the library checkout — so this is a worked example, honest about that.",
-    "status_tag": "BUILT (55 moves) · from retyped copy — re-run fresh from checkout to finalize"
+    "status_plain": "The moves for this passage exist (55 of them, with 25 connections). They were read from a retyped copy, not yet the checkout, so this is a worked example, honest about that."
   },
-  "layer_1_what_it_is": {
-    "what_it_is": "Break the passage into 'moves' — the small actions the text makes. A move is one thing done: an agent does an operation to something, with a result (e.g. 'the women flee the tomb', 'they say nothing to anyone').",
-    "why_it_matters": "The move is the unit we actually analyze. It's small enough to see exactly what the text does, and everything later — the gaps, the glosses — hangs off moves. Break it well and the rest follows; break it badly and everything downstream inherits the mistake.",
-    "the_process": {
-      "you ask for": "the checked-out passage (the output of the Text step)",
-      "the method does": "reads it sentence by sentence · marks each small action as a move · labels who does it, the operation, what it acts on, and the result · notes how moves connect (one feeds the next, or one reports another's speech)",
-      "you get back": "an ordered list of moves — the passage as a sequence of small, labelled actions"
-    }
+  "what_it_is": "Decompose breaks the checked-out passage into moves. A move is one action the text makes: an agent does an operation to something, with a result. It turns a block of text into an ordered list of small, labeled actions the rest of the method reads.",
+  "why_it_matters": "The move is the unit the whole method works on, and it is where making the unsaid said begins. A gap is what a move leaves unsaid, so you cannot name a silence until you have named the moves it sits between. Every later step reads moves: the gaps hang off them, the later readings answer each move's question, the comparisons line moves up across texts. So the move boundary is load-bearing. Break the passage well and the reading holds. Break it badly and every step downstream inherits the error.",
+  "how_it_works": {
+    "you give it": "three things: the checked-out passage (the exact sourced text the Text step handed over), the one question you are reading it for (this decides what counts as important), and the year the text was written.",
+    "the method does": "reads the passage sentence by sentence, marks each small action as a move, labels who does it, the operation, what it acts on, and the result, and records how the moves connect (one feeds the next, one reports another's speech).",
+    "you get back": "an ordered list of moves, and the connections between them."
   },
-  "layer_2_on_mark_16": {
+  "on_mark_16": {
     "move_count": 55,
     "edge_count": 25,
+    "what_counts_as_one_move": "One move is one agent doing one operation to one thing, with one result. Start a new move when the agent changes, the operation changes, or the result changes. When in doubt, keep the move whole rather than splitting it: an under-split reading loses less than an over-split one.",
+    "the_anatomy_of_a_move": {
+      "note": "Every move has four slots: who does it, the operation, what it acts on, and the result. Here is the first move of Mark 16, fully labeled.",
+      "example": {
+        "move": "M1",
+        "plain": "Once the rest-day had ended, the three named women purchased aromatic spices intending to go and dress the body.",
+        "who": "Mary Magdalene, Mary mother of James, and Salome",
+        "operation": "buy",
+        "on": "spices",
+        "result": "spices in hand, with the intent to come and anoint him"
+      }
+    },
+    "worked_example": {
+      "note": "The opening of the passage, move by move, so you can see the text become a sequence of small labeled actions. These are the first 12 of 55 moves; the full list is the feed the reading room renders.",
+      "moves": [
+        {
+          "move": "M1",
+          "plain": "Once the rest-day had ended, the three named women purchased aromatic spices intending to go and dress the body.",
+          "who": "Mary Magdalene, Mary mother of James, and Salome",
+          "operation": "buy",
+          "on": "spices",
+          "result": "spices in hand, with the intent to come and anoint him"
+        },
+        {
+          "move": "M2",
+          "plain": "At daybreak on the week's first day they arrived at the burial place.",
+          "who": "the three women",
+          "operation": "come",
+          "on": "the tomb (as destination)",
+          "result": "their arrival at the tomb at sunrise"
+        },
+        {
+          "move": "M3",
+          "plain": "As they walked they were voicing a worry to one another.",
+          "who": "the three women (to one another)",
+          "operation": "say",
+          "on": "M3a (the question they raise)",
+          "result": "the question uttered aloud among them"
+        },
+        {
+          "move": "M4",
+          "plain": "They ask who will move the sealing-stone aside for them.",
+          "who": "the three women",
+          "operation": "ask (who will roll the stone)",
+          "on": "the stone at the tomb's door",
+          "result": "not-stated (open question, no answerer named)"
+        },
+        {
+          "move": "M5",
+          "plain": "Aside from the narrator: the stone was of great size.",
+          "who": "not-stated",
+          "operation": "be (very big)",
+          "on": "not-stated",
+          "result": "not-stated"
+        },
+        {
+          "move": "M6",
+          "plain": "Raising their eyes, they perceived that the stone had already been shifted aside.",
+          "who": "the three women",
+          "operation": "see (that the stone was rolled back)",
+          "on": "M5a (the state of the stone)",
+          "result": "their perception that the stone is already moved"
+        },
+        {
+          "move": "M7",
+          "plain": "The stone had already been moved back from the opening.",
+          "who": "not-stated",
+          "operation": "be rolled back",
+          "on": "the stone",
+          "result": "the opening now unblocked"
+        },
+        {
+          "move": "M8",
+          "plain": "Once inside the tomb, they saw a young figure seated to the right in a white robe.",
+          "who": "the three women",
+          "operation": "see (a young man sitting on the right, dressed in white)",
+          "on": "M6a (the young man and his posture/attire)",
+          "result": "their perception of an unexpected occupant"
+        },
+        {
+          "move": "M9",
+          "plain": "A young figure was seated on the right side, wearing a white robe.",
+          "who": "not-stated (the young man is a topic, not a doer here)",
+          "operation": "sit (dressed in white, on the right)",
+          "on": "not-stated",
+          "result": "not-stated"
+        },
+        {
+          "move": "M10",
+          "plain": "They were struck with astonishment.",
+          "who": "not-stated (they undergo it, not perform it)",
+          "operation": "be amazed",
+          "on": "the women (as experiencers)",
+          "result": "amazement as their state"
+        },
+        {
+          "move": "M11",
+          "plain": "The young figure addressed them.",
+          "who": "the young man",
+          "operation": "say (to them)",
+          "on": "M8a–M8e (what he tells them)",
+          "result": "his utterance directed at the women"
+        },
+        {
+          "move": "M12",
+          "plain": "He orders them to stop being astonished.",
+          "who": "the young man",
+          "operation": "command (do not be amazed)",
+          "on": "the women's amazement (M7)",
+          "result": "an imperative to release the fear"
+        }
+      ]
+    },
     "featured_moves": [
       {
         "move": "M1",
         "plain": "Once the rest-day had ended, the three named women purchased aromatic spices intending to go and dress the body.",
-        "grammar": {
-          "who": "Mary Magdalene, Mary mother of James, and Salome",
-          "does": "buy",
-          "to": "spices",
-          "result": "spices in hand, with the intent to come and anoint him"
-        }
+        "who": "Mary Magdalene, Mary mother of James, and Salome",
+        "operation": "buy",
+        "on": "spices",
+        "result": "spices in hand, with the intent to come and anoint him"
       },
       {
         "move": "M14",
         "plain": "He announces that the one they seek has been raised.",
-        "grammar": {
-          "who": "the young man (as announcer)",
-          "does": "announce (he has risen)",
-          "to": "Jesus (as the one whose state is proclaimed)",
-          "result": "the raising declared as accomplished; doer of the raising unnamed"
-        }
+        "who": "the young man (as announcer)",
+        "operation": "announce (he has risen)",
+        "on": "Jesus (as the one whose state is proclaimed)",
+        "result": "the raising declared as accomplished; doer of the raising unnamed"
       },
       {
         "move": "M22",
         "plain": "The women rushed out of the tomb in flight.",
-        "grammar": {
-          "who": "the three women",
-          "does": "flee (out of the tomb)",
-          "to": "the tomb (as place fled from)",
-          "result": "the women away from the tomb"
-        }
+        "who": "the three women",
+        "operation": "flee (out of the tomb)",
+        "on": "the tomb (as place fled from)",
+        "result": "the women away from the tomb"
       },
       {
         "move": "M23",
         "plain": "They kept silent, telling no one anything.",
-        "grammar": {
-          "who": "the three women",
-          "does": "say nothing (to anyone)",
-          "to": "the message they had just been given (M10a-c)",
-          "result": "the commission un-executed; the news withheld"
-        }
+        "who": "the three women",
+        "operation": "say nothing (to anyone)",
+        "on": "the message they had just been given (M10a-c)",
+        "result": "the commission un-executed; the news withheld"
       }
     ],
-    "the_silence_thread": "M22 (the women flee) → M23 (they say nothing) — the ending the whole reading turns on. Watch this move-pair through the later steps.",
-    "all_moves_note": "The full list of 55 moves is the feed the reading room already renders (reading.html renders 'live from the coded-move export')."
+    "connections": {
+      "count": 25,
+      "plain": "The 25 connections are of two kinds: 20 nesting (one move scopes over others, for example the young man's speech contains the announcement 'he has been raised') and 5 reporting (one move reports another's speech). Not every move links to another, so there are fewer connections than moves."
+    },
+    "the_silence_thread": "Watch the pair M22 (the women flee the tomb) and M23 (they say nothing to anyone). The women are told to carry the resurrection news, and instead they say nothing. That silence is the ending the whole reading turns on. Follow this pair through every later step."
   },
-  "layer_3_evidence": {
-    "where_it_lives_plain": "The moves live in the database (one row per move), joined to the passage. Any surface reads them from there — the diagram here, and the reading room.",
-    "made_by": "scripts/analysis/engine1_layer1_extract_moves.py (+ engine1_spine_and_bundles.py for the connections)",
-    "provenance": "engine1_layer1_extract_moves.py — text=Mark_16_WEB.txt sitz=70 temp=0.0 tag=translations_s161 qud=\"How is Jesus' resurrection made known — who finds the tomb empty, who encounters the risen Jesus, and how is it attested to others?\"",
-    "honest_limits": [
-      {
-        "plain": "These moves were read from a retyped copy of the text, not yet from the library checkout — so the wording is a paraphrase. Re-run this step from the verbatim checkout (the fresh walk) and the moves refresh from the real words.",
-        "field": "source_move.extraction_provenance references a .txt file (not the checkout)"
-      },
-      {
-        "plain": "This is one coder, one pass — a reference reading, not a reliability-tested one yet.",
-        "field": "no inter-rater reliability run on this move-set"
-      }
-    ]
+  "where_saved": {
+    "plain": "The moves save to the corpus, in the source_move table (one row per move), with their connections in source_move_edge. They join back to this passage through the same home the checkout opened: this passage's row in the text_checkout table (its id is gut-8268_016_v1), which you find by the method key MARK-16-WEB. So the moves, and every step built on them, sit in one findable place with the text they came from.",
+    "home": {
+      "registered": true,
+      "table": "text_checkout",
+      "checkout_id": "gut-8268_016_v1",
+      "source_id": "GUT-8268",
+      "method_source_key": "MARK-16-WEB"
+    }
   },
-  "whats_next_plain": "After DECOMPOSE comes SITUATE (the world the text came out of). The feed now carries {raw text + moves}; SITUATE adds the situating context.",
-  "deep_dive": "the moves reader (reading.html) — the passage read as its coded moves, in order, with the frame shifting."
+  "made_by": [
+    "scripts/analysis/engine1_layer1_extract_moves.py (the moves)",
+    "scripts/analysis/engine1_spine_and_bundles.py (the connections between moves)",
+    "scripts/analysis/build_decompose_node_drawer_data_s162.py (this card's data)"
+  ],
+  "honest_limits": [
+    "These moves were read from a retyped copy of the text, not yet from the library checkout, so the wording is a paraphrase. Re-run this step on the verbatim checkout text (a clean run on the real words rather than the retyped copy) and the moves refresh from the real words.",
+    "This is one coder on one pass, a reference reading, not a reliability-tested one yet."
+  ],
+  "crt": {
+    "status": "PASS",
+    "date": "2026-08-08",
+    "checks": "orient + reproduce + gap-scan",
+    "run_doc": "pm/30_methodology/engine/CRT_decompose_card_run_2026-08-08.md",
+    "meta_line": "Cold Read Test: PASS (2026-08-08). Two readers converged on orient and reproduce; a gap-scan closed five clarity bugs."
+  },
+  "whats_next": "Situate runs in parallel (the world the text came from). Together they feed the enriched move, and then the gaps: what the moves leave unsaid.",
+  "research_view": {
+    "receipt": {
+      "source_key": "MARK-16-WEB",
+      "moves": 55,
+      "edges": 25,
+      "provenance": "engine1_layer1_extract_moves.py — text=Mark_16_WEB.txt sitz=70 temp=0.0 tag=translations_s161 qud=\"How is Jesus' resurrection made known — who finds the tomb empty, who encounters the risen Jesus, and how is it attested to others?\""
+    },
+    "how_to_run": {
+      "step 1, get the passage": "Start from the checkout (the Text step, which hands over the exact sourced passage). Today the extractor reads a text file; a clean run on the verbatim checkout text feeds it the real words rather than the retyped copy.",
+      "step 2, extract the moves": "./scripts/_run_python.sh scripts/analysis/engine1_layer1_extract_moves.py --text <passage file> --source-key MARK-16-WEB --qud \"What is the resurrection, and who transmits it?\" --sitz-year 70",
+      "step 3, build the connections": "./scripts/_run_python.sh scripts/analysis/engine1_spine_and_bundles.py --source-key MARK-16-WEB",
+      "what each input means": "--text is the passage to read. --source-key is the method key for this text (MARK-16-WEB), the same key that joins to the checkout home. --qud is the fixed Question Under Discussion (load-bearing: it decides what counts as salient). --sitz-year is the composition year.",
+      "step 4, where it saves": "source_move (the moves) and source_move_edge (the connections), keyed on the method key, joined to the text_checkout home.",
+      "scripts to read": "scripts/analysis/engine1_layer1_extract_moves.py and scripts/analysis/engine1_spine_and_bundles.py.",
+      "then": "Situate runs in parallel; then the gaps."
+    },
+    "data_source": "source_move (MARK-16-WEB) · source_move_edge (MARK-16-WEB) · text_checkout · generated by build_decompose_node_drawer_data_s162.py"
+  }
 }

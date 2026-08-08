@@ -655,6 +655,43 @@ function nextChain(id) {
 }
 function wipBadge(text) { return el("p", "me-wip-badge", text); }
 
+/* the Cold Read Test pill — standing contract: render on ANY card that carries a `crt` object */
+function renderCrt(host, crt) {
+  if (!crt || !crt.status) return;
+  var s = String(crt.status).toUpperCase();
+  var wrap = el("div", "me-crt");
+  var pill = el("span", "me-crt-pill is-" + s.toLowerCase(),
+    "Cold Read Test: " + s + (crt.date ? " · " + crt.date : ""));
+  if (crt.meta_line) pill.setAttribute("title", crt.meta_line);
+  wrap.appendChild(pill);
+  if (crt.checks) wrap.appendChild(el("span", "me-crt-checks", "checked: " + crt.checks));
+  host.appendChild(wrap);
+}
+
+/* one move's four slots (who / operation / on / result) as a labeled row — never the raw object */
+function moveGrammarRow(m) {
+  var g = el("div", "me-move-grammar");
+  var part = function (label, val) {
+    if (!val) return;
+    var s = el("span", "me-move-part");
+    s.appendChild(el("b", null, label + " "));
+    s.appendChild(document.createTextNode(val));
+    g.appendChild(s);
+  };
+  part("who", m.who); part("operation", m.operation); part("on", m.on); part("result", m.result);
+  return g;
+}
+/* one move block: badge + plain sentence + the four-slot grammar row */
+function moveBlock(m) {
+  var b = el("div", "me-move-block");
+  var head = el("p", "me-move-head");
+  head.appendChild(el("span", "me-move-badge", m.move || ""));
+  head.appendChild(document.createTextNode(" " + (m.plain || "")));
+  b.appendChild(head);
+  if (m.who || m.operation || m.on || m.result) b.appendChild(moveGrammarRow(m));
+  return b;
+}
+
 function renderStepDrawer(aside, node) {
   var id = node.id;
   var host = el("div", "me-checkout");
@@ -663,6 +700,7 @@ function renderStepDrawer(aside, node) {
   var paint = function () {
     var D = STEP_CACHE[id] || {};
     host.textContent = "";
+    renderCrt(host, D.crt); // standing contract: PASS/other pill near the title
     // normalize v2-flat / v1-nested so one shell serves both shapes
     var card = D.card || {}, L1 = D.layer_1_what_it_is || {}, L3 = D.layer_3_evidence || {};
     var whatItIs = D.what_it_is || L1.what_it_is;
@@ -703,7 +741,9 @@ function renderStepDrawer(aside, node) {
       if (D.how_stored.passage_types && D.how_stored.passage_types.length) {
         var pu = el("ul", "me-drawer-list"); D.how_stored.passage_types.forEach(function (x) { pu.appendChild(el("li", null, x)); }); hs.appendChild(pu);
       }
+      if (D.how_stored.how_chapter_16_is_stored) hs.appendChild(el("p", "me-drawer-p", D.how_stored.how_chapter_16_is_stored));
       if (D.how_stored.this_checkout) hs.appendChild(el("p", "me-drawer-p", D.how_stored.this_checkout));
+      if (D.how_stored.level_legend) hs.appendChild(el("p", "me-drawer-caption", D.how_stored.level_legend));
       host.appendChild(hs);
     }
 
@@ -728,6 +768,23 @@ function renderStepDrawer(aside, node) {
         hb.appendChild(hg); ws.appendChild(hb);
       }
       host.appendChild(ws);
+    }
+
+    // The contract — what the checkout guarantees now (locked) + what's future scope
+    if (D.the_contract) {
+      var tc = D.the_contract;
+      var cs = el("div", "me-drawer-section me-contract");
+      cs.appendChild(el("h3", null, "The contract"));
+      if (tc.note) cs.appendChild(el("p", "me-drawer-p", tc.note));
+      if (tc.locked && tc.locked.length) {
+        cs.appendChild(el("p", "me-contract-label is-locked", "✓ locked"));
+        var lu = el("ul", "me-drawer-list"); tc.locked.forEach(function (x) { lu.appendChild(el("li", null, x)); }); cs.appendChild(lu);
+      }
+      if (tc.future && tc.future.length) {
+        cs.appendChild(el("p", "me-contract-label is-future", "○ future scope"));
+        var fu = el("ul", "me-drawer-list"); tc.future.forEach(function (x) { fu.appendChild(el("li", null, x)); }); cs.appendChild(fu);
+      }
+      host.appendChild(cs);
     }
 
     // Honest limits (strings v2 / {plain} v1)
@@ -766,6 +823,21 @@ function renderStepDrawer(aside, node) {
       if (receipt.fidelity) r3.appendChild(el("li", null, "fidelity: " + receipt.fidelity));
       (receipt.units || []).forEach(function (u) { r3.appendChild(el("li", null, (u.passage_id || "") + " · hash " + String(u.content_hash || "").slice(0, 12) + "…")); });
       rv.appendChild(r3);
+    }
+    // copyright basis (auditable) — the raw field + verify link live in the research tier, not METHOD
+    if (onMark.rights_basis) {
+      var rb = onMark.rights_basis;
+      rv.appendChild(el("h4", null, "copyright basis (auditable)"));
+      if (rb.plain) rv.appendChild(el("p", "me-drawer-p", rb.plain));
+      var rbl = el("ul", "me-drawer-list");
+      if (rb.field) rbl.appendChild(el("li", null, rb.field + " = " + (rb.value || "")));
+      if (rb.source_id) rbl.appendChild(el("li", null, "source_id: " + rb.source_id));
+      rv.appendChild(rbl);
+      if (rb.verify_at) {
+        var va = el("a", "me-verify-link", "verify at the source →");
+        va.href = rb.verify_at; va.target = "_blank"; va.rel = "noopener";
+        rv.appendChild(va);
+      }
     }
     // how to run it — so a reader can REPRODUCE the step, not just read about it
     var htr = (D.research_view && D.research_view.how_to_run);
@@ -821,7 +893,7 @@ function renderLayer2Text(host, om) {
     var mv = el("div", "me-drawer-section me-m23");
     mv.appendChild(el("h3", null, ct.heading || "What the coder saw vs. what the passage says (Mark 16:8)"));
     var grid = el("div", "me-m23-grid");
-    var col = function (tag, txt, cls) { var c = el("div", "me-m23-col " + cls); c.appendChild(el("span", "me-m23-tag", tag)); c.appendChild(el("p", "me-m23-text", "“" + txt + "”")); return c; };
+    var col = function (tag, txt, cls) { var c = el("div", "me-m23-col " + cls); c.appendChild(el("span", "me-m23-tag", tag)); c.appendChild(el("p", "me-m23-text", '"' + txt + '"')); return c; };
     grid.appendChild(col("the coder's paraphrase", ct.coder_saw_paraphrase || "", "is-paraphrase"));
     grid.appendChild(col("the corpus verbatim", ct.corpus_verbatim || "", "is-verbatim"));
     mv.appendChild(grid);
@@ -834,38 +906,66 @@ function renderLayer2Text(host, om) {
     var s3 = el("div", "me-drawer-section");
     s3.appendChild(el("h3", null, "What we're reading"));
     if (om.reading_ref || om.edition) s3.appendChild(el("p", "me-checkout-ref", om.reading_ref || om.edition));
-    s3.appendChild(el("p", "me-checkout-text", "“" + cleanVerbatim(raw) + "”"));
+    var gs = om.goal_span;
+    if (gs && (gs.ref || gs.note)) s3.appendChild(el("p", "me-drawer-caption", "Reading focus: " + (gs.ref || "") + (gs.note ? " — " + gs.note : "")));
+    // rendered from the checkout package's own bytes: straight quotes + the translator's {…} apparatus preserved, not curled or stripped
+    s3.appendChild(el("p", "me-checkout-text", '"' + cleanVerbatim(raw) + '"'));
     s3.appendChild(el("p", "me-checkout-stamp", "✓ version-locked · verified unchanged"));
     if (om.edition && om.reading_ref) s3.appendChild(el("p", "me-checkout-stamp", om.edition));
+    if (om.reading_source) s3.appendChild(el("p", "me-drawer-caption", om.reading_source));
+    if (om.apparatus_note) s3.appendChild(el("p", "me-drawer-caption", om.apparatus_note));
     host.appendChild(s3);
   }
 }
 
-/* LAYER 2 — Decompose (Step 2a): the move count + featured moves + the M22→M23 silence thread */
+/* LAYER 2 — Decompose (Step 2a): count + what-a-move-is teaching box + the full worked example + connections + silence.
+   Every move is a FLAT object {move, plain, who, operation, on, result}; rendered via moveBlock (never the raw object). */
 function renderLayer2Decompose(host, l2) {
   var s2 = el("div", "me-drawer-section");
   s2.appendChild(el("h3", null, "On Mark 16: the moves"));
   s2.appendChild(el("p", "me-drawer-p",
     "The passage becomes " + (l2.move_count || "—") + " moves" +
     (l2.edge_count ? ", linked by " + l2.edge_count + " connections" : "") + "."));
-  var fm = l2.featured_moves || [];
-  if (fm.length) {
-    var ul = el("ul", "me-drawer-list");
-    fm.forEach(function (m) {
-      var li = el("li");
-      li.appendChild(el("b", null, (m.move || "") + " "));
-      li.appendChild(document.createTextNode(m.plain || ""));
-      if (m.grammar) li.appendChild(el("span", "me-move-grammar", " — " + m.grammar));
-      ul.appendChild(li);
-    });
-    s2.appendChild(ul);
-  }
+  if (l2.what_counts_as_one_move) s2.appendChild(el("p", "me-drawer-caption", l2.what_counts_as_one_move));
   host.appendChild(s2);
+
+  // teaching box: what a move IS — M1 fully labeled (who / operation / on / result)
+  var an = l2.the_anatomy_of_a_move;
+  if (an && an.example) {
+    var ab = el("div", "me-drawer-section me-anatomy");
+    ab.appendChild(el("h3", null, "What a move is"));
+    if (an.note) ab.appendChild(el("p", "me-drawer-p", an.note));
+    ab.appendChild(moveBlock(an.example));
+    host.appendChild(ab);
+  }
+
+  // the thorough worked example: every move as a labeled block (falls back to featured_moves)
+  var we = l2.worked_example, isFull = !!(we && we.moves && we.moves.length);
+  var moves = isFull ? we.moves : (l2.featured_moves || []);
+  if (moves.length) {
+    var wb = el("div", "me-drawer-section");
+    wb.appendChild(el("h3", null, isFull ? "The moves of Mark 16" : "Featured moves"));
+    if (we && we.note) wb.appendChild(el("p", "me-drawer-caption", we.note));
+    var list = el("div", "me-move-list");
+    moves.forEach(function (m) { list.appendChild(moveBlock(m)); });
+    wb.appendChild(list);
+    host.appendChild(wb);
+  }
+
+  // the silence thread — the finding (M22 flee / M23 say nothing)
   if (l2.the_silence_thread) {
     var mv = el("div", "me-drawer-section me-m23");
     mv.appendChild(el("h3", null, "The silence thread"));
     mv.appendChild(el("p", "me-m23-caption", l2.the_silence_thread));
     host.appendChild(mv);
+  }
+
+  // how the moves connect (nesting vs reporting)
+  if (l2.connections && (l2.connections.plain || l2.connections.count)) {
+    var cx = el("div", "me-drawer-section");
+    cx.appendChild(el("h3", null, "How the moves connect"));
+    cx.appendChild(el("p", "me-drawer-p", l2.connections.plain || (l2.connections.count + " connections")));
+    host.appendChild(cx);
   }
   if (l2.all_moves_note) host.appendChild(el("p", "me-drawer-p me-deepdive", l2.all_moves_note));
 }

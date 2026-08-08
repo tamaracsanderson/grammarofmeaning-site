@@ -10,9 +10,9 @@
   "card": {
     "title": "Text",
     "subtitle": "a passage, checked out of the library",
-    "status_plain": "In the library. The checkout for this passage was made by hand. The automatic checkout is not built yet."
+    "status_plain": "In the library. This checkout was produced by running the checkout script against this one passage by hand. The automatic version (ask for any text, get a package back) is not built yet."
   },
-  "what_it_is": "The checkout is the library handing the method one passage to code: the exact words, with the address of where they sit in the corpus. It is the join between the library (what we hold) and the method (how we read it).",
+  "what_it_is": "The checkout is the library handing the method one passage to code: the exact words, with the address of where they sit in the corpus. The method is the reading pipeline that codes the passage: Decompose, Situate, the gaps, the glosses. The checkout is the join between the library (what we hold) and the method (how we read it).",
   "why_it_matters": "The whole project reads from the library, so the library has to hold the real thing, sourced the right way. We build it only from public-domain texts and record every source. A copy scraped from a site like Bible Gateway is under copyright and untraceable. Ours is legal to quote, cite, and keep. That lets the library do three things a scrape cannot: use the words openly, track what we hold and what we are still missing (the library audits its own silence, by name), and grow a long-term corpus of primary meaning-making texts across traditions, including the ones thin in what language models were trained on. The checkout is the first link in that chain. If the method reads a loose retyped copy instead, it drifts. The copy we first coded flattened Mark's ending and dropped 'for they were afraid', the exact fear the reading turns on.",
   "how_it_works": {
     "you ask for": "a passage: a work, a chapter, an edition.",
@@ -28,24 +28,41 @@
     },
     "edition": "World English Bible, Gospel of Mark. Project Gutenberg eBook #8268, sourced from eBible.org with light reformatting by Martin Ward, revision from 2020 or earlier. Known variance vs current eBible.org: Mark 16:6 'Behold' now reads 'See'.",
     "reading_ref": "Mark 16:1 to 8 (the resurrection unit)",
-    "verbatim_text": "When the Sabbath was past, Mary Magdalene, and Mary the mother of James, and Salome, bought spices, that they might come and anoint him. Very early on the first day of the week, they came to the tomb when the sun had risen. They were saying among themselves, “Who will roll away the stone from the door of the tomb for us?” for it was very big. Looking up, they saw that the stone was rolled back. Entering into the tomb, they saw a young man sitting on the right side, dressed in a white robe, and they were amazed. He said to them, “Don’t be amazed. You seek Jesus, the Nazarene, who has been crucified. He has risen. He is not here. Behold, the place where they laid him! But go, tell his disciples and Peter, ‘He goes before you into Galilee. There you will see him, as he said to you.’” They went out, and fled from the tomb, for trembling and astonishment had come on them. They said nothing to anyone; for they were afraid.",
+    "goal_span": {
+      "ref": "Mark 16:1 to 8",
+      "from_marker": "016:001",
+      "through_verse": "016:008",
+      "note": "The reading focus, chosen within the checked-out pieces. The checkout returns the covering pieces; the goal picks this reading inside them. Stored as a field, not just shown."
+    },
+    "rights_basis": {
+      "field": "sources.rights_status",
+      "value": "public_domain",
+      "source_id": "GUT-8268",
+      "verify_at": "https://www.gutenberg.org/ebooks/8268",
+      "plain": "The gate's 'permission to share' reads sources.rights_status for GUT-8268, which is 'public_domain'. Anyone can verify it at the source: https://www.gutenberg.org/ebooks/8268. That is why the copyright claim holds: it points at a field, not a promise."
+    },
+    "verbatim_text": "When the Sabbath was past, Mary Magdalene, and Mary the mother of James, and Salome, bought spices, that they might come and anoint him. Very early on the first day of the week, they came to the tomb when the sun had risen. They were saying among themselves, \"Who will roll away the stone from the door of the tomb for us?\" for it was very big. Looking up, they saw that the stone was rolled back. Entering into the tomb, they saw a young man sitting on the right side, dressed in a white robe, and they were amazed. He said to them, \"Don't be amazed. You seek Jesus, the Nazarene, who has been crucified. He has risen. He is not here. Behold, the place where they laid him! But go, tell his disciples and Peter, 'He goes before you into Galilee. There you will see him, as he said to you.'\" They went out,{TR adds \"quickly\"} and fled from the tomb, for trembling and astonishment had come on them. They said nothing to anyone; for they were afraid.",
+    "reading_source": "The checkout package holds chapter 16 as 2 pieces (15:43 to 16:20). This reading is 16:1 to 8, sliced from the package's own text for the resurrection focus (verse 8 spans the piece seam, so the slice crosses both pieces). It is not a parallel copy: the words, the straight quotes, and the apparatus are exactly what the checkout returned.",
+    "apparatus_note": "The braces {TR adds \"quickly\"} are the World English Bible's own translator note (the Textus Receptus adds a word here). They are shown as they appear in the checkout, not edited out.",
     "the_contrast": {
       "coder_saw_paraphrase": "They kept silent, telling no one anything.",
-      "corpus_verbatim": "They went out, and fled from the tomb, for trembling and astonishment had come on them. They said nothing to anyone; for they were afraid.",
+      "corpus_verbatim": "They went out,{TR adds \"quickly\"} and fled from the tomb, for trembling and astonishment had come on them. They said nothing to anyone; for they were afraid.",
       "plain": "The retyped copy dropped 'trembling and astonishment' and 'for they were afraid', the exact fear the method needs to notice the women's silence. The checkout gives the real words back."
     }
   },
   "how_stored": {
-    "plain": "The book of Mark is one source (GUT-8268). The library splits it into 56 paragraph-pieces (level 4). There is no chapter object above them. So a passage is not a fixed size. It is a span of pieces, chosen by the goal.",
+    "level_legend": "The library stores a text in a shallow hierarchy, level 0 to level 4. Level 0 is a cross-tradition root shared across traditions; levels 1 to 3 are organizing scaffolding (a work, a section); level 4 is the quotable piece the method actually reads. Mark has no level 0 (that is only for texts shared across traditions) and no level 1 to 3 scaffolding: the source GUT-8268 goes straight to its level-4 pieces.",
+    "plain": "The book of Mark is one source (GUT-8268). The library splits it into 56 paragraph-pieces (level 4), numbered 1 to 56, so chapter 16 sits in the last two (pieces 55 and 56). There is no chapter object above them. So a passage is not a fixed size. It is a span of pieces, chosen by the goal.",
     "passage_types": [
-      "the resurrection: 2 pieces (paragraph 55 = 15:43 to 16:8, paragraph 56 = 16:9 to 20)",
+      "the resurrection reading: 16:1 to 8, the goal-span shown, read from inside the 2 pieces that hold chapter 16",
       "all of Mark: 56 pieces",
       "a single gloss on one passage: 1 piece"
     ],
-    "this_checkout": "This checkout composed 2 pieces, because the goal is the resurrection."
+    "how_chapter_16_is_stored": "Chapter 16 is spread across 2 paragraph-pieces (the pieces follow the text's own paragraphs, which do not stop at chapter lines, so a piece can straddle 15 and 16). Piece 55 is one paragraph that begins with the burial (15:43) and runs through the first half of verse 16:8 ('...trembling and astonishment had come on them'). Piece 56 opens with the second half of 16:8 ('They said nothing to anyone; for they were afraid') and runs to 16:20. So even the 16:1 to 8 reading touches both pieces: the fear-clause the whole reading turns on sits just past the piece seam, in piece 56.",
+    "this_checkout": "Asked for chapter 16, the checkout returned the 2 pieces that hold it (15:43 to 16:20). The reading shown above is 16:1 to 8, the resurrection goal-span within those pieces. This is why a passage is a goal-chosen span of pieces, not a fixed unit: the checkout returns the covering pieces, and the goal picks the reading inside them."
   },
   "where_saved": {
-    "plain": "The words in this checkout are a copy. Everything the method builds on them saves to the corpus, in the same tables every text uses: the moves, the situating, the gaps, the glosses. One record ties them together for this passage, the text's home: a row in the text_checkout table. It holds the checkout and points to each output, so all of Mark's coding sits in one findable place, joined by the checkout's address (source, passage, verse). Every text gets the same home, from the first one. The reading room reads it, the library folds results from it back into the corpus, and any later report or model reads the same store.",
+    "plain": "The words in this checkout are a copy. Everything the method builds on them saves to the corpus, in the same tables every text uses: the moves, the situating, the gaps, the glosses. One record ties them together for this passage, the text's home: a row in the text_checkout table. It holds the checkout and crosswalks two keys: the library side finds the text by its source and passage, the method side joins every coded output (moves, situating, gaps, glosses) on the method key MARK-16-WEB. So this passage's coding sits in one findable place. Every text gets the same home, from the first one. The reading room reads it, the library folds results from it back into the corpus, and any later report or model reads the same store.",
     "home": {
       "registered": true,
       "table": "text_checkout",
@@ -65,9 +82,26 @@
     "scripts/analysis/build_text_node_drawer_data_s162.py (this card's data)"
   ],
   "honest_limits": [
-    "Mark exists in the library two ways (whole-chapter and verse-by-verse). We use the whole-chapter source and will remove the duplicate.",
-    "The automatic checkout (ask for any text, get a package) is not built. This is a worked example for Mark. The general version is WEMI Phase-1."
+    "Mark exists in the library two ways (as the whole book, GUT-8268, and verse-by-verse). We use the whole-book source and will remove the duplicate.",
+    "The automatic checkout (ask for any text, get a package) is not built. This is a worked example for Mark. The general version is WEMI Phase-1 (WEMI = Work, Expression, Manifestation, Item: the library-science model for telling a text apart from its editions and copies; it is the model behind acquire, dedup, and chunk)."
   ],
+  "the_contract": {
+    "note": "The checkout contract, settled on this worked example so the next text reuses it without a rebuild. Nothing here is broken: the Mark path works end to end. This states what the checkout guarantees.",
+    "locked": [
+      "The checkout returns whole native pieces. It never cuts below a piece, because the paragraph is the unit the method reads whole. The goal-span is chosen in the reading layer (see goal_span), not carved out of the package.",
+      "The rights gate is auditable. 'Permission to share' reads sources.rights_status (see rights_basis) with a link to verify, not an opaque true or false. This is what makes the public-domain claim defensible."
+    ],
+    "future": [
+      "The automatic checkout (WEMI Phase-1): resolve any human reference to its pieces for a new text, including texts with no verse markers (a sermon, a poem) and texts with level 0 to 3 scaffolding. This is the general 'check out any text' engine, built when the corpus needs it. It is future scope, not a gap in the Mark path."
+    ]
+  },
+  "crt": {
+    "status": "PASS",
+    "date": "2026-08-08",
+    "checks": "orient + reproduce + gap-scan",
+    "run_doc": "pm/30_methodology/engine/CRT_text_card_run_2026-08-08.md",
+    "meta_line": "Cold Read Test: PASS (2026-08-08). Orient and reproduce passed; the gap-scan's two open items are closed. The shown reading now renders from the checkout package's own bytes, and the goal-span is stated against the two covering pieces."
+  },
   "whats_next": "Decompose (break the passage into moves) then Situate (the world the text came from).",
   "research_view": {
     "receipt": {
@@ -89,6 +123,7 @@
       "step 1, find or acquire the source": "The text must be in the corpus. Find its source_id in the sources table (here GUT-8268 = the World English Bible, Gospel of Mark). A text not yet in the corpus must first be acquired and chunked (that is CRADLE plus the chunker, which is the automatic checkout, WEMI Phase-1, not built yet).",
       "step 2, run the checkout": "./scripts/_run_python.sh scripts/analysis/build_checkout_package_s162.py --source-id GUT-8268 --ref \"Mark 16\" --verse-prefix 016: --edition WEB --out pm/40_architecture/DATA_checkout_mark16_web_v1.json --register --method-source-key MARK-16-WEB",
       "what each input means": "--source-id is the corpus source. --ref is the human reference. --verse-prefix is the in-text verse-marker prefix (016: means chapter 16). --edition is the edition label. --out is where the package file is written. --register writes the home row. --method-source-key is the method's key for this text (MARK-16-WEB), the crosswalk that ties this checkout to the coded outputs.",
+      "note on the span": "The checkout works at the piece level: --verse-prefix 016: returns every piece that holds a chapter-16 verse, which for Mark is the 2 pieces spanning 15:43 to 16:20. The 16:1 to 8 reading in the card is the goal-span the drawer displays within those pieces; the checkout returns the covering pieces, not a verse-sliced 1 to 8. A verse-range argument is a general-path item, not built yet.",
       "step 3, where it saves": "Two places: the package file (the --out path, a sealed snapshot) and one row in the text_checkout home table. Every later output for this text (moves, situating, gaps, glosses) joins back on the method-source-key.",
       "scripts to read": "scripts/analysis/build_checkout_package_s162.py (the checkout). For a text not yet in the corpus: the CRADLE acquire path plus the chunker (not built yet, WEMI Phase-1).",
       "then": "the method reads the package; the next step is Decompose."
