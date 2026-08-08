@@ -635,7 +635,7 @@ function cleanVerbatim(t) {
     .replace(/\d{3}:\d{3}\s*/g, "") // strip chunk-internal verse markers (015:044 …) for readability
     .replace(/\s+/g, " ")
     .trim();
-  if (s.length > 640) s = s.slice(0, 640).replace(/\s+\S*$/, "") + " …";
+  if (s.length > 2000) s = s.slice(0, 2000).replace(/\s+\S*$/, "") + " …"; // cap only huge text, always at a word boundary
   return s;
 }
 function verseRange(ids) {
@@ -814,9 +814,10 @@ function renderLayer2Text(host, om) {
     var ix = raw.indexOf("016:001"); if (ix > 0) raw = raw.slice(ix);
     var s3 = el("div", "me-drawer-section");
     s3.appendChild(el("h3", null, "What we're reading"));
-    if (om.edition) s3.appendChild(el("p", "me-checkout-ref", om.edition));
+    if (om.reading_ref || om.edition) s3.appendChild(el("p", "me-checkout-ref", om.reading_ref || om.edition));
     s3.appendChild(el("p", "me-checkout-text", "“" + cleanVerbatim(raw) + "”"));
     s3.appendChild(el("p", "me-checkout-stamp", "✓ version-locked · verified unchanged"));
+    if (om.edition && om.reading_ref) s3.appendChild(el("p", "me-checkout-stamp", om.edition));
     host.appendChild(s3);
   }
 }
