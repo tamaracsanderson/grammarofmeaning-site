@@ -661,6 +661,31 @@ function renderStatusPills(host, D) {
   if (D.crt && D.crt.run_doc) host.appendChild(el("p", "me-crt-run", "run: " + D.crt.run_doc));
 }
 
+/* §2.14 out-of-domain validation: the same grammar re-coded on other texts (a different language, a different
+   genre), each catching a category Mark 16 barely uses — evidence it's an instrument, not an English-narrative tool */
+function renderValidatedOn(host, vo) {
+  if (!vo || !(vo.texts && vo.texts.length)) return;
+  var s = el("div", "me-drawer-section me-validated");
+  s.appendChild(el("h3", null, "Validated out-of-domain"));
+  if (vo.note) s.appendChild(el("p", "me-drawer-p", vo.note));
+  var list = el("div", "me-val-list");
+  vo.texts.forEach(function (t) {
+    var row = el("div", "me-val-row");
+    var head = el("p", "me-val-head");
+    head.appendChild(el("b", null, t.label || t.source_key || ""));
+    if (t.axis) head.appendChild(el("span", "me-val-axis", " (" + t.axis + ")"));
+    row.appendChild(head);
+    var bits = [];
+    if (t.moves != null) bits.push(t.moves + " moves");
+    if (t.signal_field) bits.push(t.signal_field + "=" + t.signal_value + (t.signal_count != null ? " ×" + t.signal_count : ""));
+    if (bits.length) row.appendChild(el("p", "me-val-signal", bits.join(" · ")));
+    if (t.note) row.appendChild(el("p", "me-val-note", t.note));
+    list.appendChild(row);
+  });
+  s.appendChild(list);
+  host.appendChild(s);
+}
+
 /* THE MOVE-GRAMMAR v2 (Decision 223): a funnel (process_type, asked FIRST) + 5 core parts
    (narrator/agent/operation/substrate/outcome) + 12 modifiers grouped under their part.
    Anatomy = the clean contract (renderGrammar); worked list = the grammar applied (moveBlock). */
@@ -786,6 +811,9 @@ function renderStepDrawer(aside, node) {
     // the worked result on Mark 16 (per step)
     if (id === "text") renderLayer2Text(host, onMark);
     else if (id === "decompose") renderLayer2Decompose(host, onMark);
+
+    // §2.14 out-of-domain validation (top-level; currently Decompose) — the instrument tested on other texts
+    if (D.validated_on) renderValidatedOn(host, D.validated_on);
 
     // How it's stored (v2)
     if (D.how_stored) {

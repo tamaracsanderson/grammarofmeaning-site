@@ -65,7 +65,7 @@
           {
             "part": "narrator",
             "handle": "narrator_evidentiality",
-            "definition": "how the claim is warranted: from experience, reason, testimony, revelation, or tradition.",
+            "definition": "how the claim is warranted - its source: experience (first-hand), reason (argument), testimony (a witness's report), revelation (disclosure), or tradition (received teaching). A move can lean on more than one; the vocab shows the sources THIS text uses.",
             "vocab": [
               "testimony",
               "revelation",
@@ -91,7 +91,7 @@
           {
             "part": "narrator",
             "handle": "narrator_tone",
-            "definition": "the teller's attitude or reliability: sincere, ironic, aporetic, or unreliable.",
+            "definition": "the teller's attitude or reliability: sincere, ironic (says one thing, means another), aporetic (voicing genuine unresolved doubt), or unreliable (not to be trusted at face value).",
             "vocab": [
               "sincere",
               "aporetic"
@@ -186,7 +186,7 @@
           {
             "part": "substrate",
             "handle": "substrate (on / to / of / with / in)",
-            "definition": "the case-roles the operation takes: ON (the direct object), TO (the recipient), OF (the of-relation), WITH (the instrument), IN (the locus). More than one can apply at once.",
+            "definition": "the case-roles the operation takes: ON (the direct object, what is acted on), TO (the recipient), OF (the possessive/partitive relation, 'the X of Y' - e.g. the mother OF James), WITH (the instrument used), IN (the place/locus). More than one can apply at once.",
             "vocab": [
               "on",
               "to",
@@ -201,7 +201,7 @@
           {
             "part": "substrate",
             "handle": "substrate_kind",
-            "definition": "what kind of thing the substrate is: an entity, a state, a reference to another move, and so on.",
+            "definition": "what kind of thing the substrate is: an entity (a thing/person), a state (a condition), a move_reference (points to another move), a proposition (a claim), an event (a happening), a set (a group), or unspecified.",
             "vocab": [
               "entity",
               "move_reference",
@@ -212,7 +212,8 @@
               "proposition"
             ],
             "single_or_multi": "single",
-            "candidate": "open"
+            "candidate": "open",
+            "leans_on": "an ontology of referents"
           },
           {
             "part": "outcome",
@@ -673,15 +674,42 @@
     "meta_line": "Fidelity PASS (2026-08-09) on the move-grammar v2 (Decision 223): 21/21 coded columns surfaced, no invented labels, both directions (no invention, no silent omission)."
   },
   "crt": {
-    "status": "PENDING",
-    "date": null,
-    "checks": "re-run needed on the v2 grammar card",
-    "run_doc": "pm/30_methodology/engine/COLDREAD_decompose_card_run_2026-08-08.md",
-    "meta_line": "Cold Read: the prior PASS (2026-08-08) was on the pre-v2 card. The drawer now renders the v2 grammar (the funnel + 12 modifiers), so the Cold Read must be re-run on the new card before it can claim PASS again."
+    "status": "PARTIAL",
+    "date": "2026-08-09",
+    "checks": "self-sufficiency, 2 independent cold-reader rounds on the v2 card",
+    "run_doc": "pm/30_methodology/engine/COLDREAD_decompose_v2_run_2026-08-09.md",
+    "meta_line": "Cold Read (2026-08-09, 2 independent rounds): PARTIAL. Round 1 found 4 self-sufficiency gaps (a circular 'of' case-role, unglossed 'aporetic', a partial substrate_kind list, an evidentiality gloss) - all fixed. Round 2 confirmed the fixes and surfaced one open question: vocab renders THIS text's coded values, so a closed field's full allowed set (e.g. apophatic, impersonal-cosmic) is not visible on a text that does not use it - a controlled-value-contract rendering call for the PI."
   },
   "vs_wild": {
-    "status": "PENDING",
-    "meta_line": "Instrument-vs-wild not yet run on the v2 grammar."
+    "status": "PASS",
+    "date": "2026-08-09",
+    "run_doc": "pm/50_audits/VS_WILD_decompose_v2_run_2026-08-09.md",
+    "meta_line": "Instrument-vs-wild (2026-08-09, LAYER-SCOPED). A naive reader scoped to Decompose's own job (list the moves - NOT the connections, NOT the unsaid) produced 22 moves on Mark 16; all 22 sit inside the instrument's 60, which add typed process_type/voice/polarity/force and finer segmentation. The instrument matches a naive move-lister's coverage AND adds systematic, queryable rigor - PASS for the Decompose layer. (An earlier UNSCOPED run looked like a loss, but the 'losses' were the between-move irony and the negative space - Connect + LACUNA, other layers, not Decompose's job.) Open: the 60-vs-22 granularity warrants a segmentation sanity-check; the full-stack test (all 3 layers vs a full wild read) awaits Connect + LACUNA."
+  },
+  "validated_on": {
+    "note": "The same grammar, re-coded on texts that stress it out-of-domain (§2.14): a different LANGUAGE and a different CONTENT genre. Each caught a category the Mark 16 example barely uses - evidence the grammar is an instrument, not an English-narrative tool.",
+    "texts": [
+      {
+        "source_key": "MARK-16-GRC",
+        "label": "Greek (SBLGNT), Mark 16",
+        "axis": "language axis",
+        "moves": 56,
+        "signal_field": "operation_voice",
+        "signal_value": "middle",
+        "signal_count": 3,
+        "note": "the middle voice English flattens - Greek deponents (the sabbath self-ending, the women's going, their fear)"
+      },
+      {
+        "source_key": "TTC-CH1-EN",
+        "label": "Tao Te Ching ch.1 (Legge)",
+        "axis": "content axis",
+        "moves": 11,
+        "signal_field": "operation_polarity",
+        "signal_value": "apophatic",
+        "signal_count": 2,
+        "note": "apophatic negation-as-method ('the Tao that can be told is NOT the eternal Tao')"
+      }
+    ]
   },
   "whats_next": "Situate runs in parallel (the world the text came from). Together they feed the enriched move, and then the gaps: what the moves leave unsaid.",
   "research_view": {
