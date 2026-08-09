@@ -15,6 +15,7 @@ const FLOW = window.METHOD_FLOW;
 const byId = Object.fromEntries(FLOW.nodes.map((n) => [n.id, n]));
 const inBand = (b) => FLOW.nodes.filter((n) => n.band === b);
 const LEAVES = inBand("situate");
+const CONNECT_PILLS = inBand("connect"); // the 3 edge-kind pills (Linkage / Resonance / Constellation)
 const WI = inBand("band_wi");
 const MC = inBand("band_mc");
 
@@ -251,6 +252,24 @@ function renderFigure() {
   cone.appendChild(nodeCard(byId["text"]));
   const branches = el("div", "me-branches");
   branches.appendChild(nodeCard(byId["decompose"]));
+  // Connect — the reconstruction half (wire the moves back together); pairs with Decompose, sits between it and Situate.
+  // Guarded: a missing node (e.g. a stale cached method_flow.json) must not blank the whole figure.
+  if (byId["connect"]) {
+    const connectBox = el("div", "me-situate");
+    connectBox.appendChild(nodeCard(byId["connect"]));
+    const cpills = el("div", "me-situate-pills");
+    CONNECT_PILLS.forEach((n) => {
+      const pill = el("button", `me-situate-pill is-${n.status}`);
+      pill.type = "button";
+      pill.dataset.id = n.id;
+      pill.appendChild(el("span", `me-status-dot is-${n.status}`));
+      pill.appendChild(document.createTextNode(n.label));
+      pill.addEventListener("click", (e) => { e.stopPropagation(); openDrawer(n.id); });
+      cpills.appendChild(pill);
+    });
+    connectBox.appendChild(cpills);
+    branches.appendChild(connectBox);
+  }
   const situate = el("div", "me-situate");
   situate.appendChild(nodeCard(byId["situate"]));
   // the 5 aspects are parallel lenses, not a sequence: a compact clickable pill row, each opening its own drawer
@@ -273,7 +292,7 @@ function renderFigure() {
   const gutter = el("div", "me-col me-gutter");
   gutter.appendChild(nodeCard(byId["enriched_move"], "waist"));
   gutter.appendChild(
-    el("p", "me-gutter-note", "Decompose segments ∥ Situate annotates"),
+    el("p", "me-gutter-note", "Decompose segments · Connect wires · Situate annotates"),
   );
   grid.appendChild(gutter);
 

@@ -642,6 +642,67 @@
       ],
       "sub": "S6 (DP-5): a six-check hard gate on every gap_gloss BEFORE the chairs rate it. 'no-grounded-gloss' is an allowable RECORDED verdict: glosses can DIE here. The attrition is part of the story; the instrument is honest that not every gloss survives to Synthesis.",
       "step": 5
+    },
+    {
+      "id": "connect",
+      "label": "Connect",
+      "function": "wire the moves back together",
+      "band": "input",
+      "kind": "card",
+      "status": "specified",
+      "grain": "edges",
+      "requires": ["decompose"],
+      "produces": ["edge"],
+      "implementation": "specified",
+      "validation": "none",
+      "step": "2b",
+      "stage": "CONNECT",
+      "sub": "The reconstruction half of the move-grammar: Decompose breaks the passage into moves, Connect wires them back together. The grammar edge_grammar_v1 is locked in spec; not yet coded on the golden path."
+    },
+    {
+      "id": "connect_linkage",
+      "label": "Linkage",
+      "function": "one of the three edge kinds; its definition lands with the coder run",
+      "band": "connect",
+      "kind": "leaf",
+      "status": "specified",
+      "grain": "edges",
+      "requires": ["decompose"],
+      "produces": ["edge"],
+      "implementation": "specified",
+      "validation": "none",
+      "step": "2b",
+      "stage": "CONNECT"
+    },
+    {
+      "id": "connect_resonance",
+      "label": "Resonance",
+      "function": "one of the three edge kinds; its definition lands with the coder run",
+      "band": "connect",
+      "kind": "leaf",
+      "status": "specified",
+      "grain": "edges",
+      "requires": ["decompose"],
+      "produces": ["edge"],
+      "implementation": "specified",
+      "validation": "none",
+      "step": "2b",
+      "stage": "CONNECT"
+    },
+    {
+      "id": "connect_constellation",
+      "label": "Constellation",
+      "function": "one of the three edge kinds; its definition lands with the coder run",
+      "band": "connect",
+      "kind": "leaf",
+      "status": "specified",
+      "grain": "edges",
+      "requires": ["decompose"],
+      "produces": ["edge"],
+      "implementation": "specified",
+      "validation": "none",
+      "step": "2b",
+      "stage": "CONNECT"
     }
   ],
   "edges": [
@@ -656,6 +717,18 @@
       "to": "situate",
       "type": "flow",
       "note": "branch two: annotation"
+    },
+    {
+      "from": "text",
+      "to": "connect",
+      "type": "flow",
+      "note": "branch: reconstruction"
+    },
+    {
+      "from": "connect",
+      "to": "enriched_move",
+      "type": "flow",
+      "note": "Connect wires"
     },
     {
       "from": "decompose",
