@@ -159,6 +159,7 @@ function renderComponents(d){
     } else if(it.mechanic){
       body+='<p class="mech">'+rich(it.mechanic)+'</p>';
     }
+    if(it.lifecycle) body+='<p class="reuse"><b>lifecycle</b> &nbsp;'+rich(it.lifecycle)+'</p>';
     if(it.reuse) body+='<p class="reuse"><b>reused</b> &nbsp;'+rich(it.reuse)+'</p>';
     return '<div class="pr"><div class="pr-h"><h3>'+rich(it.name)+'</h3></div>'+body+'</div>';
   }).join('');

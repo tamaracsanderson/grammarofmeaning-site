@@ -14,7 +14,7 @@
   "what_it_is": "Decompose breaks the checked-out passage into moves. A move is one action the text makes: an agent does an operation to something, with a result. It turns a block of text into an ordered list of small, labeled actions the rest of the method reads.",
   "why_it_matters": "The move is the unit the whole method works on, and it is where making the unsaid said begins. A gap is what a move leaves unsaid, so you cannot name a silence until you have named the moves it sits between. Every later step reads moves: the gaps hang off them, the later readings answer each move's question, the comparisons line moves up across texts. So the move boundary is load-bearing. Break the passage well and the reading holds. Break it badly and every step downstream inherits the error.",
   "how_it_works": {
-    "you give it": "three things: the checked-out passage (the exact sourced text the Text step handed over), the one question you are reading it for (this decides what counts as important), and the year the text was written.",
+    "you give it": "two things: the checked-out passage (the exact sourced text the Text step handed over), and the one question you are reading it for (this decides what counts as important). The year and world of the text belong to Situate, which runs alongside; Decompose only needs the words and the reading question.",
     "the method does": "reads the passage sentence by sentence, marks each small action as a move, labels who does it, the operation, what it acts on, and the result, and records how the moves connect (one feeds the next, one reports another's speech).",
     "you get back": "an ordered list of moves, and the connections between them."
   },
@@ -23,7 +23,7 @@
     "edge_count": 25,
     "what_counts_as_one_move": "One move is one agent doing one operation to one thing, with one result. Start a new move when the agent changes, the operation changes, or the result changes. When in doubt, keep the move whole rather than splitting it: an under-split reading loses less than an over-split one.",
     "the_anatomy_of_a_move": {
-      "note": "Every move has five parts (the same grammar the reading room renders). Narrator: who is telling it. Then the core action: agent (who or what acts), operation, substrate (what it acts on), outcome. Two of the parts carry a modifier: the agent's VOICE (active, or middle-passive when the agent undergoes the action rather than performs it), and the operation's TYPE (its kind: transaction, affective state, report-speech). Below, the first move of Mark 16, fully labeled.",
+      "note": "Every move has five parts (the same grammar the reading room renders). Narrator: who is telling it. Then the core action: agent (who or what acts), operation, substrate (what it acts on), outcome. Two of the parts carry a modifier. The agent's VOICE is a closed list of three values: active (the agent performs the action), middle-passive (the agent undergoes the action rather than performs it), null-stative (no acting agent; a state or description). The operation's TYPE is an open label the coder writes for each move (its kind), not a fixed list; across this passage it takes 40 different values, often a family and a specifier, for example: report-speech, movement, directive / commissioning, manifestation, perception, directive. Below, the first move of Mark 16, fully labeled.",
       "example": {
         "move": "M1",
         "plain": "Once the rest-day had ended, the three named women purchased aromatic spices intending to go and dress the body.",
@@ -46,9 +46,24 @@
         "modifiers": {
           "agent": "voice",
           "operation": "type"
-        }
+        },
+        "voice_values": [
+          "active",
+          "middle-passive",
+          "null-stative"
+        ],
+        "type_is_open": true,
+        "type_examples": [
+          "report-speech",
+          "movement",
+          "directive / commissioning",
+          "manifestation",
+          "perception",
+          "directive"
+        ]
       },
-      "_render_note": "Five parts, bare real terms (no per-field glosses; the note above is the one legend). Render voice attached to agent (agent, active/undergoing) and type attached to operation (operation, transaction/affective-state/report-speech), not as a separate row. Same on the reading room."
+      "substrate_note": "A substrate written as a letter-suffixed move id (for example M5a) points to content introduced in that move (M5a = the state the stone is in, from M5); the pointer is one of the recorded connections.",
+      "_render_note": "Five parts, bare real terms (no per-field glosses; the note above is the one legend). Render voice attached to the agent (agent, one of active/middle-passive/null-stative) and type attached to the operation (operation, the coder's open label), not as a separate row. Same on the reading room."
     },
     "worked_example": {
       "note": "The opening of the passage, move by move, so you can see the text become a sequence of small labeled actions. These are the first 12 of 55 moves; the full list is the feed the reading room renders.",
@@ -271,7 +286,7 @@
       "source_key": "MARK-16-WEB",
       "moves": 55,
       "edges": 25,
-      "provenance": "engine1_layer1_extract_moves.py — text=Mark_16_WEB.txt sitz=70 temp=0.0 tag=translations_s161 qud=\"How is Jesus' resurrection made known — who finds the tomb empty, who encounters the risen Jesus, and how is it attested to others?\""
+      "provenance": "engine1_layer1_extract_moves.py  -  text=Mark_16_WEB.txt sitz=70 temp=0.0 tag=translations_s161 qud=\"How is Jesus' resurrection made known  -  who finds the tomb empty, who encounters the risen Jesus, and how is it attested to others?\""
     },
     "how_to_run": {
       "step 1, get the passage": "Start from the checkout (the Text step, which hands over the exact sourced passage). Today the extractor reads a text file; a clean run on the verbatim checkout text feeds it the real words rather than the retyped copy.",
