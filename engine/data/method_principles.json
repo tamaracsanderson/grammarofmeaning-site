@@ -34,6 +34,24 @@
         "reuse": "For any new coded field, decide its grain(s) before running it."
       },
       {
+        "name": "The drawer template",
+        "is": "Every node's drawer uses the same sections in the same order, so a reader always knows where to look.",
+        "sections": [
+          "1. Header: title, subtitle, the test pills (Cold Read, vs-Wild), the Fidelity stamp, and an honest status line",
+          "2. What it is (one paragraph)",
+          "3. Why it matters (one paragraph)",
+          "4. How it works: what you give it, what the method does, what you get back",
+          "5. The method (clean, text-agnostic): the step's grammar and the definition of every piece of it",
+          "6. The method applied: the same grammar run on the golden-path text (the worked example, with its concrete values)",
+          "7. Where the work is saved: the store, the home row, and the key (findability)",
+          "8. Honest limits",
+          "9. Made by: the scripts that produce the step and this card's data",
+          "10. What's next: the flow to the next node",
+          "11. Research view (collapsible): the receipt, how to run it, and the data source"
+        ],
+        "reuse": "Build every new drawer to this order; a reader learns it once and finds everything by position. Sections 5 and 6 hold the clean-then-applied split."
+      },
+      {
         "name": "The Cold Read",
         "is": "The check that a card (or a coding call) is self-sufficient: give it to a fresh model with no other context and see if it acts correctly.",
         "mechanic": "Seven questions: orient (what/where/next) + reproduce (can you run this step) + gap-scan (what's confusing/missing) + duplication-and-tier check (MECE across black=main / grey=footnote / hidden=researcher view). Run as a small cohort; fix to convergence. Include a decoy.",
@@ -94,6 +112,11 @@
         "name": "The record is stable, the presentation is disposable (headless)",
         "principle": "The enriched move lives as a defined table with fixed columns, decoupled from any surface that displays it. The reading room is one head; an essay or a model is another. Redesign the reading room's look and feel as often as you like: the surface reads from the table and renders however it wants, and the data never moves when the design does.",
         "why": "It is a headless (decoupled, CMS-style) content store for the reading. The same neutral-feed rule as the checkout: never marry the data to a surface. It is what lets the look and feel evolve for years without a single re-code, because insertion is stable regardless of how the room is redesigned."
+      },
+      {
+        "name": "Read the method clean, then the method applied",
+        "principle": "Each drawer separates two zones and never conflates them. First the METHOD, stated clean and text-agnostic: what the step does and the definition of every piece of its grammar, with no worked-example values mixed in. Then the METHOD APPLIED: the same grammar run on the golden-path text (the worked example), where the concrete values and counts live. A definition is stated once, as a legend; the worked example shows only labeled values, never re-printing the definitions.",
+        "why": "It keeps the reusable instrument legible on its own (you can read the grammar without the example, and reuse it on any text) and keeps the demonstration honest (the example applies the method, it does not silently redefine it). Mixing them is how invented terms and text-specific assumptions creep into what should be a portable method."
       }
     ]
   },

@@ -943,12 +943,13 @@ function renderLayer2Decompose(host, l2) {
   // teaching box: what a move IS — M1 with the 5-part grammar labeled (grammar_structure drives the order + modifiers)
   var an = l2.the_anatomy_of_a_move;
   var gs = (an && an.grammar_structure) || GRAMMAR_FALLBACK;
-  if (an && an.example) {
+  // "the method clean": definitions only; the M1 example moved to the worked list (removed here by design, S162)
+  if (an && (an.note || an.definitions || an.example)) {
     var ab = el("div", "me-drawer-section me-anatomy");
     ab.appendChild(el("h3", null, "What a move is"));
     if (an.note) ab.appendChild(el("p", "me-drawer-p", an.note));
     if (an.definitions) ab.appendChild(renderGrammarDefs(an.definitions));
-    ab.appendChild(moveBlock(an.example, gs));
+    if (an.example) ab.appendChild(moveBlock(an.example, gs)); // render only if present (gone in current data)
     host.appendChild(ab);
   }
 

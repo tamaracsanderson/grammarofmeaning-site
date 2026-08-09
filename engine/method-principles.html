@@ -41,6 +41,9 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
 .mech{font-size:13.5px;line-height:1.6;color:var(--fg);margin:0 0 8px}
 .reuse{font-size:12.5px;line-height:1.55;color:var(--muted);margin:6px 0 0;border-left:2px solid color-mix(in srgb,var(--sub) 45%,var(--line));padding-left:10px}
 .reuse b{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);font-weight:600}
+.tmpl-list{margin:6px 0 4px;padding-left:20px}
+.tmpl-list li{font-size:13.5px;line-height:1.55;color:var(--fg);margin:0 0 5px}
+.tmpl-list li::marker{font-family:var(--mono);font-size:11px;color:var(--out)}
 
 /* the four field-shapes table */
 .tbl{width:100%;border-collapse:collapse;font-size:12.5px;margin:6px 0 2px}
@@ -157,6 +160,10 @@ function renderComponents(d){
         +it.shapes.map(function(sh){
           return '<tr><td class="c1">'+rich(sh.shape)+'</td><td>'+rich(sh.mechanic)+'</td><td class="c3">'+rich(sh.examples)+'</td></tr>';
         }).join('')+'</tbody></table>';
+    } else if(it.sections && it.sections.length){
+      body+='<ol class="tmpl-list">'+it.sections.map(function(s){
+        return '<li>'+rich(String(s).replace(/^\s*\d+\.\s*/,''))+'</li>';
+      }).join('')+'</ol>';
     } else if(it.mechanic){
       body+='<p class="mech">'+rich(it.mechanic)+'</p>';
     }
