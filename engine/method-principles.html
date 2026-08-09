@@ -146,6 +146,7 @@ var SECTIONS = [
   {id:'checklist',  label:'Drawer-build checklist',key:'drawer_build_checklist',render:renderChecklist},
   {id:'glossary',   label:'Glossary',             key:'glossary',           render:renderGlossary},
   {id:'reliability',label:'Reliability',          key:'reliability_explainer',render:renderReliability},
+  {id:'versioning', label:'Grammar versioning',   key:'grammar_versioning', render:renderGrammarVersioning},
   {id:'faq',        label:'FAQ',                  key:'faq',                render:renderFaq},
   {id:'positioning',label:'Positioning',          key:'positioning',        render:renderPositioning},
   {id:'open',       label:'Open questions',       key:'open_questions',     render:renderOpen},
@@ -226,6 +227,12 @@ function renderReliability(d){
   ].filter(function(r){return r[1];}).map(function(r){
     return '<div class="kv"><p class="k">'+esc(r[0])+'</p><p class="v">'+rich(r[1])+'</p></div>';
   }).join('');
+  return noteHTML(d)+rows;
+}
+function renderGrammarVersioning(d){
+  var rows=[['Major (vN)',d.major],['Minor (vN.M)',d.minor],['Current',d.current],['What v3 is',d.v3_is]]
+    .filter(function(r){return r[1];})
+    .map(function(r){return '<div class="kv"><p class="k">'+esc(r[0])+'</p><p class="v">'+rich(r[1])+'</p></div>';}).join('');
   return noteHTML(d)+rows;
 }
 function renderFaq(d){
