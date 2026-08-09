@@ -44,6 +44,10 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
 .tmpl-list{margin:6px 0 4px;padding-left:20px}
 .tmpl-list li{font-size:13.5px;line-height:1.55;color:var(--fg);margin:0 0 5px}
 .tmpl-list li::marker{font-family:var(--mono);font-size:11px;color:var(--out)}
+.chk-phase{margin:0 0 14px}
+.chk-phase-h{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--eng);font-weight:600;margin:0 0 6px}
+.chk-items{margin:0;padding-left:20px}
+.chk-items li{font-size:13.5px;line-height:1.55;color:var(--fg);margin:0 0 5px}
 
 /* the four field-shapes table */
 .tbl{width:100%;border-collapse:collapse;font-size:12.5px;margin:6px 0 2px}
@@ -139,6 +143,7 @@ var SECTIONS = [
   {id:'commitments',label:'Core commitments',    key:'principles',         render:renderPrinciples},
   {id:'checks',     label:'The four checks',      key:'the_four_checks',    render:renderFourChecks},
   {id:'pills',      label:'The two pills',        key:'the_two_pills',      render:renderPills},
+  {id:'checklist',  label:'Drawer-build checklist',key:'drawer_build_checklist',render:renderChecklist},
   {id:'glossary',   label:'Glossary',             key:'glossary',           render:renderGlossary},
   {id:'reliability',label:'Reliability',          key:'reliability_explainer',render:renderReliability},
   {id:'faq',        label:'FAQ',                  key:'faq',                render:renderFaq},
@@ -181,6 +186,13 @@ function renderPrinciples(d){
     return h+'</div>';
   }).join('');
   return noteHTML(d)+items;
+}
+function renderChecklist(d){
+  var phases=(d.phases||[]).map(function(ph){
+    var items=(ph.items||[]).map(function(it){return '<li>'+rich(it)+'</li>';}).join('');
+    return '<div class="chk-phase"><p class="chk-phase-h">'+esc(ph.phase)+'</p><ul class="chk-items">'+items+'</ul></div>';
+  }).join('');
+  return noteHTML(d)+phases;
 }
 function renderPills(d){
   var h=noteHTML(d);

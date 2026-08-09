@@ -139,6 +139,37 @@
     "text_exception": "Text (the checkout) is not a coding step, so it carries only the Cold Read pill."
   },
 
+  "drawer_build_checklist": {
+    "note": "The checklist for building or revising a drawer node, so nothing is dropped (tests, writing, subheadings, data structure). Review START before touching a node; FINISH before calling it done. Full detail with the why behind each item: pm/30_methodology/engine/CHECKLIST_drawer_build.",
+    "phases": [
+      {"phase": "START - orient before you build", "items": [
+        "Read the SSOT engine page for this lane, then re-read THIS node's drawer, before the markdown handover.",
+        "Pull the node's real data from the DB on the owner's key; do not trust the handover's claim of what is coded.",
+        "Fix each field's shape (closed value-list / closed-type / probe-set / open) and grain (passage / move / both) before coding.",
+        "Every coded field is a handle plus an operational definition, written at coding time; nothing back-filled at the end.",
+        "Build to the drawer template: the eleven fixed sections, in order."
+      ]},
+      {"phase": "DURING - build from data, define the grammar", "items": [
+        "Render from the generator to a data file; never hardcode or hand-edit the deployed json.",
+        "Define the grammar clean and text-agnostic, then apply it in the worked example; state a definition once, as a legend.",
+        "Fidelity: every label is a real source column or a declared alias; never invent a term (the Cold Read cannot catch an invented term).",
+        "Plain but precise; term first with a plain gloss in parens; no double-say; no em-dashes."
+      ]},
+      {"phase": "FINISH - test, land, verify", "items": [
+        "Run both checks: Fidelity (the gate) and Cold Read (self-sufficiency, with a decoy and a gap-scan); write the run doc.",
+        "Check em-dashes on the file text, not on a serialized string (json.dumps hides them).",
+        "Findability: the where-saved section names the store, the home row, and the key.",
+        "Land it and verify LIVE: commit, push, hand design the data json, then fetch the live page and confirm the change is there.",
+        "Tell design which branch or commit is authoritative; re-ping on each new push.",
+        "Record any new name on this page first, then a decision; reserve CRT for Clean Room Triangulation."
+      ]},
+      {"phase": "STRENGTHEN - for a pinch-point node", "items": [
+        "Run a 3DR completeness round on the node's grammar, reconcile, and CLC-walk the candidates (LOCK / EXTEND / DROP / DEFER).",
+        "Validate by running the node out of domain, not by more debate; use is the decisive test."
+      ]}
+    ]
+  },
+
   "glossary": {
     "note": "The method's terms, with a disambiguating line where a word means something narrower than everyday usage. (To populate fully; seeds below.)",
     "terms": [
