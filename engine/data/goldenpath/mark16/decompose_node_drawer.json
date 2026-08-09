@@ -9,7 +9,7 @@
   "card": {
     "title": "Decompose",
     "subtitle": "break the passage into moves",
-    "status_plain": "The moves for this passage exist (55 of them, with 25 connections). They were read from a retyped copy, not yet the checkout, so this is a worked example, honest about that."
+    "status_plain": "The moves for this passage exist (60 of them, with 49 connections). They were read from a retyped copy, not yet the checkout, so this is a worked example, honest about that."
   },
   "what_it_is": "Decompose breaks the checked-out passage into moves. A move is one action the text makes: an agent does an operation to something, with a result. It turns a block of text into an ordered list of small, labeled actions the rest of the method reads.",
   "why_it_matters": "The move is the unit the whole method works on, and it is where making the unsaid said begins. A gap is what a move leaves unsaid, so you cannot name a silence until you have named the moves it sits between. Every later step reads moves: the gaps hang off them, the later readings answer each move's question, the comparisons line moves up across texts. So the move boundary is load-bearing. Break the passage well and the reading holds. Break it badly and every step downstream inherits the error.",
@@ -19,282 +19,632 @@
     "you get back": "an ordered list of moves, and the connections between them."
   },
   "on_mark_16": {
-    "move_count": 55,
-    "edge_count": 25,
+    "move_count": 60,
+    "edge_count": 49,
     "what_counts_as_one_move": "One move is one agent doing one operation to one thing, with one result. Start a new move when the agent changes, the operation changes, or the result changes. When in doubt, keep the move whole rather than splitting it: an under-split reading loses less than an over-split one.",
     "the_anatomy_of_a_move": {
-      "note": "Every move has five PARTS (the same grammar the reading room renders), and two MODIFIERS that ride on a part: voice on the agent, type on the operation. Each part and modifier, with its handle and definition, is below. This is the grammar itself, text-agnostic; the worked example applies it to Mark 16.",
-      "definitions": {
-        "note": "The handle and its definition for every piece of the grammar. Render the five part-handles in the part colour and the two modifier-handles in the modifier colour (the same green the example uses for the voice and type values).",
-        "parts": [
+      "note": "A move is coded in two steps. FIRST classify its KIND (process_type: a doing, a sensing, a being, a saying, an existing) - the funnel decides how the parts read (a being or an existing has no agent). THEN fill the five core parts and the modifiers that hang under them. Each piece below carries its handle, its definition, its vocabulary, whether you pick one value or more than one, and whether you may propose a candidate when nothing fits. This is the grammar itself, text-agnostic; the worked example applies it to Mark 16.",
+      "grammar": {
+        "funnel": {
+          "handle": "process_type",
+          "definition": "what KIND of move it is - a doing (material), a sensing (mental), a being (relational), a saying (verbal), or an existing (existential). Asked FIRST; it decides how the parts read (a being or an existing has no agent).",
+          "vocab": [
+            "material",
+            "verbal",
+            "mental",
+            "existential",
+            "relational"
+          ],
+          "single_or_multi": "single",
+          "candidate": "rare",
+          "leans_on": "Systemic Functional Linguistics"
+        },
+        "core": [
           {
             "handle": "narrator",
-            "definition": "who is telling the move: the teller whose voice presents it (the discourse layer)."
+            "definition": "who is telling the move: the teller whose voice presents it."
           },
           {
             "handle": "agent",
-            "definition": "who or what performs the operation: the doer of the move."
+            "definition": "who or what performs the operation. Empty for a being or an existing; can be a person, a group, or the cosmos."
           },
           {
             "handle": "operation",
-            "definition": "the action the move makes: the verb, what is done."
+            "definition": "the act the move makes: the verb, what is done."
           },
           {
             "handle": "substrate",
-            "definition": "what the operation acts on: the thing it takes as its object or material."
+            "definition": "what the operation acts on (its case-roles are below)."
           },
           {
             "handle": "outcome",
-            "definition": "what results from the operation: the state the move leaves behind."
+            "definition": "what the move produces (may be empty)."
           }
         ],
         "modifiers": [
           {
-            "handle": "voice",
-            "rides_on": "agent",
-            "definition": "the agent's relation to the action. A closed list of three values: active (the agent performs the action), middle-passive (the agent undergoes the action rather than performs it), null-stative (no acting agent; a state or description).",
-            "values": [
-              "active",
-              "middle-passive",
-              "null-stative"
-            ]
+            "part": "narrator",
+            "handle": "narrator_evidentiality",
+            "definition": "how the claim is warranted: from experience, reason, testimony, revelation, or tradition.",
+            "vocab": [
+              "testimony",
+              "revelation",
+              "tradition",
+              "experience"
+            ],
+            "single_or_multi": "multi",
+            "candidate": "open",
+            "leans_on": "evidentiality typology"
           },
           {
-            "handle": "type",
-            "rides_on": "operation",
-            "definition": "the kind of operation: an open label the coder writes for each move, often a family and a specifier, not a fixed list.",
-            "open": true,
-            "examples": [
-              "report-speech",
-              "movement",
-              "directive / commissioning",
-              "manifestation",
+            "part": "narrator",
+            "handle": "narrator_stance",
+            "definition": "is the narrator describing what IS or prescribing what OUGHT - it catches a prescription phrased as a plain statement.",
+            "vocab": [
+              "descriptive",
+              "normative"
+            ],
+            "single_or_multi": "single",
+            "candidate": "rare",
+            "leans_on": "the is/ought distinction"
+          },
+          {
+            "part": "narrator",
+            "handle": "narrator_tone",
+            "definition": "the teller's attitude or reliability: sincere, ironic, aporetic, or unreliable.",
+            "vocab": [
+              "sincere",
+              "aporetic"
+            ],
+            "single_or_multi": "single",
+            "candidate": "open",
+            "leans_on": "the unreliable narrator (narratology)"
+          },
+          {
+            "part": "agent",
+            "handle": "agent_animacy",
+            "definition": "the doer's kind: a person, a group, an impersonal or cosmic force, or none.",
+            "vocab": [
+              "collective",
+              "personal",
+              "null"
+            ],
+            "single_or_multi": "single",
+            "candidate": "rare",
+            "leans_on": "the animacy hierarchy"
+          },
+          {
+            "part": "operation",
+            "handle": "operation_voice",
+            "definition": "the verb's diathesis: does the agent perform the act (active), undergo it (passive), or both at once (middle).",
+            "vocab": [
+              "active",
+              "passive",
+              "middle"
+            ],
+            "single_or_multi": "single",
+            "candidate": "rare",
+            "leans_on": "voice / diathesis typology"
+          },
+          {
+            "part": "operation",
+            "handle": "operation_type",
+            "definition": "the KIND of operation - an open label the coder writes (motion, transfer, perception...).",
+            "vocab": [
+              "motion",
+              "speech",
               "perception",
-              "directive"
-            ]
+              "attribution",
+              "affect",
+              "cognition"
+            ],
+            "single_or_multi": "single",
+            "candidate": "open",
+            "leans_on": "FrameNet"
+          },
+          {
+            "part": "operation",
+            "handle": "operation_modality",
+            "definition": "the proposition's relation to reality: it happened (realis), is obligated (deontic), is possible (epistemic), or is a capacity (dynamic).",
+            "vocab": [
+              "realis",
+              "deontic",
+              "epistemic"
+            ],
+            "single_or_multi": "single",
+            "candidate": "open",
+            "leans_on": "modal logic"
+          },
+          {
+            "part": "operation",
+            "handle": "operation_polarity",
+            "definition": "affirmed, denied, or unsaid-on-purpose (apophatic = negation-as-method, 'not this, not this').",
+            "vocab": [
+              "affirmative",
+              "negative"
+            ],
+            "single_or_multi": "single",
+            "candidate": "rare",
+            "leans_on": "apophatic theology"
+          },
+          {
+            "part": "operation",
+            "handle": "operation_force",
+            "definition": "for a saying, the act the utterance performs: assert, command, question, promise, perform, express. Not-applicable otherwise.",
+            "vocab": [
+              "assert",
+              "promise",
+              "command",
+              "express",
+              "question",
+              "perform"
+            ],
+            "single_or_multi": "single",
+            "candidate": "open",
+            "leans_on": "Speech Act Theory"
+          },
+          {
+            "part": "substrate",
+            "handle": "substrate (on / to / of / with / in)",
+            "definition": "the case-roles the operation takes: ON (the direct object), TO (the recipient), OF (the of-relation), WITH (the instrument), IN (the locus). More than one can apply at once.",
+            "vocab": [
+              "on",
+              "to",
+              "of",
+              "with",
+              "in"
+            ],
+            "single_or_multi": "multi",
+            "candidate": "open",
+            "leans_on": "Paninian karaka / case grammar"
+          },
+          {
+            "part": "substrate",
+            "handle": "substrate_kind",
+            "definition": "what kind of thing the substrate is: an entity, a state, a reference to another move, and so on.",
+            "vocab": [
+              "entity",
+              "move_reference",
+              "state",
+              "set",
+              "event",
+              "unspecified",
+              "proposition"
+            ],
+            "single_or_multi": "single",
+            "candidate": "open"
+          },
+          {
+            "part": "outcome",
+            "handle": "outcome_realis",
+            "definition": "the outcome's status: achieved (actual), aimed-at (sought), or stated as future-certain (promised).",
+            "vocab": [
+              "actual",
+              "promised",
+              "sought"
+            ],
+            "single_or_multi": "single",
+            "candidate": "rare",
+            "leans_on": "realis / irrealis modality"
           }
-        ],
-        "_render_colors": {
-          "parts": "part colour (orange)",
-          "modifiers": "modifier colour (green)"
-        }
-      },
-      "grammar_structure": {
-        "parts": [
-          "narrator",
-          "agent",
-          "operation",
-          "substrate",
-          "outcome"
-        ],
-        "modifiers": {
-          "agent": "voice",
-          "operation": "type"
-        },
-        "voice_values": [
-          "active",
-          "middle-passive",
-          "null-stative"
-        ],
-        "type_is_open": true,
-        "type_examples": [
-          "report-speech",
-          "movement",
-          "directive / commissioning",
-          "manifestation",
-          "perception",
-          "directive"
         ]
       },
-      "substrate_note": "A substrate written as a letter-suffixed move id (for example M5a) points to content introduced in that move (M5a = the state the stone is in, from M5); the pointer is one of the recorded connections.",
-      "_render_note": "Five parts, bare real terms (no per-field glosses; the note above is the one legend). Render voice attached to the agent (agent, one of active/middle-passive/null-stative) and type attached to the operation (operation, the coder's open label), not as a separate row. Same on the reading room."
+      "_render": {
+        "note": "Render the funnel (process_type) first; then the five core part-handles in the part colour (orange); then the modifiers grouped under their part in the modifier colour (green). For each closed field show its vocab + single-or-multi + candidate (the controlled-value contract); the substrate case-roles (on/to/of/with/in) are one multi-value slot. `leans_on` is the framework each field stands on (for the Foundation section).",
+        "parts_colour": "orange",
+        "modifiers_colour": "green"
+      }
     },
     "worked_example": {
-      "note": "The grammar applied to Mark 16, move by move, so you can see the text become a sequence of small labeled actions. These are the first 12 of 55 moves; the full list is the feed the reading room renders. In this passage, type takes 40 different values, for example: report-speech, movement, directive / commissioning, manifestation, perception, directive.",
+      "note": "The grammar applied to Mark 16, move by move, so you can see the text become a sequence of small labeled actions. These are the first 12 of 60 moves; the full list is the feed the reading room renders. Across the passage the funnel sorts the moves by kind: material 28 · verbal 14 · mental 13 · existential 3 · relational 2.",
       "moves": [
         {
           "move": "M1",
-          "plain": "Once the rest-day had ended, the three named women purchased aromatic spices intending to go and dress the body.",
-          "narrator": "anonymous third-person teller relating the women's actions",
-          "agent": "Mary Magdalene, Mary mother of James, and Salome",
-          "operation": "buy",
-          "substrate": "spices",
-          "outcome": "spices in hand, with the intent to come and anoint him",
-          "voice": "active",
-          "type": "transaction"
+          "plain": "The three named women acquire burial ointments once the rest-day ends.",
+          "process_type": "material",
+          "narrator": "the evangelist",
+          "narrator_evidentiality": "testimony / tradition",
+          "narrator_stance": "descriptive",
+          "narrator_tone": "sincere",
+          "agent": "Mary Magdalene, Mary the mother of James, and Salome",
+          "agent_animacy": "personal",
+          "operation": "bought",
+          "operation_type": "transfer",
+          "operation_voice": "active",
+          "operation_modality": "realis",
+          "operation_polarity": "affirmative",
+          "operation_force": "assert",
+          "substrate_on": "spices",
+          "substrate_to": "not stated",
+          "substrate_of": "not stated",
+          "substrate_with": "not stated",
+          "substrate_in": "not stated",
+          "substrate_kind": "entity",
+          "outcome": "spices in hand for an intended anointing of the corpse",
+          "outcome_realis": "sought"
         },
         {
           "move": "M2",
-          "plain": "At daybreak on the week's first day they arrived at the burial place.",
-          "narrator": "same third-person teller, marking time and place",
+          "plain": "At first light on the week's first day the same women arrive at the burial-cave.",
+          "process_type": "material",
+          "narrator": "the evangelist",
+          "narrator_evidentiality": "testimony / tradition",
+          "narrator_stance": "descriptive",
+          "narrator_tone": "sincere",
           "agent": "the three women",
-          "operation": "come",
-          "substrate": "the tomb (as destination)",
-          "outcome": "their arrival at the tomb at sunrise",
-          "voice": "active",
-          "type": "movement"
+          "agent_animacy": "personal",
+          "operation": "came",
+          "operation_type": "motion",
+          "operation_voice": "active",
+          "operation_modality": "realis",
+          "operation_polarity": "affirmative",
+          "operation_force": "assert",
+          "substrate_on": "not stated",
+          "substrate_to": "the tomb",
+          "substrate_of": "not stated",
+          "substrate_with": "not stated",
+          "substrate_in": "not stated",
+          "substrate_kind": "entity",
+          "outcome": "arrival at the tomb at sunrise",
+          "outcome_realis": "actual"
         },
         {
           "move": "M3",
-          "plain": "As they walked they were voicing a worry to one another.",
-          "narrator": "third-person teller reporting the women's own speech",
-          "agent": "the three women (to one another)",
-          "operation": "say",
-          "substrate": "M3a (the question they raise)",
-          "outcome": "the question uttered aloud among them",
-          "voice": "active",
-          "type": "report-speech"
+          "plain": "On the way they voice a worry to one another about who could shift the tomb's stone.",
+          "process_type": "verbal",
+          "narrator": "the evangelist",
+          "narrator_evidentiality": "testimony",
+          "narrator_stance": "descriptive",
+          "narrator_tone": "sincere",
+          "agent": "the three women",
+          "agent_animacy": "collective",
+          "operation": "were saying",
+          "operation_type": "speech",
+          "operation_voice": "active",
+          "operation_modality": "realis",
+          "operation_polarity": "affirmative",
+          "operation_force": "express",
+          "substrate_on": "not stated",
+          "substrate_to": "one another",
+          "substrate_of": "not stated",
+          "substrate_with": "not stated",
+          "substrate_in": "not stated",
+          "substrate_kind": "move_reference",
+          "outcome": "a shared question laid on the table between them",
+          "outcome_realis": "actual"
         },
         {
           "move": "M4",
-          "plain": "They ask who will move the sealing-stone aside for them.",
-          "narrator": "third-person teller quoting their internal deliberation",
-          "agent": "the three women",
-          "operation": "ask (who will roll the stone)",
-          "substrate": "the stone at the tomb's door",
-          "outcome": "not-stated (open question, no answerer named)",
-          "voice": "active",
-          "type": "question"
+          "plain": "The question itself: some unnamed helper is sought to displace the stone on their behalf.",
+          "process_type": "material",
+          "narrator": "the three women (in reported speech)",
+          "narrator_evidentiality": "experience",
+          "narrator_stance": "descriptive",
+          "narrator_tone": "aporetic",
+          "agent": "an unspecified helper",
+          "agent_animacy": "personal",
+          "operation": "will roll away",
+          "operation_type": "motion",
+          "operation_voice": "active",
+          "operation_modality": "epistemic",
+          "operation_polarity": "affirmative",
+          "operation_force": "question",
+          "substrate_on": "the stone",
+          "substrate_to": "not stated",
+          "substrate_of": "the door of the tomb",
+          "substrate_with": "not stated",
+          "substrate_in": "not stated",
+          "substrate_kind": "entity",
+          "outcome": "clearance of the entrance, hoped for",
+          "outcome_realis": "sought"
         },
         {
           "move": "M5",
-          "plain": "Aside from the narrator: the stone was of great size.",
-          "narrator": "third-person teller in editorial aside, warranting the women's worry",
+          "plain": "The narrator glosses in the reason for their worry: the sealing-stone is oversized.",
+          "process_type": "relational",
+          "narrator": "the evangelist",
+          "narrator_evidentiality": "testimony",
+          "narrator_stance": "descriptive",
+          "narrator_tone": "sincere",
           "agent": "not-stated",
-          "operation": "be (very big)",
-          "substrate": "not-stated",
-          "outcome": "not-stated",
-          "voice": "null-stative",
-          "type": "aside / stative description"
+          "agent_animacy": "null",
+          "operation": "was",
+          "operation_type": "attribution",
+          "operation_voice": "active",
+          "operation_modality": "realis",
+          "operation_polarity": "affirmative",
+          "operation_force": "assert",
+          "substrate_on": "not stated",
+          "substrate_to": "not stated",
+          "substrate_of": "the stone",
+          "substrate_with": "not stated",
+          "substrate_in": "not stated",
+          "substrate_kind": "state",
+          "outcome": "the stone stands as an obstacle",
+          "outcome_realis": "actual"
         },
         {
           "move": "M6",
-          "plain": "Raising their eyes, they perceived that the stone had already been shifted aside.",
-          "narrator": "third-person teller reporting what the women visually apprehend",
+          "plain": "Raising their eyes, the women register visually that the barrier is already displaced.",
+          "process_type": "mental",
+          "narrator": "the evangelist",
+          "narrator_evidentiality": "testimony",
+          "narrator_stance": "descriptive",
+          "narrator_tone": "sincere",
           "agent": "the three women",
-          "operation": "see (that the stone was rolled back)",
-          "substrate": "M5a (the state of the stone)",
-          "outcome": "their perception that the stone is already moved",
-          "voice": "active",
-          "type": "perception"
+          "agent_animacy": "collective",
+          "operation": "saw",
+          "operation_type": "perception",
+          "operation_voice": "active",
+          "operation_modality": "realis",
+          "operation_polarity": "affirmative",
+          "operation_force": "assert",
+          "substrate_on": "not stated",
+          "substrate_to": "not stated",
+          "substrate_of": "not stated",
+          "substrate_with": "not stated",
+          "substrate_in": "not stated",
+          "substrate_kind": "move_reference",
+          "outcome": "a perceived fact enters their awareness",
+          "outcome_realis": "actual"
         },
         {
           "move": "M7",
-          "plain": "The stone had already been moved back from the opening.",
-          "narrator": "third-person teller, reporting the perceived state (agent of the rolling unspecified)",
+          "plain": "The seen state itself: the sealing-stone has already been displaced by some unnamed force.",
+          "process_type": "material",
+          "narrator": "the evangelist (via the women's perception)",
+          "narrator_evidentiality": "testimony / experience",
+          "narrator_stance": "descriptive",
+          "narrator_tone": "sincere",
           "agent": "not-stated",
-          "operation": "be rolled back",
-          "substrate": "the stone",
-          "outcome": "the opening now unblocked",
-          "voice": "middle-passive",
-          "type": "state (result of an unnamed action)"
+          "agent_animacy": "null",
+          "operation": "was rolled back",
+          "operation_type": "motion",
+          "operation_voice": "passive",
+          "operation_modality": "realis",
+          "operation_polarity": "affirmative",
+          "operation_force": "assert",
+          "substrate_on": "the stone",
+          "substrate_to": "not stated",
+          "substrate_of": "not stated",
+          "substrate_with": "not stated",
+          "substrate_in": "not stated",
+          "substrate_kind": "event",
+          "outcome": "the tomb-mouth stands open",
+          "outcome_realis": "actual"
         },
         {
           "move": "M8",
-          "plain": "Once inside the tomb, they saw a young figure seated to the right in a white robe.",
-          "narrator": "third-person teller reporting the women's discovery inside the tomb",
+          "plain": "The women cross the threshold into the burial chamber.",
+          "process_type": "material",
+          "narrator": "the evangelist",
+          "narrator_evidentiality": "testimony",
+          "narrator_stance": "descriptive",
+          "narrator_tone": "sincere",
           "agent": "the three women",
-          "operation": "see (a young man sitting on the right, dressed in white)",
-          "substrate": "M6a (the young man and his posture/attire)",
-          "outcome": "their perception of an unexpected occupant",
-          "voice": "active",
-          "type": "perception"
+          "agent_animacy": "collective",
+          "operation": "entered",
+          "operation_type": "motion",
+          "operation_voice": "active",
+          "operation_modality": "realis",
+          "operation_polarity": "affirmative",
+          "operation_force": "assert",
+          "substrate_on": "not stated",
+          "substrate_to": "not stated",
+          "substrate_of": "not stated",
+          "substrate_with": "not stated",
+          "substrate_in": "the tomb",
+          "substrate_kind": "entity",
+          "outcome": "they are now inside the chamber",
+          "outcome_realis": "actual"
         },
         {
           "move": "M9",
-          "plain": "A young figure was seated on the right side, wearing a white robe.",
-          "narrator": "third-person teller inside the women's perception",
-          "agent": "not-stated (the young man is a topic, not a doer here)",
-          "operation": "sit (dressed in white, on the right)",
-          "substrate": "not-stated",
-          "outcome": "not-stated",
-          "voice": "null-stative",
-          "type": "state (posture and attire)"
+          "plain": "Inside, they perceive an unfamiliar figure seated in the chamber.",
+          "process_type": "mental",
+          "narrator": "the evangelist",
+          "narrator_evidentiality": "testimony",
+          "narrator_stance": "descriptive",
+          "narrator_tone": "sincere",
+          "agent": "the three women",
+          "agent_animacy": "collective",
+          "operation": "saw",
+          "operation_type": "perception",
+          "operation_voice": "active",
+          "operation_modality": "realis",
+          "operation_polarity": "affirmative",
+          "operation_force": "assert",
+          "substrate_on": "not stated",
+          "substrate_to": "not stated",
+          "substrate_of": "not stated",
+          "substrate_with": "not stated",
+          "substrate_in": "not stated",
+          "substrate_kind": "move_reference",
+          "outcome": "an unexpected figure enters their awareness",
+          "outcome_realis": "actual"
         },
         {
           "move": "M10",
-          "plain": "They were struck with astonishment.",
-          "narrator": "third-person teller reporting the women's reaction",
-          "agent": "not-stated (they undergo it, not perform it)",
-          "operation": "be amazed",
-          "substrate": "the women (as experiencers)",
-          "outcome": "amazement as their state",
-          "voice": "middle-passive",
-          "type": "affective state"
+          "plain": "The seen state: a young figure in white is present and seated on the chamber's right.",
+          "process_type": "existential",
+          "narrator": "the evangelist (via the women's perception)",
+          "narrator_evidentiality": "testimony",
+          "narrator_stance": "descriptive",
+          "narrator_tone": "sincere",
+          "agent": "not-stated",
+          "agent_animacy": "null",
+          "operation": "was sitting, robed in white",
+          "operation_type": "attribution",
+          "operation_voice": "middle",
+          "operation_modality": "realis",
+          "operation_polarity": "affirmative",
+          "operation_force": "assert",
+          "substrate_on": "not stated",
+          "substrate_to": "not stated",
+          "substrate_of": "a young man",
+          "substrate_with": "a white robe",
+          "substrate_in": "the right side of the tomb",
+          "substrate_kind": "state",
+          "outcome": "an angelic-coded figure is stably present in the chamber",
+          "outcome_realis": "actual"
         },
         {
           "move": "M11",
-          "plain": "The young figure addressed them.",
-          "narrator": "third-person teller reporting the young man's speech",
-          "agent": "the young man",
-          "operation": "say (to them)",
-          "substrate": "M8a–M8e (what he tells them)",
-          "outcome": "his utterance directed at the women",
-          "voice": "active",
-          "type": "report-speech"
+          "plain": "The women's inward response to the figure is stunned alarm.",
+          "process_type": "mental",
+          "narrator": "the evangelist",
+          "narrator_evidentiality": "testimony",
+          "narrator_stance": "descriptive",
+          "narrator_tone": "sincere",
+          "agent": "the three women",
+          "agent_animacy": "collective",
+          "operation": "were amazed",
+          "operation_type": "affect",
+          "operation_voice": "passive",
+          "operation_modality": "realis",
+          "operation_polarity": "affirmative",
+          "operation_force": "express",
+          "substrate_on": "not stated",
+          "substrate_to": "not stated",
+          "substrate_of": "the figure just perceived",
+          "substrate_with": "not stated",
+          "substrate_in": "not stated",
+          "substrate_kind": "event",
+          "outcome": "a state of fearful astonishment settles on them",
+          "outcome_realis": "actual"
         },
         {
           "move": "M12",
-          "plain": "He orders them to stop being astonished.",
-          "narrator": "third-person teller quoting the young man",
+          "plain": "The figure directs speech to them.",
+          "process_type": "verbal",
+          "narrator": "the evangelist",
+          "narrator_evidentiality": "testimony",
+          "narrator_stance": "descriptive",
+          "narrator_tone": "sincere",
           "agent": "the young man",
-          "operation": "command (do not be amazed)",
-          "substrate": "the women's amazement (M7)",
-          "outcome": "an imperative to release the fear",
-          "voice": "active",
-          "type": "directive"
+          "agent_animacy": "personal",
+          "operation": "said",
+          "operation_type": "speech",
+          "operation_voice": "active",
+          "operation_modality": "realis",
+          "operation_polarity": "affirmative",
+          "operation_force": "assert",
+          "substrate_on": "not stated",
+          "substrate_to": "the three women",
+          "substrate_of": "not stated",
+          "substrate_with": "not stated",
+          "substrate_in": "not stated",
+          "substrate_kind": "move_reference",
+          "outcome": "a message is delivered to them",
+          "outcome_realis": "actual"
         }
       ]
     },
     "featured_moves": [
       {
         "move": "M1",
-        "plain": "Once the rest-day had ended, the three named women purchased aromatic spices intending to go and dress the body.",
-        "narrator": "anonymous third-person teller relating the women's actions",
-        "agent": "Mary Magdalene, Mary mother of James, and Salome",
-        "operation": "buy",
-        "substrate": "spices",
-        "outcome": "spices in hand, with the intent to come and anoint him",
-        "voice": "active",
-        "type": "transaction"
+        "plain": "The three named women acquire burial ointments once the rest-day ends.",
+        "process_type": "material",
+        "narrator": "the evangelist",
+        "narrator_evidentiality": "testimony / tradition",
+        "narrator_stance": "descriptive",
+        "narrator_tone": "sincere",
+        "agent": "Mary Magdalene, Mary the mother of James, and Salome",
+        "agent_animacy": "personal",
+        "operation": "bought",
+        "operation_type": "transfer",
+        "operation_voice": "active",
+        "operation_modality": "realis",
+        "operation_polarity": "affirmative",
+        "operation_force": "assert",
+        "substrate_on": "spices",
+        "substrate_to": "not stated",
+        "substrate_of": "not stated",
+        "substrate_with": "not stated",
+        "substrate_in": "not stated",
+        "substrate_kind": "entity",
+        "outcome": "spices in hand for an intended anointing of the corpse",
+        "outcome_realis": "sought"
       },
       {
         "move": "M14",
-        "plain": "He announces that the one they seek has been raised.",
-        "narrator": "third-person teller quoting the young man's proclamation",
-        "agent": "the young man (as announcer)",
-        "operation": "announce (he has risen)",
-        "substrate": "Jesus (as the one whose state is proclaimed)",
-        "outcome": "the raising declared as accomplished; doer of the raising unnamed",
-        "voice": "middle-passive",
-        "type": "proclamation"
+        "plain": "He names the object of their quest: the Nazarene who was executed by crucifixion.",
+        "process_type": "mental",
+        "narrator": "the young man (in reported speech)",
+        "narrator_evidentiality": "revelation",
+        "narrator_stance": "descriptive",
+        "narrator_tone": "sincere",
+        "agent": "the three women",
+        "agent_animacy": "collective",
+        "operation": "seek",
+        "operation_type": "cognition",
+        "operation_voice": "active",
+        "operation_modality": "realis",
+        "operation_polarity": "affirmative",
+        "operation_force": "assert",
+        "substrate_on": "Jesus of Nazareth, the crucified one",
+        "substrate_to": "not stated",
+        "substrate_of": "not stated",
+        "substrate_with": "not stated",
+        "substrate_in": "not stated",
+        "substrate_kind": "entity",
+        "outcome": "their intent is correctly identified",
+        "outcome_realis": "actual"
       },
       {
         "move": "M22",
-        "plain": "The women rushed out of the tomb in flight.",
-        "narrator": "third-person teller reporting the women's departure",
-        "agent": "the three women",
-        "operation": "flee (out of the tomb)",
-        "substrate": "the tomb (as place fled from)",
-        "outcome": "the women away from the tomb",
-        "voice": "active",
-        "type": "movement / affective flight"
+        "plain": "He warrants the promise by pointing back to Jesus' own earlier prediction to the disciples.",
+        "process_type": "verbal",
+        "narrator": "the young man (in reported speech)",
+        "narrator_evidentiality": "tradition / testimony",
+        "narrator_stance": "descriptive",
+        "narrator_tone": "sincere",
+        "agent": "Jesus",
+        "agent_animacy": "personal",
+        "operation": "said",
+        "operation_type": "speech",
+        "operation_voice": "active",
+        "operation_modality": "realis",
+        "operation_polarity": "affirmative",
+        "operation_force": "assert",
+        "substrate_on": "not stated",
+        "substrate_to": "the disciples",
+        "substrate_of": "not stated",
+        "substrate_with": "not stated",
+        "substrate_in": "not stated",
+        "substrate_kind": "move_reference",
+        "outcome": "the going-before-and-seeing is recognised as prior word now fulfilled",
+        "outcome_realis": "actual"
       },
       {
         "move": "M23",
-        "plain": "They kept silent, telling no one anything.",
-        "narrator": "third-person teller reporting the women's non-speech",
+        "plain": "The women bolt out of the burial chamber in flight.",
+        "process_type": "material",
+        "narrator": "the evangelist",
+        "narrator_evidentiality": "testimony",
+        "narrator_stance": "descriptive",
+        "narrator_tone": "sincere",
         "agent": "the three women",
-        "operation": "say nothing (to anyone)",
-        "substrate": "the message they had just been given (M10a-c)",
-        "outcome": "the commission un-executed; the news withheld",
-        "voice": "active",
-        "type": "negated report-speech / silence"
+        "agent_animacy": "collective",
+        "operation": "went out and fled",
+        "operation_type": "motion",
+        "operation_voice": "active",
+        "operation_modality": "realis",
+        "operation_polarity": "affirmative",
+        "operation_force": "assert",
+        "substrate_on": "not stated",
+        "substrate_to": "not stated",
+        "substrate_of": "not stated",
+        "substrate_with": "not stated",
+        "substrate_in": "not stated",
+        "substrate_kind": "entity",
+        "outcome": "they are away from the tomb, in flight",
+        "outcome_realis": "actual"
       }
     ],
     "connections": {
-      "count": 25,
-      "plain": "The 25 connections are of two kinds: 20 nesting (one move scopes over others, for example the young man's speech contains the announcement 'he has been raised') and 5 reporting (one move reports another's speech). Not every move links to another, so there are fewer connections than moves."
+      "count": 49,
+      "plain": "The 49 connections are of two kinds: 37 nesting (one move scopes over others, for example the young man's speech contains the announcement 'he has been raised') and 12 reporting (one move reports another's speech). Not every move links to another, so there are fewer connections than moves."
     },
     "the_silence_thread": "Watch the pair M22 (the women flee the tomb) and M23 (they say nothing to anyone). The women are told to carry the resurrection news, and instead they say nothing. That silence is the ending the whole reading turns on. Follow this pair through every later step."
   },
@@ -317,20 +667,29 @@
     "These moves were read from a retyped copy of the text, not yet from the library checkout, so the wording is a paraphrase. Re-run this step on the verbatim checkout text (a clean run on the real words rather than the retyped copy) and the moves refresh from the real words.",
     "This is one coder on one pass, a reference reading, not a reliability-tested one yet."
   ],
-  "crt": {
+  "fidelity": {
     "status": "PASS",
-    "date": "2026-08-08",
-    "checks": "orient + reproduce + gap-scan",
+    "date": "2026-08-09",
+    "meta_line": "Fidelity PASS (2026-08-09) on the move-grammar v2 (Decision 223): 21/21 coded columns surfaced, no invented labels, both directions (no invention, no silent omission)."
+  },
+  "crt": {
+    "status": "PENDING",
+    "date": null,
+    "checks": "re-run needed on the v2 grammar card",
     "run_doc": "pm/30_methodology/engine/COLDREAD_decompose_card_run_2026-08-08.md",
-    "meta_line": "Cold Read Test: PASS (2026-08-08). Two readers converged on orient and reproduce; a gap-scan closed five clarity bugs."
+    "meta_line": "Cold Read: the prior PASS (2026-08-08) was on the pre-v2 card. The drawer now renders the v2 grammar (the funnel + 12 modifiers), so the Cold Read must be re-run on the new card before it can claim PASS again."
+  },
+  "vs_wild": {
+    "status": "PENDING",
+    "meta_line": "Instrument-vs-wild not yet run on the v2 grammar."
   },
   "whats_next": "Situate runs in parallel (the world the text came from). Together they feed the enriched move, and then the gaps: what the moves leave unsaid.",
   "research_view": {
     "receipt": {
       "source_key": "MARK-16-WEB",
-      "moves": 55,
-      "edges": 25,
-      "provenance": "engine1_layer1_extract_moves.py  -  text=Mark_16_WEB.txt sitz=70 temp=0.0 tag=translations_s161 qud=\"How is Jesus' resurrection made known  -  who finds the tomb empty, who encounters the risen Jesus, and how is it attested to others?\""
+      "moves": 60,
+      "edges": 49,
+      "provenance": "engine1_layer1_extract_moves.py  -  text=Mark_16_WEB.txt sitz=70 temp=0.0 tag=move_grammar_v2 qud=\"How is Jesus' resurrection made known, and who transmits it?\""
     },
     "how_to_run": {
       "step 1, get the passage": "Start from the checkout (the Text step, which hands over the exact sourced passage). Today the extractor reads a text file; a clean run on the verbatim checkout text feeds it the real words rather than the retyped copy.",

@@ -639,66 +639,108 @@ function nextChain(id) {
 }
 function wipBadge(text) { return el("p", "me-wip-badge", text); }
 
-/* the Cold Read Test pill — standing contract: render on ANY card that carries a `crt` object */
-function renderCrt(host, crt) {
-  if (!crt || !crt.status) return;
-  var s = String(crt.status).toUpperCase();
-  var wrap = el("div", "me-crt");
-  var pill = el("span", "me-crt-pill is-" + s.toLowerCase(),
-    "Cold Read Test: " + s + (crt.date ? " · " + crt.date : ""));
-  if (crt.meta_line) pill.setAttribute("title", crt.meta_line);
-  wrap.appendChild(pill);
-  if (crt.checks) wrap.appendChild(el("span", "me-crt-checks", "checked: " + crt.checks));
+/* status pills near the title — render whichever of fidelity / crt (Cold Read) / vs_wild the card carries.
+   PASS = green; PENDING = amber (honest: not yet re-run, never a false green); PARTIAL/FAIL = terracotta. */
+function renderStatusPills(host, D) {
+  var order = [["fidelity", "Fidelity"], ["crt", "Cold Read"], ["vs_wild", "vs-Wild"]];
+  var wrap = el("div", "me-crt"), any = false;
+  order.forEach(function (pair) {
+    var p = D[pair[0]];
+    if (!p || !p.status) return;
+    any = true;
+    var s = String(p.status).toUpperCase();
+    var pill = el("span", "me-crt-pill is-" + s.toLowerCase(),
+      pair[1] + ": " + s + (p.date ? " · " + p.date : ""));
+    if (p.meta_line) pill.setAttribute("title", p.meta_line);
+    wrap.appendChild(pill);
+  });
+  if (!any) return;
+  if (D.crt && D.crt.checks) wrap.appendChild(el("span", "me-crt-checks", "checked: " + D.crt.checks));
   host.appendChild(wrap);
   // the run doc is a repo path (not web-served), so surface it as a visible path, not a 404-ing link
-  if (crt.run_doc) host.appendChild(el("p", "me-crt-run", "run: " + crt.run_doc));
+  if (D.crt && D.crt.run_doc) host.appendChild(el("p", "me-crt-run", "run: " + D.crt.run_doc));
 }
 
-/* the move-grammar (Decision 221): 5 parts — narrator, agent, operation, substrate, outcome — with 2 modifiers
-   (voice rides with agent, type rides with operation). Order + modifier-attachment come from grammar_structure. */
-var GRAMMAR_FALLBACK = { parts: ["narrator", "agent", "operation", "substrate", "outcome"], modifiers: { agent: "voice", operation: "type" } };
-function moveGrammarRow(m, gs) {
-  gs = gs || GRAMMAR_FALLBACK;
-  var g = el("div", "me-move-grammar");
-  (gs.parts || []).forEach(function (pk) {
-    var val = m[pk];
-    if (!val) return;
-    var s = el("span", "me-move-part");
-    s.appendChild(el("b", null, pk + " "));
-    s.appendChild(document.createTextNode(val));
-    var modKey = gs.modifiers && gs.modifiers[pk]; // voice→agent, type→operation, rendered inline (not a separate row)
-    if (modKey && m[modKey]) s.appendChild(el("span", "me-move-mod", " · " + m[modKey]));
-    g.appendChild(s);
-  });
-  return g;
-}
-/* one move block: badge + plain sentence + the 5-part grammar row */
-function moveBlock(m, gs) {
+/* THE MOVE-GRAMMAR v2 (Decision 223): a funnel (process_type, asked FIRST) + 5 core parts
+   (narrator/agent/operation/substrate/outcome) + 12 modifiers grouped under their part.
+   Anatomy = the clean contract (renderGrammar); worked list = the grammar applied (moveBlock). */
+
+// the applied grammar per move: which modifiers hang off each core part (drives moveBlock)
+var MOVE_PARTS = [
+  { core: "narrator", mods: [["evidentiality", "narrator_evidentiality"], ["stance", "narrator_stance"], ["tone", "narrator_tone"]] },
+  { core: "agent", mods: [["animacy", "agent_animacy"]] },
+  { core: "operation", mods: [["type", "operation_type"], ["voice", "operation_voice"], ["modality", "operation_modality"], ["polarity", "operation_polarity"], ["force", "operation_force"]] },
+  { core: "substrate", mods: [["kind", "substrate_kind"]] }, // case-roles handled specially below
+  { core: "outcome", mods: [["realis", "outcome_realis"]] },
+];
+var SUBSTRATE_ROLES = [["on", "substrate_on"], ["to", "substrate_to"], ["of", "substrate_of"], ["with", "substrate_with"], ["in", "substrate_in"]];
+function stated(v) { return v && v !== "not stated"; }
+
+/* one move block: badge + plain + the funnel + the 5 core parts (orange) with their modifiers (green) */
+function moveBlock(m) {
   var b = el("div", "me-move-block");
   var head = el("p", "me-move-head");
   head.appendChild(el("span", "me-move-badge", m.move || ""));
   head.appendChild(document.createTextNode(" " + (m.plain || "")));
   b.appendChild(head);
-  var g = gs || GRAMMAR_FALLBACK;
-  if ((g.parts || []).some(function (pk) { return m[pk]; })) b.appendChild(moveGrammarRow(m, g));
+  if (m.process_type) {
+    var f = el("p", "me-move-funnel");
+    f.appendChild(el("b", null, "process ")); f.appendChild(document.createTextNode(m.process_type));
+    b.appendChild(f);
+  }
+  var g = el("div", "me-move-grammar");
+  MOVE_PARTS.forEach(function (p) {
+    var value = p.core === "substrate"
+      ? SUBSTRATE_ROLES.filter(function (r) { return stated(m[r[1]]); }).map(function (r) { return m[r[1]] + " (" + r[0] + ")"; }).join(", ")
+      : m[p.core];
+    var mods = p.mods.filter(function (md) { return stated(m[md[1]]); });
+    if (!stated(value) && !mods.length) return;
+    var row = el("div", "me-move-part");
+    row.appendChild(el("b", "me-mp-core", p.core));
+    if (stated(value)) row.appendChild(document.createTextNode(" " + value));
+    mods.forEach(function (md) { row.appendChild(el("span", "me-mp-mod", md[0] + ": " + m[md[1]])); });
+    g.appendChild(row);
+  });
+  if (g.children.length) b.appendChild(g);
   return b;
 }
-/* the grammar defined on the card: handle + definition; part-handles in the part colour (orange),
-   modifier-handles in the modifier colour (green) — same colours the move-block uses */
-function renderGrammarDefs(defs) {
-  var wrap = el("div", "me-move-defs");
-  (defs.parts || []).forEach(function (p) {
-    var row = el("p", "me-def-row");
-    row.appendChild(el("b", "me-def-part", p.handle));
-    row.appendChild(document.createTextNode(" " + (p.definition || "")));
-    wrap.appendChild(row);
-  });
-  (defs.modifiers || []).forEach(function (m) {
-    var row = el("p", "me-def-row");
-    row.appendChild(el("b", "me-def-mod", m.handle));
-    if (m.rides_on) row.appendChild(el("span", "me-def-rides", " (on " + m.rides_on + ")"));
-    row.appendChild(document.createTextNode(" " + (m.definition || "")));
-    wrap.appendChild(row);
+/* the grammar defined on the card (the clean contract): funnel first, then each core part (orange) with its
+   modifiers grouped under it (green), each modifier showing its controlled-value contract (vocab · single/multi · candidate) */
+function vocabLine(m) {
+  var out = [];
+  if (Array.isArray(m.vocab) && m.vocab.length) out.push(m.vocab.join(" · "));
+  else if (typeof m.vocab === "string" && m.vocab) out.push(m.vocab);
+  var tag = [];
+  if (m.single_or_multi) tag.push(m.single_or_multi);
+  if (m.candidate) tag.push("candidate: " + m.candidate);
+  if (tag.length) out.push("(" + tag.join(" · ") + ")");
+  return out.join("  ");
+}
+function renderGrammar(g) {
+  var wrap = el("div", "me-grammar");
+  if (g.funnel) {
+    var fn = el("div", "me-gram-funnel");
+    var fr = el("p", "me-gram-row");
+    fr.appendChild(el("b", "me-def-part", g.funnel.handle));
+    fr.appendChild(document.createTextNode(" " + (g.funnel.definition || "")));
+    fn.appendChild(fr);
+    var fv = vocabLine(g.funnel); if (fv) fn.appendChild(el("p", "me-gram-vocab", fv));
+    wrap.appendChild(fn);
+  }
+  (g.core || []).forEach(function (c) {
+    var cr = el("p", "me-gram-row");
+    cr.appendChild(el("b", "me-def-part", c.handle));
+    cr.appendChild(document.createTextNode(" " + (c.definition || "")));
+    wrap.appendChild(cr);
+    (g.modifiers || []).filter(function (md) { return md.part === c.handle; }).forEach(function (md) {
+      var block = el("div", "me-gram-mod");
+      var mr = el("p", "me-gram-mod-row");
+      mr.appendChild(el("b", "me-def-mod", md.handle));
+      mr.appendChild(document.createTextNode(" " + (md.definition || "")));
+      block.appendChild(mr);
+      var vl = vocabLine(md); if (vl) block.appendChild(el("p", "me-gram-vocab", vl));
+      wrap.appendChild(block);
+    });
   });
   return wrap;
 }
@@ -711,7 +753,7 @@ function renderStepDrawer(aside, node) {
   var paint = function () {
     var D = STEP_CACHE[id] || {};
     host.textContent = "";
-    renderCrt(host, D.crt); // standing contract: PASS/other pill near the title
+    renderStatusPills(host, D); // fidelity / cold-read / vs-wild pills near the title
     // normalize v2-flat / v1-nested so one shell serves both shapes
     var card = D.card || {}, L1 = D.layer_1_what_it_is || {}, L3 = D.layer_3_evidence || {};
     var whatItIs = D.what_it_is || L1.what_it_is;
@@ -940,16 +982,15 @@ function renderLayer2Decompose(host, l2) {
   if (l2.what_counts_as_one_move) s2.appendChild(el("p", "me-drawer-caption", l2.what_counts_as_one_move));
   host.appendChild(s2);
 
-  // teaching box: what a move IS — M1 with the 5-part grammar labeled (grammar_structure drives the order + modifiers)
+  // teaching box: what a move IS — the clean grammar contract (v2: funnel + core[orange] + modifiers[green])
   var an = l2.the_anatomy_of_a_move;
-  var gs = (an && an.grammar_structure) || GRAMMAR_FALLBACK;
-  // "the method clean": definitions only; the M1 example moved to the worked list (removed here by design, S162)
-  if (an && (an.note || an.definitions || an.example)) {
+  // gate on any renderable key (grammar/note/example); dropping a gated key would blank the box (S162 lesson)
+  if (an && (an.note || an.grammar || an.definitions || an.example)) {
     var ab = el("div", "me-drawer-section me-anatomy");
     ab.appendChild(el("h3", null, "What a move is"));
     if (an.note) ab.appendChild(el("p", "me-drawer-p", an.note));
-    if (an.definitions) ab.appendChild(renderGrammarDefs(an.definitions));
-    if (an.example) ab.appendChild(moveBlock(an.example, gs)); // render only if present (gone in current data)
+    if (an.grammar) ab.appendChild(renderGrammar(an.grammar));  // v2 (Decision 223): funnel + core + modifiers
+    if (an.example) ab.appendChild(moveBlock(an.example));      // gone in v2 (clean/applied split); render if present
     host.appendChild(ab);
   }
 
@@ -961,7 +1002,7 @@ function renderLayer2Decompose(host, l2) {
     wb.appendChild(el("h3", null, isFull ? "The moves of Mark 16" : "Featured moves"));
     if (we && we.note) wb.appendChild(el("p", "me-drawer-caption", we.note));
     var list = el("div", "me-move-list");
-    moves.forEach(function (m) { list.appendChild(moveBlock(m, gs)); });
+    moves.forEach(function (m) { list.appendChild(moveBlock(m)); });
     wb.appendChild(list);
     host.appendChild(wb);
   }
