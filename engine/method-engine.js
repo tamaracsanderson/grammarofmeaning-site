@@ -661,6 +661,33 @@ function renderStatusPills(host, D) {
   if (D.crt && D.crt.run_doc) host.appendChild(el("p", "me-crt-run", "run: " + D.crt.run_doc));
 }
 
+/* Foundation (template section 11): the established scholarship each part of the method stands on, stated openly.
+   Serves both cards (frameworks[].grounds is an array on Decompose, a string on Text — handle both). */
+function renderFoundation(host, f) {
+  if (!f || !(f.note || (f.frameworks && f.frameworks.length) || (f.prior_work && f.prior_work.length))) return;
+  var s = el("div", "me-drawer-section me-foundation");
+  s.appendChild(el("h3", null, "Foundation"));
+  if (f.note) s.appendChild(el("p", "me-drawer-p", f.note));
+  if (f.frameworks && f.frameworks.length) {
+    var ul = el("ul", "me-drawer-list");
+    f.frameworks.forEach(function (fw) {
+      var li = el("li");
+      li.appendChild(el("b", "me-fw-name", fw.framework || ""));
+      var grounds = Array.isArray(fw.grounds) ? fw.grounds.join(", ") : fw.grounds;
+      if (grounds) li.appendChild(document.createTextNode(": " + grounds));
+      ul.appendChild(li);
+    });
+    s.appendChild(ul);
+  }
+  if (f.prior_work && f.prior_work.length) {
+    s.appendChild(el("p", "me-drawer-caption", "Prior work"));
+    var pw = el("ul", "me-drawer-list");
+    f.prior_work.forEach(function (x) { pw.appendChild(el("li", null, x)); });
+    s.appendChild(pw);
+  }
+  host.appendChild(s);
+}
+
 /* §2.14 out-of-domain validation: the same grammar re-coded on other texts (a different language, a different
    genre), each catching a category Mark 16 barely uses — evidence it's an instrument, not an English-narrative tool */
 function renderValidatedOn(host, vo) {
@@ -918,6 +945,9 @@ function renderStepDrawer(aside, node) {
       wn.appendChild(el("p", "me-drawer-p", whatsNext));
       host.appendChild(wn);
     }
+
+    // Foundation (template section 11) — the established scholarship the method visibly stands on
+    if (D.foundation) renderFoundation(host, D.foundation);
 
     // Research view (nested) — the raw receipt lives HERE, not in METHOD (Content SB principle)
     var det = el("details", "me-research");

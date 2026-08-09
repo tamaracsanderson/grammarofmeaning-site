@@ -45,7 +45,7 @@
     "reading_source": "Shown from the checkout package's own bytes, not a parallel copy: the words, the straight quotes, and the apparatus are exactly what the checkout returned.",
     "apparatus_note": "The braces {TR adds \"quickly\"} are the World English Bible's own translator note (the Textus Receptus adds a word here). They are shown as they appear in the checkout, not edited out.",
     "the_contrast": {
-      "coder_saw_paraphrase": "They kept silent, telling no one anything.",
+      "coder_saw_paraphrase": "The women bolt out of the burial chamber in flight.",
       "corpus_verbatim": "They went out,{TR adds \"quickly\"} and fled from the tomb, for trembling and astonishment had come on them. They said nothing to anyone; for they were afraid.",
       "plain": "The retyped copy dropped 'trembling and astonishment' and 'for they were afraid', the exact fear the method needs to notice the women's silence. The checkout gives the real words back."
     }
@@ -98,10 +98,36 @@
     "status": "PASS",
     "date": "2026-08-08",
     "checks": "orient + reproduce + gap-scan",
-    "run_doc": "pm/30_methodology/engine/CRT_text_card_run_2026-08-08.md",
+    "run_doc": "pm/30_methodology/engine/COLDREAD_text_card_run_2026-08-08.md",
     "meta_line": "Cold Read Test: PASS (2026-08-08). Orient and reproduce passed; the gap-scan's two open items are closed. The shown reading now renders from the checkout package's own bytes, and the goal-span is stated against the two covering pieces."
   },
   "whats_next": "Decompose (break the passage into moves) then Situate (the world the text came from).",
+  "foundation": {
+    "note": "What the Text step's method leans on - the established models it stands on, stated openly so the method visibly builds on library science rather than reinventing it. The full decision-trail lives in the research view.",
+    "frameworks": [
+      {
+        "framework": "WEMI (Work / Expression / Manifestation / Item)",
+        "grounds": "the library-science model for telling a text apart from its editions and copies - the model behind acquire, dedup, and chunk, and behind the edition-pin the checkout records."
+      },
+      {
+        "framework": "Verbatim / anchored / versioned (the checkout gate)",
+        "grounds": "the three properties a checkout guarantees: the exact bytes (verbatim), a resolvable address (anchored), a pinned edition (versioned) - so every downstream reading is reproducible from the same words."
+      },
+      {
+        "framework": "Stable-address / provenance-chain",
+        "grounds": "the checkout as the first link in the provenance chain: the passage carries its source, edition, and rights so a later reader can trace exactly what was coded and from where."
+      },
+      {
+        "framework": "Copyright + access-tier model",
+        "grounds": "the rights basis the checkout clears before a text can be shared - what may be shown verbatim vs. held (see the library-schema principles page)."
+      }
+    ],
+    "prior_work": [
+      "The text_checkout registry (the library<->method bridge) + the checkout package format.",
+      "The L0-L4 passage hierarchy (the shallow work/section/piece structure the checkout slices from).",
+      "The verbatim-integrity + rights-cleared gates enforced at checkout time."
+    ]
+  },
   "research_view": {
     "receipt": {
       "checkout_version": "gut-8268_016_v1",
