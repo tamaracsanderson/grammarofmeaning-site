@@ -731,15 +731,42 @@ function moveBlock(m) {
 }
 /* the grammar defined on the card (the clean contract): funnel first, then each core part (orange) with its
    modifiers grouped under it (green), each modifier showing its controlled-value contract (vocab · single/multi · candidate) */
-function vocabLine(m) {
-  var out = [];
-  if (Array.isArray(m.vocab) && m.vocab.length) out.push(m.vocab.join(" · "));
-  else if (typeof m.vocab === "string" && m.vocab) out.push(m.vocab);
+/* the controlled-value contract for one field: show the full closed SET with the values THIS text used marked,
+   the rest as legal-but-unused (muted); an open field shows its used values + an "open set" marker; candidates
+   flagged as proposals. Returns a <p> element (mixed styling) or null. */
+function vocabDisplay(m) {
+  var v = m.vocab;
+  if (!v) return null;
+  var p = el("p", "me-gram-vocab");
+  var addVals = function (vals, cls) {
+    vals.forEach(function (val, i) {
+      if (i) p.appendChild(document.createTextNode(" · "));
+      p.appendChild(el("span", cls, val));
+    });
+  };
+  if (Array.isArray(v)) {                    // legacy flat list (fallback)
+    addVals(v, "me-vocab-used");
+  } else {
+    var used = v.used_here || [], usedSet = {};
+    used.forEach(function (u) { usedSet[u] = true; });
+    if (Array.isArray(v.set)) {               // closed set: used bold, unused muted
+      v.set.forEach(function (val, i) {
+        if (i) p.appendChild(document.createTextNode(" · "));
+        p.appendChild(el("span", usedSet[val] ? "me-vocab-used" : "me-vocab-unused", val));
+      });
+    } else {                                  // open field: used values + open marker
+      addVals(used, "me-vocab-used");
+      p.appendChild(el("span", "me-vocab-open", (used.length ? " · " : "") + "open set"));
+    }
+    if (v.candidates_seen && v.candidates_seen.length) {
+      p.appendChild(el("span", "me-vocab-cand", " · proposed: " + v.candidates_seen.join(", ")));
+    }
+  }
   var tag = [];
   if (m.single_or_multi) tag.push(m.single_or_multi);
   if (m.candidate) tag.push("candidate: " + m.candidate);
-  if (tag.length) out.push("(" + tag.join(" · ") + ")");
-  return out.join("  ");
+  if (tag.length) p.appendChild(el("span", "me-vocab-policy", "  (" + tag.join(" · ") + ")"));
+  return p;
 }
 function renderGrammar(g) {
   var wrap = el("div", "me-grammar");
@@ -749,7 +776,7 @@ function renderGrammar(g) {
     fr.appendChild(el("b", "me-def-part", g.funnel.handle));
     fr.appendChild(document.createTextNode(" " + (g.funnel.definition || "")));
     fn.appendChild(fr);
-    var fv = vocabLine(g.funnel); if (fv) fn.appendChild(el("p", "me-gram-vocab", fv));
+    var fv = vocabDisplay(g.funnel); if (fv) fn.appendChild(fv);
     wrap.appendChild(fn);
   }
   (g.core || []).forEach(function (c) {
@@ -763,7 +790,7 @@ function renderGrammar(g) {
       mr.appendChild(el("b", "me-def-mod", md.handle));
       mr.appendChild(document.createTextNode(" " + (md.definition || "")));
       block.appendChild(mr);
-      var vl = vocabLine(md); if (vl) block.appendChild(el("p", "me-gram-vocab", vl));
+      var vd = vocabDisplay(md); if (vd) block.appendChild(vd);
       wrap.appendChild(block);
     });
   });
