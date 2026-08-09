@@ -133,6 +133,7 @@ function rich(s){return String(s==null?'':s);} // author text may carry inline <
 // the section order + labels (PI-locked TOC order), each with a renderer over its data object
 var SECTIONS = [
   {id:'components', label:'Reusable components', key:'reusable_components', render:renderComponents},
+  {id:'commitments',label:'Core commitments',    key:'principles',         render:renderPrinciples},
   {id:'pills',      label:'The two pills',        key:'the_two_pills',      render:renderPills},
   {id:'glossary',   label:'Glossary',             key:'glossary',           render:renderGlossary},
   {id:'reliability',label:'Reliability',          key:'reliability_explainer',render:renderReliability},
@@ -160,6 +161,15 @@ function renderComponents(d){
     }
     if(it.reuse) body+='<p class="reuse"><b>reused</b> &nbsp;'+rich(it.reuse)+'</p>';
     return '<div class="pr"><div class="pr-h"><h3>'+rich(it.name)+'</h3></div>'+body+'</div>';
+  }).join('');
+  return noteHTML(d)+items;
+}
+function renderPrinciples(d){
+  var items=(d.items||[]).map(function(it){
+    var h='<div class="pr"><div class="pr-h"><h3>'+rich(it.name)+'</h3></div>';
+    if(it.principle) h+='<p class="stmt">'+rich(it.principle)+'</p>';
+    if(it.why) h+='<p class="reuse"><b>why</b> &nbsp;'+rich(it.why)+'</p>';
+    return h+'</div>';
   }).join('');
   return noteHTML(d)+items;
 }

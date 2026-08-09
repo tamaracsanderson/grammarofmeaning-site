@@ -654,27 +654,33 @@ function renderCrt(host, crt) {
   if (crt.run_doc) host.appendChild(el("p", "me-crt-run", "run: " + crt.run_doc));
 }
 
-/* one move's four slots (who / operation / on / result) as a labeled row — never the raw object */
-function moveGrammarRow(m) {
+/* the move-grammar (Decision 221): 5 parts — narrator, agent, operation, substrate, outcome — with 2 modifiers
+   (voice rides with agent, type rides with operation). Order + modifier-attachment come from grammar_structure. */
+var GRAMMAR_FALLBACK = { parts: ["narrator", "agent", "operation", "substrate", "outcome"], modifiers: { agent: "voice", operation: "type" } };
+function moveGrammarRow(m, gs) {
+  gs = gs || GRAMMAR_FALLBACK;
   var g = el("div", "me-move-grammar");
-  var part = function (label, val) {
+  (gs.parts || []).forEach(function (pk) {
+    var val = m[pk];
     if (!val) return;
     var s = el("span", "me-move-part");
-    s.appendChild(el("b", null, label + " "));
+    s.appendChild(el("b", null, pk + " "));
     s.appendChild(document.createTextNode(val));
+    var modKey = gs.modifiers && gs.modifiers[pk]; // voice→agent, type→operation, rendered inline (not a separate row)
+    if (modKey && m[modKey]) s.appendChild(el("span", "me-move-mod", " · " + m[modKey]));
     g.appendChild(s);
-  };
-  part("who", m.who); part("operation", m.operation); part("on", m.on); part("result", m.result);
+  });
   return g;
 }
-/* one move block: badge + plain sentence + the four-slot grammar row */
-function moveBlock(m) {
+/* one move block: badge + plain sentence + the 5-part grammar row */
+function moveBlock(m, gs) {
   var b = el("div", "me-move-block");
   var head = el("p", "me-move-head");
   head.appendChild(el("span", "me-move-badge", m.move || ""));
   head.appendChild(document.createTextNode(" " + (m.plain || "")));
   b.appendChild(head);
-  if (m.who || m.operation || m.on || m.result) b.appendChild(moveGrammarRow(m));
+  var g = gs || GRAMMAR_FALLBACK;
+  if ((g.parts || []).some(function (pk) { return m[pk]; })) b.appendChild(moveGrammarRow(m, g));
   return b;
 }
 
@@ -915,13 +921,14 @@ function renderLayer2Decompose(host, l2) {
   if (l2.what_counts_as_one_move) s2.appendChild(el("p", "me-drawer-caption", l2.what_counts_as_one_move));
   host.appendChild(s2);
 
-  // teaching box: what a move IS — M1 fully labeled (who / operation / on / result)
+  // teaching box: what a move IS — M1 with the 5-part grammar labeled (grammar_structure drives the order + modifiers)
   var an = l2.the_anatomy_of_a_move;
+  var gs = (an && an.grammar_structure) || GRAMMAR_FALLBACK;
   if (an && an.example) {
     var ab = el("div", "me-drawer-section me-anatomy");
     ab.appendChild(el("h3", null, "What a move is"));
     if (an.note) ab.appendChild(el("p", "me-drawer-p", an.note));
-    ab.appendChild(moveBlock(an.example));
+    ab.appendChild(moveBlock(an.example, gs));
     host.appendChild(ab);
   }
 
@@ -933,7 +940,7 @@ function renderLayer2Decompose(host, l2) {
     wb.appendChild(el("h3", null, isFull ? "The moves of Mark 16" : "Featured moves"));
     if (we && we.note) wb.appendChild(el("p", "me-drawer-caption", we.note));
     var list = el("div", "me-move-list");
-    moves.forEach(function (m) { list.appendChild(moveBlock(m)); });
+    moves.forEach(function (m) { list.appendChild(moveBlock(m, gs)); });
     wb.appendChild(list);
     host.appendChild(wb);
   }
