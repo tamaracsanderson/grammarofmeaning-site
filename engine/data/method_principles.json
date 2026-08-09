@@ -1,0 +1,135 @@
+{
+  "_node": "method_principles",
+  "_generated_by": "hand-authored DATA source (render-from-data); the method-side companion to library principles.html",
+  "_render_target": "engine/data/method_principles.json (verbatim mirror) → a method-principles.html page, parallel to the library's principles.html",
+  "_authority": "the cross-cutting method concepts that are NOT per-node. Per-output method lives in each node's drawer (§2.16). This page holds what applies across all nodes.",
+  "version": 1,
+  "date": "2026-08-08",
+
+  "page": {
+    "title": "The Method — principles & reusable components",
+    "subtitle": "how the whole instrument works, and the pieces it reuses everywhere",
+    "reads": "This is the method-side companion to the per-node drawers. The drawers tell you what each step IS; this page tells you the concepts and components that run across all of them."
+  },
+
+  "reusable_components": {
+    "note": "The method is built from a small set of reusable components (templates). Each is applied at many nodes, not just one. Name them once here; each node's drawer points back.",
+    "items": [
+      {
+        "name": "The four field-shapes",
+        "is": "Every coded field is one of four shapes. Knowing the shape tells a coder how to fill it and a reader how to trust it.",
+        "shapes": [
+          {"shape": "Closed value-list (pick from it)", "mechanic": "You must choose an allowed value; the list grows only by a locked extension (fit-or-extend).", "examples": "Frame's axes + their values (from the atlas reader); paradigm.stance {endorsed/invoked/subverted/denied}; lineage.borrowing_function"},
+          {"shape": "Closed type (pick ONE)", "mechanic": "Assign the item to one category from a fixed set.", "examples": "the gloss's types (choose one)"},
+          {"shape": "Probe set (ask ALL)", "mechanic": "A fixed battery of questions or lenses run over every item, not a value you pick.", "examples": "the gap loci (ask these of every gap); the 8-axis frame read (score every axis)"},
+          {"shape": "Open field + coverage scan (scan families, name freely, and beyond)", "mechanic": "The name is open and emergent (anti-pre-anchoring); a checklist of kinds only reminds you to look widely, never limits the names.", "examples": "paradigm (scan narrative/ritual/political/literary/geographic/social, then name what you find)"}
+        ],
+        "reuse": "When a new field is added to any engine, classify it as one of these four before coding it."
+      },
+      {
+        "name": "The grain rule",
+        "is": "A field is coded at the passage grain, the move grain, or both — wherever both carry signal.",
+        "mechanic": "Frame/Sitz/Paradigm code at BOTH passage and move; Lineage is move-native (passage = the roll-up); Witness is text-native (transmission distance is not per-move).",
+        "reuse": "For any new coded field, decide its grain(s) before running it."
+      },
+      {
+        "name": "The Cold Read Test (CRT)",
+        "is": "The check that a card (or a coding call) is self-sufficient: give it to a fresh model with no other context and see if it acts correctly.",
+        "mechanic": "Seven questions: orient (what/where/next) + reproduce (can you run this step) + gap-scan (what's confusing/missing) + duplication-and-tier check (MECE across black=main / grey=footnote / hidden=researcher view). Run as a small cohort; fix to convergence. Include a decoy.",
+        "reuse": "Run on every drawer card before it is called done, and as a TIE-BREAKER to settle contested coding cells (a resolvable adjudication)."
+      },
+      {
+        "name": "The instrument-vs-wild test",
+        "is": "The check that our fields/definitions actually help an LLM code the text, versus a naive LLM with no scaffolding.",
+        "mechanic": "Run the same passage two ways: instrument arm (our fields) vs wild arm (just 'what are the X?'), across several models. The primary metric is RELIABILITY: does the instrument make coding reproducible where the wild arm can't be aggregated? Breadth is the second axis (does it see everything the wild arm sees).",
+        "reuse": "Run per coded aspect; the result sets the aspect's second pill (PASS = beats wild on reliability + breadth; PARTIAL = reliability but a gap; FAIL = wild >= instrument)."
+      },
+      {
+        "name": "The closed/open field contract",
+        "is": "Every field declares whether it is closed (controlled vocabulary), open (free text), or numeric, and names its vocab source.",
+        "mechanic": "Closed vocabularies render LIVE from their store (Frame from exom_axis_vocabulary), never hardcoded, so they cannot go stale. Where a closed enum has no formal vocab table yet, it renders the distinct coded values + flags 'controlled-by-convention, formal vocab owed.'",
+        "reuse": "Applied to every field in every aspect; pairs with the four field-shapes."
+      },
+      {
+        "name": "The move-grammar",
+        "is": "The unit the whole method works on. A move is one agent doing one operation to one thing, with one result.",
+        "mechanic": "Start a new move when the agent, operation, or result changes; when in doubt keep the move whole (under-split loses less than over-split). Moves connect (one feeds the next; one reports another's speech).",
+        "reuse": "Every downstream step reads moves: gaps hang off them, glosses answer their questions, comparisons line them up."
+      }
+    ]
+  },
+
+  "the_two_pills": {
+    "note": "Every coding card carries up to two test pills, so what we're proving is visible on the card.",
+    "crt_pill": "Cold Read Test — is the card self-sufficient (a fresh reader acts correctly from it alone)?",
+    "instrument_pill": "Instrument vs wild — does our scaffolding beat a naive LLM (primary metric: reliability)? States: PASS / PARTIAL / FAIL.",
+    "text_exception": "Text (the checkout) is not a coding step, so it carries only the CRT pill."
+  },
+
+  "glossary": {
+    "note": "The method's terms, with a disambiguating line where a word means something narrower than everyday usage. (To populate fully; seeds below.)",
+    "terms": [
+      {"term": "move", "def": "one agent doing one operation to one thing, with one result — the unit the method codes"},
+      {"term": "Sitz", "def": "the world the text came out of; the conditions that conditioned it (short for Sitz im Leben, extended cross-tradition)"},
+      {"term": "Paradigm", "def": "a cultural template or script the text runs on (narrative, ritual, political, literary, social) — the name is open/emergent"},
+      {"term": "Frame", "def": "the text's position on the 8-axis interpretive placement (epistemic-warrant, ontological-commitment, inferential-operation, telos, evaluative-stance, hermeneutic-posture, r_topology, r_condition)"},
+      {"term": "Lineage", "def": "the earlier sources a move stands on (which move cites/echoes which source)"},
+      {"term": "Witness", "def": "the text's transmission-distance from the origin event (degrees, composition year/place)"},
+      {"term": "checkout", "def": "the library handing the method one verbatim, sourced, anchored passage to code"},
+      {"term": "gap / silence", "def": "what a move leaves unsaid — the negative space the instrument is built to find"}
+    ]
+  },
+
+  "supporting_material_roadmap": {
+    "note": "What a cold reader most wants alongside the per-node drawers, ranked from a 3-model Cold Read Test (2026-08-08). Building order.",
+    "items": [
+      {"item": "End-to-end worked example (the golden path)", "status": "BUILDING", "why": "the #1 need, unanimous — the per-node drawers can't prove the pipeline coheres; one passage all the way through, showing each handoff, does. This is the Mark 16 golden path."},
+      {"item": "A second worked example on a different tradition", "status": "PLANNED", "why": "named by 2/3 — one example invites 'you overfit to Mark 16'; a non-scripture / other-tradition run answers it (matches the replication commitment)."},
+      {"item": "This field-mechanics reference (the four shapes)", "status": "DONE (above)", "why": "the skeptic's first check: is each field a closed list, an open field, or a checklist?"},
+      {"item": "Glossary of method terms", "status": "SEEDED (above)", "why": "disambiguate the in-house vocabulary (Frame/Witness mean something narrower than everyday usage)."},
+      {"item": "Reliability / validation explainer", "status": "PLANNED", "why": "what the two pills certify; where reliability is high vs low, stated honestly; how disagreements are adjudicated (the tie-breaker CRT)."},
+      {"item": "Consolidated method FAQ / objections-and-answers", "status": "PLANNED (merge the two scattered rebuttal FAQs + the per-node ones)", "why": "pre-empt the committee: circularity, cherry-picking, trusting an LLM coder, 'a boundary is itself a claim,' reproducibility."},
+      {"item": "How to read the bow-tie diagram", "status": "PLANNED", "why": "the visual grammar (the pinch point, required vs optional arrows) is load-bearing and non-obvious."},
+      {"item": "Scope & limits + positioning vs existing methods", "status": "PLANNED", "why": "when NOT to use it; what's new vs form criticism / narrative criticism / discourse analysis — the committee's first question."},
+      {"item": "Blank coding templates", "status": "PLANNED", "why": "the convinced reader still can't act without the empty forms."}
+    ]
+  },
+
+  "reliability_explainer": {
+    "note": "What the two pills certify, and where the method is solid vs still soft. Honesty is the point: an unvalidated coding scheme is just a vocabulary.",
+    "crt_certifies": "That a card is self-sufficient: a fresh reader acts correctly from it alone (orient + reproduce + no confusion + MECE tiers).",
+    "instrument_pill_certifies": "That our fields make coding more reproducible than a naive LLM (the reliability metric), and how broad the coverage is.",
+    "where_reliable": "The SET of a passage's paradigms, the dominant, and the structured fields converge across independent coders. The move-boundary and the 8 frame axes are the most rigorously tested.",
+    "where_soft": "Stance and fine-grained salience are the least reproducible; the dominant needs the manifest-salience rule (what the text foregrounds), not the deepest theological frame. Named honestly, not hidden.",
+    "adjudication": "Disagreements are settled by a tie-breaker CRT (a small cohort of fresh models), which also surfaces the definition fix that caused the split — e.g. the split that led to holding stance (own terms) / is_dominant (manifest salience) / relation_to_dominant (rival effect) strictly separate."
+  },
+
+  "faq": {
+    "note": "Objections and answers. Consolidates the two scattered rebuttal FAQs (academic/00_thesis/METHOD_REBUTTALS_FAQ + pm/40_architecture/method_rebuttals_faq_REWORKED) + the per-node FAQs. Key ones below; full merge owed.",
+    "items": [
+      {"q": "Isn't move-segmentation as subjective as the interpretation it claims to formalize?", "a": "The move is a container-level unit (agent-operation-result); boundaries carry a confidence flag and err toward under-splitting. Segmentation is auditable, and its reliability is measured, not assumed."},
+      {"q": "Does Situate smuggle in the conclusion (circularity)?", "a": "Situate attaches context per-field with declared inputs and gates; the bias is made visible in audit logs rather than hidden behind curatorial selection."},
+      {"q": "You built this to fit Mark 16 — does it generalize?", "a": "The golden path proves the pipeline coheres on one passage; a second end-to-end run on a non-Christian text tests it out of domain. Replication failures are findings, not embarrassments."},
+      {"q": "Why trust an LLM coder?", "a": "The instrument-vs-wild test measures whether the fields make coding reproducible versus a naive LLM; reliability is graded on aggregate rates, and disagreements are adjudicated by a tie-breaker cohort."},
+      {"q": "A boundary — a silence, a move edge — is itself an interpretive claim.", "a": "Yes, and it is flagged as a claim with provenance and confidence, not presented as a neutral given."},
+      {"q": "Isn't this just close reading, or form criticism?", "a": "See positioning: the new part is reproducible multi-lens coding, the negative-space (gap/silence) focus, cross-tradition comparison, and AI-augmented inter-rater reliability."}
+    ]
+  },
+
+  "positioning": {
+    "note": "What is new versus adjacent methods — the committee's first question.",
+    "vs": [
+      {"method": "Form criticism (Sitz im Leben)", "new": "extends Sitz cross-tradition and adds the 10-category substrate, coded reproducibly rather than essayistically."},
+      {"method": "Narrative / rhetorical criticism", "new": "formalizes 'moves' as a coded unit with a grammar, so readings are comparable across texts, not one-off."},
+      {"method": "Discourse / move analysis", "new": "adds the situating layers (Frame, Paradigm, Lineage, Witness) and the negative-space (gap/silence) engine."},
+      {"method": "Close reading", "new": "makes the reading reproducible — multi-lens, multi-coder, measured reliability — instead of resting on a single expert reader's authority."}
+    ]
+  },
+
+  "open_questions": {
+    "note": "Named honestly so they don't hide.",
+    "items": [
+      {"q": "Where does figuration (idioms, symbols, metaphor) live?", "state": "OPEN — figuration is a conventional SIGN, distinct from paradigm (a SCRIPT). Candidate homes: gloss-level unpacking (now), or a dedicated figuration layer coded at the move level (later, via a CLC). Flag it to the coverage-scan, don't fold it into paradigm."}
+    ]
+  }
+}
