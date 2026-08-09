@@ -34,7 +34,7 @@
         "reuse": "For any new coded field, decide its grain(s) before running it."
       },
       {
-        "name": "The Cold Read Test (CRT)",
+        "name": "The Cold Read",
         "is": "The check that a card (or a coding call) is self-sufficient: give it to a fresh model with no other context and see if it acts correctly.",
         "mechanic": "Seven questions: orient (what/where/next) + reproduce (can you run this step) + gap-scan (what's confusing/missing) + duplication-and-tier check (MECE across black=main / grey=footnote / hidden=researcher view). Run as a small cohort; fix to convergence. Include a decoy.",
         "reuse": "Run on every drawer card before it is called done, and as a TIE-BREAKER to settle contested coding cells (a resolvable adjudication)."
@@ -98,11 +98,22 @@
     ]
   },
 
+  "the_four_checks": {
+    "note": "The four checks the method runs on a card or a coded field. Rule (naming-lock, S162): card-level checks are named as short WORDS, never letter-acronyms, so none collides with CRT, which is reserved for the higher-level method below.",
+    "checks": [
+      {"name": "Cold Read", "asks": "Can a fresh reader act correctly from this card alone?", "tests": "self-sufficiency", "on_card": "graded pill (PASS / PARTIAL)"},
+      {"name": "Cold Start", "asks": "Can a fresh agent find where the prior work lives (its store, its key)?", "tests": "findability", "on_card": "gate / flag"},
+      {"name": "Fidelity", "asks": "Do the card's labels equal the real source columns, with no invented terms?", "tests": "label truth", "on_card": "verified-stamp / gate"},
+      {"name": "vs-Wild", "asks": "Does our scaffolding beat an unscaffolded LLM (primary metric: reliability)?", "tests": "instrument value", "on_card": "graded pill (PASS / PARTIAL / FAIL)"}
+    ],
+    "reserved": {"name": "CRT = Clean Room Triangulation", "is": "A higher-level method (Decision 200) that serves many purposes; NOT one of the card checks. The abbreviation CRT is reserved for it. The card self-sufficiency check is Cold Read, never CRT."}
+  },
+
   "the_two_pills": {
-    "note": "Every coding card carries up to two test pills, so what we're proving is visible on the card.",
-    "crt_pill": "Cold Read Test: is the card self-sufficient (a fresh reader acts correctly from it alone)?",
-    "instrument_pill": "Instrument vs wild: does our scaffolding beat a naive LLM (primary metric: reliability)? States: PASS / PARTIAL / FAIL.",
-    "text_exception": "Text (the checkout) is not a coding step, so it carries only the CRT pill."
+    "note": "Two of the four checks render as pills on a coding card, so what we're proving is visible on the card. (Fidelity shows as a verified-stamp; Cold Start is a gate, not a pill.)",
+    "cold_read_pill": "Cold Read: is the card self-sufficient (a fresh reader acts correctly from it alone)? States: PASS / PARTIAL.",
+    "vs_wild_pill": "vs-Wild: does our scaffolding beat a naive LLM (primary metric: reliability)? States: PASS / PARTIAL / FAIL.",
+    "text_exception": "Text (the checkout) is not a coding step, so it carries only the Cold Read pill."
   },
 
   "glossary": {
@@ -126,7 +137,7 @@
       {"item": "A second worked example on a different tradition", "status": "PLANNED", "why": "named by 2/3. One example invites 'you overfit to Mark 16'; a non-scripture / other-tradition run answers it (matches the replication commitment)."},
       {"item": "This field-mechanics reference (the four shapes)", "status": "DONE (above)", "why": "the skeptic's first check: is each field a closed list, an open field, or a checklist?"},
       {"item": "Glossary of method terms", "status": "SEEDED (above)", "why": "disambiguate the in-house vocabulary (Frame/Witness mean something narrower than everyday usage)."},
-      {"item": "Reliability / validation explainer", "status": "PLANNED", "why": "what the two pills certify; where reliability is high vs low, stated honestly; how disagreements are adjudicated (the tie-breaker CRT)."},
+      {"item": "Reliability / validation explainer", "status": "PLANNED", "why": "what the two pills certify; where reliability is high vs low, stated honestly; how disagreements are adjudicated (a tie-breaker Cold Read cohort)."},
       {"item": "Consolidated method FAQ / objections-and-answers", "status": "PLANNED (merge the two scattered rebuttal FAQs + the per-node ones)", "why": "pre-empt the committee: circularity, cherry-picking, trusting an LLM coder, 'a boundary is itself a claim,' reproducibility."},
       {"item": "How to read the bow-tie diagram", "status": "PLANNED", "why": "the visual grammar (the pinch point, required vs optional arrows) is load-bearing and non-obvious."},
       {"item": "Scope & limits + positioning vs existing methods", "status": "PLANNED", "why": "when NOT to use it; what's new vs form criticism / narrative criticism / discourse analysis, the committee's first question."},
@@ -140,7 +151,7 @@
     "instrument_pill_certifies": "That our fields make coding more reproducible than a naive LLM (the reliability metric), and how broad the coverage is.",
     "where_reliable": "The SET of a passage's paradigms, the dominant, and the structured fields converge across independent coders. The move-boundary and the 8 frame axes are the most rigorously tested.",
     "where_soft": "Stance and fine-grained salience are the least reproducible; the dominant needs the manifest-salience rule (what the text foregrounds), not the deepest theological frame. Named honestly, not hidden.",
-    "adjudication": "Disagreements are settled by a tie-breaker CRT (a small cohort of fresh models), which also surfaces the definition fix that caused the split, e.g. the split that led to holding stance (own terms) / is_dominant (manifest salience) / relation_to_dominant (rival effect) strictly separate."
+    "adjudication": "Disagreements are settled by a tie-breaker Cold Read cohort (a small cohort of fresh models), which also surfaces the definition fix that caused the split, e.g. the split that led to holding stance (own terms) / is_dominant (manifest salience) / relation_to_dominant (rival effect) strictly separate."
   },
 
   "faq": {

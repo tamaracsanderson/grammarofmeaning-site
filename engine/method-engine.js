@@ -683,6 +683,25 @@ function moveBlock(m, gs) {
   if ((g.parts || []).some(function (pk) { return m[pk]; })) b.appendChild(moveGrammarRow(m, g));
   return b;
 }
+/* the grammar defined on the card: handle + definition; part-handles in the part colour (orange),
+   modifier-handles in the modifier colour (green) — same colours the move-block uses */
+function renderGrammarDefs(defs) {
+  var wrap = el("div", "me-move-defs");
+  (defs.parts || []).forEach(function (p) {
+    var row = el("p", "me-def-row");
+    row.appendChild(el("b", "me-def-part", p.handle));
+    row.appendChild(document.createTextNode(" " + (p.definition || "")));
+    wrap.appendChild(row);
+  });
+  (defs.modifiers || []).forEach(function (m) {
+    var row = el("p", "me-def-row");
+    row.appendChild(el("b", "me-def-mod", m.handle));
+    if (m.rides_on) row.appendChild(el("span", "me-def-rides", " (on " + m.rides_on + ")"));
+    row.appendChild(document.createTextNode(" " + (m.definition || "")));
+    wrap.appendChild(row);
+  });
+  return wrap;
+}
 
 function renderStepDrawer(aside, node) {
   var id = node.id;
@@ -928,6 +947,7 @@ function renderLayer2Decompose(host, l2) {
     var ab = el("div", "me-drawer-section me-anatomy");
     ab.appendChild(el("h3", null, "What a move is"));
     if (an.note) ab.appendChild(el("p", "me-drawer-p", an.note));
+    if (an.definitions) ab.appendChild(renderGrammarDefs(an.definitions));
     ab.appendChild(moveBlock(an.example, gs));
     host.appendChild(ab);
   }

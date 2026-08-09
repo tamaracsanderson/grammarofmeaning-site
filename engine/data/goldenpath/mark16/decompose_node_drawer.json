@@ -23,7 +23,62 @@
     "edge_count": 25,
     "what_counts_as_one_move": "One move is one agent doing one operation to one thing, with one result. Start a new move when the agent changes, the operation changes, or the result changes. When in doubt, keep the move whole rather than splitting it: an under-split reading loses less than an over-split one.",
     "the_anatomy_of_a_move": {
-      "note": "Every move has five parts (the same grammar the reading room renders). Narrator: who is telling it. Then the core action: agent (who or what acts), operation, substrate (what it acts on), outcome. Two of the parts carry a modifier. The agent's VOICE is a closed list of three values: active (the agent performs the action), middle-passive (the agent undergoes the action rather than performs it), null-stative (no acting agent; a state or description). The operation's TYPE is an open label the coder writes for each move (its kind), not a fixed list; across this passage it takes 40 different values, often a family and a specifier, for example: report-speech, movement, directive / commissioning, manifestation, perception, directive. Below, the first move of Mark 16, fully labeled.",
+      "note": "Every move has five PARTS (the same grammar the reading room renders), and two MODIFIERS that ride on a part: voice on the agent, type on the operation. Each part and modifier, with the handle and its definition, is below; then the first move of Mark 16, fully labeled.",
+      "definitions": {
+        "note": "The handle and its definition for every piece of the grammar. Render the five part-handles in the part colour and the two modifier-handles in the modifier colour (the same green the example uses for the voice and type values).",
+        "parts": [
+          {
+            "handle": "narrator",
+            "definition": "who is telling the move: the teller whose voice presents it (the discourse layer)."
+          },
+          {
+            "handle": "agent",
+            "definition": "who or what performs the operation: the doer of the move."
+          },
+          {
+            "handle": "operation",
+            "definition": "the action the move makes: the verb, what is done."
+          },
+          {
+            "handle": "substrate",
+            "definition": "what the operation acts on: the thing it takes as its object or material."
+          },
+          {
+            "handle": "outcome",
+            "definition": "what results from the operation: the state the move leaves behind."
+          }
+        ],
+        "modifiers": [
+          {
+            "handle": "voice",
+            "rides_on": "agent",
+            "definition": "the agent's relation to the action. A closed list of three values: active (the agent performs the action), middle-passive (the agent undergoes the action rather than performs it), null-stative (no acting agent; a state or description).",
+            "values": [
+              "active",
+              "middle-passive",
+              "null-stative"
+            ]
+          },
+          {
+            "handle": "type",
+            "rides_on": "operation",
+            "definition": "the kind of operation: an open label the coder writes for each move, often a family and a specifier, not a fixed list (across this passage it takes 40 different values, for example: report-speech, movement, directive / commissioning, manifestation, perception, directive).",
+            "open": true,
+            "examples": [
+              "report-speech",
+              "movement",
+              "directive / commissioning",
+              "manifestation",
+              "perception",
+              "directive"
+            ]
+          }
+        ],
+        "_render_colors": {
+          "parts": "part colour (orange)",
+          "modifiers": "modifier colour (green)"
+        }
+      },
       "example": {
         "move": "M1",
         "plain": "Once the rest-day had ended, the three named women purchased aromatic spices intending to go and dress the body.",

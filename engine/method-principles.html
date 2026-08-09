@@ -134,6 +134,7 @@ function rich(s){return String(s==null?'':s);} // author text may carry inline <
 var SECTIONS = [
   {id:'components', label:'Reusable components', key:'reusable_components', render:renderComponents},
   {id:'commitments',label:'Core commitments',    key:'principles',         render:renderPrinciples},
+  {id:'checks',     label:'The four checks',      key:'the_four_checks',    render:renderFourChecks},
   {id:'pills',      label:'The two pills',        key:'the_two_pills',      render:renderPills},
   {id:'glossary',   label:'Glossary',             key:'glossary',           render:renderGlossary},
   {id:'reliability',label:'Reliability',          key:'reliability_explainer',render:renderReliability},
@@ -176,10 +177,19 @@ function renderPrinciples(d){
 }
 function renderPills(d){
   var h=noteHTML(d);
-  if(d.crt_pill) h+='<div class="pill-card"><span class="pill-tag is-crt">Cold Read Test pill</span><p>'+rich(d.crt_pill)+'</p></div>';
-  if(d.instrument_pill) h+='<div class="pill-card"><span class="pill-tag is-inst">Instrument vs wild pill</span><p>'+rich(d.instrument_pill)+'</p></div>';
+  var cr=d.cold_read_pill||d.crt_pill, vw=d.vs_wild_pill||d.instrument_pill; // renamed keys (S162), old names as fallback
+  if(cr) h+='<div class="pill-card"><span class="pill-tag is-crt">Cold Read pill</span><p>'+rich(cr)+'</p></div>';
+  if(vw) h+='<div class="pill-card"><span class="pill-tag is-inst">vs-Wild pill</span><p>'+rich(vw)+'</p></div>';
   if(d.text_exception) h+='<p class="exception">'+rich(d.text_exception)+'</p>';
   return h;
+}
+function renderFourChecks(d){
+  var rows=(d.checks||[]).map(function(c){
+    return '<tr><td class="c1">'+esc(c.name)+'</td><td>'+rich(c.asks)+'</td><td class="c3">'+esc(c.tests)+'</td><td class="c3">'+esc(c.on_card)+'</td></tr>';
+  }).join('');
+  var tbl='<table class="tbl"><thead><tr><th>check</th><th>asks</th><th>tests</th><th>on the card</th></tr></thead><tbody>'+rows+'</tbody></table>';
+  var res=d.reserved?'<p class="exception"><b>'+esc(d.reserved.name)+':</b> '+rich(d.reserved.is)+'</p>':'';
+  return noteHTML(d)+tbl+res;
 }
 function renderGlossary(d){
   var rows=(d.terms||[]).map(function(t){
