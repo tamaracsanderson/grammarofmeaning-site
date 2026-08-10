@@ -47,6 +47,10 @@ footer.foot{max-width:44rem;margin:0 auto;padding:5vh 22px 12vh;font-family:var(
 footer.foot a{color:var(--fern);text-decoration:none}
 footer.foot .fnode{font-family:var(--mono);font-size:10.5px;color:var(--ink-2)}
 .err{max-width:40rem;margin:8vh auto;padding:0 22px;font-family:var(--sans);color:var(--terracotta);text-align:center}
+/* audit ↔ reading mode: the audit chrome (our vocabulary — bow-tie/node/spec/owner) is showcase-only; reading mode strips it */
+body.reading .audit-only{display:none!important}
+.modebtn{position:fixed;top:56px;right:14px;border:1px solid var(--rule);background:var(--paper-3);color:var(--ink-2);border-radius:999px;padding:4px 11px;font-family:var(--sans);font-size:11px;cursor:pointer;z-index:25}
+.modebtn b{color:var(--fern);font-weight:600}
 </style>
 <script>(function(){try{var t=localStorage.getItem("gom-theme")||"light";document.documentElement.dataset.theme=t;}catch(e){}})();</script>
 </head>
@@ -56,16 +60,17 @@ footer.foot .fnode{font-family:var(--mono);font-size:10.5px;color:var(--ink-2)}
   <span class="rm">The Plate · Mark 16 · Text</span>
   <a href="/_staging/viz_house_pattern.html">the house &rarr;</a>
 </div>
+<button class="modebtn" id="modebtn" title="toggle audit (our vocabulary) vs reading (what the reader sees)">view: <b>audit</b></button>
 <header class="pg">
-  <p class="kick">The bow-tie · node 1 · Text</p>
+  <p class="kick audit-only">The bow-tie · node 1 · Text</p>
   <h1 class="title">The Plate</h1>
   <p class="lede">The verbatim passage, exactly as the library holds it — the one thing rendered in full black. Everything the instrument does later is a layer over these words; nothing reflows them.</p>
-  <div class="provwrap" id="prov"></div>
+  <div class="provwrap audit-only" id="prov"></div>
 </header>
 <div class="plate" id="plate">Loading the text…</div>
 <div class="legend" id="legend"></div>
-<p class="honest" id="honest"></p>
-<footer class="foot">
+<p class="honest audit-only" id="honest"></p>
+<footer class="foot audit-only">
   <p class="fnode" id="footnode"></p>
   <p>The text is the coordinate system. <b>Data · owner:</b> reading/method SB checks the passage out of the library; design-SB renders. Fix the generator, never this figure.</p>
   <p><a href="/engine/design-engine.html#step-Text">the Plate's spec</a> · <a href="/engine/design-principles.html">the grammar</a></p>
@@ -75,6 +80,15 @@ footer.foot .fnode{font-family:var(--mono);font-size:10.5px;color:var(--ink-2)}
 var BASE="/engine/data/goldenpath/mark16/";
 var esc=function(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});};
 var RANGE={lo:1,hi:8};
+
+// audit ↔ reading mode — audit chrome (our vocabulary) is showcase-only; reading strips it
+(function(){
+  if(((location.search.match(/mode=(\w+)/)||[])[1])==="reading") document.body.classList.add("reading");
+  var btn=document.getElementById("modebtn");
+  function label(){ btn.innerHTML='view: <b>'+(document.body.classList.contains("reading")?"reading":"audit")+'</b>'; }
+  label();
+  btn.addEventListener("click",function(){ document.body.classList.toggle("reading"); label(); });
+})();
 
 fetch(BASE+"checkout.json").then(function(r){return r.json();}).then(build).catch(function(e){
   document.getElementById("plate").innerHTML='<div class="err">Could not load the checkout ('+esc(e.message)+'). Owned by reading/method SB.</div>';

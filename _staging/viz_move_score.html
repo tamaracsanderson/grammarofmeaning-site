@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Move Score — Mark 16:1–8</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600;0,9..144,400;0,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#0E0E0C;--ink-soft:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;
+--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;}
+:root[data-theme=light]{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#0E0E0C;--ink-soft:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink-soft);font-family:var(--serif);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.bar{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 20px;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(5px);border-bottom:1px solid var(--rule)}
+.bar a{font-family:var(--sans);font-size:13px;color:var(--fern);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fern) 40%,transparent)}
+.bar .rm{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+header.pg{max-width:46rem;margin:0 auto;padding:6vh 22px 1vh;text-align:center}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 12px}
+h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(30px,5.5vw,46px);line-height:1.1;color:var(--moss);margin:0 0 10px}
+.lede{font-family:var(--disp);font-style:italic;font-size:16.5px;color:var(--ink-2);max-width:35rem;margin:0 auto;line-height:1.5}
+.provwrap{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px auto 4px}
+.prov{font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;padding:3px 10px;border-radius:999px;border:1px solid var(--rule);color:var(--ink-3)}
+.prov b{color:var(--fern);font-weight:500}
+.legend{max-width:42rem;margin:12px auto 0;padding:0 22px;font-family:var(--sans);font-size:12px;color:var(--ink-3);display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.legend .sw{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+.legend .i-top{background:var(--fern)}.legend .i-nest{background:var(--gold)}
+/* the score */
+.score{max-width:42rem;margin:3vh auto 0;padding:0 22px 10vh}
+.verse{display:grid;grid-template-columns:2.6rem 1fr;gap:0 14px;margin:0 0 4px;align-items:baseline}
+.vnum{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.06em;text-align:right;padding-top:.5em;user-select:none}
+.vtext{font-family:var(--serif);font-size:19px;line-height:1.62;color:var(--ink)}
+/* apparatus siglum (from the Plate) */
+.app{position:relative;display:inline;border:none;background:none;padding:0;margin:0 1px;cursor:pointer;font-family:var(--mono);font-size:.6em;font-weight:500;vertical-align:.42em;color:var(--terracotta);letter-spacing:.04em}
+.app .mark{border-bottom:1px dotted color-mix(in srgb,var(--terracotta) 60%,transparent);padding:0 1px}
+.app .note{position:absolute;left:50%;top:1.6em;transform:translateX(-50%);min-width:14rem;max-width:19rem;background:var(--paper-3);border:1px solid color-mix(in srgb,var(--terracotta) 45%,var(--rule));border-radius:8px;box-shadow:0 12px 28px -20px rgba(36,48,42,.5);padding:9px 12px;font-family:var(--sans);font-size:12px;font-weight:400;line-height:1.5;color:var(--ink-2);text-transform:none;letter-spacing:0;vertical-align:baseline;opacity:0;visibility:hidden;transition:opacity .12s;z-index:6;text-align:left}
+.app .note b{color:var(--terracotta);font-family:var(--mono);font-size:11px}
+.app:hover .note,.app.open .note{opacity:1;visibility:visible}
+/* the moves ladder under each verse */
+.moves{grid-column:2;margin:5px 0 12px;display:flex;flex-direction:column;gap:3px}
+.mv{border:0;background:none;padding:0;text-align:left;font:inherit}
+.mrow{display:inline-flex;align-items:baseline;gap:8px;padding:3px 10px 3px 8px;border-radius:999px;border:1px solid var(--rule);background:var(--paper-3);cursor:pointer;transition:border-color .13s;width:fit-content;max-width:100%}
+.mrow:hover{border-color:var(--fern)}
+.mrow.on{border-color:var(--moss);background:color-mix(in srgb,var(--moss) 7%,var(--paper-3))}
+.mv.nest{margin-left:20px}
+.mdot{width:8px;height:8px;border-radius:2px;flex:none;background:var(--fern);align-self:center}
+.mv.nest .mdot{background:var(--gold)}
+.mlab{font-family:var(--mono);font-size:11px;color:var(--ink-2);letter-spacing:.02em}
+.mop{font-family:var(--sans);font-size:13px;color:var(--ink)}
+.mnest-tag{font-family:var(--mono);font-size:9px;color:var(--gold);text-transform:uppercase;letter-spacing:.06em}
+/* the anatomy panel (finalized decompose fields only) */
+.anat{margin:2px 0 4px 8px;border-left:2px solid color-mix(in srgb,var(--fern) 45%,var(--rule));background:color-mix(in srgb,var(--fern) 5%,transparent);border-radius:0 9px 9px 0;padding:11px 14px;max-width:34rem;display:none}
+.mv.nest+.anat,.anatnest{margin-left:28px}
+.anat.show{display:block}
+.a-tags{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 9px}
+.a-tag{font-family:var(--mono);font-size:9px;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:5px;border:1px solid var(--rule);color:var(--ink-2)}
+.a-grid{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0 0 9px}
+.a-grid dt{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--fern);padding-top:2px}
+.a-grid dd{margin:0;font-family:var(--serif);font-size:14px;line-height:1.4;color:var(--ink)}
+.a-para{font-family:var(--sans);font-size:12.5px;line-height:1.55;color:var(--ink-2);margin:0}
+.a-para .pl{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);display:block;margin:0 0 2px}
+.held{max-width:42rem;margin:0 auto;padding:0 22px;font-family:var(--sans);font-size:11px;color:var(--ink-3);text-align:center;font-style:italic}
+.honest{max-width:42rem;margin:2vh auto 0;padding:0 22px;font-family:var(--sans);font-size:11.5px;font-style:italic;color:var(--ink-3);line-height:1.55;text-align:center}
+footer.foot{max-width:44rem;margin:0 auto;padding:5vh 22px 12vh;font-family:var(--sans);font-size:11.5px;line-height:1.6;color:var(--ink-3);text-align:center;border-top:1px solid var(--rule);margin-top:4vh}
+footer.foot a{color:var(--fern);text-decoration:none}
+footer.foot .fnode{font-family:var(--mono);font-size:10.5px;color:var(--ink-2)}
+.err{max-width:40rem;margin:8vh auto;padding:0 22px;font-family:var(--sans);color:var(--terracotta);text-align:center}
+/* audit ↔ reading mode: audit chrome (our vocabulary) is showcase-only; reading strips it */
+body.reading .audit-only{display:none!important}
+.modebtn{position:fixed;top:56px;right:14px;border:1px solid var(--rule);background:var(--paper-3);color:var(--ink-2);border-radius:999px;padding:4px 11px;font-family:var(--sans);font-size:11px;cursor:pointer;z-index:25}
+.modebtn b{color:var(--fern);font-weight:600}
+</style>
+<script>(function(){try{var t=localStorage.getItem("gom-theme")||"light";document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+</head>
+<body>
+<div class="bar">
+  <a href="/_staging/viz_plate.html">&larr; the Plate</a>
+  <span class="rm">The Move Score · Mark 16 · Decompose</span>
+  <a href="/engine/design-engine.html">the design engine &rarr;</a>
+</div>
+<button class="modebtn" id="modebtn" title="toggle audit (our vocabulary) vs reading (what the reader sees)">view: <b>audit</b></button>
+<header class="pg">
+  <p class="kick audit-only">The bow-tie · node 2 · Decompose</p>
+  <h1 class="title">The Move Score</h1>
+  <p class="lede">The same verbatim text, now broken into moves — each a single operation the text makes. The words stay put; the moves are read off them. Click a move for its anatomy.</p>
+  <div class="provwrap audit-only" id="prov"></div>
+  <div class="legend" id="legend"></div>
+</header>
+<div class="score" id="score">Loading the score…</div>
+<p class="held audit-only" id="held"></p>
+<p class="honest audit-only" id="honest"></p>
+<footer class="foot audit-only">
+  <p class="fnode" id="footnode"></p>
+  <p>The text is the coordinate system; the moves are read off it. <b>Data · owner:</b> reading/method SB codes the moves; design-SB renders. Fix the generator, never this figure.</p>
+  <p><a href="/engine/design-engine.html#step-Decompose">the Move Score's spec</a> · <a href="/engine/design-principles.html">the grammar</a></p>
+</footer>
+
+<script>
+var BASE="/engine/data/goldenpath/mark16/";
+var esc=function(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});};
+var RANGE={lo:1,hi:8};
+
+// audit ↔ reading mode — audit chrome (our vocabulary) is showcase-only; reading strips it
+(function(){
+  if(((location.search.match(/mode=(\w+)/)||[])[1])==="reading") document.body.classList.add("reading");
+  var btn=document.getElementById("modebtn");
+  function label(){ btn.innerHTML='view: <b>'+(document.body.classList.contains("reading")?"reading":"audit")+'</b>'; }
+  label();
+  btn.addEventListener("click",function(){ document.body.classList.toggle("reading"); label(); });
+})();
+
+Promise.all([
+  fetch(BASE+"checkout.json").then(function(r){return r.json();}),
+  fetch(BASE+"moves.json").then(function(r){return r.json();})
+]).then(function(res){ build(res[0],res[1]); }).catch(function(e){
+  document.getElementById("score").innerHTML='<div class="err">Could not load the feeds ('+esc(e.message)+'). Owned by reading/method SB.</div>';
+});
+
+function parseVerses(checkout){
+  var whole=(checkout.units||[]).map(function(u){return u.text||"";}).join("\n");
+  var re=/(\d{3}):(\d{3})/g, out={}, m, marks=[];
+  while((m=re.exec(whole))){ marks.push({ch:+m[1],v:+m[2],at:m.index,end:re.lastIndex}); }
+  for(var i=0;i<marks.length;i++){var c=marks[i],n=marks[i+1];if(c.ch!==16)continue;out[c.v]=whole.slice(c.end,n?n.at:whole.length).replace(/\s+/g," ").trim();}
+  return out;
+}
+function renderVerseText(txt){
+  return txt.split(/(\{[^}]+\})/).map(function(p){
+    var m=p.match(/^\{(.+)\}$/);
+    if(m){ var w=(m[1].match(/"([^"]+)"/)||[])[1]||"";
+      return '<button class="app" aria-label="textual variant" onclick="this.classList.toggle(\'open\')"><span class="mark">TR</span><span class="note"><b>Textual variant.</b><br>The Textus Receptus '+(w?('adds &ldquo;'+esc(w)+'&rdquo; here'):esc(m[1]))+'. The reading text does not include it.</span></button>'; }
+    return esc(p);
+  }).join('');
+}
+
+function build(checkout, mdoc){
+  var verses=parseVerses(checkout);
+  var moves=(mdoc.moves||[]).slice().sort(function(a,b){return a.idx-b.idx;});
+  var inrange=moves.filter(function(m){return (m.verse_start||(m.verse_refs&&m.verse_refs[0])||99)<=RANGE.hi && (m.verse_start||(m.verse_refs&&m.verse_refs[0])||0)>=RANGE.lo;});
+  var byVerse={};
+  inrange.forEach(function(m){var v=m.verse_start||m.verse_refs[0]; (byVerse[v]=byVerse[v]||[]).push(m);});
+
+  var html="";
+  for(var v=RANGE.lo; v<=RANGE.hi; v++){
+    if(verses[v]==null) continue;
+    html+='<div class="verse"><span class="vnum">16:'+v+'</span><span class="vtext">'+renderVerseText(verses[v])+'</span></div>';
+    var mvs=byVerse[v]||[];
+    if(mvs.length){
+      html+='<div class="moves">';
+      mvs.forEach(function(mv){
+        var nest=mv.nested_under?" nest":"";
+        html+='<div class="mv'+nest+'"><button class="mrow" data-idx="'+mv.idx+'">'+
+          '<span class="mdot"></span>'+
+          '<span class="mlab">'+esc(mv.label||("M"+mv.idx))+'</span>'+
+          '<span class="mop">'+esc(mv.operation||mv.move_type||"")+'</span>'+
+          (mv.nested_under?'<span class="mnest-tag">↳ in '+esc(mv.nested_under)+'</span>':'')+
+          '</button></div>'+
+          '<div class="anat'+(nest?" anatnest":"")+'" id="anat-'+mv.idx+'"></div>';
+      });
+      html+='</div>';
+    }
+  }
+  document.getElementById("score").innerHTML=html;
+
+  // anatomy renderer — FINALIZED decompose fields ONLY (no sitz/gloss/paradigm/frame)
+  var byIdx={}; inrange.forEach(function(m){byIdx[m.idx]=m;});
+  function anat(mv){
+    var tags='<span class="a-tag">'+esc(mv.move_type||"move")+'</span>'+
+      (mv.voice?'<span class="a-tag">'+esc(mv.voice)+'</span>':'')+
+      '<span class="a-tag">'+(mv.nested_under?"nested":"top-level")+'</span>';
+    var g='';
+    if(mv.agent) g+='<dt>agent</dt><dd>'+esc(mv.agent)+'</dd>';
+    g+='<dt>operation</dt><dd>'+esc(mv.operation||mv.move_type||"")+'</dd>';
+    if(mv.substrate) g+='<dt>substrate</dt><dd>'+esc(mv.substrate)+'</dd>';
+    if(mv.outcome) g+='<dt>outcome</dt><dd>'+esc(mv.outcome)+'</dd>';
+    return '<div class="a-tags">'+tags+'</div><dl class="a-grid">'+g+'</dl>'+
+      (mv.paraphrase?'<p class="a-para"><span class="pl">paraphrase</span>'+esc(mv.paraphrase)+'</p>':'');
+  }
+  var open=null;
+  Array.prototype.forEach.call(document.querySelectorAll(".mrow"),function(btn){
+    btn.addEventListener("click",function(){
+      var idx=+btn.dataset.idx, panel=document.getElementById("anat-"+idx);
+      var isOpen=panel.classList.contains("show");
+      if(open){ open.panel.classList.remove("show"); open.panel.innerHTML=""; open.btn.classList.remove("on"); }
+      if(isOpen){ open=null; return; }
+      panel.innerHTML=anat(byIdx[idx]); panel.classList.add("show"); btn.classList.add("on");
+      open={panel:panel,btn:btn};
+    });
+  });
+
+  document.getElementById("prov").innerHTML=
+    '<span class="prov">visualizes <b>Decompose</b></span>'+
+    '<span class="prov">data: <b>checkout.json</b> + <b>moves.json</b></span>'+
+    '<span class="prov">Mark 16:'+RANGE.lo+'&ndash;'+RANGE.hi+' · <b>'+inrange.length+'</b> moves · <b>'+inrange.filter(function(m){return m.nested_under;}).length+'</b> nested</span>';
+  document.getElementById("legend").innerHTML=
+    '<span class="sw"><i class="i-top"></i> top-level move</span>'+
+    '<span class="sw"><i class="i-nest"></i> nested inside another</span>'+
+    '<span class="sw" style="color:var(--ink-3)">click a move for its anatomy</span>';
+  document.getElementById("held").textContent="Finalized fields only — agent · operation · substrate · outcome · paraphrase. The Situate and Gloss layers (sitz · paradigm · frame · gloss) are held until those engines finalize.";
+  document.getElementById("honest").textContent="The verbatim text is whole and in the black layer; a move's paraphrase is Decompose's plain-language reading of it, shown labelled as such — the citation and the simplification side by side. Moves anchor at verse grain (v1); exact-span highlighting is the fidelity ceiling.";
+  document.getElementById("footnode").textContent="method-engine node: Decompose  ·  Mark 16:"+RANGE.lo+"–"+RANGE.hi+"  ·  "+(mdoc.source_key||"MARK-16-WEB");
+}
+</script>
+</body>
+</html>
+<!-- ── METHODOLOGY FOOTER ──
+HOW PRODUCED: design-SB, this session. The Move Score (bow-tie node 2, Decompose) — figure #2, built as the Plate + the
+  moves layered on it (the coupled V1+V2 per 3DR-16 / Fable). Renders 16:1–8 from checkout.json (verbatim text + apparatus,
+  the Plate's coordinate system) + moves.json (the 23 in-range moves). Under each verse, the moves as an indented ladder
+  (position = textual order; indentation/mnest-tag = nesting; hue = top-level fern / nested gold; move label + operation
+  persistent); click a move → its anatomy expands inline. FINALIZED decompose fields ONLY — agent · operation · substrate ·
+  outcome · paraphrase (+ move_type/voice/nesting tags). Situate + Gloss fields (sitz/paradigm/frame/gloss) are HELD (not
+  rendered) until those engines finalize, per the PI ("if it's not there, don't use it"). Correct labels (substrate/outcome,
+  not on/result). Verse-grain anchoring (v1). Functional build first, per the working-with-lovable process — the Plate +
+  Move Score pair is the batch for a later Lovable warmth pass.
+SCHOLARLY SOURCES: checkout.json (verbatim WEB) + moves.json (the decomposition, reading/method SB); the locked visual
+  grammar (viz_principles the_grammar, 3DR-16); the decompose drawer's honest_limits (the move wording is a paraphrase — shown
+  labelled). The full-scripture-no-ellipsis + real-data-over-paraphrase memories.
+WHAT NEEDS VERIFICATION: (1) Gate: Fidelity — every value from the feeds, labels = fields, un-finalized engines omitted (PASS
+  by construction); Cold Read — run a blind read via the design-crit panel on the Plate + Move Score pair before flipping the
+  nodes to PASS on the engine. (2) exact-span anchoring (move→char-span) is a method roadmap item; v1 is verse-grain. (3) then
+  the batched Lovable warmth pass on the pair. -->
