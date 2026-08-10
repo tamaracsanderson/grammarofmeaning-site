@@ -1,0 +1,114 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>The Design Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F1E4;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;
+ --eng:#2C4A38;--sub:#3F7D57;--out:#C4602F;--honey:#E0A93B;--olive:#6E7B3A;--gold:#B08A3C;
+ --serif:"Newsreader",ui-serif,Georgia,serif;--sans:"Inter",ui-sans-serif,system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#1B211D;--paper2:#232A25;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;--eng:#4A7A5C;--sub:#5C9A72;--out:#D9793F;--honey:#E0A93B;--olive:#9CA86A;--gold:#c9a24e}}
+:root[data-theme=dark]{--bg:#1B211D;--paper2:#232A25;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;--eng:#4A7A5C;--sub:#5C9A72;--out:#D9793F;--honey:#E0A93B;--olive:#9CA86A;--gold:#c9a24e}
+:root[data-theme=light]{--bg:#F6F1E4;--paper2:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;--eng:#2C4A38;--sub:#3F7D57;--out:#C4602F;--honey:#E0A93B;--olive:#6E7B3A;--gold:#B08A3C}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 var(--sans)}
+.wrap{max-width:54rem;margin:0 auto;padding:26px 22px 30px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.topbar a{font-size:13px;color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;letter-spacing:-.01em;color:var(--eng);margin:0 0 12px;line-height:1.1}
+.lede{font-family:var(--serif);font-size:17px;line-height:1.62;color:var(--fg);max-width:42rem;margin:0 0 8px}
+.reads{font-size:13.5px;line-height:1.6;color:var(--muted);max-width:42rem;margin:0 0 12px}
+.seam{font-size:12.5px;line-height:1.55;color:var(--fg);background:color-mix(in srgb,var(--sub) 8%,transparent);border:1px solid color-mix(in srgb,var(--sub) 30%,var(--line));border-radius:9px;padding:10px 13px;margin:0 0 6px;max-width:44rem}
+.seam b{color:var(--eng)}
+.steph{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--out);border-bottom:1px solid var(--line);padding-bottom:7px;margin:34px 0 12px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.steph .sg{font-family:var(--serif);font-style:italic;font-size:12.5px;text-transform:none;letter-spacing:0;color:var(--muted)}
+.node{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:15px 17px;margin:0 0 12px}
+.node-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 3px}
+.node-h h3{font-family:var(--serif);font-size:19px;font-weight:600;color:var(--eng);margin:0;line-height:1.15}
+.node-h .also{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.status{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.03em;color:var(--fg);background:var(--paper2);border:1px solid var(--line);border-radius:5px;padding:2px 8px}
+.status.next{color:#8a5a12;background:color-mix(in srgb,var(--honey) 24%,var(--bg));border-color:color-mix(in srgb,var(--honey) 55%,var(--line))}
+.oneline{font-family:var(--serif);font-size:14.5px;color:var(--fg);margin:0 0 10px}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.pill{font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.pill.pass{color:#fff;background:var(--sub);border-color:var(--sub)}
+.pill.pending{color:#8a5a12;background:color-mix(in srgb,var(--honey) 22%,var(--bg));border-color:color-mix(in srgb,var(--honey) 50%,var(--line))}
+.pill.na{opacity:.6}
+.pill.fail{color:#fff;background:var(--out);border-color:var(--out)}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px;line-height:1.5}
+.spec dt{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--out);padding-top:3px}
+.spec dd{margin:0;color:var(--fg)}
+.spec dd .mono{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.vchips{display:flex;gap:6px;flex-wrap:wrap}
+.vchip{font-size:12px;padding:3px 9px;border-radius:999px;border:1px solid color-mix(in srgb,var(--olive) 45%,var(--line));background:color-mix(in srgb,var(--olive) 8%,transparent);color:var(--fg)}
+.vchip .vn{font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:5px}
+.figfooter{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line);margin-top:40px;padding:18px 0 8px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.figfooter a{color:var(--out);text-decoration:none}
+.themebtn{position:fixed;top:14px;right:14px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer;z-index:20}
+.err{color:var(--out);font-family:var(--mono);font-size:13px;padding:20px}
+</style>
+</head>
+<body>
+<button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">theme</button>
+<div class="wrap">
+  <div class="topbar">
+    <a href="/engine/method-engine.html">&larr; the method engine</a>
+    <a href="/engine/design-principles.html">the grammar &amp; gate</a>
+    <a href="/engine/design-state.html">the work-state &rarr;</a>
+  </div>
+  <header>
+    <p class="eyebrow">design-SB · schema · the right side of the bow-tie</p>
+    <h1 id="title">The Design Engine</h1>
+    <p class="lede" id="subtitle"></p>
+    <p class="reads" id="reads"></p>
+    <p class="seam" id="seam"></p>
+  </header>
+  <div id="steps"></div>
+  <footer class="figfooter">
+    <span>Grammar of Meaning · the design engine</span>
+    <span><a href="/engine/design-principles.html">grammar + gate</a> · validated by 3DR-16</span>
+  </footer>
+</div>
+<script>
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function pill(name,st){var w=String(st||'').toLowerCase();var c=w==='pass'?'pass':w==='pending'?'pending':w==='fail'?'fail':'na';var disp=w==='n/a'||w===''?'n/a':st;return '<span class="pill '+c+'">'+esc(name)+' · '+esc(disp)+'</span>';}
+function statusBadge(s){var next=/^(next|build)/i.test(String(s||''));return '<span class="status'+(next?' next':'')+'">'+esc(s)+'</span>';}
+function nodeCard(n){
+  var g=n.gate||{};
+  var pills='<div class="pills">'+pill('Fidelity',g.fidelity)+pill('Cold Read',g.cold_read)+pill('Cold Start',g.cold_start)+pill('vs-Wild',g.vs_wild)+'</div>';
+  var rf=n.reads_from||{};
+  var feeds=(rf.feeds||[]).map(function(f){return esc(f);}).join(' · ');
+  var vars='<div class="vchips">'+(n.variants||[]).map(function(v){return '<span class="vchip">'+esc(v.name)+'<span class="vn">'+esc(v.note||'')+'</span></span>';}).join('')+'</div>';
+  return '<div class="node" id="'+esc(n.id)+'">'+
+    '<div class="node-h"><h3>'+esc(n.name)+'</h3>'+(n.also?'<span class="also">also: '+esc(n.also)+'</span>':'')+statusBadge(n.status)+'</div>'+
+    '<p class="oneline">'+esc(n.one_line)+'</p>'+
+    pills+
+    '<dl class="spec">'+
+      '<dt>reads from</dt><dd><b>'+esc(rf.method_node||'')+'</b> · <span class="mono">'+feeds+'</span></dd>'+
+      '<dt>encoding</dt><dd>'+esc(n.encoding)+'</dd>'+
+      '<dt>variants</dt><dd>'+vars+'</dd>'+
+      (n.composes_into?'<dt>composes into</dt><dd>'+esc(n.composes_into)+'</dd>':'')+
+      (n.audience?'<dt>audience</dt><dd>'+esc(n.audience)+'</dd>':'')+
+      (n.off_the_shelf?'<dt>off-the-shelf</dt><dd>'+esc(n.off_the_shelf)+'</dd>':'')+
+      (n.reference?'<dt>reference</dt><dd>'+esc(n.reference)+'</dd>':'')+
+    '</dl>'+
+  '</div>';
+}
+fetch('/engine/data/viz/design_engine.json').then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+ .then(function(d){
+   var p=d.page||{};
+   if(p.title)document.getElementById('title').textContent=p.title;
+   if(p.subtitle)document.getElementById('subtitle').textContent=p.subtitle;
+   if(p.reads)document.getElementById('reads').textContent=p.reads;
+   if(d.seam)document.getElementById('seam').innerHTML='<b>The seam:</b> '+esc(d.seam);
+   var nodes=d.nodes||[];
+   var html=(d.steps||[]).map(function(st){
+     var ns=nodes.filter(function(n){return n.step===st.key;});
+     if(!ns.length)return '';
+     return '<div class="steph">'+esc(st.label)+' <span class="sg">'+esc(st.gloss||'')+'</span></div>'+ns.map(nodeCard).join('');
+   }).join('');
+   document.getElementById('steps').innerHTML=html;
+ })
+ .catch(function(e){document.getElementById('steps').innerHTML='<p class="err">could not load the design engine ('+e.message+').</p>';});
+</script>
+</body></html>

@@ -1,0 +1,122 @@
+{
+  "_owner": "design-SB — THE DESIGN ENGINE SCHEMA (the SSOT for the right side of the bow-tie). The visuals (nodes) that render the first three FINALIZED method engines (Text / Decompose / Connect) into figures. Each node carries a spec-drawer so a future LLM can re-render it into another frontend. The visual grammar + the four-check gate live in viz_principles.json (design-principles.html); this file is the node map. Sibling of method_flow.json + the *_node_drawer.json feeds. Validated by 3DR-16 (reading_room_viz_reconciliation_2026-08-10).",
+  "_generated_by": "design-SB, authored (the diagram + spec structure). Node STATUS is honest: no visual has yet shipped through the gate — statuses are 'planned' / 'next', gate checks 'pending', until a figure is built and cold-read. Never render a planned node as done.",
+  "page": {
+    "title": "The Design Engine",
+    "subtitle": "the visuals that render the instrument's output — one grammar, many forms, each gated",
+    "reads": "The right-side companion to the method engine. The method engine breaks a text into moves and wires them; THIS engine renders that finalized output into figures for two audiences, composing into a reading room. Each visual is a node with a spec-drawer (what it shows, which method node + feed it reads, its encoding, its four-check gate). The grammar every node obeys, and the gate every node passes, live on the design principles page. Validated by 3DR-16."
+  },
+  "seam": "This engine's INPUT is the method's FINALIZED feeds (Text=checkout.json · Decompose=moves.json · Connect=connect_node_drawer.json); the TRANSFORMATION is design-SB's. A node reads_from a feed field — it never re-authors a method fact (that was the Connect-status bug). Un-finalized engines (Situate / Frame / Gloss) are out of scope until finalized.",
+  "steps": [
+    { "key": "Text", "label": "Text", "method_node": "Text", "gloss": "the verbatim passage, checked out of the library" },
+    { "key": "Decompose", "label": "Decompose", "method_node": "Decompose", "gloss": "the passage broken into moves" },
+    { "key": "Connect", "label": "Connect", "method_node": "Connect", "gloss": "typed edges between the moves — and the ones that are absent" }
+  ],
+  "nodes": [
+    {
+      "id": "plate",
+      "name": "The Plate",
+      "also": "Witnessed Text",
+      "step": "Text",
+      "one_line": "the verbatim passage, apparatus preserved",
+      "reads_from": { "method_node": "Text", "feeds": ["goldenpath/mark16/checkout.json"] },
+      "encoding": "the text is the only pure black; verse ids in a narrow gutter; the {TR adds …} apparatus is a superscript siglum that expands on select — never analytical colour.",
+      "audience": "both",
+      "composes_into": "the reading room — the fixed centre column that never reflows",
+      "variants": [ { "name": "The Plate", "note": "single-column verbatim + inline apparatus sigla" } ],
+      "gate": { "fidelity": "pending", "cold_read": "pending", "cold_start": "pass", "vs_wild": "n/a" },
+      "off_the_shelf": "TEI + CETEIcean / EVT, or plain HTML/CSS",
+      "reference": "the Nestle-Aland critical apparatus",
+      "status": "planned"
+    },
+    {
+      "id": "move_score",
+      "name": "The Move Score",
+      "also": "the Architectural Move",
+      "step": "Decompose",
+      "one_line": "the passage read move by move, each move aligned to the words it covers",
+      "reads_from": { "method_node": "Decompose", "feeds": ["goldenpath/mark16/checkout.json", "goldenpath/mark16/moves.json"] },
+      "encoding": "position = textual order; indentation = nesting (M4 sits inside M3); a move label + operation persistently; agent/substrate/outcome/paraphrase on select. v1 aligns at VERSE grain (moves.json is verse-grain); exact-span highlighting is the fidelity ceiling, pending a move→char-span map (method roadmap).",
+      "audience": "both",
+      "composes_into": "the reading room — the inner margin beside the Plate",
+      "variants": [
+        { "name": "Move Score", "note": "bars aligned to exact text spans (Fable/GPT)" },
+        { "name": "Indented Tree", "note": "outline / d3-hierarchy (Gemini-DR)" }
+      ],
+      "gate": { "fidelity": "pending", "cold_read": "pending", "cold_start": "pass", "vs_wild": "n/a" },
+      "off_the_shelf": "D3 / d3-hierarchy",
+      "reference": "the genome-browser track stack; the Talmudic citation chain",
+      "status": "next — the unanimous first-build (3DR-16), on Mark 16:1–8"
+    },
+    {
+      "id": "connect_intext",
+      "name": "The in-text edges",
+      "also": "Arc Band / Relation Loom",
+      "step": "Connect",
+      "one_line": "how the moves in one passage hold together (LINKAGE / SHAPE / SONIC)",
+      "reads_from": { "method_node": "Connect", "feeds": ["goldenpath/mark16/connect_node_drawer.json"] },
+      "encoding": "the moves stay in textual order; edges live in gutters (never across the prose); hue = KIND only; edge TYPE is a text/glyph label; LINK_SEQUENCE (the weak default) is ghosted; arrow = direction.",
+      "audience": "both (one KIND at a time for readers; all filterable for audit)",
+      "composes_into": "the reading room — a band expanding from the Move Score margin",
+      "variants": [
+        { "name": "The Arc Band", "note": "one baseline; LINKAGE arcs above, SHAPE/SONIC below (Fable)" },
+        { "name": "The Relation Loom", "note": "the move spine + five parallel KIND gutters (GPT)" }
+      ],
+      "gate": { "fidelity": "pending", "cold_read": "pending", "cold_start": "pass", "vs_wild": "n/a" },
+      "off_the_shelf": "D3 (arcs)",
+      "reference": "Wattenberg, The Shape of Song / Arc Diagrams",
+      "status": "planned — build BOTH variants, let the design-crit gate pick (3DR-16 variant-decision)"
+    },
+    {
+      "id": "facing_page",
+      "name": "The Facing Page",
+      "also": "Resonance Diptych",
+      "step": "Connect",
+      "one_line": "what corresponds across texts — and where the correspondence breaks",
+      "reads_from": { "method_node": "Connect", "feeds": ["goldenpath/mark16/connect_node_drawer.json"] },
+      "encoding": "two texts intact, side by side; the shared MOVE stated in a centre band; the BREAK stated directly beneath it, mandatory — a resonance without its break is not renderable. No causal arrow (RESONANCE is non-genealogical).",
+      "audience": "both (the most contemplative object in the set)",
+      "composes_into": "the reading room — the outer margin (distance-from-centre = epistemic distance)",
+      "variants": [ { "name": "The Facing Page", "note": "the one worked MATCH: Mark 'he is not here' ⟷ Daodejing 1" } ],
+      "gate": { "fidelity": "pending", "cold_read": "pending", "cold_start": "pass", "vs_wild": "n/a" },
+      "off_the_shelf": "HTML/CSS grid + a D3 connector",
+      "reference": "the Hexapla / polyglot Bibles",
+      "status": "planned"
+    },
+    {
+      "id": "ledger",
+      "name": "The Ledger of Absences",
+      "also": "Negative-Space Register",
+      "step": "Connect",
+      "one_line": "the edges that are NOT there — a first-class finding, not blank space",
+      "reads_from": { "method_node": "Connect", "feeds": ["goldenpath/mark16/connect_node_drawer.json"] },
+      "encoding": "a positive mark for a negative result: ○ = tested-and-absent, · = not assessed, — = not applicable. Every ○ carries its search-scope, so 'no edge found within the declared universe' never overclaims 'no edge exists'. Mark 16:8 itself ends in an absence — the convention rhymes with the passage.",
+      "audience": "academic-first; quiet marks for readers ('nothing answers this')",
+      "composes_into": "the reading room — inline empty sockets + a full register margin",
+      "variants": [ { "name": "The Ledger", "note": "styled register + empty-socket marks in the Move Score / edges views" } ],
+      "gate": { "fidelity": "pending", "cold_read": "pending", "cold_start": "pass", "vs_wild": "n/a" },
+      "off_the_shelf": "Observable Plot (the register table)",
+      "reference": "the apparatus criticus (the silence of a witness is evidence)",
+      "status": "planned"
+    },
+    {
+      "id": "topology",
+      "name": "The Topology Lab",
+      "also": "Structure Matrix",
+      "step": "Connect",
+      "one_line": "hubs, components, density — the graph, when we temporarily set textual order aside",
+      "reads_from": { "method_node": "Connect", "feeds": ["goldenpath/mark16/connect_node_drawer.json"] },
+      "encoding": "a node-link graph or an adjacency matrix; nested moves as compound nodes; strong filtering by KIND/TYPE. Explicitly the SECONDARY / research view — never the primary reading view (it sacrifices textual order).",
+      "audience": "academic / research only",
+      "composes_into": "opened from the reading room, not embedded in it",
+      "variants": [
+        { "name": "Structure Matrix", "note": "rows/cols = moves in text order; cell = edge (Observable Plot)" },
+        { "name": "Topology graph", "note": "Cytoscape.js compound-node graph; or hierarchical edge-bundling (Gemini-DR)" }
+      ],
+      "gate": { "fidelity": "pending", "cold_read": "pending", "cold_start": "pass", "vs_wild": "n/a" },
+      "off_the_shelf": "Cytoscape.js / Observable Plot",
+      "reference": "Holten, Hierarchical Edge Bundles; Bertin",
+      "status": "planned — secondary/research"
+    }
+  ]
+}
