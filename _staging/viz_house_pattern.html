@@ -36,7 +36,9 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,44px);font-weight:600;let
 .block{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:18px 20px;margin:0 0 16px;scroll-margin-top:60px}
 .block-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:2px}
 .block-h h3{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--eng);margin:0;line-height:1.2}
-.block-src{font-family:var(--mono);font-size:9.5px;letter-spacing:.03em;color:var(--muted)}
+.block-src{font-family:var(--mono);font-size:9.5px;letter-spacing:.03em;color:var(--muted);margin:2px 0 0}
+.block-src a{color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 35%,transparent)}
+.block-src code{font-family:var(--mono);color:var(--eng)}
 .block-status{font-family:var(--mono);font-size:8.5px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;padding:2px 7px;border-radius:4px;white-space:nowrap;border:1px solid var(--line)}
 .block-status.live{color:#fff;background:var(--sub);border-color:var(--sub)}
 .block-status.v1{color:#8a5a12;background:color-mix(in srgb,var(--honey) 24%,var(--bg));border-color:color-mix(in srgb,var(--honey) 50%,var(--line))}
@@ -90,9 +92,8 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,44px);font-weight:600;let
     <p class="reads">Grouped by <b>processing-distance</b>: how far a figure sits from the raw encoding. This page is a work-in-progress pattern-book, filled one viz at a time.</p>
   </header>
 
-  <nav class="toc" id="toc"><span class="k">on this page</span>
+  <nav class="toc" id="toc"><span class="k">groups · by processing-distance</span>
     <a href="#encoded">Encoded</a>
-    <a href="#lineage">Lineage / tributary</a>
     <a href="#analyzed">Analyzed</a>
     <a href="#sourced">Sourced</a>
     <a href="#synthesis">Synthesis</a>
@@ -109,7 +110,7 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,44px);font-weight:600;let
         <h3>Lineage — where prior tradition bears weight in Mark 16</h3>
         <span class="block-status live">rendered from data</span>
       </div>
-      <p class="block-src">Situate · Lineage → the tributary. Source: engine/data/viz/lineage_matrix.json (DATA_lineage_matrix_s161)</p>
+      <p class="block-src">visualizes <a href="/engine/method-engine.html">Situate · Lineage</a> &nbsp;·&nbsp; data: <code>engine/data/viz/lineage_matrix.json</code> &larr; DATA_lineage_matrix_s161 (reading-SB)</p>
       <p class="block-what">Upstream scriptural, intratextual, and early-Christian materials mapped to the specific narrative <b>moves</b> they scaffold or authorize — with the moves that stand on <i>no</i> coded upstream shown as the negative space.</p>
       <div id="lineage-body"><p class="caption">loading…</p></div>
       <p class="caption">Counts distinguish individual references from independent source families. Marks indicate proposed relations, not equal-strength proof of direct dependence. Hover a cell for the source, the transformation, and what the borrowing leaves unsaid (the seam).</p>
@@ -118,30 +119,36 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,44px);font-weight:600;let
     <!-- CARDS: the other encoded viz (linking to what exists; each becomes its own rendered block next) -->
     <div class="block">
       <div class="block-h"><h3>Text — the voices</h3><span class="block-status linked">linked</span></div>
+      <p class="block-src">visualizes <a href="/engine/method-engine.html">Text</a> (the checkout) &nbsp;·&nbsp; data: canonical_voices / the checkout package</p>
       <p class="block-what">What the library holds for a passage: the voices/editions checked out. The Text node's encoded view.</p>
       <a class="block-link" href="/reading-room-preview/voices.html?g=mark" target="_blank">open voices.html →</a>
     </div>
     <div class="block">
       <div class="block-h"><h3>Decompose + Situate — by move</h3><span class="block-status linked">linked</span></div>
+      <p class="block-src">visualizes <a href="/engine/method-engine.html">Decompose + Situate</a> &nbsp;·&nbsp; data: source_move + the situate lens tables</p>
       <p class="block-what">The passage as a sequence of coded moves with their situating context, move by move.</p>
       <a class="block-link" href="/reading-room-preview/reading.html" target="_blank">open reading.html →</a>
     </div>
     <div class="block">
       <div class="block-h"><h3>Connect — the constellation</h3><span class="block-status v1">v3 artifact</span></div>
+      <p class="block-src">visualizes <a href="/engine/method-engine.html">Connect</a> (sonic / edges) &nbsp;·&nbsp; data: connect_edge + sonic MOTIF (export pending)</p>
       <p class="block-what">The edges between moves, drawn as a constellation (sonic + structural recurrence). Upgrade to the MOTIF-based figure is pending reading-SB's MOTIF data export.</p>
       <a class="block-link" href="/engine/artifacts/VIZ_constellation_v3_unified_coffee_2026-07-27.html" target="_blank">open the v3 constellation →</a>
     </div>
     <div class="block">
       <div class="block-h"><h3>Situate — combined</h3><span class="block-status linked">linked</span></div>
+      <p class="block-src">visualizes <a href="/engine/method-engine.html">Situate</a> (all 5 lenses) &nbsp;·&nbsp; data: the sitz / paradigm / frame / witness / lineage tables</p>
       <p class="block-what">The five situating lenses (Sitz · Paradigm · Frame · Witness · Lineage) shown together on the passage.</p>
       <a class="block-link" href="/reading-room-preview/situate.html" target="_blank">open situate.html →</a>
     </div>
     <div class="block">
       <div class="block-h"><h3>Witness — degrees of separation</h3><span class="block-status v1">data ready (v2)</span></div>
-      <p class="block-what">Transmission distance from the event, counted. Render-from-data next: engine/data/viz/ ← DATA_witness_transmission_v2_s161.json (v1 render exists in pm/50_audits).</p>
+      <p class="block-src">visualizes <a href="/engine/method-engine.html">Situate · Witness</a> &nbsp;·&nbsp; data: DATA_witness_transmission_v2_s161 (reading-SB)</p>
+      <p class="block-what">Transmission distance from the event, counted. Render-from-data next (v1 render exists in pm/50_audits).</p>
     </div>
     <div class="block">
       <div class="block-h"><h3>Frame — the morphospace</h3><span class="block-status linked">on the method page</span></div>
+      <p class="block-src">visualizes <a href="/engine/method-engine.html">Situate · Frame</a> &nbsp;·&nbsp; data: the atlas frame-reader (8 axes)</p>
       <p class="block-what">The passage-frame and its move-frames plotted within the wider 8-axis morphospace.</p>
       <a class="block-link" href="/engine/schema.html" target="_blank">the atlas / morphospace →</a>
     </div>
