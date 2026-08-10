@@ -40,12 +40,24 @@ The figure is no longer "Flow / Table / Diagram." It is ONE figure — **the Mov
 - **GPT — encounter the passage intact FIRST:** show Mark 16:1–8 whole, no decomposition, before the first move — so the Move Score begins as an act of reading, not analysis.
 - **Gemini-DR — a zoom/scale slider (close ↔ distant):** 100% = every move; 10% = a Tufte sparkline of the passage's arc (Anticipation → Discovery → Fear/Silence). Distant-reading (Moretti) as a peer of close reading; a "grasp the whole in a glance, then zoom in" affordance.
 
-## The ONE decision for the PI (all three cohorts ended here)
+## The 16:8 ending decision — DECIDED (PI, 2026-08-10): (c) the trace, ZERO-TOKEN tier
 
-At the silence of **16:8**, what should exist that didn't before? This gates the ending screen, the anatomy card, and what Inspect stores:
-- **(a) Nothing** — the reading is complete in itself (purely receptive).
-- **(b) A return** — the reader re-reads (the recomposition beat is the terminus).
-- **(c) A trace** — the reader keeps a phrase / writes a response (Inspect/Workbench must then *store* something).
+At the silence of **16:8**, the reader may leave a **trace** — but not only at the end: the trace is a **reader-annotation
+layer** over the whole reading (highlight a phrase or a move, add a comment, save it) in the **Readwise / Hypothesis / Kindle-
+highlights / Genius** idiom — the reader builds their own marks on the text. **Zero-token** (storage + UI, no LLM). Crucial
+alignment: annotations anchor to text SPANS via the **W3C Web Annotation model** — the SAME anchoring layer GPT + the DR
+flagged for anchoring the coded moves — so a reader's highlight and a coded move attach to the text identically (Hypothesis.is
+is the open-source implementation of that standard). The 16:8 silence is simply where the trace-invitation is most pointed
+(the empty outcome-slot; "what does this ending leave you holding?"). The **AI "mirroring"** (an instrument that reflects /
+responds to the reader's note — the psychoanalytic mirror) is a deliberate, budgeted **v2 opt-in** that slots into the SAME
+annotation store later without rework. So: immersive reader-annotation now (free); the mirror when the budget says so.
+(Options: (a) nothing/receptive, (b) return/reread, (c) trace — PI chose (c), Readwise-style annotation.)
+
+**Scope note (verified 2026-08-10):** Mark 16 is TWO chunks and the checkout splits them at 16:8 — chunk 0 = 16:1–8 (23 moves,
+the short ending), chunk 1 = 16:9–20 (32 moves, the disputed longer ending). moves.json + checkout.json carry both; v1 builds
+chunk 1 (16:1–8) but the layout is both-chunks-ready, because the 16:8 boundary IS the drama: the reading reaches "for they
+were afraid" → the apparatus marks "the earliest manuscripts end here" → chunk 2 is visibly the *added* ending. The empty
+outcome-slot / rest-glyph at 16:8 (Fable) + the trace invitation land exactly on that fracture.
 
 (GPT frames the sibling question — "encounter the text intact first?" — and Gemini-DR the deeper one — does the data model allow *competing* Move Scores for the same verse? Method SB already answered the last: the model is plural-capable; render the single canonical run for v1.)
 
