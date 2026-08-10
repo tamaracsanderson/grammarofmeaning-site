@@ -99,7 +99,7 @@ footer.foot a{color:var(--fern);text-decoration:none}
 <header class="pg">
   <p class="kick">a reading in moves</p>
   <h1 class="title">The Move Score</h1>
-  <p class="lede">Mark 16, read one operation at a time — the words stay; each move is read off them.</p>
+  <p class="lede">Mark 16, read one operation at a time. The words stay; each move is read off them.</p>
 </header>
 <div class="keywrap">
   <button class="keytog" id="keytog">ⓘ How to read a move</button>
@@ -146,7 +146,8 @@ function verseHTML(txt){
   return txt.split(/(\{[^}]+\})/).map(function(p){
     var m=p.match(/^\{(.+)\}$/);
     if(m){var w=(m[1].match(/"([^"]+)"/)||[])[1]||"";
-      return '<button class="app" onclick="this.classList.toggle(\'open\')"><span class="mark">TR</span><span class="note"><b>Textual variant.</b><br>The earliest manuscripts end at 16:8. The Textus Receptus '+(w?('adds &ldquo;'+esc(w)+'&rdquo; here':'')+' — later hands could not bear the silence.':esc(m[1]))+'</span></button>';}
+      var tail=w?('adds &ldquo;'+esc(w)+'&rdquo; here. Later hands could not bear the silence.'):esc(m[1]);
+      return '<button class="app" onclick="this.classList.toggle(\'open\')"><span class="mark">TR</span><span class="note"><b>Textual variant.</b><br>The earliest manuscripts end at 16:8. The Textus Receptus '+tail+'</span></button>';}
     return esc(p);
   }).join('');
 }
