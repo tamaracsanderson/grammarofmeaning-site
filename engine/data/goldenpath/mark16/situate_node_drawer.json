@@ -54,6 +54,7 @@
     "checkout home": "the text's canonical anchor row (text_checkout); the crosswalk that resolves a text's source_key FAMILY + passage_ids.",
     "the source_key family (base + variants)": "one text has a BASE key (MARK-16) plus per-translation variants (MARK-16-WEB / -GRC / -KJV / -LAT). Text-level summaries live at the base key; per-move coding lives on the live translation. Reading only one key misses the rest -- that is Seam-2.",
     "Seam-2": "the failure this card guards against: querying a text on ONE key while its data sits under a sibling key (a key-scatter false-negative). The S162 drawer hit it (read the WEB key, missed the base-key summaries).",
+    "the Connect seam": "a DIFFERENT use of 'seam' (do not confuse with Seam-2): the architectural join between Lineage's store (lineage_record) and Connect's LINEAGE edges. Resolved by Decision 225 (lineage_record is the store of record).",
     "PI": "the principal investigator (the researcher) -- who locks methodology + naming calls (e.g. Witness -> Transmission)."
   },
   "how_we_grade_it": {
@@ -263,14 +264,14 @@
           "connect_edge_LINEAGE": 0
         },
         "badge": "coded",
-        "state": "27 reception links in lineage_record; 0 LINEAGE edges in connect_edge (the seam is unpopulated -- see limits)",
+        "state": "27 reception links in lineage_record (the store of record, Decision 225); the Connect LINEAGE view is a derived projection (0 edges today)",
         "worked": {
           "source_ref": "Daniel 7:9",
           "borrowing_vehicle": "echo",
           "borrowing_function": "scaffold",
           "link_certainty": "contested-echo"
         },
-        "seam_note": "THE Connect seam. Design: Situate:Lineage CONSUMES Connect's LINEAGE edges (one store, two views). Reality S163: connect_edge has 0 LINEAGE edges; the 27 links live in lineage_record via a separate path. So today it is one store, one view -- an honest frontier, not a consumes-the-edges claim.",
+        "seam_note": "THE Connect seam (resolved, Decision 225). connect_edge has 0 LINEAGE edges; the 27 links live in lineage_record (the richer store). Decision 225 locked lineage_record as the STORE OF RECORD; the Connect LINEAGE view, if wanted, is a DERIVED projection from it. So Lineage's DATA is coded (badge: coded); the Connect-side view is derived, not a separate authored store.",
         "drawer_status": "built (S163)"
       }
     ]
@@ -288,10 +289,10 @@
   },
   "honest_limits": [
     "The S162 drawer reported 'Sitz 0, Paradigm 0, not run' -- a Seam-2 FALSE-NEGATIVE. It queried the WEB key; the text-level summaries live at the BASE key (MARK-16) and the per-move notes on the live moveset. All five sub-engines have REAL Mark 16 data. This card queries the family, so the false-negative cannot recur.",
-    "THE LINEAGE SEAM IS UNPOPULATED ON THE CONNECT SIDE. Design: Situate:Lineage CONSUMES Connect's LINEAGE edges (one store, two views). Reality S163: connect_edge holds 0 LINEAGE edges; the reception links live in lineage_record via a separate path. So today it is one store, one view. The Lineage drawer renders from lineage_record and NAMES this frontier; it earns no consumes-the-edges green pill. Open check-the-engine question: are lineage_record and the LINEAGE edges the SAME store (reconcilable) or TWO stores?",
+    "THE LINEAGE SEAM (resolved, Decision 225). Design said Situate:Lineage CONSUMES Connect's LINEAGE edges (one store, two views). Verified S163: connect_edge holds 0 LINEAGE edges; the reception links live in lineage_record (a separate, richer store). The check-the-engine question -- one store or two? -- resolved to TWO stores, and Decision 225 (PI) locked lineage_record as the STORE OF RECORD; the Connect LINEAGE view, if wanted, is a DERIVED projection from it (a small follow-up). Situate:Lineage renders from lineage_record; it earns no consumes-the-edges green pill because that path is derived, not authored.",
     "Transmission (renamed from 'Witness', PI-locked S163) is THIN -- 1 text-level record for Mark 16. It is honestly a frontier aspect: a definition + one worked record, not a scaled run. Physical store: witness_record.",
     "Grain is MIXED across the five and must be declared per aspect: Sitz + Paradigm code at BOTH text and move grain; Frame is passage-level (per-move frame is intended but not populated -- Decompose would stamp passage_id per move); Lineage is move-native; Transmission is text-native. The card states each aspect's grain.",
-    "Only the PARENT card is rebuilt to the 12-section template this pass (S163). Frame + Lineage get their own sub-engine drawers next; Paradigm / Sitz / Transmission are honestly marked coded/thin pending their own drawers."
+    "ALL FIVE sub-engines now have their own drawer, built S163 ('built' = a render-from-data feed on the 12-section template, deployed): Frame, Lineage, Paradigm, Sitz, Transmission. Each carries its own honest pills; the deeper checks (Cold Read, vs-Wild) are owed per drawer and marked there. This parent card summarizes all five."
   ],
   "made_by": [
     "scripts/analysis/build_situate_node_drawer_data_s163.py (this parent card's data; render-from-data)",
