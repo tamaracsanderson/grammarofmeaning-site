@@ -37,9 +37,10 @@ want you to SOLVE what the critique found, with concrete examples.
   passage as a vertical spine. https://grammarofmeaning.org/_staging/viz_move_mockC_diagram.html
 
 Two audiences from ONE figure, via a mode toggle: a READER (a seeker; wants a slow, attentive, "lectio divina" reading of
-what the text is doing) and a RESEARCHER (wants the coding made auditable). Note: some fields are still being finalized
-(the "Situate" layers — a text's context), so they appear only as a designated "coming from Situate" holding slot; do not
-design around them yet.
+what the text is doing) and a RESEARCHER (wants the coding made auditable). This is a CONTEMPLATIVE reading instrument —
+it should be consonant with slow, close-reading traditions (lectio divina, Talmudic chevruta, literary close reading), not
+a dashboard. Note: some fields are still being finalized (the "Situate" layers — a text's context), so they appear only as
+a designated "coming from Situate" holding slot; do not design around them yet.
 
 ## What the 8-persona critique found (the problem you're solving)
 - **Headline:** all three are built for the insider BUILDER, not either audience. The DEFAULT view greets the least-informed
@@ -76,6 +77,13 @@ design around them yet.
 6. **The honest "coming" layer.** How do you show a not-yet-finalized layer ("Situate: sitz · paradigm · frame — coming")
    so it reads as an honest, anticipated absence rather than a bug or an empty box? Give the visual treatment.
 
+7. **Borrow from how OTHER disciplines slow a reader down.** Close reading is not new: literary close reading / New
+   Criticism, lectio divina, Talmudic chevruta, the annotated legal opinion, the musical score, psychoanalytic listening,
+   and computational / distant-vs-close "data" reading all have techniques for making a reader ATTEND and making structure
+   visible. Draw on these AND on research on attention / meaning-making (how do people actually make meaning from a text —
+   what focuses attention, what invites re-reading, what makes an insight land?). For 2–3 of these disciplines: name the
+   TECHNIQUE, say what it does to the reader, and map it concretely onto a move-by-move reading of a passage, with an example.
+
 At the END please give: (a) your single highest-leverage change; (b) the one reference (a page, tool, or artifact) we should
 copy the solution from; and (c) one question you would ask us before we build.
 
@@ -88,8 +96,14 @@ PASTE-END — stop copying here
   URLs; if a cohort cannot browse, it can still solve from the description + the crit findings.)
 - **Save responses to** `research/10_dr/move_score_redesign_responses/move_score_redesign_<cohort>_<DATE>.md` with provenance frontmatter.
 - **Then design-SB reconciles** to `research/10_dr/move_score_redesign_reconciliation_<DATE>.md` (Decision-39 buckets), merged
-  with the 8-persona crit into ONE build spec for the converged figure (the P1 fixes: decode tags + key + strip chrome +
-  gloss jargon + fix the held apparatus).
+  with the 8-persona crit AND our EXISTING reading-practices research into ONE build spec for the converged figure (the P1
+  fixes: decode tags + key + strip chrome + gloss jargon + fix the held apparatus).
+- **Existing internal research to fold in (do NOT reinvent — orient first):** the S138 reading-practices package —
+  `_staging/_moodboards/moodboard_web_mechanics_S138_2026-07-05.html` (the ~28 reading mechanics + treatments),
+  `the_four_layers_index_2026-07-05.html` (reading · ritual · interactivity · treatment),
+  `practices_by_tradition_2026-07-05.html` (128 contemplative practices × 14 traditions),
+  `enactment_matrix_2026-07-05.html`; the companion-Romans mocks (`_staging/_mocks/companion_romans_*_2026-07-08.html`);
+  and reading-SB's prior reading-practice DRs. The 3DR + the crit + THIS existing synthesis merge into the one build spec.
 
 <!-- ── METHODOLOGY FOOTER ──
 HOW PRODUCED: design-SB 2026-08-10 — 3DR-18, the SOLVE/redesign DR that follows the 8-persona design-crit on the three Move
