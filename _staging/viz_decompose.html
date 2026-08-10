@@ -195,8 +195,8 @@ function build(checkout, mdoc){
     var anat = "";
     if(mv.agent) anat += '<dt>agent</dt><dd>'+esc(mv.agent)+'</dd>';
     anat += '<dt>operation</dt><dd>'+esc(mv.operation||mv.move_type||"")+'</dd>';
-    if(mv.substrate) anat += '<dt>on</dt><dd>'+esc(mv.substrate)+'</dd>';
-    if(mv.outcome) anat += '<dt>result</dt><dd>'+esc(mv.outcome)+'</dd>';
+    if(mv.substrate) anat += '<dt>substrate</dt><dd>'+esc(mv.substrate)+'</dd>';
+    if(mv.outcome) anat += '<dt>outcome</dt><dd>'+esc(mv.outcome)+'</dd>';
 
     var lin = "";
     if((mv.lineage||[]).length){
@@ -224,7 +224,7 @@ function build(checkout, mdoc){
       '<p class="c-sub">'+esc(mv.narrator||"")+'</p>'+
       '<div class="c-tags">'+tags+'</div>'+
       '<dl class="anat">'+anat+'</dl>'+
-      (mv.paraphrase?'<p class="c-h">the reading</p><p class="c-body">'+esc(mv.paraphrase)+'</p>':'')+
+      (mv.paraphrase?'<p class="c-h">paraphrase</p><p class="c-body">'+esc(mv.paraphrase)+'</p>':'')+
       (mv.gloss?'<p class="c-h">gloss</p><p class="c-body"><em>'+esc(mv.gloss)+'</em></p>':'')+
       '<div class="c-2">'+
         (mv.sitz?'<div><p class="lab">sitz</p><p class="val">'+esc(mv.sitz)+'</p></div>':'')+
