@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mark 16 · the moves — Decompose (a close reading)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,380;1,9..144,600;0,9..144,400;0,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;
+--fern:#3F7D57;--moss:#2C4A38;--sage:#7E9E86;--gold:#B8924A;--honey:#E0A93B;--terracotta:#C4602F;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--sage:#7E9E86;--gold:#D8B36A;--honey:#E7BE5A;--terracotta:#E08A54;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--sage:#7E9E86;--gold:#D8B36A;--honey:#E7BE5A;--terracotta:#E08A54;}
+:root[data-theme=light]{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;--fern:#3F7D57;--moss:#2C4A38;--sage:#7E9E86;--gold:#B8924A;--honey:#E0A93B;--terracotta:#C4602F;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.bar{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 20px;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(5px);border-bottom:1px solid var(--rule)}
+.bar a{font-family:var(--sans);font-size:13px;color:var(--fern);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fern) 40%,transparent)}
+.bar .rm{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+header.pg{max-width:46rem;margin:0 auto;padding:6vh 22px 1vh;text-align:center}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 12px}
+h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(30px,5.5vw,48px);line-height:1.08;color:var(--moss);margin:0 0 10px}
+.lede{font-family:var(--disp);font-style:italic;font-size:17px;color:var(--ink-2);max-width:36rem;margin:0 auto;line-height:1.5}
+.legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin:20px auto 0;font-family:var(--sans);font-size:12.5px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block;flex:none}
+.i-top{background:var(--fern)}.i-nest{background:var(--gold)}.i-lin{background:var(--terracotta)}.i-veer{background:var(--honey)}
+.i-lin,.i-veer{width:9px;height:9px;border-radius:50%}
+.honest{font-family:var(--sans);font-size:11.5px;color:var(--ink-3);max-width:42rem;margin:14px auto 0;line-height:1.55;font-style:italic}
+.provwrap{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px auto 4px}
+.prov{font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;padding:3px 10px;border-radius:999px;border:1px solid var(--rule);color:var(--ink-3)}
+.prov b{color:var(--fern);font-weight:500}
+/* layout */
+.layout{display:flex;gap:clamp(20px,3.2vw,48px);max-width:74rem;margin:2vh auto 0;padding:0 22px 20vh;align-items:flex-start}
+.read{flex:1 1 auto;min-width:0}
+.verse{margin:0 0 6px;padding:14px 16px;border-radius:10px;transition:background .2s}
+.verse.hot{background:color-mix(in srgb,var(--fern) 7%,transparent)}
+.vnum{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.08em;vertical-align:.35em;margin-right:8px}
+.vtext{font-family:var(--serif);font-size:19px;line-height:1.62;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:11px 0 0}
+.mchip{font-family:var(--sans);font-size:12px;padding:5px 11px 5px 9px;border-radius:999px;border:1px solid var(--rule);background:var(--paper-3);color:var(--ink-2);cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:all .14s;line-height:1.2}
+.mchip:hover{border-color:var(--fern);color:var(--ink)}
+.mchip .dot{width:8px;height:8px;border-radius:2px;flex:none;background:var(--fern)}
+.mchip.nest{margin-left:16px}
+.mchip.nest .dot{border-radius:2px;background:var(--gold)}
+.mchip .op{font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:lowercase}
+.mchip .badge{width:7px;height:7px;border-radius:50%;flex:none}
+.mchip .b-lin{background:var(--terracotta)}.mchip .b-veer{background:var(--honey)}
+.mchip.active{background:var(--moss);border-color:var(--moss);color:var(--paper-3)}
+.mchip.active .dot{background:var(--paper-3)}.mchip.active .op{color:color-mix(in srgb,var(--paper-3) 75%,transparent)}
+/* card rail */
+.rail{flex:0 0 340px;position:sticky;top:66px;align-self:flex-start;max-height:calc(100vh - 84px);overflow:auto}
+@media(max-width:900px){.rail{position:static;flex-basis:auto;width:100%;max-height:none;margin-top:8px}.layout{flex-direction:column}}
+.card{border:1px solid var(--rule);border-radius:12px;background:var(--paper-3);padding:20px;box-shadow:0 14px 30px -24px rgba(36,48,42,.35)}
+.c-eye{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 5px}
+.c-op{font-family:var(--disp);font-style:italic;font-weight:600;font-size:23px;color:var(--moss);line-height:1.15;margin:0 0 4px;text-transform:capitalize}
+.c-sub{font-family:var(--sans);font-size:11.5px;color:var(--ink-3);margin:0 0 14px}
+.c-tags{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.c-tag{font-family:var(--mono);font-size:10px;letter-spacing:.04em;padding:3px 8px;border-radius:6px;border:1px solid var(--rule);color:var(--ink-2)}
+.c-tag.on{border-color:color-mix(in srgb,var(--terracotta) 50%,transparent);color:var(--terracotta)}
+.c-tag.veer{border-color:color-mix(in srgb,var(--honey) 55%,transparent);color:var(--gold)}
+.anat{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:0 0 14px;padding:12px 14px;border-radius:9px;background:color-mix(in srgb,var(--fern) 6%,transparent);border:1px solid color-mix(in srgb,var(--fern) 20%,transparent)}
+.anat dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--fern);padding-top:3px}
+.anat dd{margin:0;font-family:var(--serif);font-size:14.5px;line-height:1.4;color:var(--ink)}
+.c-h{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:14px 0 5px}
+.c-body{font-family:var(--sans);font-size:13.5px;line-height:1.6;color:var(--ink-2);margin:0}
+.c-body em{font-style:italic;color:var(--ink)}
+.c-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 0}
+.c-2 .lab{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 3px}
+.c-2 .val{font-family:var(--sans);font-size:12.5px;color:var(--ink-2);line-height:1.4}
+.c-lin{margin:12px 0 0;padding:10px 12px;border-left:2px solid var(--terracotta);background:color-mix(in srgb,var(--terracotta) 6%,transparent);border-radius:0 8px 8px 0}
+.c-lin .lh{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--terracotta);margin:0 0 5px}
+.c-lin ul{margin:0;padding:0 0 0 16px;font-family:var(--sans);font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.c-veer{margin:12px 0 0;padding:10px 12px;border-left:2px solid var(--honey);background:color-mix(in srgb,var(--honey) 8%,transparent);border-radius:0 8px 8px 0;font-family:var(--sans);font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.c-veer .lh{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:0 0 5px;display:block}
+.c-veer b{color:var(--ink);font-weight:600}
+footer.foot{max-width:46rem;margin:0 auto;padding:0 22px 12vh;font-family:var(--sans);font-size:11.5px;line-height:1.6;color:var(--ink-3);text-align:center;border-top:1px solid var(--rule);padding-top:18px}
+footer.foot a{color:var(--fern);text-decoration:none}
+footer.foot .fnode{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--ink-2)}
+.err{max-width:40rem;margin:8vh auto;padding:0 22px;font-family:var(--sans);color:var(--terracotta);text-align:center}
+</style>
+<script>(function(){try{var t=localStorage.getItem("gom-theme")||"light";document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+</head>
+<body>
+<div class="bar">
+  <a href="/engine/method-engine.html">&larr; the method engine</a>
+  <span class="rm">Decompose · Mark 16 · the moves</span>
+  <a href="/_staging/viz_house_pattern.html">the visualization house &rarr;</a>
+</div>
+<header class="pg">
+  <p class="kick">The bow-tie · node 2 · Decompose</p>
+  <h1 class="title">What Mark 16 is made of, move by move</h1>
+  <p class="lede">The verbatim text on the left; the operations it is built from on the right. Scroll the passage — the card follows the reading. Each <em>move</em> is one operation on one substrate. Click any move to pin it.</p>
+  <div class="legend">
+    <span><i class="i-top"></i> top-level move</span>
+    <span><i class="i-nest"></i> nested inside another</span>
+    <span><i class="i-lin"></i> carries a lineage citation</span>
+  </div>
+  <div class="provwrap" id="prov"></div>
+  <p class="honest">This is <b>Decompose</b> — the segmentation into moves. It does <em>not</em> show the relations <em>between</em> moves (that is the next node, Connect / the edges). The moves are the real coded units, not a paraphrase of the passage; the verse text is the WEB translation, verbatim and whole.</p>
+</header>
+<div class="layout">
+  <div class="read" id="read">Loading the reading…</div>
+  <aside class="rail"><div class="card" id="card">Scroll or click a move.</div></aside>
+</div>
+<footer class="foot">
+  <p class="fnode" id="footnode"></p>
+  <p><b>Data · owner:</b> reading/method SB writes the feeds from the DB; design-SB renders. <b>Fix the generator, never this figure.</b></p>
+  <p><a href="/engine/method-engine.html">Open the Decompose drawer</a> · <a href="/_staging/viz_principles.html">the visualization principles</a></p>
+</footer>
+
+<script>
+var BASE = "/engine/data/goldenpath/mark16/";
+var esc = function(s){ return String(s==null?"":s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];}); };
+
+Promise.all([
+  fetch(BASE+"checkout.json").then(function(r){return r.json();}),
+  fetch(BASE+"moves.json").then(function(r){return r.json();})
+]).then(function(res){ build(res[0], res[1]); }).catch(function(e){
+  document.getElementById("read").innerHTML = '<div class="err">Could not load the feeds ('+esc(e.message)+'). The data is owned by reading/method SB under engine/data/goldenpath/mark16/.</div>';
+});
+
+function parseVerses(checkout){
+  // Concatenate every unit's text; pull chapter-016 verses out of the "016:0NN" markers.
+  var whole = (checkout.units||[]).map(function(u){return u.text||"";}).join("\n");
+  var re = /(\d{3}):(\d{3})/g, out = {}, m, marks = [];
+  while((m = re.exec(whole))){ marks.push({ch:+m[1], v:+m[2], at:m.index, end:re.lastIndex}); }
+  for(var i=0;i<marks.length;i++){
+    var cur = marks[i], next = marks[i+1];
+    if(cur.ch !== 16) continue;
+    var body = whole.slice(cur.end, next?next.at:whole.length);
+    out[cur.v] = body.replace(/\s+/g," ").trim();
+  }
+  return out;
+}
+
+function build(checkout, mdoc){
+  var verses = parseVerses(checkout);
+  var moves = (mdoc.moves||[]).slice().sort(function(a,b){return a.idx-b.idx;});
+  var cov = mdoc.coverage||{}, nmv = cov.n_moves || moves.length;
+
+  // provenance pills
+  document.getElementById("prov").innerHTML =
+    '<span class="prov">visualizes <b>Decompose</b></span>'+
+    '<span class="prov">data: <b>checkout.json</b> + <b>moves.json</b></span>'+
+    '<span class="prov"><b>'+nmv+'</b> moves · <b>'+(cov.bundled&&cov.bundled.nested_moves||0)+'</b> nested · <b>'+moves.filter(function(x){return (x.lineage||[]).length;}).length+'</b> cite a source · <b>'+moves.filter(function(x){return x.frame_delta;}).length+'</b> veer the frame</span>';
+  document.getElementById("footnode").textContent =
+    "method-engine node: Decompose  ·  source_key "+(mdoc.source_key||"MARK-16-WEB")+"  ·  lineage_tag "+(mdoc.lineage_tag||"");
+
+  // group moves by first verse
+  var byVerse = {};
+  moves.forEach(function(mv){
+    var v = mv.verse_start || (mv.verse_refs && mv.verse_refs[0]) || 0;
+    (byVerse[v] = byVerse[v] || []).push(mv);
+  });
+
+  var vnums = Object.keys(verses).map(Number).sort(function(a,b){return a-b;});
+  var html = "";
+  vnums.forEach(function(v){
+    html += '<div class="verse" id="v'+v+'">'+
+      '<span class="vnum">16:'+v+'</span>'+
+      '<span class="vtext">'+esc(verses[v])+'</span>';
+    var mvs = byVerse[v]||[];
+    if(mvs.length){
+      html += '<div class="chips">';
+      mvs.forEach(function(mv){
+        var nest = mv.nested_under ? " nest" : "";
+        var lin = (mv.lineage||[]).length ? '<i class="badge b-lin" title="carries a lineage citation"></i>' : "";
+        html += '<button class="mchip'+nest+'" data-idx="'+mv.idx+'">'+
+          '<i class="dot"></i>'+esc(mv.label||("M"+mv.idx))+
+          ' <span class="op">'+esc(mv.operation||mv.move_type||"")+'</span>'+lin+'</button>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+  });
+  document.getElementById("read").innerHTML = html;
+
+  // ---- card renderer ----
+  var byIdx = {}; moves.forEach(function(mv){ byIdx[mv.idx]=mv; });
+  var card = document.getElementById("card");
+  function renderCard(mv){
+    if(!mv){ return; }
+    var refs = (mv.verse_refs&&mv.verse_refs.length)? mv.verse_refs.join(", ") : (mv.verse_start||"");
+    var tags = "";
+    tags += '<span class="c-tag">'+esc(mv.move_type||"move")+'</span>';
+    if(mv.voice) tags += '<span class="c-tag">'+esc(mv.voice)+'</span>';
+    tags += '<span class="c-tag">'+(mv.nested_under?"nested":"top-level")+'</span>';
+    if((mv.lineage||[]).length) tags += '<span class="c-tag on">cites '+mv.lineage.length+'</span>';
+    if(mv.frame_delta) tags += '<span class="c-tag veer">frame veers</span>';
+
+    var anat = "";
+    if(mv.agent) anat += '<dt>agent</dt><dd>'+esc(mv.agent)+'</dd>';
+    anat += '<dt>operation</dt><dd>'+esc(mv.operation||mv.move_type||"")+'</dd>';
+    if(mv.substrate) anat += '<dt>on</dt><dd>'+esc(mv.substrate)+'</dd>';
+    if(mv.outcome) anat += '<dt>result</dt><dd>'+esc(mv.outcome)+'</dd>';
+
+    var lin = "";
+    if((mv.lineage||[]).length){
+      lin = '<div class="c-lin"><p class="lh">lineage — this move cites</p><ul>'+
+        mv.lineage.map(function(l){
+          if(typeof l === "string") return '<li>'+esc(l)+'</li>';
+          var bits = [l.ref||l.source||l.target||l.label, l.relation||l.kind, l.note].filter(Boolean).map(esc);
+          return '<li>'+(bits.join(" · ")||esc(JSON.stringify(l)))+'</li>';
+        }).join("")+'</ul></div>';
+    }
+    var veer = "";
+    if(mv.frame_delta){
+      var vline;
+      if(mv.frame_delta_axis && (mv.frame_delta_from || mv.frame_delta_to)){
+        vline = '<b>'+esc(mv.frame_delta_axis)+'</b>: '+esc(mv.frame_delta_from||"")+' → <b>'+esc(mv.frame_delta_to||"")+'</b>';
+      } else {
+        vline = esc(mv.frame_delta);
+      }
+      veer = '<div class="c-veer"><span class="lh">frame veer · off the passage baseline</span>'+vline+'</div>';
+    }
+
+    card.innerHTML =
+      '<p class="c-eye">Move '+esc(mv.label||("M"+mv.idx))+' · Mark 16:'+esc(refs)+'</p>'+
+      '<h2 class="c-op">'+esc(mv.operation||mv.move_type||"move")+'</h2>'+
+      '<p class="c-sub">'+esc(mv.narrator||"")+'</p>'+
+      '<div class="c-tags">'+tags+'</div>'+
+      '<dl class="anat">'+anat+'</dl>'+
+      (mv.paraphrase?'<p class="c-h">the reading</p><p class="c-body">'+esc(mv.paraphrase)+'</p>':'')+
+      (mv.gloss?'<p class="c-h">gloss</p><p class="c-body"><em>'+esc(mv.gloss)+'</em></p>':'')+
+      '<div class="c-2">'+
+        (mv.sitz?'<div><p class="lab">sitz</p><p class="val">'+esc(mv.sitz)+'</p></div>':'')+
+        (mv.paradigm?'<div><p class="lab">paradigm</p><p class="val">'+esc(mv.paradigm)+'</p></div>':'')+
+      '</div>'+
+      lin+veer;
+  }
+
+  // ---- interaction: click pins; scroll drives ----
+  var chips = Array.prototype.slice.call(document.querySelectorAll(".mchip"));
+  var activeIdx = null, pinned = false;
+  function setActive(idx, fromClick){
+    if(idx===activeIdx && !fromClick) return;
+    activeIdx = idx;
+    chips.forEach(function(c){ c.classList.toggle("active", +c.dataset.idx===idx); });
+    document.querySelectorAll(".verse").forEach(function(vd){ vd.classList.remove("hot"); });
+    var mv = byIdx[idx];
+    if(mv){ var vd=document.getElementById("v"+(mv.verse_start||(mv.verse_refs&&mv.verse_refs[0]))); if(vd) vd.classList.add("hot"); }
+    renderCard(mv);
+  }
+  chips.forEach(function(c){
+    c.addEventListener("click", function(){
+      var idx=+c.dataset.idx;
+      if(pinned && idx===activeIdx){ pinned=false; c.blur(); return; }
+      pinned=true; setActive(idx, true);
+    });
+  });
+  // scroll: closest chip to viewport center
+  var ticking=false;
+  function onScroll(){
+    if(pinned || ticking) return;
+    ticking=true;
+    requestAnimationFrame(function(){
+      var mid = window.innerHeight*0.42, best=null, bd=1e9;
+      chips.forEach(function(c){
+        var r=c.getBoundingClientRect(), cc=(r.top+r.bottom)/2, d=Math.abs(cc-mid);
+        if(r.bottom>0 && r.top<window.innerHeight && d<bd){ bd=d; best=+c.dataset.idx; }
+      });
+      if(best!=null) setActive(best,false);
+      ticking=false;
+    });
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  // initial
+  setActive(moves[0].idx, true); pinned=false;
+}
+</script>
+</body>
+</html>
+<!-- ── METHODOLOGY FOOTER ──
+HOW PRODUCED: design-SB, this session. A render-from-data scrollytelling close-reading of the Decompose node (bow-tie node 2)
+  for the visualization house. Left column renders the verbatim WEB text (parsed from checkout.json units[].text via the
+  "016:0NN" verse markers, whole verses, no ellipsis per the full-scripture rule); the sticky rail renders the active move's
+  anatomy from moves.json (operation/agent/substrate/outcome + gloss + sitz + paradigm + lineage + frame_delta). Scroll drives
+  the active move (closest chip to viewport center); click pins. Headless per option A: reading/method SB owns the two feeds,
+  this file only renders. First of the 2-3 functional figures for a later Lovable skin pass.
+SCHOLARLY SOURCES: engine/data/goldenpath/mark16/checkout.json (verbatim WEB, verse-marked) + moves.json (the 55-move
+  decomposition, reading/method SB S16x). The Decompose method node (method-engine.html drawer). CLAUDE.md §2.13 (single
+  store), §2.16 (SSOT), the full-scripture-no-ellipsis + real-data-over-paraphrase memories.
+WHAT NEEDS VERIFICATION: (1) frame_delta on moves.json is currently a flag + axis/from/to; if reading/method SB enriches its
+  shape, the c-veer block should follow. (2) lineage[] item shape is rendered defensively (string OR object) — confirm against
+  the producer once the bilingual/edge feeds land. (3) Lovable skin pass pending: this is functional v0, not the final look. -->
