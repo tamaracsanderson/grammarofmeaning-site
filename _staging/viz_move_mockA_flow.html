@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Reading Flow — Mark 16:1–8</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600;0,9..144,400;0,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#0E0E0C;--ink-soft:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;
+--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;}
+:root[data-theme=light]{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#0E0E0C;--ink-soft:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink-soft);font-family:var(--serif);font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.bar{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 20px;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(5px);border-bottom:1px solid var(--rule)}
+.bar a{font-family:var(--sans);font-size:13px;color:var(--fern);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fern) 40%,transparent)}
+.bar .rm{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.modebtn{position:fixed;top:54px;right:14px;border:1px solid var(--rule);background:var(--paper-3);color:var(--ink-2);border-radius:999px;padding:4px 11px;font-family:var(--sans);font-size:11px;cursor:pointer;z-index:40}
+.modebtn b{color:var(--fern);font-weight:600}
+
+header.pg{max-width:52rem;margin:0 auto;padding:5vh 22px 0;text-align:center}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 12px}
+h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(26px,4.5vw,40px);line-height:1.1;color:var(--moss);margin:0 0 10px}
+.lede{font-family:var(--disp);font-style:italic;font-size:16px;color:var(--ink-2);max-width:38rem;margin:0 auto;line-height:1.5}
+.provwrap{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:18px auto 6px}
+.prov{font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;padding:3px 10px;border-radius:999px;border:1px solid var(--rule);color:var(--ink-3)}
+.prov b{color:var(--fern);font-weight:500}
+.note{font-family:var(--sans);font-size:12px;color:var(--ink-3);text-align:center;max-width:41rem;margin:8px auto 0;line-height:1.55}
+.note b{color:var(--ink-2);font-weight:500}
+
+/* two-column layout: the reading flow + a sticky anatomy rail */
+.layout{display:grid;grid-template-columns:1fr 22.5rem;gap:clamp(20px,3vw,44px);max-width:68rem;margin:2vh auto 0;padding:0 22px 24vh;align-items:start}
+body.reading .layout{grid-template-columns:1fr;max-width:40rem}
+main.reading{min-width:0}
+
+/* one move = one dwelling */
+.move-block{position:relative;padding:4.5vh 16px;margin:0 -16px;border-top:1px solid color-mix(in srgb,var(--rule) 45%,transparent);scroll-margin-top:80px;border-radius:10px;transition:background .25s,box-shadow .25s}
+.move-block:first-child{border-top:none}
+.move-block.active{background:color-mix(in srgb,var(--fern) 7%,transparent);box-shadow:inset 3px 0 0 var(--fern)}
+.move-block.nest{margin-left:14px;padding-left:30px}
+.move-block.nest::before{content:"";position:absolute;left:16px;top:4.5vh;bottom:4.5vh;width:2px;background:color-mix(in srgb,var(--gold) 50%,var(--rule));border-radius:2px}
+.mb-lab{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--gold);margin-bottom:9px}
+/* the paraphrase headline — Decompose's reading of one operation; NOT pure black (the verbatim owns that layer) */
+.mb-para{font-family:var(--disp);font-style:italic;font-weight:400;font-size:clamp(20px,2.4vw,27px);line-height:1.35;color:var(--ink-soft);transition:color .25s;letter-spacing:-.005em}
+.move-block.active .mb-para{color:var(--fern)}
+body.reading .move-block.active .mb-para{color:var(--moss)}
+/* the verbatim verse it sits on — the ONLY pure black */
+.scrip{margin-top:16px;padding:12px 16px;border-left:3px solid var(--gold);border-radius:0 8px 8px 0;background:color-mix(in srgb,var(--gold) 7%,transparent);font-family:var(--serif);font-size:16.5px;line-height:1.6;color:var(--ink)}
+.scrip .sl{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.scrip-same{margin-top:14px;font-family:var(--sans);font-size:12px;font-style:italic;color:var(--ink-3);padding:5px 0 5px 14px;border-left:2px solid color-mix(in srgb,var(--gold) 30%,transparent)}
+.scrip-same .ref{font-family:var(--mono);font-style:normal;font-size:10px;letter-spacing:.06em;color:var(--gold);margin-right:6px}
+/* apparatus siglum — visibly NOT the text: raised, small, terracotta, its own layer */
+.app{position:relative;display:inline;border:none;background:none;padding:0;margin:0 1px;cursor:pointer;font-family:var(--mono);font-size:.62em;font-weight:500;vertical-align:.42em;color:var(--terracotta);letter-spacing:.04em}
+.app .mark{border-bottom:1px dotted color-mix(in srgb,var(--terracotta) 60%,transparent);padding:0 1px}
+.app .anote{position:absolute;left:50%;top:1.6em;transform:translateX(-50%) scale(.96);transform-origin:top center;min-width:14rem;max-width:20rem;background:var(--paper-3);border:1px solid color-mix(in srgb,var(--terracotta) 45%,var(--rule));border-radius:8px;box-shadow:0 12px 28px -20px rgba(36,48,42,.5);padding:9px 12px;font-family:var(--sans);font-size:12.5px;font-weight:400;line-height:1.5;color:var(--ink-2);text-transform:none;letter-spacing:0;vertical-align:baseline;opacity:0;visibility:hidden;transition:opacity .12s,transform .12s;z-index:6;text-align:left}
+.app .anote b{color:var(--terracotta);font-family:var(--mono);font-size:11px}
+.app:hover .anote,.app.open .anote{opacity:1;visibility:visible;transform:translateX(-50%) scale(1)}
+
+/* the sticky anatomy rail (research mode) */
+.rail{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 80px);overflow:auto;border:1px solid var(--rule);border-radius:12px;background:var(--paper-3);padding:16px 16px 18px;box-shadow:0 14px 30px -24px rgba(36,48,42,.3)}
+body.reading .rail{display:none}
+.rail-pos{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:2px}
+.rail-lab{font-family:var(--disp);font-style:italic;font-weight:600;font-size:18px;color:var(--moss);margin-bottom:10px}
+.rail-tags{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.r-tag{font-family:var(--mono);font-size:9px;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:5px;border:1px solid var(--rule);color:var(--ink-2)}
+.r-tag.top{border-color:color-mix(in srgb,var(--fern) 55%,var(--rule));color:var(--fern)}
+.r-tag.nested{border-color:color-mix(in srgb,var(--gold) 60%,var(--rule));color:var(--gold)}
+.rail-h{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:15px 0 6px;border-top:1px dotted var(--rule);padding-top:11px}
+/* the move, diagrammed — agent → operation → outcome */
+.gram{margin:2px 0 2px}
+.g-tier{font-family:var(--mono);font-size:10.5px;color:var(--ink-2);line-height:1.5;padding:3px 0}
+.g-tier .g-lab{color:var(--gold);text-transform:uppercase;letter-spacing:.08em;font-size:9px}
+.g-flow{display:flex;align-items:stretch;gap:5px;margin:7px 0}
+.g-box{flex:1;min-width:0;border:1px solid var(--rule);border-radius:8px;padding:6px 9px;background:var(--paper-2);font-family:var(--sans);font-size:12.5px;color:var(--ink);line-height:1.3}
+.g-box .g-t{display:block;font-family:var(--mono);font-size:8.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
+.g-agent{border-color:color-mix(in srgb,var(--fern) 45%,var(--rule))}
+.g-out{border-color:color-mix(in srgb,var(--gold) 50%,var(--rule))}
+.g-op{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;flex:0 0 auto;padding:0 1px}
+.g-op .g-arw{color:var(--fern);font-size:13px;line-height:.9}
+.g-opn{font-family:var(--mono);font-size:9.5px;color:var(--moss);font-weight:600;text-align:center;max-width:5.4rem;line-height:1.1}
+.g-sub{font-family:var(--sans);font-size:12px;color:var(--ink-2);padding:2px 0 2px 10px;border-left:2px solid color-mix(in srgb,var(--fern) 35%,transparent);margin:3px 0 3px 20px}
+.g-sub .g-t{font-family:var(--mono);font-size:8.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;margin-right:6px}
+.gdim{color:var(--ink-3);opacity:.55}
+.g-nest{font-family:var(--mono);font-size:10px;color:var(--ink-3);margin-top:5px}
+/* what shifted from the last move — built from FINALIZED fields only (agent · voice · type) */
+.rail-shift{font-family:var(--sans);font-size:11.5px;color:var(--ink-2);margin:8px 0 0;line-height:1.5;padding:8px 11px;background:color-mix(in srgb,var(--paper-2) 55%,transparent);border-radius:7px}
+.rail-shift .sl{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+.rail-shift .row{display:block;margin:2px 0}
+.rail-shift .k{font-family:var(--mono);font-size:9.5px;color:var(--fern);text-transform:uppercase;letter-spacing:.05em}
+.rail-shift .arw{color:var(--gold);font-weight:700;padding:0 4px}
+.rail-shift.none{color:var(--ink-3);font-style:italic;background:transparent;padding:8px 0 0}
+/* the Situate holding-slot — the layout keeps a place for fields not yet finalized */
+.holdslot{margin:15px 0 0;border:1px dashed color-mix(in srgb,var(--ink-3) 55%,var(--rule));border-radius:9px;padding:11px 13px;background:color-mix(in srgb,var(--paper-2) 30%,transparent)}
+.holdslot .hl-l{font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:0 0 4px}
+.holdslot .hl-b{font-family:var(--sans);font-size:12px;font-style:italic;color:var(--ink-3);line-height:1.4;margin:0}
+
+.held{max-width:41rem;margin:2vh auto 0;padding:0 22px;font-family:var(--sans);font-size:11px;color:var(--ink-3);text-align:center;font-style:italic;line-height:1.5}
+.honest{max-width:41rem;margin:2vh auto 0;padding:0 22px;font-family:var(--sans);font-size:11.5px;font-style:italic;color:var(--ink-3);line-height:1.55;text-align:center}
+footer.foot{max-width:46rem;margin:4vh auto 0;padding:4vh 22px 12vh;font-family:var(--sans);font-size:11.5px;line-height:1.6;color:var(--ink-3);text-align:center;border-top:1px solid var(--rule)}
+footer.foot a{color:var(--fern);text-decoration:none}
+footer.foot .fnode{font-family:var(--mono);font-size:10.5px;color:var(--ink-2)}
+.err{color:var(--terracotta);font-family:var(--sans);font-size:14px;text-align:center;margin:8vh auto;max-width:40rem}
+
+/* audit ↔ reading mode: audit chrome (our vocabulary) is showcase-only; reading strips it */
+body.reading .audit-only{display:none!important}
+
+@media(max-width:760px){
+  .layout{grid-template-columns:1fr;max-width:40rem;padding-bottom:34vh}
+  .rail{position:fixed;left:0;right:0;bottom:0;top:auto;max-height:46vh;border-radius:14px 14px 0 0;border-bottom:0;z-index:24;box-shadow:0 -14px 34px -26px rgba(36,48,42,.6);background:color-mix(in srgb,var(--paper-3) 96%,transparent);backdrop-filter:blur(6px)}
+  body.reading .layout{padding-bottom:14vh}
+}
+</style>
+<script>(function(){try{var t=localStorage.getItem("gom-theme")||"light";document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+</head>
+<body>
+<div class="bar">
+  <a href="/_staging/viz_move_score.html">&larr; the Move Score</a>
+  <span class="rm">The Reading Flow · Mark 16 · Decompose</span>
+  <a href="/engine/design-engine.html">the design engine &rarr;</a>
+</div>
+<button class="modebtn" id="modebtn" title="toggle audit (our vocabulary) vs reading (what the reader sees)">view: <b>audit</b></button>
+
+<header class="pg">
+  <p class="kick audit-only">The bow-tie · node 2 · Decompose · direction A</p>
+  <h1 class="title">The Reading Flow</h1>
+  <p class="lede">One operation at a time. Read the move, then dwell on the verse it is read off. Scroll slowly; the anatomy on the right keeps pace with wherever your eye rests.</p>
+  <div class="provwrap audit-only" id="prov"></div>
+  <p class="note audit-only" id="note"></p>
+</header>
+
+<div id="stage"><p class="err" id="msg">Loading the reading…</p></div>
+
+<p class="held audit-only" id="held"></p>
+<p class="honest audit-only" id="honest"></p>
+<footer class="foot audit-only">
+  <p class="fnode" id="footnode"></p>
+  <p>The text is the coordinate system; the moves are read off it. <b>Data · owner:</b> reading/method SB codes the moves; design-SB renders. Fix the generator, never this figure.</p>
+  <p><a href="/engine/design-engine.html#step-Decompose">the Decompose spec</a> · <a href="/engine/design-principles.html">the grammar</a></p>
+</footer>
+
+<script>
+var BASE="/engine/data/goldenpath/mark16/";
+var RANGE={lo:1,hi:8};
+function esc(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+
+// audit ↔ reading mode — audit chrome (our vocabulary) is showcase-only; reading strips it
+(function(){
+  if(((location.search.match(/mode=(\w+)/)||[])[1])==="reading") document.body.classList.add("reading");
+  var btn=document.getElementById("modebtn");
+  function label(){ btn.innerHTML='view: <b>'+(document.body.classList.contains("reading")?"reading":"audit")+'</b>'; }
+  label();
+  btn.addEventListener("click",function(){ document.body.classList.toggle("reading"); label(); });
+})();
+
+Promise.all([
+  fetch(BASE+"checkout.json").then(function(r){if(!r.ok)throw new Error("checkout "+r.status);return r.json();}),
+  fetch(BASE+"moves.json").then(function(r){if(!r.ok)throw new Error("moves "+r.status);return r.json();})
+]).then(function(res){ build(res[0],res[1]); }).catch(function(e){
+  document.getElementById("stage").innerHTML='<p class="err">Could not load the feeds ('+esc(e.message)+'). Owned by reading/method SB.</p>';
+});
+
+function parseVerses(checkout){
+  var whole=(checkout.units||[]).map(function(u){return u.text||"";}).join("\n");
+  var re=/(\d{3}):(\d{3})/g, out={}, m, marks=[];
+  while((m=re.exec(whole))){ marks.push({ch:+m[1],v:+m[2],at:m.index,end:re.lastIndex}); }
+  for(var i=0;i<marks.length;i++){var c=marks[i],n=marks[i+1];if(c.ch!==16)continue;out[c.v]=whole.slice(c.end,n?n.at:whole.length).replace(/\s+/g," ").trim();}
+  return out;
+}
+// verbatim words as pure-black text; {apparatus} as a distinct terracotta siglum that expands.
+function renderVerseText(txt){
+  return txt.split(/(\{[^}]+\})/).map(function(p){
+    var m=p.match(/^\{(.+)\}$/);
+    if(m){ var w=(m[1].match(/"([^"]+)"/)||[])[1]||"";
+      return '<button class="app" aria-label="textual variant" onclick="this.classList.toggle(\'open\')"><span class="mark">TR</span><span class="anote"><b>Textual variant.</b><br>The Textus Receptus '+(w?('adds &ldquo;'+esc(w)+'&rdquo; here'):esc(m[1]))+'. The manuscripts disagree; the reading text (World English Bible) does not include it.</span></button>'; }
+    return esc(p);
+  }).join('');
+}
+
+function vof(m){return m.verse_start||(m.verse_refs&&m.verse_refs[0])||99;}
+
+function build(checkout, mdoc){
+  var verses=parseVerses(checkout);
+  var moves=(mdoc.moves||[]).slice().sort(function(a,b){return a.idx-b.idx;});
+  var inrange=moves.filter(function(m){var v=vof(m);return v>=RANGE.lo && v<=RANGE.hi;});
+  var inLabels={}; inrange.forEach(function(m){inLabels[m.label]=true;});
+
+  // the reading column: each move a dwelling; verbatim verse shown once per verse-run, repeats marked
+  var left=inrange.map(function(m,i){
+    var v=vof(m), nested=!!m.nested_under;
+    var prev=i>0?inrange[i-1]:null;
+    var sameVerse=prev && vof(prev)===v;
+    var scripture;
+    if(sameVerse){
+      var mark = nested
+        ? (inLabels[m.nested_under] ? "Nested. A move within the operation just above." : "Nested. A move within an operation that continues past this reading.")
+        : "Same verse. A different move read off it.";
+      scripture='<div class="scrip-same"><span class="ref">16:'+v+'</span>'+esc(mark)+'</div>';
+    } else {
+      var vt=(verses[v]!=null)?renderVerseText(verses[v]):"";
+      scripture='<div class="scrip"><span class="sl">Mark 16:'+v+' · World English Bible</span>'+vt+'</div>';
+    }
+    return '<article class="move-block'+(nested?' nest':'')+'" data-idx="'+m.idx+'">'+
+      '<div class="mb-lab audit-only">'+esc(m.label||("M"+m.idx))+' · '+esc(m.operation||"")+'</div>'+
+      '<div class="mb-para">'+esc(m.paraphrase||m.operation||"")+'</div>'+
+      scripture+
+    '</article>';
+  }).join('');
+  document.getElementById("stage").innerHTML='<div class="layout"><main class="reading" id="reading">'+left+'</main><aside class="rail audit-only" id="rail" aria-live="polite"></aside></div>';
+
+  var byIdx={}; inrange.forEach(function(m){byIdx[String(m.idx)]=m;});
+  var railEl=document.getElementById("rail");
+
+  function gramDiagram(m){
+    var dim=function(v){return v?esc(v):'<span class="gdim">not stated</span>';};
+    return '<div class="gram">'+
+      '<div class="g-tier"><span class="g-lab">narrator</span> '+dim(m.narrator)+'</div>'+
+      '<div class="g-flow">'+
+        '<div class="g-box g-agent"><span class="g-t">agent</span>'+dim(m.agent)+'</div>'+
+        '<div class="g-op"><span class="g-arw">&rarr;</span><span class="g-opn">'+dim(m.operation)+'</span><span class="g-arw">&rarr;</span></div>'+
+        '<div class="g-box g-out"><span class="g-t">outcome</span>'+dim(m.outcome)+'</div>'+
+      '</div>'+
+      (m.substrate?'<div class="g-sub"><span class="g-t">on · substrate</span>'+esc(m.substrate)+'</div>':'')+
+      (m.nested_under?'<div class="g-nest">nested under '+esc(m.nested_under)+'</div>':'')+
+    '</div>';
+  }
+  function shiftPanel(m,prev){
+    if(!prev) return '<div class="rail-shift none">the first move of the reading.</div>';
+    var rows=[];
+    if((m.agent||"")!==(prev.agent||"")) rows.push('<span class="row"><span class="k">agent</span> '+esc(prev.agent||"not stated")+' <span class="arw">&rarr;</span> '+esc(m.agent||"not stated")+'</span>');
+    if((m.voice||"")!==(prev.voice||"")) rows.push('<span class="row"><span class="k">voice</span> '+esc(prev.voice||"—")+' <span class="arw">&rarr;</span> '+esc(m.voice||"—")+'</span>');
+    if((m.move_type||"")!==(prev.move_type||"")) rows.push('<span class="row"><span class="k">type</span> '+esc(prev.move_type||"—")+' <span class="arw">&rarr;</span> '+esc(m.move_type||"—")+'</span>');
+    if(!rows.length) return '<div class="rail-shift none">same agent, voice, and type as the move before.</div>';
+    return '<div class="rail-shift"><span class="sl">what shifted from the last move</span>'+rows.join('')+'</div>';
+  }
+  function renderRail(idx){
+    var m=byIdx[idx]; if(!m) return;
+    var order=inrange.map(function(x){return String(x.idx);});
+    var pos=order.indexOf(idx);
+    var prev=pos>0?inrange[pos-1]:null;
+    var nested=!!m.nested_under;
+    var tags='<span class="r-tag">'+esc(m.move_type||"move")+'</span>'+
+      (m.voice?'<span class="r-tag">'+esc(m.voice)+'</span>':'')+
+      '<span class="r-tag '+(nested?'nested':'top')+'">'+(nested?'nested':'top-level')+'</span>';
+    railEl.innerHTML=
+      '<div class="rail-pos">move '+esc(m.idx)+' · '+esc(m.label)+' · Mark 16:'+vof(m)+'</div>'+
+      '<div class="rail-lab">'+esc(m.operation||"")+'</div>'+
+      '<div class="rail-tags">'+tags+'</div>'+
+      gramDiagram(m)+
+      shiftPanel(m,prev)+
+      '<div class="rail-h">the world of the move</div>'+
+      '<div class="holdslot"><p class="hl-l">holding for</p><p class="hl-b">Sitz &middot; Paradigm &middot; Frame — coming from Situate</p></div>';
+  }
+
+  // scroll sync: the rail tracks the move nearest the reading line (~28% down the viewport)
+  var current=null, blocks=[].slice.call(document.querySelectorAll(".move-block"));
+  var observer=new IntersectionObserver(function(entries){
+    var best=null, bestD=1e9;
+    entries.forEach(function(e){ if(e.isIntersecting){ var d=Math.abs(e.boundingClientRect.top - window.innerHeight*0.28); if(d<bestD){bestD=d;best=e.target;} } });
+    if(best){ var idx=best.getAttribute("data-idx"); if(idx!==current){ current=idx; renderRail(idx); blocks.forEach(function(b){b.classList.toggle("active", b.getAttribute("data-idx")===idx);}); } }
+  }, {rootMargin:"-20% 0px -55% 0px", threshold:0.01});
+  blocks.forEach(function(b){observer.observe(b);});
+  // initial paint
+  current=String(inrange[0].idx); renderRail(current); if(blocks[0]) blocks[0].classList.add("active");
+
+  // audit chrome
+  document.getElementById("prov").innerHTML=
+    '<span class="prov">visualizes <b>Decompose</b></span>'+
+    '<span class="prov">data: <b>checkout.json</b> + <b>moves.json</b></span>'+
+    '<span class="prov">Mark 16:'+RANGE.lo+'&ndash;'+RANGE.hi+' · <b>'+inrange.length+'</b> moves · <b>'+inrange.filter(function(m){return m.nested_under;}).length+'</b> nested</span>';
+  document.getElementById("note").innerHTML="A <b>move</b> is one operation the text makes — a single act (buy, come, announce, negate) with its arguments; it is smaller than a verse, and a verse usually holds two or three. Each move carries the verse it is read off in the <b>World English Bible</b> (public-domain), aligned by verse, plus its finalized grammar: narrator · agent / operation / substrate / outcome · voice / type. One coder, one pass — a reference read, not a measured-reliability one.";
+  document.getElementById("held").textContent="Finalized fields only — agent · operation · substrate · outcome · narrator · paraphrase (+ move_type / voice / nesting). The Situate layer (sitz · paradigm · frame) is held in the rail's dashed slot until that engine finalizes; the layout already keeps its place. The move-to-move shift panel is built only from finalized fields (agent · voice · type).";
+  document.getElementById("honest").textContent="The verbatim verse is whole and in the black layer; the headline is Decompose's plain-language reading of one operation within it, in its own voice. One verse can carry several moves, so the words are shown once per verse and each later move on that verse is marked as a different reading of the same sentence. Moves anchor at verse grain.";
+  document.getElementById("footnode").textContent="method-engine node: Decompose · The Reading Flow · Mark 16:"+RANGE.lo+"–"+RANGE.hi+" · "+(mdoc.source_key||"MARK-16-WEB");
+}
+</script>
+</body>
+</html>
+<!-- ── METHODOLOGY FOOTER ──
+HOW PRODUCED: design-SB (editorial/narrative reading direction), this session. "The Reading Flow" — direction A for the Move
+  Score (bow-tie node 2, Decompose). ADAPTED from the richer existing direction at reading-room-preview/reading.html (its form
+  is the base: the two-column scroll-through, the sticky anatomy rail, the agent→operation→outcome MINI-DIAGRAM, the "what
+  shifted from the last move" panel, verbatim shown once per verse-run with repeats marked). NOT rebuilt from zero. Changes made
+  to fit this brief: (1) SCOPED from Matthew 28 to Mark 16:1–8, rendered from OUR golden-path feeds — checkout.json (verbatim
+  WEB + the {TR adds "quickly"} apparatus at 16:8, kept as a distinct terracotta TR siglum that expands on click/hover, never
+  inline black) + moves.json (the 23 in-range moves; verse-parsed via the "016:0NN" markers, no voices_web.json dependency).
+  (2) REMOVED the held/un-finalized Situate layers reading.html showed — the frame ribbon (epistemic-warrant / inferential-
+  operation / … 8 axes), the frame veers, paradigm, sitz, gloss, lineage, and the frame-delta "what shifted" — and replaced
+  their place in the rail with the designated HOLDING SLOT: "Sitz · Paradigm · Frame — coming from Situate" (a dashed slot so
+  the layout anticipates them). (3) The "what shifted from the last move" panel is REBUILT from FINALIZED fields only (agent ·
+  voice · move_type deltas vs the prior in-range move) so the feature survives without touching held data. (4) FINALIZED fields
+  only in the rail: agent · operation · substrate · outcome · narrator · paraphrase (headline) + tags (move_type / voice / top-
+  level|nested). (5) Added the audit↔reading toggle (body.reading + ?mode=reading) and the near-black house palette so the
+  verbatim verse is the ONLY pure black (an improvement over reading.html, whose verbatim used --ink #24302A). Reading mode
+  strips all .audit-only chrome and the rail, leaving flowing headlines + verbatim + gentle nested/same-verse markers; research
+  mode adds the rail, mini-diagram, shift panel, holding slot, tags, provenance, footer. Locked grammar obeyed: position =
+  reading order; indentation + gold left-rule = nesting; verbatim = only pure black; machinery in the secondary sans/mono
+  voice; minimal colour (top-level fern / nested gold); no em-dashes in reader-facing (reading-mode) copy.
+SCHOLARLY SOURCES: reading-room-preview/reading.html (the base form — two-column scroll + sticky rail + agent→outcome mini-
+  diagram + "what shifted" panel + verbatim-beneath, scroll-sync via IntersectionObserver near the 28% reading line);
+  engine/data/goldenpath/mark16/checkout.json (verbatim WEB, verse-marked) + moves.json (the decomposition, reading/method SB);
+  the house palette + fonts + apparatus siglum + audit↔reading patterns from viz_plate.html + viz_move_score.html; the locked
+  visual grammar (viz_principles the_grammar, 3DR-16); the Nestle-Aland / TEI critical-apparatus tradition; the full-scripture-
+  no-ellipsis + real-data-over-paraphrase + no-em-dash-in-reader-copy memories.
+WHAT NEEDS VERIFICATION: (1) Gate — Fidelity: every value comes from the feeds, labels = fields, un-finalized Situate fields
+  are HELD (holding slot) not rendered (PASS by construction); Cold Read: run a blind read via the design-crit panel before
+  flipping the node to PASS. (2) DATA CAVEAT: moves M17–M21 (verse 7) carry nested_under = M24/M26, whose parent moves sit at
+  verses 9–10, OUTSIDE this 1–8 strip; the flow marks them "Nested. A move within an operation that continues past this
+  reading." rather than fabricate an in-strip parent, and the rail gram shows the true "nested under M24/M26" label. Confirm
+  that reading with method-SB. (3) Verse-grain anchoring (move → verse, not char-span); exact-span highlighting is the fidelity
+  ceiling / a method roadmap item. (4) The finalized-field "what shifted" panel is a design substitution for reading.html's
+  frame-delta line; confirm method-SB is content with agent/voice/type as the surfaced deltas until Situate finalizes.
+  (5) Mobile bottom-sheet rail height (46vh) — check it never occludes the active headline on small screens. -->
