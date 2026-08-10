@@ -108,7 +108,7 @@ footer.foot a{color:var(--fern);text-decoration:none}
 <div class="read" id="reading">Loading the reading…</div>
 <section class="inspect" id="inspect"></section>
 <footer class="foot">
-  <p id="foot-read">Read mode strips the method scaffolding; the textual-variant apparatus stays — it is part of the reading. <b>Inspect</b> shows the coding.</p>
+  <p id="foot-read">Read mode strips the method scaffolding; the textual-variant apparatus stays, because it is part of the reading. <b>Inspect</b> shows the coding.</p>
   <p><a href="/engine/design-engine.html#step-Decompose">the Move Score's spec</a> · <a href="/engine/design-principles.html">the grammar</a> · reading from checkout.json + moves.json</p>
 </footer>
 
@@ -183,12 +183,12 @@ function build(co,mdoc){
     '<div class="keyflow"><span class="b">'+esc(k.agent)+'</span><span class="ar">&rarr;</span><span class="b">'+esc(k.operation)+'</span><span class="ar">&rarr;</span><span class="b">'+esc(k.substrate)+'</span><span class="ar">&rarr;</span><span class="b">'+esc(k.outcome)+'</span></div>'+
     '<dl class="keydefs">'+
       '<dt>agent</dt><dd>who or what acts</dd>'+
-      '<dt>operation</dt><dd>the one thing done — the verb</dd>'+
+      '<dt>operation</dt><dd>the one thing done: the verb</dd>'+
       '<dt>substrate</dt><dd>what it acts on</dd>'+
       '<dt>outcome</dt><dd>what becomes true when it&rsquo;s over</dd>'+
       '<dt>paraphrase</dt><dd>the move restated plainly, so you can check us</dd>'+
       '<dt>kind of move</dt><dd>what sort of thing is happening ('+esc(k.move_type)+')</dd>'+
-      '<dt>agent&rsquo;s role</dt><dd>'+esc(kr.w)+' — '+esc(kr.g)+'</dd>'+
+      '<dt>agent&rsquo;s role</dt><dd>'+esc(kr.w)+': '+esc(kr.g)+'</dd>'+
       '<dt>place</dt><dd>whether the move stands on its own or sits inside another</dd>'+
     '</dl>';
 
@@ -217,7 +217,7 @@ function build(co,mdoc){
 
   // held horizon — declared, not empty
   var hz=document.createElement("div");hz.className="horizon";
-  hz.innerHTML='<span class="st">in development</span><div class="h4">Situate · the world the text arose in</div><p>Setting, paradigm, position — the layer that will place each move in its world. In active research; not shown yet.</p>';
+  hz.innerHTML='<span class="st">in development</span><div class="h4">Situate · the world the text arose in</div><p>Setting, paradigm, position: the layer that will place each move in its world. In active research; not shown yet.</p>';
   document.getElementById("reading").appendChild(hz);
 
   // INSPECT — the table (Mock B), all fields
