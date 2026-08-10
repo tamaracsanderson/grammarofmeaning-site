@@ -4,7 +4,7 @@
   "_reads_from": {
     "Sitz": "source_grounding (@ MARK-16) + source_move.sitz (@ MARK-16-WEB)",
     "Paradigm": "source_paradigm (@ MARK-16) + source_move.paradigm (@ MARK-16-WEB)",
-    "Frame": "atlas_frame_read_placement (@ passage_id: PASS-L4-540c3f83ce87, PASS-L4-6edf5da12f52)",
+    "Position": "atlas_frame_read_placement (@ passage_id: PASS-L4-540c3f83ce87, PASS-L4-6edf5da12f52)",
     "Transmission": "transmission_record (@ MARK-16)",
     "Lineage": "lineage_record (@ source_key)",
     "Form": "source_form (@ MARK-16-WEB)"
@@ -23,7 +23,7 @@
       "coded": [
         "Sitz",
         "Paradigm",
-        "Frame",
+        "Position",
         "Lineage"
       ],
       "thin": [
@@ -33,13 +33,13 @@
       "frontier": []
     },
     "badge_key": "coded = the aspect's DATA is coded on Mark 16; thin = coded but only a single record (Transmission); frontier = not coded at all (none here). NOTE: 'frontier' as a DATA-badge (0 here) is different from an open ARCHITECTURAL question -- Lineage's data is coded (badge: coded) but its Connect-seam is a separate INCOMPLETE (see Lineage drawer).",
-    "status_line": "Situate is SIX sub-engines (Sitz / Paradigm / Frame / Transmission / Lineage / Form), each its own drawer; this is the parent. Form is the new 6th aspect (Decision 226 C1, S168): the genre the engine had dropped despite descending from form criticism. Honest state: 4 coded, 2 thin, 0 frontier."
+    "status_line": "Situate is SIX sub-engines (Sitz / Paradigm / Position / Transmission / Lineage / Form), each its own drawer; this is the parent. Form is the new 6th aspect (Decision 226 C1, S168): the genre the engine had dropped despite descending from form criticism. Honest state: 4 coded, 2 thin, 0 frontier."
   },
-  "what_it_is": "Situate attaches CONTEXT to each move -- the world the text came out of. It runs PARALLEL to Decompose (neither reads the other): Decompose breaks the passage into moves; Situate says where / when / under what conditions the text was made. Both feed the Enriched move (a move + its attached context). Situate is not one engine but six: Sitz (the conditions), Paradigm (the templates it runs on), Frame (its coordinates on the atlas), Transmission (its distance from the origin event), Lineage (the earlier text it stands on), and Form (the whole-utterance genre -- what KIND of text it is).",
+  "what_it_is": "Situate attaches CONTEXT to each move -- the world the text came out of. It runs PARALLEL to Decompose (neither reads the other): Decompose breaks the passage into moves; Situate says where / when / under what conditions the text was made. Both feed the Enriched move (a move + its attached context). Situate is not one engine but six: Sitz (the conditions), Paradigm (the templates it runs on), Position (its enacted stance on the atlas), Transmission (its distance from the origin event), Lineage (the earlier text it stands on), and Form (the whole-utterance genre -- what KIND of text it is).",
   "why_it_matters": "The same move can mean different things in different worlds. Situate is the Sitz axis of the whole project: it keeps two texts from being read as if they faced the same conditions. Without it, cross-tradition comparison flattens -- a rhyme looks like agreement when it may be two worlds solving different problems. Situate is also where an ABSENCE becomes legible: a condition the text does NOT respond to, a template it could have invoked and did not, is a negative-space fact you can only see once the world is attached.",
   "how_it_works": {
     "you_give_it": "the checked-out passage + its moves (from Decompose).",
-    "the_method_does": "runs the five sub-engines, each attaching a KIND of context -- conditions (Sitz), templates (Paradigm), coordinates (Frame), transmission distance (Transmission), sources (Lineage) -- at the grain each aspect carries signal (text and/or move).",
+    "the_method_does": "runs the five sub-engines, each attaching a KIND of context -- conditions (Sitz), templates (Paradigm), position (Position), transmission distance (Transmission), sources (Lineage) -- at the grain each aspect carries signal (text and/or move).",
     "you_get_back": "each move (and the text) carrying its world: conditions + templates + coordinates + transmission-distance + upstream-sources, ready to feed the Enriched move."
   },
   "pipeline_context": {
@@ -48,7 +48,7 @@
     "Decompose": "the parallel node: breaks the passage into moves (Situate does not read it; both feed the Enriched move).",
     "Connect": "the node that wires the moves back together (edges); its LINEAGE edges are meant to feed Situate's Lineage view.",
     "the Enriched move": "a move + its attached Situate context -- the waist the outputs fan out from.",
-    "Morphospace": "the output Frame feeds: the 8 frame axes read as a space texts sit in.",
+    "Morphospace": "the output Position feeds: the 8 axes read as a space texts sit in.",
     "degrees of separation": "the output Transmission feeds: how many transmission hops separate the text from the origin event.",
     "Sitz im Leben": "biblical-studies term for a text's life-setting -- the conditions of its making; Sitz generalises it cross-tradition.",
     "Tributary": "the output Lineage feeds: the earlier sources flowing into a text, drawn as tributaries.",
@@ -83,10 +83,10 @@
         "output": "the named scripts the content invokes / subverts"
       },
       {
-        "name": "Frame",
-        "codes": "the text's coordinates on the 8 frame axes",
+        "name": "Position",
+        "codes": "the text's enacted position on the 8 axes (its discursive stance, not 'the mind that made it')",
         "grain": "passage-level (keyed by passage_id, NOT source_key -- the Seam-2 key)",
-        "output": "-> Morphospace (the frame-as-a-space)"
+        "output": "-> Morphospace (the positions read as a space)"
       },
       {
         "name": "Transmission",
@@ -108,14 +108,14 @@
       }
     ],
     "field_contract_per_aspect": {
-      "Frame": "axis + value CLOSED (live from exom_axis_vocabulary, 8 axes); confidence NUMERIC; evidence OPEN.",
+      "Position": "axis + value CLOSED (live from exom_axis_vocabulary, 8 axes); confidence NUMERIC; evidence OPEN.",
       "Sitz": "sitz_layers (4-layer) + sitz_categories (10-category substrate) CLOSED multi-select; summary + per-move OPEN; year NUMERIC.",
       "Paradigm": "name OPEN (emergent, s2.1); stance + relation_to_dominant CLOSED enums; salience NUMERIC.",
       "Lineage": "borrowing_vehicle / function / markedness / fidelity_direction / link_certainty -- five CLOSED enums; source_ref OPEN.",
       "Transmission": "mode CLOSED enum; degrees_from_origin + composition_year NUMERIC; place OPEN; material_ecology structured JSON.",
       "Form": "genre_form / communicative_function / implied_addressee / performance_institutional_setting -- four OPEN/emergent (s2.1); evidence_basis + certainty + scope_level CLOSED (foundation); force_profile_json = the R1 derivation warrant."
     },
-    "live_vocab_rule": "Frame is the model -- its closed vocab renders LIVE from exom_axis_vocabulary, never hardcoded, so it cannot go stale. The other closed enums are controlled-by-convention (small fixed sets, no vocab table yet); each is OWED a live vocab source."
+    "live_vocab_rule": "Position is the model -- its closed vocab renders LIVE from exom_axis_vocabulary, neverhardcoded, so it cannot go stale. The other closed enums are controlled-by-convention (small fixed sets, no vocab table yet); each is OWED a live vocab source."
   },
   "the_method_applied": {
     "source_key": "MARK-16-WEB",
@@ -184,9 +184,9 @@
         "drawer_status": "built (S163)"
       },
       {
-        "name": "Frame",
-        "plain": "the text's coordinates on the 8 frame axes",
-        "output": "-> Morphospace (the frame-as-a-space)",
+        "name": "Position",
+        "plain": "the text's enacted position on the 8 axes (its discursive stance, not 'the mind that made it')",
+        "output": "-> Morphospace (the positions read as a space)",
         "own_drawer": true,
         "grain": "passage-level (keyed by passage_id, NOT source_key -- the Seam-2 key)",
         "store": "atlas_frame_read_placement (@ passage_id: PASS-L4-540c3f83ce87, PASS-L4-6edf5da12f52)",
@@ -239,7 +239,7 @@
           }
         ],
         "seam2_note": "keyed by passage_id (PASS-L4-540c3f83ce87, PASS-L4-6edf5da12f52), NOT source_key -- the specific false-negative trap; resolve via text_checkout.",
-        "wip_note": "Frame's DATA is coded on Mark 16, but the Morphospace as an INSTRUMENT is still IN DEVELOPMENT (IRR232 + A4): per-axis reliability is uneven and the tradition-structure is a demonstrated ontology-void (the space cannot yet separate traditions), so Position is NOT a validated instrument on the SSOT -- it renders its honest status, not placements-as-findings. OWNED by the Atlas-Reader SB (Position engine end-to-end: atlas_frame_reader + exom_axis_vocabulary + ontology-expansion + the 3crt reliability harness). This card reads Frame's coded state for the Situate overview; the drawer rework + the A4 capstone are the Atlas-Reader SB's lane.",
+        "wip_note": "Position's DATA is coded on Mark 16 (the atlas placement), but the Morphospace as an INSTRUMENT is still IN DEVELOPMENT (IRR232 + A4): per-axis reliability is uneven and the tradition-structure is a demonstrated ontology-void (the space cannot yet separate traditions), so Position is NOT a validated instrument on the SSOT -- it renders its honest status, not placements-as-findings. OWNED by the Atlas-Reader SB (Position engine end-to-end: atlas_frame_reader + exom_axis_vocabulary + ontology-expansion + the 3crt reliability harness). This card reads Position's coded state for the Situate overview; the drawer rework + the A4 capstone are the Atlas-Reader SB's lane.",
         "owner": "Atlas-Reader SB (Position engine)",
         "drawer_status": "built (S163)"
       },
@@ -321,24 +321,24 @@
     "stores": {
       "Sitz": "source_grounding (@ MARK-16) + source_move.sitz (@ MARK-16-WEB)",
       "Paradigm": "source_paradigm (@ MARK-16) + source_move.paradigm (@ MARK-16-WEB)",
-      "Frame": "atlas_frame_read_placement (@ passage_id: PASS-L4-540c3f83ce87, PASS-L4-6edf5da12f52)",
+      "Position": "atlas_frame_read_placement (@ passage_id: PASS-L4-540c3f83ce87, PASS-L4-6edf5da12f52)",
       "Transmission": "transmission_record (@ MARK-16)",
       "Lineage": "lineage_record (@ source_key)",
       "Form": "source_form (@ MARK-16-WEB)"
     },
-    "read_rule": "resolve the source_key FAMILY via text_checkout, then read each sub-engine on its real key: Frame by passage_id; per-move Sitz/Paradigm on the live moveset's latest move_grammar_v2 run; text-level Sitz/Paradigm/Transmission at the base key. NEVER a bare single-key query (the Seam-2 trap)."
+    "read_rule": "resolve the source_key FAMILY via text_checkout, then read each sub-engine on its real key: Position by passage_id; per-move Sitz/Paradigm on the live moveset's latest move_grammar_v2 run; text-level Sitz/Paradigm/Transmission at the base key. NEVER a bare single-key query (the Seam-2 trap)."
   },
   "honest_limits": [
     "The S162 drawer reported 'Sitz 0, Paradigm 0, not run' -- a Seam-2 FALSE-NEGATIVE. It queried the WEB key; the text-level summaries live at the BASE key (MARK-16) and the per-move notes on the live moveset. All five sub-engines have REAL Mark 16 data. This card queries the family, so the false-negative cannot recur.",
     "THE LINEAGE SEAM (resolved, Decision 225). Design said Situate:Lineage CONSUMES Connect's LINEAGE edges (one store, two views). Verified S163: connect_edge holds 0 LINEAGE edges; the reception links live in lineage_record (a separate, richer store). The check-the-engine question -- one store or two? -- resolved to TWO stores, and Decision 225 (PI) locked lineage_record as the STORE OF RECORD; the Connect LINEAGE view, if wanted, is a DERIVED projection from it (a small follow-up). Situate:Lineage renders from lineage_record; it earns no consumes-the-edges green pill because that path is derived, not authored.",
     "Transmission (renamed from 'Witness', PI-locked S163) is THIN -- 1 text-level record for Mark 16. It is honestly a frontier aspect: a definition + one worked record, not a scaled run. Physical store: transmission_record.",
-    "Grain is MIXED across the five and must be declared per aspect: Sitz + Paradigm code at BOTH text and move grain; Frame is passage-level (per-move frame is intended but not populated -- Decompose would stamp passage_id per move); Lineage is move-native; Transmission is text-native. The card states each aspect's grain.",
-    "ALL SIX sub-engines now have their own drawer ('built' = a render-from-data feed on the 12-section template, deployed): Frame, Lineage, Paradigm, Sitz, Transmission (S163) + Form (S168). Each carries its own honest pills; the deeper checks (Cold Read, vs-Wild) are owed per drawer and marked there. This parent card summarizes all six.",
+    "Grain is MIXED across the five and must be declared per aspect: Sitz + Paradigm code at BOTH text and move grain; Position is passage-level (per-move position is intended but not populated -- Decompose would stamp passage_id per move); Lineage is move-native; Transmission is text-native. The card states each aspect's grain.",
+    "ALL SIX sub-engines now have their own drawer ('built' = a render-from-data feed on the 12-section template, deployed): Position, Lineage, Paradigm, Sitz, Transmission (S163) + Form (S168). Each carries its own honest pills; the deeper checks (Cold Read, vs-Wild) are owed per drawer and marked there. This parent card summarizes all six.",
     "FORM (the 6th aspect, Decision 226 C1/R1, S168) is coded-thin: 1 engine-proposed Mark-16 row. Its communicative_function is DERIVED from Decompose's move-force aggregate (R1, audited: force_profile_json == a fresh recomputation from source_move), not re-coded. Text-grain first pass; pericope-grain owed (Mark 16's two endings collapse into one row). A Form 3-model CRT measures its reliability floor (S168)."
   ],
   "made_by": [
     "scripts/analysis/build_situate_node_drawer_data_s163.py (this parent card's data; render-from-data)",
-    "scripts/analysis/atlas_frame_reader.py (Frame owner -> atlas_frame_read_placement + exom_axis_vocabulary)",
+    "scripts/analysis/atlas_frame_reader.py (Position owner -> atlas_frame_read_placement + exom_axis_vocabulary)",
     "scripts/analysis/engine0_ground_sitz_paradigm.py (Sitz + Paradigm text-level grounder)",
     "scripts/analysis/engine05_detect_paradigm.py (Paradigm detector)",
     "scripts/analysis/code_form_subengine_s168.py (Form coder) + build_form_subengine_drawer_data_s168.py (Form drawer)",
@@ -346,12 +346,12 @@
     "text_checkout (the source_key-family crosswalk that resolves the real keys)",
     "pm/30_methodology/engine/CONTRACT_situate_closed_open_grain_s162 (the closed/open/grain contract)"
   ],
-  "whats_next": "All six sub-engines now have their own drawers: Frame, Lineage, Paradigm, Sitz, Transmission (S163) + Form (S168). The Lineage seam is resolved (Decision 225: lineage_record is the store of record; the Connect view is a derived projection). Owed next: Cold Read + vs-Wild per drawer; the Form 3-model CRT + pericope-grain Form + its out-of-domain run (Greek + Daodejing); the atlas reliability + ontology-void work (now the Atlas-Reader SB's); sitz_layers populated for Mark 16; per-move Frame. The rename Witness -> Transmission is DONE (Decision 224).",
+  "whats_next": "All six sub-engines now have their own drawers: Position, Lineage, Paradigm, Sitz, Transmission (S163) + Form (S168). The Lineage seam is resolved (Decision 225: lineage_record is the store of record; the Connect view is a derived projection). Owed next: Cold Read + vs-Wild per drawer; the Form 3-model CRT + pericope-grain Form + its out-of-domain run (Greek + Daodejing); the atlas reliability + ontology-void work (now the Atlas-Reader SB's); sitz_layers populated for Mark 16; per-move Frame. The rename Witness -> Transmission is DONE (Decision 224).",
   "foundation": {
     "leans_on": [
       "Sitz leans on Sitz im Leben (form criticism: Gunkel / Bultmann) generalised cross-tradition + the 4-layer / 10-category substrate (Refinement #5, IRR111)",
       "Paradigm leans on cultural-script / frame-semantics (roles -> relations -> telos) + fit-or-extend emergent naming (s2.1)",
-      "Frame leans on the 8-axis morphospace / ordination method (the atlas; exom_axis_vocabulary calibration)",
+      "Position leans on the 8-axis morphospace / ordination method (the atlas; exom_axis_vocabulary calibration)",
       "Transmission leans on textual criticism (a 'witness' attests a text) + stemma reconstruction (degrees from the origin event)",
       "Lineage leans on Genette (transtextuality) + SKOS match-grades + reception history (the borrowing enums)",
       "Form leans on form criticism (Gunkel / Dibelius / Bultmann: genre carries its Sitz im Leben) + Jauss (horizon of expectation) + Bakhtin (speech-genres); communicative_function derives from Decompose's move-force aggregate (R1)"
