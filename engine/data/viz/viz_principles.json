@@ -84,6 +84,11 @@
     ]
   },
   "signature_look": {
+    "look_references": [
+      { "name": "The House Pattern", "href": "/_staging/_bakeoff/HOUSE_PATTERN.html", "note": "the GoM signature look — what a finished figure feels like" },
+      { "name": "Reading-room house pattern", "href": "/_staging/reading_room_house_pattern.html", "note": "the reading-room look reference" },
+      { "name": "spine.html", "href": "/reading-room-preview/spine.html", "note": "the braid — a finished GoM figure to study" }
+    ],
     "note": "One skeleton, one skin — a signature visualization look, so the whole gallery reads as one instrument.",
     "rules": [
       "One palette, one type family across every figure (the GoM house: warm-white ground / night skin, fern·moss·terracotta·honey·olive, Newsreader + Inter + IBM Plex Mono). Never two palettes in parallel.",
@@ -91,6 +96,25 @@
       "Negative space is first-class: a figure shows what was NOT coded (hollow marks) as clearly as what was — the LACUNA stance at figure scale.",
       "The academic skin is the source of truth; the public skin is a re-frame of it (and can be run through Lovable for extra warmth), never a different figure.",
       "Every figure carries its honest caption: what the marks mean, and what they do NOT claim."
+    ]
+  },
+  "working_with_lovable": {
+    "note": "How design-SB works with Lovable — the warmth / signature-look pass. Lovable is great at the LOOK and bad at fidelity: it returns beautiful STATIC, HARDCODED, usually REACT mockups. So its output is a LOOK REFERENCE, never the shipped artifact.",
+    "the_split": [
+      { "who": "design-SB (first)", "owns": "the data contract + render-from-data wiring + the grammar + the four-check gate. Build the figure FUNCTIONAL first." },
+      { "who": "Lovable", "owns": "the warmth / signature look / the reading-audience skin — worked from the functional figure + a brief." },
+      { "who": "design-SB (again)", "owns": "re-integrate — re-implement Lovable's look render-from-data (NOT its React), then re-run the gate. Fidelity is never handed to a Lovable hardcode." }
+    ],
+    "why_functional_first": [
+      "building functional forces solving the DATA reality (the apparatus, the gutters, the anchoring grain) — where errors hide; a spec doc can mis-describe the data (that is how the 'not a paraphrase' bug happened).",
+      "the gate runs on a built figure, not a doc.",
+      "Lovable skins best from a real working thing, not prose."
+    ],
+    "the_handoff": [
+      "BATCH 2-3 functional figures so the signature look comes back CONSISTENT across them (not one figure at a time).",
+      "GIVE Lovable: the functional figure(s) + the house design guides (the signature-look references above) + the LOCKED grammar it must NOT break (text = only pure black · colour = KIND · apparatus distinct · ○ = tested absence) + the content-JSON (real content) + the design tokens (the house palette).",
+      "ASK Lovable BACK for: a HANDOVER doc + credits + the content-JSON + the design tokens. Read the HANDOVER first.",
+      "THE REACT→HTML GOTCHA: Lovable outputs React by default; this site is static HTML + vanilla-JS + render-from-data. Do NOT ship Lovable's React. Re-implement the look as plain HTML/CSS bound to the feed — that IS the re-integrate step."
     ]
   },
   "roadmap": {

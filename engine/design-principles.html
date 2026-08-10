@@ -92,6 +92,7 @@ var SECTIONS=[
   {id:'moodboard',label:'What good looks like',key:'the_moodboard',render:renderMoodboard},
   {id:'process',label:'The process',key:'the_process',render:renderProcess},
   {id:'look',label:'Signature look',key:'signature_look',render:renderLook},
+  {id:'lovable',label:'Working with Lovable',key:'working_with_lovable',render:renderLovable},
   {id:'roadmap',label:'Redesign roadmap',key:'roadmap',render:renderRoadmap}
 ];
 function secShell(s,inner){return '<section class="sec" id="'+s.id+'"><div class="sec-h">'+esc(s.label)+'</div>'+inner+'</section>';}
@@ -99,7 +100,16 @@ function note(d){return d&&d.note?'<p class="sec-note">'+rich(d.note)+'</p>':'';
 function renderModel(d){return note(d)+(d.points||[]).map(function(p){return '<div class="pr"><h3>'+rich(p.name)+'</h3><p>'+rich(p.body)+'</p></div>';}).join('');}
 function renderAxes(d){return note(d)+(d.axes||[]).map(function(a){return '<div class="pr"><h3>'+rich(a.axis)+'</h3>'+(a.values?'<p class="vals">'+rich(a.values)+'</p>':'')+'<p>'+rich(a.body)+'</p></div>';}).join('');}
 function renderProcess(d){return note(d)+'<ol class="steps">'+(d.steps||[]).map(function(s){return '<li>'+rich(s)+'</li>';}).join('')+'</ol>';}
-function renderLook(d){return note(d)+'<ul class="rules">'+(d.rules||[]).map(function(s){return '<li>'+rich(s)+'</li>';}).join('')+'</ul>';}
+function renderLook(d){
+  var refs=d.look_references?'<div class="kv"><p class="k">look references — what a finished figure feels like</p><p class="v">'+d.look_references.map(function(r){return '<a href="'+esc(r.href)+'" style="color:var(--out)">'+esc(r.name)+'</a>'+(r.note?' <span style="color:var(--muted)">— '+rich(r.note)+'</span>':'');}).join('<br>')+'</p></div>':'';
+  return note(d)+'<ul class="rules">'+(d.rules||[]).map(function(s){return '<li>'+rich(s)+'</li>';}).join('')+'</ul>'+refs;
+}
+function renderLovable(d){
+  var split='<table class="rm"><caption>the split — who owns what</caption><tbody>'+(d.the_split||[]).map(function(s){return '<tr><td class="rv">'+rich(s.who)+'</td><td>'+rich(s.owns)+'</td></tr>';}).join('')+'</tbody></table>';
+  var why='<div class="kv"><p class="k">why build functional first</p></div><ul class="rules">'+(d.why_functional_first||[]).map(function(x){return '<li>'+rich(x)+'</li>';}).join('')+'</ul>';
+  var handoff='<div class="kv"><p class="k">the handoff</p></div><ul class="rules">'+(d.the_handoff||[]).map(function(x){return '<li>'+rich(x)+'</li>';}).join('')+'</ul>';
+  return note(d)+split+why+handoff;
+}
 function renderRoadmap(d){
   var badge=function(st){var w=String(st||'').toLowerCase();var c=w.indexOf('rendered')>-1?'rendered':w.indexOf('data ready')>-1?'data':w.indexOf('artifact')>-1?'artifact':w.indexOf('planned')>-1?'planned':'todo';return '<span class="rbadge '+c+'">'+esc(st)+'</span>';};
   return note(d)+(d.groups||[]).map(function(g){
