@@ -4,7 +4,7 @@
   "_generated_by": "build_frame_subengine_drawer_data_s163.py (render-from-data; re-run to refresh)",
   "_reads_from": {
     "placements": "atlas_frame_read_placement (@ passage_id)",
-    "vocab": "exom_axis_vocabulary (live)",
+    "vocab": "DATA_atlas_field_dictionary.json (canonical, usage-driven; Librarian-owned single source)",
     "candidates": "atlas_frame_read_candidate",
     "owner": "atlas_frame_reader.py (consumed, not rebuilt)"
   },
@@ -19,7 +19,7 @@
       "cold_read": "PARTIAL (S163) -- fixes applied",
       "vs_wild": "PASS (floor) -- covers the naive read + adds rigor; atlas under-weights fear (noted)"
     },
-    "status_line": "Frame places a text on 8 axes; on Mark 16 it is clean -- 26 placements across 8 of 8 axes, all in-vocab. Its vocab renders LIVE from exom_axis_vocabulary (never hardcoded), which is why it is the calibration model. Honest limit: corpus-wide (39462 placements across many texts), 429 axis/value pairs drifted off-vocab WITHOUT a fit-or-extend candidate; the S163 drift-check now catches it. So: golden path clean, corpus drift named."
+    "status_line": "Frame places a text on 8 axes; on Mark 16 it is clean -- 26 placements across 8 of 8 axes, all in-vocab. Its vocab renders LIVE from exom_axis_vocabulary (never hardcoded), which is why it is the calibration model. Honest limit: corpus-wide (39513 placements across many texts), 429 axis/value pairs drifted off-vocab WITHOUT a fit-or-extend candidate; the S163 drift-check now catches it. So: golden path clean, corpus drift named."
   },
   "what_it_is": "Frame reads a whole passage and places it on eight axes -- the coordinates of the mind that produced it: how it knows (epistemic-warrant), what it takes to be real (ontological-commitment), how it reasons (inferential-operation), what end it seeks (telos), its attitude (evaluative-stance), how it interprets (hermeneutic-posture), and the shape + terms of the ground<->world relation (r_topology, r_condition). The eight coordinates ARE the text's position in the Morphospace.",
   "why_it_matters": "A frame placement is what lets two texts be COMPARED as points in one space rather than argued about impressionistically. It is also where an absence shows: an axis a text does NOT engage (the not-engaged sentinel) is a real, coded fact -- a mind that never asks the ontological question is telling you something. The morphospace is the map convergence and divergence are read off.",
@@ -39,7 +39,8 @@
     "not-engaged": "an explicit sentinel placement: this axis does NOT apply to this text (so zero is provably distinct from a missed read). NOT the same as the ontological value 'not-asserted' (a real placement).",
     "passage_id": "the atlas's key -- Frame is keyed by passage_id, not source_key (resolve via text_checkout, the crosswalk from a text to its passages).",
     "Seam-2": "the failure this card guards against: reading a text on ONE key while its data sits under a sibling key (a key-scatter false-negative). Frame's is passage_id, not source_key.",
-    "vocab status": "each vocab value is green (finalized) / candidate (proposed, fit-or-extend, live) / held (parked) / retired (removed). The drawer shows green + candidate.",
+    "usage-driven inclusion": "the vocab is NOT a green/candidate approval gate (that framing is retired) -- a value belongs to an axis by how often it is actually PLACED across the corpus; the dictionary orders values by use-count.",
+    "emergent-via-use": "values the reader has PLACED but that are not yet settled in the set (surfacing through use); the CRT's worklist to add / merge / hold.",
     "R1-R5": "the atlas reader's coding rubric (Decision 201): R5 = exactly the 8 axes; R1-R4 govern how richly + honestly each placement is coded. Not a reliability grade.",
     "PI": "the principal investigator (the researcher) -- who locks methodology calls."
   },
@@ -51,185 +52,597 @@
     "result_categories": "INCOMPLETE / FAIL / PARTIAL (golden clean, corpus drift) / PASS."
   },
   "the_method_clean": {
-    "note": "the 8 axes (definitions), each with its live vocab rendered from exom_axis_vocabulary (green = finalized, candidate = fit-or-extend, live). The card never hardcodes the lists.",
+    "note": "the 8 axes (definitions), each with its vocab rendered LIVE from the canonical field dictionary (DATA_atlas_field_dictionary.json): values ordered BY USAGE, each with its own definition + use-count, plus the emergent-via-use worklist (values surfacing through use, not yet settled). The card never hardcodes the lists, and cannot diverge from the Librarian-owned dictionary.",
     "axes": [
       {
         "axis": "epistemic-warrant",
-        "gloss": "how the text KNOWS / grounds its claims",
-        "vocab_live": {
-          "green": [
-            "divination",
-            "mystical-union",
-            "noetic-intuition",
-            "observation",
-            "practice",
-            "reason",
-            "revelation",
-            "testimony",
-            "tradition"
+        "gloss": "how the text KNOWS / grounds its claims (E)",
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "testimony",
+              "definition": "Someone else tells you. The warrant is mediated: it rests on a living witness who saw, and the knower is not the one who did.",
+              "uses": 1319,
+              "status": "green"
+            },
+            {
+              "value": "revelation",
+              "definition": "It is disclosed. A truth given from outside the natural order, received passively, with no procedure of interpretation standing between the source and the knower.",
+              "uses": 1016,
+              "status": "green"
+            },
+            {
+              "value": "tradition",
+              "definition": "It has been handed down. The warrant is inheritance: the claim is licensed because a tradition, community, or institution holds and transmits it, not because any single living witness saw it. Covers received tradition, communal consensus (ijma, sangha), and institutional authority.",
+              "uses": 916,
+              "status": "green"
+            },
+            {
+              "value": "observation",
+              "definition": "You see it yourself. Direct, unmediated sensory access, with no witness between the knower and the known.",
+              "uses": 879,
+              "status": "green"
+            },
+            {
+              "value": "reason",
+              "definition": "It follows. The warrant is inferential: the claim is licensed by argument, not by access.",
+              "uses": 769,
+              "status": "green"
+            },
+            {
+              "value": "practice",
+              "definition": "Known through doing it. The warrant is the disciplined activity itself: repeated performance is what makes the claim evident, independent of any bodily skill acquired.",
+              "uses": 111,
+              "status": "green"
+            },
+            {
+              "value": "noetic-intuition",
+              "definition": "Direct intellectual apprehension. The truth is grasped whole, without inference and without sensory mediation.",
+              "uses": 89,
+              "status": "green"
+            },
+            {
+              "value": "embodied-practice",
+              "definition": "Known in the body. The warrant is tacit, non-propositional bodily competence: a trained skill or attunement that can be demonstrated but not fully stated.",
+              "uses": 52,
+              "status": "candidate"
+            },
+            {
+              "value": "divination",
+              "definition": "Known by reading a sign. The truth is solicited through a procedure (casting, omens, consulting an oracle); a technique of interpretation stands between the knower and the answer.",
+              "uses": 48,
+              "status": "green"
+            },
+            {
+              "value": "mystical-union",
+              "definition": "Known by becoming one with the object. The knower and the known collapse into one.",
+              "uses": 8,
+              "status": "green"
+            }
           ],
-          "candidate": [
-            "embodied-practice"
+          "total_values": 10,
+          "emergent_via_use": [
+            {
+              "value": "scripture",
+              "uses": 29
+            },
+            {
+              "value": "exegesis",
+              "uses": 23
+            },
+            {
+              "value": "perception",
+              "uses": 11
+            }
           ]
         }
       },
       {
         "axis": "ontological-commitment",
-        "gloss": "what it takes to be REAL / the kind of being it assumes",
-        "vocab_live": {
-          "green": [
-            "consciousness-first",
-            "dualism-pluralism",
-            "epoche",
-            "impersonal-order",
-            "insufficient-context",
-            "material",
-            "not-asserted",
-            "personal-agentive",
-            "process-becoming",
-            "void"
+        "gloss": "what it takes to be REAL / the kind of being it assumes (O)",
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "personal-agentive",
+              "definition": "A personal will is fundamental. What is most real is someone, an agent with intention, not an impersonal stuff or law.",
+              "uses": 1497,
+              "status": "green"
+            },
+            {
+              "value": "material",
+              "definition": "Matter is fundamental. What is most real is physical stuff; everything else is its arrangement.",
+              "uses": 151,
+              "status": "green"
+            },
+            {
+              "value": "participatory",
+              "definition": "Reality is constituted through relations of PARTICIPATION — beings are neither identical with ultimate reality (union) nor merely separate substances (dualism/pluralism), but partake in it. Distinct from the substance-based ontology values. Home cases: theosis (2 Peter 1:4, partakers of the divine nature), Ibn Arabi tajalli, Neoplatonic emanation/methexis.",
+              "uses": 144,
+              "status": "candidate"
+            },
+            {
+              "value": "not-asserted",
+              "definition": "The passage takes no ontological position. It is about ethics or practice and simply does not address what is fundamental. A passive absence.",
+              "uses": 120,
+              "status": "green"
+            },
+            {
+              "value": "process-becoming",
+              "definition": "Flux is fundamental. What is most real is events and becoming, not fixed things.",
+              "uses": 110,
+              "status": "green"
+            },
+            {
+              "value": "impersonal-order",
+              "definition": "An impersonal order is fundamental. The ground is a law or pattern, not an agent.",
+              "uses": 104,
+              "status": "green"
+            },
+            {
+              "value": "consciousness-first",
+              "definition": "Awareness is fundamental. Mind is not produced by matter; matter is a content of mind. Mind is the single ground, not a property distributed through things.",
+              "uses": 81,
+              "status": "green"
+            },
+            {
+              "value": "dualism-pluralism",
+              "definition": "Two or more irreducible kinds are fundamental; no single substance grounds the rest.",
+              "uses": 72,
+              "status": "green"
+            },
+            {
+              "value": "epoche",
+              "definition": "The passage actively refuses to commit and holds the refusal as its position. Requires an explicit refusal-marker in the text (this cannot be said; one neither affirms nor denies); absent that marker, code not-asserted.",
+              "uses": 28,
+              "status": "green"
+            },
+            {
+              "value": "apophatic",
+              "definition": "The ground is beyond all predication. It cannot be said to be substance, process, or even empty; the fundamental is unsayable.",
+              "uses": 22,
+              "status": "candidate"
+            }
           ],
-          "candidate": [
-            "apophatic",
-            "dual-aspect-monism",
-            "panpsychism",
-            "participatory"
+          "total_values": 14,
+          "emergent_via_use": [
+            {
+              "value": "transcendent-personal",
+              "uses": 788
+            },
+            {
+              "value": "relational",
+              "uses": 278
+            },
+            {
+              "value": "(not-engaged)",
+              "uses": 256
+            }
           ]
         }
       },
       {
         "axis": "inferential-operation",
-        "gloss": "how it REASONS / the move from premise to conclusion",
-        "vocab_live": {
-          "green": [
-            "abduction",
-            "analogical-mapping",
-            "causal-explanation",
-            "derivation",
-            "dialectical-negation",
-            "exegesis",
-            "induction"
+        "gloss": "how it REASONS / the move from premise to conclusion (I)",
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "causal-explanation",
+              "definition": "Explains by cause and effect: the conclusion is reached by identifying what produces what.",
+              "uses": 1078,
+              "status": "green"
+            },
+            {
+              "value": "derivation",
+              "definition": "Deduces from premises already accepted: the conclusion follows necessarily from first principles, regardless of where those principles came from (even if scriptural).",
+              "uses": 826,
+              "status": "green"
+            },
+            {
+              "value": "exegesis",
+              "definition": "Draws the conclusion out of an authoritative text. Bound to recovering a specific source meaning.",
+              "uses": 699,
+              "status": "green"
+            },
+            {
+              "value": "dialectical-negation",
+              "definition": "Advances by negation: the conclusion emerges from setting a claim against its contradiction.",
+              "uses": 678,
+              "status": "green"
+            },
+            {
+              "value": "analogical-mapping",
+              "definition": "Transfers structure from one domain to another: A is to B as C is to D. The conclusion rides on the likeness.",
+              "uses": 599,
+              "status": "green"
+            },
+            {
+              "value": "induction",
+              "definition": "Generalises from instances: many observed cases license a claim about the unobserved.",
+              "uses": 409,
+              "status": "green"
+            },
+            {
+              "value": "abduction",
+              "definition": "Infers the best explanation: from a surprising fact, reasons back to what would, if true, make it a matter of course.",
+              "uses": 250,
+              "status": "green"
+            }
           ],
-          "candidate": []
+          "total_values": 7,
+          "emergent_via_use": [
+            {
+              "value": "(not-engaged)",
+              "uses": 115
+            },
+            {
+              "value": "narration",
+              "uses": 103
+            },
+            {
+              "value": "command",
+              "uses": 27
+            }
+          ]
         }
       },
       {
         "axis": "telos",
-        "gloss": "the END it is oriented toward / what fulfillment is",
-        "vocab_live": {
-          "green": [
-            "agency-mastery",
-            "communion",
-            "fidelity-service",
-            "flourishing",
-            "harmony",
-            "justice-world-transformation",
-            "knowledge-understanding",
-            "liberation",
-            "salvation"
+        "gloss": "the END it is oriented toward / what fulfillment is (T)",
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "salvation",
+              "definition": "Rescue and restoration. Something is wrong or broken, and a right relation is put back.",
+              "uses": 1566,
+              "status": "green"
+            },
+            {
+              "value": "fidelity-service",
+              "definition": "Obedience, duty, worship, preservation. The marker: the end is not the agent own benefit.",
+              "uses": 860,
+              "status": "green"
+            },
+            {
+              "value": "knowledge-understanding",
+              "definition": "Understanding is the end, not the warrant for something else.",
+              "uses": 686,
+              "status": "green"
+            },
+            {
+              "value": "justice-world-transformation",
+              "definition": "Emancipation or reform of a shared world. The end is collective and external, not individual release.",
+              "uses": 351,
+              "status": "green"
+            },
+            {
+              "value": "flourishing",
+              "definition": "The actualisation of persons: a life going well in its own terms.",
+              "uses": 337,
+              "status": "green"
+            },
+            {
+              "value": "harmony",
+              "definition": "Right order among parts. The end is the structural relation among many, not a bond with any single one.",
+              "uses": 324,
+              "status": "green"
+            },
+            {
+              "value": "liberation",
+              "definition": "Release. Something binds (craving, ignorance, bondage, structure) and is loosed. The end is freedom from, not the repair of a relation.",
+              "uses": 291,
+              "status": "green"
+            },
+            {
+              "value": "belonging",
+              "definition": "The aim of ongoing membership and acceptance — having a PLACE with an other or a group, WITHOUT merger (covenant, family, tradition). Distinct from communion (union) and salvation (rescue).",
+              "uses": 283,
+              "status": "candidate"
+            },
+            {
+              "value": "communion",
+              "definition": "Love, union, belonging. The end is a dyadic bond with an other.",
+              "uses": 154,
+              "status": "green"
+            },
+            {
+              "value": "agency-mastery",
+              "definition": "Capability as an end in itself, not as a means.",
+              "uses": 95,
+              "status": "green"
+            }
           ],
-          "candidate": [
-            "belonging"
+          "total_values": 10,
+          "emergent_via_use": [
+            {
+              "value": "(not-engaged)",
+              "uses": 41
+            },
+            {
+              "value": "contemplation",
+              "uses": 35
+            },
+            {
+              "value": "commission",
+              "uses": 11
+            }
           ]
         }
       },
       {
         "axis": "evaluative-stance",
-        "gloss": "its ATTITUDE toward its object",
-        "vocab_live": {
-          "green": [
-            "charitable",
-            "ironic",
-            "neutral-descriptive",
-            "reverent",
-            "suspicious"
+        "gloss": "its ATTITUDE toward its object (S1)",
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "reverent",
+              "definition": "Regards the object as sacred or authoritative: approached with deference and awe, as something that may make a claim on the reader.",
+              "uses": 1920,
+              "status": "green"
+            },
+            {
+              "value": "neutral-descriptive",
+              "definition": "Regards the object without evaluative commitment: describes it without endorsing, discounting, deferring to, or suspecting it.",
+              "uses": 1012,
+              "status": "green"
+            },
+            {
+              "value": "tender",
+              "definition": "Approaches the object with warmth, care, and protective gentleness — a cherishing, vulnerable regard (distinct from reverent=awe and charitable=good-faith).",
+              "uses": 531,
+              "status": "candidate"
+            },
+            {
+              "value": "charitable",
+              "definition": "Regards the object as owed good faith: reads for the strongest available sense. An interpretive default, not deference to authority.",
+              "uses": 328,
+              "status": "green"
+            },
+            {
+              "value": "defiant",
+              "definition": "Approaches the object as something to resist or stand against — an oppositional posture (Job before God; a prophet before power; a liberation text before authority).",
+              "uses": 271,
+              "status": "candidate"
+            },
+            {
+              "value": "suspicious",
+              "definition": "Regards the object as withholding something: reads for what it does not say.",
+              "uses": 252,
+              "status": "green"
+            },
+            {
+              "value": "ironic",
+              "definition": "The text's posture toward its object is ironic — it means other than, or against, what it literally says; a detached or subverting attitude. DISTINCT from a stated contradiction (B1 gap-irony) and from an audience-character knowledge gap (Sitz dramatic-irony): this is the STANCE layer only. See three_layer_irony_distinction_s157.",
+              "uses": 104,
+              "status": "green"
+            }
           ],
-          "candidate": [
-            "defiant",
-            "tender"
+          "total_values": 7,
+          "emergent_via_use": [
+            {
+              "value": "suspicious-leaning",
+              "uses": 164
+            },
+            {
+              "value": "promotional",
+              "uses": 121
+            },
+            {
+              "value": "dismissive",
+              "uses": 46
+            }
           ]
         }
       },
       {
         "axis": "hermeneutic-posture",
-        "gloss": "how it HANDLES / interprets its object",
-        "vocab_live": {
-          "green": [
-            "literal",
-            "reductive-deconstructive",
-            "reparative-integrative"
+        "gloss": "how it HANDLES / interprets its object (S2)",
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "literal",
+              "definition": "The surface grammatical sense is the meaning. The text means what it plainly says; no hidden layer, symbol, or subtext is sought. A claim about semantic depth, not a refusal to interpret.",
+              "uses": 1419,
+              "status": "green"
+            },
+            {
+              "value": "reparative-integrative",
+              "definition": "The surface plus. Reads generously, assembles, repairs, seeks what the text can be made to sustain.",
+              "uses": 1235,
+              "status": "green"
+            },
+            {
+              "value": "performative",
+              "definition": "Treats the text as an ACT to be enacted/performed (ritual, liturgical, legal, dramatic, sung) — its meaning is in the DOING, not only the interpreting.",
+              "uses": 923,
+              "status": "candidate"
+            },
+            {
+              "value": "reductive-deconstructive",
+              "definition": "The surface hides a mechanism. Digs beneath the text for the real cause or interest it does not declare.",
+              "uses": 380,
+              "status": "green"
+            }
           ],
-          "candidate": [
-            "performative"
+          "total_values": 4,
+          "emergent_via_use": [
+            {
+              "value": "descriptive-metadata",
+              "uses": 128
+            },
+            {
+              "value": "narrative-report",
+              "uses": 55
+            },
+            {
+              "value": "catalog",
+              "uses": 36
+            }
           ]
         }
       },
       {
         "axis": "r_topology",
-        "gloss": "the SHAPE of the ground<->world relation",
-        "vocab_live": {
-          "green": [
-            "creation",
-            "dependent-arising",
-            "emanation",
-            "emergence",
-            "identity",
-            "manifestation",
-            "participation",
-            "unspecified"
+        "gloss": "the SHAPE of the ground<->world relation (creation / emanation / dependent-arising / differentiation / enmeshment / exclusion)",
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "graded-asymmetry",
+              "definition": "Parties occupy unequal positions; authority or permission flows predominantly one way.",
+              "uses": 989,
+              "status": "candidate"
+            },
+            {
+              "value": "mediated-triadic",
+              "definition": "An A-B relation constituted or stabilised through a third position, object, rule, symbol or witness.",
+              "uses": 610,
+              "status": "candidate"
+            },
+            {
+              "value": "filial-asymmetry",
+              "definition": "Irreversible origination plus mutual obligation flowing in opposite directions; the child chooses the obligation.",
+              "uses": 427,
+              "status": "candidate"
+            },
+            {
+              "value": "delegated-voice",
+              "definition": "A party utters, in the first person, words commissioned by an absent principal. The third lends a mouth so an absent party's own voice reaches the addressee — a conduit for VOICE, not a position that stabilises.",
+              "uses": 407,
+              "status": "candidate"
+            },
+            {
+              "value": "responsibility-for",
+              "definition": "An asymmetric holding: one party acts on behalf of, or carries responsibility for, another. A POSITION occupied, not a goal pursued.",
+              "uses": 374,
+              "status": "candidate"
+            },
+            {
+              "value": "exclusion",
+              "definition": "A party positioned outside a boundary of membership, protection or recognition. The scapegoat position.",
+              "uses": 342,
+              "status": "candidate"
+            },
+            {
+              "value": "participation",
+              "definition": "Things are real in proportion to how fully they share in the ground. It is about degree of sharing, not rank of level and not identity.",
+              "uses": 272,
+              "status": "green"
+            },
+            {
+              "value": "initiatory-transformative",
+              "definition": "A one-time passage that permanently changes what the parties are to each other.",
+              "uses": 243,
+              "status": "candidate"
+            },
+            {
+              "value": "rivalrous",
+              "definition": "Two parties positioned as competitors for something that cannot be simultaneously possessed.",
+              "uses": 220,
+              "status": "candidate"
+            },
+            {
+              "value": "ancestral-lineal",
+              "definition": "Living, dead and unborn held as one topology across time; asymmetric yet binding.",
+              "uses": 214,
+              "status": "candidate"
+            }
           ],
-          "candidate": [
-            "ancestral-lineal",
-            "delegated-voice",
-            "dependence",
-            "differentiation",
-            "enmeshment",
-            "exclusion",
-            "filial-asymmetry",
-            "graded-asymmetry",
-            "initiatory-transformative",
-            "intercession",
-            "mediated-triadic",
-            "mutual-constitution",
-            "reciprocity",
-            "responsibility-for",
-            "ritual-propriety",
-            "rivalrous",
-            "role-obligation",
-            "unilateral-objectification"
+          "total_values": 26,
+          "emergent_via_use": [
+            {
+              "value": "(not-engaged)",
+              "uses": 79
+            },
+            {
+              "value": "witness",
+              "uses": 34
+            },
+            {
+              "value": "direct-address",
+              "uses": 8
+            }
           ]
         }
       },
       {
         "axis": "r_condition",
-        "gloss": "the TERMS / mode of that relation",
-        "vocab_live": {
-          "green": [
-            "unspecified"
+        "gloss": "the TERMS/mode of that relation (covenantal / compassionate-resonance / companionship / hierarchical-guidance / disengagement)",
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "covenantal",
+              "definition": "A freely undertaken bond generating durable, asymmetric-but-reciprocal obligations that persist despite failure.",
+              "uses": 1011,
+              "status": "candidate"
+            },
+            {
+              "value": "hierarchical-guidance",
+              "definition": "Asymmetry in which one guides, teaches, or carries responsibility for another.",
+              "uses": 680,
+              "status": "candidate"
+            },
+            {
+              "value": "rupture",
+              "definition": "A bond that still exists and is severed. Not the instant of breaking — the sustained condition of being broken while still bound.",
+              "uses": 555,
+              "status": "candidate"
+            },
+            {
+              "value": "kinship-continuity",
+              "definition": "A bond maintained through inherited ties across generations; moral permanence.",
+              "uses": 273,
+              "status": "candidate"
+            },
+            {
+              "value": "fitting-attunement",
+              "definition": "The shape is set by what comportment is appropriate to this particular other.",
+              "uses": 263,
+              "status": "candidate"
+            },
+            {
+              "value": "testimonial-correction",
+              "definition": "One party holds privileged knowledge of the relation's actual state and transfers it to correct another's mistaken belief about it. The bond is altered EPISTEMICALLY rather than by deed.",
+              "uses": 257,
+              "status": "candidate"
+            },
+            {
+              "value": "repair",
+              "definition": "Asymmetric effort toward mending: provisional trust, testing, restitution. Presupposes a prior whole.",
+              "uses": 240,
+              "status": "candidate"
+            },
+            {
+              "value": "debt-gratitude",
+              "definition": "An originating gift, perpetual gratitude, and an asymmetric indebtedness never fully discharged.",
+              "uses": 217,
+              "status": "candidate"
+            },
+            {
+              "value": "hospitality",
+              "definition": "An asymmetric opening of a boundary that receives the other without dissolving the distinction between them.",
+              "uses": 194,
+              "status": "candidate"
+            },
+            {
+              "value": "compassionate-resonance",
+              "definition": "Shaped by shared suffering plus an active urge to alleviate it.",
+              "uses": 186,
+              "status": "candidate"
+            }
           ],
-          "candidate": [
-            "beloved-seeking",
-            "companionship",
-            "compassionate-resonance",
-            "covenantal",
-            "debt-gratitude",
-            "disengagement",
-            "equanimous-nonattachment",
-            "face-of-other",
-            "fitting-attunement",
-            "hierarchical-guidance",
-            "holding-containment",
-            "hospitality",
-            "kinship-continuity",
-            "mutual-recognition",
-            "palaver-consensus",
-            "playful-lila",
-            "repair",
-            "responsive-yielding",
-            "rupture",
-            "severance",
-            "testimonial-correction",
-            "waiting-attendance"
+          "total_values": 23,
+          "emergent_via_use": [
+            {
+              "value": "(not-engaged)",
+              "uses": 169
+            },
+            {
+              "value": "longing",
+              "uses": 40
+            },
+            {
+              "value": "bereft-seeking",
+              "uses": 11
+            }
           ]
         }
       }
@@ -266,7 +679,7 @@
         "note": "OPEN; the warrant + the reader's uncertainty"
       }
     ],
-    "live_vocab_rule": "Frame is THE model for the live-vocab rule: axis + value render from exom_axis_vocabulary, so the drawer cannot go stale. The reader may propose a candidate (fit-or-extend), which must be logged -- the drift-check enforces that discipline."
+    "live_vocab_rule": "Frame is THE model for the live-vocab rule: axis + value render from the canonical field dictionary (DATA_atlas_field_dictionary.json), so the drawer cannot go stale or diverge from it. Inclusion is USAGE-DRIVEN (how often a value is actually placed), not a green/candidate approval gate; the reader may surface a new value (fit-or-extend), which must be logged -- the S163 drift-check enforces that discipline (Layer 3)."
   },
   "the_method_applied": {
     "source_key": "MARK-16-WEB",
@@ -279,7 +692,7 @@
     "by_axis": [
       {
         "axis": "epistemic-warrant",
-        "gloss": "how the text KNOWS / grounds its claims",
+        "gloss": "how the text KNOWS / grounds its claims (E)",
         "placed": true,
         "values": [
           {
@@ -318,26 +731,89 @@
             "vocab_status": "green"
           }
         ],
-        "vocab_live": {
-          "green": [
-            "divination",
-            "mystical-union",
-            "noetic-intuition",
-            "observation",
-            "practice",
-            "reason",
-            "revelation",
-            "testimony",
-            "tradition"
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "testimony",
+              "definition": "Someone else tells you. The warrant is mediated: it rests on a living witness who saw, and the knower is not the one who did.",
+              "uses": 1319,
+              "status": "green"
+            },
+            {
+              "value": "revelation",
+              "definition": "It is disclosed. A truth given from outside the natural order, received passively, with no procedure of interpretation standing between the source and the knower.",
+              "uses": 1016,
+              "status": "green"
+            },
+            {
+              "value": "tradition",
+              "definition": "It has been handed down. The warrant is inheritance: the claim is licensed because a tradition, community, or institution holds and transmits it, not because any single living witness saw it. Covers received tradition, communal consensus (ijma, sangha), and institutional authority.",
+              "uses": 916,
+              "status": "green"
+            },
+            {
+              "value": "observation",
+              "definition": "You see it yourself. Direct, unmediated sensory access, with no witness between the knower and the known.",
+              "uses": 879,
+              "status": "green"
+            },
+            {
+              "value": "reason",
+              "definition": "It follows. The warrant is inferential: the claim is licensed by argument, not by access.",
+              "uses": 769,
+              "status": "green"
+            },
+            {
+              "value": "practice",
+              "definition": "Known through doing it. The warrant is the disciplined activity itself: repeated performance is what makes the claim evident, independent of any bodily skill acquired.",
+              "uses": 111,
+              "status": "green"
+            },
+            {
+              "value": "noetic-intuition",
+              "definition": "Direct intellectual apprehension. The truth is grasped whole, without inference and without sensory mediation.",
+              "uses": 89,
+              "status": "green"
+            },
+            {
+              "value": "embodied-practice",
+              "definition": "Known in the body. The warrant is tacit, non-propositional bodily competence: a trained skill or attunement that can be demonstrated but not fully stated.",
+              "uses": 52,
+              "status": "candidate"
+            },
+            {
+              "value": "divination",
+              "definition": "Known by reading a sign. The truth is solicited through a procedure (casting, omens, consulting an oracle); a technique of interpretation stands between the knower and the answer.",
+              "uses": 48,
+              "status": "green"
+            },
+            {
+              "value": "mystical-union",
+              "definition": "Known by becoming one with the object. The knower and the known collapse into one.",
+              "uses": 8,
+              "status": "green"
+            }
           ],
-          "candidate": [
-            "embodied-practice"
+          "total_values": 10,
+          "emergent_via_use": [
+            {
+              "value": "scripture",
+              "uses": 29
+            },
+            {
+              "value": "exegesis",
+              "uses": 23
+            },
+            {
+              "value": "perception",
+              "uses": 11
+            }
           ]
         }
       },
       {
         "axis": "ontological-commitment",
-        "gloss": "what it takes to be REAL / the kind of being it assumes",
+        "gloss": "what it takes to be REAL / the kind of being it assumes (O)",
         "placed": true,
         "values": [
           {
@@ -348,30 +824,89 @@
             "vocab_status": "green"
           }
         ],
-        "vocab_live": {
-          "green": [
-            "consciousness-first",
-            "dualism-pluralism",
-            "epoche",
-            "impersonal-order",
-            "insufficient-context",
-            "material",
-            "not-asserted",
-            "personal-agentive",
-            "process-becoming",
-            "void"
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "personal-agentive",
+              "definition": "A personal will is fundamental. What is most real is someone, an agent with intention, not an impersonal stuff or law.",
+              "uses": 1497,
+              "status": "green"
+            },
+            {
+              "value": "material",
+              "definition": "Matter is fundamental. What is most real is physical stuff; everything else is its arrangement.",
+              "uses": 151,
+              "status": "green"
+            },
+            {
+              "value": "participatory",
+              "definition": "Reality is constituted through relations of PARTICIPATION — beings are neither identical with ultimate reality (union) nor merely separate substances (dualism/pluralism), but partake in it. Distinct from the substance-based ontology values. Home cases: theosis (2 Peter 1:4, partakers of the divine nature), Ibn Arabi tajalli, Neoplatonic emanation/methexis.",
+              "uses": 144,
+              "status": "candidate"
+            },
+            {
+              "value": "not-asserted",
+              "definition": "The passage takes no ontological position. It is about ethics or practice and simply does not address what is fundamental. A passive absence.",
+              "uses": 120,
+              "status": "green"
+            },
+            {
+              "value": "process-becoming",
+              "definition": "Flux is fundamental. What is most real is events and becoming, not fixed things.",
+              "uses": 110,
+              "status": "green"
+            },
+            {
+              "value": "impersonal-order",
+              "definition": "An impersonal order is fundamental. The ground is a law or pattern, not an agent.",
+              "uses": 104,
+              "status": "green"
+            },
+            {
+              "value": "consciousness-first",
+              "definition": "Awareness is fundamental. Mind is not produced by matter; matter is a content of mind. Mind is the single ground, not a property distributed through things.",
+              "uses": 81,
+              "status": "green"
+            },
+            {
+              "value": "dualism-pluralism",
+              "definition": "Two or more irreducible kinds are fundamental; no single substance grounds the rest.",
+              "uses": 72,
+              "status": "green"
+            },
+            {
+              "value": "epoche",
+              "definition": "The passage actively refuses to commit and holds the refusal as its position. Requires an explicit refusal-marker in the text (this cannot be said; one neither affirms nor denies); absent that marker, code not-asserted.",
+              "uses": 28,
+              "status": "green"
+            },
+            {
+              "value": "apophatic",
+              "definition": "The ground is beyond all predication. It cannot be said to be substance, process, or even empty; the fundamental is unsayable.",
+              "uses": 22,
+              "status": "candidate"
+            }
           ],
-          "candidate": [
-            "apophatic",
-            "dual-aspect-monism",
-            "panpsychism",
-            "participatory"
+          "total_values": 14,
+          "emergent_via_use": [
+            {
+              "value": "transcendent-personal",
+              "uses": 788
+            },
+            {
+              "value": "relational",
+              "uses": 278
+            },
+            {
+              "value": "(not-engaged)",
+              "uses": 256
+            }
           ]
         }
       },
       {
         "axis": "inferential-operation",
-        "gloss": "how it REASONS / the move from premise to conclusion",
+        "gloss": "how it REASONS / the move from premise to conclusion (I)",
         "placed": true,
         "values": [
           {
@@ -389,22 +924,71 @@
             "vocab_status": "green"
           }
         ],
-        "vocab_live": {
-          "green": [
-            "abduction",
-            "analogical-mapping",
-            "causal-explanation",
-            "derivation",
-            "dialectical-negation",
-            "exegesis",
-            "induction"
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "causal-explanation",
+              "definition": "Explains by cause and effect: the conclusion is reached by identifying what produces what.",
+              "uses": 1078,
+              "status": "green"
+            },
+            {
+              "value": "derivation",
+              "definition": "Deduces from premises already accepted: the conclusion follows necessarily from first principles, regardless of where those principles came from (even if scriptural).",
+              "uses": 826,
+              "status": "green"
+            },
+            {
+              "value": "exegesis",
+              "definition": "Draws the conclusion out of an authoritative text. Bound to recovering a specific source meaning.",
+              "uses": 699,
+              "status": "green"
+            },
+            {
+              "value": "dialectical-negation",
+              "definition": "Advances by negation: the conclusion emerges from setting a claim against its contradiction.",
+              "uses": 678,
+              "status": "green"
+            },
+            {
+              "value": "analogical-mapping",
+              "definition": "Transfers structure from one domain to another: A is to B as C is to D. The conclusion rides on the likeness.",
+              "uses": 599,
+              "status": "green"
+            },
+            {
+              "value": "induction",
+              "definition": "Generalises from instances: many observed cases license a claim about the unobserved.",
+              "uses": 409,
+              "status": "green"
+            },
+            {
+              "value": "abduction",
+              "definition": "Infers the best explanation: from a surprising fact, reasons back to what would, if true, make it a matter of course.",
+              "uses": 250,
+              "status": "green"
+            }
           ],
-          "candidate": []
+          "total_values": 7,
+          "emergent_via_use": [
+            {
+              "value": "(not-engaged)",
+              "uses": 115
+            },
+            {
+              "value": "narration",
+              "uses": 103
+            },
+            {
+              "value": "command",
+              "uses": 27
+            }
+          ]
         }
       },
       {
         "axis": "telos",
-        "gloss": "the END it is oriented toward / what fulfillment is",
+        "gloss": "the END it is oriented toward / what fulfillment is (T)",
         "placed": true,
         "values": [
           {
@@ -429,26 +1013,89 @@
             "vocab_status": "green"
           }
         ],
-        "vocab_live": {
-          "green": [
-            "agency-mastery",
-            "communion",
-            "fidelity-service",
-            "flourishing",
-            "harmony",
-            "justice-world-transformation",
-            "knowledge-understanding",
-            "liberation",
-            "salvation"
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "salvation",
+              "definition": "Rescue and restoration. Something is wrong or broken, and a right relation is put back.",
+              "uses": 1566,
+              "status": "green"
+            },
+            {
+              "value": "fidelity-service",
+              "definition": "Obedience, duty, worship, preservation. The marker: the end is not the agent own benefit.",
+              "uses": 860,
+              "status": "green"
+            },
+            {
+              "value": "knowledge-understanding",
+              "definition": "Understanding is the end, not the warrant for something else.",
+              "uses": 686,
+              "status": "green"
+            },
+            {
+              "value": "justice-world-transformation",
+              "definition": "Emancipation or reform of a shared world. The end is collective and external, not individual release.",
+              "uses": 351,
+              "status": "green"
+            },
+            {
+              "value": "flourishing",
+              "definition": "The actualisation of persons: a life going well in its own terms.",
+              "uses": 337,
+              "status": "green"
+            },
+            {
+              "value": "harmony",
+              "definition": "Right order among parts. The end is the structural relation among many, not a bond with any single one.",
+              "uses": 324,
+              "status": "green"
+            },
+            {
+              "value": "liberation",
+              "definition": "Release. Something binds (craving, ignorance, bondage, structure) and is loosed. The end is freedom from, not the repair of a relation.",
+              "uses": 291,
+              "status": "green"
+            },
+            {
+              "value": "belonging",
+              "definition": "The aim of ongoing membership and acceptance — having a PLACE with an other or a group, WITHOUT merger (covenant, family, tradition). Distinct from communion (union) and salvation (rescue).",
+              "uses": 283,
+              "status": "candidate"
+            },
+            {
+              "value": "communion",
+              "definition": "Love, union, belonging. The end is a dyadic bond with an other.",
+              "uses": 154,
+              "status": "green"
+            },
+            {
+              "value": "agency-mastery",
+              "definition": "Capability as an end in itself, not as a means.",
+              "uses": 95,
+              "status": "green"
+            }
           ],
-          "candidate": [
-            "belonging"
+          "total_values": 10,
+          "emergent_via_use": [
+            {
+              "value": "(not-engaged)",
+              "uses": 41
+            },
+            {
+              "value": "contemplation",
+              "uses": 35
+            },
+            {
+              "value": "commission",
+              "uses": 11
+            }
           ]
         }
       },
       {
         "axis": "evaluative-stance",
-        "gloss": "its ATTITUDE toward its object",
+        "gloss": "its ATTITUDE toward its object (S1)",
         "placed": true,
         "values": [
           {
@@ -473,23 +1120,71 @@
             "vocab_status": "candidate"
           }
         ],
-        "vocab_live": {
-          "green": [
-            "charitable",
-            "ironic",
-            "neutral-descriptive",
-            "reverent",
-            "suspicious"
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "reverent",
+              "definition": "Regards the object as sacred or authoritative: approached with deference and awe, as something that may make a claim on the reader.",
+              "uses": 1920,
+              "status": "green"
+            },
+            {
+              "value": "neutral-descriptive",
+              "definition": "Regards the object without evaluative commitment: describes it without endorsing, discounting, deferring to, or suspecting it.",
+              "uses": 1012,
+              "status": "green"
+            },
+            {
+              "value": "tender",
+              "definition": "Approaches the object with warmth, care, and protective gentleness — a cherishing, vulnerable regard (distinct from reverent=awe and charitable=good-faith).",
+              "uses": 531,
+              "status": "candidate"
+            },
+            {
+              "value": "charitable",
+              "definition": "Regards the object as owed good faith: reads for the strongest available sense. An interpretive default, not deference to authority.",
+              "uses": 328,
+              "status": "green"
+            },
+            {
+              "value": "defiant",
+              "definition": "Approaches the object as something to resist or stand against — an oppositional posture (Job before God; a prophet before power; a liberation text before authority).",
+              "uses": 271,
+              "status": "candidate"
+            },
+            {
+              "value": "suspicious",
+              "definition": "Regards the object as withholding something: reads for what it does not say.",
+              "uses": 252,
+              "status": "green"
+            },
+            {
+              "value": "ironic",
+              "definition": "The text's posture toward its object is ironic — it means other than, or against, what it literally says; a detached or subverting attitude. DISTINCT from a stated contradiction (B1 gap-irony) and from an audience-character knowledge gap (Sitz dramatic-irony): this is the STANCE layer only. See three_layer_irony_distinction_s157.",
+              "uses": 104,
+              "status": "green"
+            }
           ],
-          "candidate": [
-            "defiant",
-            "tender"
+          "total_values": 7,
+          "emergent_via_use": [
+            {
+              "value": "suspicious-leaning",
+              "uses": 164
+            },
+            {
+              "value": "promotional",
+              "uses": 121
+            },
+            {
+              "value": "dismissive",
+              "uses": 46
+            }
           ]
         }
       },
       {
         "axis": "hermeneutic-posture",
-        "gloss": "how it HANDLES / interprets its object",
+        "gloss": "how it HANDLES / interprets its object (S2)",
         "placed": true,
         "values": [
           {
@@ -514,20 +1209,53 @@
             "vocab_status": "green"
           }
         ],
-        "vocab_live": {
-          "green": [
-            "literal",
-            "reductive-deconstructive",
-            "reparative-integrative"
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "literal",
+              "definition": "The surface grammatical sense is the meaning. The text means what it plainly says; no hidden layer, symbol, or subtext is sought. A claim about semantic depth, not a refusal to interpret.",
+              "uses": 1419,
+              "status": "green"
+            },
+            {
+              "value": "reparative-integrative",
+              "definition": "The surface plus. Reads generously, assembles, repairs, seeks what the text can be made to sustain.",
+              "uses": 1235,
+              "status": "green"
+            },
+            {
+              "value": "performative",
+              "definition": "Treats the text as an ACT to be enacted/performed (ritual, liturgical, legal, dramatic, sung) — its meaning is in the DOING, not only the interpreting.",
+              "uses": 923,
+              "status": "candidate"
+            },
+            {
+              "value": "reductive-deconstructive",
+              "definition": "The surface hides a mechanism. Digs beneath the text for the real cause or interest it does not declare.",
+              "uses": 380,
+              "status": "green"
+            }
           ],
-          "candidate": [
-            "performative"
+          "total_values": 4,
+          "emergent_via_use": [
+            {
+              "value": "descriptive-metadata",
+              "uses": 128
+            },
+            {
+              "value": "narrative-report",
+              "uses": 55
+            },
+            {
+              "value": "catalog",
+              "uses": 36
+            }
           ]
         }
       },
       {
         "axis": "r_topology",
-        "gloss": "the SHAPE of the ground<->world relation",
+        "gloss": "the SHAPE of the ground<->world relation (creation / emanation / dependent-arising / differentiation / enmeshment / exclusion)",
         "placed": true,
         "values": [
           {
@@ -559,42 +1287,89 @@
             "vocab_status": "candidate"
           }
         ],
-        "vocab_live": {
-          "green": [
-            "creation",
-            "dependent-arising",
-            "emanation",
-            "emergence",
-            "identity",
-            "manifestation",
-            "participation",
-            "unspecified"
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "graded-asymmetry",
+              "definition": "Parties occupy unequal positions; authority or permission flows predominantly one way.",
+              "uses": 989,
+              "status": "candidate"
+            },
+            {
+              "value": "mediated-triadic",
+              "definition": "An A-B relation constituted or stabilised through a third position, object, rule, symbol or witness.",
+              "uses": 610,
+              "status": "candidate"
+            },
+            {
+              "value": "filial-asymmetry",
+              "definition": "Irreversible origination plus mutual obligation flowing in opposite directions; the child chooses the obligation.",
+              "uses": 427,
+              "status": "candidate"
+            },
+            {
+              "value": "delegated-voice",
+              "definition": "A party utters, in the first person, words commissioned by an absent principal. The third lends a mouth so an absent party's own voice reaches the addressee — a conduit for VOICE, not a position that stabilises.",
+              "uses": 407,
+              "status": "candidate"
+            },
+            {
+              "value": "responsibility-for",
+              "definition": "An asymmetric holding: one party acts on behalf of, or carries responsibility for, another. A POSITION occupied, not a goal pursued.",
+              "uses": 374,
+              "status": "candidate"
+            },
+            {
+              "value": "exclusion",
+              "definition": "A party positioned outside a boundary of membership, protection or recognition. The scapegoat position.",
+              "uses": 342,
+              "status": "candidate"
+            },
+            {
+              "value": "participation",
+              "definition": "Things are real in proportion to how fully they share in the ground. It is about degree of sharing, not rank of level and not identity.",
+              "uses": 272,
+              "status": "green"
+            },
+            {
+              "value": "initiatory-transformative",
+              "definition": "A one-time passage that permanently changes what the parties are to each other.",
+              "uses": 243,
+              "status": "candidate"
+            },
+            {
+              "value": "rivalrous",
+              "definition": "Two parties positioned as competitors for something that cannot be simultaneously possessed.",
+              "uses": 220,
+              "status": "candidate"
+            },
+            {
+              "value": "ancestral-lineal",
+              "definition": "Living, dead and unborn held as one topology across time; asymmetric yet binding.",
+              "uses": 214,
+              "status": "candidate"
+            }
           ],
-          "candidate": [
-            "ancestral-lineal",
-            "delegated-voice",
-            "dependence",
-            "differentiation",
-            "enmeshment",
-            "exclusion",
-            "filial-asymmetry",
-            "graded-asymmetry",
-            "initiatory-transformative",
-            "intercession",
-            "mediated-triadic",
-            "mutual-constitution",
-            "reciprocity",
-            "responsibility-for",
-            "ritual-propriety",
-            "rivalrous",
-            "role-obligation",
-            "unilateral-objectification"
+          "total_values": 26,
+          "emergent_via_use": [
+            {
+              "value": "(not-engaged)",
+              "uses": 79
+            },
+            {
+              "value": "witness",
+              "uses": 34
+            },
+            {
+              "value": "direct-address",
+              "uses": 8
+            }
           ]
         }
       },
       {
         "axis": "r_condition",
-        "gloss": "the TERMS / mode of that relation",
+        "gloss": "the TERMS/mode of that relation (covenantal / compassionate-resonance / companionship / hierarchical-guidance / disengagement)",
         "placed": true,
         "values": [
           {
@@ -633,33 +1408,83 @@
             "vocab_status": "candidate"
           }
         ],
-        "vocab_live": {
-          "green": [
-            "unspecified"
+        "vocab": {
+          "values_by_usage": [
+            {
+              "value": "covenantal",
+              "definition": "A freely undertaken bond generating durable, asymmetric-but-reciprocal obligations that persist despite failure.",
+              "uses": 1011,
+              "status": "candidate"
+            },
+            {
+              "value": "hierarchical-guidance",
+              "definition": "Asymmetry in which one guides, teaches, or carries responsibility for another.",
+              "uses": 680,
+              "status": "candidate"
+            },
+            {
+              "value": "rupture",
+              "definition": "A bond that still exists and is severed. Not the instant of breaking — the sustained condition of being broken while still bound.",
+              "uses": 555,
+              "status": "candidate"
+            },
+            {
+              "value": "kinship-continuity",
+              "definition": "A bond maintained through inherited ties across generations; moral permanence.",
+              "uses": 273,
+              "status": "candidate"
+            },
+            {
+              "value": "fitting-attunement",
+              "definition": "The shape is set by what comportment is appropriate to this particular other.",
+              "uses": 263,
+              "status": "candidate"
+            },
+            {
+              "value": "testimonial-correction",
+              "definition": "One party holds privileged knowledge of the relation's actual state and transfers it to correct another's mistaken belief about it. The bond is altered EPISTEMICALLY rather than by deed.",
+              "uses": 257,
+              "status": "candidate"
+            },
+            {
+              "value": "repair",
+              "definition": "Asymmetric effort toward mending: provisional trust, testing, restitution. Presupposes a prior whole.",
+              "uses": 240,
+              "status": "candidate"
+            },
+            {
+              "value": "debt-gratitude",
+              "definition": "An originating gift, perpetual gratitude, and an asymmetric indebtedness never fully discharged.",
+              "uses": 217,
+              "status": "candidate"
+            },
+            {
+              "value": "hospitality",
+              "definition": "An asymmetric opening of a boundary that receives the other without dissolving the distinction between them.",
+              "uses": 194,
+              "status": "candidate"
+            },
+            {
+              "value": "compassionate-resonance",
+              "definition": "Shaped by shared suffering plus an active urge to alleviate it.",
+              "uses": 186,
+              "status": "candidate"
+            }
           ],
-          "candidate": [
-            "beloved-seeking",
-            "companionship",
-            "compassionate-resonance",
-            "covenantal",
-            "debt-gratitude",
-            "disengagement",
-            "equanimous-nonattachment",
-            "face-of-other",
-            "fitting-attunement",
-            "hierarchical-guidance",
-            "holding-containment",
-            "hospitality",
-            "kinship-continuity",
-            "mutual-recognition",
-            "palaver-consensus",
-            "playful-lila",
-            "repair",
-            "responsive-yielding",
-            "rupture",
-            "severance",
-            "testimonial-correction",
-            "waiting-attendance"
+          "total_values": 23,
+          "emergent_via_use": [
+            {
+              "value": "(not-engaged)",
+              "uses": 169
+            },
+            {
+              "value": "longing",
+              "uses": 40
+            },
+            {
+              "value": "bereft-seeking",
+              "uses": 11
+            }
           ]
         }
       }
@@ -689,11 +1514,11 @@
     "GOLDEN PATH IS CLEAN. On Mark 16 all 26 placements map to a live vocab value (green or candidate); 0 silent drift. So the drift is on OTHER texts, not the worked example.",
     "FRAME IS PASSAGE-LEVEL, not per-move. The grain rule intends per-move frame too (each move its own coordinates), but that needs Decompose to stamp passage_id per move; not populated yet.",
     "vs-Wild is OWED: give a naive reader the passage + 'place it on these 8 axes' and compare to the atlas placement. Cold Read is owed on this card. Both are the next checks.",
-    "2003 of the candidate log's rows are 9th-AXIS probes (R4 completeness test), pending review -- an open question whether the 8 axes are collectively exhaustive."
+    "2007 of the candidate log's rows are 9th-AXIS probes (R4 completeness test), pending review -- an open question whether the 8 axes are collectively exhaustive."
   ],
   "made_by": [
     "scripts/analysis/atlas_frame_reader.py (the reader/owner -- Claude Max SDK, Tier 1)",
-    "exom_axis_vocabulary (the live controlled vocab; 8 axes, green/candidate/held/retired)",
+    "DATA_atlas_field_dictionary.json (the canonical usage-driven vocab; Librarian-owned, PR #3071) + exom_axis_vocabulary (the store behind it)",
     "atlas_frame_read_placement + _envelope + _candidate (the 3-table atlas schema)",
     "scripts/analysis/sprint_invariants/atlas_frame_vocab_drift_check.py (the S163 Layer-3 drift-check, NEW)",
     "scripts/analysis/build_frame_subengine_drawer_data_s163.py (this card's data)"
@@ -717,7 +1542,7 @@
       ],
       "placements": 26,
       "axes_placed": 8,
-      "corpus_engaged_placements": 39462,
+      "corpus_engaged_placements": 39513,
       "silent_drift_pairs": 429
     },
     "how_to_run": {
