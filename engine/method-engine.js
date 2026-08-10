@@ -652,7 +652,8 @@ var STEP_DATA = { text: "text_node_drawer.json", decompose: "decompose_node_draw
 var CONNECT_STYLE = { connect: "connect_node_drawer.json", situate: "situate_node_drawer.json",
   frame: "frame_node_drawer.json", lineage: "lineage_node_drawer.json",
   paradigm: "paradigm_node_drawer.json", sitz: "sitz_node_drawer.json",
-  witness: "transmission_node_drawer.json" /* Witness pill relabeled Transmission; feed is transmission_node_drawer */ };
+  witness: "transmission_node_drawer.json", /* Witness pill relabeled Transmission; feed is transmission_node_drawer */
+  form: "form_node_drawer.json" /* the 6th Situate sub-engine (Gattung); shipped by Method SB S168 */ };
 var STEP_CACHE = {}, CHECKOUT = null;
 function cleanVerbatim(t) {
   if (!t) return "";

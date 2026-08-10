@@ -3,9 +3,9 @@
   "sub_engine": "transmission",
   "_generated_by": "build_transmission_subengine_drawer_data_s163.py (render-from-data; re-run to refresh)",
   "_reads_from": {
-    "store": "witness_record (@ MARK-16; text-level)"
+    "store": "transmission_record (@ MARK-16; text-level)"
   },
-  "_renamed": "Transmission (was 'Witness'), PI-locked Decision 224 S163; physical store still witness_record.",
+  "_renamed": "Transmission (was 'Witness'), PI-locked Decision 224 S163; physical store renamed witness_record -> transmission_record S166 (durable fix).",
   "header": {
     "title": "Transmission",
     "subtitle": "how far the text-in-hand is from the origin event, and through what chain",
@@ -13,7 +13,7 @@
     "output": "Degrees of separation",
     "grain": "text-level (transmission distance is a property of the text, not per-move)",
     "pills": {
-      "fidelity": "PASS -- every label maps to a real witness_record column",
+      "fidelity": "PASS -- every label maps to a real transmission_record column",
       "scale": "INCOMPLETE -- 1 reconstructed record (thin); a definition + one worked example, not a scaled run",
       "cold_read": "INCOMPLETE (owed, S163)",
       "vs_wild": "INCOMPLETE (owed)"
@@ -41,7 +41,7 @@
   },
   "how_we_grade_it": {
     "note": "the checks the pills report.",
-    "Fidelity": "mechanical: does every label map to a real witness_record column?",
+    "Fidelity": "mechanical: does every label map to a real transmission_record column?",
     "scale": "is this a scaled run or one worked record? (one record = INCOMPLETE, honestly).",
     "Cold Read": "self-sufficiency: a blind reader judges whether the card explains itself.",
     "vs-Wild": "does the coded transmission-distance beat a naive reader given the text + 'how far is this from the event it reports?' (owed).",
@@ -109,9 +109,9 @@
     "note": "Mark 16's transmission record (render-from-data): 3 degrees from the origin event, composed ~68 CE (Rome?), narrative mode, stemma-reconstructed. Every value is a reconstructed ESTIMATE (basis = 'reconstructed-estimate'), not a measurement."
   },
   "where_saved": {
-    "store": "witness_record",
+    "store": "transmission_record",
     "key": "source_key (text-level)",
-    "plain": "The transmission record saves to witness_record, one row per text, keyed on source_key (@ the base key MARK-16)."
+    "plain": "The transmission record saves to transmission_record, one row per text, keyed on source_key (@ the base key MARK-16)."
   },
   "honest_limits": [
     "THIN + RECONSTRUCTED. This is 1 record for Mark 16 (corpus-wide: 11 witness records total). It is a definition + one worked, RECONSTRUCTED-ESTIMATE record (basis='reconstructed-estimate'), not a scaled or measured run -- so it earns no green scale pill. An honest frontier aspect.",
@@ -120,7 +120,7 @@
     "Cold Read + vs-Wild owed on this card."
   ],
   "made_by": [
-    "witness_record (the transmission store)",
+    "transmission_record (the transmission store)",
     "scripts/analysis/load_transmission_seed_s161.py (the seed loader)",
     "source / redaction criticism (Markan priority, Q, the 1 Cor 15:3 creed) -- the reconstruction basis",
     "scripts/analysis/build_transmission_subengine_drawer_data_s163.py (this card's data)"
@@ -145,15 +145,15 @@
     },
     "how_to_run": {
       "refresh this card": "./scripts/_run_python.sh scripts/analysis/build_transmission_subengine_drawer_data_s163.py",
-      "the read rule": "read witness_record by the source_key family (text-level; resolve via text_checkout)."
+      "the read rule": "read transmission_record by the source_key family (text-level; resolve via text_checkout)."
     },
-    "data_source": "witness_record (@ MARK-16).",
+    "data_source": "transmission_record (@ MARK-16).",
     "decision_trail": "CONTRACT_situate_closed_open_grain_s162 (witness/transmission closed/open/grain) - Decision 224 (Witness -> Transmission rename) - this drawer."
   },
   "fidelity": {
     "status": "PASS",
     "date": "2026-08-10",
-    "meta_line": "Fidelity PASS (mechanical): every label maps to a real witness_record column."
+    "meta_line": "Fidelity PASS (mechanical): every label maps to a real transmission_record column."
   },
   "scale": {
     "status": "INCOMPLETE",
