@@ -1,0 +1,748 @@
+{
+  "node": "situate",
+  "sub_engine": "frame",
+  "_generated_by": "build_frame_subengine_drawer_data_s163.py (render-from-data; re-run to refresh)",
+  "_reads_from": {
+    "placements": "atlas_frame_read_placement (@ passage_id)",
+    "vocab": "exom_axis_vocabulary (live)",
+    "candidates": "atlas_frame_read_candidate",
+    "owner": "atlas_frame_reader.py (consumed, not rebuilt)"
+  },
+  "header": {
+    "title": "Frame",
+    "subtitle": "place the text on the 8 axes -- the coordinates of the mind that made it",
+    "parent": "Situate",
+    "output": "Morphospace (the frame read as a space texts sit in)",
+    "grain": "passage-level (keyed by passage_id, NOT source_key -- the Seam-2 key)",
+    "pills": {
+      "fidelity": "PARTIAL -- golden path clean; corpus-wide drift (now caught)",
+      "cold_read": "PENDING (S163)",
+      "vs_wild": "PENDING (owed: naive reader vs the 8-axis placement)"
+    },
+    "status_line": "Frame places a text on 8 axes; on Mark 16 it is clean -- 26 placements across 8 of 8 axes, all in-vocab. Its vocab renders LIVE from exom_axis_vocabulary (never hardcoded), which is why it is the calibration model. Honest limit: corpus-wide (39262 placements across many texts), 429 axis/value pairs drifted off-vocab WITHOUT a fit-or-extend candidate; the S163 drift-check now catches it. So: golden path clean, corpus drift named."
+  },
+  "what_it_is": "Frame reads a whole passage and places it on eight axes -- the coordinates of the mind that produced it: how it knows (epistemic-warrant), what it takes to be real (ontological-commitment), how it reasons (inferential-operation), what end it seeks (telos), its attitude (evaluative-stance), how it interprets (hermeneutic-posture), and the shape + terms of the ground<->world relation (r_topology, r_condition). The eight coordinates ARE the text's position in the Morphospace.",
+  "why_it_matters": "A frame placement is what lets two texts be COMPARED as points in one space rather than argued about impressionistically. It is also where an absence shows: an axis a text does NOT engage (the not-engaged sentinel) is a real, coded fact -- a mind that never asks the ontological question is telling you something. The morphospace is the map convergence and divergence are read off.",
+  "how_it_works": {
+    "you_give_it": "a passage (its text + passage_id).",
+    "the_method_does": "one atlas-reader pass places the passage on each of the 8 axes onto the ESTABLISHED vocab (fit-or-extend: propose a new value if none fits), with a confidence per value, a membership weight where a real compound splits an axis, and an explicit not-engaged when the axis does not apply.",
+    "you_get_back": "the 8-axis coordinate (a placement per axis-value) + any proposed candidates, joined to the passage."
+  },
+  "pipeline_context": {
+    "note": "sibling terms glossed so the card stands alone.",
+    "move": "one small action a text makes (agent does an operation to something, with a result) -- the unit the pipeline codes.",
+    "Decompose": "the node that breaks a passage into moves; Frame (in Situate) runs alongside it.",
+    "Situate": "the parent node: attaches context to each move; Frame is its coordinates aspect.",
+    "Morphospace": "the output Frame feeds: the 8 axes read as a space; each text is a point, distances are comparisons.",
+    "fit-or-extend": "the vocab discipline (s2.1 = cast wide, do not pre-anchor): pick from the established values; if none fits, PROPOSE a candidate (never force-fit).",
+    "the candidate log": "atlas_frame_read_candidate -- where a proposed new value (or a probed 9th axis) is recorded for review.",
+    "not-engaged": "an explicit sentinel placement: this axis does NOT apply to this text (so zero is provably distinct from a missed read). NOT the same as the ontological value 'not-asserted' (a real placement).",
+    "passage_id": "the atlas's key -- Frame is keyed by passage_id, not source_key (resolve via text_checkout, the crosswalk from a text to its passages).",
+    "Seam-2": "the failure this card guards against: reading a text on ONE key while its data sits under a sibling key (a key-scatter false-negative). Frame's is passage_id, not source_key.",
+    "vocab status": "each vocab value is green (finalized) / candidate (proposed, fit-or-extend, live) / held (parked) / retired (removed). The drawer shows green + candidate.",
+    "R1-R5": "the atlas reader's coding rubric (Decision 201): R5 = exactly the 8 axes; R1-R4 govern how richly + honestly each placement is coded. Not a reliability grade.",
+    "PI": "the principal investigator (the researcher) -- who locks methodology calls."
+  },
+  "how_we_grade_it": {
+    "note": "the checks the pills report.",
+    "Fidelity": "mechanical: does every placement value map to a LIVE vocab value, or (fit-or-extend) a logged candidate? A value that is NEITHER is silent drift.",
+    "Cold Read": "self-sufficiency: a blind reader judges whether the card explains itself.",
+    "vs-Wild": "does the atlas placement beat a naive reader given only the passage + 'place it on these 8 axes'? (owed).",
+    "result_categories": "INCOMPLETE / FAIL / PARTIAL (golden clean, corpus drift) / PASS."
+  },
+  "the_method_clean": {
+    "note": "the 8 axes (definitions), each with its live vocab rendered from exom_axis_vocabulary (green = finalized, candidate = fit-or-extend, live). The card never hardcodes the lists.",
+    "axes": [
+      {
+        "axis": "epistemic-warrant",
+        "gloss": "how the text KNOWS / grounds its claims",
+        "vocab_live": {
+          "green": [
+            "divination",
+            "mystical-union",
+            "noetic-intuition",
+            "observation",
+            "practice",
+            "reason",
+            "revelation",
+            "testimony",
+            "tradition"
+          ],
+          "candidate": [
+            "embodied-practice"
+          ]
+        }
+      },
+      {
+        "axis": "ontological-commitment",
+        "gloss": "what it takes to be REAL / the kind of being it assumes",
+        "vocab_live": {
+          "green": [
+            "consciousness-first",
+            "dualism-pluralism",
+            "epoche",
+            "impersonal-order",
+            "insufficient-context",
+            "material",
+            "not-asserted",
+            "personal-agentive",
+            "process-becoming",
+            "void"
+          ],
+          "candidate": [
+            "apophatic",
+            "dual-aspect-monism",
+            "panpsychism",
+            "participatory"
+          ]
+        }
+      },
+      {
+        "axis": "inferential-operation",
+        "gloss": "how it REASONS / the move from premise to conclusion",
+        "vocab_live": {
+          "green": [
+            "abduction",
+            "analogical-mapping",
+            "causal-explanation",
+            "derivation",
+            "dialectical-negation",
+            "exegesis",
+            "induction"
+          ],
+          "candidate": []
+        }
+      },
+      {
+        "axis": "telos",
+        "gloss": "the END it is oriented toward / what fulfillment is",
+        "vocab_live": {
+          "green": [
+            "agency-mastery",
+            "communion",
+            "fidelity-service",
+            "flourishing",
+            "harmony",
+            "justice-world-transformation",
+            "knowledge-understanding",
+            "liberation",
+            "salvation"
+          ],
+          "candidate": [
+            "belonging"
+          ]
+        }
+      },
+      {
+        "axis": "evaluative-stance",
+        "gloss": "its ATTITUDE toward its object",
+        "vocab_live": {
+          "green": [
+            "charitable",
+            "ironic",
+            "neutral-descriptive",
+            "reverent",
+            "suspicious"
+          ],
+          "candidate": [
+            "defiant",
+            "tender"
+          ]
+        }
+      },
+      {
+        "axis": "hermeneutic-posture",
+        "gloss": "how it HANDLES / interprets its object",
+        "vocab_live": {
+          "green": [
+            "literal",
+            "reductive-deconstructive",
+            "reparative-integrative"
+          ],
+          "candidate": [
+            "performative"
+          ]
+        }
+      },
+      {
+        "axis": "r_topology",
+        "gloss": "the SHAPE of the ground<->world relation",
+        "vocab_live": {
+          "green": [
+            "creation",
+            "dependent-arising",
+            "emanation",
+            "emergence",
+            "identity",
+            "manifestation",
+            "participation",
+            "unspecified"
+          ],
+          "candidate": [
+            "ancestral-lineal",
+            "delegated-voice",
+            "dependence",
+            "differentiation",
+            "enmeshment",
+            "exclusion",
+            "filial-asymmetry",
+            "graded-asymmetry",
+            "initiatory-transformative",
+            "intercession",
+            "mediated-triadic",
+            "mutual-constitution",
+            "reciprocity",
+            "responsibility-for",
+            "ritual-propriety",
+            "rivalrous",
+            "role-obligation",
+            "unilateral-objectification"
+          ]
+        }
+      },
+      {
+        "axis": "r_condition",
+        "gloss": "the TERMS / mode of that relation",
+        "vocab_live": {
+          "green": [
+            "unspecified"
+          ],
+          "candidate": [
+            "beloved-seeking",
+            "companionship",
+            "compassionate-resonance",
+            "covenantal",
+            "debt-gratitude",
+            "disengagement",
+            "equanimous-nonattachment",
+            "face-of-other",
+            "fitting-attunement",
+            "hierarchical-guidance",
+            "holding-containment",
+            "hospitality",
+            "kinship-continuity",
+            "mutual-recognition",
+            "palaver-consensus",
+            "playful-lila",
+            "repair",
+            "responsive-yielding",
+            "rupture",
+            "severance",
+            "testimonial-correction",
+            "waiting-attendance"
+          ]
+        }
+      }
+    ],
+    "field_contract": [
+      {
+        "field": "axis",
+        "vocab": "the 8 locked axes (R5)",
+        "closed": true,
+        "multi": "one placement row per axis"
+      },
+      {
+        "field": "value",
+        "vocab": "exom_axis_vocabulary (live, per axis)",
+        "closed": "fit-or-extend",
+        "multi": "compound allowed (weights sum to 1)",
+        "candidate": "propose -> atlas_frame_read_candidate"
+      },
+      {
+        "field": "is_primary",
+        "vocab": "0/1",
+        "closed": true
+      },
+      {
+        "field": "confidence / membership_weight",
+        "vocab": null,
+        "closed": false,
+        "note": "NUMERIC; confidence != weight"
+      },
+      {
+        "field": "evidence_quote / coder_note",
+        "vocab": null,
+        "closed": false,
+        "note": "OPEN; the warrant + the reader's uncertainty"
+      }
+    ],
+    "live_vocab_rule": "Frame is THE model for the live-vocab rule: axis + value render from exom_axis_vocabulary, so the drawer cannot go stale. The reader may propose a candidate (fit-or-extend), which must be logged -- the drift-check enforces that discipline."
+  },
+  "the_method_applied": {
+    "source_key": "MARK-16-WEB",
+    "passage_ids": [
+      "PASS-L4-540c3f83ce87",
+      "PASS-L4-6edf5da12f52"
+    ],
+    "placements": 26,
+    "note": "Mark 16 placed on the 8 axes (render-from-data). Each axis shows the coded value(s), whether it is the primary placement, confidence, the evidence snippet, and the value's live vocab status. Mark 16 spans 2 passages (its passage_ids), so an axis can carry two primary placements -- one per passage, not a duplicate.",
+    "by_axis": [
+      {
+        "axis": "epistemic-warrant",
+        "gloss": "how the text KNOWS / grounds its claims",
+        "placed": true,
+        "values": [
+          {
+            "value": "testimony",
+            "is_primary": true,
+            "confidence": 0.85,
+            "evidence": "Mary Magdalene and Mary, the mother of Joses, saw where he was laid",
+            "vocab_status": "green"
+          },
+          {
+            "value": "testimony",
+            "is_primary": true,
+            "confidence": 0.9,
+            "evidence": "they didn't believe those who had seen him after he had risen",
+            "vocab_status": "green"
+          },
+          {
+            "value": "observation",
+            "is_primary": false,
+            "confidence": 0.8,
+            "evidence": "Looking up, they saw that the stone was rolled back",
+            "vocab_status": "green"
+          },
+          {
+            "value": "revelation",
+            "is_primary": false,
+            "confidence": 0.75,
+            "evidence": "He has risen. He is not here",
+            "vocab_status": "green"
+          },
+          {
+            "value": "revelation",
+            "is_primary": false,
+            "confidence": 0.85,
+            "evidence": "he was revealed in another form to two of them",
+            "vocab_status": "green"
+          }
+        ],
+        "vocab_live": {
+          "green": [
+            "divination",
+            "mystical-union",
+            "noetic-intuition",
+            "observation",
+            "practice",
+            "reason",
+            "revelation",
+            "testimony",
+            "tradition"
+          ],
+          "candidate": [
+            "embodied-practice"
+          ]
+        }
+      },
+      {
+        "axis": "ontological-commitment",
+        "gloss": "what it takes to be REAL / the kind of being it assumes",
+        "placed": true,
+        "values": [
+          {
+            "value": "personal-agentive",
+            "is_primary": true,
+            "confidence": 0.55,
+            "evidence": "sat down at the right hand of God",
+            "vocab_status": "green"
+          }
+        ],
+        "vocab_live": {
+          "green": [
+            "consciousness-first",
+            "dualism-pluralism",
+            "epoche",
+            "impersonal-order",
+            "insufficient-context",
+            "material",
+            "not-asserted",
+            "personal-agentive",
+            "process-becoming",
+            "void"
+          ],
+          "candidate": [
+            "apophatic",
+            "dual-aspect-monism",
+            "panpsychism",
+            "participatory"
+          ]
+        }
+      },
+      {
+        "axis": "inferential-operation",
+        "gloss": "how it REASONS / the move from premise to conclusion",
+        "placed": true,
+        "values": [
+          {
+            "value": "abduction",
+            "is_primary": true,
+            "confidence": 0.55,
+            "evidence": "Behold, the place where they laid him!",
+            "vocab_status": "green"
+          },
+          {
+            "value": "causal-explanation",
+            "is_primary": true,
+            "confidence": 0.5,
+            "evidence": "confirming the word by the signs that followed",
+            "vocab_status": "green"
+          }
+        ],
+        "vocab_live": {
+          "green": [
+            "abduction",
+            "analogical-mapping",
+            "causal-explanation",
+            "derivation",
+            "dialectical-negation",
+            "exegesis",
+            "induction"
+          ],
+          "candidate": []
+        }
+      },
+      {
+        "axis": "telos",
+        "gloss": "the END it is oriented toward / what fulfillment is",
+        "placed": true,
+        "values": [
+          {
+            "value": "salvation",
+            "is_primary": true,
+            "confidence": 0.7,
+            "evidence": "He has risen",
+            "vocab_status": "green"
+          },
+          {
+            "value": "salvation",
+            "is_primary": true,
+            "confidence": 0.85,
+            "evidence": "He who believes and is baptized will be saved",
+            "vocab_status": "green"
+          },
+          {
+            "value": "justice-world-transformation",
+            "is_primary": false,
+            "confidence": 0.6,
+            "evidence": "Go into all the world, and preach the Good News to the whole creation",
+            "vocab_status": "green"
+          }
+        ],
+        "vocab_live": {
+          "green": [
+            "agency-mastery",
+            "communion",
+            "fidelity-service",
+            "flourishing",
+            "harmony",
+            "justice-world-transformation",
+            "knowledge-understanding",
+            "liberation",
+            "salvation"
+          ],
+          "candidate": [
+            "belonging"
+          ]
+        }
+      },
+      {
+        "axis": "evaluative-stance",
+        "gloss": "its ATTITUDE toward its object",
+        "placed": true,
+        "values": [
+          {
+            "value": "reverent",
+            "is_primary": true,
+            "confidence": 0.75,
+            "evidence": "trembling and astonishment had come on them",
+            "vocab_status": "green"
+          },
+          {
+            "value": "reverent",
+            "is_primary": true,
+            "confidence": 0.8,
+            "evidence": "So then the Lord Jesus, after he had spoken to them, was received up into heaven",
+            "vocab_status": "green"
+          },
+          {
+            "value": "tender",
+            "is_primary": false,
+            "confidence": 0.7,
+            "evidence": "bought spices, that they might come and anoint him",
+            "vocab_status": "candidate"
+          }
+        ],
+        "vocab_live": {
+          "green": [
+            "charitable",
+            "ironic",
+            "neutral-descriptive",
+            "reverent",
+            "suspicious"
+          ],
+          "candidate": [
+            "defiant",
+            "tender"
+          ]
+        }
+      },
+      {
+        "axis": "hermeneutic-posture",
+        "gloss": "how it HANDLES / interprets its object",
+        "placed": true,
+        "values": [
+          {
+            "value": "literal",
+            "is_primary": true,
+            "confidence": 0.75,
+            "evidence": "He rolled a stone against the door of the tomb",
+            "vocab_status": "green"
+          },
+          {
+            "value": "performative",
+            "is_primary": true,
+            "confidence": 0.7,
+            "evidence": "Go into all the world, and preach the Good News",
+            "vocab_status": "candidate"
+          },
+          {
+            "value": "literal",
+            "is_primary": false,
+            "confidence": 0.65,
+            "evidence": "they will take up serpents",
+            "vocab_status": "green"
+          }
+        ],
+        "vocab_live": {
+          "green": [
+            "literal",
+            "reductive-deconstructive",
+            "reparative-integrative"
+          ],
+          "candidate": [
+            "performative"
+          ]
+        }
+      },
+      {
+        "axis": "r_topology",
+        "gloss": "the SHAPE of the ground<->world relation",
+        "placed": true,
+        "values": [
+          {
+            "value": "mediated-triadic",
+            "is_primary": true,
+            "confidence": 0.7,
+            "evidence": "a young man sitting on the right side, dressed in a white robe",
+            "vocab_status": "candidate"
+          },
+          {
+            "value": "delegated-voice",
+            "is_primary": true,
+            "confidence": 0.75,
+            "evidence": "in my name they will cast out demons",
+            "vocab_status": "candidate"
+          },
+          {
+            "value": "manifestation",
+            "is_primary": false,
+            "confidence": 0.7,
+            "evidence": "the stone was rolled back",
+            "vocab_status": "green"
+          },
+          {
+            "value": "graded-asymmetry",
+            "is_primary": false,
+            "confidence": 0.7,
+            "evidence": "sat down at the right hand of God",
+            "vocab_status": "candidate"
+          }
+        ],
+        "vocab_live": {
+          "green": [
+            "creation",
+            "dependent-arising",
+            "emanation",
+            "emergence",
+            "identity",
+            "manifestation",
+            "participation",
+            "unspecified"
+          ],
+          "candidate": [
+            "ancestral-lineal",
+            "delegated-voice",
+            "dependence",
+            "differentiation",
+            "enmeshment",
+            "exclusion",
+            "filial-asymmetry",
+            "graded-asymmetry",
+            "initiatory-transformative",
+            "intercession",
+            "mediated-triadic",
+            "mutual-constitution",
+            "reciprocity",
+            "responsibility-for",
+            "ritual-propriety",
+            "rivalrous",
+            "role-obligation",
+            "unilateral-objectification"
+          ]
+        }
+      },
+      {
+        "axis": "r_condition",
+        "gloss": "the TERMS / mode of that relation",
+        "placed": true,
+        "values": [
+          {
+            "value": "testimonial-correction",
+            "is_primary": true,
+            "confidence": 0.75,
+            "evidence": "You seek Jesus, the Nazarene, who has been crucified. He has risen",
+            "vocab_status": "candidate"
+          },
+          {
+            "value": "testimonial-correction",
+            "is_primary": true,
+            "confidence": 0.75,
+            "evidence": "he rebuked them for their unbelief and hardness of heart",
+            "vocab_status": "candidate"
+          },
+          {
+            "value": "waiting-attendance",
+            "is_primary": false,
+            "confidence": 0.65,
+            "evidence": "He goes before you into Galilee. There you will see him",
+            "vocab_status": "candidate"
+          },
+          {
+            "value": "covenantal",
+            "is_primary": false,
+            "confidence": 0.55,
+            "evidence": "He who believes and is baptized will be saved",
+            "vocab_status": "candidate"
+          },
+          {
+            "value": "hierarchical-guidance",
+            "is_primary": false,
+            "confidence": 0.7,
+            "evidence": "the Lord working with them",
+            "vocab_status": "candidate"
+          }
+        ],
+        "vocab_live": {
+          "green": [
+            "unspecified"
+          ],
+          "candidate": [
+            "beloved-seeking",
+            "companionship",
+            "compassionate-resonance",
+            "covenantal",
+            "debt-gratitude",
+            "disengagement",
+            "equanimous-nonattachment",
+            "face-of-other",
+            "fitting-attunement",
+            "hierarchical-guidance",
+            "holding-containment",
+            "hospitality",
+            "kinship-continuity",
+            "mutual-recognition",
+            "palaver-consensus",
+            "playful-lila",
+            "repair",
+            "responsive-yielding",
+            "rupture",
+            "severance",
+            "testimonial-correction",
+            "waiting-attendance"
+          ]
+        }
+      }
+    ],
+    "out_of_domain": {
+      "note": "the out-of-domain Frame comparison (s2.14) is OWED, not shown: the atlas has NOT yet placed the Daodejing passage (0 placements). The 8 axes are text-agnostic and ready; the missing step is running atlas_frame_reader on TTC-CH1. Reported honestly rather than faked.",
+      "texts": [
+        {
+          "source_key": "TTC-CH1-EN",
+          "axis": "content axis (Daodejing ch.1, apophatic wisdom)",
+          "passages": [
+            "PASS-L4-bab18e9382a4"
+          ],
+          "placements": 0,
+          "primary_by_axis": {}
+        }
+      ]
+    }
+  },
+  "where_saved": {
+    "store": "atlas_frame_read_placement (envelope + placement + candidate)",
+    "key": "passage_id",
+    "plain": "Placements save to atlas_frame_read_placement, keyed by passage_id (resolve the text's passages via text_checkout). The vocab lives in exom_axis_vocabulary (the live controlled set); proposed values live in atlas_frame_read_candidate. Read at passage grain, never by source_key."
+  },
+  "honest_limits": [
+    "CORPUS-WIDE VOCAB DRIFT. 455 distinct off-vocab (axis,value) pairs are written in placements but NOT in exom_axis_vocabulary; only 26 off-vocab values were logged as fit-or-extend candidates, so 429 are SILENT drift (a value written without its candidate). Frame's axis/value are free-text by design (fit-or-extend), so there is no DB CHECK -- the S163 drift-check (atlas_frame_vocab_drift_check.py) is the Layer-3 backstop that now catches this. Reconciling the drift (triage candidates into the vocab; backfill candidate rows) is the LIBRARIAN SB's job -- the Librarian owns the atlas reader and will own the vocab table + definitions (PI, S163); this drift-check hands it to them. (455 = 429 silent + 26 candidate).",
+    "GOLDEN PATH IS CLEAN. On Mark 16 all 26 placements map to a live vocab value (green or candidate); 0 silent drift. So the drift is on OTHER texts, not the worked example.",
+    "FRAME IS PASSAGE-LEVEL, not per-move. The grain rule intends per-move frame too (each move its own coordinates), but that needs Decompose to stamp passage_id per move; not populated yet.",
+    "vs-Wild is OWED: give a naive reader the passage + 'place it on these 8 axes' and compare to the atlas placement. Cold Read is owed on this card. Both are the next checks.",
+    "1989 of the candidate log's rows are 9th-AXIS probes (R4 completeness test), pending review -- an open question whether the 8 axes are collectively exhaustive."
+  ],
+  "made_by": [
+    "scripts/analysis/atlas_frame_reader.py (the reader/owner -- Claude Max SDK, Tier 1)",
+    "exom_axis_vocabulary (the live controlled vocab; 8 axes, green/candidate/held/retired)",
+    "atlas_frame_read_placement + _envelope + _candidate (the 3-table atlas schema)",
+    "scripts/analysis/sprint_invariants/atlas_frame_vocab_drift_check.py (the S163 Layer-3 drift-check, NEW)",
+    "scripts/analysis/build_frame_subengine_drawer_data_s163.py (this card's data)"
+  ],
+  "whats_next": "The LIBRARIAN SB reconciles the corpus vocab drift (owns the atlas reader + the vocab table + definitions): triage the 26 pending candidates + the silent-drift values into exom_axis_vocabulary; then the drift-check goes corpus-green and wires into the sprint suite, and a write-time loader assertion (refuse a placement value without a candidate row) closes the leak at source. Reading-SB owns: Cold Read + vs-Wild on this card, and the per-move frame decision (Decompose stamps passage_id per move).",
+  "foundation": {
+    "leans_on": [
+      "the morphospace / ordination method (a trait-space texts are points in; borrowed from morphology/ecology -- the Meadows/Alexander cross-domain lineage)",
+      "frame semantics (Fillmore) + the sociology-of-knowledge sense of a 'frame of mind'",
+      "the 8 axes derive from the R1-R5 reader rubric (Decision 201) + the S6 split of ground-world-relation into r_topology + r_condition (Decision 199)",
+      "fit-or-extend controlled vocab (s2.1 anti-pre-anchoring): the value set grows as cases demand, logged as candidates"
+    ],
+    "how_we_arrived": "the atlas evolution (engine07 -> the 8-axis 3-table design), the R1-R5 rubric lock, the CRT calibration sample, and the S163 drift-check that surfaced the corpus vocab drift."
+  },
+  "research_view": {
+    "receipt": {
+      "method_key": "MARK-16-WEB",
+      "passage_ids": [
+        "PASS-L4-540c3f83ce87",
+        "PASS-L4-6edf5da12f52"
+      ],
+      "placements": 26,
+      "axes_placed": 8,
+      "corpus_engaged_placements": 39262,
+      "silent_drift_pairs": 429
+    },
+    "how_to_run": {
+      "read/place a passage": "./scripts/_run_python.sh scripts/analysis/atlas_frame_reader.py --passage-id P --text-file f.txt",
+      "refresh this card": "./scripts/_run_python.sh scripts/analysis/build_frame_subengine_drawer_data_s163.py",
+      "the drift-check": "./scripts/_run_python.sh scripts/analysis/sprint_invariants/atlas_frame_vocab_drift_check.py"
+    },
+    "data_source": "atlas_frame_read_placement (@ passage_id) + exom_axis_vocabulary (live) + atlas_frame_read_candidate.",
+    "decision_trail": "Decision 199 (r_topology/r_condition split) - Decision 201 (R1-R5 rubric) - CONTRACT_situate_closed_open_grain_s162 (Frame closed/open/grain) - the S163 drift-check + this drawer."
+  },
+  "fidelity": {
+    "status": "PARTIAL",
+    "date": "2026-08-10",
+    "golden_path": "PASS (Mark 16: 26 placements, all in-vocab green+candidate, 0 silent-drift)",
+    "corpus_wide": "DRIFT (429 silent-drift axis/value pairs off-vocab AND not candidate-logged; 26 fit-or-extend candidates pending triage)",
+    "meta_line": "Fidelity PARTIAL (2026-08-10, mechanical): on the golden path Frame is CLEAN (26 placements, all map to a live exom_axis_vocabulary value). Corpus-wide it DRIFTS: 429 silent-drift pairs (values written outside the vocab WITHOUT the fit-or-extend candidate). Frame's axis/value are free-text by design (fit-or-extend, s2.1), so there is no DB CHECK; the S163 drift-check (atlas_frame_vocab_drift_check.py) now makes the leak fail-loud. Reconciling the drift (triage candidates into the vocab; backfill missing candidate rows) is the owed work to reach corpus-green."
+  },
+  "cold_read": {
+    "status": "PENDING",
+    "date": null,
+    "meta_line": "Cold Read owed on this card (blind agent)."
+  },
+  "vs_wild": {
+    "status": "PENDING",
+    "date": null,
+    "meta_line": "vs-Wild owed: naive reader given the passage + the 8 axes, compared to the atlas placement (s2.14, on Mark 16 + Daodejing)."
+  }
+}
