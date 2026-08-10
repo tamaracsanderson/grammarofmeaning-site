@@ -77,6 +77,8 @@ function rich(s){return String(s==null?'':s);}
 var SECTIONS=[
   {id:'model',label:'The model',key:'the_model',render:renderModel},
   {id:'axes',label:'Two axes',key:'two_axes',render:renderAxes},
+  {id:'grammar',label:'The grammar',key:'the_grammar',render:renderGrammar},
+  {id:'checks',label:'The gate',key:'the_checks',render:renderChecks},
   {id:'process',label:'The process',key:'the_process',render:renderProcess},
   {id:'look',label:'Signature look',key:'signature_look',render:renderLook},
   {id:'roadmap',label:'Redesign roadmap',key:'roadmap',render:renderRoadmap}
@@ -94,6 +96,21 @@ function renderRoadmap(d){
       return '<tr><td class="rv">'+rich(it.viz)+'</td><td class="rf">'+esc(it.from)+'</td><td>'+badge(it.status)+'</td></tr>';
     }).join('')+'</tbody></table>';
   }).join('');
+}
+function renderGrammar(d){
+  var key=d.key?'<div class="pr"><p class="vals">the one-line key</p><p>'+rich(d.key)+'</p></div>':'';
+  var rules='<table class="rm"><caption>the rules — data dimension &rarr; visual variable</caption><tbody>'+(d.rules||[]).map(function(r){
+    return '<tr><td class="rv">'+rich(r.variable)+'</td><td>'+rich(r.carries)+(r.why?'<br><span class="rf">'+rich(r.why)+'</span>':'')+'</td></tr>';
+  }).join('')+'</tbody></table>';
+  var cv=d.constant_vs_variable?('<div class="kv"><p class="k">constant across domains</p><p class="v">'+(d.constant_vs_variable.constant||[]).map(esc).join(' · ')+'</p></div><div class="kv"><p class="k">allowed to vary</p><p class="v">'+(d.constant_vs_variable.variable||[]).map(esc).join(' · ')+'</p></div>'):'';
+  return note(d)+key+rules+cv;
+}
+function renderChecks(d){
+  var checks=(d.checks||[]).map(function(c){
+    return '<div class="pr"><h3>'+rich(c.name)+'</h3><p>'+rich(c.asks)+'</p>'+(c.on_figure?'<p class="vals" style="margin-top:6px">on the figure &middot; '+rich(c.on_figure)+'</p>':'')+'</div>';
+  }).join('');
+  var vr=d.variants_rule?'<div class="kv"><p class="k">variants</p><p class="v">'+rich(d.variants_rule)+'</p></div>':'';
+  return note(d)+checks+vr;
 }
 fetch('/engine/data/viz/viz_principles.json').then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
  .then(function(d){
