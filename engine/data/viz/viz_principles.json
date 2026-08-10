@@ -1,0 +1,73 @@
+{
+  "_node": "viz_principles",
+  "_generated_by": "design-SB, authored (the visualization architecture); render-from-data so the page about headless IS headless.",
+  "page": {
+    "title": "The visualization house — principles",
+    "subtitle": "how every output of the engine becomes a finalized, reusable figure",
+    "reads": "This is the right-side companion to the method + library principles. The drawers tell you what each step IS; this page tells you how each step's OUTPUT gets drawn, once, and reused everywhere."
+  },
+  "the_model": {
+    "note": "One idea, borrowed straight from the drawers: separate the data from how it is drawn.",
+    "points": [
+      { "name": "A viz is a render-from-data block", "body": "block = render(data). The figure never hard-codes its numbers; it fetches its data file and draws it. Fix the generator, never the deployed figure (the same contract the method-engine drawers obey)." },
+      { "name": "Finalize once, reuse everywhere", "body": "Each block is locked in ONE place — the visualization house (the gallery / pattern-book). The reading room does not re-build figures; it composes the locked blocks." },
+      { "name": "The reading room is a grid of blocks", "body": "Composition is CSS grid: each block is a cell. That gives editorial freedom — arrange the room like a magazine, drop in [ tributary, public ] where you want it, leave a placeholder that fills itself from data." },
+      { "name": "Headless, so the backend can change under it", "body": "Because data and render are decoupled, reading-SB can improve the data (a smarter export, a new field) without touching the figure, and design-SB can re-skin the figure without touching the data." }
+    ]
+  },
+  "two_axes": {
+    "note": "Every block is located on two independent axes. The first is structure (the menu); the second is framing (a lens toggle on the SAME block).",
+    "axes": [
+      { "axis": "Processing-distance (structure)", "values": "Encoded → Analyzed → Sourced → Synthesis", "body": "How far the figure sits from the raw encoding. ENCODED = drawn straight from the coded data (one per thing the bowtie collects). ANALYZED = needs a further analysis pass (gloss). SOURCED = needs texts/images pulled from the library (canon, compare, partiture, the Sitz context). SYNTHESIS = remixes two prior outputs into a third." },
+      { "axis": "Audience (framing)", "values": "Academic ↔ Public", "body": "The same block, two skins. ACADEMIC (for the thesis / a professor): the encoding made auditable — counts, certainty, the seam, 'lines are proposals, not proof of dependence'. PUBLIC (for a seeker diving into wisdom texts): the invitation — the finding, the story, the contemplative read, apparatus tucked away. Same data, same block; the academic view shows the researcher the encoding, the public view shows the reader the meaning. (This is the METHOD-vs-research-view split from the drawers, at figure scale.)" }
+    ]
+  },
+  "the_process": {
+    "note": "Each viz goes through the same redesign we ran on the method drawers — a frontend redesign paired with a smart data backend.",
+    "steps": [
+      "reading-SB ships the data: a clean, move-keyed DATA export (the smart backend), plus any metrics the figure needs. The fields are usually already coded — the fix is a render upgrade, not new coding.",
+      "design-SB redesigns the frontend: a render-from-data block drawn from that export, in the house look, with the academic + public framings.",
+      "the PI reviews on the site (the live figure is the review surface, never a markdown mock).",
+      "a Cold Read / crit pass on the rendered figure (blind reader), fixes fold back into the data or the render — same discipline as the drawers.",
+      "the locked block lands in the house, and the reading room can compose it."
+    ]
+  },
+  "signature_look": {
+    "note": "One skeleton, one skin — a signature visualization look, so the whole gallery reads as one instrument.",
+    "rules": [
+      "One palette, one type family across every figure (the GoM house: warm-white ground / night skin, fern·moss·terracotta·honey·olive, Newsreader + Inter + IBM Plex Mono). Never two palettes in parallel.",
+      "Derived from the two house patterns (HOUSE_PATTERN, reading_room_house_pattern) and from spine.html — the reference for what a finished GoM figure feels like.",
+      "Negative space is first-class: a figure shows what was NOT coded (hollow marks) as clearly as what was — the LACUNA stance at figure scale.",
+      "The academic skin is the source of truth; the public skin is a re-frame of it (and can be run through Lovable for extra warmth), never a different figure.",
+      "Every figure carries its honest caption: what the marks mean, and what they do NOT claim."
+    ]
+  },
+  "roadmap": {
+    "note": "The redesign queue — every output, its raw-material predecessor, and where it is. Worked one block at a time; the historical artifacts are the material to redesign FROM, not the destination.",
+    "groups": [
+      { "group": "Encoded", "items": [
+        { "viz": "Lineage → the tributary", "from": "VIZ_lineage_tributary v1 + DATA_lineage_matrix", "status": "RENDERED (v0 in the house)" },
+        { "viz": "Witness → degrees of separation", "from": "VIZ_witness_transmission v1 + DATA_witness_transmission_v2", "status": "DATA READY (render next)" },
+        { "viz": "Connect / sonic → the constellation", "from": "VIZ_constellation_v3", "status": "V3 ARTIFACT (MOTIF export pending)" },
+        { "viz": "Text → the voices", "from": "voices.html", "status": "TO REDESIGN" },
+        { "viz": "Decompose + Situate → by move", "from": "reading.html", "status": "TO REDESIGN" },
+        { "viz": "Situate → combined", "from": "situate.html", "status": "TO REDESIGN" },
+        { "viz": "Frame → the morphospace", "from": "the atlas / morphospace-findings", "status": "TO REDESIGN" }
+      ] },
+      { "group": "Analyzed", "items": [
+        { "viz": "Gloss", "from": "the panel / gap gloss", "status": "PLANNED" }
+      ] },
+      { "group": "Sourced", "items": [
+        { "viz": "Compare", "from": "VIZ_compare_consensus_spine / collatex / variantgraph", "status": "TO REDESIGN" },
+        { "viz": "Reception (canon)", "from": "VIZ_reception_romans8 / reception_gaps", "status": "TO REDESIGN" },
+        { "viz": "Partiture", "from": "the partiture layer", "status": "PLANNED" },
+        { "viz": "Sitz context", "from": "library secondary sources + images", "status": "PLANNED (library-sourced)" }
+      ] },
+      { "group": "Synthesis", "items": [
+        { "viz": "Resituate", "from": "VIZ_resituate_sensitivity / reception_diachronic", "status": "TO REDESIGN" },
+        { "viz": "The braided reading", "from": "resurrection.html", "status": "TO REDESIGN" },
+        { "viz": "The fan", "from": "VIZ_fan_v5 / radial", "status": "TO REDESIGN" }
+      ] }
+    ]
+  }
+}
