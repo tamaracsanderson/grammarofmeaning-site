@@ -15,7 +15,7 @@
     "grain": "move-native (each link ties a CITING move to an upstream source); reception lands on the said AND the unsaid",
     "pills": {
       "fidelity": "PASS -- every label maps to a real lineage_record column",
-      "seam_reconcile": "INCOMPLETE -- the Connect-LINEAGE view is empty (0 edges); lineage_record is the store of record (see reconcile)",
+      "seam_reconcile": "DECIDED (a) -- lineage_record is the store of record; the Connect view is a DERIVED projection (Decision 225)",
       "cold_read": "INCOMPLETE (owed, S163)",
       "vs_wild": "INCOMPLETE (owed)"
     },
@@ -264,7 +264,7 @@
     "scripts/lib/connect_edge_vocab.py (SITUATE_VIEW={'LINEAGE':'Lineage'} -- the intended, currently-empty seam)",
     "scripts/analysis/build_lineage_subengine_drawer_data_s163.py (this card's data)"
   ],
-  "whats_next": "Resolve the seam reconcile (PI call a/b/c): keep lineage_record as the store of record + make the connect_edge LINEAGE view a derived projection (or retire the Connect-side claim + point to lineage_record). Give the five enums a live vocab source. Run Cold Read + vs-Wild. Then the Tributary output reads Lineage.",
+  "whats_next": "Decision 225 LOCKED (a): lineage_record is the store of record. The small follow-up is the derived-projection script (lineage_record -> connect_edge LINEAGE, tagged derived) that makes the 'two views' real without a second authored store. Give the five enums a live vocab source. Run Cold Read + vs-Wild. Then the Tributary output reads Lineage.",
   "foundation": {
     "leans_on": [
       "Genette (transtextuality: how a text relates to earlier texts -- quotation / allusion / architextuality)",
@@ -302,7 +302,8 @@
       "b": "MIGRATE to connect_edge as the store -- move lineage_record's 9 fields + seam onto LINEAGE edges. A large schema merge that risks losing the reception-specific fields. Not recommended.",
       "c": "RETIRE the Connect-side LINEAGE-edge claim -- Connect POINTS to lineage_record instead of holding its own LINEAGE edges. Simplest; drops the 'two views' framing."
     },
-    "recommendation": "(a). lineage_record is purpose-built for reception (markedness, fidelity_direction, witness_version, the seam/gap); a thin Connect edge cannot carry it without becoming lineage_record. Deriving the Connect view is cheap + lossless; the reverse is a lossy merge. A PI methodology call; recorded as Proposal 181 pending the Decision."
+    "recommendation": "(a). lineage_record is purpose-built for reception (markedness, fidelity_direction, witness_version, the seam/gap); a thin Connect edge cannot carry it without becoming lineage_record. Deriving the Connect view is cheap + lossless; the reverse is a lossy merge.",
+    "decision": "LOCKED option (a) -- Decision 225 (PI, S163). lineage_record IS the store of record; Situate:Lineage renders from it (does not re-code). The Connect LINEAGE 'view', if wanted, is a DERIVED PROJECTION generated from lineage_record (tagged provenance='derived-from-lineage_record'), never a second authored store. The projection script is a small follow-up; the store-of-record lock stands without it."
   },
   "fidelity": {
     "status": "PASS",

@@ -1,0 +1,172 @@
+{
+  "node": "situate",
+  "sub_engine": "transmission",
+  "_generated_by": "build_transmission_subengine_drawer_data_s163.py (render-from-data; re-run to refresh)",
+  "_reads_from": {
+    "store": "witness_record (@ MARK-16; text-level)"
+  },
+  "_renamed": "Transmission (was 'Witness'), PI-locked Decision 224 S163; physical store still witness_record.",
+  "header": {
+    "title": "Transmission",
+    "subtitle": "how far the text-in-hand is from the origin event, and through what chain",
+    "parent": "Situate",
+    "output": "Degrees of separation",
+    "grain": "text-level (transmission distance is a property of the text, not per-move)",
+    "pills": {
+      "fidelity": "PASS -- every label maps to a real witness_record column",
+      "scale": "INCOMPLETE -- 1 reconstructed record (thin); a definition + one worked example, not a scaled run",
+      "cold_read": "INCOMPLETE (owed, S163)",
+      "vs_wild": "INCOMPLETE (owed)"
+    },
+    "status_line": "Transmission is THIN: 1 reconstructed record for Mark 16 -- 3 degrees from the origin event, composed ~68 CE at 'Rome?', mode 'narrative'. It is an honest FRONTIER aspect (a definition + one worked, reconstructed record, not a scaled run) and it earns no green scale pill. Renamed from 'Witness' (Decision 224)."
+  },
+  "what_it_is": "Transmission answers ONE question: how far is the text you are reading from the event it reports, and through what chain did the report travel? A 'witness' (an eyewitness, or a manuscript that attests the text) is ONE rung of that chain; Transmission names the whole chain -- the degrees of separation from the origin event, the year + place of composition, the FORM the report travels in (narrative / creed / conceptual-node / apocryphal), and the material ecology of the surviving witness (scribe, literacy, power-context, format, marginalia).",
+  "why_it_matters": "Two texts can make the same claim at very different distances from the event -- an eyewitness report and a fourth-hand creed are not the same evidence. Transmission is what keeps that distance visible, so a late, heavily-transmitted text is not read as if it were an eyewitness. It also guards the other aspects: a feature that is a transmission artifact (a scribal change, a translation shift) is not misattributed to the author.",
+  "how_it_works": {
+    "you_give_it": "a text + what is known of its composition + transmission history.",
+    "the_method_does": "reconstructs the transmission graph (source / redaction criticism), estimates the degrees from the origin event + the composition year/place, classifies the mode, and records the material ecology of the witness -- flagging the whole thing as a reconstructed ESTIMATE, never a measured value.",
+    "you_get_back": "a text-level transmission record + a degrees-from-origin number that feeds the Degrees-of-separation output."
+  },
+  "pipeline_context": {
+    "note": "sibling terms glossed so the card stands alone.",
+    "Situate": "the parent node: attaches context to each move; Transmission is its 'distance-from-the-event' aspect.",
+    "degrees of separation": "how many transmission hops separate the text from the origin event (Mark ~3).",
+    "the origin event": "the event or utterance the text reports (here, the resurrection appearances it narrates).",
+    "mode": "the FORM the report travels in: narrative / creed / conceptual-node / apocryphal.",
+    "material ecology": "the physical conditions of the surviving witness: scribe, literacy, power-context, format (scroll->codex), marginalia.",
+    "a witness (textual criticism)": "a manuscript that ATTESTS a text; one rung in the transmission chain (the eyewitness is the earliest rung).",
+    "reconstructed estimate": "the honest status of this record -- derived from a stemma / source-criticism, NOT a measured value.",
+    "PI": "the principal investigator (the researcher) -- who locked the Witness -> Transmission rename (Decision 224)."
+  },
+  "how_we_grade_it": {
+    "note": "the checks the pills report.",
+    "Fidelity": "mechanical: does every label map to a real witness_record column?",
+    "scale": "is this a scaled run or one worked record? (one record = INCOMPLETE, honestly).",
+    "Cold Read": "self-sufficiency: a blind reader judges whether the card explains itself.",
+    "vs-Wild": "does the coded transmission-distance beat a naive reader given the text + 'how far is this from the event it reports?' (owed).",
+    "result_categories": "INCOMPLETE (not fully run -- this aspect) / FAIL / PARTIAL / PASS."
+  },
+  "the_method_clean": {
+    "note": "Transmission's fields: mode is a closed enum; degrees + year are numeric; place is open; material ecology is a structured JSON; the whole record is flagged a reconstructed estimate.",
+    "fields": [
+      {
+        "field": "mode",
+        "vocab": [
+          "narrative",
+          "creed",
+          "conceptual-node",
+          "apocryphal"
+        ],
+        "closed": true,
+        "note": "the form the report travels in"
+      },
+      {
+        "field": "degrees_from_origin",
+        "closed": false,
+        "note": "NUMERIC -- hops from the origin event (an estimate)"
+      },
+      {
+        "field": "composition_year",
+        "closed": false,
+        "note": "NUMERIC -- estimated year of composition"
+      },
+      {
+        "field": "composition_place",
+        "closed": false,
+        "note": "OPEN -- e.g. 'Rome?' (the ? is honest)"
+      },
+      {
+        "field": "data_form / basis",
+        "closed": true,
+        "note": "how the position was derived (stemma-reconstructed) + honesty flag (reconstructed-estimate)"
+      },
+      {
+        "field": "material_ecology",
+        "closed": "structured",
+        "note": "JSON: scribe / literacy / power_context / format / marginalia"
+      }
+    ]
+  },
+  "the_method_applied": {
+    "source_key": "MARK-16",
+    "coded": true,
+    "record": {
+      "degrees_from_origin": 3,
+      "composition_year": 68,
+      "composition_place": "Rome?",
+      "mode": "narrative",
+      "data_form": "stemma-reconstructed",
+      "basis": "reconstructed-estimate",
+      "material_ecology": {
+        "scribe": "unknown",
+        "literacy": "koine-literate",
+        "power_context": "post-revolt diaspora",
+        "format": "scroll→codex transition",
+        "marginalia": "none"
+      }
+    },
+    "note": "Mark 16's transmission record (render-from-data): 3 degrees from the origin event, composed ~68 CE (Rome?), narrative mode, stemma-reconstructed. Every value is a reconstructed ESTIMATE (basis = 'reconstructed-estimate'), not a measurement."
+  },
+  "where_saved": {
+    "store": "witness_record",
+    "key": "source_key (text-level)",
+    "plain": "The transmission record saves to witness_record, one row per text, keyed on source_key (@ the base key MARK-16)."
+  },
+  "honest_limits": [
+    "THIN + RECONSTRUCTED. This is 1 record for Mark 16 (corpus-wide: 11 witness records total). It is a definition + one worked, RECONSTRUCTED-ESTIMATE record (basis='reconstructed-estimate'), not a scaled or measured run -- so it earns no green scale pill. An honest frontier aspect.",
+    "The degrees-from-origin + year are ESTIMATES from source/redaction criticism (Markan priority, Q, the 1 Cor 15:3 Jerusalem creed), flagged as such (s2.8) -- honest reconstruction, not measurement.",
+    "The mode enum is controlled-by-convention (no vocab table yet); OWED a live vocab source.",
+    "Cold Read + vs-Wild owed on this card."
+  ],
+  "made_by": [
+    "witness_record (the transmission store)",
+    "scripts/analysis/load_transmission_seed_s161.py (the seed loader)",
+    "source / redaction criticism (Markan priority, Q, the 1 Cor 15:3 creed) -- the reconstruction basis",
+    "scripts/analysis/build_transmission_subengine_drawer_data_s163.py (this card's data)"
+  ],
+  "whats_next": "Scale Transmission beyond the one worked record (the other golden-path + reception texts). Give mode a live vocab source. Run Cold Read + vs-Wild. The Degrees-of-separation output reads this aspect's degrees_from_origin.",
+  "foundation": {
+    "leans_on": [
+      "textual criticism (a 'witness' attests a text) + stemmatics (reconstructing the transmission tree)",
+      "source + redaction criticism (Markan priority, Q, the pre-Pauline creed) -- how degrees-from-origin is estimated",
+      "the material-philology turn (scribe / format / marginalia as evidence -- the material_ecology field)",
+      "the bias-visibility principle (s2.8): the estimate is flagged AS an estimate, never passed as measured"
+    ],
+    "how_we_arrived": "the transmission seed (load_transmission_seed_s161) + the reconstructed transmission graph; the Witness -> Transmission rename (Decision 224, S163)."
+  },
+  "research_view": {
+    "receipt": {
+      "method_key": "MARK-16-WEB",
+      "base_key": "MARK-16",
+      "records_here": 1,
+      "corpus_records": 11,
+      "degrees_from_origin": 3
+    },
+    "how_to_run": {
+      "refresh this card": "./scripts/_run_python.sh scripts/analysis/build_transmission_subengine_drawer_data_s163.py",
+      "the read rule": "read witness_record by the source_key family (text-level; resolve via text_checkout)."
+    },
+    "data_source": "witness_record (@ MARK-16).",
+    "decision_trail": "CONTRACT_situate_closed_open_grain_s162 (witness/transmission closed/open/grain) - Decision 224 (Witness -> Transmission rename) - this drawer."
+  },
+  "fidelity": {
+    "status": "PASS",
+    "date": "2026-08-10",
+    "meta_line": "Fidelity PASS (mechanical): every label maps to a real witness_record column."
+  },
+  "scale": {
+    "status": "INCOMPLETE",
+    "date": "2026-08-10",
+    "meta_line": "Scale INCOMPLETE: 1 reconstructed record (thin); a definition + one worked example, not a scaled run. No green scale pill."
+  },
+  "cold_read": {
+    "status": "INCOMPLETE",
+    "date": null,
+    "meta_line": "Cold Read owed on this card (blind agent)."
+  },
+  "vs_wild": {
+    "status": "INCOMPLETE",
+    "date": null,
+    "meta_line": "vs-Wild owed: naive reader given the text + 'how far is this from the event it reports?' vs the coded distance."
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "node": "situate",
+  "sub_engine": "paradigm",
+  "_generated_by": "build_paradigm_subengine_drawer_data_s163.py (render-from-data; re-run to refresh)",
+  "_reads_from": {
+    "text": "source_paradigm (@ MARK-16)",
+    "move": "source_move.paradigm (@ MARK-16-WEB)"
+  },
+  "header": {
+    "title": "Paradigm",
+    "subtitle": "the cultural templates the text runs on (roles -> relations -> telos)",
+    "parent": "Situate",
+    "output": "the named scripts the content invokes / subverts",
+    "grain": "text-level (source_paradigm) AND move-level (source_move.paradigm)",
+    "pills": {
+      "fidelity": "PASS -- every label maps to a real source_paradigm column",
+      "cold_read": "INCOMPLETE (owed, S163)",
+      "vs_wild": "INCOMPLETE (owed)"
+    },
+    "status_line": "Paradigm is coded on Mark 16: 9 named cultural templates (text-level) + 60/60 moves carry a per-move template-note. The dominant is 'vindication-of-the-righteous-sufferer' (salience 0.95). The paradigm NAME is emergent (named in the tradition's own terms, not from a fixed list, s2.1); the posture toward it (stance) and its relation to the dominant are closed enums."
+  },
+  "what_it_is": "Paradigm names the cultural SCRIPTS a text runs on -- the templates that pre-exist the text and give its content shape: a role-set, a set of relations between the roles, and an end the script is oriented toward. Mark 16 runs 'vindication-of-the-righteous-sufferer', 'empty-tomb / translation-of-the-hero', 'burial-anointing / mourning-rite' and more; it does not merely cite them, it ENDORSES some, INVOKES others, and SUBVERTS others (the women's mourning-rite is set up in full, then broken open by the absent body).",
+  "why_it_matters": "A move can look unique until you see the template it is running. Paradigm is what lets two texts that share NO wording still share a script -- and it is where an absence speaks: a template a text could have invoked and did NOT (a paradigm it declines) is a coded silence. The stance + relation fields keep 'invokes' distinct from 'endorses' from 'subverts', so a text using a script AGAINST itself is not misread as affirming it.",
+  "how_it_works": {
+    "you_give_it": "a coded text (its moves, from Decompose).",
+    "the_method_does": "names each cultural template the text runs on (emergent, in the tradition's own terms), marks the dominant one, scores each template's salience, and codes the text's stance toward it + its relation to the dominant paradigm.",
+    "you_get_back": "a ranked set of named paradigms with stance + relation + salience, at text and move grain."
+  },
+  "pipeline_context": {
+    "note": "sibling terms glossed so the card stands alone.",
+    "move": "one small action a text makes (agent does an operation to something, with a result) -- the unit Decompose produces.",
+    "Decompose": "the node that breaks a passage into moves; Paradigm (in Situate) runs alongside it.",
+    "Situate": "the parent node: attaches context to each move; Paradigm is its 'templates' aspect.",
+    "the dominant paradigm": "the highest-salience template the text runs on; the others are coded by how they RELATE to it.",
+    "emergent (fit-or-extend)": "the paradigm NAME is not picked from a fixed list -- it is named in the tradition's own terms (s2.1 = do not pre-anchor), then reused if it recurs.",
+    "salience": "how strongly the template is in play in this text (0-1); not a confidence, a weight.",
+    "PI": "the principal investigator (the researcher) -- who locks methodology calls."
+  },
+  "how_we_grade_it": {
+    "note": "the checks the pills report.",
+    "Fidelity": "mechanical: does every label map to a real source_paradigm column with in-vocab enum values?",
+    "Cold Read": "self-sufficiency: a blind reader judges whether the card explains itself.",
+    "vs-Wild": "does the coded paradigm-set beat a naive reader given the passage + 'what cultural scripts is this running?' (owed).",
+    "result_categories": "INCOMPLETE (not run) / FAIL / PARTIAL / PASS."
+  },
+  "the_method_clean": {
+    "note": "Paradigm's fields: the NAME is open/emergent (s2.1); stance + relation_to_dominant are closed enums; salience + is_dominant are numeric/bool. Values render from the coded data (the enums are controlled-by-convention -- a formal vocab table is owed).",
+    "fields": [
+      {
+        "field": "name",
+        "closed": false,
+        "note": "OPEN / emergent -- the paradigm named in the tradition's own terms (115 distinct across the corpus)"
+      },
+      {
+        "field": "stance",
+        "vocab": [
+          "endorsed",
+          "invoked",
+          "subverted",
+          "denied"
+        ],
+        "closed": true,
+        "note": "the text's posture toward the template"
+      },
+      {
+        "field": "relation_to_dominant",
+        "vocab": [
+          "reinforces",
+          "self",
+          "competes",
+          "subverts",
+          "incompatible",
+          "ironizes"
+        ],
+        "closed": true,
+        "note": "how this template relates to the dominant one"
+      },
+      {
+        "field": "is_dominant",
+        "vocab": "0/1",
+        "closed": true
+      },
+      {
+        "field": "salience",
+        "closed": false,
+        "note": "NUMERIC 0-1 -- how strongly the template is in play"
+      },
+      {
+        "field": "evidence",
+        "closed": false,
+        "note": "OPEN -- the warrant for the reading"
+      }
+    ],
+    "controlled_by_convention": "stance + relation_to_dominant are small fixed sets enforced by convention (no vocab table yet); OWED a live vocab source so they render live like Frame's."
+  },
+  "the_method_applied": {
+    "source_key": "MARK-16",
+    "paradigms": 9,
+    "moves_with_paradigm": "60/60",
+    "note": "Mark 16's cultural templates (render-from-data), ranked by salience, with stance + relation + the evidence snippet.",
+    "distributions": {
+      "stance": {
+        "endorsed": 3,
+        "invoked": 5,
+        "subverted": 1
+      },
+      "relation_to_dominant": {
+        "self": 1,
+        "reinforces": 5,
+        "subverts": 1,
+        "ironizes": 1,
+        "competes": 1
+      }
+    },
+    "worked_paradigms": [
+      {
+        "name": "vindication-of-the-righteous-sufferer",
+        "is_dominant": true,
+        "salience": 0.95,
+        "stance": "endorsed",
+        "relation_to_dominant": "self",
+        "evidence": "'Jesus of Nazareth, who was crucified. He has been raised' — the announcement fuses the shameful execution and the divine reversal in a single breath,"
+      },
+      {
+        "name": "empty-tomb / translation-of-the-hero",
+        "is_dominant": false,
+        "salience": 0.85,
+        "stance": "invoked",
+        "relation_to_dominant": "reinforces",
+        "evidence": "The stone rolled away, the body absent, the interpreting angelic figure ('a young man ... in a white robe'), and the instruction to look at 'the place"
+      },
+      {
+        "name": "angelophany / commissioning-of-the-messenger",
+        "is_dominant": false,
+        "salience": 0.75,
+        "stance": "invoked",
+        "relation_to_dominant": "reinforces",
+        "evidence": "White-robed figure, the formula 'Do not be alarmed,' the disclosure, the imperative 'go, tell' with a specified addressee and destination — the standa"
+      },
+      {
+        "name": "burial-anointing / mourning rite",
+        "is_dominant": false,
+        "salience": 0.7,
+        "stance": "subverted",
+        "relation_to_dominant": "subverts",
+        "evidence": "The women 'bought spices, so that they might go and anoint him' and worry 'Who will roll away the stone' — the script of proper female mourning-and-an"
+      },
+      {
+        "name": "failed-disciple / hidden-witness (Markan messianic-secret shape)",
+        "is_dominant": false,
+        "salience": 0.7,
+        "stance": "invoked",
+        "relation_to_dominant": "ironizes",
+        "evidence": "'they went out and fled ... they said nothing to anyone, for they were afraid' — the paradoxical ending runs the recurrent Markan script in which the "
+      }
+    ]
+  },
+  "where_saved": {
+    "store": "source_paradigm (text) + source_move.paradigm (move)",
+    "key": "source_key",
+    "plain": "Text-level paradigms save to source_paradigm (@ the base key MARK-16); per-move templates to source_move.paradigm (@ the live moveset). Read the family via text_checkout, never a bare key."
+  },
+  "honest_limits": [
+    "The paradigm NAME is emergent (s2.1) -- a strength (it is the tradition's own script, not an imposed label) but it means names are not a closed set; cross-text paradigm-matching is a separate, later step.",
+    "stance + relation_to_dominant are controlled-by-convention (no formal vocab table + definitions the drawer reads live); OWED, like the other non-Frame closed enums.",
+    "One coder, one pass, engine-proposed; not reliability-tested. salience is a single-coder judgment.",
+    "Cold Read + vs-Wild owed on this card.",
+    "SCALE: coded on the worked text (Mark 16); 9 paradigms here. The corpus holds 115 distinct paradigm names, but this card is the Mark-16 worked example, not corpus coverage."
+  ],
+  "made_by": [
+    "source_paradigm (the text-level paradigm store) + source_move.paradigm (the per-move template)",
+    "scripts/analysis/engine05_detect_paradigm.py + paradigm_generation.py (the detectors)",
+    "scripts/analysis/build_paradigm_subengine_drawer_data_s163.py (this card's data)"
+  ],
+  "whats_next": "Give stance + relation_to_dominant a live vocab source. Run Cold Read + vs-Wild. Cross-text paradigm-matching (which texts share a script) is a later comparative step, not this aspect.",
+  "foundation": {
+    "leans_on": [
+      "frame semantics (Fillmore) + cultural-script theory (a template of roles -> relations -> telos)",
+      "form criticism's Gattung / genre-script sense generalised cross-tradition",
+      "fit-or-extend emergent naming (s2.1) -- the paradigm is named in the tradition's own terms, not imposed",
+      "the stance/relation distinction leans on reception theory (a text can run a script to affirm OR to break it)"
+    ],
+    "how_we_arrived": "the paradigm detector (engine05) + the 3DR-11 strengthening + IRR207 (multi-label + salience + stance + relation + trans_sitz), tie-broken to v2 (is_dominant fork resolved)."
+  },
+  "research_view": {
+    "receipt": {
+      "method_key": "MARK-16-WEB",
+      "base_key": "MARK-16",
+      "paradigms": 9,
+      "moves_with_paradigm": 60,
+      "moves_total": 60
+    },
+    "how_to_run": {
+      "refresh this card": "./scripts/_run_python.sh scripts/analysis/build_paradigm_subengine_drawer_data_s163.py",
+      "the read rule": "read source_paradigm by the base key; per-move paradigm on the live moveset's latest move_grammar_v2 run."
+    },
+    "data_source": "source_paradigm (@ MARK-16) + source_move.paradigm (@ MARK-16-WEB).",
+    "decision_trail": "CONTRACT_situate_closed_open_grain_s162 (paradigm closed/open/grain) - IRR207 (multi-label + salience + stance) - 3DR-11 - this drawer."
+  },
+  "fidelity": {
+    "status": "PASS",
+    "date": "2026-08-10",
+    "meta_line": "Fidelity PASS (mechanical): every label maps to a real source_paradigm column; stance + relation values are within their convention sets."
+  },
+  "cold_read": {
+    "status": "INCOMPLETE",
+    "date": null,
+    "meta_line": "Cold Read owed on this card (blind agent)."
+  },
+  "vs_wild": {
+    "status": "INCOMPLETE",
+    "date": null,
+    "meta_line": "vs-Wild owed: naive reader given the passage + 'what cultural scripts is this running?' vs the coded paradigm-set."
+  }
+}
