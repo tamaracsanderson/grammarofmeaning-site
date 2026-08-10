@@ -24,13 +24,14 @@
     ]
   },
   "the_process": {
-    "note": "Each viz goes through the same redesign we ran on the method drawers — a frontend redesign paired with a smart data backend.",
+    "note": "One store, one file, one owner per file, two roles working in tandem — no copies, no scattered files. The seamless pipeline.",
     "steps": [
-      "reading-SB ships the data: a clean, move-keyed DATA export (the smart backend), plus any metrics the figure needs. The fields are usually already coded — the fix is a render upgrade, not new coding.",
-      "design-SB redesigns the frontend: a render-from-data block drawn from that export, in the house look, with the academic + public framings.",
-      "the PI reviews on the site (the live figure is the review surface, never a markdown mock).",
-      "a Cold Read / crit pass on the rendered figure (blind reader), fixes fold back into the data or the render — same discipline as the drawers.",
-      "the locked block lands in the house, and the reading room can compose it."
+      "The DB is the single store of record (CLAUDE.md §2.13). The method-engine drawers name the exact tables a figure draws from (passages · source_move · connect_edge · lineage_record). No figure ever hand-authors data.",
+      "reading/method SB OWNS every DB-derived data feed. A regenerable export reads the DB and writes the feed DIRECTLY into the served location (engine/data/) — one file, committed by the data side, never hand-edited, re-run to refresh. This is the headless backend: the frontend fetches this file, nothing is copied.",
+      "design-SB OWNS the render + design content: the .html / .js, and any render-config it authors (the diagram structure, this principles doc). design-SB never writes a DB-derived data file. The line is: if it is regenerable from the DB it is reading/method SB's; if it is design/render, it is design-SB's.",
+      "the PI reviews on the LIVE figure (never a markdown mock).",
+      "a Cold Read / crit pass on the rendered figure; fixes fold back into the DATA (reading/method SB re-runs the export) or the RENDER (design-SB), each to its owner.",
+      "Result: one file per output, owned by the data side, rendered by the frontend side, in one repo. Headless, no copies, no 'which json is right?'."
     ]
   },
   "signature_look": {
