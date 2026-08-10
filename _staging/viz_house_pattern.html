@@ -1,0 +1,244 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Grammar of Meaning — the visualization house</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Grammar of Meaning house pattern — the visualization gallery / pattern-book. Same palette as schema.html +
+   library-schema.html + reading_room_house_pattern.html. Each viz is a render-from-data block; the reading room
+   composes these same blocks on a CSS grid. */
+:root{--bg:#F6F1E4;--paper:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;
+ --eng:#2C4A38;--sub:#3F7D57;--out:#C4602F;--honey:#E0A93B;--olive:#6E7B3A;--gold:#B08A3C;
+ --serif:"Newsreader",ui-serif,Georgia,serif;--sans:"Inter",ui-sans-serif,system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#1B211D;--paper:#232A25;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;
+ --eng:#4A7A5C;--sub:#5C9A72;--out:#D9793F;--honey:#E0A93B;--olive:#9CA86A;--gold:#c9a24e}}
+:root[data-theme=dark]{--bg:#1B211D;--paper:#232A25;--fg:#EDE7D8;--muted:#A6AEA3;--line:#3A423C;--card:#232A25;--eng:#4A7A5C;--sub:#5C9A72;--out:#D9793F;--honey:#E0A93B;--olive:#9CA86A;--gold:#c9a24e}
+:root[data-theme=light]{--bg:#F6F1E4;--paper:#EFE7D3;--fg:#24302A;--muted:#6E7669;--line:#C9BE9F;--card:#FFFDF6;--eng:#2C4A38;--sub:#3F7D57;--out:#C4602F;--honey:#E0A93B;--olive:#6E7B3A;--gold:#B08A3C}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 var(--sans);font-feature-settings:"ss01","cv11"}
+.wrap{max-width:60rem;margin:0 auto;padding:26px 22px 40px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.topbar a{font-size:13px;color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,44px);font-weight:600;letter-spacing:-.01em;color:var(--eng);margin:0 0 12px;line-height:1.1}
+.lede{font-family:var(--serif);font-size:17px;line-height:1.62;color:var(--fg);max-width:44rem;margin:0 0 6px}
+.reads{font-size:13.5px;line-height:1.6;color:var(--muted);max-width:44rem;margin:0}
+/* sticky menu */
+.toc{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(4px);
+ border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:18px 0 8px;padding:9px 0;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.toc .k{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.toc a{font-family:var(--mono);font-size:11px;color:var(--out);text-decoration:none;padding:2px 8px;border:1px solid color-mix(in srgb,var(--out) 30%,var(--line));border-radius:999px}
+.toc a:hover{background:color-mix(in srgb,var(--out) 8%,transparent)}
+/* group band */
+.group{margin:38px 0 0;scroll-margin-top:60px}
+.group-h{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--out);border-bottom:1px solid var(--line);padding-bottom:7px;margin:0 0 4px}
+.group-note{font-family:var(--serif);font-style:italic;font-size:13.5px;color:var(--muted);margin:0 0 16px;max-width:46rem}
+/* a viz block (the reusable unit) */
+.block{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:18px 20px;margin:0 0 16px;scroll-margin-top:60px}
+.block-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:2px}
+.block-h h3{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--eng);margin:0;line-height:1.2}
+.block-src{font-family:var(--mono);font-size:9.5px;letter-spacing:.03em;color:var(--muted)}
+.block-status{font-family:var(--mono);font-size:8.5px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;padding:2px 7px;border-radius:4px;white-space:nowrap;border:1px solid var(--line)}
+.block-status.live{color:#fff;background:var(--sub);border-color:var(--sub)}
+.block-status.v1{color:#8a5a12;background:color-mix(in srgb,var(--honey) 24%,var(--bg));border-color:color-mix(in srgb,var(--honey) 50%,var(--line))}
+.block-status.linked{color:var(--muted);background:var(--paper)}
+.block-what{font-size:13.5px;line-height:1.55;color:var(--fg);margin:6px 0 2px;max-width:46rem}
+.finding{font-family:var(--serif);font-size:15px;line-height:1.6;color:var(--fg);border-left:3px solid var(--gold);padding:2px 0 2px 13px;margin:12px 0}
+.finding .lab{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:3px}
+.block-link{display:inline-block;margin:8px 0 0;font-family:var(--mono);font-size:11px;color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
+.caption{font-size:11.5px;line-height:1.5;color:var(--muted);margin:12px 0 0;max-width:48rem}
+/* metrics row */
+.metrics{display:flex;flex-wrap:wrap;gap:10px 20px;margin:12px 0 4px}
+.metric{display:flex;flex-direction:column}
+.metric .mv{font-family:var(--mono);font-size:20px;color:var(--eng);line-height:1}
+.metric .ml{font-size:11px;color:var(--muted);margin-top:2px}
+/* the move spine (negative space: filled = has upstream, hollow = none) */
+.spine-lab{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:16px 0 5px}
+.spine{display:flex;flex-wrap:wrap;gap:3px}
+.spine i{width:12px;height:12px;border-radius:3px;border:1px solid color-mix(in srgb,var(--eng) 40%,var(--line));cursor:default}
+.spine i.fed{background:var(--eng)}
+.spine i.absent{background:transparent}
+/* the lineage matrix */
+.matrix-scroll{overflow-x:auto;margin:14px 0 2px}
+.matrix{border-collapse:collapse;font-size:12px}
+.matrix th{font-family:var(--mono);font-size:9.5px;font-weight:500;color:var(--muted);padding:5px 6px;text-align:center;border-bottom:1px solid var(--line);white-space:nowrap}
+.matrix th.rowh{text-align:right;color:var(--eng);font-weight:600}
+.matrix td{padding:3px;text-align:center;border-bottom:1px solid color-mix(in srgb,var(--line) 45%,transparent);vertical-align:middle}
+.mcell{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:6px;font-size:13px;color:#fff;cursor:help}
+.mcell.f-authorize{background:var(--out)}
+.mcell.f-scaffold{background:var(--sub)}
+.matrix td.rowlab{font-family:var(--mono);font-size:10px;color:var(--eng);text-align:right;padding-right:10px;white-space:nowrap;font-weight:600}
+/* legend */
+.vlegend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:12px 0 0;font-family:var(--mono);font-size:10px;color:var(--muted)}
+.vlegend span{display:inline-flex;align-items:center;gap:6px}
+.vlegend .sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+.err{color:var(--out);font-family:var(--mono);font-size:12px}
+.themebtn{position:fixed;top:14px;right:14px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer;z-index:30}
+.figfooter{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line);margin-top:44px;padding:18px 0 8px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style>
+</head>
+<body>
+<button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">theme</button>
+<div class="wrap">
+  <div class="topbar">
+    <a href="/engine/method-engine.html">&larr; the method engine</a>
+    <a href="/engine/library-schema.html">the library &rarr;</a>
+  </div>
+  <header>
+    <p class="eyebrow">Staging · the visualization house</p>
+    <h1>The visualization house</h1>
+    <p class="lede">One place to finalize every output of the engine as a concrete, render-from-data figure. Each block below is drawn from its real data; the reading room composes these same blocks on a grid. Finalize once here, reuse everywhere.</p>
+    <p class="reads">Grouped by <b>processing-distance</b>: how far a figure sits from the raw encoding. This page is a work-in-progress pattern-book, filled one viz at a time.</p>
+  </header>
+
+  <nav class="toc" id="toc"><span class="k">on this page</span>
+    <a href="#encoded">Encoded</a>
+    <a href="#lineage">Lineage / tributary</a>
+    <a href="#analyzed">Analyzed</a>
+    <a href="#sourced">Sourced</a>
+    <a href="#synthesis">Synthesis</a>
+  </nav>
+
+  <!-- ═══ GROUP 1: ENCODED (no additional processing) ═══ -->
+  <section class="group" id="encoded">
+    <div class="group-h">Encoded · no additional processing</div>
+    <p class="group-note">Figures drawn straight from the coded data — one per thing the bowtie collects. No gloss, no outside sources, no remixing.</p>
+
+    <!-- THE ONE FULLY-RENDERED CONCRETE BLOCK (render-from-data) -->
+    <div class="block" id="lineage">
+      <div class="block-h">
+        <h3>Lineage — where prior tradition bears weight in Mark 16</h3>
+        <span class="block-status live">rendered from data</span>
+      </div>
+      <p class="block-src">Situate · Lineage → the tributary. Source: engine/data/viz/lineage_matrix.json (DATA_lineage_matrix_s161)</p>
+      <p class="block-what">Upstream scriptural, intratextual, and early-Christian materials mapped to the specific narrative <b>moves</b> they scaffold or authorize — with the moves that stand on <i>no</i> coded upstream shown as the negative space.</p>
+      <div id="lineage-body"><p class="caption">loading…</p></div>
+      <p class="caption">Counts distinguish individual references from independent source families. Marks indicate proposed relations, not equal-strength proof of direct dependence. Hover a cell for the source, the transformation, and what the borrowing leaves unsaid (the seam).</p>
+    </div>
+
+    <!-- CARDS: the other encoded viz (linking to what exists; each becomes its own rendered block next) -->
+    <div class="block">
+      <div class="block-h"><h3>Text — the voices</h3><span class="block-status linked">linked</span></div>
+      <p class="block-what">What the library holds for a passage: the voices/editions checked out. The Text node's encoded view.</p>
+      <a class="block-link" href="/reading-room-preview/voices.html?g=mark" target="_blank">open voices.html →</a>
+    </div>
+    <div class="block">
+      <div class="block-h"><h3>Decompose + Situate — by move</h3><span class="block-status linked">linked</span></div>
+      <p class="block-what">The passage as a sequence of coded moves with their situating context, move by move.</p>
+      <a class="block-link" href="/reading-room-preview/reading.html" target="_blank">open reading.html →</a>
+    </div>
+    <div class="block">
+      <div class="block-h"><h3>Connect — the constellation</h3><span class="block-status v1">v3 artifact</span></div>
+      <p class="block-what">The edges between moves, drawn as a constellation (sonic + structural recurrence). Upgrade to the MOTIF-based figure is pending reading-SB's MOTIF data export.</p>
+      <a class="block-link" href="/engine/artifacts/VIZ_constellation_v3_unified_coffee_2026-07-27.html" target="_blank">open the v3 constellation →</a>
+    </div>
+    <div class="block">
+      <div class="block-h"><h3>Situate — combined</h3><span class="block-status linked">linked</span></div>
+      <p class="block-what">The five situating lenses (Sitz · Paradigm · Frame · Witness · Lineage) shown together on the passage.</p>
+      <a class="block-link" href="/reading-room-preview/situate.html" target="_blank">open situate.html →</a>
+    </div>
+    <div class="block">
+      <div class="block-h"><h3>Witness — degrees of separation</h3><span class="block-status v1">data ready (v2)</span></div>
+      <p class="block-what">Transmission distance from the event, counted. Render-from-data next: engine/data/viz/ ← DATA_witness_transmission_v2_s161.json (v1 render exists in pm/50_audits).</p>
+    </div>
+    <div class="block">
+      <div class="block-h"><h3>Frame — the morphospace</h3><span class="block-status linked">on the method page</span></div>
+      <p class="block-what">The passage-frame and its move-frames plotted within the wider 8-axis morphospace.</p>
+      <a class="block-link" href="/engine/schema.html" target="_blank">the atlas / morphospace →</a>
+    </div>
+  </section>
+
+  <!-- ═══ GROUP 2: ANALYZED ═══ -->
+  <section class="group" id="analyzed">
+    <div class="group-h">Analyzed · needs a further analysis pass</div>
+    <p class="group-note">Figures that require an added interpretive step beyond the encoding.</p>
+    <div class="block"><div class="block-h"><h3>Gloss</h3><span class="block-status linked">planned</span></div>
+      <p class="block-what">The instrument's built voices answering a selected gap — a further analysis pass over the enriched move.</p></div>
+  </section>
+
+  <!-- ═══ GROUP 3: SOURCED ═══ -->
+  <section class="group" id="sourced">
+    <div class="group-h">Sourced · needs sources from the library</div>
+    <p class="group-note">Figures that pull additional texts or context from the library (the tradition speaking, retrieved).</p>
+    <div class="block"><div class="block-h"><h3>Canon · Compare · Partiture · Sitz-context</h3><span class="block-status linked">planned</span></div>
+      <p class="block-what">Reception (real historical voices), cross-text comparison, the partiture, and the Sitz context (secondary sources + images pulled from the library). Each needs the library to supply text/images, not just the encoding.</p></div>
+  </section>
+
+  <!-- ═══ GROUP 4: SYNTHESIS ═══ -->
+  <section class="group" id="synthesis">
+    <div class="group-h">Synthesis · remixes two outputs into a third</div>
+    <p class="group-note">Figures that take two prior outputs and braid them into a new one.</p>
+    <div class="block"><div class="block-h"><h3>Synthesis</h3><span class="block-status linked">planned</span></div>
+      <p class="block-what">Relates claims across frames and voices — a third figure composed from two of the above.</p></div>
+  </section>
+
+  <footer class="figfooter"><span>Grammar of Meaning · the visualization house</span><span>staging · pattern-book v0</span></footer>
+</div>
+
+<script>
+// render-from-data: each block draws from its real data file. First concrete block = the lineage tributary matrix.
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+var VEHICLE_GLYPH={quotation:'■',allusion:'◆',echo:'○',paraphrase:'▲'}; // ■ ◆ ○ ▲
+var CERTAINTY_OP={'explicit-quotation':1,'probable-allusion':0.72,'contested-echo':0.45};
+function moveNum(m){var n=parseInt(String(m).replace(/[^0-9]/g,''),10);return isNaN(n)?0:n;}
+
+fetch('/engine/data/viz/lineage_matrix.json').then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+ .then(function(d){
+   var host=document.getElementById('lineage-body'); host.innerHTML='';
+   // FINDING (interpretive — sourced from the design brief; flagged for move into the data export)
+   host.insertAdjacentHTML('beforeend',
+     '<p class="finding"><span class="lab">the finding</span>The shorter scene (16:1&ndash;8) loads a hinge &mdash; several traditions converge at the resurrection announcement &mdash; while the continuation (16:9&ndash;20) assembles a sequence, upstream relations distributed across appearance / commission / sign moves.</p>');
+   // METRICS (from data)
+   var m=d.metrics||{};
+   var fed=d.cells.map(function(c){return c.move;});
+   var mrow='<div class="metrics">'
+     +'<div class="metric"><span class="mv">'+Math.round((m.upstream_coverage||0)*100)+'%</span><span class="ml">of moves have coded upstream</span></div>'
+     +'<div class="metric"><span class="mv">'+d.cells.length+'</span><span class="ml">lineage cells</span></div>'
+     +'<div class="metric"><span class="mv">'+(d.families?d.families.length:0)+'</span><span class="ml">source families</span></div>'
+     +'<div class="metric"><span class="mv">'+Math.round((m.marked_fraction||0)*100)+'%</span><span class="ml">marked (explicit) borrowings</span></div>'
+     +'</div>';
+   host.insertAdjacentHTML('beforeend',mrow);
+   // MOVE SPINE — negative space (all moves; filled = has upstream, hollow = none)
+   var fedSet={}; fed.forEach(function(x){fedSet[x]=true;});
+   var all=fed.concat(d.absence_moves||[]);
+   all.sort(function(a,b){return moveNum(a)-moveNum(b);});
+   var uniq=[]; var seen={}; all.forEach(function(x){if(!seen[x]){seen[x]=1;uniq.push(x);}});
+   var spine='<p class="spine-lab">every move ('+uniq.length+') · filled = stands on coded upstream lineage · hollow = no coded upstream (candidate innovation / connective tissue / under-researched)</p><div class="spine">';
+   uniq.forEach(function(mv){ spine+='<i class="'+(fedSet[mv]?'fed':'absent')+'" title="'+esc(mv)+(fedSet[mv]?' · has upstream lineage':' · no coded upstream')+'"></i>'; });
+   spine+='</div>';
+   host.insertAdjacentHTML('beforeend',spine);
+   // THE MATRIX (source family × fed move)
+   var families=(d.families||[]).slice();
+   var fedMoves=uniq.filter(function(mv){return fedSet[mv];});
+   // index cells by family+move
+   var byFM={}; d.cells.forEach(function(c){ (byFM[c.family]=byFM[c.family]||{})[c.move]=c; });
+   var famHasCells=families.filter(function(f){return byFM[f];});
+   var t='<p class="spine-lab">the lineage matrix · source family &times; move</p><div class="matrix-scroll"><table class="matrix"><thead><tr><th class="rowh">family \\ move</th>';
+   fedMoves.forEach(function(mv){ t+='<th>'+esc(mv)+'</th>'; });
+   t+='</tr></thead><tbody>';
+   famHasCells.forEach(function(f){
+     t+='<tr><td class="rowlab">'+esc(f)+'</td>';
+     fedMoves.forEach(function(mv){
+       var c=byFM[f][mv];
+       if(c){
+         var op=CERTAINTY_OP[c.link_certainty]!=null?CERTAINTY_OP[c.link_certainty]:0.7;
+         var glyph=VEHICLE_GLYPH[c.vehicle]||'●';
+         var tip=c.source+' · '+c.function+' via '+c.vehicle+' ('+c.link_certainty+')\n'+c.directionality+'\nseam: '+c.seam;
+         t+='<td><span class="mcell f-'+esc(c.function)+'" style="opacity:'+op+'" title="'+esc(tip)+'">'+glyph+'</span></td>';
+       } else { t+='<td></td>'; }
+     });
+     t+='</tr>';
+   });
+   t+='</tbody></table></div>';
+   host.insertAdjacentHTML('beforeend',t);
+   // LEGEND
+   host.insertAdjacentHTML('beforeend',
+     '<div class="vlegend">'
+     +'<span><i class="sw" style="background:var(--out)"></i> function: authorize</span>'
+     +'<span><i class="sw" style="background:var(--sub)"></i> function: scaffold</span>'
+     +'<span>&#9632; quotation</span><span>&#9670; allusion</span><span>&#9675; echo</span><span>&#9650; paraphrase</span>'
+     +'<span>opacity = link certainty (solid = explicit &rarr; faint = contested)</span>'
+     +'</div>');
+ })
+ .catch(function(e){ document.getElementById('lineage-body').innerHTML='<p class="err">could not load the lineage data ('+e.message+').</p>'; });
+</script>
+</body></html>
