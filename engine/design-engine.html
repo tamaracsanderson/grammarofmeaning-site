@@ -18,6 +18,13 @@
 h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;letter-spacing:-.01em;color:var(--eng);margin:0 0 12px;line-height:1.1}
 .lede{font-family:var(--serif);font-size:17px;line-height:1.62;color:var(--fg);max-width:42rem;margin:0 0 8px}
 .reads{font-size:13.5px;line-height:1.6;color:var(--muted);max-width:42rem;margin:0 0 12px}
+.tagline{font-family:var(--serif);font-style:italic;font-size:16.5px;color:var(--eng);font-weight:600;margin:0 0 10px}
+.familynav{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 0}
+.fam-item{flex:1;min-width:150px;border:1px solid var(--line);border-radius:9px;background:var(--card);padding:8px 11px;text-decoration:none}
+.fam-item.current{border-color:var(--eng);background:color-mix(in srgb,var(--eng) 8%,var(--card))}
+.fam-item .fn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--out)}
+.fam-item.current .fn{color:var(--eng)}
+.fam-item .fd{font-size:12px;color:var(--muted);display:block;margin-top:2px}
 .seam{font-size:12.5px;line-height:1.55;color:var(--fg);background:color-mix(in srgb,var(--sub) 8%,transparent);border:1px solid color-mix(in srgb,var(--sub) 30%,var(--line));border-radius:9px;padding:10px 13px;margin:0 0 6px;max-width:44rem}
 .seam b{color:var(--eng)}
 .stepnav{position:sticky;top:0;z-index:15;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(4px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:16px 0 8px;padding:9px 2px;display:flex;flex-wrap:wrap;gap:6px 9px;align-items:center;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
@@ -64,9 +71,11 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
   <header>
     <p class="eyebrow">design-SB · schema · the right side of the bow-tie</p>
     <h1 id="title">The Design Engine</h1>
+    <p class="tagline" id="tagline"></p>
     <p class="lede" id="subtitle"></p>
     <p class="reads" id="reads"></p>
     <p class="seam" id="seam"></p>
+    <nav class="familynav" id="familynav"></nav>
   </header>
   <nav class="stepnav" id="stepnav"></nav>
   <div id="steps"></div>
@@ -104,9 +113,11 @@ fetch('/engine/data/viz/design_engine.json').then(function(r){if(!r.ok)throw new
  .then(function(d){
    var p=d.page||{};
    if(p.title)document.getElementById('title').textContent=p.title;
+   if(p.tagline)document.getElementById('tagline').textContent=p.tagline;
    if(p.subtitle)document.getElementById('subtitle').textContent=p.subtitle;
    if(p.reads)document.getElementById('reads').textContent=p.reads;
    if(d.seam)document.getElementById('seam').innerHTML='<b>The seam:</b> '+esc(d.seam);
+   if(p.family)document.getElementById('familynav').innerHTML=p.family.map(function(f){return '<a class="fam-item'+(f.here?' current':'')+'" href="'+esc(f.href)+'"><span class="fn">'+esc(f.name)+'</span><span class="fd">'+esc(f.does)+'</span></a>';}).join('');
    var nodes=d.nodes||[];
    var steps=(d.steps||[]).filter(function(st){return nodes.some(function(n){return n.step===st.key;});});
    document.getElementById('stepnav').innerHTML='<span class="k">the engine</span>'+

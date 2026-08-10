@@ -19,6 +19,13 @@
 h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;letter-spacing:-.01em;color:var(--eng);margin:0 0 12px;line-height:1.1}
 .lede{font-family:var(--serif);font-size:17px;line-height:1.62;color:var(--fg);max-width:42rem;margin:0 0 8px}
 .reads{font-size:13.5px;line-height:1.6;color:var(--muted);max-width:42rem;margin:0}
+.tagline{font-family:var(--serif);font-style:italic;font-size:16.5px;color:var(--eng);font-weight:600;margin:0 0 10px}
+.familynav{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 0}
+.fam-item{flex:1;min-width:150px;border:1px solid var(--line);border-radius:9px;background:var(--card);padding:8px 11px;text-decoration:none}
+.fam-item.current{border-color:var(--eng);background:color-mix(in srgb,var(--eng) 8%,var(--card))}
+.fam-item .fn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--out)}
+.fam-item.current .fn{color:var(--eng)}
+.fam-item .fd{font-size:12px;color:var(--muted);display:block;margin-top:2px}
 .toc{position:sticky;top:0;z-index:15;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(4px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:18px 0 8px;padding:9px 0;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
 .toc .k{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:4px}
 .toc a{font-family:var(--mono);font-size:11px;color:var(--out);text-decoration:none;padding:2px 7px;border:1px solid color-mix(in srgb,var(--out) 30%,var(--line));border-radius:999px}
@@ -63,9 +70,11 @@ ul.rules li{font-size:13.5px;line-height:1.55;margin:0 0 6px}
   </div>
   <header>
     <p class="eyebrow" id="eyebrow">design-SB · the design engine · principles</p>
-    <h1 id="title">The visualization house — principles</h1>
+    <h1 id="title">The design engine — principles</h1>
+    <p class="tagline" id="tagline"></p>
     <p class="lede" id="subtitle"></p>
     <p class="reads" id="reads"></p>
+    <nav class="familynav" id="familynav"></nav>
   </header>
   <nav class="toc" id="toc"><span class="k">on this page</span></nav>
   <div id="sections"></div>
@@ -80,6 +89,7 @@ var SECTIONS=[
   {id:'axes',label:'Two axes',key:'two_axes',render:renderAxes},
   {id:'grammar',label:'The grammar',key:'the_grammar',render:renderGrammar},
   {id:'checks',label:'The gate',key:'the_checks',render:renderChecks},
+  {id:'moodboard',label:'What good looks like',key:'the_moodboard',render:renderMoodboard},
   {id:'process',label:'The process',key:'the_process',render:renderProcess},
   {id:'look',label:'Signature look',key:'signature_look',render:renderLook},
   {id:'roadmap',label:'Redesign roadmap',key:'roadmap',render:renderRoadmap}
@@ -113,12 +123,21 @@ function renderChecks(d){
   var vr=d.variants_rule?'<div class="kv"><p class="k">variants</p><p class="v">'+rich(d.variants_rule)+'</p></div>':'';
   return note(d)+checks+vr;
 }
+function renderMoodboard(d){
+  var bar=d.the_bar?'<div class="pr"><p class="vals">the bar — what good looks like</p><p>'+rich(d.the_bar)+'</p></div>':'';
+  var refs='<table class="rm"><caption>the studio wall — references to study</caption><tbody>'+(d.references||[]).map(function(r){
+    return '<tr><td class="rv">'+rich(r.name)+(r.for?'<br><span class="rf">for: '+rich(r.for)+'</span>':'')+'</td><td>'+rich(r.teaches)+'</td></tr>';
+  }).join('')+'</tbody></table>';
+  return note(d)+bar+refs;
+}
 fetch('/engine/data/viz/viz_principles.json').then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
  .then(function(d){
    var p=d.page||{};
    if(p.title)document.getElementById('title').textContent=p.title;
+   if(p.tagline)document.getElementById('tagline').textContent=p.tagline;
    if(p.subtitle)document.getElementById('subtitle').textContent=p.subtitle;
    if(p.reads)document.getElementById('reads').textContent=p.reads;
+   if(p.family)document.getElementById('familynav').innerHTML=p.family.map(function(f){return '<a class="fam-item'+(f.here?' current':'')+'" href="'+esc(f.href)+'"><span class="fn">'+esc(f.name)+'</span><span class="fd">'+esc(f.does)+'</span></a>';}).join('');
    var live=SECTIONS.filter(function(s){return d[s.key];});
    var toc=document.getElementById('toc');
    live.forEach(function(s){var a=document.createElement('a');a.href='#'+s.id;a.textContent=s.label;toc.appendChild(a);});
