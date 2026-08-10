@@ -1,0 +1,708 @@
+{
+  "node": "connect",
+  "_generated_by": "build_connect_node_drawer_data_s162.py (render-from-data; re-run to refresh)",
+  "_reads_from": {
+    "edges": "connect_edge (MARK-16-WEB, edge_grammar_v1_2026-08-09)",
+    "moves": "source_move (paraphrases)",
+    "home": "text_checkout",
+    "vocab": "connect_edge_vocab.py (single source)",
+    "read_rule": "filter to CURRENT_GRAMMAR + latest date (CONVENTION_run_tag_versioned_coding_s162)"
+  },
+  "header": {
+    "title": "Connect",
+    "subtitle": "wire the moves back together, and name the missing ones",
+    "grammar_version": "edge_grammar_v1",
+    "run_tag": "edge_grammar_v1_2026-08-09",
+    "pills": {
+      "cold_read": "PASS - blind agent, no project context (S162 final round)",
+      "vs_wild": "PASS - 3 texts (Mark-EN + Greek + Daodejing); LINKAGE + SHAPE coded"
+    },
+    "validated_on": [
+      {
+        "text": "MARK-16-WEB",
+        "axis": "English narrative (golden path)",
+        "edges": 78,
+        "vs_wild": "PASS (LINKAGE + SHAPE; a ring coded)"
+      },
+      {
+        "text": "MARK-16-GRC",
+        "axis": "language axis (Greek)",
+        "vs_wild": "PASS (clean; LINKAGE + SHAPE)"
+      },
+      {
+        "text": "TTC-CH1-EN",
+        "axis": "content axis (Daodejing, apophatic - defining by negation)",
+        "vs_wild": "PASS (SHAPE parallelism now coded, exact match)"
+      }
+    ],
+    "fidelity_stamp": "PASS",
+    "status_line": "The in-text relations are coded (78 edges on MARK-16-WEB under edge_grammar_v1_2026-08-09): LINKAGE (logic) AND SHAPE (form) are both coded. SONIC (sound) is computed separately at word-level; RESONANCE (cross-tradition correspondence) has ONE worked MATCH (Mark <-> Daodejing), a definition-plus-one-example frontier, not a scaled run. One coder, one pass, engine-proposed."
+  },
+  "what_it_is": "Connect builds the relations between the moves. Decompose breaks the passage into moves; Connect wires them back together under five KINDs of edge: which move feeds the next (the spine) and how the moves inside one passage hold together (LINKAGE); which references another text (LINEAGE); which is analogous or opposed across traditions (RESONANCE); and the form and sound that carry them (SHAPE, SONIC).",
+  "why_it_matters": "A move on its own is inert; the meaning lives in how the moves relate. And the edges are the scaffold a silence hangs on: you cannot name an in-text gap until you have named the moves it sits between and the edges around it. The MISSING edge is negative space made sayable, a claim with no support under it, a move with no analogy partner across texts. A coded NO-EDGE is a first-class named silence. So Connect is where comparison becomes possible and where absence becomes an object.",
+  "how_it_works": {
+    "you_give_it": "the moves from Decompose (an ordered, labeled list) and their nesting.",
+    "the_method_does": "types the relations between moves under a fixed grammar, defaulting to the weakest relation and charging every upgrade an explicit warrant, and records what it could NOT connect (a NO-EDGE is a legitimate answer, not a coder failure).",
+    "you_get_back": "a typed relation graph (a DAG, a move can have several parents) plus the named absences."
+  },
+  "pipeline_context": {
+    "note": "Connect is one node in a pipeline; these are the sibling terms it references, glossed so the card stands alone.",
+    "move": "one small action a text makes (agent does an operation to something, with a result) - the unit Decompose produces.",
+    "Decompose": "the prior node: breaks the passage into moves + their nesting (what Connect reads).",
+    "Situate": "the parallel node: attaches context to each move (Sitz / Paradigm / Frame / Witness / Lineage).",
+    "spine": "the main FEED chain of moves; a bundle = a move + its nested descendants.",
+    "the braid": "a downstream output that lines one text's spine up against another's.",
+    "the gap-finder (LACUNA)": "the node that names the in-text silences (gaps) that hang between the moves Connect relates.",
+    "a strand": "a sub-sequence of moves threaded through a spine or bundle (one line through the graph).",
+    "the golden path": "the primary worked-example axis - English narrative (Mark 16 WEB) - the reference case the checks run on first.",
+    "checkout home / home_row": "the text's canonical anchor row in the corpus (its 'checkout' home); edges join to it so a relation is always tied to a real, versioned source."
+  },
+  "how_we_grade_it": {
+    "note": "the four checks the header pills report, glossed so the pills stand alone.",
+    "Fidelity": "mechanical: does every handle the card shows map to a real connect_edge column, with in-vocab values? (labels == columns).",
+    "Cold Read": "self-sufficiency: a blind reader with no project context judges whether the card explains itself.",
+    "vs-Wild": "does the coded output beat a naive LLM given only the raw text and asked to relate the moves? (scoped to the KIND being tested, e.g. LINKAGE or SHAPE).",
+    "CRT": "Clean-Room Triangulation: blind reviewers audit the grammar for MECE (mutually exclusive + collectively exhaustive) + firewall coherence, with no prior context.",
+    "result_categories": "INCOMPLETE (not run) / FAIL (run, lost) / PARTIAL (run, largely won, a named gap remains) / PASS.",
+    "field_contract": "per grammar field: closed = fixed vocabulary; multi = may hold several values; candidate = whether a new value may be proposed (the atlas-reader pattern)."
+  },
+  "the_method_clean": {
+    "note": "the edge grammar, definitions only (no worked values). The KIND funnel is asked first; each KIND holds subfamilies; each type carries its definition. The controlled-value contract per field says what is closed, what is multi, and where a candidate may be proposed (the atlas-reader pattern).",
+    "grammar": [
+      {
+        "kind": "LINKAGE",
+        "scope": "in-text",
+        "gloss": "in-text LOGIC: how the moves inside one passage hold together (produces / holds / joins).",
+        "subfamilies": [
+          {
+            "subfamily": "FEED_",
+            "types": [
+              {
+                "handle": "FEED",
+                "definition": "A's outcome becomes B's substrate and B produces a NEW operation from it (literal output->input)."
+              },
+              {
+                "handle": "FILLS",
+                "definition": "B binds a variable / slot A left EXPLICITLY open (question -> answer lives here)."
+              }
+            ]
+          },
+          {
+            "subfamily": "NEST_",
+            "types": [
+              {
+                "handle": "NEST_CONTAINS",
+                "definition": "A scopes over B; B is nested inside A (generic containment)."
+              },
+              {
+                "handle": "NEST_COMPOSES",
+                "definition": "several moves jointly make one larger emergent move (N->1)."
+              },
+              {
+                "handle": "NEST_REPORTS",
+                "definition": "A reports B's speech/thought within the SAME text (say/tell/think/know/claim)."
+              }
+            ]
+          },
+          {
+            "subfamily": "LINK_",
+            "types": [
+              {
+                "handle": "LINK_SEQUENCE",
+                "definition": "A then B: temporal succession, no production (the cheap DEFAULT)."
+              },
+              {
+                "handle": "LINK_CAUSE",
+                "definition": "A and so B: causal consequence (A brings B about; NOT output->input)."
+              },
+              {
+                "handle": "LINK_CONTRAST",
+                "definition": "A but B: negative-polarity opposition / denied expectation."
+              },
+              {
+                "handle": "LINK_CONDITION",
+                "definition": "if A then B: modal / hypothetical / unrealized."
+              },
+              {
+                "handle": "LINK_CORRECTION",
+                "definition": "A, no rather B: B retracts / replaces A."
+              },
+              {
+                "handle": "LINK_SUPPORT",
+                "definition": "B is evidence / justification for A (epistemic, not causal)."
+              },
+              {
+                "handle": "LINK_ELABORATES",
+                "definition": "B amplifies a FINISHED claim of A without changing it."
+              },
+              {
+                "handle": "LINK_BACKGROUND",
+                "definition": "A sets up context / vocabulary B needs (was SCAFFOLDS)."
+              },
+              {
+                "handle": "LINK_OTHER",
+                "definition": "a discourse join not covered above  -  free-text + candidate (the escape hatch)."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "LINEAGE",
+        "scope": "cross-text",
+        "gloss": "cross-text REFERENCE: what a text stands ON, what it cites / glosses (a NT passage citing Hosea). This IS Situate's Lineage.",
+        "subfamilies": [
+          {
+            "subfamily": "LINEAGE",
+            "types": [
+              {
+                "handle": "CITES",
+                "definition": "B explicitly quotes / alludes to A in ANOTHER text (explicit contact)."
+              },
+              {
+                "handle": "REUSES",
+                "definition": "B reuses A's material without explicit citation."
+              },
+              {
+                "handle": "BEQUEATHS",
+                "definition": "A leaves a gap unresolvable within its own frame, taken up by later reception."
+              },
+              {
+                "handle": "RE-READS",
+                "definition": "a later reading re-reads A (folds REINTERPRETS/FORKS; continuity is evidence-gated)."
+              },
+              {
+                "handle": "INHERITS-ACROSS",
+                "definition": "B inherits A across a tradition boundary (documented borrowing)."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "RESONANCE",
+        "scope": "both",
+        "gloss": "a claimed CORRESPONDENCE the analyst draws (BROAD kind, scope=both): convergence (MATCH = same move; ANALOGY = A:B::C:D) OR divergence (COUNTERS / INVERTS). Holds cross-text OR in-text (a text can rhyme with itself). Carries NO contact claim (a downstream verdict).",
+        "subfamilies": [
+          {
+            "subfamily": "CONVERGENCE",
+            "types": [
+              {
+                "handle": "MATCH",
+                "definition": "the SAME move in two places (2-term echo: move_here ~ move_there) - the plain 'rhyme, same move different voice'. Carries the ANALOGY axes, esp. failed_dimension (WHERE the rhyme breaks)."
+              },
+              {
+                "handle": "ANALOGY",
+                "definition": "a 4-term proportion A:B::C:D (a RELATION rhyming with a relation); each term = a move / set / spine / strand."
+              }
+            ]
+          },
+          {
+            "subfamily": "DIVERGENCE",
+            "types": [
+              {
+                "handle": "COUNTERS",
+                "definition": "the move here OPPOSES / stands against the move there (opposite valence on the same domain)."
+              },
+              {
+                "handle": "INVERTS",
+                "definition": "the move here is the move there turned upside down (same operation + roles, reversed direction)."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "SHAPE",
+        "scope": "in-text",
+        "gloss": "in-text non-linear FORM: parallelism / juxtaposition / ring / leap.",
+        "subfamilies": [
+          {
+            "subfamily": "SHAPE",
+            "types": [
+              {
+                "handle": "SHAPE_PARALLELISM",
+                "definition": "two moves in parallel form (was 'parallels')."
+              },
+              {
+                "handle": "SHAPE_JUXTAPOSITION",
+                "definition": "two things set side-by-side, gap held open, NEVER resolved (was 'juxtaposes')."
+              },
+              {
+                "handle": "SHAPE_RING",
+                "definition": "an A...A ring return / chiasm (was 'circles')."
+              },
+              {
+                "handle": "SHAPE_LEAP",
+                "definition": "a non-logical jump between moves (was 'associative-leap')."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "SONIC",
+        "scope": "in-text",
+        "gloss": "in-text SOUND (computed): rhyme / assonance / alliteration / consonance.",
+        "subfamilies": [
+          {
+            "subfamily": "SONIC",
+            "types": [
+              {
+                "handle": "SONIC_RHYME",
+                "definition": "terminal-phonology tie between words (sound owns 'rhyme')."
+              },
+              {
+                "handle": "SONIC_ASSONANCE",
+                "definition": "shared stressed-vowel tie."
+              },
+              {
+                "handle": "SONIC_ALLITERATION",
+                "definition": "shared onset-consonant tie."
+              },
+              {
+                "handle": "SONIC_CONSONANCE",
+                "definition": "shared consonant-set tie."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "edge_record": [
+      {
+        "field": "edge_kind",
+        "vocab": [
+          "LINKAGE",
+          "LINEAGE",
+          "RESONANCE",
+          "SHAPE",
+          "SONIC",
+          "NONE"
+        ],
+        "closed": true,
+        "multi": false,
+        "candidate": "rare"
+      },
+      {
+        "field": "edge_type",
+        "vocab": [
+          "FEED",
+          "FILLS",
+          "NEST_CONTAINS",
+          "NEST_COMPOSES",
+          "NEST_REPORTS",
+          "LINK_SEQUENCE",
+          "LINK_CAUSE",
+          "LINK_CONTRAST",
+          "LINK_CONDITION",
+          "LINK_CORRECTION",
+          "LINK_SUPPORT",
+          "LINK_ELABORATES",
+          "LINK_BACKGROUND",
+          "LINK_OTHER",
+          "CITES",
+          "REUSES",
+          "BEQUEATHS",
+          "RE-READS",
+          "INHERITS-ACROSS",
+          "MATCH",
+          "ANALOGY",
+          "COUNTERS",
+          "INVERTS",
+          "SHAPE_PARALLELISM",
+          "SHAPE_JUXTAPOSITION",
+          "SHAPE_RING",
+          "SHAPE_LEAP",
+          "SONIC_RHYME",
+          "SONIC_ASSONANCE",
+          "SONIC_ALLITERATION",
+          "SONIC_CONSONANCE"
+        ],
+        "closed": true,
+        "multi": "one per edge; MULTIPLE edges per connection",
+        "candidate": "open (propose -> review; LINK_other is the catch-bucket)"
+      },
+      {
+        "field": "direction",
+        "vocab": [
+          "forward",
+          "backward",
+          "nonlocal",
+          "same-span"
+        ],
+        "closed": true,
+        "multi": false,
+        "candidate": "rare"
+      },
+      {
+        "field": "warrant",
+        "vocab": [
+          "explicit-marker",
+          "grammatical",
+          "lexical",
+          "structural",
+          "world-knowledge",
+          "analyst-inference"
+        ],
+        "closed": true,
+        "multi": false,
+        "candidate": "rare",
+        "note": "how we know the edge is there (the coherence-coercion guard: upgrades cost evidence)"
+      },
+      {
+        "field": "target_level",
+        "vocab": [
+          "move",
+          "set",
+          "spine",
+          "edge",
+          "gap"
+        ],
+        "closed": true,
+        "multi": false,
+        "candidate": "rare",
+        "note": "'edge' = UNDERCUTS an inference, not a move"
+      },
+      {
+        "field": "from_moves / to_move",
+        "vocab": null,
+        "closed": false,
+        "multi": "from is a LIST",
+        "candidate": "n/a"
+      }
+    ],
+    "modifiers": {
+      "FEED": {
+        "causes": "A deterministically brings B about",
+        "enables": "A makes B possible, does not force it"
+      },
+      "LINK_CONTRAST": {
+        "concedes": "B survives an expectation A raised (concession, not bare contrast)"
+      },
+      "RE-READS": {
+        "continuity": [
+          "faithful",
+          "revised",
+          "break"
+        ]
+      },
+      "ANALOGY_axes": {
+        "match_strength": [
+          "exact",
+          "partial",
+          "surface"
+        ],
+        "failed_dimension": [
+          "operation",
+          "role",
+          "polarity",
+          "outcome",
+          "topology"
+        ],
+        "abstraction": [
+          "peer",
+          "subsumes"
+        ],
+        "direction": [
+          "aligned",
+          "reversed"
+        ],
+        "scope": [
+          "intra-text",
+          "intertext",
+          "cross-tradition"
+        ]
+      }
+    },
+    "firewall": "non-entailment: edges of different KINDs may coexist on one pair; no edge in one KIND licenses an inference in another. RESONANCE is named broadly and holds BOTH convergence (ANALOGY) and divergence (COUNTERS/INVERTS - a tradition standing AGAINST another), so opposition is coded under RESONANCE, not elsewhere. A RESONANCE edge asserts NEITHER contact NOR independence - it is a bare structural correspondence; contact and independence are SEPARATE downstream verdicts. Coding discipline (final-CRT): (a) when a SHAPE edge does LINKAGE's work (antithetic parallelism, juxtaposition that implies a contrast), CODE BOTH - the SHAPE form AND the LINKAGE it carries (the carrier bridge), so the logic is never left uncoded; (b) a co-present LINEAGE edge (documented contact) is EVIDENCE the downstream contact-verdict weighs toward contact - the RESONANCE edge itself still claims nothing; the firewall is that no KIND's edge auto-decides another KIND's verdict (the no-auto-decide rule)."
+  },
+  "the_method_applied": {
+    "source_key": "MARK-16-WEB",
+    "run_tag": "edge_grammar_v1_2026-08-09",
+    "edge_count": 78,
+    "distribution": [
+      {
+        "type": "NEST_REPORTS",
+        "n": 19
+      },
+      {
+        "type": "LINK_SEQUENCE",
+        "n": 19
+      },
+      {
+        "type": "NEST_COMPOSES",
+        "n": 7
+      },
+      {
+        "type": "LINK_SUPPORT",
+        "n": 6
+      },
+      {
+        "type": "SHAPE_PARALLELISM",
+        "n": 5
+      },
+      {
+        "type": "LINK_CAUSE",
+        "n": 5
+      },
+      {
+        "type": "FEED",
+        "n": 5
+      },
+      {
+        "type": "LINK_CONTRAST",
+        "n": 5
+      },
+      {
+        "type": "LINK_ELABORATES",
+        "n": 2
+      },
+      {
+        "type": "FILLS",
+        "n": 1
+      },
+      {
+        "type": "LINK_OTHER",
+        "n": 1
+      },
+      {
+        "type": "SHAPE_JUXTAPOSITION",
+        "n": 1
+      },
+      {
+        "type": "SHAPE_LEAP",
+        "n": 1
+      },
+      {
+        "type": "SHAPE_RING",
+        "n": 1
+      }
+    ],
+    "note": "The grammar run on Mark 16 (78 edges). The weakest relation (LINK_sequence) is the default; FEED (literal output to input) is used sparingly; the negative-polarity relations (LINK_contrast) that had no home before are in use.",
+    "worked_edges": [
+      {
+        "from": [
+          "M45"
+        ],
+        "to": "M46",
+        "edge_type": "SHAPE_PARALLELISM",
+        "direction": null,
+        "warrant": null,
+        "from_plain": "He generalises: the one who trusts the message and u...",
+        "to_plain": "He states the counter-generalisation: the one who re..."
+      },
+      {
+        "from": [
+          "M47"
+        ],
+        "to": "M51",
+        "edge_type": "NEST_COMPOSES",
+        "direction": "forward",
+        "warrant": "structural",
+        "from_plain": "He announces that a set of confirming marks will att...",
+        "to_plain": "Fourth listed sign: any lethal drink they consume wi..."
+      },
+      {
+        "from": [
+          "M42"
+        ],
+        "to": "M43",
+        "edge_type": "NEST_REPORTS",
+        "direction": "forward",
+        "warrant": "grammatical",
+        "from_plain": "He then addresses commissioning speech to the eleven...",
+        "to_plain": "He orders them to travel out across the whole world."
+      },
+      {
+        "from": [
+          "M42"
+        ],
+        "to": "M56",
+        "edge_type": "LINK_CAUSE",
+        "direction": "forward",
+        "warrant": "structural",
+        "from_plain": "He then addresses commissioning speech to the eleven...",
+        "to_plain": "The commissioned disciples set out from the scene."
+      },
+      {
+        "from": [
+          "M8"
+        ],
+        "to": "M9",
+        "edge_type": "LINK_SEQUENCE",
+        "direction": "forward",
+        "warrant": "structural",
+        "from_plain": "The women cross the threshold into the burial chambe...",
+        "to_plain": "Inside, they perceive an unfamiliar figure seated in..."
+      },
+      {
+        "from": [
+          "M52"
+        ],
+        "to": "M53",
+        "edge_type": "FEED",
+        "direction": "forward",
+        "warrant": "structural",
+        "from_plain": "Fifth listed sign: they will place their hands upon ...",
+        "to_plain": "And the ill will regain health."
+      },
+      {
+        "from": [
+          "M23"
+        ],
+        "to": "M24",
+        "edge_type": "LINK_SEQUENCE",
+        "direction": "forward",
+        "warrant": "structural",
+        "from_plain": "The women bolt out of the burial chamber in flight.",
+        "to_plain": "An overwhelming state of shaking and shock has settl..."
+      },
+      {
+        "from": [
+          "M1"
+        ],
+        "to": "M2",
+        "edge_type": "LINK_SEQUENCE",
+        "direction": "forward",
+        "warrant": "explicit-marker",
+        "from_plain": "The three named women acquire burial ointments once ...",
+        "to_plain": "At first light on the week's first day the same wome..."
+      }
+    ],
+    "out_of_domain": {
+      "note": "the same grammar re-coded out of domain (§2.14). The distribution differs by genre without being tailored: narrative Mark is sequence-led; the Daodejing is contrast-led (apophatic). Evidence the grammar differentiates, not force-fits.",
+      "texts": [
+        {
+          "source_key": "MARK-16-GRC",
+          "axis": "language axis (Greek)",
+          "edges": 79,
+          "top": [
+            {
+              "type": "LINK_SEQUENCE",
+              "n": 17
+            },
+            {
+              "type": "NEST_REPORTS",
+              "n": 12
+            },
+            {
+              "type": "LINK_CAUSE",
+              "n": 9
+            }
+          ]
+        },
+        {
+          "source_key": "TTC-CH1-EN",
+          "axis": "content axis (Daodejing ch.1)",
+          "edges": 17,
+          "top": [
+            {
+              "type": "LINK_CONTRAST",
+              "n": 4
+            },
+            {
+              "type": "SHAPE_PARALLELISM",
+              "n": 3
+            },
+            {
+              "type": "LINK_ELABORATES",
+              "n": 3
+            }
+          ]
+        }
+      ]
+    },
+    "resonance_worked_example": {
+      "edge_id": "CE-RESON-MATCH-mark16web-ttcch1en-001",
+      "braid_key": "BRAID-MARK16WEB-TTCCH1EN",
+      "edge_type": "MATCH",
+      "confidence": "med",
+      "from": {
+        "move_id": "SM-41082086a4068e",
+        "source_key": "TTC-CH1-EN",
+        "operation": "is-not",
+        "plain": "A way that can be walked or spoken is disqualified from being the abiding way."
+      },
+      "to": {
+        "move_id": "SM-12407e80f3d5c3",
+        "source_key": "MARK-16-WEB",
+        "operation": "negate (he is not here)",
+        "plain": "He denies that he is present in the tomb."
+      },
+      "match_strength": "strong on the MOVE: both are a negation-as-redirection ('not this / not here') that opens onto something beyond the negated thing.",
+      "failed_dimension": "temporality/ontology: DDJ's negation is a PERMANENT apophatic condition (the Dao is forever beyond naming); Mark's is a SINGULAR kerygmatic EVENT (the empty tomb points to 'he is risen, go to Galilee' - a positive claim, not standing ineffability).",
+      "note": "the ONE worked example the RESONANCE frontier owes (not a scale run): a 2-term MATCH across traditions. The failed_dimension is where the rhyme BREAKS - the honest half of the comparison."
+    },
+    "the_missing_edge": "The negative-space read: a move with NO edge into it is unmotivated; a claim with no LINK_support is an assertion the text never grounds; a move with no cross-text MATCH partner is a rhyme that is not there. These absences are the between-move silence the gap-finder reads. RESONANCE has ONE worked MATCH (below), not a scaled run - the missing-rhyme read stays a frontier until it is coded at breadth."
+  },
+  "where_saved": {
+    "store": "connect_edge",
+    "home_row": "gut-8268_016_v1",
+    "key": "MARK-16-WEB",
+    "plain": "The edges save to connect_edge (one row per edge; from_moves is a LIST, so many-to-one bundling is one row), keyed on the method key MARK-16-WEB and joined to the text's checkout home (gut-8268_016_v1). Readers filter to the current grammar version's latest run (the read rule), never bare source_key. LINEAGE edges reconcile with lineage_record (Situate's Lineage view, one store)."
+  },
+  "honest_limits": [
+    "LINKAGE (logic) and SHAPE (form) are coded on all three texts. SONIC (sound) is computed separately at word-level (a different granularity, not this pass); RESONANCE (cross-tradition correspondence) has ONE worked MATCH (Mark <-> Daodejing) - a definition-plus-one-example frontier, NOT a scaled run, so it earns no green pill; the worked example proves the type codes, breadth is the next pass.",
+    "The two taxonomy questions the final CRT raised are now RESOLVED (PI CLC walk, 2026-08-09): (1) simple 2-term convergence gained a home - MATCH ('same move, different voice') sits beside 4-term ANALOGY under RESONANCE:CONVERGENCE; (2) RESONANCE is now honestly labeled scope=both (in-text OR cross-text), not mis-filed as cross-text-only - a text can rhyme with itself (in-text != in-chunk), and an edge's actual scope is read off its endpoints.",
+    "Inherent discourse-relation ambiguity (shared with RST/PDTB): LINK_CAUSE vs LINK_SUPPORT ('because') and FEED vs LINK_CAUSE are genuine coder coin-flips - handled by the weakest-default + the explicit warrant field + the LINK_OTHER candidate escape hatch, not eliminated.",
+    "One coder, one model, one pass, engine-proposed, not reliability-tested. FEED is judged locally; a skip or branch relation may be under-connected.",
+    "LINEAGE is coded only when a reception target exists; the unify-with-lineage_record reconciliation is pending."
+  ],
+  "made_by": [
+    "scripts/lib/connect_edge_vocab.py (the single-source grammar, edge_grammar_v1)",
+    "scripts/database/migrations/2026-08-09_s162_connect_edge_grammar_v1.sql (the connect_edge store + CHECKs)",
+    "scripts/analysis/engine_connect_coder_s162.py (the coder)",
+    "scripts/analysis/sprint_invariants/connect_edge_grammar_drift_check.py (the Layer-3 drift-check)",
+    "scripts/analysis/build_connect_node_drawer_data_s162.py (this card's data)"
+  ],
+  "whats_next": "The spine + bundling feed the braid; the gap-finder reads the edges (the edges scaffold the gaps); Situate runs alongside (its Lineage view reconciles with the LINEAGE edges). RESONANCE is the next coding frontier - one worked cross-tradition ANALOGY (Mark <-> Daodejing) before scale.",
+  "foundation": {
+    "leans_on": [
+      "the discourse joins (LINK_) lean on Rhetorical Structure Theory / PDTB / SDRT",
+      "the ANALOGY leans on Gentner structure-mapping (systematicity) + SKOS match-grades",
+      "the firewall leans on the comparative method (cognate / borrowed / independent)",
+      "the SHAPE / SONIC carrier leans on Jakobson's projection principle (form generates meaning)",
+      "LINEAGE leans on Genette (transtextuality)",
+      "the missing-edge / unsaid leans on presupposition theory",
+      "SONIC leans on articulatory phonology (via pronouncing + panphon)"
+    ],
+    "how_we_arrived": "the S162 orient -> define -> check-engine -> run trail: the 3 DR-14 cohorts (GPT / Fable / Gemini DR), the 4-agent blind CRT, the Mark-16 pilot, the PI walk, and the edge-grammar Decision."
+  },
+  "research_view": {
+    "receipt": {
+      "method_key": "MARK-16-WEB",
+      "run_tag": "edge_grammar_v1_2026-08-09",
+      "edges": 78,
+      "types_used": 14,
+      "types_available": 31
+    },
+    "how_to_run": {
+      "code the edges": "./scripts/_run_python.sh scripts/analysis/engine_connect_coder_s162.py --source-key MARK-16-WEB",
+      "refresh this card": "./scripts/_run_python.sh scripts/analysis/build_connect_node_drawer_data_s162.py",
+      "the read rule": "reads filter to CURRENT_GRAMMAR (edge_grammar_v1) + the latest date for the source_key, never bare source_key (CONVENTION_run_tag_versioned_coding_s162)."
+    },
+    "data_source": "connect_edge (edge_grammar_v1_2026-08-09) filtered by the read rule; source_move for paraphrases; connect_edge_vocab (single source).",
+    "decision_trail": "IRR179 · IRR184/Decision 163 · IRR202 · IRR204 · IRR208 · IRR214 · IRR219 · 3DR-14 · the 4-agent CRT + the Mark-16 pilot · the PI walk · the edge-grammar Decision."
+  },
+  "fidelity": {
+    "status": "PASS",
+    "date": "2026-08-09",
+    "missing_columns": [],
+    "vocab_drift": [],
+    "meta_line": "Fidelity PASS (2026-08-09, mechanical): every drawer label maps to a real connect_edge column; no coded edge_type is outside the single-source vocab (drift-check PASS)."
+  },
+  "cold_read": {
+    "status": "PASS",
+    "date": "2026-08-09",
+    "run_doc": "pm/30_methodology/engine/COLDREAD_connect_run_2026-08-09.md",
+    "meta_line": "Cold Read PASS (2026-08-09): independent blind agent, no project context, ruled the card self-sufficient (round 3). Rounds 1-2 came back PARTIAL and were fixed to convergence: round 1 caught stale terms (transmission / constellation / analogy prose) + an assumes-pipeline gap; round 2 caught an unglossed method/storage-vocab cluster. Fixes (all render-from-data): the what_it_is + foundation prose rewritten to the 5 KINDs; a pipeline_context gloss (move / Decompose / Situate / spine / braid / gap-finder / strand / golden path / checkout home); a how_we_grade_it gloss (the 4 checks + the 4 result categories + closed/multi/candidate); the SHAPE coded-vs-not-coded self-contradiction corrected. Round 3 confirmed no contradictions + no stale vocabulary in live use."
+  },
+  "vs_wild": {
+    "status": "PASS",
+    "date": "2026-08-09",
+    "run_doc": "pm/50_audits/VS_WILD_connect_run_2026-08-09.md",
+    "meta_line": "Instrument-vs-wild PASS (2026-08-09, LAYER-SCOPED, FULLY RUN on 3 texts after the SHAPE pass). Naive readers on Mark-EN (31 relations) / Greek (21) / Daodejing (14) were each covered by the instrument's LINKAGE + SHAPE coding, which adds systematic edge-typing + warrant. The SHAPE relations the readers foregrounded are now coded: DDJ parallelism (M1->M2, M3->M4 - exact match), Mark + Greek rings. Genre picks its edge-KIND (narrative->LINKAGE, apophatic wisdom->SHAPE). SONIC (word-level, computed) + RESONANCE (cross-tradition frontier) are separate passes. Instance-selection varies between a single coder pass and a reader (a reliability question, not a coverage gap). Earlier meta:",
+    "_superseded_meta": "Instrument-vs-wild PARTIAL (2026-08-09, LAYER-SCOPED). A naive reader given the moves ALONE produced 31 relations on Mark 16; the instrument's LINKAGE coding covers its logical relations AND adds systematic edge-typing + warrant + the weakest-default discipline. Run out-of-domain (§2.14) on all 3 texts: MARK-EN + Greek = clean LINKAGE PASS; the Daodejing = LINKAGE PASS but the naive reader foregrounds PARALLELISM (a SHAPE relation) - the SHAPE pass is owed. The relations the LINKAGE layer did not code (Mark's M11->M20 RING; the DDJ's parallelism) are SHAPE edges, a different layer, not a LINKAGE miss - evidence the layers are real and that genre picks its edge-KIND (narrative->LINKAGE, wisdom->SHAPE). PASS for the LINKAGE layer; the full-stack awaits the SHAPE + SONIC + RESONANCE passes."
+  }
+}

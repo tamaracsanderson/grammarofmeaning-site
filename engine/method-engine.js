@@ -529,6 +529,8 @@ function openDrawer(id) {
   aside.appendChild(el("h2", null, node.label));
   aside.appendChild(el("p", "me-drawer-fn", node.function));
 
+  // Connect: its own 12-section drawer shape (header/cold_read/the_method_clean/applied), distinct from Text/Decompose
+  if (id === "connect") { renderConnectDrawer(aside, node); host.appendChild(aside); return; }
   // Golden-path step drawers: fully custom, rendered from each step's generated file (the neutral feed)
   if (STEP_DATA[id]) { renderStepDrawer(aside, node); host.appendChild(aside); return; }
 
@@ -677,7 +679,7 @@ function wipBadge(text) { return el("p", "me-wip-badge", text); }
 /* status pills near the title — render whichever of fidelity / crt (Cold Read) / vs_wild the card carries.
    PASS = green; PENDING = amber (honest: not yet re-run, never a false green); PARTIAL/FAIL = terracotta. */
 function renderStatusPills(host, D) {
-  var order = [["fidelity", "Fidelity"], ["crt", "Cold Read"], ["vs_wild", "vs-Wild"]];
+  var order = [["fidelity", "Fidelity"], ["crt", "Cold Read"], ["cold_read", "Cold Read"], ["vs_wild", "vs-Wild"]];
   var wrap = el("div", "me-crt"), any = false;
   order.forEach(function (pair) {
     var p = D[pair[0]];
@@ -690,19 +692,26 @@ function renderStatusPills(host, D) {
     wrap.appendChild(pill);
   });
   if (!any) return;
-  if (D.crt && D.crt.checks) wrap.appendChild(el("span", "me-crt-checks", "checked: " + D.crt.checks));
+  var chk = D.crt || D.cold_read;
+  if (chk && chk.checks) wrap.appendChild(el("span", "me-crt-checks", "checked: " + chk.checks));
   host.appendChild(wrap);
   // the run doc is a repo path (not web-served), so surface it as a visible path, not a 404-ing link
-  if (D.crt && D.crt.run_doc) host.appendChild(el("p", "me-crt-run", "run: " + D.crt.run_doc));
+  var rd = (D.crt && D.crt.run_doc) || (D.cold_read && D.cold_read.run_doc);
+  if (rd) host.appendChild(el("p", "me-crt-run", "run: " + rd));
 }
 
 /* Foundation (template section 11): the established scholarship each part of the method stands on, stated openly.
    Serves both cards (frameworks[].grounds is an array on Decompose, a string on Text — handle both). */
 function renderFoundation(host, f) {
-  if (!f || !(f.note || (f.frameworks && f.frameworks.length) || (f.prior_work && f.prior_work.length))) return;
+  if (!f || !(f.note || (f.frameworks && f.frameworks.length) || (f.leans_on && f.leans_on.length) || (f.prior_work && f.prior_work.length))) return;
   var s = el("div", "me-drawer-section me-foundation");
   s.appendChild(el("h3", null, "Foundation"));
   if (f.note) s.appendChild(el("p", "me-drawer-p", f.note));
+  if (f.leans_on && f.leans_on.length) { // Connect shape: a flat list of "what it leans on"
+    var lo = el("ul", "me-drawer-list");
+    f.leans_on.forEach(function (x) { lo.appendChild(el("li", null, x)); });
+    s.appendChild(lo);
+  }
   if (f.frameworks && f.frameworks.length) {
     var ul = el("ul", "me-drawer-list");
     f.frameworks.forEach(function (fw) {
@@ -857,6 +866,161 @@ function renderGrammar(g) {
     });
   });
   return wrap;
+}
+
+/* ---- Connect drawer (the third engine drawer; a distinct 12-section shape) ---- */
+function renderConnectGrammar(host, mc) {
+  var s = el("div", "me-drawer-section me-anatomy");
+  s.appendChild(el("h3", null, "The method (clean): the edge grammar"));
+  if (mc.note) s.appendChild(el("p", "me-drawer-p", mc.note));
+  (mc.grammar || []).forEach(function (k) {
+    var kb = el("div", "me-ckind");
+    var head = el("p", "me-ckind-head");
+    head.appendChild(el("b", "me-ckind-name", k.kind || ""));
+    if (k.scope) head.appendChild(el("span", "me-ckind-scope", k.scope));
+    kb.appendChild(head);
+    if (k.gloss) kb.appendChild(el("p", "me-ckind-gloss", k.gloss));
+    (k.subfamilies || []).forEach(function (sf) {
+      (sf.types || []).forEach(function (t) {
+        var row = el("p", "me-gram-mod-row");
+        row.appendChild(el("b", "me-def-mod", t.handle || ""));
+        if (t.definition) row.appendChild(document.createTextNode(" " + t.definition));
+        kb.appendChild(row);
+      });
+    });
+    s.appendChild(kb);
+  });
+  host.appendChild(s);
+}
+function renderConnectApplied(host, ma) {
+  var s = el("div", "me-drawer-section");
+  s.appendChild(el("h3", null, "The method applied: Mark 16"));
+  s.appendChild(el("p", "me-drawer-p", "The grammar run on " + (ma.source_key || "Mark 16") + ": " + (ma.edge_count != null ? ma.edge_count : "several") + " edges."));
+  if (ma.note) s.appendChild(el("p", "me-drawer-caption", ma.note));
+  if (ma.distribution && ma.distribution.length) {
+    var max = Math.max.apply(null, ma.distribution.map(function (d) { return d.n || 0; })) || 1;
+    var dl = el("div", "me-dist");
+    ma.distribution.forEach(function (d) {
+      var row = el("div", "me-dist-row");
+      row.appendChild(el("span", "me-dist-type", d.type));
+      var bar = el("span", "me-dist-bar"); var fill = el("i"); fill.style.width = Math.round((d.n / max) * 100) + "%"; bar.appendChild(fill); row.appendChild(bar);
+      row.appendChild(el("span", "me-dist-n", String(d.n)));
+      dl.appendChild(row);
+    });
+    s.appendChild(dl);
+  }
+  host.appendChild(s);
+  if (ma.worked_edges && ma.worked_edges.length) {
+    var we = el("div", "me-drawer-section"); we.appendChild(el("h3", null, "Worked edges"));
+    var list = el("div", "me-move-list");
+    ma.worked_edges.forEach(function (e) {
+      var b = el("div", "me-move-block");
+      var head = el("p", "me-move-head");
+      head.appendChild(el("span", "me-move-badge", (Array.isArray(e.from) ? e.from.join("+") : e.from) + " → " + e.to));
+      head.appendChild(el("span", "me-cedge-type", e.edge_type || ""));
+      b.appendChild(head);
+      if (e.from_plain) b.appendChild(el("p", "me-cedge-plain", e.from_plain));
+      if (e.to_plain) b.appendChild(el("p", "me-cedge-plain", "→ " + e.to_plain));
+      list.appendChild(b);
+    });
+    we.appendChild(list); host.appendChild(we);
+  }
+  if (ma.out_of_domain && ma.out_of_domain.texts && ma.out_of_domain.texts.length) {
+    var od = el("div", "me-drawer-section me-validated"); od.appendChild(el("h3", null, "Validated out-of-domain"));
+    if (ma.out_of_domain.note) od.appendChild(el("p", "me-drawer-p", ma.out_of_domain.note));
+    var vl = el("div", "me-val-list");
+    ma.out_of_domain.texts.forEach(function (t) {
+      var row = el("div", "me-val-row");
+      var h = el("p", "me-val-head"); h.appendChild(el("b", null, t.source_key || "")); if (t.axis) h.appendChild(el("span", "me-val-axis", " (" + t.axis + ")")); row.appendChild(h);
+      var sig = (t.edges != null ? t.edges + " edges" : "") + (t.top && t.top.length ? " · top: " + t.top.map(function (x) { return x.type + " ×" + x.n; }).join(", ") : "");
+      if (sig) row.appendChild(el("p", "me-val-signal", sig));
+      vl.appendChild(row);
+    });
+    od.appendChild(vl); host.appendChild(od);
+  }
+  if (ma.resonance_worked_example) {
+    var r = ma.resonance_worked_example;
+    var rb = el("div", "me-drawer-section me-m23"); rb.appendChild(el("h3", null, "RESONANCE: the one worked match (frontier)"));
+    var grid = el("div", "me-m23-grid");
+    var col = function (tag, txt, cls) { var c = el("div", "me-m23-col " + cls); c.appendChild(el("span", "me-m23-tag", tag)); c.appendChild(el("p", "me-m23-text", txt || "")); return c; };
+    grid.appendChild(col((r.from && r.from.source_key) || "from", (r.from && r.from.plain) || "", "is-paraphrase"));
+    grid.appendChild(col((r.to && r.to.source_key) || "to", (r.to && r.to.plain) || "", "is-verbatim"));
+    rb.appendChild(grid);
+    if (r.edge_type || r.confidence) rb.appendChild(el("p", "me-m23-caption", (r.edge_type || "") + (r.confidence ? " · confidence " + r.confidence : "")));
+    if (r.match_strength) rb.appendChild(el("p", "me-m23-caption", "Match: " + r.match_strength));
+    if (r.failed_dimension) rb.appendChild(el("p", "me-m23-caption", "Where it fails: " + r.failed_dimension));
+    host.appendChild(rb);
+  }
+  if (ma.the_missing_edge) {
+    var mm = el("div", "me-drawer-section"); mm.appendChild(el("h3", null, "The missing edge"));
+    mm.appendChild(el("p", "me-drawer-p", ma.the_missing_edge)); host.appendChild(mm);
+  }
+}
+function renderConnectResearch(host, rv) {
+  var det = el("details", "me-research"); det.appendChild(el("summary", null, "show the research view"));
+  var body = el("div", "me-research-body");
+  if (rv.receipt) { body.appendChild(el("h4", null, "the receipt")); var ul = el("ul", "me-drawer-list"); Object.keys(rv.receipt).forEach(function (k) { ul.appendChild(el("li", null, k + ": " + rv.receipt[k])); }); body.appendChild(ul); }
+  if (rv.how_to_run) {
+    body.appendChild(el("h4", null, "how to run it"));
+    Object.keys(rv.how_to_run).forEach(function (k) {
+      var v = rv.how_to_run[k]; if (typeof v !== "string") return;
+      if (/^\.\//.test(v.trim())) { body.appendChild(el("p", "me-htr-step", k)); var pre = el("pre", "me-code"); pre.textContent = v; body.appendChild(pre); }
+      else { var p = el("p", "me-htr-step"); p.appendChild(el("b", null, k + ": ")); p.appendChild(document.createTextNode(v)); body.appendChild(p); }
+    });
+  }
+  det.appendChild(body); host.appendChild(det);
+}
+function renderConnectDrawer(aside, node) {
+  var host = el("div", "me-checkout");
+  host.appendChild(el("p", "me-drawer-p", "loading…"));
+  aside.appendChild(host);
+  var paint = function () {
+    var D = STEP_CACHE["connect"] || {};
+    host.textContent = "";
+    renderStatusPills(host, D); // fidelity / cold_read / vs_wild (RESONANCE deliberately carries no pill)
+    var hdr = D.header || {};
+    if (hdr.subtitle) host.appendChild(el("p", "me-drawer-sub", hdr.subtitle));
+    if (hdr.grammar_version || hdr.run_tag) host.appendChild(el("p", "me-crt-run", (hdr.grammar_version || "") + (hdr.run_tag ? " · " + hdr.run_tag : "")));
+    var sect = function (h, p) { if (!p) return; var s = el("div", "me-drawer-section"); s.appendChild(el("h3", null, h)); s.appendChild(el("p", "me-drawer-p", p)); host.appendChild(s); };
+    sect("What it is", D.what_it_is);
+    sect("Why it matters", D.why_it_matters);
+    if (D.how_it_works) {
+      var hw = D.how_it_works, s = el("div", "me-drawer-section"); s.appendChild(el("h3", null, "How it works"));
+      [["you give it", hw.you_give_it], ["the method does", hw.the_method_does], ["you get back", hw.you_get_back]].forEach(function (p) {
+        if (!p[1]) return; var row = el("p", "me-htr-step"); row.appendChild(el("b", null, p[0] + ": ")); row.appendChild(document.createTextNode(p[1])); s.appendChild(row);
+      });
+      host.appendChild(s);
+    }
+    var glossSection = function (title, obj) {
+      if (!obj) return;
+      var s = el("div", "me-drawer-section"); s.appendChild(el("h3", null, title));
+      if (obj.note) s.appendChild(el("p", "me-drawer-caption", obj.note));
+      var ul = el("ul", "me-drawer-list");
+      Object.keys(obj).forEach(function (k) { if (k === "note" || typeof obj[k] !== "string") return; var li = el("li"); li.appendChild(el("b", "me-fw-name", k)); li.appendChild(document.createTextNode(": " + obj[k])); ul.appendChild(li); });
+      s.appendChild(ul); host.appendChild(s);
+    };
+    glossSection("Pipeline context", D.pipeline_context);
+    glossSection("How we grade it", D.how_we_grade_it);
+    if (D.the_method_clean) renderConnectGrammar(host, D.the_method_clean);
+    if (D.the_method_applied) renderConnectApplied(host, D.the_method_applied);
+    if (D.where_saved) {
+      var ws = el("div", "me-drawer-section"); ws.appendChild(el("h3", null, "Where the work is saved"));
+      if (D.where_saved.plain) ws.appendChild(el("p", "me-drawer-p", D.where_saved.plain));
+      if (D.where_saved.store) { var hb = el("div", "me-home"); hb.appendChild(el("span", "me-home-tag", "✓ " + D.where_saved.store + (D.where_saved.home_row ? " · " + D.where_saved.home_row : "") + (D.where_saved.key ? " · " + D.where_saved.key : ""))); ws.appendChild(hb); }
+      host.appendChild(ws);
+    }
+    if (D.honest_limits && D.honest_limits.length) { var hl = el("div", "me-drawer-section me-limits"); hl.appendChild(el("h3", null, "Honest limits")); var u = el("ul", "me-drawer-list"); D.honest_limits.forEach(function (x) { u.appendChild(el("li", null, x)); }); hl.appendChild(u); host.appendChild(hl); }
+    if (D.made_by && D.made_by.length) { var mb = el("div", "me-drawer-section"); mb.appendChild(el("h3", null, "Made by")); var u2 = el("ul", "me-drawer-list"); D.made_by.forEach(function (x) { u2.appendChild(el("li", null, x)); }); mb.appendChild(u2); host.appendChild(mb); }
+    if (D.whats_next) sect("What's next", D.whats_next);
+    if (D.foundation) renderFoundation(host, D.foundation);
+    if (D.research_view) renderConnectResearch(host, D.research_view);
+  };
+  if (STEP_CACHE["connect"]) { paint(); } else {
+    fetch("./data/goldenpath/mark16/connect_node_drawer.json")
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (x) { STEP_CACHE["connect"] = x; paint(); })
+      .catch(function () { STEP_CACHE["connect"] = {}; paint(); });
+  }
 }
 
 function renderStepDrawer(aside, node) {
