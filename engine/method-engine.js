@@ -530,7 +530,7 @@ function openDrawer(id) {
   aside.appendChild(el("p", "me-drawer-fn", node.function));
 
   // Connect: its own 12-section drawer shape (header/cold_read/the_method_clean/applied), distinct from Text/Decompose
-  if (id === "connect") { renderConnectDrawer(aside, node); host.appendChild(aside); return; }
+  if (CONNECT_STYLE[id]) { renderConnectDrawer(aside, node); host.appendChild(aside); return; }
   // Golden-path step drawers: fully custom, rendered from each step's generated file (the neutral feed)
   if (STEP_DATA[id]) { renderStepDrawer(aside, node); host.appendChild(aside); return; }
 
@@ -648,6 +648,8 @@ function closeDrawer() {
 
 /* ---- Golden-path step drawers: render from each step's single generated file (the neutral feed) ---- */
 var STEP_DATA = { text: "text_node_drawer.json", decompose: "decompose_node_drawer.json" };
+// Connect-style 12-section drawers (header / the_method_clean / the_method_applied) — Connect + the Situate node + its Frame/Lineage sub-engines
+var CONNECT_STYLE = { connect: "connect_node_drawer.json", situate: "situate_node_drawer.json", frame: "frame_node_drawer.json", lineage: "lineage_node_drawer.json" };
 var STEP_CACHE = {}, CHECKOUT = null;
 function cleanVerbatim(t) {
   if (!t) return "";
@@ -686,9 +688,12 @@ function renderStatusPills(host, D) {
     if (!p || !p.status) return;
     any = true;
     var s = String(p.status).toUpperCase();
-    var pill = el("span", "me-crt-pill is-" + s.toLowerCase(),
-      pair[1] + ": " + s + (p.date ? " · " + p.date : ""));
-    if (p.meta_line) pill.setAttribute("title", p.meta_line);
+    // bucket to a known colour; a descriptive/non-standard status (e.g. "n/a-at-parent-grain") reads as a muted n/a
+    var bucket = /^PASS$/.test(s) ? "pass" : /^PENDING$/.test(s) ? "pending" : /^PARTIAL$/.test(s) ? "partial" : /^FAIL$/.test(s) ? "fail" : "na";
+    var disp = bucket === "na" ? "n/a" : s;
+    var pill = el("span", "me-crt-pill is-" + bucket,
+      pair[1] + ": " + disp + (p.date && bucket !== "na" ? " · " + p.date : ""));
+    pill.setAttribute("title", p.meta_line || String(p.status)); // full status/explanation on hover
     wrap.appendChild(pill);
   });
   if (!any) return;
@@ -868,12 +873,10 @@ function renderGrammar(g) {
   return wrap;
 }
 
-/* ---- Connect drawer (the third engine drawer; a distinct 12-section shape) ---- */
-function renderConnectGrammar(host, mc) {
-  var s = el("div", "me-drawer-section me-anatomy");
-  s.appendChild(el("h3", null, "The method (clean): the edge grammar"));
-  if (mc.note) s.appendChild(el("p", "me-drawer-p", mc.note));
-  (mc.grammar || []).forEach(function (k) {
+/* ---- Connect-style drawers (12-section shape: Connect + the Situate node + its Frame/Lineage sub-engines) ---- */
+/* the KIND grammar (Connect): funnel + KINDs → subfamilies → types */
+function renderKindGrammar(host, grammar) {
+  (grammar || []).forEach(function (k) {
     var kb = el("div", "me-ckind");
     var head = el("p", "me-ckind-head");
     head.appendChild(el("b", "me-ckind-name", k.kind || ""));
@@ -888,7 +891,52 @@ function renderConnectGrammar(host, mc) {
         kb.appendChild(row);
       });
     });
-    s.appendChild(kb);
+    host.appendChild(kb);
+  });
+}
+/* generic value renderer — array-of-objects → labeled rows; array-of-strings → list; object → key:value list; string → para */
+function renderCleanValue(host, v) {
+  if (v == null) return;
+  if (typeof v === "string") { host.appendChild(el("p", "me-drawer-caption", v)); return; }
+  if (Array.isArray(v)) {
+    if (v.length && typeof v[0] === "object" && v[0] !== null) {
+      v.forEach(function (o) {
+        var row = el("p", "me-gram-mod-row");
+        var head = ["axis", "name", "field", "handle", "shape", "kind", "subfamily", "type"].filter(function (hk) { return o[hk]; })[0];
+        if (head) row.appendChild(el("b", "me-def-mod", String(o[head])));
+        var rest = Object.keys(o).filter(function (kk) { return kk !== head; }).map(function (kk) {
+          var val = o[kk]; return kk + ": " + (Array.isArray(val) ? val.join(", ") : (typeof val === "object" ? JSON.stringify(val) : val));
+        }).join(" · ");
+        if (rest) row.appendChild(document.createTextNode((head ? " · " : "") + rest));
+        host.appendChild(row);
+      });
+    } else {
+      var ul = el("ul", "me-drawer-list"); v.forEach(function (x) { ul.appendChild(el("li", null, String(x))); }); host.appendChild(ul);
+    }
+    return;
+  }
+  if (typeof v === "object") {
+    var ul2 = el("ul", "me-drawer-list");
+    Object.keys(v).forEach(function (kk) {
+      var val = v[kk], li = el("li");
+      li.appendChild(el("b", "me-fw-name", kk));
+      var txt = Array.isArray(val) ? val.join(", ") : (typeof val === "object" && val !== null ? Object.keys(val).map(function (x) { return x + ": " + (typeof val[x] === "object" ? JSON.stringify(val[x]) : val[x]); }).join(" · ") : val);
+      li.appendChild(document.createTextNode(": " + txt));
+      ul2.appendChild(li);
+    });
+    host.appendChild(ul2);
+  }
+}
+/* the method (clean): the KIND grammar (Connect) OR any other node's clean contract (Frame axes / Situate sub-engines / Lineage enums) */
+function renderConnectGrammar(host, mc) {
+  var s = el("div", "me-drawer-section me-anatomy");
+  s.appendChild(el("h3", null, "The method (clean)"));
+  if (mc.note) s.appendChild(el("p", "me-drawer-p", mc.note));
+  Object.keys(mc).forEach(function (k) {
+    if (k === "note" || k.charAt(0) === "_") return;
+    if (k === "grammar" && Array.isArray(mc[k])) { renderKindGrammar(s, mc[k]); return; }
+    s.appendChild(el("p", "me-mc-key", k.replace(/_/g, " ")));
+    renderCleanValue(s, mc[k]);
   });
   host.appendChild(s);
 }
@@ -975,7 +1023,7 @@ function renderConnectDrawer(aside, node) {
   host.appendChild(el("p", "me-drawer-p", "loading…"));
   aside.appendChild(host);
   var paint = function () {
-    var D = STEP_CACHE["connect"] || {};
+    var D = STEP_CACHE[node.id] || {};
     host.textContent = "";
     renderStatusPills(host, D); // fidelity / cold_read / vs_wild (RESONANCE deliberately carries no pill)
     var hdr = D.header || {};
@@ -1009,17 +1057,30 @@ function renderConnectDrawer(aside, node) {
       if (D.where_saved.store) { var hb = el("div", "me-home"); hb.appendChild(el("span", "me-home-tag", "✓ " + D.where_saved.store + (D.where_saved.home_row ? " · " + D.where_saved.home_row : "") + (D.where_saved.key ? " · " + D.where_saved.key : ""))); ws.appendChild(hb); }
       host.appendChild(ws);
     }
+    // seam reconciliation (Lineage only): are lineage_record + connect_edge one store or two?
+    if (D.seam_reconcile) {
+      var sr = D.seam_reconcile, sc = el("div", "me-drawer-section me-m23");
+      sc.appendChild(el("h3", null, "Seam reconciliation"));
+      if (sr.question) sc.appendChild(el("p", "me-drawer-p", sr.question));
+      if (sr.answer) sc.appendChild(el("p", "me-m23-caption", sr.answer));
+      if (sr.evidence && typeof sr.evidence === "object") {
+        var eu = el("ul", "me-drawer-list");
+        Object.keys(sr.evidence).forEach(function (k) { if (typeof sr.evidence[k] !== "string") return; var li = el("li"); li.appendChild(el("b", "me-fw-name", k)); li.appendChild(document.createTextNode(": " + sr.evidence[k])); eu.appendChild(li); });
+        sc.appendChild(eu);
+      }
+      host.appendChild(sc);
+    }
     if (D.honest_limits && D.honest_limits.length) { var hl = el("div", "me-drawer-section me-limits"); hl.appendChild(el("h3", null, "Honest limits")); var u = el("ul", "me-drawer-list"); D.honest_limits.forEach(function (x) { u.appendChild(el("li", null, x)); }); hl.appendChild(u); host.appendChild(hl); }
     if (D.made_by && D.made_by.length) { var mb = el("div", "me-drawer-section"); mb.appendChild(el("h3", null, "Made by")); var u2 = el("ul", "me-drawer-list"); D.made_by.forEach(function (x) { u2.appendChild(el("li", null, x)); }); mb.appendChild(u2); host.appendChild(mb); }
     if (D.whats_next) sect("What's next", D.whats_next);
     if (D.foundation) renderFoundation(host, D.foundation);
     if (D.research_view) renderConnectResearch(host, D.research_view);
   };
-  if (STEP_CACHE["connect"]) { paint(); } else {
-    fetch("./data/goldenpath/mark16/connect_node_drawer.json")
+  if (STEP_CACHE[node.id]) { paint(); } else {
+    fetch("./data/goldenpath/mark16/" + (CONNECT_STYLE[node.id] || "connect_node_drawer.json"))
       .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-      .then(function (x) { STEP_CACHE["connect"] = x; paint(); })
-      .catch(function () { STEP_CACHE["connect"] = {}; paint(); });
+      .then(function (x) { STEP_CACHE[node.id] = x; paint(); })
+      .catch(function () { STEP_CACHE[node.id] = {}; paint(); });
   }
 }
 
