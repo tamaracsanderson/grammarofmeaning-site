@@ -661,8 +661,23 @@
     },
     {
       "id": "connect_linkage",
-      "label": "Linkage",
-      "function": "one of the three edge kinds; its definition lands with the coder run",
+      "label": "LINKAGE",
+      "function": "one of the five edge kinds (in-text); its definition lands with the coder run",
+      "band": "connect",
+      "kind": "leaf",
+      "status": "specified",
+      "grain": "edges",
+      "requires": ["decompose"],
+      "produces": ["edge"],
+      "implementation": "specified",
+      "validation": "none",
+      "step": "2b",
+      "stage": "CONNECT"
+    },
+    {
+      "id": "connect_lineage",
+      "label": "LINEAGE",
+      "function": "one of the five edge kinds (cross-text); its definition lands with the coder run",
       "band": "connect",
       "kind": "leaf",
       "status": "specified",
@@ -676,8 +691,8 @@
     },
     {
       "id": "connect_resonance",
-      "label": "Resonance",
-      "function": "one of the three edge kinds; its definition lands with the coder run",
+      "label": "RESONANCE",
+      "function": "one of the five edge kinds (cross-text); its definition lands with the coder run",
       "band": "connect",
       "kind": "leaf",
       "status": "specified",
@@ -690,9 +705,24 @@
       "stage": "CONNECT"
     },
     {
-      "id": "connect_constellation",
-      "label": "Constellation",
-      "function": "one of the three edge kinds; its definition lands with the coder run",
+      "id": "connect_shape",
+      "label": "SHAPE",
+      "function": "one of the five edge kinds (in-text); its definition lands with the coder run",
+      "band": "connect",
+      "kind": "leaf",
+      "status": "specified",
+      "grain": "edges",
+      "requires": ["decompose"],
+      "produces": ["edge"],
+      "implementation": "specified",
+      "validation": "none",
+      "step": "2b",
+      "stage": "CONNECT"
+    },
+    {
+      "id": "connect_sonic",
+      "label": "SONIC",
+      "function": "one of the five edge kinds (in-text); its definition lands with the coder run",
       "band": "connect",
       "kind": "leaf",
       "status": "specified",
@@ -731,16 +761,10 @@
       "note": "Connect wires"
     },
     {
-      "from": "connect_linkage",
+      "from": "connect_lineage",
       "to": "lineage",
       "type": "shared",
-      "note": "one store: Connect writes the seam as an edge; Situate reads the same object as Lineage"
-    },
-    {
-      "from": "connect_resonance",
-      "to": "witness",
-      "type": "feeds",
-      "note": "Witness is built from the cross-tradition analogy (Resonance) edges"
+      "note": "one store: Connect writes the seam as an edge; Situate reads the same object as Lineage (references, what a text stands on)"
     },
     {
       "from": "decompose",
