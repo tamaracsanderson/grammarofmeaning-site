@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Plate — Mark 16:1–8</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600;0,9..144,400;0,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#0E0E0C;--ink-soft:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;
+--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;}
+:root[data-theme=light]{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#0E0E0C;--ink-soft:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink-soft);font-family:var(--serif);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.bar{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 20px;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(5px);border-bottom:1px solid var(--rule)}
+.bar a{font-family:var(--sans);font-size:13px;color:var(--fern);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fern) 40%,transparent)}
+.bar .rm{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+header.pg{max-width:44rem;margin:0 auto;padding:6vh 22px 1vh;text-align:center}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 12px}
+h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(30px,5.5vw,46px);line-height:1.1;color:var(--moss);margin:0 0 10px}
+.lede{font-family:var(--disp);font-style:italic;font-size:16.5px;color:var(--ink-2);max-width:34rem;margin:0 auto;line-height:1.5}
+.provwrap{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px auto 4px}
+.prov{font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;padding:3px 10px;border-radius:999px;border:1px solid var(--rule);color:var(--ink-3)}
+.prov b{color:var(--fern);font-weight:500}
+/* the plate */
+.plate{max-width:40rem;margin:3vh auto 0;padding:0 22px 8vh}
+.verse{display:grid;grid-template-columns:2.6rem 1fr;gap:0 14px;margin:0 0 4px;align-items:baseline}
+.vnum{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.06em;text-align:right;padding-top:.5em;user-select:none}
+.vtext{font-family:var(--serif);font-size:20px;line-height:1.66;color:var(--ink)}
+/* apparatus siglum — visibly NOT the text: raised, small, terracotta, its own layer */
+.app{position:relative;display:inline;border:none;background:none;padding:0;margin:0 1px;cursor:pointer;font-family:var(--mono);font-size:.62em;font-weight:500;vertical-align:.42em;color:var(--terracotta);letter-spacing:.04em}
+.app .mark{border-bottom:1px dotted color-mix(in srgb,var(--terracotta) 60%,transparent);padding:0 1px}
+.app .note{position:absolute;left:50%;top:1.6em;transform:translateX(-50%) scale(.96);transform-origin:top center;min-width:14rem;max-width:20rem;background:var(--paper-3);border:1px solid color-mix(in srgb,var(--terracotta) 45%,var(--rule));border-radius:8px;box-shadow:0 12px 28px -20px rgba(36,48,42,.5);padding:9px 12px;font-family:var(--sans);font-size:12.5px;font-weight:400;line-height:1.5;color:var(--ink-2);text-transform:none;letter-spacing:0;vertical-align:baseline;opacity:0;visibility:hidden;transition:opacity .12s,transform .12s;z-index:5;text-align:left}
+.app .note b{color:var(--terracotta);font-family:var(--mono);font-size:11px}
+.app:hover .note,.app.open .note{opacity:1;visibility:visible;transform:translateX(-50%) scale(1)}
+.legend{max-width:40rem;margin:2vh auto 0;padding:0 22px;font-family:var(--sans);font-size:12px;color:var(--ink-3);line-height:1.6;display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.legend .sw{display:inline-flex;align-items:center;gap:6px}
+.legend .k-text{width:12px;height:12px;border-radius:2px;background:var(--ink);display:inline-block}
+.legend .k-app{font-family:var(--mono);font-size:11px;color:var(--terracotta);border-bottom:1px dotted var(--terracotta)}
+.honest{max-width:40rem;margin:2vh auto 0;padding:0 22px;font-family:var(--sans);font-size:11.5px;font-style:italic;color:var(--ink-3);line-height:1.55;text-align:center}
+footer.foot{max-width:44rem;margin:0 auto;padding:5vh 22px 12vh;font-family:var(--sans);font-size:11.5px;line-height:1.6;color:var(--ink-3);text-align:center;border-top:1px solid var(--rule);margin-top:4vh}
+footer.foot a{color:var(--fern);text-decoration:none}
+footer.foot .fnode{font-family:var(--mono);font-size:10.5px;color:var(--ink-2)}
+.err{max-width:40rem;margin:8vh auto;padding:0 22px;font-family:var(--sans);color:var(--terracotta);text-align:center}
+</style>
+<script>(function(){try{var t=localStorage.getItem("gom-theme")||"light";document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+</head>
+<body>
+<div class="bar">
+  <a href="/engine/design-engine.html">&larr; the design engine</a>
+  <span class="rm">The Plate · Mark 16 · Text</span>
+  <a href="/_staging/viz_house_pattern.html">the house &rarr;</a>
+</div>
+<header class="pg">
+  <p class="kick">The bow-tie · node 1 · Text</p>
+  <h1 class="title">The Plate</h1>
+  <p class="lede">The verbatim passage, exactly as the library holds it — the one thing rendered in full black. Everything the instrument does later is a layer over these words; nothing reflows them.</p>
+  <div class="provwrap" id="prov"></div>
+</header>
+<div class="plate" id="plate">Loading the text…</div>
+<div class="legend" id="legend"></div>
+<p class="honest" id="honest"></p>
+<footer class="foot">
+  <p class="fnode" id="footnode"></p>
+  <p>The text is the coordinate system. <b>Data · owner:</b> reading/method SB checks the passage out of the library; design-SB renders. Fix the generator, never this figure.</p>
+  <p><a href="/engine/design-engine.html#step-Text">the Plate's spec</a> · <a href="/engine/design-principles.html">the grammar</a></p>
+</footer>
+
+<script>
+var BASE="/engine/data/goldenpath/mark16/";
+var esc=function(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});};
+var RANGE={lo:1,hi:8};
+
+fetch(BASE+"checkout.json").then(function(r){return r.json();}).then(build).catch(function(e){
+  document.getElementById("plate").innerHTML='<div class="err">Could not load the checkout ('+esc(e.message)+'). Owned by reading/method SB.</div>';
+});
+
+function parseVerses(checkout){
+  var whole=(checkout.units||[]).map(function(u){return u.text||"";}).join("\n");
+  var re=/(\d{3}):(\d{3})/g, out={}, m, marks=[];
+  while((m=re.exec(whole))){ marks.push({ch:+m[1],v:+m[2],at:m.index,end:re.lastIndex}); }
+  for(var i=0;i<marks.length;i++){
+    var cur=marks[i], next=marks[i+1];
+    if(cur.ch!==16) continue;
+    out[cur.v]=whole.slice(cur.end, next?next.at:whole.length).replace(/\s+/g," ").trim();
+  }
+  return out;
+}
+
+// render a verse: verbatim words as pure-black text; {apparatus} as a distinct terracotta siglum that expands.
+function renderVerseText(txt){
+  return txt.split(/(\{[^}]+\})/).map(function(p){
+    var m=p.match(/^\{(.+)\}$/);
+    if(m){
+      var body=m[1];
+      var word=(body.match(/"([^"]+)"/)||[])[1]||"";
+      return '<button class="app" aria-label="textual variant: '+esc(body)+'" onclick="this.classList.toggle(\'open\')">'+
+        '<span class="mark">TR</span>'+
+        '<span class="note"><b>Textual variant.</b><br>The Textus Receptus '+(word?('adds &ldquo;'+esc(word)+'&rdquo; here'):esc(body))+'. The manuscripts disagree; the reading text (World English Bible) does not include it.</span>'+
+        '</button>';
+    }
+    return esc(p);
+  }).join('');
+}
+
+function build(checkout){
+  var verses=parseVerses(checkout);
+  var edition=(checkout.units&&checkout.units[0]&&checkout.units[0].anchors&&checkout.units[0].anchors.source_id)||"";
+  var appCount=0;
+  var html="";
+  for(var v=RANGE.lo; v<=RANGE.hi; v++){
+    if(verses[v]==null) continue;
+    if(/\{[^}]+\}/.test(verses[v])) appCount++;
+    html+='<div class="verse"><span class="vnum">16:'+v+'</span><span class="vtext">'+renderVerseText(verses[v])+'</span></div>';
+  }
+  document.getElementById("plate").innerHTML=html;
+
+  document.getElementById("prov").innerHTML=
+    '<span class="prov">visualizes <b>Text</b></span>'+
+    '<span class="prov">data: <b>checkout.json</b></span>'+
+    '<span class="prov">Mark 16:'+RANGE.lo+'&ndash;'+RANGE.hi+' · World English Bible · <b>'+appCount+'</b> variant'+(appCount===1?'':'s')+'</span>';
+  document.getElementById("legend").innerHTML=
+    '<span class="sw"><i class="k-text"></i> the verbatim text — the only pure black</span>'+
+    '<span class="sw"><span class="k-app">TR</span> a textual variant — where the manuscripts disagree (click)</span>';
+  document.getElementById("honest").textContent=
+    "Verbatim, whole, in reading order. The apparatus mark is kept typographically distinct from the text and from any later analytical mark, so a reader never grants a manuscript variant and an instrument proposal the same weight. This is the coordinate system every later layer is anchored to.";
+  document.getElementById("footnode").textContent=
+    "method-engine node: Text  ·  Mark 16:"+RANGE.lo+"–"+RANGE.hi+(edition?("  ·  "+edition):"");
+}
+</script>
+</body>
+</html>
+<!-- ── METHODOLOGY FOOTER ──
+HOW PRODUCED: design-SB, this session. The Plate (bow-tie node 1, Text) — the first figure built THROUGH the design gate,
+  the unanimous foundation of the 3DR-16 series (the coordinate system every later visual anchors to). Renders the verbatim
+  WEB text for Mark 16:1–8 parsed from checkout.json units[].text via the "016:0NN" markers (whole verses, no ellipsis). The
+  {TR adds "quickly"} apparatus is rendered as a DISTINCT terracotta siglum (raised, its own layer, expands on click/hover) —
+  never inline black text, and typographically separate from any analytical mark, per the grammar (text = the only pure
+  black; apparatus distinct). Scope 16:1–8 only (the short strip the cohorts said to nail first). Render-from-data; the seam
+  is checkout.json (reading/method SB). Grammar + gate: engine/design-principles.html. Spec: design-engine.html#step-Text.
+SCHOLARLY SOURCES: engine/data/goldenpath/mark16/checkout.json (verbatim WEB, verse-marked); the locked visual grammar
+  (viz_principles the_grammar, validated by 3DR-16); the Nestle-Aland / TEI critical-apparatus tradition (apparatus kept
+  distinct from the reading text); the full-scripture-no-ellipsis rule.
+WHAT NEEDS VERIFICATION: (1) Gate: Fidelity — every value from checkout.json, labels = fields (PASS by construction); Cold
+  Read — run a blind read via the design-crit panel before flipping the node to PASS on the engine. (2) Then layer the Move
+  Score onto this Plate (the coupled V1+V2). (3) A later Lovable warmth pass on the Plate+Move Score pair per the working-
+  with-lovable process (build functional first — this is the functional build). -->
