@@ -649,7 +649,10 @@ function closeDrawer() {
 /* ---- Golden-path step drawers: render from each step's single generated file (the neutral feed) ---- */
 var STEP_DATA = { text: "text_node_drawer.json", decompose: "decompose_node_drawer.json" };
 // Connect-style 12-section drawers (header / the_method_clean / the_method_applied) — Connect + the Situate node + its Frame/Lineage sub-engines
-var CONNECT_STYLE = { connect: "connect_node_drawer.json", situate: "situate_node_drawer.json", frame: "frame_node_drawer.json", lineage: "lineage_node_drawer.json" };
+var CONNECT_STYLE = { connect: "connect_node_drawer.json", situate: "situate_node_drawer.json",
+  frame: "frame_node_drawer.json", lineage: "lineage_node_drawer.json",
+  paradigm: "paradigm_node_drawer.json", sitz: "sitz_node_drawer.json",
+  witness: "transmission_node_drawer.json" /* Witness pill relabeled Transmission; feed is transmission_node_drawer */ };
 var STEP_CACHE = {}, CHECKOUT = null;
 function cleanVerbatim(t) {
   if (!t) return "";
@@ -681,15 +684,23 @@ function wipBadge(text) { return el("p", "me-wip-badge", text); }
 /* status pills near the title — render whichever of fidelity / crt (Cold Read) / vs_wild the card carries.
    PASS = green; PENDING = amber (honest: not yet re-run, never a false green); PARTIAL/FAIL = terracotta. */
 function renderStatusPills(host, D) {
-  var order = [["fidelity", "Fidelity"], ["crt", "Cold Read"], ["cold_read", "Cold Read"], ["vs_wild", "vs-Wild"]];
+  var known = [["fidelity", "Fidelity"], ["crt", "Cold Read"], ["cold_read", "Cold Read"], ["vs_wild", "vs-Wild"]];
+  var knownKeys = {}; known.forEach(function (p) { knownKeys[p[0]] = 1; });
+  var order = known.slice();
+  // surface any additional pill-shaped top-level key (e.g. coverage, scale) — where a node's honest gap lives
+  Object.keys(D).forEach(function (k) {
+    if (knownKeys[k]) return;
+    var v = D[k];
+    if (v && typeof v === "object" && typeof v.status === "string") order.push([k, k.charAt(0).toUpperCase() + k.slice(1).replace(/_/g, " ")]);
+  });
   var wrap = el("div", "me-crt"), any = false;
   order.forEach(function (pair) {
     var p = D[pair[0]];
     if (!p || !p.status) return;
     any = true;
     var s = String(p.status).toUpperCase();
-    // bucket to a known colour; a descriptive/non-standard status (e.g. "n/a-at-parent-grain") reads as a muted n/a
-    var bucket = /^PASS$/.test(s) ? "pass" : /^PENDING$/.test(s) ? "pending" : /^PARTIAL$/.test(s) ? "partial" : /^FAIL$/.test(s) ? "fail" : "na";
+    // bucket to a known colour; INCOMPLETE reads amber (an honest not-yet), non-standard (e.g. "n/a-…") reads muted n/a
+    var bucket = /^PASS$/.test(s) ? "pass" : /^(PENDING|INCOMPLETE)$/.test(s) ? "pending" : /^PARTIAL$/.test(s) ? "partial" : /^FAIL$/.test(s) ? "fail" : "na";
     var disp = bucket === "na" ? "n/a" : s;
     var pill = el("span", "me-crt-pill is-" + bucket,
       pair[1] + ": " + disp + (p.date && bucket !== "na" ? " · " + p.date : ""));
