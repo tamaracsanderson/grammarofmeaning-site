@@ -209,6 +209,38 @@ function renderLegend() {
   host.appendChild(item);
 }
 
+/* cross-links between pills (from FLOW.edges type "shared"/"feeds"): shared = one store (bidirectional "=");
+   feeds = directed (→ from the source pill, ← on the target). Names the counterpart so the tie is self-explanatory. */
+function pillXlinkMarkers(pillId) {
+  var out = [];
+  (FLOW.edges || []).forEach(function (e) {
+    if (e.type === "shared" && (e.from === pillId || e.to === pillId)) {
+      var other = e.from === pillId ? e.to : e.from;
+      out.push({ glyph: "=", label: (byId[other] || {}).label || other, tip: e.note || "shared store", cls: "is-shared" });
+    } else if (e.type === "feeds" && e.from === pillId) {
+      out.push({ glyph: "→", label: (byId[e.to] || {}).label || e.to, tip: e.note || "feeds", cls: "is-feeds" });
+    } else if (e.type === "feeds" && e.to === pillId) {
+      out.push({ glyph: "←", label: (byId[e.from] || {}).label || e.from, tip: e.note || "fed by", cls: "is-feeds" });
+    }
+  });
+  return out;
+}
+/* one Situate/Connect aspect pill: status dot + label + any cross-link markers; opens its drawer */
+function renderPill(n) {
+  const pill = el("button", `me-situate-pill is-${n.status}`);
+  pill.type = "button";
+  pill.dataset.id = n.id;
+  pill.appendChild(el("span", `me-status-dot is-${n.status}`));
+  pill.appendChild(document.createTextNode(n.label));
+  pillXlinkMarkers(n.id).forEach(function (m) {
+    const x = el("span", "me-pill-xlink " + m.cls, " " + m.glyph + " " + m.label);
+    x.title = m.tip;
+    pill.appendChild(x);
+  });
+  pill.addEventListener("click", (e) => { e.stopPropagation(); openDrawer(n.id); });
+  return pill;
+}
+
 /* ----------------------------------------------------------------- figure */
 
 function renderFigure() {
@@ -258,15 +290,7 @@ function renderFigure() {
     const connectBox = el("div", "me-situate");
     connectBox.appendChild(nodeCard(byId["connect"]));
     const cpills = el("div", "me-situate-pills");
-    CONNECT_PILLS.forEach((n) => {
-      const pill = el("button", `me-situate-pill is-${n.status}`);
-      pill.type = "button";
-      pill.dataset.id = n.id;
-      pill.appendChild(el("span", `me-status-dot is-${n.status}`));
-      pill.appendChild(document.createTextNode(n.label));
-      pill.addEventListener("click", (e) => { e.stopPropagation(); openDrawer(n.id); });
-      cpills.appendChild(pill);
-    });
+    CONNECT_PILLS.forEach((n) => cpills.appendChild(renderPill(n)));
     connectBox.appendChild(cpills);
     branches.appendChild(connectBox);
   }
@@ -274,15 +298,7 @@ function renderFigure() {
   situate.appendChild(nodeCard(byId["situate"]));
   // the 5 aspects are parallel lenses, not a sequence: a compact clickable pill row, each opening its own drawer
   const pills = el("div", "me-situate-pills");
-  LEAVES.forEach((n) => {
-    const pill = el("button", `me-situate-pill is-${n.status}`);
-    pill.type = "button";
-    pill.dataset.id = n.id;
-    pill.appendChild(el("span", `me-status-dot is-${n.status}`));
-    pill.appendChild(document.createTextNode(n.label));
-    pill.addEventListener("click", (e) => { e.stopPropagation(); openDrawer(n.id); });
-    pills.appendChild(pill);
-  });
+  LEAVES.forEach((n) => pills.appendChild(renderPill(n)));
   situate.appendChild(pills);
   branches.appendChild(situate);
   cone.appendChild(branches);
