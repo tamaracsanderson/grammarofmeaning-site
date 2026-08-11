@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Connect · Shape — the symmetries and returns</title>
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#0E0E0C;--ink-soft:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;
+--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;--sky:#3f6d7d;--olive:#6E7B3A;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:64rem;margin:0 auto;padding:40px 20px 90px}
+.nav{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.nav a{color:var(--ink-3);text-decoration:none;border:1px solid var(--rule);border-radius:999px;padding:3px 11px}
+.nav a.cur{color:var(--paper);background:var(--olive);border-color:var(--olive)}
+.nav a:hover:not(.cur){color:var(--olive);border-color:var(--olive)}
+.kicker{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--olive);margin:0 0 8px}
+h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line-height:1.14;margin:0 0 8px;letter-spacing:-.01em}
+.task{font-size:16px;color:var(--ink);max-width:42rem;margin:0 0 4px}
+.task b{color:var(--olive)}
+.how{font-family:var(--sans);font-size:12px;color:var(--ink-3);max-width:42rem;margin:8px 0 0;line-height:1.5}
+.err{font-family:var(--mono);font-size:12px;color:var(--terracotta);padding:20px 0}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin:18px 0 4px;font-family:var(--sans);font-size:11.5px;color:var(--ink-2)}
+.legend .g{display:inline-flex;align-items:center;gap:7px}
+.legend svg{overflow:visible}
+.instrument{display:grid;grid-template-columns:1fr 250px;margin:14px 0 0}
+@media(max-width:720px){.instrument{grid-template-columns:1fr 150px}}
+.spine{position:relative}
+.marg{position:relative}
+.marg svg{position:absolute;top:0;left:0;width:100%;height:100%;overflow:visible}
+.mrow{height:44px;display:flex;align-items:center;gap:9px;border-bottom:1px solid color-mix(in srgb,var(--rule) 40%,transparent);cursor:pointer;transition:opacity .18s,background .18s;padding-right:4px}
+.mrow:hover{background:color-mix(in srgb,var(--olive) 7%,transparent)}
+.mrow.dim{opacity:.26}
+.mrow.on{background:color-mix(in srgb,var(--olive) 12%,transparent)}
+.mrow .mk{font-family:var(--mono);font-size:10px;color:var(--olive);flex:none;width:2.4rem}
+.mrow .pp{font-family:var(--sans);font-size:13px;color:var(--ink-2);line-height:1.3}
+.mrow.child .pp{color:var(--ink-3);font-size:12px}
+.mrow .nestcue{font-family:var(--mono);font-size:8px;color:var(--ink-3);opacity:.55;flex:none}
+.slbl{font-family:var(--mono);font-size:8.5px;letter-spacing:.03em;fill:var(--olive)}
+.detail{margin:20px 0 0;min-height:18px}
+.card{background:var(--paper-3);border:1px solid var(--rule);border-radius:12px;padding:13px 16px;border-left:3px solid var(--olive)}
+.card .rel{font-family:var(--disp);font-size:16px;color:var(--ink)}
+.card .rel .k{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--olive)}
+.card .members{font-family:var(--sans);font-size:12.5px;color:var(--ink-2);margin-top:6px}
+.hint{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:italic}
+.src{font-family:var(--mono);font-size:9px;color:var(--ink-3);opacity:.7;margin:36px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav"><span>Connect ·</span><a href="viz_connect_logic.html">Logic</a><a class="cur" href="viz_connect_shape.html">Shape</a><span style="color:var(--ink-3);border:0">· sonic (on the Plate)</span></div>
+  <p class="kicker">Connect · Shape — one kind at a time</p>
+  <h1>The symmetries and returns</h1>
+  <p class="task"><b>Look for the form, not the flow.</b> Where does the passage echo, pair, fold back on itself, or leap? Shape is not a chain — it's the architecture the moves make together.</p>
+  <p class="how">Each structure gets its own geometry, not a colour: a <em>ring</em> is a concentric arc around a marked pivot; a <em>parallel</em> is a paired bracket; a <em>juxtaposition</em> is a held-open seam (no line — the withheld connection is the point); a <em>leap</em> is a broken jump.</p>
+  <div id="stage"><p class="err" id="loading">Loading the Mark 16 shapes…</p></div>
+  <p class="src" id="src"></p>
+</div>
+
+<script>
+var BASE="/engine/data/goldenpath/mark16/", ROWH=44, MARGW=250;
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+var FLAT=[], IDX={}, SHAPES=[], SEL=null;
+
+Promise.all([
+  fetch(BASE+"moves.json").then(function(r){return r.json();}),
+  fetch(BASE+"connect_edges.json").then(function(r){return r.json();})
+]).then(function(res){build(res[0],res[1]);}).catch(function(e){
+  document.getElementById("stage").innerHTML='<p class="err">Could not load the feeds ('+esc(e.message)+').</p>';
+});
+
+// resolve a (possibly composite "M25+M26") label to the mean flat-index of its present components
+function idxOf(label){
+  var parts=String(label).split("+").filter(function(p){return p in IDX;});
+  if(!parts.length)return -1;
+  var s=0; parts.forEach(function(p){s+=IDX[p];}); return s/parts.length;
+}
+function build(mdoc,edoc){
+  var moves=(mdoc.moves||[]).slice().sort(function(a,b){return a.idx-b.idx;});
+  var byl={}; moves.forEach(function(m){byl[m.label]=m;});
+  function depth(l,g){var m=byl[l];if(!m||!m.nested_under||g>6)return 0;return 1+depth(m.nested_under,(g||0)+1);}
+  FLAT=moves.map(function(m){return {label:m.label,pp:(m.paraphrase||m.operation||""),depth:depth(m.label,0),nested:!!m.nested_under};});
+  FLAT.forEach(function(f,i){IDX[f.label]=i;});
+
+  var edges=(edoc.edges||edoc)||[];
+  SHAPES=edges.filter(function(e){return String(e.edge_kind||"").toUpperCase()==="SHAPE";}).map(function(e){
+    var t=String(e.type||"").toUpperCase().replace("SHAPE_","");
+    return {src:e.source_move_label,tgt:e.target_move_label,type:t,ai:idxOf(e.source_move_label),bi:idxOf(e.target_move_label)};
+  }).filter(function(s){return s.ai>=0&&s.bi>=0;});
+
+  var byType={}; SHAPES.forEach(function(s){byType[s.type]=(byType[s.type]||0)+1;});
+  var h='<div class="legend">'+
+    lg('ring','concentric + pivot',(byType.RING||0))+
+    lg('parallel','paired bracket',(byType.PARALLELISM||0))+
+    lg('juxtaposition','held-open seam',(byType.JUXTAPOSITION||0))+
+    lg('leap','broken jump',(byType.LEAP||0))+
+  '</div>';
+  h+='<div class="instrument"><div class="spine" id="spine"></div><div class="marg" id="mR"></div></div>';
+  h+='<div class="detail" id="detail"><p class="hint">Click a shape (in the margin) or a move to read the structure it belongs to.</p></div>';
+  document.getElementById("stage").innerHTML=h;
+  renderSpine(); renderShapes();
+  document.getElementById("src").textContent="rendered from moves.json + connect_edges.json (SHAPE only — "+SHAPES.length+" structures) · MARK-16-WEB";
+}
+function lg(k,d,n){var ic={ring:'<svg width="26" height="16"><path d="M2 14 A 11 11 0 0 1 24 14" fill="none" stroke="var(--olive)" stroke-width="1.6"/><line x1="13" y1="2" x2="13" y2="14" stroke="var(--olive)" stroke-width="1"/></svg>',
+  parallel:'<svg width="20" height="16"><line x1="2" y1="5" x2="18" y2="5" stroke="var(--olive)" stroke-width="1.6"/><line x1="2" y1="11" x2="18" y2="11" stroke="var(--olive)" stroke-width="1.6"/></svg>',
+  juxtaposition:'<svg width="20" height="16"><line x1="4" y1="3" x2="4" y2="13" stroke="var(--olive)" stroke-width="1.6"/><line x1="16" y1="3" x2="16" y2="13" stroke="var(--olive)" stroke-width="1.6"/></svg>',
+  leap:'<svg width="24" height="16"><path d="M2 12 L9 12 M15 12 L22 4" stroke="var(--olive)" stroke-width="1.6" fill="none" stroke-dasharray="1 3"/></svg>'};
+  return '<span class="g">'+(ic[k]||'')+esc(d)+' <span style="color:var(--ink-3);font-family:var(--mono);font-size:9px">'+n+'</span></span>';}
+
+function renderSpine(){
+  var s=document.getElementById("spine"),h='';
+  FLAT.forEach(function(f){h+='<div class="mrow'+(f.nested?' child':'')+'" data-mv="'+f.label+'" style="padding-left:'+(6+f.depth*18)+'px">'+(f.nested?'<span class="nestcue">&#8627;</span>':'')+'<span class="mk">'+esc(f.label)+'</span><span class="pp">'+esc(f.pp)+'</span></div>';});
+  s.innerHTML=h;
+  s.querySelectorAll(".mrow").forEach(function(r){r.addEventListener("click",function(){selectByMove(this.getAttribute("data-mv"));});});
+}
+function yOf(i){return i*ROWH+ROWH/2;}
+function renderShapes(){
+  var H=FLAT.length*ROWH, W=MARGW;
+  var s='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" style="height:'+H+'px">';
+  SHAPES.forEach(function(sh,i){
+    var ya=yOf(sh.ai), yb=yOf(sh.bi), y1=Math.min(ya,yb), y2=Math.max(ya,yb), mid=(ya+yb)/2, span=Math.abs(sh.bi-sh.ai);
+    var faded=SEL!==null&&SEL!==i, op=faded?0.2:1;
+    if(sh.type==="RING"){
+      var reach=Math.min(W-30,40+span*3.5);
+      s+='<path data-i="'+i+'" d="M2 '+y1+' C '+reach+' '+y1+' '+reach+' '+y2+' 2 '+y2+'" fill="none" stroke="var(--olive)" stroke-width="2.4" opacity="'+op+'"/>';
+      s+='<line data-i="'+i+'" x1="2" y1="'+mid+'" x2="'+(reach*0.5)+'" y2="'+mid+'" stroke="var(--olive)" stroke-width="1" stroke-dasharray="3 3" opacity="'+op+'"/>';
+      s+='<circle data-i="'+i+'" cx="2" cy="'+mid+'" r="3.5" fill="var(--olive)" opacity="'+op+'"/>';
+      s+='<text class="slbl" x="'+(reach-4)+'" y="'+(mid-4)+'" text-anchor="end" opacity="'+op+'">ring · pivot at centre</text>';
+    } else if(sh.type==="PARALLELISM"){
+      var x=18+((i*22)%60);
+      s+='<line data-i="'+i+'" x1="2" y1="'+ya+'" x2="'+x+'" y2="'+ya+'" stroke="var(--olive)" stroke-width="1.8" opacity="'+op+'"/>';
+      s+='<line data-i="'+i+'" x1="2" y1="'+yb+'" x2="'+x+'" y2="'+yb+'" stroke="var(--olive)" stroke-width="1.8" opacity="'+op+'"/>';
+      s+='<line data-i="'+i+'" x1="'+x+'" y1="'+ya+'" x2="'+x+'" y2="'+yb+'" stroke="var(--olive)" stroke-width="1.8" opacity="'+op+'"/>';
+      s+='<text class="slbl" x="'+(x+4)+'" y="'+(mid+3)+'" opacity="'+op+'">parallel</text>';
+    } else if(sh.type==="JUXTAPOSITION"){
+      s+='<line data-i="'+i+'" x1="10" y1="'+(y1-4)+'" x2="10" y2="'+(mid-8)+'" stroke="var(--olive)" stroke-width="1.8" opacity="'+op+'"/>';
+      s+='<line data-i="'+i+'" x1="10" y1="'+(mid+8)+'" x2="10" y2="'+(y2+4)+'" stroke="var(--olive)" stroke-width="1.8" opacity="'+op+'"/>';
+      s+='<text class="slbl" x="16" y="'+(mid+3)+'" opacity="'+op+'">held apart</text>';
+    } else if(sh.type==="LEAP"){
+      s+='<path data-i="'+i+'" d="M2 '+ya+' L 26 '+ya+' M 44 '+yb+' L 70 '+yb+'" fill="none" stroke="var(--olive)" stroke-width="1.8" stroke-dasharray="1 4" opacity="'+op+'"/>';
+      s+='<text class="slbl" x="30" y="'+(mid+3)+'" opacity="'+op+'">leap &#8599;</text>';
+    }
+  });
+  s+='</svg>';
+  var mr=document.getElementById("mR"); mr.innerHTML=s;
+  mr.querySelectorAll("[data-i]").forEach(function(el){el.addEventListener("click",function(){selectShape(+this.getAttribute("data-i"));});});
+}
+function selectShape(i){ SEL=(SEL===i?null:i); paint(); }
+function selectByMove(mv){
+  var hit=-1;
+  for(var i=0;i<SHAPES.length;i++){var s=SHAPES[i];if(String(s.src).split("+").indexOf(mv)>=0||String(s.tgt).split("+").indexOf(mv)>=0){hit=i;break;}}
+  SEL=(hit>=0&&SEL!==hit)?hit:null; paint();
+}
+function paint(){
+  renderShapes();
+  var members=SEL!==null?[SHAPES[SEL].src,SHAPES[SEL].tgt]:[];
+  var memset={}; members.forEach(function(m){String(m).split("+").forEach(function(p){memset[p]=1;});});
+  document.querySelectorAll(".mrow").forEach(function(r){var l=r.getAttribute("data-mv");r.classList.toggle("on",!!memset[l]);r.classList.toggle("dim",SEL!==null&&!memset[l]);});
+  var det=document.getElementById("detail");
+  if(SEL===null){det.innerHTML='<p class="hint">Click a shape (in the margin) or a move to read the structure it belongs to.</p>';return;}
+  var sh=SHAPES[SEL], names={RING:"Ring / chiasm",PARALLELISM:"Parallel",JUXTAPOSITION:"Juxtaposition",LEAP:"Leap"};
+  var gloss={RING:"an A…A′ return — the passage folds around a centre; the pivot carries the weight.",PARALLELISM:"two moves in matching form — read them as a pair, not a sequence.",JUXTAPOSITION:"set side by side with the connective withheld — the gap is the meaning.",LEAP:"a non-logical jump — the bridge is deliberately absent."};
+  det.innerHTML='<div class="card"><div class="rel"><span class="k">'+esc(names[sh.type]||sh.type)+'</span></div>'+
+    '<div class="members">'+esc(sh.src)+' &harr; '+esc(sh.tgt)+' — <span style="font-style:italic">'+esc(gloss[sh.type]||"")+'</span></div></div>';
+}
+</script>
+
+<!-- ── METHODOLOGY FOOTER ──
+HOW PRODUCED: design-SB S170 (2026-08-11), WORK-QUEUE [A] — the per-kind Connect SHAPE reading view (companion to the LOGIC
+  view), per the 3DR-19 reconciliation's SHAPE verdict: symmetry as GEOMETRY, not arcs, annotated per-STRUCTURE. Each SHAPE
+  sub-type gets its own form (not a colour): RING = concentric arc + marked pivot at the centre; PARALLELISM = paired bracket;
+  JUXTAPOSITION = held-open seam (NO connector — the withheld connective is the content); LEAP = broken/discontinuous jump.
+  Same shared move-spine as the LOGIC view (object constancy — the unanimous reconciliation point). Render-from-data (§2.16) off
+  the LATEST run of the mark16 feeds (§4 latest-run rule); composite labels (M25+M26) resolve to their component mean-index;
+  deterministic layout (fixed ROWH, offline-validatable). 8 SHAPE structures in Mark 16 (5 parallel · 1 ring M2→M23 · 1 leap · 1 juxtaposition).
+SCHOLARLY SOURCES: connect_perkind_viz_3DR-19_reconciliation_2026-08-11 (SHAPE verdict — geometry, marked pivot, per-structure
+  annotation); the Connect edge_grammar_v1 (SHAPE sub-types); Wattenberg arc diagrams (repetition/return); the chiasm-as-mirror
+  literature (the crossed-arcs anti-pattern the geometry avoids). Pairs with viz_connect_logic.html (per-kind LOGIC).
+WHAT NEEDS VERIFICATION: (1) live-verify (pane policy-blocked -> offline+curl per DWS conventions). (2) staging prototype for PI
+  reaction alongside the LOGIC view; on greenlight, add the SONIC view (data-blocked on word-level sonic) + the small-multiple nav
+  + make one-kind-at-a-time the Connect default. (3) the "fold this ring" opt-in re-layout (RNA-hairpin idiom) is a v2 interaction. -->
+</body>
+</html>
