@@ -65,7 +65,7 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 /* moves under a verse */
 .moves{display:flex;flex-direction:column;gap:7px;margin:8px 0 0}
 .mv{border-left:2px solid color-mix(in srgb,var(--fern) 40%,var(--rule));padding:2px 0 2px 14px;transition:opacity .3s}
-.mv.child{margin-left:22px;border-left-color:color-mix(in srgb,var(--gold) 50%,var(--rule))}
+.mv.child{border-left-color:color-mix(in srgb,var(--gold) 50%,var(--rule))}
 .mv.sel{border-left-color:var(--gold);border-left-width:3px}
 .mv .para{cursor:pointer;margin:0;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .mv .para .mk{font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:.04em;flex:none;padding-top:2px}
@@ -74,8 +74,8 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 .mv .para .exp{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--fern);opacity:.5;flex:none;white-space:nowrap;align-self:center}
 .mv.open .para .exp{opacity:1}
 /* nested moves are SHOWN, demarked (never hidden) — seeing one sentence unpack is the point */
-.subgroup{display:flex;flex-direction:column;gap:7px;margin:2px 0}
-.sublabel{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--gold);opacity:.85;padding:1px 0 0 22px}
+.subgroup{display:flex;flex-direction:column;gap:7px;margin:2px 0 2px 18px;padding-left:8px;border-left:1px dotted color-mix(in srgb,var(--gold) 30%,var(--rule))}
+.sublabel{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--gold);opacity:.85;padding:1px 0 0 4px}
 .roleline{display:flex;flex-direction:column;gap:2px;font-family:var(--serif);font-size:14.5px;margin:2px 0 8px;color:var(--ink)}
 .roleline .rl{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-right:8px}
 .asdiagram{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--fern);background:none;border:0;cursor:pointer;padding:0 0 6px;opacity:.75}
@@ -292,6 +292,14 @@ function roleline(mv){
   if(mv.outcome)p.push('<span><b class="rl">result</b>'+esc(mv.outcome)+'</span>');
   return '<div class="roleline">'+p.join("")+'</div>';
 }
+function renderTree(mv,depth,childrenOf){
+  var h=moveHTML(mv,depth>0);
+  var kids=childrenOf[mv.label]||[];
+  if(kids.length){
+    h+='<div class="subgroup"><div class="sublabel">&#8627; '+esc(mv.label)+' unpacks into '+kids.length+' move'+(kids.length===1?'':'s')+'</div>'+kids.map(function(c){return renderTree(c,depth+1,childrenOf);}).join("")+'</div>';
+  }
+  return h;
+}
 function moveHTML(mv,isChild){
   return '<div class="mv'+(isChild?' child':'')+'" data-idx="'+mv.idx+'">'+
     '<div class="para" data-idx="'+mv.idx+'"><span class="mk">'+esc(mv.label)+'</span><span class="pp">'+esc(mv.paraphrase||mv.operation||"")+'</span><span class="exp">see how &rsaquo;</span></div>'+
@@ -343,13 +351,7 @@ function build(co,mdoc){
     var mvs=byV[v]||[];
     if(mvs.length){
       html+='<div class="moves">';
-      mvs.forEach(function(mv){
-        html+=moveHTML(mv,false);
-        var kids=childrenOf[mv.label]||[];
-        if(kids.length){
-          html+='<div class="subgroup"><div class="sublabel">&#8627; '+esc(mv.label)+' unpacks into '+kids.length+' moves</div>'+kids.map(function(c){return moveHTML(c,true);}).join("")+'</div>';
-        }
-      });
+      mvs.forEach(function(mv){ html+=renderTree(mv,0,childrenOf); });
       html+='</div>';
     }
     html+='</div>';
