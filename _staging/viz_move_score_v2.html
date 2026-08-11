@@ -77,7 +77,7 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 .mv.sel{border-left-color:var(--gold);border-left-width:3px}
 .mv .para{cursor:pointer;margin:0;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .mv .para .mk{font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:.04em;flex:none;padding-top:2px}
-.mv .para .pp{font-family:var(--serif);font-size:15.5px;color:var(--ink-soft);line-height:1.5;flex:1 1 62%}
+.mv .para .pp{font-family:var(--sans);font-size:14px;color:var(--ink-2);line-height:1.5;flex:1 1 62%}
 .mv:hover .para .pp{color:var(--ink)}
 .mv .para .exp{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--fern);opacity:.5;flex:none;white-space:nowrap;align-self:center}
 .mv.open .para .exp{opacity:1}
@@ -86,6 +86,7 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 .sublabel{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--ink-3);opacity:.9;padding:1px 0 0 4px}
 .roleline{display:flex;flex-direction:column;gap:2px;font-family:var(--serif);font-size:14.5px;margin:2px 0 8px;color:var(--ink)}
 .roleline .rl{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-right:8px}
+.roleline .rterm{opacity:.62;font-weight:400}
 .asdiagram{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--fern);background:none;border:0;cursor:pointer;padding:0 0 6px;opacity:.75}
 .flow-wrap[hidden]{display:none}
 .anat{margin:8px 0 2px;display:none}
@@ -296,11 +297,12 @@ function axes(mv){
   '</dl>';
 }
 function roleline(mv){
+  // plain word leads for readability; the REAL coded field follows in parens (Fidelity §2.16 — the term is present, not replaced)
   var p=[];
-  if(mv.agent)p.push('<span><b class="rl">who</b>'+esc(mv.agent)+'</span>');
-  p.push('<span><b class="rl">does</b>'+esc(mv.operation||mv.move_type||"")+'</span>');
-  if(mv.substrate)p.push('<span><b class="rl">on</b>'+esc(mv.substrate)+'</span>');
-  if(mv.outcome)p.push('<span><b class="rl">result</b>'+esc(mv.outcome)+'</span>');
+  if(mv.agent)p.push('<span><b class="rl">who <span class="rterm">(agent)</span></b>'+esc(mv.agent)+'</span>');
+  p.push('<span><b class="rl">does <span class="rterm">(operation)</span></b>'+esc(mv.operation||mv.move_type||"")+'</span>');
+  if(mv.substrate)p.push('<span><b class="rl">on <span class="rterm">(substrate)</span></b>'+esc(mv.substrate)+'</span>');
+  if(mv.outcome)p.push('<span><b class="rl">result <span class="rterm">(outcome)</span></b>'+esc(mv.outcome)+'</span>');
   return '<div class="roleline">'+p.join("")+'</div>';
 }
 function renderTree(mv,depth,childrenOf){
@@ -314,7 +316,7 @@ function renderTree(mv,depth,childrenOf){
 function moveHTML(mv,isChild){
   return '<div class="mv'+(isChild?' child':'')+'" data-idx="'+mv.idx+'">'+
     '<div class="para" data-idx="'+mv.idx+'"><span class="mk">'+esc(mv.label)+'</span><span class="pp">'+esc(mv.paraphrase||mv.operation||"")+'</span><span class="exp">see how &rsaquo;</span></div>'+
-    '<div class="anat" id="ra-'+mv.idx+'">'+roleline(mv)+axes(mv)+'<button class="asdiagram" data-dia="dia-'+mv.idx+'">show as diagram</button><div class="flow-wrap" id="dia-'+mv.idx+'" hidden>'+flow(mv)+'</div></div>'+
+    '<div class="anat" id="ra-'+mv.idx+'">'+roleline(mv)+axes(mv)+'</div>'+
   '</div>';
 }
 
@@ -388,10 +390,6 @@ function build(co,mdoc){
       var ex=p.querySelector(".exp"); if(ex) ex.innerHTML=open?'hide &rsaquo;':'see how &rsaquo;';
       setSel(+i);
     });
-  });
-  // the diagram is optional — the labeled line reads as language by default
-  Array.prototype.forEach.call(document.querySelectorAll(".asdiagram"),function(b){
-    b.addEventListener("click",function(ev){ev.stopPropagation();var d=$(b.dataset.dia),hid=d.hasAttribute("hidden");if(hid){d.removeAttribute("hidden");b.textContent="hide diagram";}else{d.setAttribute("hidden","");b.textContent="show as diagram";}});
   });
   // one clean recomposition bookend
   var rc=$("recomp-all");
