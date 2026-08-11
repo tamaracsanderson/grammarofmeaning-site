@@ -671,88 +671,17 @@
       "kind": "card",
       "status": "specified",
       "grain": "edges",
-      "requires": ["decompose"],
-      "produces": ["edge"],
+      "requires": [
+        "decompose"
+      ],
+      "produces": [
+        "edge"
+      ],
       "implementation": "specified",
       "validation": "none",
       "step": "2b",
       "stage": "CONNECT",
       "sub": "The reconstruction half of the move-grammar: Decompose breaks the passage into moves, Connect wires them back together. The grammar edge_grammar_v1 is locked in spec; not yet coded on the golden path."
-    },
-    {
-      "id": "connect_linkage",
-      "label": "LINKAGE",
-      "function": "one of the five edge kinds (in-text); its definition lands with the coder run",
-      "band": "connect",
-      "kind": "leaf",
-      "status": "specified",
-      "grain": "edges",
-      "requires": ["decompose"],
-      "produces": ["edge"],
-      "implementation": "specified",
-      "validation": "none",
-      "step": "2b",
-      "stage": "CONNECT"
-    },
-    {
-      "id": "connect_lineage",
-      "label": "LINEAGE",
-      "function": "one of the five edge kinds (cross-text); its definition lands with the coder run",
-      "band": "connect",
-      "kind": "leaf",
-      "status": "specified",
-      "grain": "edges",
-      "requires": ["decompose"],
-      "produces": ["edge"],
-      "implementation": "specified",
-      "validation": "none",
-      "step": "2b",
-      "stage": "CONNECT"
-    },
-    {
-      "id": "connect_resonance",
-      "label": "RESONANCE",
-      "function": "one of the five edge kinds (cross-text); its definition lands with the coder run",
-      "band": "connect",
-      "kind": "leaf",
-      "status": "specified",
-      "grain": "edges",
-      "requires": ["decompose"],
-      "produces": ["edge"],
-      "implementation": "specified",
-      "validation": "none",
-      "step": "2b",
-      "stage": "CONNECT"
-    },
-    {
-      "id": "connect_shape",
-      "label": "SHAPE",
-      "function": "one of the five edge kinds (in-text); its definition lands with the coder run",
-      "band": "connect",
-      "kind": "leaf",
-      "status": "specified",
-      "grain": "edges",
-      "requires": ["decompose"],
-      "produces": ["edge"],
-      "implementation": "specified",
-      "validation": "none",
-      "step": "2b",
-      "stage": "CONNECT"
-    },
-    {
-      "id": "connect_sonic",
-      "label": "SONIC",
-      "function": "one of the five edge kinds (in-text); its definition lands with the coder run",
-      "band": "connect",
-      "kind": "leaf",
-      "status": "specified",
-      "grain": "edges",
-      "requires": ["decompose"],
-      "produces": ["edge"],
-      "implementation": "specified",
-      "validation": "none",
-      "step": "2b",
-      "stage": "CONNECT"
     }
   ],
   "edges": [
@@ -779,12 +708,6 @@
       "to": "enriched_move",
       "type": "flow",
       "note": "Connect wires"
-    },
-    {
-      "from": "connect_lineage",
-      "to": "lineage",
-      "type": "shared",
-      "note": "one store (lineage_record) + a derived view: lineage_record is the store of record; the connect_edge LINEAGE view is a derived projection of it, not a second authored store (Decision 225)"
     },
     {
       "from": "decompose",
