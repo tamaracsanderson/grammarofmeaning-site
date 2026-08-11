@@ -55,6 +55,29 @@ That's it — no need to reverse-engineer the render layer from the pages.
 
 ---
 
+## 5b. Session cadence — the handover discipline (keep the DWS current)
+
+design-SB is a **render layer**, so it does NOT run main-Claude's full standup/standdown ritual (no PROJECT_TRACKER, no ratio-retrospective, no thesis-arc framing — none of that applies). But it keeps the **same rigor** as the other SBs via one light, consistent loop, because the SSOT is only as good as its currency (the tell: `deploy_status` had gone stale Aug-6 → Aug-10 because updates were ad-hoc).
+
+**STANDUP (session start, ~2 min):**
+1. Read this doc §6 (current focus) + `dws_status.json` `open_threads[0]` (the latest record + its `note_for_next_llm` kickoff).
+2. Read the relevant SSOT page(s) for what you're building — the drawer / engine schema (§2.16: orient from the SSOT, not memory or an LLM-written brief).
+3. **Confirm LIVE state before building** (curl / browser). Never trust a status field.
+
+**STANDDOWN (session close, ALWAYS — not only when the PI asks):**
+1. Update `dws_status.json`: `open_threads` (what shipped · what's now blocked/owed · on-whom), `last_updated`, un-stale `deploy_status`. Prepend a new dated thread for a substantial session.
+2. Update `design_engine.json` node statuses (built / blocked) for any figure touched.
+3. Write the paste-ready next-chat **KICKOFF** as that thread's `note_for_next_llm`.
+4. Commit + push (deploy) — the DWS page re-renders.
+
+**HANDOVER:** hand the PI the paste-block kickoff (lifted verbatim from the thread's `note_for_next_llm`) to open the next chat — same shape as main-Claude's handover.
+
+**Chat hygiene:** start a **fresh chat per substantial build arc** (a long chat drifts; a fresh one orients cleanly from the DWS). The standdown above is what makes a fresh chat cheap.
+
+This matches the other SBs' rigor (IWS/LWS keep their schema pages current; design-SB keeps the DWS current) without the research-arc overhead a render layer doesn't need.
+
+---
+
 ## 6. Current focus (updated 2026-08-10 · S168)
 
 **The reading figures** (Grammar of Meaning reading room) are the active build — all render-from-data, reader-first, staged (`_staging/`, noindex):
