@@ -16,7 +16,7 @@
     "grain": "context, attached per move (and per text)",
     "pills": {
       "fidelity": "PASS -- each sub-engine read on its REAL key (anti-Seam-2)",
-      "cold_read": "INCOMPLETE — cold read has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py).",
+      "cold_read": "PARTIAL — Cold Read (opus, cold) — PARTIAL. The immediate next action (Cold Read) is fully actionable; residual: R1/CRT aren't defined inline, and the sitz_layers gap isn't reconciled with the 'coded' badge on the card.",
       "vs_wild": "n/a at parent grain (runs per sub-engine)"
     },
     "sub_engine_tally": {
@@ -333,7 +333,7 @@
     "THE LINEAGE SEAM (resolved, Decision 225). Design said Situate:Lineage CONSUMES Connect's LINEAGE edges (one store, two views). Verified S163: connect_edge holds 0 LINEAGE edges; the reception links live in lineage_record (a separate, richer store). The check-the-engine question -- one store or two? -- resolved to TWO stores, and Decision 225 (PI) locked lineage_record as the STORE OF RECORD; the Connect LINEAGE view, if wanted, is a DERIVED projection from it (a small follow-up). Situate:Lineage renders from lineage_record; it earns no consumes-the-edges green pill because that path is derived, not authored.",
     "Transmission (renamed from 'Witness', PI-locked S163) is THIN -- 1 text-level record for Mark 16. It is honestly a frontier aspect: a definition + one worked record, not a scaled run. Physical store: transmission_record.",
     "Grain is MIXED across the five and must be declared per aspect: Sitz + Paradigm code at BOTH text and move grain; Position is passage-level (per-move position is intended but not populated -- Decompose would stamp passage_id per move); Lineage is move-native; Transmission is text-native. The card states each aspect's grain.",
-    "ALL SIX sub-engines now have their own drawer ('built' = a render-from-data feed on the 12-section template, deployed): Position, Lineage, Paradigm, Sitz, Transmission (S163) + Form (S168). Each carries its own honest pills; the deeper checks (Cold Read, vs-Wild) are owed per drawer and marked there. This parent card summarizes all six.",
+    "ALL SIX sub-engines now have their own drawer ('built' = a render-from-data feed on the 12-section template, deployed): Position, Lineage, Paradigm, Sitz, Transmission (S163) + Form (S168). Each carries its own honest pills; Cold Read has now run on every Situate drawer (2026-08-11, opus cold — all PARTIAL); vs-Wild is mixed (paradigm PASS, form PARTIAL, the rest owed) and marked per drawer. This parent card summarizes all six.",
     "FORM (the 6th aspect, Decision 226 C1/R1, S168) is coded-thin: 1 engine-proposed Mark-16 row. Its communicative_function is DERIVED from Decompose's move-force aggregate (R1, audited: force_profile_json == a fresh recomputation from source_move), not re-coded. Text-grain first pass; pericope-grain owed (Mark 16's two endings collapse into one row). A Form 3-model CRT measures its reliability floor (S168)."
   ],
   "made_by": [
@@ -370,7 +370,9 @@
     },
     "how_to_run": {
       "refresh this card": "./scripts/_run_python.sh scripts/analysis/build_situate_node_drawer_data_s163.py",
-      "the read rule": "resolve the family via text_checkout, then read each sub-engine on its real key (never bare source_key)."
+      "the read rule": "resolve the family via text_checkout, then read each sub-engine on its real key (never bare source_key).",
+      "run the Cold Read check on this card": "./scripts/_run_python.sh scripts/analysis/run_cold_read.py --node situate.parent --drawer-file ../grammarofmeaning-site/engine/data/goldenpath/mark16/situate_node_drawer.json --account hds",
+      "record a confirmed verdict (turns a pill INCOMPLETE -> PASS)": "add a ROWS entry to scripts/analysis/seed_card_check.py citing the run_doc -- the COLDREAD_situate_parent_run_<date>.md that run_cold_read.py just wrote to pm/30_methodology/engine/ (seed_card_check.py FAILS LOUD unless that file exists on disk; copy the shape of an existing ROWS entry: node/check_name/result/run_doc/verified/detail); then ./scripts/_run_python.sh scripts/analysis/seed_card_check.py -- verdicts land in the card_check store and render as the pills"
     },
     "data_source": "source_grounding / source_paradigm / atlas_frame_read_placement / transmission_record / lineage_record, joined through text_checkout; source_move for per-move Sitz/Paradigm.",
     "decision_trail": "CONTRACT_situate_closed_open_grain_s162 (closed/open/grain) - Refinement #5 (4-layer Sitz) - IRR111 (10-category substrate) - IRR207 (paradigm multi-label) - the S162 Seam-2 correction - the S163 parent-card rebuild + the empty-LINEAGE-seam finding."
@@ -387,9 +389,9 @@
     "meta_line": "Fidelity PASS (2026-08-10, mechanical): all five sub-engine stores exist; each is queried on its REAL key (the family, resolved via text_checkout), so the S162 Seam-2 false-negative (source_grounding=0 at the WEB key vs 1 at the base key) cannot recur."
   },
   "cold_read": {
-    "status": "INCOMPLETE",
-    "date": null,
-    "meta_line": "cold read has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py)."
+    "status": "PARTIAL",
+    "date": "2026-08-11",
+    "meta_line": "Cold Read (opus, cold) — PARTIAL. The immediate next action (Cold Read) is fully actionable; residual: R1/CRT aren't defined inline, and the sitz_layers gap isn't reconciled with the 'coded' badge on the card. (run doc: pm/30_methodology/engine/COLDREAD_situate_parent_run_2026-08-11.md)"
   },
   "vs_wild": {
     "status": "n/a-at-parent-grain",

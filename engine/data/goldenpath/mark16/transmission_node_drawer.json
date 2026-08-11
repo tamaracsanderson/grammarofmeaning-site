@@ -15,7 +15,7 @@
     "pills": {
       "fidelity": "PASS -- every label maps to a real transmission_record column",
       "scale": "INCOMPLETE -- 1 reconstructed record (thin); a definition + one worked example, not a scaled run",
-      "cold_read": "INCOMPLETE — cold read has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py).",
+      "cold_read": "PARTIAL — Cold Read (opus, cold) — PARTIAL. The Cold Read command is executable verbatim; residual: the ROWS entry syntax isn't inlined, text_checkout is undefined, and the degrees-from-origin counting rule isn't stated.",
       "vs_wild": "INCOMPLETE — vs wild has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py)."
     },
     "status_line": "Transmission is THIN: 1 reconstructed record for Mark 16 -- 3 degrees from the origin event, composed ~68 CE at 'Rome?', mode 'narrative'. It is an honest FRONTIER aspect (a definition + one worked, reconstructed record, not a scaled run) and it earns no green scale pill. Renamed from 'Witness' (Decision 224)."
@@ -117,7 +117,7 @@
     "THIN + RECONSTRUCTED. This is 1 record for Mark 16 (corpus-wide: 11 witness records total). It is a definition + one worked, RECONSTRUCTED-ESTIMATE record (basis='reconstructed-estimate'), not a scaled or measured run -- so it earns no green scale pill. An honest frontier aspect.",
     "The degrees-from-origin + year are ESTIMATES from source/redaction criticism (Markan priority, Q, the 1 Cor 15:3 Jerusalem creed), flagged as such (s2.8) -- honest reconstruction, not measurement.",
     "The mode enum is controlled-by-convention (no vocab table yet); OWED a live vocab source.",
-    "Cold Read + vs-Wild owed on this card."
+    "Cold Read run 2026-08-11 (opus, cold) — PARTIAL; vs-Wild still owed on this card."
   ],
   "made_by": [
     "transmission_record (the transmission store)",
@@ -125,7 +125,7 @@
     "source / redaction criticism (Markan priority, Q, the 1 Cor 15:3 creed) -- the reconstruction basis",
     "scripts/analysis/build_transmission_subengine_drawer_data_s163.py (this card's data)"
   ],
-  "whats_next": "Scale Transmission beyond the one worked record (the other golden-path + reception texts). Give mode a live vocab source. Run Cold Read + vs-Wild. The Degrees-of-separation output reads this aspect's degrees_from_origin.",
+  "whats_next": "Scale Transmission beyond the one worked record (the other golden-path + reception texts). Give mode a live vocab source. Run vs-Wild (Cold Read has run — PARTIAL). The Degrees-of-separation output reads this aspect's degrees_from_origin.",
   "foundation": {
     "leans_on": [
       "textual criticism (a 'witness' attests a text) + stemmatics (reconstructing the transmission tree)",
@@ -145,7 +145,9 @@
     },
     "how_to_run": {
       "refresh this card": "./scripts/_run_python.sh scripts/analysis/build_transmission_subengine_drawer_data_s163.py",
-      "the read rule": "read transmission_record by the source_key family (text-level; resolve via text_checkout)."
+      "the read rule": "read transmission_record by the source_key family (text-level; resolve via text_checkout).",
+      "run the Cold Read check on this card": "./scripts/_run_python.sh scripts/analysis/run_cold_read.py --node situate.transmission --drawer-file ../grammarofmeaning-site/engine/data/goldenpath/mark16/transmission_node_drawer.json --account hds",
+      "record a confirmed verdict (turns a pill INCOMPLETE -> PASS)": "add a ROWS entry to scripts/analysis/seed_card_check.py citing the run_doc -- the COLDREAD_situate_transmission_run_<date>.md that run_cold_read.py just wrote to pm/30_methodology/engine/ (seed_card_check.py FAILS LOUD unless that file exists on disk; copy the shape of an existing ROWS entry: node/check_name/result/run_doc/verified/detail); then ./scripts/_run_python.sh scripts/analysis/seed_card_check.py -- verdicts land in the card_check store and render as the pills"
     },
     "data_source": "transmission_record (@ MARK-16).",
     "decision_trail": "CONTRACT_situate_closed_open_grain_s162 (witness/transmission closed/open/grain) - Decision 224 (Witness -> Transmission rename) - this drawer."
@@ -161,9 +163,9 @@
     "meta_line": "Scale INCOMPLETE: 1 reconstructed record (thin); a definition + one worked example, not a scaled run. No green scale pill."
   },
   "cold_read": {
-    "status": "INCOMPLETE",
-    "date": null,
-    "meta_line": "cold read has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py)."
+    "status": "PARTIAL",
+    "date": "2026-08-11",
+    "meta_line": "Cold Read (opus, cold) — PARTIAL. The Cold Read command is executable verbatim; residual: the ROWS entry syntax isn't inlined, text_checkout is undefined, and the degrees-from-origin counting rule isn't stated. (run doc: pm/30_methodology/engine/COLDREAD_situate_transmission_run_2026-08-11.md)"
   },
   "vs_wild": {
     "status": "INCOMPLETE",

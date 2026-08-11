@@ -15,7 +15,7 @@
     "pills": {
       "fidelity": "PASS -- every label maps to a real source_grounding / source_move column",
       "coverage": "PARTIAL -- the 10-category substrate is coded; the 4-layer Sitz im Leben is EMPTY for Mark 16 (see limits)",
-      "cold_read": "INCOMPLETE — cold read has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py).",
+      "cold_read": "PARTIAL — Cold Read (opus, cold) — PARTIAL. Cold Read is fully executable from the card; residual: the #1 next action (populate sitz_layers) has no runnable command, and text_checkout / the ROWS shape aren't inlined.",
       "vs_wild": "INCOMPLETE — vs wild has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py)."
     },
     "status_line": "Sitz is coded on Mark 16: a text-level grounding (year ~70 CE, phase 'Formation') + 60/60 moves each carry a per-move world-note. The 10-category substrate is tagged (4 categories); the 4-layer Sitz im Leben (sitz_layers) is NOT populated for Mark 16 -- an honest coverage gap."
@@ -111,7 +111,7 @@
       "year_estimate": 70,
       "paradigm_phase": "Formation",
       "native_periodization": "the time of the euangelion / apostolic generation (the era of eyewitness-transmission to written gospel, post-Temple)",
-      "sitz_summary": "Mark 16 is composed in the immediate shadow of the First Jewish-Roman War and the 70 CE destruction of the Second Temple [POL-FIRST-JEWISH-ROMAN-WAR], which reframes the empty-tomb narrative for a community whose Jerusalem cultic center has just been annihilated — the angel's redirection 'he is going ahead of you to Galilee' pulls the risen Jesus AWAY from ..."
+      "sitz_summary": "Mark 16 is composed in the immediate shadow of the First Jewish-Roman War and the 70 CE destruction of the Second Temple [POL-FIRST-JEWISH-ROMAN-WAR], which reframes the empty-tomb narrative for a community whose Jerusalem cultic center has just been annihilated — the angel's redirection 'he is going ahead of you to Galilee' pulls the risen Jesus AWAY from the destroyed Temple city and back to the Galilean periphery where the movement began [FIG-JESUS-GALILEE-30]. The text is written under Roman imperial administration [POL-PAX-ROMANA, POL-HERODIAN-CLIENT-RULE] — the crucifixion it presupposes is a Roman provincial execution — and circulates in the diaspora house-church network [DEM-JEWGENTILE-ROMAN-CHURCH-54, MIG-CLAUDIUS-EXPULSION-49] that Paul's mission had already seeded [FIG-PAUL-MEDITERRANEAN-50]. The abrupt original ending at v.8 ('they said nothing to anyone, for they were afraid') and the later 'Intermediate Ending' are themselves artifacts of a community in trauma-processing after 70 CE, with the intermediate ending's 'from east to west' language reflecting the already-Mediterranean-wide diaspora reach."
     },
     "sitz_categories_coded": [
       "political_institutional",
@@ -145,7 +145,7 @@
     "THE 4-LAYER SITZ IM LEBEN IS EMPTY for Mark 16. sitz_categories (the 10-category substrate) is coded (4 categories: political_institutional, migration_diaspora, demographic_social, communication_media), but sitz_layers (personal-biography / cultural-intellectual / polemical / ecological-material-geographical) is unpopulated -- a real coverage gap, not a design choice. Owed on the next coding pass.",
     "The two taxonomies are controlled-by-convention (documented definitions, no queryable vocab table); OWED a live definitions store the drawer reads (same as the other non-Frame closed sets).",
     "The text-level Sitz is a single reconstructed grounding; the per-move notes are one coder, one pass, engine-proposed, not reliability-tested.",
-    "Cold Read + vs-Wild owed on this card."
+    "Cold Read run 2026-08-11 (opus, cold) — PARTIAL; vs-Wild still owed on this card."
   ],
   "made_by": [
     "source_grounding (the text-level grounding store) + source_move.sitz (the per-move world-note)",
@@ -153,7 +153,7 @@
     "Refinement #5 (the 4-layer Sitz im Leben) + IRR111 (the 10-category substrate) -- the two taxonomies",
     "scripts/analysis/build_sitz_subengine_drawer_data_s163.py (this card's data)"
   ],
-  "whats_next": "Populate sitz_layers (the 4-layer Sitz im Leben) for Mark 16 -- the coverage gap. Give both taxonomies a live definitions store. Run Cold Read + vs-Wild. Per-move Sitz is already coded (60/60), so Sitz feeds the Enriched move at move grain now.",
+  "whats_next": "Populate sitz_layers (the 4-layer Sitz im Leben) for Mark 16 -- the coverage gap. Give both taxonomies a live definitions store. Run vs-Wild (Cold Read has run — PARTIAL). Per-move Sitz is already coded (60/60), so Sitz feeds the Enriched move at move grain now.",
   "foundation": {
     "leans_on": [
       "Sitz im Leben / form criticism (Gunkel, Bultmann) -- a text's life-setting -- generalised cross-tradition",
@@ -174,7 +174,9 @@
     },
     "how_to_run": {
       "refresh this card": "./scripts/_run_python.sh scripts/analysis/build_sitz_subengine_drawer_data_s163.py",
-      "the read rule": "read source_grounding by the base key; per-move sitz on the live moveset's latest move_grammar_v2 run."
+      "the read rule": "read source_grounding by the base key; per-move sitz on the live moveset's latest move_grammar_v2 run.",
+      "run the Cold Read check on this card": "./scripts/_run_python.sh scripts/analysis/run_cold_read.py --node situate.sitz --drawer-file ../grammarofmeaning-site/engine/data/goldenpath/mark16/sitz_node_drawer.json --account hds",
+      "record a confirmed verdict (turns a pill INCOMPLETE -> PASS)": "add a ROWS entry to scripts/analysis/seed_card_check.py citing the run_doc -- the COLDREAD_situate_sitz_run_<date>.md that run_cold_read.py just wrote to pm/30_methodology/engine/ (seed_card_check.py FAILS LOUD unless that file exists on disk; copy the shape of an existing ROWS entry: node/check_name/result/run_doc/verified/detail); then ./scripts/_run_python.sh scripts/analysis/seed_card_check.py -- verdicts land in the card_check store and render as the pills"
     },
     "data_source": "source_grounding (@ MARK-16) + source_move.sitz (@ MARK-16-WEB).",
     "decision_trail": "CONTRACT_situate_closed_open_grain_s162 (sitz closed/open/grain) - Refinement #5 (4-layer) - IRR111 (10-category) - this drawer."
@@ -190,9 +192,9 @@
     "meta_line": "Coverage PARTIAL: the 10-category substrate is coded (4 categories); the 4-layer Sitz im Leben is empty for Mark 16."
   },
   "cold_read": {
-    "status": "INCOMPLETE",
-    "date": null,
-    "meta_line": "cold read has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py)."
+    "status": "PARTIAL",
+    "date": "2026-08-11",
+    "meta_line": "Cold Read (opus, cold) — PARTIAL. Cold Read is fully executable from the card; residual: the #1 next action (populate sitz_layers) has no runnable command, and text_checkout / the ROWS shape aren't inlined. (run doc: pm/30_methodology/engine/COLDREAD_situate_sitz_run_2026-08-11.md)"
   },
   "vs_wild": {
     "status": "INCOMPLETE",
