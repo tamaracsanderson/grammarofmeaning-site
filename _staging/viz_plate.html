@@ -54,7 +54,7 @@ body.reading .audit-only{display:none!important}
 </style>
 <script>(function(){try{var t=localStorage.getItem("gom-theme")||"light";document.documentElement.dataset.theme=t;}catch(e){}})();</script>
 </head>
-<body>
+<body class="reading">
 <div class="bar">
   <a href="/engine/design-engine.html">&larr; the design engine</a>
   <span class="rm">The Plate · Mark 16 · Text</span>
@@ -83,7 +83,8 @@ var RANGE={lo:1,hi:8};
 
 // audit ↔ reading mode — audit chrome (our vocabulary) is showcase-only; reading strips it
 (function(){
-  if(((location.search.match(/mode=(\w+)/)||[])[1])==="reading") document.body.classList.add("reading");
+  // default = reading (the clean reader view; internal vocabulary stripped); ?mode=audit opts into the showcase
+  if(((location.search.match(/mode=(\w+)/)||[])[1])==="audit") document.body.classList.remove("reading");
   var btn=document.getElementById("modebtn");
   function label(){ btn.innerHTML='view: <b>'+(document.body.classList.contains("reading")?"reading":"audit")+'</b>'; }
   label();
