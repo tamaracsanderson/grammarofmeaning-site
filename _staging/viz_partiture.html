@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The partiture of Mark 16 — one scene, four translations</title>
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#0E0E0C;--ink-soft:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;
+--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;--sky:#3f6d7d;--olive:#6E7B3A;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:70rem;margin:0 auto;padding:40px 20px 90px}
+.kicker{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--sky);margin:0 0 8px}
+h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line-height:1.14;margin:0 0 8px;letter-spacing:-.01em}
+.finding{font-size:16.5px;color:var(--ink);max-width:44rem;margin:12px 0 2px}
+.finding b{color:var(--sky)}
+.how{font-family:var(--sans);font-size:12px;color:var(--ink-3);max-width:44rem;margin:8px 0 0;line-height:1.5}
+.err{font-family:var(--mono);font-size:12px;color:var(--terracotta);padding:20px 0}
+
+.pwrap{overflow-x:auto;margin:20px 0 0;padding-bottom:6px}
+.grid{display:grid;min-width:640px}
+.gcell{border-right:1px solid color-mix(in srgb,var(--rule) 45%,transparent)}
+.vhead{font-family:var(--mono);font-size:9px;color:var(--ink-3);text-align:center;padding:4px 0 5px;cursor:pointer;border-bottom:1px solid var(--rule)}
+.vhead.sel{color:var(--sky);font-weight:600}
+.lanelbl{font-family:var(--sans);font-size:11px;color:var(--ink);padding:0 10px 0 2px;display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid color-mix(in srgb,var(--rule) 40%,transparent);white-space:nowrap}
+.lanelbl b{font-family:var(--disp);font-size:13px}
+.lanelbl .meta{font-family:var(--mono);font-size:8.5px;color:var(--ink-3);margin-top:1px}
+.seislbl{font-family:var(--mono);font-size:8.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);display:flex;align-items:flex-end;justify-content:flex-end;padding:0 10px 4px 0}
+.cell{height:52px;padding:5px 3px;display:flex;flex-direction:column;gap:2px;cursor:pointer;border-bottom:1px solid color-mix(in srgb,var(--rule) 40%,transparent);transition:background .15s}
+.cell:hover{background:color-mix(in srgb,var(--sky) 8%,transparent)}
+.cell.selcol{background:color-mix(in srgb,var(--sky) 12%,transparent)}
+.blk{flex:1;border-radius:2px;background:color-mix(in srgb,var(--ink-3) 22%,var(--paper-3));border:1px solid color-mix(in srgb,var(--ink-3) 24%,transparent);min-height:3px}
+.cell.hi .blk{background:color-mix(in srgb,var(--sky) 34%,var(--paper-3));border-color:color-mix(in srgb,var(--sky) 46%,transparent)}
+.seiscell{height:46px;display:flex;align-items:flex-end;justify-content:center;padding:0 3px 0;cursor:pointer;border-bottom:1px solid var(--rule)}
+.seisbar{width:70%;border-radius:2px 2px 0 0;min-height:2px}
+.gran{font-family:var(--mono);font-size:8px;color:var(--ink-3);text-align:center;padding:2px 0 0}
+
+.detail{margin:22px 0 0;min-height:20px}
+.card{background:var(--paper-3);border:1px solid var(--rule);border-radius:12px;border-left:3px solid var(--sky);padding:16px 18px}
+.card .vh{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline;margin-bottom:4px}
+.card .v{font-family:var(--mono);font-size:12px;color:var(--sky)}
+.card .var{font-family:var(--sans);font-size:12px;color:var(--ink-3)}
+.card .granrow{font-family:var(--sans);font-size:12.5px;color:var(--ink-2);margin:4px 0 10px}
+.card .granrow b{color:var(--ink);font-family:var(--mono);font-size:12px}
+.gpart{margin:8px 0 0}
+.gpart .k{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--sky);margin-bottom:2px}
+.gpart .t{font-size:14px;color:var(--ink-2);line-height:1.55}
+.thin{font-family:var(--sans);font-size:12.5px;color:var(--ink-3);font-style:italic}
+.hint{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:italic}
+.src{font-family:var(--mono);font-size:9px;color:var(--ink-3);opacity:.7;margin:36px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Compare · the translation partiture</p>
+  <h1>One scene, four translations</h1>
+  <p class="finding">The <b>scene stays stable</b> — the same events, verse by verse. What changes is how each translation <b>re-cuts</b> it: where the versions disagree most (16:6 &ldquo;he is risen,&rdquo; 16:8 the abrupt ending), the segmentation and the sound diverge. Granularity is <b>local</b>, not a version-wide style.</p>
+  <p class="how">Four language-lanes over a shared verse spine (Greek → Latin → KJV → WEB, oldest at top — lane position <em>is</em> the version). Each cell shows that verse's <em>moves as blocks</em>: more stripes = the verse cut finer. The strip on top is the variance seismograph — the taller the bar, the more the four disagree at that verse. Click a verse to read what's at stake.</p>
+  <div id="stage"><p class="err" id="loading">Loading the partiture…</p></div>
+  <p class="src" id="src"></p>
+</div>
+
+<script>
+var URL="/engine/data/partiture_mark16_v1.json";
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function humanize(k){return String(k).replace(/_/g," ").replace(/\b\w/g,function(c){return c.toUpperCase();});}
+var D=null, LANES=[], SEL=null;
+
+fetch(URL).then(function(r){return r.json();}).then(build).catch(function(e){
+  document.getElementById("stage").innerHTML='<p class="err">Could not load the partiture feed ('+esc(e.message)+').</p>';
+});
+
+function build(d){
+  D=d; LANES=d.lanes.slice().sort(function(a,b){return a.order-b.order;});
+  var M=d.moments, n=M.length;
+  var cols="170px repeat("+n+",1fr)";
+  var h='<div class="pwrap"><div class="grid" id="grid" style="grid-template-columns:'+cols+'">';
+  // seismograph row
+  h+='<div class="seislbl">variance &rarr;</div>';
+  M.forEach(function(m,i){
+    var v=(m.variance&&typeof m.variance.composite==="number")?m.variance.composite:0;
+    var col=v>=0.6?"--terracotta":(v>=0.34?"--gold":"--sky");
+    h+='<div class="seiscell gcell" data-vi="'+i+'" title="16:'+m.verse.split(":")[1]+' · variance '+v.toFixed(2)+'"><div class="seisbar" style="height:'+Math.max(3,v*40)+'px;background:var('+col+')"></div></div>';
+  });
+  // verse header row
+  h+='<div class="lanelbl" style="border-bottom:1px solid var(--rule)"><b>the verse &rarr;</b></div>';
+  M.forEach(function(m,i){h+='<div class="vhead gcell" data-vi="'+i+'" id="vh'+i+'">'+esc(m.verse)+'</div>';});
+  // lane rows
+  LANES.forEach(function(L){
+    h+='<div class="lanelbl"><b>'+esc(L.label)+'</b><span class="meta">'+esc(L.date||"")+' · '+esc(L.metric||"")+'</span></div>';
+    M.forEach(function(m,i){
+      var blocks=(m.lanes[L.key]&&m.lanes[L.key].blocks)||[];
+      var bars=blocks.map(function(b){return '<div class="blk" title="'+esc((m.verse)+' '+L.label+' — '+(b.operation||""))+'"></div>';}).join("");
+      h+='<div class="cell gcell" data-vi="'+i+'" data-lane="'+L.key+'">'+bars+'<div class="gran">'+blocks.length+'</div></div>';
+    });
+  });
+  h+='</div></div>';
+  h+='<div class="detail" id="detail"><p class="hint">Click a verse to read the glossa — where the versions re-cut, and what is at stake in the choice.</p></div>';
+  document.getElementById("stage").innerHTML=h;
+
+  var g=document.getElementById("grid");
+  g.querySelectorAll("[data-vi]").forEach(function(el){el.addEventListener("click",function(){selectVerse(+this.getAttribute("data-vi"));});});
+  document.getElementById("src").textContent="rendered from partiture_mark16_v1.json ("+n+" verse-moments · 4 lanes · verse-level v1) · partiture_v1_export_s161.py";
+}
+
+function selectVerse(i){
+  SEL=(SEL===i?null:i);
+  var cells=document.getElementById("grid").querySelectorAll(".cell, .seiscell, .vhead");
+  cells.forEach(function(c){var vi=+c.getAttribute("data-vi"); var on=SEL!==null&&vi===SEL;
+    c.classList.toggle("selcol",on&&c.className.indexOf("cell")>=0);
+    c.classList.toggle("hi",on&&c.className.indexOf("cell")>=0&&c.className.indexOf("seiscell")<0);
+    c.classList.toggle("sel",on&&c.className.indexOf("vhead")>=0);
+  });
+  var det=document.getElementById("detail");
+  if(SEL===null){det.innerHTML='<p class="hint">Click a verse to read the glossa — where the versions re-cut, and what is at stake in the choice.</p>';return;}
+  var m=D.moments[SEL], v=(m.variance&&m.variance.composite)||0;
+  var counts=LANES.map(function(L){return esc(L.label.split(" ")[0])+' '+((m.lanes[L.key]&&m.lanes[L.key].blocks)||[]).length;}).join(" · ");
+  var h='<div class="card"><div class="vh"><span class="v">'+esc(m.verse)+'</span><span class="var">variance '+v.toFixed(2)+(v>=0.6?' — a hotspot':'')+'</span></div>';
+  h+='<div class="granrow">re-cut into <b>'+counts+'</b> blocks — same scene, different segmentation</div>';
+  var g=m.glossa;
+  if(g && typeof g==="object" && (g.confidence==="high" || Object.keys(g).filter(function(k){return typeof g[k]==="string"&&k!=="confidence";}).length)){
+    ["source_pressure","rendering_choice","formal_consequence","interpretive_stakes"].forEach(function(k){
+      if(typeof g[k]==="string"&&g[k]) h+='<div class="gpart"><div class="k">'+humanize(k)+'</div><div class="t">'+esc(g[k])+'</div></div>';
+    });
+    // any other string parts not in the canonical four
+    Object.keys(g).forEach(function(k){ if(["source_pressure","rendering_choice","formal_consequence","interpretive_stakes","confidence"].indexOf(k)<0 && typeof g[k]==="string"&&g[k]) h+='<div class="gpart"><div class="k">'+humanize(k)+'</div><div class="t">'+esc(g[k])+'</div></div>'; });
+  } else {
+    h+='<p class="thin">No full grammarian verdict at this verse yet — the glossa is richest where variance peaks (16:6). The block counts above still show the re-cutting.</p>';
+  }
+  h+='</div>';
+  det.innerHTML=h;
+}
+</script>
+
+<!-- ── METHODOLOGY FOOTER ──
+HOW PRODUCED: design-SB S170 (2026-08-11), WORK-QUEUE [B] — the translation PARTITURE v1 hero (PI greenlit; DATA on main).
+  Renders DATA_partiture_mark16_v1_s161.json (mirrored -> engine/data/partiture_mark16_v1.json) to the schema design-SB locked:
+  4 language-lanes (Greek/Latin/KJV/WEB, oldest-at-top — lane position IS the version) over the shared 20-verse spine; each
+  cell renders that verse's move-BLOCKS as stripes (count = granularity — the re-cutting is visible where lanes disagree, e.g.
+  16:6 = 4/3/7/6); a variance SEISMOGRAPH strip (composite per verse, warm at hotspots — 16:8 = 1.0 the abrupt ending); glossa
+  card gated by variance/confidence (the 4-part source-pressure/rendering-choice/formal-consequence/interpretive-stakes,
+  rich at 16:6). Render-craft per the S161 brief: STACKED PARALLEL LANES (not descent-ribbons — ribbons imply genealogy),
+  granularity is LOCAL not a version-style. Render-from-data (§2.16) off the LATEST run (§4); verse-level so the M56-M60
+  move-count issue does not apply.
+SCHOLARLY SOURCES: DESIGN_BRIEF_translation_compare_partiture_s161 + the Phase-3 partiture lock (the JSON schema design-SB
+  locked); DATA_partiture_mark16_v1_s161 (lanes/moments/blocks/variance/glossa/links); 3DR-4 viz reconciliation (Fable mockup =
+  visual target); Cleveland-McGill (position/length over area); §2.8 (the sonic-thins-with-translation metric in the lane labels).
+WHAT NEEDS VERIFICATION: (1) live-verify (pane policy-blocked -> offline+curl per DWS conventions). (2) v2 = the L2 MOVE-LEVEL
+  alignment (which GRC move <-> which EN move -> braiding ribbons from the explicit `links` at move granularity) — reading-SB owes
+  the aligned move-families; v1 links are verse-level fan. (3) etymology descent-threads + per-block sonic texture = v2. (4) the
+  glossa is rich only at 16:6 until reading-SB's leaner-panel harness re-runs (confidence-gated, rendered gracefully thin elsewhere). -->
+</body>
+</html>
