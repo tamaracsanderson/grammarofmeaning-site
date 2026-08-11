@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The watershed of Mark 16 — where prior tradition flows in</title>
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#0E0E0C;--ink-soft:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;
+--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;--sky:#3f6d7d;--olive:#6E7B3A;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:58rem;margin:0 auto;padding:42px 22px 90px}
+.kicker{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+h1{font-family:var(--disp);font-weight:420;font-size:clamp(24px,4vw,36px);line-height:1.14;margin:0 0 8px;letter-spacing:-.01em}
+.sub{font-size:15px;color:var(--ink-2);max-width:42rem;margin:0 0 6px;font-style:italic}
+.finding{font-size:16.5px;color:var(--ink);max-width:42rem;margin:14px 0 2px}
+.finding b{color:var(--gold)}
+.err{font-family:var(--mono);font-size:12px;color:var(--terracotta);padding:20px 0}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin:18px 0 6px;font-family:var(--sans);font-size:12px;color:var(--ink-2)}
+.legend .t{display:inline-flex;align-items:center;gap:7px;cursor:pointer;padding:2px 8px;border-radius:999px;border:1px solid transparent}
+.legend .t:hover{border-color:var(--rule)}
+.legend .t.dim{opacity:.4}
+.legend .t .sw{width:18px;height:5px;border-radius:3px}
+.legend .t .c{font-family:var(--mono);font-size:10px;color:var(--ink-3)}
+.figwrap{overflow-x:auto;margin:8px 0 0}
+svg{display:block;max-width:100%}
+.moveLbl{font-family:var(--mono);font-size:9px;fill:var(--ink-2)}
+.moveTxt{font-family:var(--sans);font-size:11px;fill:var(--ink-2)}
+.trunkLbl{font-family:var(--disp);font-size:14px}
+.trunkCount{font-family:var(--mono);font-size:9px;fill:var(--ink-3)}
+.trib{fill:none;stroke-linecap:round}
+.rivernode{cursor:pointer}
+.hint{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:italic;margin:6px 0 0}
+.detail{margin:18px 0 0;min-height:20px}
+.card{background:var(--paper-3);border:1px solid var(--rule);border-radius:12px;border-left:3px solid var(--gold);padding:15px 18px}
+.card .top{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline;margin-bottom:6px}
+.card .mv{font-family:var(--mono);font-size:11px;color:var(--gold)}
+.card .conn{font-family:var(--sans);font-size:13px;color:var(--ink-3);font-style:italic}
+.card .source{font-family:var(--disp);font-size:18px;color:var(--ink)}
+.card .seamlbl{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--terracotta);margin:8px 0 3px}
+.card .seam{font-size:14px;color:var(--ink-2);line-height:1.55;font-style:italic}
+.caption{font-family:var(--sans);font-size:11.5px;color:var(--ink-3);max-width:42rem;margin:18px 0 0;line-height:1.5}
+.src{font-family:var(--mono);font-size:9px;color:var(--ink-3);opacity:.7;margin:34px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Lineage · the watershed</p>
+  <h1>The watershed of Mark&nbsp;16</h1>
+  <p class="sub">Prior tradition as tributaries — where earlier scripture and gospel flow into the narrative, and where the channel runs dry.</p>
+  <div id="stage"><p class="err" id="loading">Loading the watershed…</p></div>
+  <p class="caption">One trunk per source <em>family</em>, not one line per reference — tributaries branch only near the move they feed. Line style grades the claim (quotes / echoes / reworks); a river reach with no tributary is a move with no coded upstream. Render-from-data · MARK-16-WEB.</p>
+  <p class="src" id="src"></p>
+</div>
+
+<script>
+var URL="/engine/data/lineage_matrix_mark16_s161.json";
+var FAM=[{k:"Hebrew-Bible",hue:"--gold",label:"Hebrew Bible"},{k:"synoptic",hue:"--fern",label:"synoptic gospel"},{k:"other",hue:"--moss",label:"early Christian"}];
+var CONN={quotation:"quotes",echo:"echoes",allusion:"alludes to",paraphrase:"reworks"};
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function cvar(v){return (getComputedStyle(document.documentElement).getPropertyValue(v)||"#888").trim();}
+function mvnum(l){return parseInt(String(l).replace(/[^0-9]/g,""),10)||0;}
+var CELLS=[], ACTIVEFAM=null;
+
+fetch(URL).then(function(r){return r.json();}).then(build).catch(function(e){
+  document.getElementById("stage").innerHTML='<p class="err">Could not load the lineage feed ('+esc(e.message)+').</p>';
+});
+
+function build(d){
+  CELLS=d.cells||[];
+  var famPresent=FAM.filter(function(f){return CELLS.some(function(c){return c.family===f.k;});});
+  var counts={}; famPresent.forEach(function(f){counts[f.k]=new Set();});
+  CELLS.forEach(function(c){if(counts[c.family])counts[c.family].add(c.move);});
+  // heaviest tributary
+  var heaviest=famPresent.slice().sort(function(a,b){return counts[b.k].size-counts[a.k].size;})[0];
+
+  var h='<p class="finding">Prior tradition enters Mark 16 as three streams. The <b>'+esc(heaviest.label)+'</b> tributary runs heaviest ('+counts[heaviest.k].size+' moves) — its strongest current is Mark 14:28 (&ldquo;he goes before you into Galilee&rdquo;) quoted back at the empty tomb. Most of the river, though, runs with <b>no tributary at all</b>.</p>';
+  // legend (toggles)
+  h+='<div class="legend" id="legend">';
+  famPresent.forEach(function(f){h+='<span class="t" data-fam="'+esc(f.k)+'"><span class="sw" style="background:var('+f.hue+')"></span>'+esc(f.label)+' <span class="c">'+counts[f.k].size+' moves</span></span>';});
+  h+='</div>';
+  h+='<div class="figwrap" id="figwrap"></div>';
+  h+='<p class="hint">Click a stream to isolate it · click a river node to read the source and the seam it leaves open.</p>';
+  h+='<div class="detail" id="detail"></div>';
+  document.getElementById("stage").innerHTML=h;
+
+  drawRiver(d,famPresent,counts);
+  document.getElementById("legend").querySelectorAll(".t").forEach(function(t){
+    t.addEventListener("click",function(){var f=this.getAttribute("data-fam");ACTIVEFAM=(ACTIVEFAM===f?null:f);refreshActive();});
+  });
+  document.getElementById("src").textContent="rendered from lineage_matrix_mark16_s161.json ("+CELLS.length+" cells · "+(d.absence_moves||[]).length+" dry reaches) · build_lineage_matrix_export_s161.py";
+}
+
+function drawRiver(d,fams,counts){
+  var sourced=[]; CELLS.forEach(function(c){if(sourced.indexOf(c.move)<0)sourced.push(c.move);});
+  sourced.sort(function(a,b){return mvnum(a)-mvnum(b);});
+  var n=sourced.length;
+  var W=760,rowH=34,padTop=30,padBot=20,H=padTop+padBot+n*rowH;
+  var riverX=W-150, trunkX=120, trunkGap=(riverX-trunkX-40)/Math.max(1,fams.length-1);
+  var yOf={}; sourced.forEach(function(mv,i){yOf[mv]=padTop+i*rowH+rowH/2;});
+  var trunkX_=function(fi){return trunkX+fi*trunkGap;};
+
+  var s='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMinYMin meet" role="img" aria-label="lineage watershed of Mark 16">';
+  // the river (Mark 16) — a vertical channel on the right
+  s+='<line x1="'+riverX+'" y1="'+(padTop-14)+'" x2="'+riverX+'" y2="'+(H-padBot+6)+'" stroke="var(--rule)" stroke-width="3"/>';
+  s+='<text class="moveLbl" x="'+riverX+'" y="'+(padTop-20)+'" text-anchor="middle" style="fill:var(--ink-3)">MARK 16 &darr;</text>';
+  // trunk heads
+  fams.forEach(function(f,fi){
+    s+='<text class="trunkLbl" x="'+trunkX_(fi)+'" y="18" text-anchor="middle" style="fill:var('+f.hue+')">'+esc(f.label)+'</text>';
+    s+='<text class="trunkCount" x="'+trunkX_(fi)+'" y="30" text-anchor="middle">'+counts[f.k].size+'</text>';
+    s+='<line x1="'+trunkX_(fi)+'" y1="34" x2="'+trunkX_(fi)+'" y2="'+(H-padBot)+'" stroke="var('+f.hue+')" stroke-width="1" opacity="0.25" stroke-dasharray="2 4" data-trunk="'+esc(f.k)+'"/>';
+  });
+  // tributaries: each cell = a curve from its family trunk to its river node
+  CELLS.forEach(function(c,idx){
+    var fi=fams.map(function(f){return f.k;}).indexOf(c.family); if(fi<0)return;
+    var f=fams[fi], y=yOf[c.move], tx=trunkX_(fi);
+    var mx=(tx+riverX)/2, dash=vehDash(c.vehicle), op=certOp(c.link_certainty);
+    s+='<path class="trib" data-fam="'+esc(c.family)+'" data-gid="'+esc(c.seam_gap_id)+'" d="M'+tx+' '+(y-6)+' C '+mx+' '+(y-6)+' '+mx+' '+y+' '+riverX+' '+y+'" stroke="var('+f.hue+')" stroke-width="'+(op>=.9?2.4:1.6)+'" opacity="'+op+'"'+(dash?' stroke-dasharray="'+dash+'"':'')+'/>';
+  });
+  // river nodes (the sourced moves) + dry reaches between are just the bare channel
+  sourced.forEach(function(mv){
+    var y=yOf[mv], cs=CELLS.filter(function(c){return c.move===mv;}), fam=cs[0].family, hue=(fams.filter(function(f){return f.k===fam;})[0]||{hue:"--ink-3"}).hue;
+    s+='<circle class="rivernode" data-mv="'+esc(mv)+'" cx="'+riverX+'" cy="'+y+'" r="5" fill="var('+hue+')" stroke="var(--paper)" stroke-width="1.5"/>';
+    s+='<text class="moveLbl" x="'+(riverX+12)+'" y="'+(y+3)+'">'+esc(mv)+'</text>';
+    s+='<text class="moveTxt" x="'+(riverX+40)+'" y="'+(y+3)+'">'+esc(shortSource(cs[0].source))+'</text>';
+  });
+  s+='</svg>';
+  document.getElementById("figwrap").innerHTML=s;
+  document.querySelectorAll(".rivernode").forEach(function(nd){nd.addEventListener("click",function(){selectMove(this.getAttribute("data-mv"));});});
+  document.querySelectorAll(".trib").forEach(function(tb){tb.addEventListener("click",function(){selectGid(this.getAttribute("data-gid"));});});
+}
+function vehDash(v){v=String(v||"").toLowerCase();if(v==="quotation")return"";if(v==="echo")return"6 4";return"2 5";}
+function certOp(c){c=String(c||"").toLowerCase();if(c.indexOf("explicit")>=0)return 1;if(c.indexOf("contested")>=0||c.indexOf("weak")>=0)return .4;return .68;}
+function shortSource(s){s=String(s||"");return s.length>30?s.slice(0,29)+"…":s;}
+
+function refreshActive(){
+  document.getElementById("legend").querySelectorAll(".t").forEach(function(t){t.classList.toggle("dim",ACTIVEFAM&&t.getAttribute("data-fam")!==ACTIVEFAM);});
+  document.querySelectorAll(".trib").forEach(function(tb){tb.style.display=(!ACTIVEFAM||tb.getAttribute("data-fam")===ACTIVEFAM)?"":"none";});
+}
+function selectGid(gid){var c=CELLS.filter(function(x){return x.seam_gap_id===gid;})[0];if(c)showCell(c);}
+function selectMove(mv){var c=CELLS.filter(function(x){return x.move===mv;})[0];if(c)showCell(c);}
+function showCell(c){
+  var conn=CONN[String(c.vehicle||"").toLowerCase()]||"draws on";
+  var h='<div class="card"><div class="top"><span class="mv">'+esc(c.move)+'</span>'+
+    '<span class="conn">'+esc(conn)+'</span><span class="source">'+esc(c.source)+'</span></div>'+
+    '<div class="seamlbl">what the borrowing leaves unsaid</div><div class="seam">'+esc(c.seam)+'</div></div>';
+  document.getElementById("detail").innerHTML=h;
+}
+</script>
+
+<!-- ── METHODOLOGY FOOTER ──
+HOW PRODUCED: design-SB S170 (2026-08-11), WORK-QUEUE [5b] — the LINEAGE WATERSHED (the "memorable" companion to the
+  lineage matrix, per DESIGN_BRIEF_lineage_tributary_viz_s161). Mark 16 as a vertical river; three source-family trunks
+  (Hebrew Bible / synoptic / early-Christian) send tributaries into the moves they feed — ONE trunk per family (not one
+  line per reference) so tributaries branch only near the receiving move (kills the v1 crossings). Line style grades the
+  claim (quotes/echoes/reworks from `vehicle`), opacity = `link_certainty`; a stream isolates on click; a river node opens
+  the source + `seam` (what it leaves unsaid). Render-from-data (§2.16) off the same mirrored lineage_matrix_mark16_s161.json.
+SCHOLARLY SOURCES: DESIGN_BRIEF_lineage_tributary_viz_s161 (§watershed: one-trunk-per-family, graded connectors, arrowheads
+  only when direction claimed); DATA_lineage_matrix_s161 (cells + families); §2.8 (the dry reaches = negative space; the
+  seam = the unsaid). Pairs with viz_lineage_matrix.html (the audit half — "matrix establishes, watershed makes it stick").
+WHAT NEEDS VERIFICATION: (1) live-verify (pane policy-blocked for the live domain -> offline+curl per DWS conventions).
+  (2) the brief's "show only 4-5 most-loaded moves" is relaxed here to all 16 sourced moves (n is small + legible); revisit
+  if it crowds. (3) directionality-driven arrowheads (direct vs common-tradition) are a v2 refinement. -->
+</body>
+</html>
