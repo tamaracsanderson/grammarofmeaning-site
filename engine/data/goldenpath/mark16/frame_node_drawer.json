@@ -9,20 +9,20 @@
     "owner": "atlas_frame_reader.py (consumed, not rebuilt)"
   },
   "header": {
-    "title": "Frame",
+    "title": "Position",
     "subtitle": "place the text on the 8 axes -- the coordinates of the mind that made it",
     "parent": "Situate",
-    "output": "Morphospace (the frame read as a space texts sit in)",
+    "output": "Morphospace (the position read as a space texts sit in)",
     "grain": "passage-level (keyed by passage_id, NOT source_key -- the Seam-2 key)",
     "pills": {
       "fidelity": "PARTIAL -- golden path clean; corpus-wide drift (now caught)",
       "cold_read": "PARTIAL (S163) -- fixes applied",
       "vs_wild": "PASS (floor) -- covers the naive read + adds rigor; atlas under-weights fear (noted)"
     },
-    "status_line": "Frame places a text on 8 axes; on Mark 16 it is clean -- 26 placements across 8 of 8 axes, all in-vocab. Its vocab renders LIVE from exom_axis_vocabulary (never hardcoded), which is why it is the calibration model. Honest limit: corpus-wide (39513 placements across many texts), 429 axis/value pairs drifted off-vocab WITHOUT a fit-or-extend candidate; the S163 drift-check now catches it. So: golden path clean, corpus drift named."
+    "status_line": "Position places a text on 8 axes; on Mark 16 it is clean -- 26 placements across 8 of 8 axes, all in-vocab. Its vocab renders LIVE from exom_axis_vocabulary (never hardcoded), which is why it is the calibration model. Honest limit: corpus-wide (57235 placements across many texts), 0 axis/value pairs drifted off-vocab WITHOUT a fit-or-extend candidate; the S163 drift-check now catches it. So: golden path clean, corpus drift named."
   },
-  "what_it_is": "Frame reads a whole passage and places it on eight axes -- the coordinates of the mind that produced it: how it knows (epistemic-warrant), what it takes to be real (ontological-commitment), how it reasons (inferential-operation), what end it seeks (telos), its attitude (evaluative-stance), how it interprets (hermeneutic-posture), and the shape + terms of the ground<->world relation (r_topology, r_condition). The eight coordinates ARE the text's position in the Morphospace.",
-  "why_it_matters": "A frame placement is what lets two texts be COMPARED as points in one space rather than argued about impressionistically. It is also where an absence shows: an axis a text does NOT engage (the not-engaged sentinel) is a real, coded fact -- a mind that never asks the ontological question is telling you something. The morphospace is the map convergence and divergence are read off.",
+  "what_it_is": "Position reads a whole passage and places it on eight axes -- the coordinates of the mind that produced it: how it knows (epistemic-warrant), what it takes to be real (ontological-commitment), how it reasons (inferential-operation), what end it seeks (telos), its attitude (evaluative-stance), how it interprets (hermeneutic-posture), and the shape + terms of the ground<->world relation (r_topology, r_condition). The eight coordinates ARE the text's position in the Morphospace.",
+  "why_it_matters": "A Position placement is what lets two texts be COMPARED as points in one space rather than argued about impressionistically. It is also where an absence shows: an axis a text does NOT engage (the not-engaged sentinel) is a real, coded fact -- a mind that never asks the ontological question is telling you something. The morphospace is the map convergence and divergence are read off.",
   "how_it_works": {
     "you_give_it": "a passage (its text + passage_id).",
     "the_method_does": "one atlas-reader pass places the passage on each of the 8 axes onto the ESTABLISHED vocab (fit-or-extend: propose a new value if none fits), with a confidence per value, a membership weight where a real compound splits an axis, and an explicit not-engaged when the axis does not apply.",
@@ -31,14 +31,14 @@
   "pipeline_context": {
     "note": "sibling terms glossed so the card stands alone.",
     "move": "one small action a text makes (agent does an operation to something, with a result) -- the unit the pipeline codes.",
-    "Decompose": "the node that breaks a passage into moves; Frame (in Situate) runs alongside it.",
-    "Situate": "the parent node: attaches context to each move; Frame is its coordinates aspect.",
-    "Morphospace": "the output Frame feeds: the 8 axes read as a space; each text is a point, distances are comparisons.",
+    "Decompose": "the node that breaks a passage into moves; Position (in Situate) runs alongside it.",
+    "Situate": "the parent node: attaches context to each move; Position is its coordinates aspect.",
+    "Morphospace": "the output Position feeds: the 8 axes read as a space; each text is a point, distances are comparisons.",
     "fit-or-extend": "the vocab discipline (s2.1 = cast wide, do not pre-anchor): pick from the established values; if none fits, PROPOSE a candidate (never force-fit).",
     "the candidate log": "atlas_frame_read_candidate -- where a proposed new value (or a probed 9th axis) is recorded for review.",
     "not-engaged": "an explicit sentinel placement: this axis does NOT apply to this text (so zero is provably distinct from a missed read). NOT the same as the ontological value 'not-asserted' (a real placement).",
-    "passage_id": "the atlas's key -- Frame is keyed by passage_id, not source_key (resolve via text_checkout, the crosswalk from a text to its passages).",
-    "Seam-2": "the failure this card guards against: reading a text on ONE key while its data sits under a sibling key (a key-scatter false-negative). Frame's is passage_id, not source_key.",
+    "passage_id": "the atlas's key -- Position is keyed by passage_id, not source_key (resolve via text_checkout, the crosswalk from a text to its passages).",
+    "Seam-2": "the failure this card guards against: reading a text on ONE key while its data sits under a sibling key (a key-scatter false-negative). Position's is passage_id, not source_key.",
     "usage-driven inclusion": "the vocab is NOT a green/candidate approval gate (that framing is retired) -- a value belongs to an axis by how often it is actually PLACED across the corpus; the dictionary orders values by use-count.",
     "emergent-via-use": "values the reader has PLACED but that are not yet settled in the set (surfacing through use); the CRT's worklist to add / merge / hold.",
     "R1-R5": "the atlas reader's coding rubric (Decision 201): R5 = exactly the 8 axes; R1-R4 govern how richly + honestly each placement is coded. Not a reliability grade.",
@@ -74,13 +74,13 @@
             {
               "value": "tradition",
               "definition": "It has been handed down. The warrant is inheritance: the claim is licensed because a tradition, community, or institution holds and transmits it, not because any single living witness saw it. Covers received tradition, communal consensus (ijma, sangha), and institutional authority.",
-              "uses": 916,
+              "uses": 917,
               "status": "green"
             },
             {
               "value": "observation",
               "definition": "You see it yourself. Direct, unmediated sensory access, with no witness between the knower and the known.",
-              "uses": 879,
+              "uses": 880,
               "status": "green"
             },
             {
@@ -145,7 +145,7 @@
             {
               "value": "personal-agentive",
               "definition": "A personal will is fundamental. What is most real is someone, an agent with intention, not an impersonal stuff or law.",
-              "uses": 1497,
+              "uses": 1498,
               "status": "green"
             },
             {
@@ -234,7 +234,7 @@
             {
               "value": "derivation",
               "definition": "Deduces from premises already accepted: the conclusion follows necessarily from first principles, regardless of where those principles came from (even if scriptural).",
-              "uses": 826,
+              "uses": 827,
               "status": "green"
             },
             {
@@ -252,7 +252,7 @@
             {
               "value": "analogical-mapping",
               "definition": "Transfers structure from one domain to another: A is to B as C is to D. The conclusion rides on the likeness.",
-              "uses": 599,
+              "uses": 600,
               "status": "green"
             },
             {
@@ -293,13 +293,13 @@
             {
               "value": "salvation",
               "definition": "Rescue and restoration. Something is wrong or broken, and a right relation is put back.",
-              "uses": 1566,
+              "uses": 1567,
               "status": "green"
             },
             {
               "value": "fidelity-service",
               "definition": "Obedience, duty, worship, preservation. The marker: the end is not the agent own benefit.",
-              "uses": 860,
+              "uses": 861,
               "status": "green"
             },
             {
@@ -376,13 +376,13 @@
             {
               "value": "reverent",
               "definition": "Regards the object as sacred or authoritative: approached with deference and awe, as something that may make a claim on the reader.",
-              "uses": 1920,
+              "uses": 1921,
               "status": "green"
             },
             {
               "value": "neutral-descriptive",
               "definition": "Regards the object without evaluative commitment: describes it without endorsing, discounting, deferring to, or suspecting it.",
-              "uses": 1012,
+              "uses": 1013,
               "status": "green"
             },
             {
@@ -447,13 +447,13 @@
             {
               "value": "reparative-integrative",
               "definition": "The surface plus. Reads generously, assembles, repairs, seeks what the text can be made to sustain.",
-              "uses": 1235,
+              "uses": 1236,
               "status": "green"
             },
             {
               "value": "performative",
               "definition": "Treats the text as an ACT to be enacted/performed (ritual, liturgical, legal, dramatic, sung) — its meaning is in the DOING, not only the interpreting.",
-              "uses": 923,
+              "uses": 924,
               "status": "candidate"
             },
             {
@@ -488,7 +488,7 @@
             {
               "value": "graded-asymmetry",
               "definition": "Parties occupy unequal positions; authority or permission flows predominantly one way.",
-              "uses": 989,
+              "uses": 990,
               "status": "candidate"
             },
             {
@@ -506,7 +506,7 @@
             {
               "value": "delegated-voice",
               "definition": "A party utters, in the first person, words commissioned by an absent principal. The third lends a mouth so an absent party's own voice reaches the addressee — a conduit for VOICE, not a position that stabilises.",
-              "uses": 407,
+              "uses": 408,
               "status": "candidate"
             },
             {
@@ -595,7 +595,7 @@
             {
               "value": "fitting-attunement",
               "definition": "The shape is set by what comportment is appropriate to this particular other.",
-              "uses": 263,
+              "uses": 264,
               "status": "candidate"
             },
             {
@@ -679,7 +679,7 @@
         "note": "OPEN; the warrant + the reader's uncertainty"
       }
     ],
-    "live_vocab_rule": "Frame is THE model for the live-vocab rule: axis + value render from the canonical field dictionary (DATA_atlas_field_dictionary.json), so the drawer cannot go stale or diverge from it. Inclusion is USAGE-DRIVEN (how often a value is actually placed), not a green/candidate approval gate; the reader may surface a new value (fit-or-extend), which must be logged -- the S163 drift-check enforces that discipline (Layer 3)."
+    "live_vocab_rule": "Position is THE model for the live-vocab rule: axis + value render from the canonical field dictionary (DATA_atlas_field_dictionary.json), so the drawer cannot go stale or diverge from it. Inclusion is USAGE-DRIVEN (how often a value is actually placed), not a green/candidate approval gate; the reader may surface a new value (fit-or-extend), which must be logged -- the S163 drift-check enforces that discipline (Layer 3)."
   },
   "the_method_applied": {
     "source_key": "MARK-16-WEB",
@@ -748,13 +748,13 @@
             {
               "value": "tradition",
               "definition": "It has been handed down. The warrant is inheritance: the claim is licensed because a tradition, community, or institution holds and transmits it, not because any single living witness saw it. Covers received tradition, communal consensus (ijma, sangha), and institutional authority.",
-              "uses": 916,
+              "uses": 917,
               "status": "green"
             },
             {
               "value": "observation",
               "definition": "You see it yourself. Direct, unmediated sensory access, with no witness between the knower and the known.",
-              "uses": 879,
+              "uses": 880,
               "status": "green"
             },
             {
@@ -829,7 +829,7 @@
             {
               "value": "personal-agentive",
               "definition": "A personal will is fundamental. What is most real is someone, an agent with intention, not an impersonal stuff or law.",
-              "uses": 1497,
+              "uses": 1498,
               "status": "green"
             },
             {
@@ -935,7 +935,7 @@
             {
               "value": "derivation",
               "definition": "Deduces from premises already accepted: the conclusion follows necessarily from first principles, regardless of where those principles came from (even if scriptural).",
-              "uses": 826,
+              "uses": 827,
               "status": "green"
             },
             {
@@ -953,7 +953,7 @@
             {
               "value": "analogical-mapping",
               "definition": "Transfers structure from one domain to another: A is to B as C is to D. The conclusion rides on the likeness.",
-              "uses": 599,
+              "uses": 600,
               "status": "green"
             },
             {
@@ -1018,13 +1018,13 @@
             {
               "value": "salvation",
               "definition": "Rescue and restoration. Something is wrong or broken, and a right relation is put back.",
-              "uses": 1566,
+              "uses": 1567,
               "status": "green"
             },
             {
               "value": "fidelity-service",
               "definition": "Obedience, duty, worship, preservation. The marker: the end is not the agent own benefit.",
-              "uses": 860,
+              "uses": 861,
               "status": "green"
             },
             {
@@ -1125,13 +1125,13 @@
             {
               "value": "reverent",
               "definition": "Regards the object as sacred or authoritative: approached with deference and awe, as something that may make a claim on the reader.",
-              "uses": 1920,
+              "uses": 1921,
               "status": "green"
             },
             {
               "value": "neutral-descriptive",
               "definition": "Regards the object without evaluative commitment: describes it without endorsing, discounting, deferring to, or suspecting it.",
-              "uses": 1012,
+              "uses": 1013,
               "status": "green"
             },
             {
@@ -1220,13 +1220,13 @@
             {
               "value": "reparative-integrative",
               "definition": "The surface plus. Reads generously, assembles, repairs, seeks what the text can be made to sustain.",
-              "uses": 1235,
+              "uses": 1236,
               "status": "green"
             },
             {
               "value": "performative",
               "definition": "Treats the text as an ACT to be enacted/performed (ritual, liturgical, legal, dramatic, sung) — its meaning is in the DOING, not only the interpreting.",
-              "uses": 923,
+              "uses": 924,
               "status": "candidate"
             },
             {
@@ -1292,7 +1292,7 @@
             {
               "value": "graded-asymmetry",
               "definition": "Parties occupy unequal positions; authority or permission flows predominantly one way.",
-              "uses": 989,
+              "uses": 990,
               "status": "candidate"
             },
             {
@@ -1310,7 +1310,7 @@
             {
               "value": "delegated-voice",
               "definition": "A party utters, in the first person, words commissioned by an absent principal. The third lends a mouth so an absent party's own voice reaches the addressee — a conduit for VOICE, not a position that stabilises.",
-              "uses": 407,
+              "uses": 408,
               "status": "candidate"
             },
             {
@@ -1437,7 +1437,7 @@
             {
               "value": "fitting-attunement",
               "definition": "The shape is set by what comportment is appropriate to this particular other.",
-              "uses": 263,
+              "uses": 264,
               "status": "candidate"
             },
             {
@@ -1490,7 +1490,7 @@
       }
     ],
     "out_of_domain": {
-      "note": "the out-of-domain Frame comparison (s2.14) is OWED, not shown: the atlas has NOT yet placed the Daodejing passage (0 placements). The 8 axes are text-agnostic and ready; the missing step is running atlas_frame_reader on TTC-CH1. Reported honestly rather than faked.",
+      "note": "the out-of-domain Position comparison (s2.14) is OWED, not shown: the atlas has NOT yet placed the Daodejing passage (0 placements). The 8 axes are text-agnostic and ready; the missing step is running atlas_frame_reader on TTC-CH1. Reported honestly rather than faked.",
       "texts": [
         {
           "source_key": "TTC-CH1-EN",
@@ -1510,11 +1510,11 @@
     "plain": "Placements save to atlas_frame_read_placement, keyed by passage_id (resolve the text's passages via text_checkout). The vocab lives in exom_axis_vocabulary (the live controlled set); proposed values live in atlas_frame_read_candidate. Read at passage grain, never by source_key."
   },
   "honest_limits": [
-    "CORPUS-WIDE VOCAB DRIFT. 455 distinct off-vocab (axis,value) pairs are written in placements but NOT in exom_axis_vocabulary; only 26 off-vocab values were logged as fit-or-extend candidates, so 429 are SILENT drift (a value written without its candidate). Frame's axis/value are free-text by design (fit-or-extend), so there is no DB CHECK -- the S163 drift-check (atlas_frame_vocab_drift_check.py) is the Layer-3 backstop that now catches this. Reconciling the drift (triage candidates into the vocab; backfill candidate rows) is the LIBRARIAN SB's job -- the Librarian owns the atlas reader and will own the vocab table + definitions (PI, S163); this drift-check hands it to them. (455 = 429 silent + 26 candidate).",
+    "CORPUS-WIDE VOCAB DRIFT. 462 distinct off-vocab (axis,value) pairs are written in placements but NOT in exom_axis_vocabulary; only 462 off-vocab values were logged as fit-or-extend candidates, so 0 are SILENT drift (a value written without its candidate). Position's axis/value are free-text by design (fit-or-extend), so there is no DB CHECK -- the S163 drift-check (atlas_frame_vocab_drift_check.py) is the Layer-3 backstop that now catches this. Reconciling the drift (triage candidates into the vocab; backfill candidate rows) is the LIBRARIAN SB's job -- the Librarian owns the atlas reader and will own the vocab table + definitions (PI, S163); this drift-check hands it to them. (462 = 0 silent + 462 candidate).",
     "GOLDEN PATH IS CLEAN. On Mark 16 all 26 placements map to a live vocab value (green or candidate); 0 silent drift. So the drift is on OTHER texts, not the worked example.",
-    "FRAME IS PASSAGE-LEVEL, not per-move. The grain rule intends per-move frame too (each move its own coordinates), but that needs Decompose to stamp passage_id per move; not populated yet.",
+    "POSITION IS PASSAGE-LEVEL, not per-move. The grain rule intends per-move Position too (each move its own coordinates), but that needs Decompose to stamp passage_id per move; not populated yet.",
     "vs-Wild is OWED: give a naive reader the passage + 'place it on these 8 axes' and compare to the atlas placement. Cold Read is owed on this card. Both are the next checks.",
-    "2007 of the candidate log's rows are 9th-AXIS probes (R4 completeness test), pending review -- an open question whether the 8 axes are collectively exhaustive."
+    "3109 of the candidate log's rows are 9th-AXIS probes (R4 completeness test), pending review -- an open question whether the 8 axes are collectively exhaustive."
   ],
   "made_by": [
     "scripts/analysis/atlas_frame_reader.py (the reader/owner -- Claude Max SDK, Tier 1)",
@@ -1523,7 +1523,7 @@
     "scripts/analysis/sprint_invariants/atlas_frame_vocab_drift_check.py (the S163 Layer-3 drift-check, NEW)",
     "scripts/analysis/build_frame_subengine_drawer_data_s163.py (this card's data)"
   ],
-  "whats_next": "The LIBRARIAN SB reconciles the corpus vocab drift (owns the atlas reader + the vocab table + definitions): triage the 26 pending candidates + the silent-drift values into exom_axis_vocabulary; then the drift-check goes corpus-green and wires into the sprint suite, and a write-time loader assertion (refuse a placement value without a candidate row) closes the leak at source. Reading-SB owns: Cold Read + vs-Wild on this card, and the per-move frame decision (Decompose stamps passage_id per move).",
+  "whats_next": "The LIBRARIAN SB reconciles the corpus vocab drift (owns the atlas reader + the vocab table + definitions): triage the 462 pending candidates + the silent-drift values into exom_axis_vocabulary; then the drift-check goes corpus-green and wires into the sprint suite, and a write-time loader assertion (refuse a placement value without a candidate row) closes the leak at source. Reading-SB owns: Cold Read + vs-Wild on this card, and the per-move Position decision (Decompose stamps passage_id per move).",
   "foundation": {
     "leans_on": [
       "the morphospace / ordination method (a trait-space texts are points in; borrowed from morphology/ecology -- the Meadows/Alexander cross-domain lineage)",
@@ -1542,8 +1542,8 @@
       ],
       "placements": 26,
       "axes_placed": 8,
-      "corpus_engaged_placements": 39513,
-      "silent_drift_pairs": 429
+      "corpus_engaged_placements": 57235,
+      "silent_drift_pairs": 0
     },
     "how_to_run": {
       "read/place a passage": "./scripts/_run_python.sh scripts/analysis/atlas_frame_reader.py --passage-id P --text-file f.txt",
@@ -1551,14 +1551,14 @@
       "the drift-check": "./scripts/_run_python.sh scripts/analysis/sprint_invariants/atlas_frame_vocab_drift_check.py"
     },
     "data_source": "atlas_frame_read_placement (@ passage_id) + exom_axis_vocabulary (live) + atlas_frame_read_candidate.",
-    "decision_trail": "Decision 199 (r_topology/r_condition split) - Decision 201 (R1-R5 rubric) - CONTRACT_situate_closed_open_grain_s162 (Frame closed/open/grain) - the S163 drift-check + this drawer."
+    "decision_trail": "Decision 199 (r_topology/r_condition split) - Decision 201 (R1-R5 rubric) - CONTRACT_situate_closed_open_grain_s162 (Position closed/open/grain) - the S163 drift-check + this drawer."
   },
   "fidelity": {
     "status": "PARTIAL",
     "date": "2026-08-10",
     "golden_path": "PASS (Mark 16: 26 placements, all in-vocab green+candidate, 0 silent-drift)",
-    "corpus_wide": "DRIFT (429 silent-drift axis/value pairs off-vocab AND not candidate-logged; 26 fit-or-extend candidates pending triage)",
-    "meta_line": "Fidelity PARTIAL (2026-08-10, mechanical): on the golden path Frame is CLEAN (26 placements, all map to a live exom_axis_vocabulary value). Corpus-wide it DRIFTS: 429 silent-drift pairs (values written outside the vocab WITHOUT the fit-or-extend candidate). Frame's axis/value are free-text by design (fit-or-extend, s2.1), so there is no DB CHECK; the S163 drift-check (atlas_frame_vocab_drift_check.py) now makes the leak fail-loud. Reconciling the drift (triage candidates into the vocab; backfill missing candidate rows) is the owed work to reach corpus-green."
+    "corpus_wide": "DRIFT (0 silent-drift axis/value pairs off-vocab AND not candidate-logged; 462 fit-or-extend candidates pending triage)",
+    "meta_line": "Fidelity PARTIAL (2026-08-10, mechanical): on the golden path Position is CLEAN (26 placements, all map to a live exom_axis_vocabulary value). Corpus-wide it DRIFTS: 0 silent-drift pairs (values written outside the vocab WITHOUT the fit-or-extend candidate). Position's axis/value are free-text by design (fit-or-extend, s2.1), so there is no DB CHECK; the S163 drift-check (atlas_frame_vocab_drift_check.py) now makes the leak fail-loud. Reconciling the drift (triage candidates into the vocab; backfill missing candidate rows) is the owed work to reach corpus-green."
   },
   "cold_read": {
     "status": "PENDING",
@@ -1568,6 +1568,6 @@
   "vs_wild": {
     "status": "PASS",
     "date": "2026-08-10",
-    "meta_line": "vs-Wild PASS (2026-08-10, floor -- Mark 16 is intentionally rich). A blind naive reader placed the text on the 8 axes; the instrument COVERED its whole read and added rigor (naming abduction, performative, mediated-triadic -- distinctions the reader ran together). One honest nuance: the atlas slightly UNDER-WEIGHTS the fear/rebuke affect (evaluative-stance reverent/tender skews warm vs the empty tomb's terror-that-silences) -- a coding note routed to the Librarian's atlas, not a card defect. Out-of-domain (Daodejing) frame comparison still owed (the atlas has not placed it)."
+    "meta_line": "vs-Wild PASS (2026-08-10, floor -- Mark 16 is intentionally rich). A blind naive reader placed the text on the 8 axes; the instrument COVERED its whole read and added rigor (naming abduction, performative, mediated-triadic -- distinctions the reader ran together). One honest nuance: the atlas slightly UNDER-WEIGHTS the fear/rebuke affect (evaluative-stance reverent/tender skews warm vs the empty tomb's terror-that-silences) -- a coding note routed to the Librarian's atlas, not a card defect. Out-of-domain (Daodejing) Position comparison still owed (the atlas has not placed it)."
   }
 }
