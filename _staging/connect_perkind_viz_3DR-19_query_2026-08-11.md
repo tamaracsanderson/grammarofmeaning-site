@@ -1,9 +1,11 @@
 ---
-title: "3DR — Connect per-kind visualization (logic vs shape vs sonic, separately, for a reader)"
+title: "3DR-19 — Connect per-kind visualization (logic vs shape vs sonic, separately, for a reader)"
+number: 3DR-19
 date: 2026-08-11
 author: design-SB
-round: 3DR (GPT-5 · Fable · Gemini Deep Research) — SOLVE the per-kind viz question
+round: 3DR-19 (GPT-5 · Fable · Gemini Deep Research) — SOLVE the per-kind viz question
 pairs-with: _staging/connect_v2_reconciliation_2026-08-10.md (item D); the 3 live Connect figures; the old VIZ_constellation_v3
+registry-note: next number after 3DR-18 (Move Score redesign) / 3DR-17. Responses land at the twelve-laws root as 3DR19_*.txt (per the 3DR17/18 convention); design-SB reconciles.
 status: DRAFT — PASTE-READY (PI runs the 3 cohorts; design-SB reconciles)
 companion docs (NOT pasted — for a cohort to reference if asked): the 3 live figures + the old constellation (links inside)
 ---
@@ -49,11 +51,11 @@ At the END, give me: (a) your single best recommendation per kind (LOGIC / SHAPE
 PASTE-END — stop copying here
 ═══════════════════════════════════════════════════════════════
 
-## How to fire this 3DR (researcher operational instructions; NOT part of the cohort paste)
+## How to fire 3DR-19 (researcher operational instructions; NOT part of the cohort paste)
 
 - **Cohorts:** GPT-5 (ChatGPT) · Fable · Gemini Deep Research. Paste the PASTE block to each.
-- **Save responses to** `_staging/connect_perkind_3DR_responses/` (or the twelve-laws root, as with 3DR-18), naming `connect_perkind_3DR_<cohort>_2026-08-11.txt`.
-- **Then design-SB reconciles** to `_staging/connect_perkind_3DR_reconciliation_2026-08-11.md` (Decision-39 buckets: UNANIMOUS / MAJORITY / SOLO) → the per-kind viz spec that updates connect_v2 item D.
+- **Save responses at the twelve-laws root** as `3DR19_gpt.txt` · `3DR19_fable.txt` · `3DR19_DR.txt` (matching the 3DR17 / 3DR18 convention).
+- **Then design-SB reconciles** to `_staging/connect_perkind_viz_3DR-19_reconciliation_2026-08-11.md` (Decision-39 buckets: UNANIMOUS / MAJORITY / SOLO) → the per-kind viz spec that finalizes connect_v2 item D.
 
 <!-- ── METHODOLOGY FOOTER ──
 HOW PRODUCED: design-SB 2026-08-11 — paste-ready 3DR query (PI directive) on the best way to visualize the three in-text edge
