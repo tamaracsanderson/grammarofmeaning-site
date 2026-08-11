@@ -53,6 +53,14 @@ Four cognitive jobs the instrument should serve:
 - **Correspondence over category** — color earns its place more for source↔move correspondence (signaling/cueing) than for permanent role-coding.
 - **One lens at a time.**
 
+## Architecture thread — progressive layering (PI, 2026-08-10; not yet decided)
+
+The PI noticed the shape: **Plate (text) → toggle on the Moves → …** — and asked whether that's how the reader goes step by step, with each engine (Gloss, Situate, Connect) becoming another toggle that *stacks*. My read: yes, this is the unifying reading-room architecture. The **text (Plate) is the permanent base**; each engine's output is a **toggle-able layer** the reader adds as they go deeper:
+
+`Plate (Text) → Moves (Decompose) → Gloss → Situate (margins/typed inline) → Connect (arcs/loom)`
+
+Two things it maps onto cleanly: (a) the **engine structure itself** — one layer per engine; (b) the **lectio reading-practice telos** (draw → linger → respond → reflect) — the layers roughly ARE the stages of attention. Design implication: the current controls (Plate toggle, Read/Inspect, Focus) are a first cut; the mature form is a small **layer stack** (each layer on/off, composing on the text), not a pile of unrelated buttons. Not all layers on at once (that's a hairball) — the reader deepens progressively. **Decide when the Gloss + Situate data land** (the layers need their feeds first). This is the reading-room / Luminous-archive form the figures are converging toward.
+
 ## Cross-refs
 - The build spec: `move_score_redesign_reconciliation_2026-08-10.md`
 - The live v1 draft: `/_staging/viz_move_score_v2.html`
