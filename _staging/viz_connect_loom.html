@@ -26,6 +26,7 @@ h1 .sub{font-style:normal;font-size:.5em;letter-spacing:.02em;color:var(--ink-3)
 .task{font-family:var(--sans);font-size:13px;color:var(--ink);max-width:34rem;margin:16px auto 0;line-height:1.5;background:color-mix(in srgb,var(--gold) 9%,transparent);border:1px solid color-mix(in srgb,var(--gold) 35%,var(--rule));border-radius:10px;padding:9px 14px}
 .task b{color:var(--moss)}
 .how{font-family:var(--sans);font-size:12px;color:var(--ink-3);max-width:40rem;margin:12px auto 0;line-height:1.55;text-align:center}
+.navwrap{margin:16px auto 0;padding:0 22px;text-align:center}
 .legendwrap{max-width:52rem;margin:16px auto 0;padding:0 22px}
 .relwrap{max-width:40rem;margin:14px auto 0;padding:0 22px}
 .relbox{border:1px solid var(--rule);border-radius:12px;padding:12px 16px;background:var(--paper-3);min-height:2.6rem}
@@ -36,6 +37,7 @@ h1 .sub{font-style:normal;font-size:.5em;letter-spacing:.02em;color:var(--ink-3)
 .loom .ch{writing-mode:vertical-rl;transform:rotate(180deg);color:var(--ink-3);text-align:right;padding:2px 0;height:44px;font-size:8px;white-space:nowrap;position:sticky;top:0;background:var(--paper);z-index:2}
 .loom .rh{color:var(--gold);text-align:right;padding:0 6px 0 0;position:sticky;left:0;background:var(--paper);z-index:2;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end;cursor:pointer}
 .loom .rh:hover{text-decoration:underline}
+.loom .rh.movesel{color:var(--moss);font-weight:600;background:color-mix(in srgb,var(--gold) 18%,var(--paper))}
 .cell{width:15px;height:15px;border-right:1px solid color-mix(in srgb,var(--rule) 25%,transparent);border-bottom:1px solid color-mix(in srgb,var(--rule) 25%,transparent)}
 .cell.on{border-radius:3px;cursor:pointer}
 .cell.weak{opacity:.5}
@@ -52,6 +54,7 @@ h1 .sub{font-style:normal;font-size:.5em;letter-spacing:.02em;color:var(--ink-3)
 </head>
 <body>
 <div class="bar"><span class="rm">Scan · the Relation Loom · Mark 16</span><span class="rm" id="cnt"></span></div>
+<div class="navwrap"><div id="viewnav"></div></div>
 <header class="pg">
   <p class="kick">how the moves hold together</p>
   <h1>Scan<span class="sub">the Relation Loom</span></h1>
@@ -71,7 +74,7 @@ h1 .sub{font-style:normal;font-size:.5em;letter-spacing:.02em;color:var(--ink-3)
 var CC=window.ConnectCore;
 var BASE="/engine/data/goldenpath/mark16/";
 var esc=CC.esc;
-var TAX, EDGES=[], FILTER, CELL={};
+var TAX, EDGES=[], FILTER, CELL={}, IDX={}, SEL=null;
 
 Promise.all([
   fetch(BASE+"moves.json").then(function(r){return r.json();}),
@@ -83,7 +86,8 @@ function build(mdoc,edoc,tax){
   TAX=tax; CC.injectCSS();
   var moves=(mdoc.moves||[]).slice().sort(function(a,b){return a.idx-b.idx;});
   var raw=(edoc.edges||edoc||[]);
-  var idxOf={}; moves.forEach(function(m,i){idxOf[m.label]=i;});
+  var idxOf={}; moves.forEach(function(m,i){idxOf[m.label]=i;}); IDX=idxOf;
+  var HASH=CC.readHash();
   var n=moves.length, dropped=[];
   raw.forEach(function(e){
     var a=idxOf[e.source_move_label], b=idxOf[e.target_move_label];
@@ -110,7 +114,9 @@ function build(mdoc,edoc,tax){
   });
   loom.innerHTML=html;
 
-  FILTER=CC.Filter(document.getElementById("legend"),TAX,EDGES,applyVis);
+  CC.mountNav("viewnav","scan",function(){return {m:SEL,off:FILTER?FILTER.state():{}};});
+  FILTER=CC.Filter(document.getElementById("legend"),TAX,EDGES,applyVis,HASH.off);
+  SEL=HASH.m||null;
   applyVis();
 
   // tooltip + row/col highlight + selection
@@ -135,10 +141,12 @@ function build(mdoc,edoc,tax){
       el.classList.add("sel");
       document.getElementById("relcard").innerHTML=CC.relationCardHTML(TAX,e);
     } else if(el.classList.contains("rh")){
-      var vis=EDGES.filter(function(x){return FILTER.visible(x);});
-      document.getElementById("relcard").innerHTML=CC.moveConnectionsHTML(TAX,vis,el.dataset.label);
+      selectMove(el.dataset.label);
     }
   });
+
+  // restore a selection carried in from another view
+  if(HASH.m) selectMove(HASH.m,true);
 
   var srcTxt="rendered from moves.json + connect_edges.json ("+edoc.run_tag+")"+CC.dropNote(dropped);
   document.getElementById("src").innerHTML=esc(srcTxt).replace("⚠",'<span style="color:var(--terracotta)">⚠</span>');
@@ -148,6 +156,18 @@ function applyVis(){
   Array.prototype.forEach.call(document.querySelectorAll(".cell.on"),function(el){
     var e=CELL[el.dataset.r+","+el.dataset.c]; el.classList.toggle("hid",!FILTER.visible(e));
   });
+  if(SEL){var v=EDGES.filter(function(e){return FILTER.visible(e);});var rc=document.getElementById("relcard");if(rc)rc.innerHTML=CC.moveConnectionsHTML(TAX,v,SEL);}
+  if(FILTER) CC.writeHash({m:SEL,off:FILTER.state()});
+}
+
+function selectMove(label,scroll){
+  var i=IDX[label]; if(i==null){return;}
+  SEL=label;
+  Array.prototype.forEach.call(document.querySelectorAll(".rh"),function(r){r.classList.toggle("movesel",+r.dataset.r===i);});
+  var vis=EDGES.filter(function(e){return FILTER.visible(e);});
+  document.getElementById("relcard").innerHTML=CC.moveConnectionsHTML(TAX,vis,label);
+  CC.writeHash({m:SEL,off:FILTER.state()});
+  if(scroll){var rh=document.querySelector('.rh[data-r="'+i+'"]');if(rh&&rh.scrollIntoView)rh.scrollIntoView({block:"center",inline:"start"});}
 }
 </script>
 </body>

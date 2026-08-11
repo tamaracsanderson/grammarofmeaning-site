@@ -57,13 +57,22 @@
      mounts into `host`, owns the on/off state, calls onChange() on any toggle.
      The figure exposes edges as DOM with data-kind + data-sub and re-applies
      visible(e) in onChange. `edges` is the RENDERED edge list (post-drop). */
-  function Filter(host, tax, edges, onChange) {
+  function Filter(host, tax, edges, onChange, initialOff) {
     var c = counts(edges);
     var offKind = {}, offSub = {}, open = false;
+    initialOff = initialOff || {};
+    (initialOff.kinds || []).forEach(function (k) { offKind[String(k).toUpperCase()] = true; });
+    (initialOff.subs || []).forEach(function (t) { offSub[String(t).toUpperCase()] = true; });
 
     function visibleKind(id) { return !offKind[id]; }
     function visibleSub(t) { return !offSub[t]; }
     function visible(e) { return visibleKind(kindOf(e)) && visibleSub(typeOf(e)); }
+    function offState() {
+      var ks = [], ss = [], k, t;
+      for (k in offKind) if (offKind[k]) ks.push(k);
+      for (t in offSub) if (offSub[t]) ss.push(t);
+      return { kinds: ks, subs: ss };
+    }
 
     function render() {
       var html = '<div class="cc-kinds">';
@@ -119,7 +128,62 @@
     }
 
     render();
-    return { visible: visible, counts: c };
+    return { visible: visible, counts: c, state: offState };
+  }
+
+  /* ── one-instrument view-switch + shared state via URL hash ──
+     the three Connect views (Trace/Scan/Map) keep separate deep-linkable URLs
+     (per the reconciliation lock) but carry the selected move + active filters
+     in the hash, so a selection survives the switch ("this arc, this cell, this
+     line are the same thing" becomes self-teaching). */
+  var VIEWS = [
+    { id: "trace", label: "Trace", sub: "Arc Band",     file: "viz_connect_arcband.html",  verb: "follow a relation as you read" },
+    { id: "scan",  label: "Scan",  sub: "Relation Loom", file: "viz_connect_loom.html",     verb: "see the whole pattern" },
+    { id: "map",   label: "Map",   sub: "Topology",      file: "viz_connect_topology.html", verb: "hubs & clusters, order removed" }
+  ];
+  function readHash() {
+    var h = String(location.hash || "").replace(/^#/, ""), o = { m: null, off: { kinds: [], subs: [] } };
+    h.split("&").forEach(function (kv) {
+      var p = kv.split("="); if (!p[1]) return;
+      var v = decodeURIComponent(p[1]);
+      if (p[0] === "m") o.m = v;
+      else if (p[0] === "offk") o.off.kinds = v.split(",").filter(Boolean);
+      else if (p[0] === "offs") o.off.subs = v.split(",").filter(Boolean);
+    });
+    return o;
+  }
+  function hashStr(st) {
+    st = st || {};
+    var parts = [];
+    if (st.m) parts.push("m=" + encodeURIComponent(st.m));
+    if (st.off && st.off.kinds && st.off.kinds.length) parts.push("offk=" + encodeURIComponent(st.off.kinds.join(",")));
+    if (st.off && st.off.subs && st.off.subs.length) parts.push("offs=" + encodeURIComponent(st.off.subs.join(",")));
+    return parts.join("&");
+  }
+  function writeHash(st) {
+    try { history.replaceState(null, "", "#" + hashStr(st)); } catch (e) { location.hash = hashStr(st); }
+  }
+  /* mount the Trace/Scan/Map switcher into host#id; getState() supplies the current
+     {m, off} so links carry it. active = this view's id. */
+  function mountNav(hostId, active, getState) {
+    var host = document.getElementById(hostId); if (!host) return;
+    var html = '<nav class="cc-nav" aria-label="Connect views">';
+    for (var i = 0; i < VIEWS.length; i++) {
+      var v = VIEWS[i], cur = v.id === active;
+      html += '<a class="cc-nv' + (cur ? " cur" : "") + '" data-file="' + v.file + '"' +
+        (cur ? ' aria-current="page"' : '') + ' href="' + v.file + '" title="' + esc(v.verb) + '">' +
+        '<span class="cc-nvl">' + esc(v.label) + '</span><span class="cc-nvs">' + esc(v.sub) + '</span></a>';
+    }
+    html += '</nav>';
+    host.innerHTML = html;
+    var links = host.querySelectorAll(".cc-nv");
+    for (var j = 0; j < links.length; j++) links[j].addEventListener("click", function (ev) {
+      ev.preventDefault();
+      if (this.className.indexOf("cur") >= 0) return;
+      var st = getState ? getState() : {};
+      var h = hashStr(st);
+      location.href = this.getAttribute("data-file") + (h ? "#" + h : "");
+    });
   }
 
   /* the relation-card HTML for a single edge (typed relation in prose + direction + kind chip) */
@@ -171,7 +235,14 @@
     '.cc-relp{font-family:var(--serif);font-size:14.5px;color:var(--ink)}' +
     '.cc-dir{display:block;font-family:var(--mono);font-size:10px;color:var(--ink-3);margin-top:4px;letter-spacing:.04em}' +
     '.cc-relhead{font-family:var(--sans);font-size:12px;color:var(--ink-2);margin:0 0 6px}' +
-    '.cc-none{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:italic}';
+    '.cc-none{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:italic}' +
+    '.cc-nav{display:inline-flex;border:1px solid var(--rule);border-radius:999px;overflow:hidden;background:var(--paper-3)}' +
+    '.cc-nv{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 20px;text-decoration:none;color:var(--ink-2);border-right:1px solid var(--rule)}' +
+    '.cc-nv:last-child{border-right:0}' +
+    '.cc-nv:hover:not(.cur){background:color-mix(in srgb,var(--gold) 10%,transparent)}' +
+    '.cc-nv.cur{background:var(--moss);color:var(--paper-3)}' +
+    '.cc-nvl{font-family:var(--disp);font-style:italic;font-size:16px;line-height:1}' +
+    '.cc-nvs{font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;opacity:.72}';
 
   function injectCSS(doc) {
     doc = doc || document;
@@ -199,7 +270,8 @@
     kindDef: kindDef, hueVar: hueVar, subInfo: subInfo, isWeak: isWeak,
     prose: prose, subLabel: subLabel, counts: counts,
     Filter: Filter, relationCardHTML: relationCardHTML, moveConnectionsHTML: moveConnectionsHTML,
-    injectCSS: injectCSS, dropNote: dropNote
+    injectCSS: injectCSS, dropNote: dropNote,
+    VIEWS: VIEWS, readHash: readHash, writeHash: writeHash, hashStr: hashStr, mountNav: mountNav
   };
 })(this);
 
@@ -215,6 +287,11 @@ HOW PRODUCED: design-SB 2026-08-11 (Connect figures v2, P1) — extracted the 5-
 SCHOLARLY SOURCES: _staging/connect_v2_reconciliation_2026-08-10.md (the v2 build spec — GPT crit + PI direction); the Connect
   method drawer edge_grammar_v1 (the SSOT, §2.16); connect_edges.json (edge_kind + type fields, the real data); the encoding audit
   palette lock (colour = KIND: linkage=fern/lineage=moss/resonance=gold/shape=olive/sonic=sky; terracotta reserved for provenance).
+P2 ADDED 2026-08-11: the one-instrument view-switch (VIEWS + mountNav) + shared state via URL hash (readHash/writeHash/hashStr +
+  Filter's initialOff seed + state()). The three views keep separate deep-linkable URLs (per the reconciliation lock) but carry
+  the selected move + active filters in the hash, so a selection survives the Trace→Scan→Map switch. Full single-page SPA shell
+  (zero-reload) remains a possible later refinement; the cross-page hash-carry delivers lock #2's self-teaching without it.
 WHAT NEEDS VERIFICATION: (1) the plain-language `prose` templates in connect_taxonomy.json are design-SB-authored — reading-SB/PI
   should validate the wording. (2) when Method SB ships an edge-grammar taxonomy export, switch the STRUCTURE source off this
-  interim file (keep only the prose map). (3) P2 (one shell + selection state that survives the view switch) reuses this module. */
+  interim file (keep only the prose map). (3) the Move Score → Connect tie (#7) + the 60-sec "same relation, three views" worked
+  example (#10) are the remaining P2 items, deferred. */
