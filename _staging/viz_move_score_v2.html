@@ -25,6 +25,12 @@ body{margin:0;background:var(--paper);color:var(--ink-soft);font-family:var(--se
 .toggle button.on{background:var(--moss);color:var(--paper-3)}
 .focusbtn{border:1px solid var(--rule);border-radius:999px;background:none;padding:5px 12px;cursor:pointer;color:var(--ink-2);font-family:var(--sans);font-size:12px}
 .focusbtn.on{background:var(--gold);border-color:var(--gold);color:#fff}
+/* Plate view: hide the moves, leave just the verbatim text (the Plate, as a toggle) */
+.platebtn{border:1px solid var(--rule);border-radius:999px;background:none;padding:5px 12px;cursor:pointer;color:var(--ink-2);font-family:var(--sans);font-size:12px}
+.platebtn.on{background:var(--moss);border-color:var(--moss);color:#fff}
+body.plate .moves,body.plate .subgroup{display:none}
+body.plate .verse{margin-bottom:2px}
+body[data-mode=inspect] .platebtn{display:none}
 header.pg{max-width:44rem;margin:0 auto;padding:5vh 22px 1vh}
 .kick{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 10px;text-align:center}
 h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(28px,5vw,42px);line-height:1.1;color:var(--moss);margin:0 0 8px;text-align:center}
@@ -64,8 +70,10 @@ mark.trace{background:color-mix(in srgb,var(--gold) 30%,transparent);color:inher
 mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);border-bottom:2px solid var(--gold)}
 /* moves under a verse */
 .moves{display:flex;flex-direction:column;gap:7px;margin:8px 0 0}
-.mv{border-left:2px solid color-mix(in srgb,var(--fern) 40%,var(--rule));padding:2px 0 2px 14px;transition:opacity .3s}
-.mv.child{border-left-color:color-mix(in srgb,var(--gold) 50%,var(--rule))}
+/* move borders are NEUTRAL — hierarchy is shown by indentation + the "unpacks into" bracket, never by hue
+   (hue is reserved for KIND: fern/terracotta = provenance only). gold = selection/attention. */
+.mv{border-left:2px solid var(--rule);padding:2px 0 2px 14px;transition:opacity .3s}
+.mv.child{border-left-color:var(--rule)}
 .mv.sel{border-left-color:var(--gold);border-left-width:3px}
 .mv .para{cursor:pointer;margin:0;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .mv .para .mk{font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:.04em;flex:none;padding-top:2px}
@@ -74,8 +82,8 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 .mv .para .exp{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--fern);opacity:.5;flex:none;white-space:nowrap;align-self:center}
 .mv.open .para .exp{opacity:1}
 /* nested moves are SHOWN, demarked (never hidden) — seeing one sentence unpack is the point */
-.subgroup{display:flex;flex-direction:column;gap:7px;margin:2px 0 2px 18px;padding-left:8px;border-left:1px dotted color-mix(in srgb,var(--gold) 30%,var(--rule))}
-.sublabel{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--gold);opacity:.85;padding:1px 0 0 4px}
+.subgroup{display:flex;flex-direction:column;gap:7px;margin:2px 0 2px 18px;padding-left:8px;border-left:1px dotted var(--rule)}
+.sublabel{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--ink-3);opacity:.9;padding:1px 0 0 4px}
 .roleline{display:flex;flex-direction:column;gap:2px;font-family:var(--serif);font-size:14.5px;margin:2px 0 8px;color:var(--ink)}
 .roleline .rl{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-right:8px}
 .asdiagram{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--fern);background:none;border:0;cursor:pointer;padding:0 0 6px;opacity:.75}
@@ -106,7 +114,8 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 .added-ending .ae-s{font-family:var(--disp);font-style:italic;font-size:14px;color:var(--ink-2);margin:0 0 6px}
 /* arc — the distant view, always available at the top */
 .arc{max-width:44rem;margin:3vh auto 0;padding:0 22px}
-.arc-h{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 6px;text-align:center}
+.arc-h{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 4px;text-align:center}
+.arc-how{font-family:var(--sans);font-size:11px;color:var(--ink-3);text-align:center;margin:0 auto 9px;max-width:34rem;line-height:1.5}
 .arc-bars{display:flex;align-items:flex-end;gap:3px;height:52px;border-bottom:1px solid var(--rule);padding:0 2px}
 .arc-bars .ab{flex:1;background:color-mix(in srgb,var(--fern) 55%,var(--paper-2));border-radius:2px 2px 0 0;cursor:pointer;min-height:3px;transition:background .15s}
 .arc-bars .ab.c2{background:color-mix(in srgb,var(--terracotta) 55%,var(--paper-2))}
@@ -117,11 +126,6 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 .arc-key .k::before{content:"";width:9px;height:9px;border-radius:2px;display:inline-block}
 .arc-key .k.f::before{background:color-mix(in srgb,var(--fern) 55%,var(--paper-2))}
 .arc-key .k.t::before{background:color-mix(in srgb,var(--terracotta) 55%,var(--paper-2))}
-/* zoom control */
-.zoombtn{border:1px solid var(--rule);border-radius:999px;background:none;padding:5px 12px;cursor:pointer;color:var(--ink-2);font-family:var(--sans);font-size:12px}
-.zoombtn.on{background:var(--fern);border-color:var(--fern);color:#fff}
-body[data-zoom=distant] .moves,body[data-zoom=distant] .subgroup{display:none}
-body[data-zoom=distant] .verse{margin-bottom:2px}
 /* cadence / focus mode: dim what isn't selected */
 body[data-focus=on] .verse:not(.hassel){opacity:.4}
 body[data-focus=on] .mv:not(.sel){opacity:.35}
@@ -170,11 +174,11 @@ footer.foot a{color:var(--fern);text-decoration:none}
 </style>
 <script>(function(){try{var t=localStorage.getItem("gom-theme")||"light";document.documentElement.dataset.theme=t;}catch(e){}})();</script>
 </head>
-<body data-mode="read" data-focus="off" data-zoom="close">
+<body data-mode="read" data-focus="off">
 <div class="bar">
   <span class="rm">The Move Score · Mark 16</span>
   <span class="controls">
-    <button class="zoombtn" id="zoombtn" title="Distant view — the whole passage at a glance">⤢ Distant</button>
+    <button class="platebtn" id="platebtn" title="Just the verbatim text — hide the moves (the Plate view)">▤ Plate</button>
     <button class="focusbtn" id="focusbtn" title="Dim all but the move you're reading; follows your scroll">◐ Focus</button>
     <span class="toggle"><button id="tRead" class="on">Read</button><button id="tInspect">Inspect</button></span>
   </span>
@@ -218,7 +222,7 @@ function $(id){return document.getElementById(id);}
 $("tRead").addEventListener("click",function(){setMode("read");});
 $("tInspect").addEventListener("click",function(){setMode("inspect");});
 $("focusbtn").addEventListener("click",function(){var on=document.body.dataset.focus==="on";document.body.dataset.focus=on?"off":"on";this.classList.toggle("on",!on);if(!on)focusNearest();});
-$("zoombtn").addEventListener("click",function(){var d=document.body.dataset.zoom==="distant";document.body.dataset.zoom=d?"close":"distant";this.classList.toggle("on",!d);});
+$("platebtn").addEventListener("click",function(){var on=document.body.classList.toggle("plate");this.classList.toggle("on",on);});
 $("keytog").addEventListener("click",function(){$("keycard").classList.toggle("open");});
 // Focus follows the scroll — the move nearest the viewport centre lights; the rest recede
 function focusNearest(){
@@ -371,7 +375,7 @@ function build(co,mdoc){
   var perV={}; inr.forEach(function(m){var vs=m.verse_start||(m.verse_refs&&m.verse_refs[0]);perV[vs]=(perV[vs]||0)+1;});
   var maxC=1; for(var q=RANGE.lo;q<=RANGE.hi;q++){if((perV[q]||0)>maxC)maxC=perV[q];}
   var bars=""; for(var q2=RANGE.lo;q2<=RANGE.hi;q2++){var c=perV[q2]||0,hh=Math.round(4+(c/maxC)*46);bars+='<div class="ab'+(q2>=C2_START?' c2':'')+'" data-verse="'+q2+'" title="16:'+q2+' · '+c+' move'+(c===1?'':'s')+'" style="height:'+hh+'px"></div>';}
-  $("arc").innerHTML='<div class="arc-h">the whole passage · moves per verse — click a bar to jump</div><div class="arc-bars">'+bars+'</div><div class="arc-beats"><span>anointing &amp; alarm</span><span>the empty tomb</span><span>fear &middot; silence</span><span>the added ending</span></div><div class="arc-key"><span class="k f">the earliest text &middot; 16:1&ndash;8</span><span class="k t">added by later hands &middot; 16:9&ndash;20</span></div>';
+  $("arc").innerHTML='<div class="arc-h">the whole passage</div><div class="arc-how">each bar is a verse — taller means more moves happen in it; colour marks which text it&rsquo;s from (key below). click a bar to jump.</div><div class="arc-bars">'+bars+'</div><div class="arc-beats"><span>anointing &amp; alarm</span><span>the empty tomb</span><span>fear &middot; silence</span><span>the added ending</span></div><div class="arc-key"><span class="k f">the earliest text &middot; 16:1&ndash;8</span><span class="k t">added by later hands &middot; 16:9&ndash;20</span></div>';
   Array.prototype.forEach.call(document.querySelectorAll(".arc-bars .ab"),function(b){
     b.addEventListener("click",function(){var vt=document.querySelector('.verse[data-verse="'+b.dataset.verse+'"]');if(vt){vt.scrollIntoView({block:"center",behavior:"smooth"});}});
   });
