@@ -2,6 +2,24 @@
 
 **Inputs:** GPT usability crit (2026-08-10, all 3 live figures); PI direction (sonic-on-the-Plate; family→sub-type drill-down); the old off-the-shelf `VIZ_constellation_v3_unified_coffee_2026-07-27.html` (which already solved parts of this); the reading-room / lectio telos.
 
+## ⚠ CORRECTION (from the Connect method drawer — the SSOT, §2.16)
+
+I built the 3 figures on a wrong family scheme. The real edge grammar (`edge_grammar_v1`, drawer PASS/PASS/PASS 2026-08-09) has **FIVE edge-kinds**, not three:
+
+| KIND | scope | sub-types |
+|---|---|---|
+| **LINKAGE** | in-text logic | FEED · FILLS · NEST_CONTAINS/COMPOSES/REPORTS · LINK_SEQUENCE (cheap default) · LINK_CAUSE/CONTRAST/CONDITION/CORRECTION/SUPPORT/ELABORATES/BACKGROUND/OTHER |
+| **LINEAGE** | cross-text reference | CITES · REUSES · BEQUEATHS · RE-READS · INHERITS-ACROSS (this IS Situate's Lineage) |
+| **RESONANCE** | both (cross-tradition correspondence) | MATCH (same move) · ANALOGY (A:B::C:D) · COUNTERS · INVERTS — carries NO contact claim |
+| **SHAPE** | in-text form | PARALLELISM · JUXTAPOSITION · RING · LEAP |
+| **SONIC** | in-text sound (word-level, computed) | RHYME · ASSONANCE · ALLITERATION · CONSONANCE (via `pronouncing`+`panphon`) |
+
+My error (§2.16): I mapped SHAPE→"resonance" (wrong — RESONANCE is its own kind) and dropped LINEAGE. The **drill-down families are these 5 KINDs → their sub-types.** Fixing the figures' `fam()` to the real 5 kinds (hues: linkage=fern · lineage=moss · resonance=gold · shape=olive · sonic=sky; sequence ghosted; terracotta stays reserved for provenance — so 5 kinds fit the house palette, answering the encoding-audit's palette question).
+
+**On SONIC (drawer-confirmed):** it's OUR method (word-level, `pronouncing`+`panphon`), "computed separately at word-level — a different granularity, not this [move-edge] pass." That's exactly why `connect_edges.json` has 0 SONIC and why it belongs on the **Plate**. The old V3 = an early off-the-shelf version of the same libs. So: our-method SONIC and the V3 are the same lineage of computation; the compare-them question is really "our word-level sonic run vs the old artifact."
+
+**More data exists than the WEB feed shows:** the grammar also ran on **MARK-16-GRC (79 edges — the Greek!)** and **TTC-CH1-EN (Daodejing, 17 edges)**, plus **one worked RESONANCE MATCH (Mark↔Daodejing)**. `connect_edges.json` (what's deployed) is only the WEB 78. So the **EN↔GRC comparison** and a **first Facing-Page RESONANCE example** have data — they just aren't exported to the deploy feed yet. Flag to Method SB: export the GRC edges + the RESONANCE edge(s) + (word-level) SONIC.
+
 ## Headline (GPT, and it's right)
 
 **The visualizations are stronger than the use-model around them.** The reader is taught *what marks mean* (green = logic) but not *what action to perform*. The fix is a **task model** + making the three a **single coordinated instrument**, not three sibling artworks.
@@ -17,9 +35,14 @@
 3. **Task-first, not legend-first.** One primary prompt above each view: Trace = "Pick a move that catches you. Where does it reach?"; Scan = "Find a crowded row or a mark far from the diagonal."; Map = "Find a large dot. Why is this move a hub?" Then a reflective prompt after: "What did this make you notice that the plain text didn't?"
 4. **Plain-language relation, not just family (GPT + PI's drill-down converge).** On selection show the *typed relation in prose* — "M17 belongs inside the speech begun at M12" — with `NEST_REPORTS` demoted to research/Inspect. "Logic" is a family, not yet an interpretation.
 5. **Family → sub-type drill-down (PI + the old viz).** The 3-family clustering (logic/resonance/sonic) hides the sub-types. Review by family, then drill in: logic → cause · contrast · support · nesting · elaborates · sequence; resonance → parallelism · ring · leap · juxtaposition; sonic → rhyme · assonance · alliteration · consonance. Each sub-type isolable, with counts (the old viz's filter bar is the model: per-sub-type buttons with live counts).
-6. **Sonic lives on the PLATE, not the moves (PI + the old viz) — and it's OFF-THE-SHELF.** Sonic ties are WORD-level (which words rhyme/alliterate/assonate/consonate), so they highlight on the verbatim text — click a sonic sub-type, the tied words light up. This is a **new layer on the Plate**, not a move-edge figure. Distinct from the (currently empty) sonic *move-edges* in `connect_edges.json`. **Source (verified in the old viz): Poemage** (the Utah sonic-poetry-viz approach) **+ `pronouncing` + `panphon`** Python libs — so we REUSE off-the-shelf tooling, not rebuild (Brand/whole-earth reuse principle).
+6. **Sonic lives on the PLATE, not the moves — but keep TWO SONIC SOURCES distinct (PI, do-not-conflate):**
+   - **(a) OUR method's sonic** = the `SONIC` edge-kind in the Connect grammar. It is **defined but NOT computed** for Mark 16 (`connect_edges.json` = 70 LINKAGE + 8 SHAPE + **0 SONIC**). So our-method sonic is *owed*, not done — the edge_grammar run didn't populate it.
+   - **(b) OFF-THE-SHELF sonic** = the old `VIZ_constellation_v3` (Poemage approach + `pronouncing` + `panphon`), an OLD artifact, **not our dataset or method**. Its 41 rhyme / 91 assonance / 77 alliteration / 18 consonance are external computation.
+   Either way, sonic ties are WORD-level (which words rhyme/alliterate/assonate/consonate), so they highlight on the verbatim **Plate**, not the move-cards. Any sonic layer must **label which source** it's showing (our-method vs off-the-shelf), never blur them.
 
-11. **Sonic is language-specific — run it on the GREEK, and the EN↔GRC gap is itself a finding (PI).** Sound patterns live in the *original*; the PI recalls an analysis where the **Greek had stronger sonic edges while the English had stronger resonance/logic edges**. So: (a) the Plate sonic layer should ideally run on the **Greek** text (where the sonic actually is); (b) comparing Greek-sonic vs English-sonic/resonance/logic **shows what translation drops** — a negative-space finding (§2.8), directly thesis-relevant. **Tooling caveat:** `pronouncing` (CMU dict) is **English-only**, so the off-the-shelf path covers English sonic but **Greek sonic needs different tooling** (panphon can do cross-language IPA features, but needs a Greek pronunciation/transliteration source). This is a real data+tooling gap for the Greek side — flag as its own build. Composes with the bilingual EN↔GRC Plate the PI raised earlier.
+11. **The point is the COMPARISON — our-method sonic vs off-the-shelf, and Greek vs English (PI).**
+   - **Compute our-method sonic** (populate the `SONIC` edge-kind for Mark 16 — a Connect-grammar/coder run), then **compare it against the off-the-shelf** (Poemage) computation: *where do they agree, where do they diverge, and why?* That methodological comparison is itself a finding (does our coded sonic detection match phonological computation?).
+   - **Greek vs English:** sound lives in the *original*; the PI recalls an analysis where the **Greek had stronger sonic edges while the English had stronger resonance/logic edges**. So sonic ideally runs on the **Greek**, and the **EN↔GRC gap shows what translation drops** — negative-space (§2.8), thesis-relevant. Tooling caveat: `pronouncing` (CMU) is **English-only**; Greek sonic needs different phonology tooling. Composes with the bilingual EN↔GRC Plate.
 7. **Tie CONNECT to the Move Score (GPT).** Clicking a move shows "Connections: 7 · 5 logic · 1 resonance · 1 sequence · Follow →" which opens Trace positioned at that move.
 8. **Reading vs Analysis hierarchy (GPT).** `READING: Plate → Move Score → Trace` · `ANALYSIS: Scan → Map (behind a Research door)`. Don't force all three to be equally contemplative — they are different epistemic distances (I am still reading / inspecting my reading / studying the model). Every abstract discovery has a one-click route back to the words.
 9. **Demote unavailable sonic move-edges.** In the move-edge views, "sonic — not coded yet" currently gets near-equal status; show it as *disabled/unavailable for this passage* (the real sonic action is on the Plate, per #6).
