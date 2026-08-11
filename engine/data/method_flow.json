@@ -1,827 +1,828 @@
 {
-  "meta": {
-    "title": "The Method Engine",
-    "kicker": "Schema · bow-tie",
-    "lede": "decompose + situate → shared enriched-move record → recompositions",
-    "modes": {
-      "method": "topology, names, functions",
-      "audit": "implementation status + known limits"
-    },
-    "edgeTypes": {
-      "waist_independent": "does not require the enriched move",
-      "move_conditioned": "requires the enriched move",
-      "flow": "structural spine"
-    },
-    "maturity": {
-      "populated": "built + has data",
-      "thin": "built, thin data",
-      "specified": "specified, no data yet",
-      "retired": "retired"
-    },
-    "bands": [
-      {
-        "id": "band_wi",
-        "label": "Waist-independent",
-        "note": "outputs that don't need the move",
-        "tone": "grammar"
-      },
-      {
-        "id": "band_mc",
-        "label": "Move-conditioned",
-        "note": "outputs that need the move",
-        "tone": "grammar"
-      }
-    ]
+ "meta": {
+  "title": "The Method Engine",
+  "kicker": "Schema · bow-tie",
+  "lede": "decompose + situate → shared enriched-move record → recompositions",
+  "modes": {
+   "method": "topology, names, functions",
+   "audit": "implementation status + known limits"
   },
-  "nodes": [
-    {
-      "id": "text",
-      "label": "Text",
-      "function": "a passage, checked out of the library",
-      "band": "input",
-      "kind": "card",
-      "status": "thin",
-      "grain": "passage",
-      "requires": [],
-      "produces": [
-        "chunked passage (+ anchors)"
-      ],
-      "implementation": "populated",
-      "validation": "internally-tested",
-      "layers": [
-        "source / passages"
-      ],
-      "step": 1,
-      "stage": "INPUT"
-    },
-    {
-      "id": "decompose",
-      "label": "Decompose",
-      "function": "break the passage into moves",
-      "band": "input",
-      "kind": "card",
-      "status": "populated",
-      "grain": "moves",
-      "requires": [
-        "text"
-      ],
-      "produces": [
-        "move"
-      ],
-      "implementation": "populated",
-      "validation": "internally-tested",
-      "sub": "the coding stage: \"Grammar\" is the move-grammar inside it. Only Decompose sets boundaries.",
-      "layers": [
-        "Grammar (moves)",
-        "Seed-ranking"
-      ],
-      "step": "2a",
-      "stage": "DECOMPOSE"
-    },
-    {
-      "id": "situate",
-      "label": "Situate",
-      "function": "attach context to each move",
-      "band": "input",
-      "kind": "card",
-      "status": "thin",
-      "grain": "passage",
-      "requires": [
-        "text"
-      ],
-      "produces": [
-        "annotation"
-      ],
-      "implementation": "built",
-      "validation": "untested",
-      "sub": "Annotates, never segments. Runs parallel to Decompose. Neither branch reads the other.",
-      "layers": [
-        "Annotation grain: Sitz · Paradigm are text-level (computed once, stamped onto every move); Lineage is move-level (cites a coded move); Frame / Witness attach per move but render text- and source-level outputs.",
-        "Output waist-dependency: Sitz · Paradigm · Frame→Morphospace · Witness→Degrees are waist-independent; Lineage→Tributary is move-conditioned."
-      ],
-      "badge": "Sitz / Paradigm are DB-rendered engine-0 output (source_grounding); ~2 seed texts so far.",
-      "step": "2b",
-      "stage": "SITUATE"
-    },
-    {
-      "id": "sitz",
-      "label": "Sitz",
-      "function": "the world it was made in",
-      "band": "situate",
-      "kind": "leaf",
-      "status": "thin",
-      "grain": "source",
-      "requires": [
-        "text"
-      ],
-      "produces": [
-        "rendered in place"
-      ],
-      "implementation": "built",
-      "validation": "untested",
-      "rendered": true,
-      "badge": "DB-rendered engine-0 output (source_grounding); ~2 seed texts so far.",
-      "step": "2b",
-      "stage": "SITUATE"
-    },
-    {
-      "id": "paradigm",
-      "label": "Paradigm",
-      "function": "the frame it argues within",
-      "band": "situate",
-      "kind": "leaf",
-      "status": "thin",
-      "grain": "source",
-      "requires": [
-        "text"
-      ],
-      "produces": [
-        "rendered in place"
-      ],
-      "implementation": "built",
-      "validation": "untested",
-      "rendered": true,
-      "badge": "DB-rendered engine-0 output (source_grounding); ~2 seed texts so far.",
-      "step": "2b",
-      "stage": "SITUATE"
-    },
-    {
-      "id": "frame",
-      "label": "Position",
-      "function": "the position the text enacts (the 8-axis frame-space)",
-      "band": "situate",
-      "kind": "leaf",
-      "status": "thin",
-      "grain": "passage",
-      "requires": [
-        "text"
-      ],
-      "produces": [
-        "morphospace"
-      ],
-      "implementation": "built",
-      "validation": "untested",
-      "rendered": true,
-      "badge": "renders from the atlas reader (shared engine); the deployed drawer still shows the retired 7-axis; fix on rebuild.",
-      "step": "2b",
-      "stage": "SITUATE"
-    },
-    {
-      "id": "witness",
-      "label": "Transmission",
-      "function": "distance from the event",
-      "band": "situate",
-      "kind": "leaf",
-      "status": "thin",
-      "grain": "source",
-      "requires": [
-        "text"
-      ],
-      "produces": [
-        "degrees"
-      ],
-      "implementation": "built",
-      "validation": "untested",
-      "rendered": true,
-      "step": "2b",
-      "stage": "SITUATE"
-    },
-    {
-      "id": "lineage",
-      "label": "Lineage",
-      "function": "sources standing behind the move",
-      "band": "situate",
-      "kind": "leaf",
-      "status": "specified",
-      "grain": "move",
-      "requires": [
-        "enriched_move"
-      ],
-      "produces": [
-        "tributary"
-      ],
-      "implementation": "specified",
-      "validation": "untested",
-      "sub": "move-level: it cites a coded move, so its output (Tributary) is move-conditioned and hangs off the waist.",
-      "step": "2b",
-      "stage": "SITUATE"
-    },
-    {
-      "id": "form",
-      "label": "Form",
-      "function": "the kind of text it is (its Gattung)",
-      "band": "situate",
-      "kind": "leaf",
-      "status": "thin",
-      "grain": "source",
-      "requires": [
-        "text"
-      ],
-      "produces": [
-        "Gattung + force profile"
-      ],
-      "implementation": "built",
-      "validation": "untested",
-      "rendered": true,
-      "step": "2b",
-      "stage": "SITUATE"
-    },
-    {
-      "id": "enriched_move",
-      "label": "Enriched move",
-      "function": "operation + arguments + attached context",
-      "band": "waist",
-      "kind": "waist",
-      "status": "populated",
-      "grain": "move",
-      "requires": [
-        "decompose",
-        "situate"
-      ],
-      "produces": [
-        "move"
-      ],
-      "implementation": "populated",
-      "validation": "internally-tested",
-      "sub": "Decompose segments ∥ Situate annotates → they converge here. Every move-conditioned output fans from this hinge.",
-      "layers": [
-        "Worked example: Mark 16 = 55 coded moves"
-      ],
-      "note": "the per-move running gloss (move_gloss, 'running gloss (per move)') attaches to the move here; it is KEPT DISTINCT from the panel's gap gloss on the right wing (§5).",
-      "step": 3
-    },
-    {
-      "id": "morphospace",
-      "label": "Morphospace",
-      "function": "the 8-axis frame as a space",
-      "band": "band_wi",
-      "kind": "tile",
-      "status": "specified",
-      "grain": "passage",
-      "requires": [
-        "frame"
-      ],
-      "produces": [
-        "view"
-      ],
-      "implementation": "specified",
-      "validation": "untested",
-      "sub": "renders from the library-owned atlas reader (atlas_frame_reader) on the 8 named axes. The Librarian owns the frame vocab + morphospace; the method engine consumes it (both have access, never a proxy).",
-      "step": 4
-    },
-    {
-      "id": "degrees",
-      "label": "Degrees of separation",
-      "function": "transmission distance, counted",
-      "band": "band_wi",
-      "kind": "tile",
-      "status": "thin",
-      "grain": "source",
-      "requires": [
-        "witness"
-      ],
-      "produces": [
-        "view"
-      ],
-      "implementation": "built",
-      "validation": "untested",
-      "step": 4
-    },
-    {
-      "id": "constellation",
-      "label": "Constellation",
-      "function": "sound-field, off raw text",
-      "band": "band_wi",
-      "kind": "tile",
-      "status": "specified",
-      "grain": "raw_text",
-      "requires": [
-        "text"
-      ],
-      "produces": [
-        "view"
-      ],
-      "implementation": "specified",
-      "validation": "untested",
-      "sub": "sonic / phonetic recurrence (Text → IPA); the only literally raw-text output.",
-      "step": 4
-    },
-    {
-      "id": "compare",
-      "label": "Compare",
-      "function": "the move set beside itself",
-      "band": "band_mc",
-      "kind": "tile",
-      "status": "specified",
-      "grain": "move",
-      "requires": [
-        "enriched_move"
-      ],
-      "produces": [
-        "view"
-      ],
-      "implementation": "specified",
-      "validation": "untested",
-      "layers": [
-        "Braid: moves across the gospels",
-        "Partiture: SHOW · LOCATE · EXPLAIN"
-      ],
-      "step": 4
-    },
-    {
-      "id": "resituate",
-      "label": "Resituate",
-      "function": "the move under another situation",
-      "band": "band_mc",
-      "kind": "tile",
-      "status": "populated",
-      "grain": "move",
-      "requires": [
-        "enriched_move"
-      ],
-      "produces": [
-        "view"
-      ],
-      "implementation": "populated",
-      "validation": "internally-tested",
-      "layers": [
-        "deductive",
-        "abductive"
-      ],
-      "step": 4
-    },
-    {
-      "id": "tributary",
-      "label": "Tributary",
-      "function": "how sources flow in",
-      "band": "band_mc",
-      "kind": "tile",
-      "status": "specified",
-      "grain": "move",
-      "requires": [
-        "enriched_move",
-        "lineage"
-      ],
-      "produces": [
-        "view"
-      ],
-      "implementation": "specified",
-      "validation": "untested",
-      "sub": "◄ Lineage is move-level, so this is routed from the waist.",
-      "step": 4
-    },
-    {
-      "id": "gap_map",
-      "label": "Gap findings",
-      "function": "the 8-locus scan on the enriched move",
-      "band": "band_mc",
-      "kind": "tile",
-      "status": "specified",
-      "grain": "gap",
-      "requires": [
-        "enriched_move"
-      ],
-      "produces": [
-        "gap"
-      ],
-      "implementation": "specified",
-      "validation": "untested",
-      "sub": "the unified 8-locus × subtype silence scan reads the enriched move (source_move) → the findings store (source_move_gap). One door (Decision 221). Renders from the engine's store.",
-      "layers": [
-        "frame-role",
-        "grammar-slot",
-        "edge",
-        "incongruity",
-        "cross-source ↗ (locus)",
-        "lineage ↗ (→ Tributary)",
-        "witness-seam",
-        "wild-catch"
-      ],
-      "badge": "known-limit: Mark-16-WEB has a lineage-only run so far; the unified multi-locus scan hasn't been pointed at it yet (run-coverage, not a taxonomy limit). Acceptance test: the first full run must surface M23 (the women's silence).",
-      "step": 4
-    },
-    {
-      "id": "cross_analysis",
-      "label": "Joins",
-      "function": "cross-engine correlations",
-      "band": "band_mc",
-      "kind": "tile",
-      "status": "specified",
-      "grain": "cross_output",
-      "requires": [
-        "enriched_move"
-      ],
-      "produces": [
-        "cross_output"
-      ],
-      "implementation": "specified",
-      "validation": "untested",
-      "layers": [
-        "Variance × Lineage",
-        "Lineage-headwaters",
-        "Frame-veer × Variance",
-        "Sonic × Lineage",
-        "Panel-verdict × variance-type"
-      ],
-      "badge": "first-class output (family VIII, load-bearing); analysis-only, no export yet; also feeds Synthesis.",
-      "step": 4
-    },
-    {
-      "id": "gap",
-      "label": "Selected gap",
-      "function": "a named interpretive question",
-      "band": "mirror",
-      "kind": "card",
-      "status": "specified",
-      "grain": "gap",
-      "requires": [
-        "enriched_move"
-      ],
-      "produces": [
-        "gap"
-      ],
-      "implementation": "specified",
-      "validation": "untested",
-      "sub": "the hinge of the mirror: one gap, two kinds of voice. Where they diverge is the finding.",
-      "step": 4
-    },
-    {
-      "id": "gloss",
-      "label": "Gloss",
-      "function": "the instrument's built voices",
-      "band": "grammar",
-      "kind": "card",
-      "status": "specified",
-      "grain": "gap",
-      "requires": [
-        "gap"
-      ],
-      "produces": [
-        "view"
-      ],
-      "implementation": "specified",
-      "validation": "untested",
-      "layers": [
-        "hook (~40w)",
-        "argued (~150w: fork → lineage → commits/forecloses)",
-        "raw"
-      ],
-      "badge": "its mode menu renders as a (stance × method) GRID, not a tree; cells marked PROPOSED.",
-      "sub": "the panel's gap gloss (gap_gloss, S5): the instrument's constructed voices answering the selected gap. Distinct from the per-move running gloss (move_gloss) in the left wing.",
-      "step": 4
-    },
-    {
-      "id": "reception",
-      "label": "Reception",
-      "function": "the tradition's real voices",
-      "band": "canon",
-      "kind": "card",
-      "status": "specified",
-      "grain": "gap",
-      "requires": [
-        "gap"
-      ],
-      "produces": [
-        "view"
-      ],
-      "implementation": "specified",
-      "validation": "untested",
-      "sub": "gap-driven retrieval: real historical texts answering that gap (Calvin's actual words off the shelf); the mirror of Gloss's built voices.",
-      "badge": "⚠ awaiting build: 0 rows (S162+).",
-      "step": 4
-    },
-    {
-      "id": "synthesis",
-      "label": "Synthesis",
-      "function": "relates claims across frames and voices",
-      "band": "end",
-      "kind": "card",
-      "status": "specified",
-      "grain": "cross_output",
-      "requires": [
-        "gloss",
-        "reception",
-        "cross_analysis"
-      ],
-      "produces": [
-        "argument_graph"
-      ],
-      "implementation": "specified",
-      "validation": "untested",
-      "sub": "per-gap panel colloquy / argument-graph, plus the cross-output joins.",
-      "layers": [
-        "AGREES",
-        "CONTESTS",
-        "REFRAMES",
-        "EXTENDS",
-        "CONCEPTUALLY-ENABLES",
-        "HISTORICALLY-DEVELOPS-FROM"
-      ],
-      "badge": "⚠ mostly spec, no store yet; the per-gap colloquy is panel_colloquy / panel_colloquy_edge, NOT advisory_panel (the simulated board).",
-      "step": 6
-    },
-    {
-      "id": "reading_room",
-      "label": "Reading Room",
-      "function": "the reader-facing surface",
-      "band": "end",
-      "kind": "card",
-      "status": "populated",
-      "grain": "corpus",
-      "requires": [
-        "synthesis"
-      ],
-      "produces": [
-        "delivery"
-      ],
-      "implementation": "populated",
-      "validation": "internally-tested",
-      "sub": "terminal delivery: where the reader lands and reads.",
-      "layers": [
-        "integrated reading (e.g. the gospels)",
-        "church / institution map"
-      ],
-      "step": 7
-    },
-    {
-      "id": "reflexive",
-      "label": "Reflexive audit",
-      "function": "the instrument on itself",
-      "band": "strip",
-      "kind": "strip",
-      "status": "specified",
-      "grain": "corpus",
-      "requires": [],
-      "produces": [
-        "audit"
-      ],
-      "implementation": "specified",
-      "validation": "untested",
-      "sub": "off the flow: the method commenting on itself.",
-      "layers": [
-        "recursive abductive run",
-        "provenance",
-        "vocab-version",
-        "SSOT-freshness"
-      ]
-    },
-    {
-      "id": "fan",
-      "label": "Fan",
-      "function": "many voices at once",
-      "band": "history",
-      "kind": "retired",
-      "status": "retired",
-      "grain": "move",
-      "requires": [
-        "enriched_move"
-      ],
-      "produces": [],
-      "implementation": "retired",
-      "validation": "untested",
-      "sub": "retired: kept in provenance / history only, never drawn in the overview."
-    },
-    {
-      "id": "nominate",
-      "label": "Nominate",
-      "function": "42 agents each pick their most-generative gap",
-      "band": "panel",
-      "kind": "panel",
-      "status": "specified",
-      "grain": "gap",
-      "implementation": "specified",
-      "validation": "untested",
-      "sub": "S3: each of the 42 coded frames nominates its top-1 gap (panel_nomination). Dispersion is an audit signal.",
-      "step": 5
-    },
-    {
-      "id": "chair_convergence",
-      "label": "Convergence",
-      "function": "selects develops-WITH gaps",
-      "band": "panel",
-      "kind": "chair",
-      "status": "specified",
-      "implementation": "specified",
-      "validation": "untested",
-      "sub": "the chair that reads how the frames build together.",
-      "step": 5
-    },
-    {
-      "id": "chair_divergence",
-      "label": "Divergence",
-      "function": "selects reads-AGAINST gaps",
-      "band": "panel",
-      "kind": "chair",
-      "status": "specified",
-      "implementation": "specified",
-      "validation": "untested",
-      "sub": "the chair that reads where the frames contest.",
-      "step": 5
-    },
-    {
-      "id": "pick_top",
-      "label": "Pick-top",
-      "function": "the two chairs rate + pick the top glosses",
-      "band": "panel",
-      "kind": "panel",
-      "status": "specified",
-      "implementation": "specified",
-      "validation": "untested",
-      "sub": "S8: rates the fidelity-gated gap_gloss (S6: no-grounded-gloss is an allowable verdict) + reception; each chair picks top-N.",
-      "step": 5
-    },
-    {
-      "id": "the_finding",
-      "label": "The finding",
-      "function": "agree = load-bearing · split = the fault-line",
-      "band": "panel",
-      "kind": "finding",
-      "status": "specified",
-      "implementation": "specified",
-      "validation": "untested",
-      "sub": "the symmetric-difference of the two chairs' slates (chair_selection). A first-class finding: agreement is load-bearing, a split marks the fault-line. 'the disagreement is the content.'",
-      "step": 5
-    },
-    {
-      "id": "fidelity_gate",
-      "label": "⊟ Fidelity gate",
-      "function": "S6: not every gloss survives",
-      "band": "panel",
-      "kind": "gate",
-      "status": "specified",
-      "implementation": "specified",
-      "validation": "untested",
-      "grain": "gap",
-      "layers": [
-        "gap-fidelity",
-        "textual-anchor",
-        "frame-contribution",
-        "warrant",
-        "calibration",
-        "generativity"
-      ],
-      "sub": "S6 (DP-5): a six-check hard gate on every gap_gloss BEFORE the chairs rate it. 'no-grounded-gloss' is an allowable RECORDED verdict: glosses can DIE here. The attrition is part of the story; the instrument is honest that not every gloss survives to Synthesis.",
-      "step": 5
-    },
-    {
-      "id": "connect",
-      "label": "Connect",
-      "function": "wire the moves back together",
-      "band": "input",
-      "kind": "card",
-      "status": "specified",
-      "grain": "edges",
-      "requires": [
-        "decompose"
-      ],
-      "produces": [
-        "edge"
-      ],
-      "implementation": "specified",
-      "validation": "none",
-      "step": "2b",
-      "stage": "CONNECT",
-      "sub": "The reconstruction half of the move-grammar: Decompose breaks the passage into moves, Connect wires them back together. The grammar edge_grammar_v1 is locked in spec; not yet coded on the golden path."
-    }
-  ],
-  "edges": [
-    {
-      "from": "text",
-      "to": "decompose",
-      "type": "flow",
-      "note": "branch one: segmentation"
-    },
-    {
-      "from": "text",
-      "to": "situate",
-      "type": "flow",
-      "note": "branch two: annotation"
-    },
-    {
-      "from": "text",
-      "to": "connect",
-      "type": "flow",
-      "note": "branch: reconstruction"
-    },
-    {
-      "from": "connect",
-      "to": "enriched_move",
-      "type": "flow",
-      "note": "Connect wires"
-    },
-    {
-      "from": "decompose",
-      "to": "enriched_move",
-      "type": "flow",
-      "note": "Decompose segments"
-    },
-    {
-      "from": "situate",
-      "to": "enriched_move",
-      "type": "flow",
-      "note": "Situate annotates"
-    },
-    {
-      "from": "frame",
-      "to": "morphospace",
-      "type": "waist_independent",
-      "note": "text-level frame"
-    },
-    {
-      "from": "witness",
-      "to": "degrees",
-      "type": "waist_independent",
-      "note": "transmission distance"
-    },
-    {
-      "from": "text",
-      "to": "constellation",
-      "type": "waist_independent",
-      "note": "off raw text"
-    },
-    {
-      "from": "enriched_move",
-      "to": "compare",
-      "type": "move_conditioned",
-      "note": "off the waist trunk"
-    },
-    {
-      "from": "enriched_move",
-      "to": "resituate",
-      "type": "move_conditioned",
-      "note": "off the waist trunk"
-    },
-    {
-      "from": "enriched_move",
-      "to": "tributary",
-      "type": "move_conditioned",
-      "note": "◄ Lineage is move-level"
-    },
-    {
-      "from": "enriched_move",
-      "to": "gap_map",
-      "type": "move_conditioned",
-      "note": "off the waist trunk"
-    },
-    {
-      "from": "enriched_move",
-      "to": "cross_analysis",
-      "type": "move_conditioned",
-      "note": "off the waist trunk"
-    },
-    {
-      "from": "enriched_move",
-      "to": "fan",
-      "type": "move_conditioned",
-      "note": "retired: not drawn"
-    },
-    {
-      "from": "enriched_move",
-      "to": "gap",
-      "type": "move_conditioned",
-      "note": "the move names a gap"
-    },
-    {
-      "from": "gap",
-      "to": "gloss",
-      "type": "move_conditioned",
-      "note": "constructed voices"
-    },
-    {
-      "from": "gap",
-      "to": "reception",
-      "type": "move_conditioned",
-      "note": "retrieved voices"
-    },
-    {
-      "from": "cross_analysis",
-      "to": "synthesis",
-      "type": "flow",
-      "note": "JOINS also feeds synthesis"
-    },
-    {
-      "from": "synthesis",
-      "to": "reading_room",
-      "type": "flow",
-      "note": "the argument lands where the reader reads"
-    },
-    {
-      "from": "gloss",
-      "to": "pick_top",
-      "type": "flow",
-      "note": "the built voices enter the panel"
-    },
-    {
-      "from": "reception",
-      "to": "pick_top",
-      "type": "flow",
-      "note": "the retrieved voices enter the panel"
-    },
-    {
-      "from": "the_finding",
-      "to": "synthesis",
-      "type": "flow",
-      "note": "the panel's finding enters the argument"
-    }
+  "edgeTypes": {
+   "waist_independent": "does not require the enriched move",
+   "move_conditioned": "requires the enriched move",
+   "flow": "structural spine"
+  },
+  "maturity": {
+   "populated": "built + has data",
+   "thin": "built, thin data",
+   "specified": "specified, no data yet",
+   "retired": "retired"
+  },
+  "bands": [
+   {
+    "id": "band_wi",
+    "label": "Waist-independent",
+    "note": "outputs that don't need the move",
+    "tone": "grammar"
+   },
+   {
+    "id": "band_mc",
+    "label": "Move-conditioned",
+    "note": "outputs that need the move",
+    "tone": "grammar"
+   }
   ]
+ },
+ "nodes": [
+  {
+   "id": "text",
+   "label": "Text",
+   "function": "a passage, checked out of the library",
+   "band": "input",
+   "kind": "card",
+   "status": "thin",
+   "grain": "passage",
+   "requires": [],
+   "produces": [
+    "chunked passage (+ anchors)"
+   ],
+   "implementation": "populated",
+   "validation": "internally-tested",
+   "layers": [
+    "source / passages"
+   ],
+   "step": 1,
+   "stage": "INPUT"
+  },
+  {
+   "id": "decompose",
+   "label": "Decompose",
+   "function": "break the passage into moves",
+   "band": "input",
+   "kind": "card",
+   "status": "populated",
+   "grain": "moves",
+   "requires": [
+    "text"
+   ],
+   "produces": [
+    "move"
+   ],
+   "implementation": "populated",
+   "validation": "internally-tested",
+   "sub": "the coding stage: \"Grammar\" is the move-grammar inside it. Only Decompose sets boundaries.",
+   "layers": [
+    "Grammar (moves)",
+    "Seed-ranking"
+   ],
+   "step": "2a",
+   "stage": "DECOMPOSE"
+  },
+  {
+   "id": "situate",
+   "label": "Situate",
+   "function": "attach context to each move",
+   "band": "input",
+   "kind": "card",
+   "status": "thin",
+   "grain": "passage",
+   "requires": [
+    "text"
+   ],
+   "produces": [
+    "annotation"
+   ],
+   "implementation": "built",
+   "validation": "untested",
+   "sub": "Annotates, never segments. Runs parallel to Decompose. Neither branch reads the other.",
+   "layers": [
+    "Annotation grain: Sitz · Paradigm are text-level (computed once, stamped onto every move); Lineage is move-level (cites a coded move); Frame / Witness attach per move but render text- and source-level outputs.",
+    "Output waist-dependency: Sitz · Paradigm · Frame→Morphospace · Witness→Degrees are waist-independent; Lineage→Tributary is move-conditioned."
+   ],
+   "badge": "Sitz / Paradigm are DB-rendered engine-0 output (source_grounding); ~2 seed texts so far.",
+   "step": "2b",
+   "stage": "SITUATE"
+  },
+  {
+   "id": "sitz",
+   "label": "Sitz",
+   "function": "the world it was made in",
+   "band": "situate",
+   "kind": "leaf",
+   "status": "thin",
+   "grain": "source",
+   "requires": [
+    "text"
+   ],
+   "produces": [
+    "rendered in place"
+   ],
+   "implementation": "built",
+   "validation": "untested",
+   "rendered": true,
+   "badge": "DB-rendered engine-0 output (source_grounding); ~2 seed texts so far.",
+   "step": "2b",
+   "stage": "SITUATE"
+  },
+  {
+   "id": "paradigm",
+   "label": "Paradigm",
+   "function": "the frame it argues within",
+   "band": "situate",
+   "kind": "leaf",
+   "status": "thin",
+   "grain": "source",
+   "requires": [
+    "text"
+   ],
+   "produces": [
+    "rendered in place"
+   ],
+   "implementation": "built",
+   "validation": "untested",
+   "rendered": true,
+   "badge": "DB-rendered engine-0 output (source_grounding); ~2 seed texts so far.",
+   "step": "2b",
+   "stage": "SITUATE"
+  },
+  {
+   "id": "frame",
+   "label": "Position",
+   "function": "the position the text enacts (the 8-axis frame-space)",
+   "band": "situate",
+   "kind": "leaf",
+   "status": "thin",
+   "grain": "passage",
+   "requires": [
+    "text"
+   ],
+   "produces": [
+    "morphospace"
+   ],
+   "implementation": "built",
+   "validation": "untested",
+   "rendered": true,
+   "badge": "renders from the atlas reader (shared engine); the deployed drawer still shows the retired 7-axis; fix on rebuild.",
+   "step": "2b",
+   "stage": "SITUATE"
+  },
+  {
+   "id": "witness",
+   "label": "Transmission",
+   "function": "distance from the event",
+   "band": "situate",
+   "kind": "leaf",
+   "status": "thin",
+   "grain": "source",
+   "requires": [
+    "text"
+   ],
+   "produces": [
+    "degrees"
+   ],
+   "implementation": "built",
+   "validation": "untested",
+   "rendered": true,
+   "step": "2b",
+   "stage": "SITUATE"
+  },
+  {
+   "id": "lineage",
+   "label": "Lineage",
+   "function": "sources standing behind the move",
+   "band": "situate",
+   "kind": "leaf",
+   "status": "specified",
+   "grain": "move",
+   "requires": [
+    "enriched_move"
+   ],
+   "produces": [
+    "tributary"
+   ],
+   "implementation": "specified",
+   "validation": "untested",
+   "sub": "move-level: it cites a coded move, so its output (Tributary) is move-conditioned and hangs off the waist.",
+   "step": "2b",
+   "stage": "SITUATE"
+  },
+  {
+   "id": "form",
+   "label": "Form",
+   "function": "the kind of text it is (its Gattung)",
+   "band": "situate",
+   "kind": "leaf",
+   "status": "thin",
+   "grain": "source",
+   "requires": [
+    "text"
+   ],
+   "produces": [
+    "Gattung + force profile"
+   ],
+   "implementation": "built",
+   "validation": "untested",
+   "rendered": true,
+   "step": "2b",
+   "stage": "SITUATE"
+  },
+  {
+   "id": "enriched_move",
+   "label": "Enriched move",
+   "function": "operation + arguments + attached context",
+   "band": "waist",
+   "kind": "waist",
+   "status": "populated",
+   "grain": "move",
+   "requires": [
+    "decompose",
+    "situate"
+   ],
+   "produces": [
+    "move"
+   ],
+   "implementation": "populated",
+   "validation": "internally-tested",
+   "sub": "Decompose segments ∥ Situate annotates → they converge here. Every move-conditioned output fans from this hinge.",
+   "layers": [
+    "Worked example: Mark 16 = 55 coded moves"
+   ],
+   "note": "the per-move running gloss (move_gloss, 'running gloss (per move)') attaches to the move here; it is KEPT DISTINCT from the panel's gap gloss on the right wing (§5).",
+   "step": 3
+  },
+  {
+   "id": "morphospace",
+   "label": "Morphospace",
+   "function": "the 8-axis frame as a space",
+   "band": "band_wi",
+   "kind": "tile",
+   "status": "specified",
+   "grain": "passage",
+   "requires": [
+    "frame"
+   ],
+   "produces": [
+    "view"
+   ],
+   "implementation": "specified",
+   "validation": "untested",
+   "sub": "renders from the library-owned atlas reader (atlas_frame_reader) on the 8 named axes. The Librarian owns the frame vocab + morphospace; the method engine consumes it (both have access, never a proxy).",
+   "step": 4
+  },
+  {
+   "id": "degrees",
+   "label": "Degrees of separation",
+   "function": "transmission distance, counted",
+   "band": "band_wi",
+   "kind": "tile",
+   "status": "thin",
+   "grain": "source",
+   "requires": [
+    "witness"
+   ],
+   "produces": [
+    "view"
+   ],
+   "implementation": "built",
+   "validation": "untested",
+   "step": 4
+  },
+  {
+   "id": "constellation",
+   "label": "Constellation",
+   "function": "sound-field, off raw text",
+   "band": "band_wi",
+   "kind": "tile",
+   "status": "specified",
+   "grain": "raw_text",
+   "requires": [
+    "text"
+   ],
+   "produces": [
+    "view"
+   ],
+   "implementation": "specified",
+   "validation": "untested",
+   "sub": "sonic / phonetic recurrence (Text → IPA); the only literally raw-text output.",
+   "step": 4
+  },
+  {
+   "id": "compare",
+   "label": "Compare",
+   "function": "the move set beside itself",
+   "band": "band_mc",
+   "kind": "tile",
+   "status": "specified",
+   "grain": "move",
+   "requires": [
+    "enriched_move"
+   ],
+   "produces": [
+    "view"
+   ],
+   "implementation": "specified",
+   "validation": "untested",
+   "layers": [
+    "Braid: moves across the gospels",
+    "Partiture: SHOW · LOCATE · EXPLAIN"
+   ],
+   "step": 4
+  },
+  {
+   "id": "resituate",
+   "label": "Resituate",
+   "function": "the move under another situation",
+   "band": "band_mc",
+   "kind": "tile",
+   "status": "populated",
+   "grain": "move",
+   "requires": [
+    "enriched_move"
+   ],
+   "produces": [
+    "view"
+   ],
+   "implementation": "populated",
+   "validation": "internally-tested",
+   "layers": [
+    "deductive",
+    "abductive"
+   ],
+   "step": 4
+  },
+  {
+   "id": "tributary",
+   "label": "Tributary",
+   "function": "how sources flow in",
+   "band": "band_mc",
+   "kind": "tile",
+   "status": "specified",
+   "grain": "move",
+   "requires": [
+    "enriched_move",
+    "lineage"
+   ],
+   "produces": [
+    "view"
+   ],
+   "implementation": "specified",
+   "validation": "untested",
+   "sub": "◄ Lineage is move-level, so this is routed from the waist.",
+   "step": 4
+  },
+  {
+   "id": "gap_map",
+   "label": "Gap findings",
+   "function": "the 8-locus scan on the enriched move",
+   "band": "band_mc",
+   "kind": "tile",
+   "status": "specified",
+   "grain": "gap",
+   "requires": [
+    "enriched_move"
+   ],
+   "produces": [
+    "gap"
+   ],
+   "implementation": "specified",
+   "validation": "untested",
+   "sub": "the unified 8-locus × subtype silence scan reads the enriched move (source_move) → the findings store (source_move_gap). One door (Decision 221). Renders from the engine's store.",
+   "layers": [
+    "frame-role",
+    "grammar-slot",
+    "edge",
+    "incongruity",
+    "cross-source ↗ (locus)",
+    "lineage ↗ (→ Tributary)",
+    "witness-seam",
+    "wild-catch"
+   ],
+   "badge": "known-limit: Mark-16-WEB has a lineage-only run so far; the unified multi-locus scan hasn't been pointed at it yet (run-coverage, not a taxonomy limit). Acceptance test: the first full run must surface M23 (the women's silence).",
+   "step": 4
+  },
+  {
+   "id": "cross_analysis",
+   "label": "Joins",
+   "function": "cross-engine correlations",
+   "band": "band_mc",
+   "kind": "tile",
+   "status": "specified",
+   "grain": "cross_output",
+   "requires": [
+    "enriched_move"
+   ],
+   "produces": [
+    "cross_output"
+   ],
+   "implementation": "specified",
+   "validation": "untested",
+   "layers": [
+    "Variance × Lineage",
+    "Lineage-headwaters",
+    "Frame-veer × Variance",
+    "Sonic × Lineage",
+    "Panel-verdict × variance-type"
+   ],
+   "badge": "first-class output (family VIII, load-bearing); analysis-only, no export yet; also feeds Synthesis.",
+   "step": 4
+  },
+  {
+   "id": "gap",
+   "label": "Selected gap",
+   "function": "a named interpretive question",
+   "band": "mirror",
+   "kind": "card",
+   "status": "specified",
+   "grain": "gap",
+   "requires": [
+    "enriched_move"
+   ],
+   "produces": [
+    "gap"
+   ],
+   "implementation": "specified",
+   "validation": "untested",
+   "sub": "the hinge of the mirror: one gap, two kinds of voice. Where they diverge is the finding.",
+   "step": 4
+  },
+  {
+   "id": "gloss",
+   "label": "Gloss",
+   "function": "the instrument's built voices",
+   "band": "grammar",
+   "kind": "card",
+   "status": "specified",
+   "grain": "gap",
+   "requires": [
+    "gap"
+   ],
+   "produces": [
+    "view"
+   ],
+   "implementation": "specified",
+   "validation": "untested",
+   "layers": [
+    "hook (~40w)",
+    "argued (~150w: fork → lineage → commits/forecloses)",
+    "raw"
+   ],
+   "badge": "its mode menu renders as a (stance × method) GRID, not a tree; cells marked PROPOSED.",
+   "sub": "the panel's gap gloss (gap_gloss, S5): the instrument's constructed voices answering the selected gap. Distinct from the per-move running gloss (move_gloss) in the left wing.",
+   "step": 4
+  },
+  {
+   "id": "reception",
+   "label": "Reception",
+   "function": "the tradition's real voices",
+   "band": "canon",
+   "kind": "card",
+   "status": "specified",
+   "grain": "gap",
+   "requires": [
+    "gap"
+   ],
+   "produces": [
+    "view"
+   ],
+   "implementation": "specified",
+   "validation": "untested",
+   "sub": "gap-driven retrieval: real historical texts answering that gap (Calvin's actual words off the shelf); the mirror of Gloss's built voices.",
+   "badge": "⚠ awaiting build: 0 rows (S162+).",
+   "step": 4
+  },
+  {
+   "id": "synthesis",
+   "label": "Synthesis",
+   "function": "relates claims across frames and voices",
+   "band": "end",
+   "kind": "card",
+   "status": "specified",
+   "grain": "cross_output",
+   "requires": [
+    "gloss",
+    "reception",
+    "cross_analysis"
+   ],
+   "produces": [
+    "argument_graph"
+   ],
+   "implementation": "specified",
+   "validation": "untested",
+   "sub": "per-gap panel colloquy / argument-graph, plus the cross-output joins.",
+   "layers": [
+    "AGREES",
+    "CONTESTS",
+    "REFRAMES",
+    "EXTENDS",
+    "CONCEPTUALLY-ENABLES",
+    "HISTORICALLY-DEVELOPS-FROM"
+   ],
+   "badge": "⚠ mostly spec, no store yet; the per-gap colloquy is panel_colloquy / panel_colloquy_edge, NOT advisory_panel (the simulated board).",
+   "step": 6
+  },
+  {
+   "id": "reading_room",
+   "label": "Reading Room",
+   "function": "the reader-facing surface",
+   "band": "end",
+   "kind": "card",
+   "status": "populated",
+   "grain": "corpus",
+   "requires": [
+    "synthesis"
+   ],
+   "produces": [
+    "delivery"
+   ],
+   "implementation": "populated",
+   "validation": "internally-tested",
+   "sub": "terminal delivery: where the reader lands and reads.",
+   "layers": [
+    "integrated reading (e.g. the gospels)",
+    "church / institution map"
+   ],
+   "step": 7
+  },
+  {
+   "id": "reflexive",
+   "label": "Reflexive audit",
+   "function": "the instrument on itself",
+   "band": "strip",
+   "kind": "strip",
+   "status": "specified",
+   "grain": "corpus",
+   "requires": [],
+   "produces": [
+    "audit"
+   ],
+   "implementation": "specified",
+   "validation": "untested",
+   "sub": "off the flow: the method commenting on itself.",
+   "layers": [
+    "recursive abductive run",
+    "provenance",
+    "vocab-version",
+    "SSOT-freshness"
+   ]
+  },
+  {
+   "id": "fan",
+   "label": "Fan",
+   "function": "many voices at once",
+   "band": "history",
+   "kind": "retired",
+   "status": "retired",
+   "grain": "move",
+   "requires": [
+    "enriched_move"
+   ],
+   "produces": [],
+   "implementation": "retired",
+   "validation": "untested",
+   "sub": "retired: kept in provenance / history only, never drawn in the overview."
+  },
+  {
+   "id": "nominate",
+   "label": "Nominate",
+   "function": "42 agents each pick their most-generative gap",
+   "band": "panel",
+   "kind": "panel",
+   "status": "specified",
+   "grain": "gap",
+   "implementation": "specified",
+   "validation": "untested",
+   "sub": "S3: each of the 42 coded frames nominates its top-1 gap (panel_nomination). Dispersion is an audit signal.",
+   "step": 5
+  },
+  {
+   "id": "chair_convergence",
+   "label": "Convergence",
+   "function": "selects develops-WITH gaps",
+   "band": "panel",
+   "kind": "chair",
+   "status": "specified",
+   "implementation": "specified",
+   "validation": "untested",
+   "sub": "the chair that reads how the frames build together.",
+   "step": 5
+  },
+  {
+   "id": "chair_divergence",
+   "label": "Divergence",
+   "function": "selects reads-AGAINST gaps",
+   "band": "panel",
+   "kind": "chair",
+   "status": "specified",
+   "implementation": "specified",
+   "validation": "untested",
+   "sub": "the chair that reads where the frames contest.",
+   "step": 5
+  },
+  {
+   "id": "pick_top",
+   "label": "Pick-top",
+   "function": "the two chairs rate + pick the top glosses",
+   "band": "panel",
+   "kind": "panel",
+   "status": "specified",
+   "implementation": "specified",
+   "validation": "untested",
+   "sub": "S8: rates the fidelity-gated gap_gloss (S6: no-grounded-gloss is an allowable verdict) + reception; each chair picks top-N.",
+   "step": 5
+  },
+  {
+   "id": "the_finding",
+   "label": "The finding",
+   "function": "agree = load-bearing · split = the fault-line",
+   "band": "panel",
+   "kind": "finding",
+   "status": "specified",
+   "implementation": "specified",
+   "validation": "untested",
+   "sub": "the symmetric-difference of the two chairs' slates (chair_selection). A first-class finding: agreement is load-bearing, a split marks the fault-line. 'the disagreement is the content.'",
+   "step": 5
+  },
+  {
+   "id": "fidelity_gate",
+   "label": "⊟ Fidelity gate",
+   "function": "S6: not every gloss survives",
+   "band": "panel",
+   "kind": "gate",
+   "status": "specified",
+   "implementation": "specified",
+   "validation": "untested",
+   "grain": "gap",
+   "layers": [
+    "gap-fidelity",
+    "textual-anchor",
+    "frame-contribution",
+    "warrant",
+    "calibration",
+    "generativity"
+   ],
+   "sub": "S6 (DP-5): a six-check hard gate on every gap_gloss BEFORE the chairs rate it. 'no-grounded-gloss' is an allowable RECORDED verdict: glosses can DIE here. The attrition is part of the story; the instrument is honest that not every gloss survives to Synthesis.",
+   "step": 5
+  },
+  {
+   "id": "connect",
+   "label": "Connect",
+   "function": "wire the moves back together",
+   "band": "input",
+   "kind": "card",
+   "status": "populated",
+   "grain": "edges",
+   "requires": [
+    "decompose"
+   ],
+   "produces": [
+    "edge"
+   ],
+   "implementation": "specified",
+   "validation": "none",
+   "step": "2b",
+   "stage": "CONNECT",
+   "sub": "The reconstruction half of the move-grammar: Decompose breaks the passage into moves, Connect wires them back together. The grammar edge_grammar_v1 is locked in spec; not yet coded on the golden path.",
+   "_status_note": "INTERIM 2026-08-10: hand-set populated (connect_edge has 78 edges + card_check PASS) — replace with Method SB's node_status derivation from card_check."
+  }
+ ],
+ "edges": [
+  {
+   "from": "text",
+   "to": "decompose",
+   "type": "flow",
+   "note": "branch one: segmentation"
+  },
+  {
+   "from": "text",
+   "to": "situate",
+   "type": "flow",
+   "note": "branch two: annotation"
+  },
+  {
+   "from": "text",
+   "to": "connect",
+   "type": "flow",
+   "note": "branch: reconstruction"
+  },
+  {
+   "from": "connect",
+   "to": "enriched_move",
+   "type": "flow",
+   "note": "Connect wires"
+  },
+  {
+   "from": "decompose",
+   "to": "enriched_move",
+   "type": "flow",
+   "note": "Decompose segments"
+  },
+  {
+   "from": "situate",
+   "to": "enriched_move",
+   "type": "flow",
+   "note": "Situate annotates"
+  },
+  {
+   "from": "frame",
+   "to": "morphospace",
+   "type": "waist_independent",
+   "note": "text-level frame"
+  },
+  {
+   "from": "witness",
+   "to": "degrees",
+   "type": "waist_independent",
+   "note": "transmission distance"
+  },
+  {
+   "from": "text",
+   "to": "constellation",
+   "type": "waist_independent",
+   "note": "off raw text"
+  },
+  {
+   "from": "enriched_move",
+   "to": "compare",
+   "type": "move_conditioned",
+   "note": "off the waist trunk"
+  },
+  {
+   "from": "enriched_move",
+   "to": "resituate",
+   "type": "move_conditioned",
+   "note": "off the waist trunk"
+  },
+  {
+   "from": "enriched_move",
+   "to": "tributary",
+   "type": "move_conditioned",
+   "note": "◄ Lineage is move-level"
+  },
+  {
+   "from": "enriched_move",
+   "to": "gap_map",
+   "type": "move_conditioned",
+   "note": "off the waist trunk"
+  },
+  {
+   "from": "enriched_move",
+   "to": "cross_analysis",
+   "type": "move_conditioned",
+   "note": "off the waist trunk"
+  },
+  {
+   "from": "enriched_move",
+   "to": "fan",
+   "type": "move_conditioned",
+   "note": "retired: not drawn"
+  },
+  {
+   "from": "enriched_move",
+   "to": "gap",
+   "type": "move_conditioned",
+   "note": "the move names a gap"
+  },
+  {
+   "from": "gap",
+   "to": "gloss",
+   "type": "move_conditioned",
+   "note": "constructed voices"
+  },
+  {
+   "from": "gap",
+   "to": "reception",
+   "type": "move_conditioned",
+   "note": "retrieved voices"
+  },
+  {
+   "from": "cross_analysis",
+   "to": "synthesis",
+   "type": "flow",
+   "note": "JOINS also feeds synthesis"
+  },
+  {
+   "from": "synthesis",
+   "to": "reading_room",
+   "type": "flow",
+   "note": "the argument lands where the reader reads"
+  },
+  {
+   "from": "gloss",
+   "to": "pick_top",
+   "type": "flow",
+   "note": "the built voices enter the panel"
+  },
+  {
+   "from": "reception",
+   "to": "pick_top",
+   "type": "flow",
+   "note": "the retrieved voices enter the panel"
+  },
+  {
+   "from": "the_finding",
+   "to": "synthesis",
+   "type": "flow",
+   "note": "the panel's finding enters the argument"
+  }
+ ]
 }
