@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Connect · Logic — how the argument holds together</title>
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#0E0E0C;--ink-soft:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;
+--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;--sky:#3f6d7d;--olive:#6E7B3A;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:64rem;margin:0 auto;padding:40px 20px 90px}
+.nav{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.nav a{color:var(--ink-3);text-decoration:none;border:1px solid var(--rule);border-radius:999px;padding:3px 11px}
+.nav a.cur{color:var(--paper);background:var(--fern);border-color:var(--fern)}
+.nav a:hover:not(.cur){color:var(--fern);border-color:var(--fern)}
+.kicker{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--fern);margin:0 0 8px}
+h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line-height:1.14;margin:0 0 8px;letter-spacing:-.01em}
+.task{font-size:16px;color:var(--ink);max-width:42rem;margin:0 0 4px}
+.task b{color:var(--fern)}
+.how{font-family:var(--sans);font-size:12px;color:var(--ink-3);max-width:42rem;margin:8px 0 0;line-height:1.5}
+.err{font-family:var(--mono);font-size:12px;color:var(--terracotta);padding:20px 0}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 4px}
+.legend .f{font-family:var(--sans);font-size:11.5px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;padding:3px 10px;border-radius:999px;border:1px solid var(--rule)}
+.legend .f .sw{width:16px;height:4px;border-radius:2px}
+.legend .f.dim{opacity:.38}
+.legend .note{font-family:var(--sans);font-size:11px;color:var(--ink-3);align-self:center;margin-left:4px}
+
+/* the three-column instrument: [left margin] [spine] [right margin] */
+.instrument{display:grid;grid-template-columns:150px 1fr 150px;margin:14px 0 0;position:relative}
+@media(max-width:720px){.instrument{grid-template-columns:96px 1fr 96px}}
+.marg{position:relative}
+.marg svg{position:absolute;top:0;left:0;width:100%;height:100%;overflow:visible}
+.spine{position:relative}
+.mrow{height:46px;display:flex;align-items:center;gap:9px;border-bottom:1px solid color-mix(in srgb,var(--rule) 40%,transparent);cursor:pointer;transition:opacity .18s,background .18s;padding-right:4px}
+.mrow:hover{background:color-mix(in srgb,var(--fern) 6%,transparent)}
+.mrow.dim{opacity:.28}
+.mrow.sel{background:color-mix(in srgb,var(--fern) 10%,transparent)}
+.mrow .mk{font-family:var(--mono);font-size:10px;color:var(--fern);flex:none;width:2.4rem}
+.mrow .pp{font-family:var(--sans);font-size:13.5px;color:var(--ink-2);line-height:1.3}
+.mrow.child .pp{color:var(--ink-3);font-size:12.5px}
+.mrow .nestcue{font-family:var(--mono);font-size:8px;color:var(--ink-3);opacity:.6;flex:none}
+.arc{fill:none;stroke-linecap:round}
+.arclbl{font-family:var(--mono);font-size:8.5px;letter-spacing:.02em}
+.dryhint{font-family:var(--sans);font-size:10px;fill:var(--ink-3)}
+.detail{margin:20px 0 0;min-height:18px}
+.card{background:var(--paper-3);border:1px solid var(--rule);border-radius:12px;padding:13px 16px;border-left:3px solid var(--fern)}
+.card .rel{font-family:var(--disp);font-size:16px;color:var(--ink)}
+.card .rel .mk{font-family:var(--mono);font-size:11px;color:var(--fern)}
+.card .rel .conn{font-style:italic;color:var(--ink-2)}
+.card .meta{font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);margin-top:5px}
+.hint{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:italic}
+.src{font-family:var(--mono);font-size:9px;color:var(--ink-3);opacity:.7;margin:36px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav"><span>Connect ·</span><a class="cur" href="viz_connect_logic.html">Logic</a><a href="viz_connect_arcband.html">Shape &amp; all-kinds</a><span style="color:var(--ink-3);border:0">· sonic (on the Plate)</span></div>
+  <p class="kicker">Connect · Logic — one kind at a time</p>
+  <h1>How the argument holds together</h1>
+  <p class="task"><b>Pick a move.</b> Follow where it leads, qualifies, supports, or answers back — the discourse logic between moves, with the plain sequence and the nesting taken out of the lines.</p>
+  <p class="how">Reading order already says <em>and-then</em>, so sequence draws no line. Nesting (reported speech, sub-moves) shows as <em>indentation</em>, not an arc. What's left in the margins are the relations that actually move the argument — forward on the right, answering-back on the left.</p>
+  <div id="stage"><p class="err" id="loading">Loading the Mark 16 logic…</p></div>
+  <p class="src" id="src"></p>
+</div>
+
+<script>
+var BASE="/engine/data/goldenpath/mark16/";
+var ROWH=46, MARGW=150;
+// LINKAGE sub-type -> relation family (adversative is the hottest — it's where the text turns) + the connective in words
+var FAMILY={
+  LINK_CAUSE:{fam:"causal",hue:"--fern",word:"and so"},
+  LINK_CONDITION:{fam:"causal",hue:"--fern",word:"if — then"},
+  FEED:{fam:"causal",hue:"--fern",word:"feeds into"},
+  LINK_CONTRAST:{fam:"adversative",hue:"--terracotta",word:"but"},
+  LINK_CORRECTION:{fam:"adversative",hue:"--terracotta",word:"no, rather"},
+  LINK_SUPPORT:{fam:"evidential",hue:"--sky",word:"because"},
+  FILLS:{fam:"evidential",hue:"--sky",word:"answers"},
+  LINK_ELABORATES:{fam:"additive",hue:"--moss",word:"expanding"},
+  LINK_BACKGROUND:{fam:"additive",hue:"--moss",word:"against"},
+  LINK_OTHER:{fam:"additive",hue:"--moss",word:"relates to"}
+};
+var FAMS=[{k:"causal",hue:"--fern",label:"causal · and-so"},{k:"adversative",hue:"--terracotta",label:"adversative · but"},{k:"evidential",hue:"--sky",label:"evidential · because"},{k:"additive",hue:"--moss",label:"additive · expanding"}];
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+var FLAT=[], IDX={}, ARCS=[], OFFFAM={}, SEL=null;
+
+Promise.all([
+  fetch(BASE+"moves.json").then(function(r){return r.json();}),
+  fetch(BASE+"connect_edges.json").then(function(r){return r.json();})
+]).then(function(res){build(res[0],res[1]);}).catch(function(e){
+  document.getElementById("stage").innerHTML='<p class="err">Could not load the feeds ('+esc(e.message)+').</p>';
+});
+
+function build(mdoc,edoc){
+  var moves=(mdoc.moves||[]).slice().sort(function(a,b){return a.idx-b.idx;});
+  var byl={}; moves.forEach(function(m){byl[m.label]=m;});
+  function depth(l,g){var m=byl[l];if(!m||!m.nested_under||g>6)return 0;return 1+depth(m.nested_under,(g||0)+1);}
+  // flatten in reading order, carry depth for indentation
+  FLAT=moves.map(function(m){return {label:m.label,pp:(m.paraphrase||m.operation||""),verse:m.verse_start,depth:depth(m.label,0),nested:!!m.nested_under};});
+  FLAT.forEach(function(f,i){IDX[f.label]=i;});
+
+  var edges=(edoc.edges||edoc)||[];
+  // the informative LINKAGE arcs: drop SEQUENCE (order says it) + NEST (indentation says it); single-move endpoints only
+  ARCS=edges.filter(function(e){
+    var t=String(e.type||"").toUpperCase(), k=String(e.edge_kind||"").toUpperCase();
+    return k==="LINKAGE" && t!=="LINK_SEQUENCE" && t.indexOf("NEST")!==0 && (e.source_move_label in IDX) && (e.target_move_label in IDX);
+  }).map(function(e){
+    var t=String(e.type||"").toUpperCase(), f=FAMILY[t]||{fam:"additive",hue:"--moss",word:"relates to"};
+    var si=IDX[e.source_move_label], ti=IDX[e.target_move_label];
+    return {src:e.source_move_label,tgt:e.target_move_label,type:t,si:si,ti:ti,fwd:ti>si,fam:f.fam,hue:f.hue,word:f.word,cert:e.confidence||e.link_certainty||""};
+  });
+
+  var nDrawn=ARCS.length, nSeq=edges.filter(function(e){return String(e.type||"").toUpperCase()==="LINK_SEQUENCE";}).length;
+  var nNest=edges.filter(function(e){return String(e.type||"").toUpperCase().indexOf("NEST")===0;}).length;
+
+  var h='';
+  // legend
+  h+='<div class="legend" id="legend">';
+  FAMS.forEach(function(f){var n=ARCS.filter(function(a){return a.fam===f.k;}).length;if(!n)return;h+='<span class="f" data-fam="'+f.k+'"><span class="sw" style="background:var('+f.hue+')"></span>'+esc(f.label)+' <span style="color:var(--ink-3);font-family:var(--mono);font-size:9px">'+n+'</span></span>';});
+  h+='<span class="note">'+nSeq+' sequence + '+nNest+' nesting edges taken out of the lines → '+nDrawn+' relations that carry the argument</span></div>';
+  h+='<div class="instrument"><div class="marg" id="mL"></div><div class="spine" id="spine"></div><div class="marg" id="mR"></div></div>';
+  h+='<div class="detail" id="detail"><p class="hint">Click a move to trace only its logic — what it leads to and what leads to it. Click a relation label to read it.</p></div>';
+  document.getElementById("stage").innerHTML=h;
+
+  renderSpine();
+  renderArcs();
+  document.getElementById("legend").querySelectorAll(".f").forEach(function(el){el.addEventListener("click",function(){var f=this.getAttribute("data-fam");OFFFAM[f]=!OFFFAM[f];this.classList.toggle("dim",OFFFAM[f]);renderArcs();});});
+  document.getElementById("src").textContent="rendered from moves.json + connect_edges.json (LINKAGE only; sequence + nesting rendered as order + indentation) · MARK-16-WEB";
+}
+
+function renderSpine(){
+  var s=document.getElementById("spine"),h='';
+  FLAT.forEach(function(f){
+    h+='<div class="mrow'+(f.nested?' child':'')+'" data-mv="'+f.label+'" style="padding-left:'+(6+f.depth*20)+'px">'+
+       (f.nested?'<span class="nestcue">&#8627;</span>':'')+
+       '<span class="mk">'+esc(f.label)+'</span><span class="pp">'+esc(f.pp)+'</span></div>';
+  });
+  s.innerHTML=h;
+  s.querySelectorAll(".mrow").forEach(function(r){r.addEventListener("click",function(){selectMove(this.getAttribute("data-mv"));});});
+}
+function yOf(i){return i*ROWH+ROWH/2;}
+function renderArcs(){
+  var H=FLAT.length*ROWH;
+  var L=[], R=[];
+  ARCS.forEach(function(a,ai){
+    if(OFFFAM[a.fam])return;
+    if(SEL&&a.src!==SEL&&a.tgt!==SEL)return;
+    (a.fwd?R:L).push(a);
+  });
+  document.getElementById("mR").innerHTML=marginSVG(R,H,true);
+  document.getElementById("mL").innerHTML=marginSVG(L,H,false);
+}
+function marginSVG(arcs,H,right){
+  var W=MARGW, s='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" style="height:'+H+'px">';
+  // anchor edge: arcs spring from the spine side (right margin -> x=0 is left edge; left margin -> x=W is right edge)
+  arcs.forEach(function(a){
+    var ya=yOf(a.si), yb=yOf(a.ti), span=Math.abs(a.ti-a.si);
+    var reach=Math.min(W-14, 22+span*7);
+    var ax=right?0:W, bulge=right?reach:(W-reach);
+    var midY=(ya+yb)/2;
+    var w=(String(a.cert).indexOf("high")>=0||String(a.cert).indexOf("explicit")>=0)?2.2:1.5;
+    s+='<path class="arc" data-src="'+a.src+'" data-tgt="'+a.tgt+'" d="M'+ax+' '+ya+' C '+bulge+' '+ya+' '+bulge+' '+yb+' '+ax+' '+yb+'" stroke="var('+a.hue+')" stroke-width="'+w+'" opacity="'+(SEL?0.95:0.72)+'"/>';
+    // connective word at the apex
+    var tx=right?(bulge-2):(bulge+2);
+    s+='<text class="arclbl" x="'+tx+'" y="'+(midY-2)+'" text-anchor="'+(right?"end":"start")+'" fill="var('+a.hue+')">'+esc(a.word)+'</text>';
+  });
+  return s+'</svg>';
+}
+function selectMove(mv){
+  SEL=(SEL===mv?null:mv);
+  document.querySelectorAll(".mrow").forEach(function(r){
+    var l=r.getAttribute("data-mv");
+    var inc=SEL&&ARCS.some(function(a){return (a.src===SEL&&a.tgt===l)||(a.tgt===SEL&&a.src===l);});
+    r.classList.toggle("sel",l===SEL);
+    r.classList.toggle("dim",!!SEL && l!==SEL && !inc);
+  });
+  renderArcs();
+  if(SEL){
+    var mine=ARCS.filter(function(a){return a.src===SEL||a.tgt===SEL;});
+    var lead=mine.filter(function(a){return a.src===SEL;}), from=mine.filter(function(a){return a.tgt===SEL;});
+    var h='<div class="card"><div class="rel"><span class="mk">'+esc(SEL)+'</span> ';
+    if(!mine.length) h+='<span class="conn">has no discourse-logic relations of its own — it sits in the sequence.</span>';
+    else{
+      var parts=[];
+      lead.forEach(function(a){parts.push('<span class="conn">'+esc(a.word)+'</span> '+esc(a.tgt));});
+      from.forEach(function(a){parts.push(esc(a.src)+' <span class="conn">'+esc(a.word)+'</span> here');});
+      h+=parts.join(' · ');
+    }
+    h+='</div><div class="meta">'+lead.length+' forward · '+from.length+' answering-back</div></div>';
+    document.getElementById("detail").innerHTML=h;
+  } else document.getElementById("detail").innerHTML='<p class="hint">Click a move to trace only its logic — what it leads to and what leads to it.</p>';
+}
+</script>
+
+<!-- ── METHODOLOGY FOOTER ──
+HOW PRODUCED: design-SB S170 (2026-08-11), WORK-QUEUE [A] — the per-kind Connect LOGIC reading view (the 3DR-19 reconciliation's
+  prototype-LOGIC-first). Built to the 3/3-unanimous spec: (1) STOP DRAWING SEQUENCE — reading order encodes and-then, so
+  LINK_SEQUENCE draws no line (19 edges removed); (2) nesting = INDENTATION not arcs — NEST_* render as the move-tree indent
+  (nested_under), 26 edges removed; (3) the remaining ~19 informative relations as MARGIN ARCS — forward-right / retrospective-left
+  (Fable's directional margins); (4) colour = relation FAMILY (causal/adversative/evidential/additive; adversative hottest);
+  (5) the connective spelled in WORDS at the arc apex (and-so/but/because/feeds), never the taxonomy label; (6) click a move ->
+  fade to its lineage (what it leads to + what leads to it). Render-from-data (§2.16) off the LATEST run of the goldenpath/mark16
+  feeds (moves.json + connect_edges.json) per the DWS §4 latest-run rule; deterministic layout (fixed ROWH -> offline-validatable).
+SCHOLARLY SOURCES: connect_perkind_viz_3DR-19_reconciliation_2026-08-11 (the per-kind spec — LOGIC verdict); the Connect
+  edge_grammar_v1 (LINKAGE sub-types); Wattenberg arc diagrams; Ghoniem node-link-vs-matrix (path-tracing favours node-link);
+  Fable's directional-margins + connective-in-words. Pairs with the shipped Trace/Scan/Map (all-kinds) figures.
+WHAT NEEDS VERIFICATION: (1) live-verify (pane policy-blocked for the live domain -> offline+curl per DWS conventions).
+  (2) this is the PROTOTYPE-LOGIC-FIRST staging view for PI reaction; on greenlight, roll the same idiom to a SHAPE view
+  (geometry: marked-pivot rings / alignment ribbons / held-open seams / broken leaps) + the SONIC view (typographic, data-blocked),
+  fold the small-multiple-thumbnail nav, and make one-kind-at-a-time the Connect default. (3) FEED slot->slot (outcome->substrate)
+  is a v2 refinement once move cards expose the slots here. -->
+</body>
+</html>
