@@ -74,7 +74,7 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
    (hue is reserved for KIND: fern/terracotta = provenance only). gold = selection/attention. */
 .mv{border-left:2px solid var(--rule);padding:2px 0 2px 14px;transition:opacity .3s}
 .mv.child{border-left-color:var(--rule)}
-.mv.sel{border-left-color:var(--gold);border-left-width:3px}
+.mv.sel{border-left-color:var(--gold);border-left-width:3px;background:var(--paper-3);border-radius:0 6px 6px 0;box-shadow:0 4px 18px -12px rgba(36,48,42,.4)}
 .mv .para{cursor:pointer;margin:0;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .mv .para .mk{font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:.04em;flex:none;padding-top:2px}
 .mv .para .pp{font-family:var(--sans);font-size:14px;color:var(--ink-2);line-height:1.5;flex:1 1 62%}
@@ -379,7 +379,7 @@ function build(co,mdoc){
   var bars=""; for(var q2=RANGE.lo;q2<=RANGE.hi;q2++){var c=perV[q2]||0,hh=Math.round(4+(c/maxC)*46);bars+='<div class="ab'+(q2>=C2_START?' c2':'')+'" data-verse="'+q2+'" title="16:'+q2+' · '+c+' move'+(c===1?'':'s')+'" style="height:'+hh+'px"></div>';}
   $("arc").innerHTML='<div class="arc-h">the whole passage</div><div class="arc-how">each bar is a verse — taller means more moves happen in it; colour marks which text it&rsquo;s from (key below). click a bar to jump.</div><div class="arc-bars">'+bars+'</div><div class="arc-beats"><span>anointing &amp; alarm</span><span>the empty tomb</span><span>fear &middot; silence</span><span>the added ending</span></div><div class="arc-key"><span class="k f">the earliest text &middot; 16:1&ndash;8</span><span class="k t">added by later hands &middot; 16:9&ndash;20</span></div>';
   Array.prototype.forEach.call(document.querySelectorAll(".arc-bars .ab"),function(b){
-    b.addEventListener("click",function(){var vt=document.querySelector('.verse[data-verse="'+b.dataset.verse+'"]');if(vt){vt.scrollIntoView({block:"center",behavior:"smooth"});}});
+    b.addEventListener("click",function(){var v=document.querySelector('.verse[data-verse="'+b.dataset.verse+'"]');if(v){v.scrollIntoView({block:"center",behavior:"smooth"});var vt=v.querySelector(".vtext");if(vt){vt.classList.remove("flash");void vt.offsetWidth;vt.classList.add("flash");}}});
   });
 
   // wire moves: click = select + toggle anatomy + flip the affordance label

@@ -63,15 +63,15 @@ circle.tip{}
 var BASE="/engine/data/goldenpath/mark16/";
 var esc=function(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});};
 var ROWH=34, GUT=118;
-// KIND families → hue (colour = KIND only). sequence is the ghosted default.
-function fam(t){t=String(t||"");if(t.indexOf("NEST")===0)return"nest";if(t.indexOf("SHAPE")===0)return"shape";if(t==="FEED"||t==="FILLS")return"feed";if(t==="LINK_SEQUENCE")return"seq";return"link";}
-var HUE={nest:"var(--moss)",link:"var(--fern)",shape:"var(--gold)",feed:"var(--sky)",seq:"var(--ink-3)"};
+// KIND families = edge_kind (colour = KIND only): logic (LINKAGE) · resonance (SHAPE) · sonic (SONIC).
+// sequence (the weak "and then" default) is ghosted even though it's a LINKAGE.
+function fam(e){var k=String(e.edge_kind||"").toUpperCase();if(k==="SHAPE")return"resonance";if(k==="SONIC")return"sonic";if(String(e.type||"")==="LINK_SEQUENCE")return"seq";return"logic";}
+var HUE={logic:"var(--fern)",resonance:"var(--gold)",sonic:"var(--sky)",seq:"var(--ink-3)"};
 var LEGEND=[
-  {k:"nest",label:"nesting — one move inside another"},
-  {k:"link",label:"linkage — cause · contrast · support · elaborates"},
-  {k:"shape",label:"shape — parallelism · ring · leap"},
-  {k:"feed",label:"feeds into · fills"},
-  {k:"seq",label:"sequence — plain “and then” (the default)"}
+  {k:"logic",label:"logic — how moves connect: cause · contrast · support · nesting"},
+  {k:"resonance",label:"resonance — shape: parallelism · ring · leap"},
+  {k:"sonic",label:"sonic — sound patterns (not coded for Mark 16 yet)"},
+  {k:"seq",label:"sequence — plain “and then” (the ghosted default)"}
 ];
 var state={off:{}};
 Promise.all([
@@ -96,7 +96,7 @@ function build(mdoc,edoc){
     var a=idxOf[e.source_move_label], b=idxOf[e.target_move_label];
     if(a==null||b==null){dropped.push(e.source_move_label+"→"+e.target_move_label);return;}
     var y1=a*ROWH+ROWH/2, y2=b*ROWH+ROWH/2;
-    var f=fam(e.type), hue=HUE[f];
+    var f=fam(e), hue=HUE[f];
     var span=Math.abs(b-a), bulge=Math.min(GUT-8, 14+span*7);
     var x=GUT-2, cx=x-bulge, my=(y1+y2)/2;
     svg+='<path class="arc '+f+'" data-fam="'+f+'" data-a="'+a+'" data-b="'+b+'" d="M'+x+','+y1+' Q'+cx+','+my+' '+x+','+y2+'" stroke="'+hue+'"/>';
