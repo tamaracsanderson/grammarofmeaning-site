@@ -14,7 +14,7 @@
     "grain": "text-level (source_paradigm) AND move-level (source_move.paradigm)",
     "pills": {
       "fidelity": "PASS -- every label maps to a real source_paradigm column",
-      "cold_read": "INCOMPLETE — cold read has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py).",
+      "cold_read": "PARTIAL — Cold Read (opus, cold) — PARTIAL. Commands + field semantics are complete enough to run the Cold Read; the vs-Wild pill/prose contradiction was reconciled this session; residual: seeding needs codebase access.",
       "vs_wild": "PASS — Instrument covered the naive read of the scripts + added salience/stance rigor; captured the Markan reticence."
     },
     "status_line": "Paradigm is coded on Mark 16: 9 named cultural templates (text-level) + 60/60 moves carry a per-move template-note. The dominant is 'vindication-of-the-righteous-sufferer' (salience 0.95). The paradigm NAME is emergent (named in the tradition's own terms, not from a fixed list, s2.1); the posture toward it (stance) and its relation to the dominant are closed enums."
@@ -40,7 +40,7 @@
     "note": "the checks the pills report.",
     "Fidelity": "mechanical: does every label map to a real source_paradigm column with in-vocab enum values?",
     "Cold Read": "self-sufficiency: a blind reader judges whether the card explains itself.",
-    "vs-Wild": "does the coded paradigm-set beat a naive reader given the passage + 'what cultural scripts is this running?' (owed).",
+    "vs-Wild": "does the coded paradigm-set beat a naive reader given the passage + 'what cultural scripts is this running?' (validated 2026-08-08, PASS — see the vs-Wild pill).",
     "result_categories": "INCOMPLETE (not run) / FAIL / PARTIAL / PASS."
   },
   "the_method_clean": {
@@ -164,7 +164,7 @@
     "The paradigm NAME is emergent (s2.1) -- a strength (it is the tradition's own script, not an imposed label) but it means names are not a closed set; cross-text paradigm-matching is a separate, later step.",
     "stance + relation_to_dominant are controlled-by-convention (no formal vocab table + definitions the drawer reads live); OWED, like the other non-Frame closed enums.",
     "One coder, one pass, engine-proposed; not reliability-tested. salience is a single-coder judgment.",
-    "Cold Read + vs-Wild owed on this card.",
+    "Cold Read run 2026-08-11 (opus, cold) — PARTIAL; vs-Wild validated 2026-08-08 — PASS. Both render from card_check.",
     "SCALE: coded on the worked text (Mark 16); 9 paradigms here. The corpus holds 115 distinct paradigm names, but this card is the Mark-16 worked example, not corpus coverage."
   ],
   "made_by": [
@@ -172,7 +172,7 @@
     "scripts/analysis/engine05_detect_paradigm.py + paradigm_generation.py (the detectors)",
     "scripts/analysis/build_paradigm_subengine_drawer_data_s163.py (this card's data)"
   ],
-  "whats_next": "Give stance + relation_to_dominant a live vocab source. Run Cold Read + vs-Wild. Cross-text paradigm-matching (which texts share a script) is a later comparative step, not this aspect.",
+  "whats_next": "Give stance + relation_to_dominant a live vocab source (the last owed vocab item). Cold Read + vs-Wild have now run (PARTIAL / PASS). Cross-text paradigm-matching (which texts share a script) is a later comparative step, not this aspect.",
   "foundation": {
     "leans_on": [
       "frame semantics (Fillmore) + cultural-script theory (a template of roles -> relations -> telos)",
@@ -192,7 +192,9 @@
     },
     "how_to_run": {
       "refresh this card": "./scripts/_run_python.sh scripts/analysis/build_paradigm_subengine_drawer_data_s163.py",
-      "the read rule": "read source_paradigm by the base key; per-move paradigm on the live moveset's latest move_grammar_v2 run."
+      "the read rule": "read source_paradigm by the base key; per-move paradigm on the live moveset's latest move_grammar_v2 run.",
+      "run the Cold Read check on this card": "./scripts/_run_python.sh scripts/analysis/run_cold_read.py --node situate.paradigm --drawer-file ../grammarofmeaning-site/engine/data/goldenpath/mark16/paradigm_node_drawer.json --account hds",
+      "record a confirmed verdict (turns a pill INCOMPLETE -> PASS)": "add a ROWS entry to scripts/analysis/seed_card_check.py citing the run_doc -- the COLDREAD_situate_paradigm_run_<date>.md that run_cold_read.py just wrote to pm/30_methodology/engine/ (seed_card_check.py FAILS LOUD unless that file exists on disk; copy the shape of an existing ROWS entry: node/check_name/result/run_doc/verified/detail); then ./scripts/_run_python.sh scripts/analysis/seed_card_check.py -- verdicts land in the card_check store and render as the pills"
     },
     "data_source": "source_paradigm (@ MARK-16) + source_move.paradigm (@ MARK-16-WEB).",
     "decision_trail": "CONTRACT_situate_closed_open_grain_s162 (paradigm closed/open/grain) - IRR207 (multi-label + salience + stance) - 3DR-11 - this drawer."
@@ -203,9 +205,9 @@
     "meta_line": "Fidelity PASS (mechanical): every label maps to a real source_paradigm column; stance + relation values are within their convention sets."
   },
   "cold_read": {
-    "status": "INCOMPLETE",
-    "date": null,
-    "meta_line": "cold read has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py)."
+    "status": "PARTIAL",
+    "date": "2026-08-11",
+    "meta_line": "Cold Read (opus, cold) — PARTIAL. Commands + field semantics are complete enough to run the Cold Read; the vs-Wild pill/prose contradiction was reconciled this session; residual: seeding needs codebase access. (run doc: pm/30_methodology/engine/COLDREAD_situate_paradigm_run_2026-08-11.md)"
   },
   "vs_wild": {
     "status": "PASS",

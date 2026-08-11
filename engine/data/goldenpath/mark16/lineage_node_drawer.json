@@ -16,7 +16,7 @@
     "pills": {
       "fidelity": "PASS -- every label maps to a real lineage_record column",
       "seam_reconcile": "DECIDED (a) -- lineage_record is the store of record; the Connect view is a DERIVED projection (Decision 225)",
-      "cold_read": "INCOMPLETE — cold read has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py).",
+      "cold_read": "PARTIAL — Cold Read (opus, cold) — PARTIAL. The Cold Read step is fully actionable; residual: 'seam' carries two senses (the unsaid vs the architectural join) — a live misreading trap — and vs-Wild has no command yet.",
       "vs_wild": "INCOMPLETE — vs wild has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py)."
     },
     "status_line": "Lineage is coded on Mark 16: 17 reception links, move-native, each typed by vehicle / function / fidelity / certainty AND carrying a SEAM (the unsaid in the borrowing) -- 17 of 17 project to a gap (reception on the unsaid). It is THE Connect seam, and the honest finding is that the seam is a FRONTIER: connect_edge holds 0 LINEAGE edges; lineage_record is the populated store of record."
@@ -254,7 +254,7 @@
     "THE CONNECT SEAM IS A FRONTIER. connect_edge holds 0 LINEAGE edges; lineage_record holds the 17 Mark-16 links via a separate path. The plan's 'consumes Connect's LINEAGE edges' is inverted: lineage_record is the store of record. No green pill for a consumes-the-edges claim. See reconcile (answer: two stores).",
     "The five enums are controlled-by-convention (CHECK-constrained but no formal vocab table + definitions doc the drawer reads live). Owed: a live vocab source, so they render live like Frame's.",
     "6 of 17 Mark-16 links are contested-echo (the lowest certainty) -- stored but GATED: their seam is a question, not an assertion, and interest is capped. Honest, not hidden.",
-    "vs-Wild + Cold Read owed on this card. fidelity_direction is anchored corpus-coded where the upstream is in our corpus, else model-reconstructed (flagged, confidence lowered) -- an honest reconstruction, not a measurement.",
+    "Cold Read run 2026-08-11 (opus, cold) — PARTIAL; vs-Wild still owed on this card. fidelity_direction is anchored corpus-coded where the upstream is in our corpus, else model-reconstructed (flagged, confidence lowered) -- an honest reconstruction, not a measurement.",
     "SCALE: this is Lineage on ONE worked text -- Mark ch.16 in the WEB (World English Bible) translation, 17 reception links. A pilot, not corpus coverage; the engine is not yet run at scale.",
     "The nine typed fields (F1-F9) are: source_ref, borrowing_vehicle, markedness, borrowing_function, the seam, fidelity_direction, source_home/witness_version, link_certainty, reception_link. The drawer surfaces the five closed enums + the seam; the rest are provenance/anchoring fields."
   ],
@@ -283,7 +283,9 @@
     },
     "how_to_run": {
       "refresh this card": "./scripts/_run_python.sh scripts/analysis/build_lineage_subengine_drawer_data_s163.py",
-      "the read rule": "read lineage_record by source_key (+ citing_move_label for the move grain); the seam via seam_gap_id -> source_move_gap."
+      "the read rule": "read lineage_record by source_key (+ citing_move_label for the move grain); the seam via seam_gap_id -> source_move_gap.",
+      "run the Cold Read check on this card": "./scripts/_run_python.sh scripts/analysis/run_cold_read.py --node situate.lineage --drawer-file ../grammarofmeaning-site/engine/data/goldenpath/mark16/lineage_node_drawer.json --account hds",
+      "record a confirmed verdict (turns a pill INCOMPLETE -> PASS)": "add a ROWS entry to scripts/analysis/seed_card_check.py citing the run_doc -- the COLDREAD_situate_lineage_run_<date>.md that run_cold_read.py just wrote to pm/30_methodology/engine/ (seed_card_check.py FAILS LOUD unless that file exists on disk; copy the shape of an existing ROWS entry: node/check_name/result/run_doc/verified/detail); then ./scripts/_run_python.sh scripts/analysis/seed_card_check.py -- verdicts land in the card_check store and render as the pills"
     },
     "data_source": "lineage_record (@ source_key) + source_move_gap (locus='lineage') + connect_edge (edge_kind='LINEAGE', empty).",
     "decision_trail": "CONTRACT_situate_closed_open_grain_s162 (Lineage enums) - connect_edge_vocab SITUATE_VIEW (the intended seam) - the S163 reconcile finding (two stores; lineage_record store of record)."
@@ -311,9 +313,9 @@
     "meta_line": "Fidelity PASS (mechanical): every label maps to a real lineage_record column; the five enums are within their CHECK-constrained sets."
   },
   "cold_read": {
-    "status": "INCOMPLETE",
-    "date": null,
-    "meta_line": "cold read has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py)."
+    "status": "PARTIAL",
+    "date": "2026-08-11",
+    "meta_line": "Cold Read (opus, cold) — PARTIAL. The Cold Read step is fully actionable; residual: 'seam' carries two senses (the unsaid vs the architectural join) — a live misreading trap — and vs-Wild has no command yet. (run doc: pm/30_methodology/engine/COLDREAD_situate_lineage_run_2026-08-11.md)"
   },
   "vs_wild": {
     "status": "INCOMPLETE",

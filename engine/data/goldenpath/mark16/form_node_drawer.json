@@ -15,7 +15,7 @@
     "grain": "unit-level (text; pericope-grain owed — see honest limits)",
     "pills": {
       "fidelity": "PASS — R1 derivation audited (force_profile == recomputed aggregate)",
-      "cold_read": "INCOMPLETE — cold read has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py).",
+      "cold_read": "PARTIAL — Cold Read (opus, cold) — PARTIAL. Cold Read + Form-coding commands are fully given; residual: the seed_card_check.py ROWS entry is described but not inlined, and C4/R7 codes are not defined in the card.",
       "vs_wild": "PARTIAL — 3-model CRT shows cross-model RELIABILITY (same-Gattung 3/3, R1-consistency 9/9) — the vs-Wild PRIMARY metric — but this is not yet a full instrument-vs-wild-arm comparison, and Cold Read is owed, so PARTIAL not PASS. Same-family = optimistic floor; heterogeneous panel is the real bar."
     },
     "status_line": "Form is the NEW 6th Situate sub-engine (Decision 226 C1). It names the whole-utterance genre the engine had dropped despite descending from form criticism. On Mark 16 it is coded (1 engine-proposed row): genre_form='resurrection-narrative with appended commissioning-summary (burial → empty-tomb → resurrection appearances → Great Commission → ascension)', communicative_function DERIVED from the move-force profile (R1, audited PASS). Honest state: thin (1 record), text-grain (pericope-grain owed), same-family CRT (an optimistic floor)."
@@ -45,32 +45,11 @@
     "Fidelity": "mechanical + Form-specific: (a) every field the card names maps to a real source_form column; (b) the R1 audit — the stored force_profile_json EQUALS a fresh move-force aggregate recomputed from source_move, proving communicative_function was derived, not re-coded.",
     "Cold Read": "self-sufficiency: a blind reader with no project context judges whether the card explains itself.",
     "vs-Wild": "does the Form coding beat a naive reader given only the text + 'what genre is this, and what does it do?' — measured by the Form 3-model CRT (agreement across models is the reliability FLOOR).",
-    "result_categories": "INCOMPLETE (not run) / FAIL (run, lost) / PARTIAL / PASS."
+    "result_categories": "INCOMPLETE (not run) / FAIL (run, lost) / PARTIAL / PASS.",
+    "scripts": "Fidelity = the R1 audit computed inside build_form_subengine_drawer_data_s168.py; Cold Read = run_cold_read.py; vs-Wild = the Form 3-model CRT (build_form_3crt_s168_sample.py + form_3crt_compare_s168.py). Every verdict is stored in the card_check table and rendered as the pills above — never hardcoded (method-principles.html: no magic hand). Exact commands are in the research view below."
   },
   "the_method_clean": {
     "note": "Form is ONE aspect, FOUR open/emergent fields, coded at unit grain. It introduces NO new closed vocabulary (§2.1 — genre is discovered, not picked from a fixed list); the only CLOSED fields are the cross-cutting foundation columns (evidence_basis / certainty / scope_level), whose sets render LIVE from situate_foundation_vocab. communicative_function is the one constrained field: OPEN in wording but required to fit the force_profile (R1).",
-    "fields": [
-      {
-        "field": "genre_form",
-        "gloss": "the whole-utterance Gattung (emergent; e.g. lament / law / hymn / narrative / prophecy / apocalypse).",
-        "open": true
-      },
-      {
-        "field": "communicative_function",
-        "gloss": "what the text DOES communicatively; DERIVED from the aggregate of move-level force (R1).",
-        "open": true
-      },
-      {
-        "field": "implied_addressee",
-        "gloss": "who the text is addressed to (a community / God / a disciple / humanity / an opponent).",
-        "open": true
-      },
-      {
-        "field": "performance_institutional_setting",
-        "gloss": "the form-critical Sitz im Leben (liturgy / catechesis / law-court / study).",
-        "open": true
-      }
-    ],
     "field_contract": [
       {
         "field": "genre_form",
@@ -144,6 +123,24 @@
         ]
       },
       {
+        "field": "scope_id",
+        "gloss": "the identifier of the unit the Form was coded at — the source_key at text grain (e.g. MARK-16-WEB); a pericope id once pericope-grain lands",
+        "closed": false,
+        "vocab": null
+      },
+      {
+        "field": "coding_status",
+        "gloss": "the provenance + lifecycle of THIS Form reading — who proposed it and whether it has been confirmed",
+        "closed": true,
+        "vocab": [
+          "engine-proposed",
+          "cold-confirmed",
+          "author-coded",
+          "retracted-by-irr"
+        ],
+        "note": "engine-proposed = the SDK coder's first pass (the Mark-16 row today); cold-confirmed = a Cold Read / CRT confirmed it; author-coded = the PI coded or overrode it; retracted-by-irr = an IRR round retracted it. The CHECK constraint on source_form enforces this set."
+      },
+      {
         "field": "alternative_hypothesis",
         "gloss": "a plausible alternative form reading",
         "closed": false,
@@ -197,7 +194,7 @@
       "move_run_tag": "move_grammar_v2_2026-08-09"
     },
     "out_of_domain": {
-      "note": "§2.14 out-of-domain validation is queued for Stage 4: MARK-16-GRC (language axis) + TTC-CH1 (Daodejing — the 3DR predicts Form strains where genre is accretive/authorless). Reported honestly below (coded vs owed), never faked.",
+      "note": "§2.14 out-of-domain validation is queued (it runs once these texts are chunked + move-coded in the corpus pipeline): MARK-16-GRC (language axis) + TTC-CH1 (Daodejing — the 3DR predicts Form strains where genre is accretive/authorless). STORAGE: a row shown coded=true IS a real source_form row (same store, keyed by source_key, coding_status=engine-proposed) — it just has not yet been R1-audited or run through the CRT (that is what 'queued for validation' means; the genre/function shown are the coded values, not prose). Reported honestly below (coded vs owed), never faked.",
       "texts": [
         {
           "source_key": "MARK-16-GRC",
@@ -222,8 +219,8 @@
     "plain": "Form rows save to source_form, keyed by source_key + run_tag (one row per unit per run). The force_profile_json column carries the R1 warrant; the foundation columns (evidence_basis / certainty / scope_level / scope_id / alternative_hypothesis) carry the honesty tag + grain. The move-force it aggregates lives in source_move.operation_force (Decompose's store) — Form references, never copies."
   },
   "honest_limits": [
-    "TEXT-GRAIN FIRST PASS. Form is coded at scope_level='text' (one row for the whole source_key). The C8 pericope grain — the natural Form unit — is OWED: source_move has no native pericope column, so a text with MULTIPLE Gattungen collapses into one row. Mark 16 is the exact case: 16:1-8 (empty-tomb narrative, ends in fear/silence) vs 16:9-20 (the Longer Ending — appearances + commissioning) are arguably different forms; the current single row names the composite and flags the split in alternative_hypothesis. Pericope-grain Form needs the chunker's native sub-divisions wired to moves (a Stage-1C follow-up).",
-    "THIN — 1 engine-proposed record for Mark 16 (coding_status=engine-proposed). A definition + one worked row, not a scaled or cold-confirmed run. The Form 3-model CRT (S168) measures reliability; Cold Read + vs-Wild are owed on this card.",
+    "TEXT-GRAIN FIRST PASS. Form is coded at scope_level='text' (one row for the whole source_key). The pericope grain (C8 = the pericope/unit-grain candidate locked in the Situate-engine spec, Decision 226) — the natural Form unit — is OWED: source_move has no native pericope column, so a text with MULTIPLE Gattungen collapses into one row. Mark 16 is the exact case: 16:1-8 (empty-tomb narrative, ends in fear/silence) vs 16:9-20 (the Longer Ending — appearances + commissioning) are arguably different forms; the current single row names the composite and flags the split in alternative_hypothesis. Pericope-grain Form needs the chunker (scripts/pipeline/chunk_batch_auto_detect.py — the corpus CHUNK stage) to wire its native sub-divisions to moves (a follow-up build phase, Stage 1C of the Situate engine).",
+    "THIN — 1 engine-proposed record for Mark 16 (coding_status=engine-proposed). A definition + one worked row, not a scaled or cold-confirmed run. The Form 3-model CRT (S168) measures reliability (the vs-Wild pill = PARTIAL, the same-family floor); the Cold Read has run 2026-08-11 (opus, cold) — PARTIAL.",
     "SAME-FAMILY CRT FLOOR (§2.14). The reliability numbers come from Claude-only models (opus/sonnet/haiku), so agreement is OPTIMISTIC — a floor, not the ceiling. A heterogeneous panel (Claude + GPT + Gemini + a human gold slice) is the PI-gated next step that bounds the same-family optimism.",
     "communicative_function IS CONSTRAINED, NOT MECHANICAL. The force_profile is computed mechanically, but the coder still NAMES communicative_function (informed by the profile). The R1 audit verifies the profile is real (not re-coded force); it does not (and cannot) verify the naming is the uniquely-correct label — that is the CRT's and vs-Wild's job."
   ],
@@ -264,7 +261,9 @@
     "how_to_run": {
       "code Form for a text": "./scripts/_run_python.sh scripts/analysis/code_form_subengine_s168.py --source-key MARK-16-WEB --run-tag form_v1_s168",
       "refresh this card": "./scripts/_run_python.sh scripts/analysis/build_form_subengine_drawer_data_s168.py",
-      "the 3-model CRT": "./scripts/_run_python.sh scripts/analysis/build_form_3crt_s168_sample.py then run the coder 3× + form_3crt_compare_s168.py"
+      "the 3-model CRT": "./scripts/_run_python.sh scripts/analysis/build_form_3crt_s168_sample.py then run the coder 3× + form_3crt_compare_s168.py",
+      "run the Cold Read check on this card": "./scripts/_run_python.sh scripts/analysis/run_cold_read.py --node situate.form --drawer-file ../grammarofmeaning-site/engine/data/goldenpath/mark16/form_node_drawer.json --account hds",
+      "record a confirmed verdict (turns a pill INCOMPLETE → PASS)": "add a ROWS entry to scripts/analysis/seed_card_check.py citing the run_doc — the COLDREAD_situate_form_run_<date>.md that run_cold_read.py just wrote to pm/30_methodology/engine/ (seed_card_check.py FAILS LOUD unless that file exists on disk); then ./scripts/_run_python.sh scripts/analysis/seed_card_check.py — verdicts land in the card_check store and render as the pills"
     },
     "data_source": "source_form (@ source_key, run_tag) + source_move.operation_force (the aggregated R1 warrant).",
     "decision_trail": "Decision 226 C1 (Form = the 6th aspect) + R1 (derive communicative_function from move-force) — CLC_situate_engine_vnext_s163 — PLAN_situate_engine_implement_decision226_s164 (Stage 1B) — the S165 schema (source_form) — the S168 coder + drawer + CRT."
@@ -277,9 +276,9 @@
     "meta_line": "Fidelity PASS (2026-08-10, mechanical): Form has a coded Mark-16 row; every field the card names is a real source_form column; and the R1 audit PASSES — the force_profile_json stored beside communicative_function EQUALS a fresh move-force aggregate recomputed from source_move (@ move_grammar_v2_2026-08-09), so the derivation is real, not a re-coding of force (§2.8 makes it visible, §2.7 L3 enforces it)."
   },
   "cold_read": {
-    "status": "INCOMPLETE",
-    "date": null,
-    "meta_line": "cold read has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py)."
+    "status": "PARTIAL",
+    "date": "2026-08-11",
+    "meta_line": "Cold Read (opus, cold) — PARTIAL. Cold Read + Form-coding commands are fully given; residual: the seed_card_check.py ROWS entry is described but not inlined, and C4/R7 codes are not defined in the card. (run doc: pm/30_methodology/engine/COLDREAD_situate_form_run_2026-08-11.md)"
   },
   "vs_wild": {
     "status": "PARTIAL",
