@@ -64,7 +64,9 @@ design-SB is a **render layer**, so it does NOT run main-Claude's full standup/s
 2. Read the relevant SSOT page(s) for what you're building — the drawer / engine schema (§2.16: orient from the SSOT, not memory or an LLM-written brief).
 3. **Confirm LIVE state before building** (curl / browser). Never trust a status field.
 
-**STANDDOWN (session close, ALWAYS — not only when the PI asks):**
+**WHEN TO CLOSE (don't stop at a convenient checkpoint — PI directive 2026-08-11):** STAY OPEN and work the queue. Close only when (a) the work is genuinely COMPLETE, (b) every remaining item is BLOCKED (data / PI-input / another SB), or (c) the PI signals close. Do NOT close while buildable-now, unblocked work remains just because you hit a clean arc boundary — press through it (*"holding is like ending early"*). When you finish an item, update the DWS and move **straight to the next queued item**; a full closing standdown fires only at a genuine stop. Keep a **WORK-QUEUE** in the active thread's `note_for_next_llm` and work it in order, flag-and-skipping blocked items (note the block + ping the owner, then continue).
+
+**STANDDOWN (at a genuine close — ALWAYS, not only when the PI asks):**
 1. Update `dws_status.json`: `open_threads` (what shipped · what's now blocked/owed · on-whom), `last_updated`, un-stale `deploy_status`. Prepend a new dated thread for a substantial session.
 2. Update `design_engine.json` node statuses (built / blocked) for any figure touched.
 3. Write the paste-ready next-chat **KICKOFF** as that thread's `note_for_next_llm`.
@@ -72,7 +74,7 @@ design-SB is a **render layer**, so it does NOT run main-Claude's full standup/s
 
 **HANDOVER:** hand the PI the paste-block kickoff (lifted verbatim from the thread's `note_for_next_llm`) to open the next chat — same shape as main-Claude's handover.
 
-**Chat hygiene:** start a **fresh chat per substantial build arc** (a long chat drifts; a fresh one orients cleanly from the DWS). The standdown above is what makes a fresh chat cheap.
+**Chat hygiene:** a single chat can span the whole queue — keep going as long as it's productive (the default now, per WHEN TO CLOSE). Start a **fresh chat only** when the chat has grown long enough to drift OR a genuinely new arc begins — NOT after every small build. The standdown is what makes a fresh chat cheap on the occasions you do need one.
 
 This matches the other SBs' rigor (IWS/LWS keep their schema pages current; design-SB keeps the DWS current) without the research-arc overhead a render layer doesn't need.
 
