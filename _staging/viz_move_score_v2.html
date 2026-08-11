@@ -52,7 +52,10 @@ h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:cla
 .keydefs dd{margin:0;color:var(--ink-2)}
 /* the reading spine */
 .read{max-width:44rem;margin:2vh auto 0;padding:0 22px 12vh}
-.verse{margin:0 0 8px;transition:opacity .35s}
+/* each verse carries a provenance line down its left — colour = KIND (original vs added text) */
+.verse{margin:0 0 8px;transition:opacity .35s;border-left:3px solid transparent;padding-left:16px}
+.verse.orig{border-left-color:color-mix(in srgb,var(--fern) 50%,var(--rule))}
+.verse.added{border-left-color:color-mix(in srgb,var(--terracotta) 52%,var(--rule))}
 .vhead{display:flex;align-items:baseline;gap:12px;margin:26px 0 4px}
 .vnum{font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.06em}
 /* the verse is READING TEXT — plain, quiet, comfortable; not a specimen */
@@ -73,8 +76,8 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 /* move borders are NEUTRAL — hierarchy is shown by indentation + the "unpacks into" bracket, never by hue
    (hue is reserved for KIND: fern/terracotta = provenance only). gold = selection/attention. */
 .mv{border-left:2px solid var(--rule);padding:2px 0 2px 14px;transition:opacity .3s}
-.mv.child{border-left-color:var(--rule)}
-.mv.sel{border-left-color:var(--gold);border-left-width:3px;background:var(--paper-3);border-radius:0 6px 6px 0;box-shadow:0 4px 18px -12px rgba(36,48,42,.4)}
+.mv.child{border-left-style:dotted;border-left-color:color-mix(in srgb,var(--rule) 62%,transparent)}
+.mv.sel{border-left-color:var(--gold);border-left-width:3px}
 .mv .para{cursor:pointer;margin:0;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .mv .para .mk{font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:.04em;flex:none;padding-top:2px}
 .mv .para .pp{font-family:var(--sans);font-size:14px;color:var(--ink-2);line-height:1.5;flex:1 1 62%}
@@ -109,10 +112,10 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 .ending-mark .say{font-family:var(--disp);font-style:italic;font-size:15px;color:var(--ink-2);margin:8px 0 0}
 .ending-mark .prov{font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--ink-3);margin:8px 0 0}
 .ending-mark .invite{font-family:var(--sans);font-size:12px;color:var(--fern);margin:6px 0 0}
-/* the longer ending (16:9–20) — visibly ADDED by later hands */
-.added-ending{position:relative;border:1px dashed color-mix(in srgb,var(--terracotta) 40%,var(--rule));border-radius:12px;padding:6px 16px 10px;margin:14px 0 0;background:repeating-linear-gradient(45deg,transparent,transparent 11px,color-mix(in srgb,var(--terracotta) 4%,transparent) 11px,color-mix(in srgb,var(--terracotta) 4%,transparent) 12px)}
-.added-ending .ae-h{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--terracotta);margin:8px 0 2px}
-.added-ending .ae-s{font-family:var(--disp);font-style:italic;font-size:14px;color:var(--ink-2);margin:0 0 6px}
+/* the longer ending (16:9–20) — a clean labeled divider; provenance shows via each verse's left line, not a hatch */
+.longer-head{margin:20px 0 4px;padding:12px 0 0;border-top:1px solid color-mix(in srgb,var(--terracotta) 30%,var(--rule))}
+.longer-head .ae-h{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--terracotta);margin:0 0 2px}
+.longer-head .ae-s{font-family:var(--disp);font-style:italic;font-size:14px;color:var(--ink-2);margin:0 0 6px;max-width:38rem}
 /* arc — the distant view, always available at the top */
 .arc{max-width:44rem;margin:3vh auto 0;padding:0 22px}
 .arc-h{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 4px;text-align:center}
@@ -128,9 +131,9 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 .arc-key .k.f::before{background:color-mix(in srgb,var(--fern) 55%,var(--paper-2))}
 .arc-key .k.t::before{background:color-mix(in srgb,var(--terracotta) 55%,var(--paper-2))}
 /* cadence / focus mode: dim what isn't selected */
-body[data-focus=on] .verse:not(.hassel){opacity:.4}
-body[data-focus=on] .mv:not(.sel){opacity:.35}
-body[data-focus=on] .mv.sel{opacity:1}
+/* Focus: the whole verse-section (verse + its moves) lifts on a white card; other verses recede */
+body[data-focus=on] .verse:not(.hassel){opacity:.38}
+body[data-focus=on] .verse.hassel{background:var(--paper-3);border-radius:0 8px 8px 0;box-shadow:0 6px 26px -14px rgba(36,48,42,.45);padding-top:8px;padding-bottom:10px}
 /* held horizon */
 .horizon{max-width:44rem;margin:5vh auto 0;padding:16px 20px;border:1px dashed color-mix(in srgb,var(--ink-3) 55%,var(--rule));border-radius:12px;background:repeating-linear-gradient(45deg,transparent,transparent 9px,color-mix(in srgb,var(--ink-3) 5%,transparent) 9px,color-mix(in srgb,var(--ink-3) 5%,transparent) 10px)}
 .horizon .h4{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 4px}
@@ -351,16 +354,16 @@ function build(co,mdoc){
     '</dl>';
 
   // the reading spine
-  var html="", c2open=false;
+  var html="";
   for(var v=RANGE.lo;v<=RANGE.hi;v++){
     if(verses[v]==null) continue;
     if(v===C2_START){
-      // the 16:8 silence rendered positively (an empty outcome slot), then the added ending
+      // the 16:8 silence rendered positively (an empty outcome slot), then a clean divider for the added ending
       html+='<div class="ending-mark"><div><span class="rest"></span></div><div class="say">&ldquo;&hellip;for they were afraid.&rdquo;</div><div class="prov">Here the earliest manuscripts end &mdash; no appearance; the account stops on fear.</div><div class="invite">&#8615; highlight this ending, or leave a note below</div></div>';
-      html+='<div class="added-ending"><div class="ae-h">The longer ending &middot; 16:9&ndash;20</div><div class="ae-s">Absent from the earliest manuscripts; added by later hands who could not end on silence.</div>';
-      c2open=true;
+      html+='<div class="longer-head"><div class="ae-h">The longer ending &middot; 16:9&ndash;20</div><div class="ae-s">Absent from the earliest manuscripts; added by later hands who could not end on silence.</div></div>';
     }
-    html+='<div class="verse" data-verse="'+v+'"><div class="vhead"><span class="vnum">16:'+v+'</span></div><p class="vtext" data-verse="'+v+'">'+verseHTML(verses[v])+'</p>';
+    var prov=(C2_START && v>=C2_START)?'added':'orig';
+    html+='<div class="verse '+prov+'" data-verse="'+v+'"><div class="vhead"><span class="vnum">16:'+v+'</span></div><p class="vtext" data-verse="'+v+'">'+verseHTML(verses[v])+'</p>';
     var mvs=byV[v]||[];
     if(mvs.length){
       html+='<div class="moves">';
@@ -369,7 +372,6 @@ function build(co,mdoc){
     }
     html+='</div>';
   }
-  if(c2open) html+='</div>'; // close .added-ending
   html+='<button class="recompose" id="recomp-all">&#8635; read Mark 16 again, clean</button>';
   $("reading").innerHTML=html;
 
