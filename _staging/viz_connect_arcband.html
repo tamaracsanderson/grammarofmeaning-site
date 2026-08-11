@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Connect — the Arc Band · Mark 16</title>
+<title>Trace — the Arc Band · Mark 16</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600;0,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -21,135 +21,144 @@ body{margin:0;background:var(--paper);color:var(--ink-soft);font-family:var(--se
 header.pg{max-width:46rem;margin:0 auto;padding:5vh 22px 1vh;text-align:center}
 .kick{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
 h1{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(26px,4.5vw,38px);color:var(--moss);margin:0 0 8px}
+h1 .sub{font-style:normal;font-size:.5em;letter-spacing:.02em;color:var(--ink-3);display:block;margin-top:4px;font-family:var(--mono);text-transform:uppercase}
 .lede{font-family:var(--disp);font-style:italic;font-size:15.5px;color:var(--ink-2);max-width:32rem;margin:0 auto;line-height:1.5}
-.how{font-family:var(--sans);font-size:12px;color:var(--ink-3);max-width:38rem;margin:14px auto 0;line-height:1.55;text-align:center}
-/* legend */
-.legend{max-width:46rem;margin:16px auto 0;padding:0 22px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.lg{font-family:var(--sans);font-size:12px;border:1px solid var(--rule);border-radius:999px;padding:4px 11px;cursor:pointer;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;user-select:none}
-.lg .sw{width:16px;height:0;border-top:3px solid;display:inline-block}
-.lg.off{opacity:.35}
-.lg.seq .sw{border-top-style:dotted}
+.task{font-family:var(--sans);font-size:13px;color:var(--ink);max-width:34rem;margin:16px auto 0;line-height:1.5;background:color-mix(in srgb,var(--gold) 9%,transparent);border:1px solid color-mix(in srgb,var(--gold) 35%,var(--rule));border-radius:10px;padding:9px 14px}
+.task b{color:var(--moss)}
+.how{font-family:var(--sans);font-size:12px;color:var(--ink-3);max-width:38rem;margin:12px auto 0;line-height:1.55;text-align:center}
+.legendwrap{max-width:52rem;margin:16px auto 0;padding:0 22px}
+/* selection relation panel */
+.relwrap{max-width:40rem;margin:14px auto 0;padding:0 22px}
+.relbox{border:1px solid var(--rule);border-radius:12px;padding:12px 16px;background:var(--paper-3)}
+.relhint{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:italic;text-align:center}
 /* the band */
 .band{max-width:46rem;margin:3vh auto 0;padding:0 22px 14vh;position:relative}
 .rows{position:relative;margin-left:120px}
 svg.arcs{position:absolute;top:0;left:0;width:120px;height:100%;overflow:visible;pointer-events:none}
-.mrow{height:34px;display:flex;align-items:center;gap:9px;border-bottom:1px solid color-mix(in srgb,var(--rule) 40%,transparent)}
+.mrow{height:34px;display:flex;align-items:center;gap:9px;border-bottom:1px solid color-mix(in srgb,var(--rule) 40%,transparent);cursor:pointer}
 .mrow .mk{font-family:var(--mono);font-size:10px;color:var(--gold);min-width:2.4rem;letter-spacing:.03em}
 .mrow .pp{font-family:var(--serif);font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mrow.dim{opacity:.3}
 .mrow.lit{background:color-mix(in srgb,var(--gold) 10%,transparent)}
+.mrow.sel{background:color-mix(in srgb,var(--gold) 18%,transparent);box-shadow:inset 3px 0 0 var(--gold)}
 path.arc{fill:none;stroke-width:1.6;opacity:.7}
-path.arc.seq{stroke-width:1;opacity:.28;stroke-dasharray:2 3}
+path.arc.weak{stroke-width:1;opacity:.26;stroke-dasharray:2 3}
 path.arc.hid{display:none}
-circle.tip{}
+circle.tip.hid{display:none}
 .src{font-family:var(--sans);font-size:11px;color:var(--ink-3);text-align:center;margin:5vh 0 0}
 .err{color:var(--terracotta);font-family:var(--sans);text-align:center;margin:8vh 0}
 </style>
 <script>(function(){try{var t=localStorage.getItem("gom-theme")||"light";document.documentElement.dataset.theme=t;}catch(e){}})();</script>
 </head>
 <body>
-<div class="bar"><span class="rm">Connect · the Arc Band · Mark 16</span><span class="rm" id="cnt"></span></div>
+<div class="bar"><span class="rm">Trace · the Arc Band · Mark 16</span><span class="rm" id="cnt"></span></div>
 <header class="pg">
   <p class="kick">how the moves hold together</p>
-  <h1>The Arc Band</h1>
+  <h1>Trace<span class="sub">the Arc Band</span></h1>
   <p class="lede">The moves stay in reading order; an arc joins two that are linked. The shape of the passage is the shape of the arcs.</p>
-  <p class="how">Each row is a move, top to bottom in textual order. An arc in the left margin joins two linked moves; its colour is the <em>kind</em> of link, and it lands on the move it points to. The faint dotted arcs are plain sequence (&ldquo;and then&rdquo;) — the default; the coloured arcs are the ones that carry meaning. Click a legend chip to isolate one kind.</p>
+  <p class="task"><b>Pick a move that catches you</b> — click its line. Where does it reach, and what kind of connection is it?</p>
+  <p class="how">Each row is a move, top to bottom in textual order. An arc in the left margin joins two linked moves; its colour is the <em>kind</em> of connection, and it lands on the move it points to. The faint dotted arcs are plain sequence (&ldquo;and then&rdquo;). Filter by kind below, or break a kind down by relation.</p>
 </header>
-<div class="legend" id="legend"></div>
+<div class="legendwrap"><div id="legend"></div></div>
+<div class="relwrap"><div class="relbox" id="relcard"><p class="relhint">Click a move to see its connections in plain language.</p></div></div>
 <div class="band"><div class="rows" id="rows"><div class="err" id="loading">Loading the edges…</div></div></div>
 <p class="src" id="src"></p>
 
+<script src="/engine/connect_core.js"></script>
 <script>
+var CC=window.ConnectCore;
 var BASE="/engine/data/goldenpath/mark16/";
-var esc=function(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});};
-var ROWH=34, GUT=118;
-// KIND families = edge_kind (colour = KIND only): logic (LINKAGE) · resonance (SHAPE) · sonic (SONIC).
-// sequence (the weak "and then" default) is ghosted even though it's a LINKAGE.
-function fam(e){var k=String(e.edge_kind||"").toUpperCase();if(k==="SHAPE")return"resonance";if(k==="SONIC")return"sonic";if(String(e.type||"")==="LINK_SEQUENCE")return"seq";return"logic";}
-var HUE={logic:"var(--fern)",resonance:"var(--gold)",sonic:"var(--sky)",seq:"var(--ink-3)"};
-var LEGEND=[
-  {k:"logic",label:"logic — how moves connect: cause · contrast · support · nesting"},
-  {k:"resonance",label:"resonance — shape: parallelism · ring · leap"},
-  {k:"sonic",label:"sonic — sound patterns (not coded for Mark 16 yet)"},
-  {k:"seq",label:"sequence — plain “and then” (the ghosted default)"}
-];
-var state={off:{}};
+var esc=CC.esc, ROWH=34, GUT=118;
+var TAX, EDGES=[], FILTER;
+
 Promise.all([
   fetch(BASE+"moves.json").then(function(r){return r.json();}),
-  fetch(BASE+"connect_edges.json").then(function(r){return r.json();})
-]).then(function(res){build(res[0],res[1]);}).catch(function(e){
-  document.getElementById("loading").innerHTML='Could not load feeds ('+esc(e.message)+'). connect_edges.json may still be propagating.';
+  fetch(BASE+"connect_edges.json").then(function(r){return r.json();}),
+  CC.load()
+]).then(function(res){build(res[0],res[1],res[2]);}).catch(function(e){
+  document.getElementById("loading").innerHTML='Could not load feeds ('+esc(e.message)+'). connect_edges.json / connect_taxonomy.json may still be propagating.';
 });
-function build(mdoc,edoc){
+
+function build(mdoc,edoc,tax){
+  TAX=tax; CC.injectCSS();
   var moves=(mdoc.moves||[]).slice().sort(function(a,b){return a.idx-b.idx;});
-  var edges=(edoc.edges||edoc||[]);
+  var raw=(edoc.edges||edoc||[]);
   var idxOf={}; moves.forEach(function(m,i){idxOf[m.label]=i;});
-  document.getElementById("cnt").textContent=moves.length+" moves · "+edges.length+" edges";
+  document.getElementById("cnt").textContent=moves.length+" moves · "+raw.length+" edges";
+
+  // keep only edges whose endpoints are single moves present in moves.json
+  var dropped=[];
+  raw.forEach(function(e){
+    var a=idxOf[e.source_move_label], b=idxOf[e.target_move_label];
+    if(a==null){dropped.push(e.source_move_label);return;}
+    if(b==null){dropped.push(e.target_move_label);return;}
+    e._a=a; e._b=b; EDGES.push(e);
+  });
 
   // rows
   var rowsEl=document.getElementById("rows");
-  rowsEl.innerHTML="";
   var svgH=moves.length*ROWH;
   var svg='<svg class="arcs" viewBox="0 0 '+GUT+' '+svgH+'" preserveAspectRatio="none" style="height:'+svgH+'px">';
-  var dropped=[];
-  edges.forEach(function(e){
-    var a=idxOf[e.source_move_label], b=idxOf[e.target_move_label];
-    if(a==null||b==null){dropped.push(e.source_move_label+"→"+e.target_move_label);return;}
-    var y1=a*ROWH+ROWH/2, y2=b*ROWH+ROWH/2;
-    var f=fam(e), hue=HUE[f];
+  EDGES.forEach(function(e,k){
+    var a=e._a,b=e._b, y1=a*ROWH+ROWH/2, y2=b*ROWH+ROWH/2;
+    var hue="var("+CC.hueVar(TAX,CC.kindOf(e))+")", weak=CC.isWeak(TAX,e);
     var span=Math.abs(b-a), bulge=Math.min(GUT-8, 14+span*7);
     var x=GUT-2, cx=x-bulge, my=(y1+y2)/2;
-    svg+='<path class="arc '+f+'" data-fam="'+f+'" data-a="'+a+'" data-b="'+b+'" d="M'+x+','+y1+' Q'+cx+','+my+' '+x+','+y2+'" stroke="'+hue+'"/>';
-    svg+='<circle class="tip" data-fam="'+f+'" cx="'+x+'" cy="'+y2+'" r="'+(f==="seq"?1.6:2.6)+'" fill="'+hue+'" opacity="'+(f==="seq"?.3:.85)+'"/>';
+    svg+='<path class="arc'+(weak?" weak":"")+'" data-e="'+k+'" data-kind="'+CC.kindOf(e)+'" data-sub="'+CC.typeOf(e)+'" data-a="'+a+'" data-b="'+b+'" d="M'+x+','+y1+' Q'+cx+','+my+' '+x+','+y2+'" stroke="'+hue+'"/>';
+    svg+='<circle class="tip" data-e="'+k+'" cx="'+x+'" cy="'+y2+'" r="'+(weak?1.6:2.6)+'" fill="'+hue+'" opacity="'+(weak?.3:.85)+'"/>';
   });
   svg+='</svg>';
   var rowsHTML="";
   moves.forEach(function(m,i){
-    rowsHTML+='<div class="mrow" data-i="'+i+'"><span class="mk">'+esc(m.label)+'</span><span class="pp">'+esc(m.paraphrase||m.operation||"")+'</span></div>';
+    rowsHTML+='<div class="mrow" data-i="'+i+'" data-label="'+esc(m.label)+'"><span class="mk">'+esc(m.label)+'</span><span class="pp">'+esc(m.paraphrase||m.operation||"")+'</span></div>';
   });
   rowsEl.innerHTML=svg+rowsHTML;
 
-  // legend
-  document.getElementById("legend").innerHTML=LEGEND.map(function(L){
-    return '<span class="lg '+L.k+'" data-k="'+L.k+'"><span class="sw" style="border-color:'+HUE[L.k]+'"></span>'+esc(L.label)+'</span>';
-  }).join("");
-  Array.prototype.forEach.call(document.querySelectorAll(".lg"),function(chip){
-    chip.addEventListener("click",function(){
-      var k=chip.dataset.k; state.off[k]=!state.off[k];
-      chip.classList.toggle("off",state.off[k]);
-      Array.prototype.forEach.call(document.querySelectorAll('path.arc[data-fam="'+k+'"], circle.tip[data-fam="'+k+'"]'),function(el){el.classList.toggle("hid",state.off[k]);});
-    });
-  });
+  // shared 5-kind filter + sub-type drill-down
+  FILTER=CC.Filter(document.getElementById("legend"),TAX,EDGES,applyVis);
+  applyVis();
 
-  // hover a move → light it + its neighbours
+  // hover a move → light it + its neighbours (visible edges only)
   Array.prototype.forEach.call(document.querySelectorAll(".mrow"),function(row){
     row.addEventListener("mouseenter",function(){
       var i=+row.dataset.i, nb={};
-      Array.prototype.forEach.call(document.querySelectorAll("path.arc"),function(p){
-        var a=+p.dataset.a,b=+p.dataset.b; if(a===i||b===i){nb[a]=1;nb[b]=1;}
-      });
+      EDGES.forEach(function(e){ if((e._a===i||e._b===i)&&FILTER.visible(e)){nb[e._a]=1;nb[e._b]=1;} });
       Array.prototype.forEach.call(document.querySelectorAll(".mrow"),function(r){var j=+r.dataset.i;r.classList.toggle("lit",j===i);r.classList.toggle("dim",Object.keys(nb).length>0&&!nb[j]&&j!==i);});
     });
     row.addEventListener("mouseleave",function(){Array.prototype.forEach.call(document.querySelectorAll(".mrow"),function(r){r.classList.remove("lit","dim");});});
+    row.addEventListener("click",function(){ select(row.dataset.label, +row.dataset.i); });
   });
 
-  var srcTxt="rendered from moves.json + connect_edges.json ("+edoc.run_tag+")";
-  if(dropped.length){ srcTxt+=" · ⚠ "+dropped.length+" edge"+(dropped.length===1?"":"s")+" reference moves not in this moves.json (feeds out of sync — flagged): "+dropped.join(", "); }
+  var srcTxt="rendered from moves.json + connect_edges.json ("+edoc.run_tag+")"+CC.dropNote(dropped);
   document.getElementById("src").innerHTML=esc(srcTxt).replace("⚠",'<span style="color:var(--terracotta)">⚠</span>');
+}
+
+function applyVis(){
+  Array.prototype.forEach.call(document.querySelectorAll("path.arc, circle.tip"),function(el){
+    var e=EDGES[+el.dataset.e]; el.classList.toggle("hid",!FILTER.visible(e));
+  });
+}
+
+function select(label,i){
+  Array.prototype.forEach.call(document.querySelectorAll(".mrow"),function(r){r.classList.toggle("sel",+r.dataset.i===i);});
+  // relation cards use only the currently-visible edges
+  var vis=EDGES.filter(function(e){return FILTER.visible(e);});
+  document.getElementById("relcard").innerHTML=CC.moveConnectionsHTML(TAX,vis,label);
 }
 </script>
 </body>
 </html>
 <!-- ── METHODOLOGY FOOTER ──
-HOW PRODUCED: design-SB 2026-08-10 — the Connect figure, Arc Band variant (in-text), v1 draft, built the moment Method SB's
-  connect_edges.json (78 typed edges, edge_grammar_v1) landed. Render-from-data (moves.json for order + labels, connect_edges.json
-  for edges). Encoding per the design_engine connect_intext spec: moves in textual order (rows top→bottom); edges as arcs in the
-  LEFT gutter (never across the prose); hue = KIND only (nest=moss / link=fern / shape=gold / feed=sky); LINK_SEQUENCE ghosted
-  (dotted, faint — the weak default); the arc lands (dot) on its target = direction. Legend chips isolate a kind; hovering a move
-  lights it + its linked neighbours. Sibling variant (Relation Loom) + Topology to follow; Facing Page + Ledger await their feeds.
-SCHOLARLY SOURCES: connect_edges.json (Method SB, edge_grammar_v1 run); the locked visual grammar (colour = KIND; arrow =
-  direction; weak default ghosted); the arc-diagram idiom (Wattenberg / genome-browser track stacks).
-WHAT NEEDS VERIFICATION: (1) legibility at 78 edges — sequence-ghosting + the isolate-by-kind filter are the density controls;
-  test whether a KIND-first default (only nest+shape+link shown) reads better. (2) arrowheads are dots for v1 — upgrade to true
-  arrowheads if direction needs to be louder. (3) run the four-check gate (Cold Read / Fidelity) before the node flips to built.
-  (4) confidence field is carried but not yet encoded (could map to arc opacity/weight = claim strength, per the grammar). -->
+HOW PRODUCED: design-SB 2026-08-11 — Connect figures v2 (P1), the Trace / Arc Band view. Relabelled off the S168 invented
+  3-family scheme (logic/resonance/sonic) onto the REAL 5 edge-kinds (LINKAGE/LINEAGE/RESONANCE/SHAPE/SONIC) via the shared
+  connect_core.js + connect_taxonomy.json (render-from-data, §2.16; one taxonomy source across all Connect views). Colour = KIND
+  (linkage=fern/lineage=moss/resonance=gold/shape=olive/sonic=sky; LINK_SEQUENCE ghosted). Adds the 5-kind legend + sub-type
+  drill-down with live counts (absent kinds shown declared-but-empty; SONIC → "on the Plate"), and the plain-language relation
+  card on click (NEST_REPORTS → "M4 is the speech reported inside M3"; direction shown). Composite parallelism-run edges + the
+  M56–M60 regen mismatch are surfaced honestly in the source note, not silently dropped.
+SCHOLARLY SOURCES: _staging/connect_v2_reconciliation_2026-08-10.md (the v2 spec); the Connect method drawer edge_grammar_v1
+  (SSOT, §2.16); connect_edges.json (edge_kind + type); the arc-diagram idiom (Wattenberg / genome-browser track stacks); the
+  old VIZ_constellation_v3 per-sub-type filter bar (the drill-down model).
+WHAT NEEDS VERIFICATION: (1) pane eyeball of the 5-kind colour key + drill-down + relation card on the live deploy. (2) prose
+  templates in connect_taxonomy.json want a reading-SB/PI wording pass. (3) P2 will fold Trace/Scan/Map into one shell with
+  shared selection state that survives the view switch (this figure already routes selection through the shared core). -->
