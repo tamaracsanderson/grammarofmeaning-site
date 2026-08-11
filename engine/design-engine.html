@@ -40,6 +40,9 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
 .node-h .also{font-family:var(--mono);font-size:11px;color:var(--muted)}
 .status{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.03em;color:var(--fg);background:var(--paper2);border:1px solid var(--line);border-radius:5px;padding:2px 8px}
 .status.next{color:#8a5a12;background:color-mix(in srgb,var(--honey) 24%,var(--bg));border-color:color-mix(in srgb,var(--honey) 55%,var(--line))}
+.status.built{color:#2f6d43;background:color-mix(in srgb,#3F7D57 18%,var(--bg));border-color:color-mix(in srgb,#3F7D57 45%,var(--line))}
+.builtlink{color:#2f6d43;font-weight:600;text-decoration:none;border-bottom:1px solid color-mix(in srgb,#3F7D57 45%,transparent)}
+.frozen{font-family:var(--mono);font-size:10px;color:var(--fg);opacity:.7}
 .oneline{font-family:var(--serif);font-size:14.5px;color:var(--fg);margin:0 0 10px}
 .pills{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
 .pill{font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
@@ -87,7 +90,7 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
 <script>
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function pill(name,st){var w=String(st||'').toLowerCase();var c=w==='pass'?'pass':w==='pending'?'pending':w==='fail'?'fail':'na';var disp=w==='n/a'||w===''?'n/a':st;return '<span class="pill '+c+'">'+esc(name)+' · '+esc(disp)+'</span>';}
-function statusBadge(s){var next=/^(next|build)/i.test(String(s||''));return '<span class="status'+(next?' next':'')+'">'+esc(s)+'</span>';}
+function statusBadge(s){var str=String(s||'');var built=/built|v1 draft/i.test(str);var next=/^(next|build)/i.test(str);return '<span class="status'+(built?' built':(next?' next':''))+'">'+esc(s)+'</span>';}
 function nodeCard(n){
   var g=n.gate||{};
   var pills='<div class="pills">'+pill('Fidelity',g.fidelity)+pill('Cold Read',g.cold_read)+pill('Cold Start',g.cold_start)+pill('vs-Wild',g.vs_wild)+'</div>';
@@ -99,6 +102,7 @@ function nodeCard(n){
     '<p class="oneline">'+esc(n.one_line)+'</p>'+
     pills+
     '<dl class="spec">'+
+      (n.built?'<dt>built</dt><dd><a class="builtlink" href="'+esc(n.built.file)+'">view the '+esc(n.built.state||'draft')+' &rarr;</a> <span class="mono">'+esc(n.built.renders||'')+'</span>'+(n.built.frozen_reason?'<br><span class="frozen">frozen — '+esc(n.built.frozen_reason)+'</span>':'')+'</dd>':'')+
       '<dt>reads from</dt><dd><b>'+esc(rf.method_node||'')+'</b> · <span class="mono">'+feeds+'</span></dd>'+
       '<dt>encoding</dt><dd>'+esc(n.encoding)+'</dd>'+
       '<dt>variants</dt><dd>'+vars+'</dd>'+
