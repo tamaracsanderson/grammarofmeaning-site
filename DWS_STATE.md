@@ -78,18 +78,18 @@ This matches the other SBs' rigor (IWS/LWS keep their schema pages current; desi
 
 ---
 
-## 6. Current focus (updated 2026-08-10 · S168)
+## 6. Current focus (updated 2026-08-11 · S169)
 
 **The reading figures** (Grammar of Meaning reading room) are the active build — all render-from-data, reader-first, staged (`_staging/`, noindex):
 
-- **Move Score v1** (`_staging/viz_move_score_v2.html`) — the Decompose figure (Mark 16:1–20), **DONE**. Read-default; sans reading; A1 labeled-line anatomy with `who (agent)` labels; Plate toggle; verse-based Focus card; arc overview; per-verse provenance lines; every move anchored to its own verse (cross-verse nesting → "continues M#"); zero-token annotation trace. v2 enhancements (post-Situate-data) live in `_staging/move_score_v2_backlog_2026-08-10.md`.
+- **Move Score v1** (`_staging/viz_move_score_v2.html`) — the Decompose figure (Mark 16:1–20), **DONE**. v2 enhancements (post-Situate-data) in `_staging/move_score_v2_backlog_2026-08-10.md`.
 - **Plate v1** (`_staging/viz_plate.html`) — the Text figure, reader-first.
-- **3 Connect figures** (`viz_connect_arcband/loom/topology.html`) — built, but they **mislabel** the data (I invented a 3-family scheme; the real grammar has **5 `edge_kind`s**: LINKAGE/LINEAGE/RESONANCE/SHAPE/SONIC). **Relabel = v2**, don't patch thrice.
-- **method-engine.html** — Connect fixed to **one node like Decompose** (5 kinds are one grammar, not separate engines) + an in-drawer "jump to KIND" nav.
+- **Connect figures v2 — P1 + P2(phase 1) SHIPPED (S169, verified live).** The 3 figures (`viz_connect_arcband/loom/topology.html`) are relabelled Trace / Scan / Map and now render the **real 5 `edge_kind`s** (LINKAGE/LINEAGE/RESONANCE/SHAPE/SONIC) from **one shared source** — `engine/connect_core.js` + `engine/data/connect_taxonomy.json` (render-from-data, §2.16; fixes the S168 invented-3-family error). Adds: 5-kind colour key (SHAPE corrected gold→olive), sub-type drill-down with live counts, declared-but-absent kinds (LINEAGE/RESONANCE/SONIC show 0 in the WEB feed; SONIC → "on the Plate"), plain-language relation cards (NEST_REPORTS → "the speech reported inside M3"), honest drop-note. **P2 phase 1**: a shared Trace/Scan/Map view-switch + **selection & filter state carried in the URL hash**, so a selected move survives the switch (verified: select M12 in Trace → Scan opens with M12 selected + same filters). Separate deep-linkable URLs kept (per the lock).
+- **method-engine.html** — Connect = one node like Decompose (unchanged from S168).
 
-**Next big build: Connect figures v2** — spec in `_staging/connect_v2_reconciliation_2026-08-10.md` (one Trace/Scan/Map instrument + state-carry + real 5-kind→sub-type drill-down + plain-language relations + sonic-on-the-Plate via `pronouncing`+`panphon` + EN↔GRC comparison). **P1 buildable now; P3 waits on Method SB feeds** (GRC edges, RESONANCE match, word-level SONIC, `node_status` derivation). Deferred to a fresh chat next session (needs a working browser + the feeds). See `dws_status.json` open_threads[0] for the full record.
+**Next Connect builds (deferred):** **P3 (DATA-BLOCKED)** — sonic-on-the-Plate (word-level, `pronouncing`+`panphon`) + the EN↔GRC comparison (GRC edges exist, 79, unexported) — waits on Method SB feeds. **P2 remainder** — the Move Score → Connect tie (#7) + the 60-sec "same relation, three views" worked example (#10); optional full single-page SPA shell (zero-reload). Spec: `_staging/connect_v2_reconciliation_2026-08-10.md`. See `dws_status.json` open_threads[0] for the full record + next-chat kickoff.
 
-**Standing caveat this session:** the in-app browser pane was policy-blocked, so S168 figures were verified by data + code + curl, not live screenshots — a PI eyeball pass is worth doing.
+**Browser pane:** WORKING this session (unlike S168) — all figures verified with live DOM inspection + screenshots.
 
 ---
 
