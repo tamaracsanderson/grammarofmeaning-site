@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Where prior tradition bears weight in Mark 16 — the lineage matrix</title>
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#0E0E0C;--ink-soft:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;
+--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;--sky:#3f6d7d;--olive:#6E7B3A;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:60rem;margin:0 auto;padding:42px 22px 90px}
+.kicker{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+h1{font-family:var(--disp);font-weight:420;font-size:clamp(24px,4vw,36px);line-height:1.14;margin:0 0 8px;letter-spacing:-.01em}
+.sub{font-size:15px;color:var(--ink-2);max-width:44rem;margin:0 0 4px;font-style:italic}
+.finding{font-size:17px;color:var(--ink);max-width:44rem;margin:16px 0 2px}
+.finding b{color:var(--gold)}
+.caption{font-family:var(--sans);font-size:11.5px;color:var(--ink-3);max-width:44rem;margin:8px 0 0;line-height:1.5}
+.err{font-family:var(--mono);font-size:12px;color:var(--terracotta);padding:20px 0}
+
+section{margin:30px 0 0}
+.h{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 12px;border-bottom:1px solid var(--rule);padding-bottom:5px}
+
+/* metrics fingerprint */
+.metrics{display:flex;flex-wrap:wrap;gap:26px;margin:0 0 4px}
+.metric .n{font-family:var(--disp);font-size:26px;color:var(--gold);line-height:1}
+.metric .l{font-family:var(--sans);font-size:11px;color:var(--ink-2);margin-top:3px}
+.metric .l b{color:var(--ink)}
+
+/* absence spine */
+.spine{display:flex;flex-wrap:wrap;gap:4px;margin:2px 0 8px}
+.mvtick{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;
+font-family:var(--mono);font-size:7.5px;cursor:default;border:1px solid var(--rule);color:var(--ink-3);background:transparent}
+.mvtick.filled{color:#fff;border-color:transparent;cursor:pointer}
+.mvtick.sel{outline:2px solid var(--ink);outline-offset:1px}
+.spinekey{font-family:var(--sans);font-size:11px;color:var(--ink-2);margin:8px 0 0;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.spinekey .sw{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:5px;border:1px solid var(--rule)}
+
+/* matrix */
+.mtx{overflow-x:auto;margin:2px 0}
+table{border-collapse:collapse;font-family:var(--sans)}
+th,td{padding:0;text-align:center}
+thead th{font-family:var(--mono);font-size:8.5px;color:var(--ink-2);font-weight:400;padding:3px 2px;vertical-align:bottom;white-space:nowrap}
+thead th.mv{cursor:pointer}
+thead th.mv:hover{color:var(--ink)}
+tbody th{font-family:var(--sans);font-size:11.5px;color:var(--ink);text-align:right;padding:0 10px 0 0;white-space:nowrap}
+tbody th .fam{display:inline-block;width:9px;height:9px;border-radius:2px;vertical-align:0;margin-left:6px}
+td.cell{width:26px;height:26px;border:1px solid var(--rule)}
+td.cell .dot{width:16px;height:16px;border-radius:50%;margin:0 auto;cursor:pointer;display:block}
+td.cell .dot.echo{border-radius:50%;background:linear-gradient(90deg,currentColor 50%,transparent 50%);border:1.5px solid currentColor}
+td.cell .dot.quotation{background:currentColor}
+td.cell .dot.allusion{background:transparent;border:1.5px dotted currentColor}
+td.cell .dot.sel{outline:2px solid var(--ink);outline-offset:2px}
+td.rowmargin,td.colmargin{font-family:var(--mono);font-size:9px;color:var(--ink-3)}
+tfoot td{font-family:var(--mono);font-size:9px;color:var(--ink-3);padding-top:4px}
+.mtxkey{font-family:var(--sans);font-size:11px;color:var(--ink-2);margin:12px 0 0;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.mtxkey .g{display:inline-flex;align-items:center;gap:6px}
+.mtxkey .dot{width:14px;height:14px;border-radius:50%;color:var(--ink-3)}
+.mtxkey .dot.quotation{background:currentColor}.mtxkey .dot.echo{background:linear-gradient(90deg,currentColor 50%,transparent 50%);border:1.5px solid currentColor}.mtxkey .dot.allusion{background:transparent;border:1.5px dotted currentColor}
+
+/* detail panel */
+.detail{margin:14px 0 0;padding:0;min-height:20px}
+.card{background:var(--paper-3);border:1px solid var(--rule);border-radius:12px;border-left:3px solid var(--gold);padding:16px 18px}
+.card .top{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline;margin-bottom:8px}
+.card .mv{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.03em}
+.card .arrow{font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.card .source{font-family:var(--disp);font-size:18px;color:var(--ink)}
+.card .home{font-family:var(--sans);font-size:11px;color:var(--ink-3)}
+.card .pills{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.card .pill{font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--rule);color:var(--ink-2);border-radius:999px;padding:1px 8px}
+.card .seamlbl{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--terracotta);margin:2px 0 3px}
+.card .seam{font-size:14.5px;color:var(--ink-2);line-height:1.55;font-style:italic}
+.hint{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:italic}
+.src{font-family:var(--mono);font-size:9px;color:var(--ink-3);opacity:.7;margin:44px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Lineage · what Mark 16 stands on</p>
+  <h1>Where prior tradition bears weight in Mark&nbsp;16</h1>
+  <p class="sub">Upstream scriptural, intratextual, and early-Christian materials mapped to the specific narrative moves they scaffold, authorize, or transform.</p>
+  <div id="stage"><p class="err" id="loading">Loading the lineage matrix…</p></div>
+  <p class="caption">Counts distinguish individual references from independent source <em>families</em> (four echoes of one Isaianic complex ≠ four traditions). Marks indicate <em>proposed</em> relations, not equal-strength proof of direct dependence. Render-from-data · MARK-16-WEB.</p>
+  <p class="src" id="src"></p>
+</div>
+
+<script>
+var URL="/engine/data/lineage_matrix_mark16_s161.json";
+var FAMHUE={"Hebrew-Bible":"--gold","synoptic":"--fern","intratext":"--sky","other":"--moss"};
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function cvar(v){return getComputedStyle(document.documentElement).getPropertyValue(v)||"#888";}
+function mvnum(l){return parseInt(String(l).replace(/[^0-9]/g,""),10)||0;}
+var DATA=null, CELLS=[], SEL=null;
+
+fetch(URL).then(function(r){return r.json();}).then(build).catch(function(e){
+  document.getElementById("stage").innerHTML='<p class="err">Could not load the lineage feed ('+esc(e.message)+').</p>';
+});
+
+function build(d){
+  DATA=d; CELLS=d.cells||[];
+  var nMoves=d.n_moves||55, m=d.metrics||{}, fd=m.family_distribution||{};
+  var sourcedMoves={}; CELLS.forEach(function(c){sourcedMoves[c.move]=true;});
+  var absence={}; (d.absence_moves||[]).forEach(function(mv){absence[mv]=true;});
+  var famByMove={}; CELLS.forEach(function(c){(famByMove[c.move]=famByMove[c.move]||{})[c.family]=true;});
+
+  var h='';
+  // finding + metrics
+  var covPct=Math.round((m.upstream_coverage||0)*100);
+  h+='<p class="finding">Most of Mark 16 has <b>no coded upstream</b>. Of '+nMoves+' moves, only '+Object.keys(sourcedMoves).length+' draw on identifiable prior tradition ('+covPct+'%) — the other '+(d.absence_moves||[]).length+' are hollow: candidate Markan composition, connective tissue, or simply under-researched. <b>The negative space is the finding.</b></p>';
+  h+='<section><div class="metrics">'+
+     metric(covPct+'%','moves with <b>coded upstream</b> ('+Object.keys(sourcedMoves).length+'/'+nMoves+')')+
+     metric(Math.round((m.marked_fraction||0)*100)+'%','are <b>explicitly marked</b> (quotation/formula)')+
+     metric(famDistStr(fd),'by source <b>family</b>')+
+   '</div></section>';
+
+  // absence spine
+  h+='<section><div class="h">the 55-move spine — filled where lineage is coded, hollow where it isn\'t</div><div class="spine" id="spine"></div>'+
+     '<div class="spinekey"><span><span class="sw" style="background:var(--gold)"></span>Hebrew-Bible</span>'+
+     '<span><span class="sw" style="background:var(--fern)"></span>synoptic</span>'+
+     '<span><span class="sw" style="background:var(--moss)"></span>other early-Christian</span>'+
+     '<span><span class="sw"></span>hollow — no coded upstream</span></div></section>';
+
+  // matrix
+  var moves=Object.keys(sourcedMoves).sort(function(a,b){return mvnum(a)-mvnum(b);});
+  var fams=(d.families||[]).filter(function(f){return CELLS.some(function(c){return c.family===f;});});
+  h+='<section><div class="h">the lineage matrix — source family × move</div><div class="mtx" id="mtx"></div>'+
+     '<div class="mtxkey"><span class="g"><span class="dot quotation" style="color:var(--ink-2)"></span>quotation (marked)</span>'+
+     '<span class="g"><span class="dot echo" style="color:var(--ink-2)"></span>echo</span>'+
+     '<span class="g"><span class="dot allusion" style="color:var(--ink-2)"></span>allusion</span>'+
+     '<span class="g" style="color:var(--ink-3)">·&nbsp; opacity = link certainty</span></div></section>';
+
+  // detail
+  h+='<section><div class="h">the seam — what the borrowing leaves unsaid</div><div class="detail" id="detail"><p class="hint">Click a mark in the matrix (or a filled move on the spine) to read the source, the transformation, and the question the link leaves open.</p></div></section>';
+
+  document.getElementById("stage").innerHTML=h;
+  renderSpine(nMoves,sourcedMoves,absence,famByMove);
+  renderMatrix(fams,moves);
+  document.getElementById("src").textContent="rendered from lineage_matrix_mark16_s161.json ("+CELLS.length+" lineage cells · "+(d.absence_moves||[]).length+" absence moves) · build_lineage_matrix_export_s161.py";
+}
+
+function metric(n,l){return '<div class="metric"><div class="n">'+n+'</div><div class="l">'+l+'</div></div>';}
+function famDistStr(fd){var p=[];for(var k in fd)p.push(fd[k]+' '+k.replace('Hebrew-Bible','HB'));return p.join(' · ');}
+
+function renderSpine(n,sourced,absence,famByMove){
+  var s=document.getElementById("spine"),h='';
+  for(var i=1;i<=n;i++){var l="M"+i,on=sourced[l];
+    var fam=on?firstFam(famByMove[l]):null, bg=fam?("var("+(FAMHUE[fam]||"--ink-3")+")"):"transparent";
+    h+='<div class="mvtick'+(on?' filled':'')+'" data-mv="'+l+'" title="'+l+(on?'':' — no coded upstream')+'" style="'+(on?('background:'+bg):'')+'">'+i+'</div>';
+  }
+  s.innerHTML=h;
+  s.querySelectorAll(".mvtick.filled").forEach(function(t){t.addEventListener("click",function(){selectMove(this.getAttribute("data-mv"));});});
+}
+function firstFam(o){if(!o)return null;var order=["Hebrew-Bible","synoptic","other","intratext"];for(var i=0;i<order.length;i++)if(o[order[i]])return order[i];for(var k in o)return k;return null;}
+
+function renderMatrix(fams,moves){
+  var m=document.getElementById("mtx"),h='<table><thead><tr><th></th>';
+  moves.forEach(function(mv){h+='<th class="mv" data-mv="'+mv+'" title="select '+mv+'">'+mv+'</th>';});
+  h+='<th class="colmargin">reach</th></tr></thead><tbody>';
+  fams.forEach(function(f){
+    h+='<tr><th>'+esc(f)+'<span class="fam" style="background:var('+(FAMHUE[f]||"--ink-3")+')"></span></th>';
+    var reach=0;
+    moves.forEach(function(mv){
+      var c=CELLS.filter(function(x){return x.move===mv&&x.family===f;})[0];
+      if(c){reach++;
+        var op=certOpacity(c.link_certainty);
+        h+='<td class="cell"><span class="dot '+esc(vehClass(c.vehicle))+'" data-gid="'+esc(c.seam_gap_id)+'" title="'+esc(mv+' ← '+c.source+' ('+c.vehicle+', '+c.link_certainty+')')+'" style="color:var('+(FAMHUE[f]||"--ink-3")+');opacity:'+op+'"></span></td>';
+      } else h+='<td class="cell"></td>';
+    });
+    h+='<td class="rowmargin">'+reach+'</td></tr>';
+  });
+  h+='</tbody><tfoot><tr><td></td>';
+  moves.forEach(function(mv){var fc={};CELLS.forEach(function(c){if(c.move===mv)fc[c.family]=1;});h+='<td class="colmargin" title="distinct source families at '+mv+'">'+Object.keys(fc).length+'</td>';});
+  h+='<td></td></tr></tfoot></table>';
+  m.innerHTML=h;
+  m.querySelectorAll(".dot").forEach(function(dot){dot.addEventListener("click",function(){selectGid(this.getAttribute("data-gid"));});});
+  m.querySelectorAll("th.mv").forEach(function(th){th.addEventListener("click",function(){selectMove(this.getAttribute("data-mv"));});});
+}
+function vehClass(v){v=String(v||"").toLowerCase();return (v==="quotation"||v==="echo"||v==="allusion")?v:"allusion";}
+function certOpacity(c){c=String(c||"").toLowerCase();if(c.indexOf("explicit")>=0)return 1;if(c.indexOf("contested")>=0||c.indexOf("weak")>=0)return .45;return .72;}
+
+function selectGid(gid){var c=CELLS.filter(function(x){return x.seam_gap_id===gid;})[0];if(c)showCell(c);}
+function selectMove(mv){var cs=CELLS.filter(function(x){return x.move===mv;});if(cs.length)showCell(cs[0]);}
+function showCell(c){
+  SEL=c.seam_gap_id;
+  document.querySelectorAll(".mvtick").forEach(function(t){t.classList.toggle("sel",t.getAttribute("data-mv")===c.move);});
+  document.querySelectorAll(".dot").forEach(function(d){d.classList.toggle("sel",d.getAttribute("data-gid")===c.seam_gap_id);});
+  var dir=String(c.directionality||""), arrow=(dir.indexOf("<-")>=0||dir.indexOf("<")>=0)?"&larr;":"&mdash;";
+  var h='<div class="card"><div class="top">'+
+    '<span class="mv">'+esc(c.move)+'</span><span class="arrow">'+arrow+'</span>'+
+    '<span class="source">'+esc(c.source)+'</span><span class="home">'+esc(c.source_home)+'</span></div>'+
+    '<div class="pills">'+
+      pill(c.family)+pill(c.vehicle)+pill(c.markedness)+pill('function: '+c.function)+pill(c.link_certainty)+pill('fidelity: '+c.fidelity_direction)+
+    '</div>'+
+    '<div class="seamlbl">what it leaves unsaid</div><div class="seam">'+esc(c.seam)+'</div></div>';
+  document.getElementById("detail").innerHTML=h;
+}
+function pill(t){return t?'<span class="pill">'+esc(t)+'</span>':'';}
+
+/* encoding note: cell/spine COLOUR = source family (the row axis); VEHICLE = dot shape (quotation solid /
+   echo half / allusion dotted); CERTAINTY = opacity — per the brief's shape/opacity encodings. colour is bound
+   to family (not function) because family is the primary axis and only ~2 function values appear in the data;
+   function + fidelity_direction render in the seam card instead. */
+</script>
+
+<!-- ── METHODOLOGY FOOTER ──
+HOW PRODUCED: design-SB S170 (2026-08-11), WORK-QUEUE [5] — the LINEAGE MATRIX figure (reading-SB DESIGN_BRIEF_lineage_
+  tributary_viz_s161). Renders the audit matrix (source-family × MOVE) + the 55-move ABSENCE spine (the negative-space
+  finding: 39/55 moves have no coded upstream) + a seam-detail panel (what each borrowing leaves unsaid). Render-from-data
+  (§2.16/§2.13): mirrored from twelve-laws origin/main pm/40_architecture/DATA_lineage_matrix_s161.json ->
+  engine/data/lineage_matrix_mark16_s161.json (pure data swap); every cell/metric/absence from the feed. On-thesis:
+  absences at MOVE scale = the LACUNA/negative-space stance (§2.8 — make the unsaid visible; the `seam` field IS the unsaid).
+SCHOLARLY SOURCES: DESIGN_BRIEF_lineage_tributary_viz_s161 (matrix spec: rows=families, cols=moves, shape=vehicle,
+  opacity=certainty, show-absences); DATA_lineage_matrix_s161 (cells + families + metrics + absence_moves);
+  build_lineage_matrix_export_s161.py; §2.8 (negative space / show absences), Cleveland-McGill (position/shape over area).
+WHAT NEEDS VERIFICATION: (1) live-verify (pane policy-blocked for the live domain -> offline+curl per DWS conventions).
+  (2) the SECONDARY watershed figure (one trunk per family, memorable) is a follow-on build. (3) colour=family deviates
+  from the brief's colour=function (noted above — family is the row axis; ~2 function values in current data). (4) the
+  effective-source-family (inverse-Simpson) confluence metric + the 16:1-8 vs 16:9-20 normalized comparison are v2. -->
+</body>
+</html>
