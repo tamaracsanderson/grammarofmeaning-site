@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Move Score — format mocks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600;0,9..144,400;0,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#0E0E0C;--ink-soft:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;
+--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;--sky:#3f6d7d;--olive:#6E7B3A;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink-soft);font-family:var(--serif);font-size:17px;line-height:1.6}
+.wrap{max-width:52rem;margin:0 auto;padding:5vh 22px 14vh}
+h1{font-family:var(--disp);font-style:italic;font-weight:600;font-size:32px;color:var(--moss);margin:0 0 4px}
+.sub{font-family:var(--sans);font-size:13px;color:var(--ink-3);margin:0 0 6px}
+h2{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:5vh 0 4px;border-top:1px solid var(--rule);padding-top:18px}
+.h2note{font-family:var(--sans);font-size:12px;color:var(--ink-3);margin:0 0 14px}
+.mock{border:1px solid var(--rule);border-radius:12px;background:var(--paper-3);padding:16px 18px;margin:0 0 16px}
+.mlabel{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--fern);margin:0 0 3px}
+.mnote{font-family:var(--sans);font-size:12px;color:var(--ink-3);margin:0 0 12px;line-height:1.5}
+/* shared verse for differentiation */
+.dv .vnum{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.06em}
+.dv .verse{margin:2px 0 6px}
+.dv .mv{border-left:2px solid var(--rule);padding:2px 0 2px 14px}
+.dv .mk{font-family:var(--mono);font-size:10px;color:var(--gold);margin-right:8px}
+/* D1 lightness (current) */
+.d1 .vtext{font-family:var(--serif);font-size:18.5px;color:var(--ink);line-height:1.6}
+.d1 .pp{font-family:var(--serif);font-size:15.5px;color:var(--ink-soft)}
+/* D2 darker verse + more contrast */
+.d2 .vtext{font-family:var(--serif);font-weight:500;font-size:19px;color:#000;line-height:1.58}
+:root[data-theme=dark] .d2 .vtext{color:#fff}
+.d2 .pp{font-family:var(--serif);font-size:15px;color:var(--ink-2)}
+/* D3 move in italic serif (a spoken-aside voice) */
+.d3 .vtext{font-family:var(--serif);font-size:18.5px;color:var(--ink);line-height:1.6}
+.d3 .pp{font-family:var(--serif);font-style:italic;font-size:15.5px;color:var(--ink-2)}
+/* D4 move in sans (annotation voice) */
+.d4 .vtext{font-family:var(--serif);font-size:18.5px;color:var(--ink);line-height:1.6}
+.d4 .pp{font-family:var(--sans);font-size:14px;color:var(--ink-2);line-height:1.5}
+/* anatomy formats */
+.mono-lab{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+/* A1 labeled line (current) */
+.a1 .row{display:flex;gap:10px;align-items:baseline;margin:0 0 3px;font-family:var(--serif);font-size:15px;color:var(--ink)}
+.a1 .row b{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);min-width:3.6rem}
+/* A2 sentence frame */
+.a2 .sent{font-family:var(--serif);font-size:17px;line-height:1.7;color:var(--ink)}
+.a2 .ag{border-bottom:2px solid color-mix(in srgb,var(--fern) 55%,transparent)}
+.a2 .op{font-weight:600;border-bottom:2px solid color-mix(in srgb,var(--moss) 60%,transparent)}
+.a2 .su{border-bottom:1px solid color-mix(in srgb,var(--gold) 60%,transparent)}
+.a2 .ou{color:var(--ink-2);font-style:italic}
+.a2 .legend{font-family:var(--sans);font-size:11px;color:var(--ink-3);margin:10px 0 0;display:flex;gap:14px;flex-wrap:wrap}
+.a2 .legend span{display:inline-flex;align-items:center;gap:5px}
+.a2 .legend i{width:14px;height:0;border-bottom:2px solid;display:inline-block}
+/* A3 grammatical diagram (SVG-ish, CSS) */
+.a3 .diagram{font-family:var(--sans);font-size:13.5px;color:var(--ink)}
+.a3 .baseline{display:flex;align-items:stretch;border-bottom:2px solid var(--ink-2);padding:0 0 5px}
+.a3 .cell{padding:4px 12px;position:relative}
+.a3 .cell+.cell{border-left:2px solid var(--ink-2)}
+.a3 .cell .r{position:absolute;top:-11px;left:12px;font-family:var(--mono);font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.a3 .result{margin:6px 0 0 0;padding:6px 0 0 24px;border-left:2px dashed var(--gold);margin-left:12px;font-style:italic;color:var(--ink-2);font-size:13px}
+.a3 .result .r{font-family:var(--mono);font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-style:normal;margin-right:6px}
+/* A4 table */
+.a4 table{border-collapse:collapse;width:100%;font-size:14px}
+.a4 td{padding:5px 10px;border-bottom:1px solid color-mix(in srgb,var(--rule) 50%,transparent);vertical-align:top}
+.a4 td.k{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);width:5rem}
+.a4 td.v{font-family:var(--serif);color:var(--ink)}
+.src{font-family:var(--sans);font-size:11px;color:var(--ink-3);margin:4vh 0 0;text-align:center}
+.err{color:var(--terracotta);font-family:var(--sans)}
+</style>
+<script>(function(){try{var t=localStorage.getItem("gom-theme")||"light";document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+</head>
+<body>
+<div class="wrap">
+  <h1>Move Score — format mocks</h1>
+  <p class="sub">Two open questions, mocked from real data so you can pick by seeing. Nothing here is deployed into the figure yet.</p>
+
+  <h2>1 · Text vs reading — how to differentiate them</h2>
+  <p class="h2note">Same verse + its move, four ways. The goal: a reader instantly knows the verse is Mark's words and the note beneath is <em>our</em> reading — without it feeling like two scriptures. (All keep the verse dominant.)</p>
+  <div id="diffmocks">Loading…</div>
+
+  <h2>2 · The move anatomy — what replaces the box-and-arrow "diagram"</h2>
+  <p class="h2note">Same move, four ways to show "how it's built" (agent · operation · substrate · outcome). The current chip-flow wraps awkwardly and doesn't read as a diagram — here are alternatives.</p>
+  <div id="anatmocks">Loading…</div>
+
+  <p class="src" id="src"></p>
+</div>
+<script>
+var BASE="/engine/data/goldenpath/mark16/";
+var esc=function(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});};
+Promise.all([
+  fetch(BASE+"checkout.json").then(function(r){return r.json();}),
+  fetch(BASE+"moves.json").then(function(r){return r.json();})
+]).then(function(res){build(res[0],res[1]);}).catch(function(e){
+  document.getElementById("diffmocks").innerHTML='<div class="err">Could not load feeds ('+esc(e.message)+').</div>';
+});
+function parseVerses(co){
+  var whole=(co.units||[]).map(function(u){return u.text||"";}).join("\n");
+  var re=/(\d{3}):(\d{3})/g,out={},m,marks=[];
+  while((m=re.exec(whole))){marks.push({ch:+m[1],v:+m[2],at:m.index,end:re.lastIndex});}
+  for(var i=0;i<marks.length;i++){var c=marks[i],n=marks[i+1];if(c.ch!==16)continue;out[c.v]=whole.slice(c.end,n?n.at:whole.length).replace(/\s+/g," ").trim();}
+  return out;
+}
+function build(co,mdoc){
+  var verses=parseVerses(co);
+  var moves=(mdoc.moves||[]).slice().sort(function(a,b){return a.idx-b.idx;});
+  // differentiation pair: verse 5 + its first move
+  var dv=5, dmove=moves.filter(function(m){return (m.verse_start||(m.verse_refs||[])[0])===dv;})[0]||moves[0];
+  // anatomy: a move with all four fields
+  var am=moves.filter(function(m){return m.agent&&m.operation&&m.substrate&&m.outcome;})[0]||moves[0];
+
+  function diffCell(cls,label,note){
+    return '<div class="mock dv '+cls+'"><p class="mlabel">'+label+'</p><p class="mnote">'+note+'</p>'+
+      '<div class="verse"><span class="vnum">16:'+dv+'</span></div>'+
+      '<p class="vtext">'+esc(verses[dv]||"")+'</p>'+
+      '<div class="mv"><p><span class="mk">'+esc(dmove.label)+'</span><span class="pp">'+esc(dmove.paraphrase||"")+'</span></p></div></div>';
+  }
+  document.getElementById("diffmocks").innerHTML=
+    diffCell("d1","D1 · lightness only (current)","Same serif; the move is a lighter ink. Subtle — the difference you're questioning.")+
+    diffCell("d2","D2 · darker verse + more contrast","Verse pushed to true black + a touch heavier; move lighter still. Strongest separation, same face.")+
+    diffCell("d3","D3 · move in italic serif","Verse upright; the reading in Newsreader italic — reads as a spoken aside. A light moodboard shift.")+
+    diffCell("d4","D4 · move in sans","Verse serif (the text); the reading in Inter sans — the classic 'commentary is a different voice' move.");
+
+  // anatomy formats
+  var A={ag:esc(am.agent),op:esc(am.operation||am.move_type||""),su:esc(am.substrate||""),ou:esc(am.outcome||""),nar:esc(am.narrator||""),kind:esc(am.move_type||""),para:esc(am.paraphrase||"")};
+  function wrapMock(cls,label,note,inner){return '<div class="mock '+cls+'"><p class="mlabel">'+label+'</p><p class="mnote">'+note+'</p>'+inner+'</div>';}
+  var a1=wrapMock("a1","A1 · labeled line (current default)","Plainest. Each part on its own row.",
+    '<div class="row"><b>who</b>'+A.ag+'</div><div class="row"><b>does</b>'+A.op+'</div><div class="row"><b>on</b>'+A.su+'</div><div class="row"><b>result</b>'+A.ou+'</div>');
+  var a2=wrapMock("a2","A2 · sentence frame","The move as a readable sentence; each role marked by an underline, not a box. Reads as language + shows structure.",
+    '<p class="sent"><span class="ag">'+A.ag+'</span> <span class="op">'+A.op+'</span> <span class="su">'+A.su+'</span> &mdash; <span class="ou">'+A.ou+'</span>.</p>'+
+    '<div class="legend"><span><i style="border-color:var(--fern)"></i>who</span><span><i style="border-color:var(--moss)"></i>does</span><span><i style="border-color:var(--gold)"></i>on</span><span><em>italic = result</em></span></div>');
+  var a3=wrapMock("a3","A3 · grammatical diagram","A real diagram: the clause on a baseline (who | does | on), the result on a branch below. Borrowed from sentence-diagramming.",
+    '<div class="diagram"><div class="baseline"><div class="cell"><span class="r">who</span>'+A.ag+'</div><div class="cell"><span class="r">does</span>'+A.op+'</div>'+(A.su?'<div class="cell"><span class="r">on</span>'+A.su+'</div>':'')+'</div>'+(A.ou?'<div class="result"><span class="r">result</span>'+A.ou+'</div>':'')+'</div>');
+  var a4=wrapMock("a4","A4 · compact table","Scannable. Same as the Inspect row, but per-move. Good for the analytic reader; quiet for the contemplative one.",
+    '<table><tr><td class="k">who</td><td class="v">'+A.ag+'</td></tr><tr><td class="k">does</td><td class="v">'+A.op+'</td></tr><tr><td class="k">on</td><td class="v">'+A.su+'</td></tr><tr><td class="k">result</td><td class="v">'+A.ou+'</td></tr>'+(A.nar?'<tr><td class="k">narrator</td><td class="v">'+A.nar+'</td></tr>':'')+'<tr><td class="k">kind</td><td class="v">'+A.kind+'</td></tr></table>');
+  document.getElementById("anatmocks").innerHTML=a1+a2+a3+a4;
+  document.getElementById("src").textContent="rendered from checkout.json + moves.json · differentiation on 16:"+dv+" / "+dmove.label+" · anatomy on "+am.label;
+}
+</script>
+</body>
+</html>
+<!-- ── METHODOLOGY FOOTER ──
+HOW PRODUCED: design-SB 2026-08-10 — comparison mocks (render-from-data) for two open Move Score design questions the PI raised:
+  (1) text-vs-reading differentiation — D1 lightness (current) / D2 darker-verse+contrast / D3 move-in-italic-serif / D4 move-in-
+  sans; (2) the move-anatomy format to replace the awkward chip-flow — A1 labeled-line (current) / A2 sentence-frame (role
+  underlines) / A3 grammatical-diagram (baseline + result branch) / A4 compact-table. Same real verse+move across each set so the
+  comparison is honest. Not deployed into the figure — a pick-by-seeing artifact per §2.15 (diverge before converge).
+SCHOLARLY SOURCES: checkout.json + moves.json (the live feeds); the house palette + moodboard faces (Fraunces/Newsreader/Inter/
+  Mono); GPT crit #2 (sentence-frame / signaling); the Talmud text-vs-commentary distinction (D3/D4).
+WHAT NEEDS VERIFICATION: PI picks one differentiation option + one anatomy format; design-SB then folds the winners into
+  viz_move_score_v2.html (the anatomy winner replaces the chip-flow reveal; the differentiation winner sets the verse/move type
+  treatment) and re-runs the four checks. -->

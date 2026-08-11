@@ -36,6 +36,7 @@ Four cognitive jobs the instrument should serve:
 - Highlight categories on the trace (! surprising · ? question · ↔ connection · ★ remember) — extends the v1 annotation layer.
 
 **Depends on the Situate data (the freeze reason):**
+- **Date the longer-ending interpolation** (PI, 2026-08-10). The "added by later hands" note on 16:9–20 should carry *when* it was added — a transmission/lineage fact — and render FROM the Situate/transmission data (`transmission_node_drawer` / `lineage`), not hardcoded editorial. Same as the disputed-ending provenance flag requested from Method SB. Until then the note stays qualitative ("absent from the earliest manuscripts").
 - The inline typed glosses (paradigm/sitz/position markers, colour = KIND, click → panel) — the PI's own gloss idea; reuses the apparatus pattern. **This is the main thing the freeze is waiting on.**
 - The left/right margins (Sefaria Resource-Panel model): center = passage, left = story spine, right (on demand) = Situate depth.
 
