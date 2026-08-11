@@ -112,6 +112,11 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 .arc-bars .ab.c2{background:color-mix(in srgb,var(--terracotta) 55%,var(--paper-2))}
 .arc-bars .ab:hover{background:var(--gold)}
 .arc-beats{display:flex;justify-content:space-between;font-family:var(--sans);font-size:10px;color:var(--ink-3);margin:4px 0 0}
+.arc-key{display:flex;gap:18px;justify-content:center;font-family:var(--sans);font-size:10.5px;color:var(--ink-3);margin:9px 0 0}
+.arc-key .k{display:flex;align-items:center;gap:5px}
+.arc-key .k::before{content:"";width:9px;height:9px;border-radius:2px;display:inline-block}
+.arc-key .k.f::before{background:color-mix(in srgb,var(--fern) 55%,var(--paper-2))}
+.arc-key .k.t::before{background:color-mix(in srgb,var(--terracotta) 55%,var(--paper-2))}
 /* zoom control */
 .zoombtn{border:1px solid var(--rule);border-radius:999px;background:none;padding:5px 12px;cursor:pointer;color:var(--ink-2);font-family:var(--sans);font-size:12px}
 .zoombtn.on{background:var(--fern);border-color:var(--fern);color:#fff}
@@ -145,6 +150,7 @@ body[data-focus=on] .mv.sel{opacity:1}
 .tr-item{border-left:2px solid var(--gold);padding:2px 0 6px 12px;margin:0 0 10px;cursor:pointer}
 .tr-item .q{font-family:var(--serif);font-size:15px;color:var(--ink)}
 .tr-item .n{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--ink-2);margin:3px 0 0}
+.tr-item .tr-cat{font-family:var(--mono);color:var(--gold);margin-right:6px}
 .tr-item .x{font-family:var(--mono);font-size:10px;color:var(--ink-3);float:right;padding:0 4px;cursor:pointer}
 .tr-hint{font-family:var(--sans);font-size:11px;color:var(--ink-3);margin:2px 0 0}
 /* inspect (table) */
@@ -187,7 +193,7 @@ footer.foot a{color:var(--fern);text-decoration:none}
 <div class="read" id="reading">Loading the reading…</div>
 <section class="traces" id="traces"></section>
 <section class="inspect" id="inspect"></section>
-<div class="tracechip" id="tracechip"><button id="tc-hi">★ Highlight</button><button id="tc-note">✎ Note</button></div>
+<div class="tracechip" id="tracechip"><button class="tc-cat" data-cat="!" title="surprising">!</button><button class="tc-cat" data-cat="?" title="a question">?</button><button class="tc-cat" data-cat="↔" title="a connection">↔</button><button class="tc-cat" data-cat="★" title="remember this">★</button><button id="tc-note" title="add a note">✎ note</button></div>
 <div class="notebox" id="notebox"><p class="nb-q" id="nb-q">Your note</p><textarea id="nb-text" placeholder="What are you noticing?"></textarea><div class="nb-row"><button id="nb-cancel">Cancel</button><button class="save" id="nb-save">Save</button></div></div>
 <footer class="foot">
   <p id="foot-read">Read mode strips the method scaffolding; the textual-variant apparatus stays, because it is part of the reading. <b>Inspect</b> shows the coding. Your highlights and notes are saved on this device only.</p>
@@ -365,7 +371,7 @@ function build(co,mdoc){
   var perV={}; inr.forEach(function(m){var vs=m.verse_start||(m.verse_refs&&m.verse_refs[0]);perV[vs]=(perV[vs]||0)+1;});
   var maxC=1; for(var q=RANGE.lo;q<=RANGE.hi;q++){if((perV[q]||0)>maxC)maxC=perV[q];}
   var bars=""; for(var q2=RANGE.lo;q2<=RANGE.hi;q2++){var c=perV[q2]||0,hh=Math.round(4+(c/maxC)*46);bars+='<div class="ab'+(q2>=C2_START?' c2':'')+'" data-verse="'+q2+'" title="16:'+q2+' · '+c+' move'+(c===1?'':'s')+'" style="height:'+hh+'px"></div>';}
-  $("arc").innerHTML='<div class="arc-h">the whole passage · moves per verse — click a bar to jump</div><div class="arc-bars">'+bars+'</div><div class="arc-beats"><span>anointing &amp; alarm</span><span>the empty tomb</span><span>fear &middot; silence</span><span>the added ending</span></div>';
+  $("arc").innerHTML='<div class="arc-h">the whole passage · moves per verse — click a bar to jump</div><div class="arc-bars">'+bars+'</div><div class="arc-beats"><span>anointing &amp; alarm</span><span>the empty tomb</span><span>fear &middot; silence</span><span>the added ending</span></div><div class="arc-key"><span class="k f">the earliest text &middot; 16:1&ndash;8</span><span class="k t">added by later hands &middot; 16:9&ndash;20</span></div>';
   Array.prototype.forEach.call(document.querySelectorAll(".arc-bars .ab"),function(b){
     b.addEventListener("click",function(){var vt=document.querySelector('.verse[data-verse="'+b.dataset.verse+'"]');if(vt){vt.scrollIntoView({block:"center",behavior:"smooth"});}});
   });
@@ -415,10 +421,10 @@ function saveTraces(a){try{localStorage.setItem(STORE,JSON.stringify(a));}catch(
 var pending=null; // {quote,verse}
 function initTrace(){
   document.getElementById("reading").addEventListener("mouseup",onSelectText);
-  $("tc-hi").addEventListener("click",function(){commitTrace("");hideChip();});
+  Array.prototype.forEach.call(document.querySelectorAll(".tc-cat"),function(b){b.addEventListener("click",function(){commitTrace("",b.dataset.cat);hideChip();});});
   $("tc-note").addEventListener("click",openNote);
   $("nb-cancel").addEventListener("click",function(){$("notebox").classList.remove("show");});
-  $("nb-save").addEventListener("click",function(){commitTrace($("nb-text").value.trim());$("notebox").classList.remove("show");hideChip();});
+  $("nb-save").addEventListener("click",function(){commitTrace($("nb-text").value.trim(),"✎");$("notebox").classList.remove("show");hideChip();});
   applyStoredHighlights();
   renderTracePanel();
 }
@@ -445,10 +451,10 @@ function openNote(){
   nb.style.left=chip.style.left;nb.style.top=chip.style.top;
   nb.classList.add("show");$("tracechip").classList.remove("show");$("nb-text").focus();
 }
-function commitTrace(note){
+function commitTrace(note,cat){
   if(!pending)return;
   var all=loadTraces();
-  all.push({quote:pending.quote,verse:pending.verse,note:note,created:Date.now()});
+  all.push({quote:pending.quote,verse:pending.verse,note:note,cat:cat||"★",created:Date.now()});
   saveTraces(all);pending=null;
   applyStoredHighlights();renderTracePanel();
 }
@@ -480,7 +486,7 @@ function renderTracePanel(){
   var all=loadTraces();var el=$("traces");
   if(!all.length){el.innerHTML='<h4>Your traces</h4><p class="empty">Highlight a phrase in the text to keep it. Add a note if you want. Nothing leaves this device.</p>';return;}
   var items=all.map(function(t,i){
-    return '<div class="tr-item" data-verse="'+t.verse+'" data-q="'+esc(t.quote)+'"><span class="x" data-del="'+i+'">remove</span><div class="q">&ldquo;'+esc(t.quote)+'&rdquo; <span class="tr-hint">16:'+t.verse+'</span></div>'+(t.note?'<div class="n">'+esc(t.note)+'</div>':'')+'</div>';
+    return '<div class="tr-item" data-verse="'+t.verse+'" data-q="'+esc(t.quote)+'"><span class="x" data-del="'+i+'">remove</span><div class="q"><span class="tr-cat">'+esc(t.cat||"★")+'</span>&ldquo;'+esc(t.quote)+'&rdquo; <span class="tr-hint">16:'+t.verse+'</span></div>'+(t.note?'<div class="n">'+esc(t.note)+'</div>':'')+'</div>';
   }).join("");
   el.innerHTML='<h4>Your traces ('+all.length+')</h4>'+items;
   Array.prototype.forEach.call(el.querySelectorAll(".tr-item"),function(it){
