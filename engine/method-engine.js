@@ -227,10 +227,13 @@ function pillXlinkMarkers(pillId) {
 }
 /* one Situate/Connect aspect pill: status dot + label + any cross-link markers; opens its drawer */
 function renderPill(n) {
-  const pill = el("button", `me-situate-pill is-${n.status}`);
+  // Connect's KIND pills carry NO per-KIND status — Connect's real status is the single card_check verdict on the parent
+  // card (Method SB S168); Situate's leaves ARE separate engines, so they keep their own status dot.
+  var isConnectKind = (n.band === "connect");
+  const pill = el("button", "me-situate-pill" + (isConnectKind ? "" : " is-" + n.status));
   pill.type = "button";
   pill.dataset.id = n.id;
-  pill.appendChild(el("span", `me-status-dot is-${n.status}`));
+  if (!isConnectKind) pill.appendChild(el("span", `me-status-dot is-${n.status}`));
   pill.appendChild(document.createTextNode(n.label));
   pillXlinkMarkers(n.id).forEach(function (m) {
     const x = el("span", "me-pill-xlink " + m.cls, " " + m.glyph + " " + m.label);
@@ -496,6 +499,10 @@ function applyFocus() {
 /* ----------------------------------------------------------------- drawer */
 
 function openDrawer(id) {
+  // Connect's KIND pills open the CONSOLIDATED Connect drawer — the 5 kinds are facets of ONE grammar, not 5 engines
+  // (Method SB call S168). LINEAGE is the exception: it keeps its own drawer (a distinct reception aspect, shared w/ Situate).
+  var _n0 = byId[id];
+  if (_n0 && _n0.band === "connect" && id !== "connect") { id = (id === "connect_lineage") ? "lineage" : "connect"; }
   state.open = id;
   const node = byId[id];
   const host = document.getElementById("me-drawer-host");
