@@ -1,0 +1,290 @@
+{
+  "node": "test_ledger",
+  "_generated_by": "build_test_ledger.py (render-from-data; re-run to refresh)",
+  "_reads_from": {
+    "pill_verdicts": "card_check (verified=1, latest per node×check)",
+    "reliability_numbers": "field_reliability (verified flag preserved)"
+  },
+  "title": "How we tested",
+  "subtitle": "every check, its verdict, and the run-doc behind it — the test-record, not a hardcoded pass",
+  "how_to_read": "Two kinds of test. The PILL LEDGER (below) is the per-card verdicts: Cold Read (is the card self-sufficient) + vs-Wild (does the instrument beat a naive reader). Each verdict links its RUN-DOC — the actual test you can open and read. A check with no verified run-doc renders INCOMPLETE; a green can only exist with a real recorded test behind it (seed_card_check.py fails loud if the run-doc is missing). The RELIABILITY MEASURES are the numbers (agreement / Krippendorff-alpha) with their evidence artifact + a verified flag.",
+  "tally": {
+    "PASS": 6,
+    "PARTIAL": 1,
+    "FAIL": 0,
+    "INCOMPLETE": 11
+  },
+  "pill_ledger": [
+    {
+      "node": "text",
+      "name": "Text",
+      "checks": {
+        "cold_read": {
+          "result": "PASS",
+          "run_doc": "pm/30_methodology/engine/COLDREAD_text_card_run_2026-08-08.md",
+          "date": "2026-08-08",
+          "detail": "A fresh blind reader acted correctly from the Text (checkout) card alone."
+        },
+        "vs_wild": {
+          "result": "INCOMPLETE",
+          "run_doc": null,
+          "date": null,
+          "detail": "no verified run recorded in card_check → INCOMPLETE (not a hardcoded pass)"
+        }
+      }
+    },
+    {
+      "node": "decompose",
+      "name": "Decompose",
+      "checks": {
+        "cold_read": {
+          "result": "PASS",
+          "run_doc": "pm/30_methodology/engine/COLDREAD_decompose_v2_run_2026-08-09.md",
+          "date": "2026-08-09",
+          "detail": "A fresh blind reader acted correctly from the Decompose card alone (v2 run)."
+        },
+        "vs_wild": {
+          "result": "PASS",
+          "run_doc": "pm/50_audits/VS_WILD_decompose_v2_run_2026-08-09.md",
+          "date": "2026-08-09",
+          "detail": "Layer-scoped: a naive move-lister scoped to Decompose's own job produced 22 moves on Mark 16; all 22 sit inside the instrument's 60, which add typed process_type/voice/polarity/force — matches coverage AND adds queryable rigor. PASS for the Decompose layer."
+        }
+      }
+    },
+    {
+      "node": "connect",
+      "name": "Connect",
+      "checks": {
+        "cold_read": {
+          "result": "PASS",
+          "run_doc": "pm/30_methodology/engine/COLDREAD_connect_run_2026-08-09.md",
+          "date": "2026-08-09",
+          "detail": "A fresh blind reader acted correctly from the Connect card alone."
+        },
+        "vs_wild": {
+          "result": "PASS",
+          "run_doc": "pm/50_audits/VS_WILD_connect_run_2026-08-09.md",
+          "date": "2026-08-09",
+          "detail": "Layer-scoped, fully run on 3 texts (Mark-EN 31 relations / Greek 21 / Daodejing 14); LINKAGE + SHAPE coded. PASS."
+        }
+      }
+    },
+    {
+      "node": "situate.sitz",
+      "name": "Situate · Sitz",
+      "checks": {
+        "cold_read": {
+          "result": "INCOMPLETE",
+          "run_doc": null,
+          "date": null,
+          "detail": "no verified run recorded in card_check → INCOMPLETE (not a hardcoded pass)"
+        },
+        "vs_wild": {
+          "result": "INCOMPLETE",
+          "run_doc": null,
+          "date": null,
+          "detail": "no verified run recorded in card_check → INCOMPLETE (not a hardcoded pass)"
+        }
+      }
+    },
+    {
+      "node": "situate.paradigm",
+      "name": "Situate · Paradigm",
+      "checks": {
+        "cold_read": {
+          "result": "INCOMPLETE",
+          "run_doc": null,
+          "date": null,
+          "detail": "no verified run recorded in card_check → INCOMPLETE (not a hardcoded pass)"
+        },
+        "vs_wild": {
+          "result": "PASS",
+          "run_doc": "pm/30_methodology/engine/VALIDATION_paradigm_instrument_vs_wild_run_2026-08-08.md",
+          "date": "2026-08-08",
+          "detail": "Instrument covered the naive read of the scripts + added salience/stance rigor; captured the Markan reticence."
+        }
+      }
+    },
+    {
+      "node": "situate.position",
+      "name": "Situate · Position",
+      "checks": {
+        "cold_read": {
+          "result": "INCOMPLETE",
+          "run_doc": null,
+          "date": null,
+          "detail": "no verified run recorded in card_check → INCOMPLETE (not a hardcoded pass)"
+        },
+        "vs_wild": {
+          "result": "INCOMPLETE",
+          "run_doc": null,
+          "date": null,
+          "detail": "no verified run recorded in card_check → INCOMPLETE (not a hardcoded pass)"
+        }
+      }
+    },
+    {
+      "node": "situate.transmission",
+      "name": "Situate · Transmission",
+      "checks": {
+        "cold_read": {
+          "result": "INCOMPLETE",
+          "run_doc": null,
+          "date": null,
+          "detail": "no verified run recorded in card_check → INCOMPLETE (not a hardcoded pass)"
+        },
+        "vs_wild": {
+          "result": "INCOMPLETE",
+          "run_doc": null,
+          "date": null,
+          "detail": "no verified run recorded in card_check → INCOMPLETE (not a hardcoded pass)"
+        }
+      }
+    },
+    {
+      "node": "situate.lineage",
+      "name": "Situate · Lineage",
+      "checks": {
+        "cold_read": {
+          "result": "INCOMPLETE",
+          "run_doc": null,
+          "date": null,
+          "detail": "no verified run recorded in card_check → INCOMPLETE (not a hardcoded pass)"
+        },
+        "vs_wild": {
+          "result": "INCOMPLETE",
+          "run_doc": null,
+          "date": null,
+          "detail": "no verified run recorded in card_check → INCOMPLETE (not a hardcoded pass)"
+        }
+      }
+    },
+    {
+      "node": "situate.form",
+      "name": "Situate · Form",
+      "checks": {
+        "cold_read": {
+          "result": "INCOMPLETE",
+          "run_doc": null,
+          "date": null,
+          "detail": "no verified run recorded in card_check → INCOMPLETE (not a hardcoded pass)"
+        },
+        "vs_wild": {
+          "result": "PARTIAL",
+          "run_doc": "research/00_irr/form_3crt_s168_reconciliation_2026-08-10.md",
+          "date": "2026-08-10",
+          "detail": "3-model CRT shows cross-model RELIABILITY (same-Gattung 3/3, R1-consistency 9/9) — the vs-Wild PRIMARY metric — but this is not yet a full instrument-vs-wild-arm comparison, and Cold Read is owed, so PARTIAL not PASS. Same-family = optimistic floor; heterogeneous panel is the real bar."
+        }
+      }
+    }
+  ],
+  "reliability_measures": [
+    {
+      "stage": "0.B",
+      "field": "dominant_paradigm",
+      "measure": "exact_match",
+      "value": "1/1",
+      "kind": "independent_samples_unspecified_temperature",
+      "date": "2026-07-23",
+      "evidence_ref": "research/10_dr/reports/TRIAGE_theory_method_prior_art_2026-07-24.md#L94",
+      "verified": false
+    },
+    {
+      "stage": "0.B",
+      "field": "relation_to_dominant",
+      "measure": "proportion_agreed",
+      "value": "8/8",
+      "kind": "independent_samples_unspecified_temperature",
+      "date": "2026-07-23",
+      "evidence_ref": "research/10_dr/reports/TRIAGE_theory_method_prior_art_2026-07-24.md#L97",
+      "verified": false
+    },
+    {
+      "stage": "0.B",
+      "field": "stance",
+      "measure": "proportion_agreed",
+      "value": "5/8",
+      "kind": "independent_samples_unspecified_temperature",
+      "date": "2026-07-23",
+      "evidence_ref": "research/10_dr/reports/TRIAGE_theory_method_prior_art_2026-07-24.md#L98",
+      "verified": false
+    },
+    {
+      "stage": "1.B",
+      "field": "silence_obligated",
+      "measure": "krippendorff_alpha",
+      "value": "0.03",
+      "kind": "cross_coder_llm",
+      "date": "2026-07-08",
+      "evidence_ref": "research/00_irr/irr167_beatles_coding_method_reconciliation_2026-07-19.md#frontmatter",
+      "verified": false
+    },
+    {
+      "stage": "1.B",
+      "field": "silence_present",
+      "measure": "krippendorff_alpha",
+      "value": "0.59",
+      "kind": "cross_coder_llm",
+      "date": "2026-07-08",
+      "evidence_ref": "research/00_irr/irr167_beatles_coding_method_reconciliation_2026-07-19.md#frontmatter",
+      "verified": false
+    },
+    {
+      "stage": "1.B",
+      "field": "silence_present_vs_obligated",
+      "measure": "proportion_agreed",
+      "value": "5/5",
+      "kind": "out_of_domain_replication",
+      "date": "2026-07-09",
+      "evidence_ref": "research/00_irr/irr167_beatles_coding_method_reconciliation_2026-07-19.md#L26",
+      "verified": true
+    },
+    {
+      "stage": "2.B",
+      "field": "operation",
+      "measure": "proportion_agreed",
+      "value": "1/31",
+      "kind": "deterministic_check",
+      "date": "2026-07-23",
+      "evidence_ref": "pm/50_audits/POSTMORTEM_clean_room_test_2026-07-24.md#L173",
+      "verified": true
+    },
+    {
+      "stage": "2.B",
+      "field": "operation",
+      "measure": "proportion_agreed",
+      "value": "25/25",
+      "kind": "deterministic_check",
+      "date": "2026-07-24",
+      "evidence_ref": "pm/50_audits/POSTMORTEM_clean_room_test_2026-07-24.md#L173",
+      "verified": true
+    },
+    {
+      "stage": "Situate.Form",
+      "field": "communicative_function_r1",
+      "measure": "proportion_agreed",
+      "value": "9/9",
+      "kind": "cross_model",
+      "date": "2026-08-10",
+      "evidence_ref": "research/00_irr/form_3crt_s168_reconciliation_2026-08-10.md#L29",
+      "verified": true
+    },
+    {
+      "stage": "Situate.Form",
+      "field": "genre_form",
+      "measure": "proportion_agreed",
+      "value": "3/3",
+      "kind": "cross_model",
+      "date": "2026-08-10",
+      "evidence_ref": "research/00_irr/form_3crt_s168_reconciliation_2026-08-10.md#L21",
+      "verified": true
+    }
+  ],
+  "honest_note": "INCOMPLETE is honest, not a gap papered over: it means the check has not been RUN + recorded yet. Situate's Cold Reads are mostly INCOMPLETE (owed); Decompose/Connect are PASS (backed by VS_WILD_/COLDREAD_ run docs). Same-family reliability numbers are optimistic floors (§2.14).",
+  "made_by": [
+    "card_check (the pill-verdict store) + scripts/lib/card_check.py (the renderer)",
+    "scripts/analysis/seed_card_check.py (seeds verdicts from run-docs; fails loud if a doc is missing)",
+    "scripts/analysis/run_cold_read.py (runs the Cold Read protocol cold + writes a run-doc)",
+    "field_reliability + scripts/analysis/seed_field_reliability.py (the numeric measures)"
+  ]
+}

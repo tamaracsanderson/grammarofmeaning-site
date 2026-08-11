@@ -118,8 +118,10 @@ var esc = function(s){ return String(s==null?"":s).replace(/[&<>]/g,function(c){
 
 Promise.all([
   fetch(BASE+"checkout.json").then(function(r){return r.json();}),
-  fetch(BASE+"moves.json").then(function(r){return r.json();})
-]).then(function(res){ build(res[0], res[1]); }).catch(function(e){
+  fetch(BASE+"moves.json").then(function(r){return r.json();}),
+  fetch(BASE+"decompose_node_drawer.json").then(function(r){return r.json();}).catch(function(){return {};}),
+  fetch("/engine/data/viz/viz_copy.json").then(function(r){return r.json();}).catch(function(){return {};})
+]).then(function(res){ build(res[0], res[1], res[2]||{}, res[3]||{}); }).catch(function(e){
   document.getElementById("read").innerHTML = '<div class="err">Could not load the feeds ('+esc(e.message)+'). The data is owned by reading/method SB under engine/data/goldenpath/mark16/.</div>';
 });
 
@@ -137,10 +139,29 @@ function parseVerses(checkout){
   return out;
 }
 
-function build(checkout, mdoc){
+function build(checkout, mdoc, drawer, copy){
   var verses = parseVerses(checkout);
   var moves = (mdoc.moves||[]).slice().sort(function(a,b){return a.idx-b.idx;});
   var cov = mdoc.coverage||{}, nmv = cov.n_moves || moves.length;
+
+  // ---- FURNITURE from the design copy table (viz_copy.json) ----
+  var C = (copy&&copy.decompose)||{}, CS=(copy&&copy.shared)||{}, dw = drawer||{};
+  var setTxt = function(sel,val){ var el=document.querySelector(sel); if(el&&val!=null) el.textContent=val; };
+  setTxt(".kick", C.kicker);
+  setTxt("h1.title", C.title);
+  if(C.legend){ document.querySelector(".legend").innerHTML = C.legend.map(function(l){
+    return '<span><i class="i-'+esc(l.key)+'"></i> '+esc(l.label)+'</span>'; }).join(""); }
+  setTxt("#foot-owner", CS.footer_ownership);
+  // ---- DESCRIPTIVE text from reading/method's feed (the drawer) ----
+  var ledeParts=[];
+  if(dw.what_it_is) ledeParts.push(esc(dw.what_it_is));
+  if(C.ui_instruction) ledeParts.push('<span style="color:var(--ink-3)">'+esc(C.ui_instruction)+'</span>');
+  if(ledeParts.length) document.querySelector(".lede").innerHTML = ledeParts.join(" ");
+  if(dw.honest_limits && dw.honest_limits.length){
+    document.querySelector(".honest").innerHTML =
+      '<b>'+esc(CS.honest_limit_label||"Honest limit:")+'</b> '+esc(dw.honest_limits[0]);
+  }
+  var CL = C.card_labels||{};
 
   // provenance pills
   document.getElementById("prov").innerHTML =
@@ -224,11 +245,11 @@ function build(checkout, mdoc){
       '<p class="c-sub">'+esc(mv.narrator||"")+'</p>'+
       '<div class="c-tags">'+tags+'</div>'+
       '<dl class="anat">'+anat+'</dl>'+
-      (mv.paraphrase?'<p class="c-h">paraphrase</p><p class="c-body">'+esc(mv.paraphrase)+'</p>':'')+
-      (mv.gloss?'<p class="c-h">gloss</p><p class="c-body"><em>'+esc(mv.gloss)+'</em></p>':'')+
+      (mv.paraphrase?'<p class="c-h">'+esc(CL.paraphrase||"paraphrase")+'</p><p class="c-body">'+esc(mv.paraphrase)+'</p>':'')+
+      (mv.gloss?'<p class="c-h">'+esc(CL.gloss||"gloss")+'</p><p class="c-body"><em>'+esc(mv.gloss)+'</em></p>':'')+
       '<div class="c-2">'+
-        (mv.sitz?'<div><p class="lab">sitz</p><p class="val">'+esc(mv.sitz)+'</p></div>':'')+
-        (mv.paradigm?'<div><p class="lab">paradigm</p><p class="val">'+esc(mv.paradigm)+'</p></div>':'')+
+        (mv.sitz?'<div><p class="lab">'+esc(CL.sitz||"sitz")+'</p><p class="val">'+esc(mv.sitz)+'</p></div>':'')+
+        (mv.paradigm?'<div><p class="lab">'+esc(CL.paradigm||"paradigm")+'</p><p class="val">'+esc(mv.paradigm)+'</p></div>':'')+
       '</div>'+
       lin+veer;
   }
