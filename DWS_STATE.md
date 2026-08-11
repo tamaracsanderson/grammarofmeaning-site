@@ -55,6 +55,21 @@ That's it — no need to reverse-engineer the render layer from the pages.
 
 ---
 
+## 6. Current focus (updated 2026-08-10 · S168)
+
+**The reading figures** (Grammar of Meaning reading room) are the active build — all render-from-data, reader-first, staged (`_staging/`, noindex):
+
+- **Move Score v1** (`_staging/viz_move_score_v2.html`) — the Decompose figure (Mark 16:1–20), **DONE**. Read-default; sans reading; A1 labeled-line anatomy with `who (agent)` labels; Plate toggle; verse-based Focus card; arc overview; per-verse provenance lines; every move anchored to its own verse (cross-verse nesting → "continues M#"); zero-token annotation trace. v2 enhancements (post-Situate-data) live in `_staging/move_score_v2_backlog_2026-08-10.md`.
+- **Plate v1** (`_staging/viz_plate.html`) — the Text figure, reader-first.
+- **3 Connect figures** (`viz_connect_arcband/loom/topology.html`) — built, but they **mislabel** the data (I invented a 3-family scheme; the real grammar has **5 `edge_kind`s**: LINKAGE/LINEAGE/RESONANCE/SHAPE/SONIC). **Relabel = v2**, don't patch thrice.
+- **method-engine.html** — Connect fixed to **one node like Decompose** (5 kinds are one grammar, not separate engines) + an in-drawer "jump to KIND" nav.
+
+**Next big build: Connect figures v2** — spec in `_staging/connect_v2_reconciliation_2026-08-10.md` (one Trace/Scan/Map instrument + state-carry + real 5-kind→sub-type drill-down + plain-language relations + sonic-on-the-Plate via `pronouncing`+`panphon` + EN↔GRC comparison). **P1 buildable now; P3 waits on Method SB feeds** (GRC edges, RESONANCE match, word-level SONIC, `node_status` derivation). Deferred to a fresh chat next session (needs a working browser + the feeds). See `dws_status.json` open_threads[0] for the full record.
+
+**Standing caveat this session:** the in-app browser pane was policy-blocked, so S168 figures were verified by data + code + curl, not live screenshots — a PI eyeball pass is worth doing.
+
+---
+
 <!--
 HOW PRODUCED: design-SB, 2026-08-05, at the PI's request ("what do you want the SSOT to be, and how are you documenting, so handover to a new SB is easy?"). Named DWS (Design Work-State) parallel to IWS (reading/schema.html) + LWS (library/library-schema.html).
 SCHOLARLY SOURCES: CLAUDE.md §2.16 (SSOT / render-from-data), §2.13 (single store of record), §2.7 (documented≠enforced — the manifest's unmapped-flag is the enforcement layer); reading-SB's 3-way ownership proposal (S160).
