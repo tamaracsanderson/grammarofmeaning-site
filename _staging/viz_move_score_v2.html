@@ -53,7 +53,7 @@ h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:cla
 /* the reading spine */
 .read{max-width:44rem;margin:2vh auto 0;padding:0 22px 12vh}
 /* each verse carries a provenance line down its left — colour = KIND (original vs added text) */
-.verse{margin:0 0 8px;transition:opacity .35s;border-left:3px solid transparent;padding-left:16px}
+.verse{margin:0 0 8px;transition:opacity .35s;border-left:3px solid transparent;padding-left:16px;padding-right:16px}
 .verse.orig{border-left-color:color-mix(in srgb,var(--fern) 50%,var(--rule))}
 .verse.added{border-left-color:color-mix(in srgb,var(--terracotta) 52%,var(--rule))}
 .vhead{display:flex;align-items:baseline;gap:12px;margin:26px 0 4px}
@@ -133,7 +133,8 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 /* cadence / focus mode: dim what isn't selected */
 /* Focus: the whole verse-section (verse + its moves) lifts on a white card; other verses recede */
 body[data-focus=on] .verse:not(.hassel){opacity:.38}
-body[data-focus=on] .verse.hassel{background:var(--paper-3);border-radius:0 8px 8px 0;box-shadow:0 6px 26px -14px rgba(36,48,42,.45);padding-top:8px;padding-bottom:10px}
+body[data-focus=on] .verse.hassel{background:var(--paper-3);border-radius:0 8px 8px 0;box-shadow:0 6px 26px -14px rgba(36,48,42,.45);padding-top:14px;padding-bottom:14px}
+body[data-focus=on] .verse.hassel .vhead{margin-top:2px}
 /* held horizon */
 .horizon{max-width:44rem;margin:5vh auto 0;padding:16px 20px;border:1px dashed color-mix(in srgb,var(--ink-3) 55%,var(--rule));border-radius:12px;background:repeating-linear-gradient(45deg,transparent,transparent 9px,color-mix(in srgb,var(--ink-3) 5%,transparent) 9px,color-mix(in srgb,var(--ink-3) 5%,transparent) 10px)}
 .horizon .h4{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 4px}
@@ -225,18 +226,20 @@ function $(id){return document.getElementById(id);}
 // ── controls ────────────────────────────────────────────────
 $("tRead").addEventListener("click",function(){setMode("read");});
 $("tInspect").addEventListener("click",function(){setMode("inspect");});
-$("focusbtn").addEventListener("click",function(){var on=document.body.dataset.focus==="on";document.body.dataset.focus=on?"off":"on";this.classList.toggle("on",!on);if(!on)focusNearest();});
+$("focusbtn").addEventListener("click",function(){var wasOn=document.body.dataset.focus==="on";document.body.dataset.focus=wasOn?"off":"on";this.classList.toggle("on",!wasOn);if(wasOn){Array.prototype.forEach.call(document.querySelectorAll(".verse.hassel"),function(e){e.classList.remove("hassel");});}else{focusNearest();}});
 $("platebtn").addEventListener("click",function(){var on=document.body.classList.toggle("plate");this.classList.toggle("on",on);});
 $("keytog").addEventListener("click",function(){$("keycard").classList.toggle("open");});
 // Focus follows the scroll — the move nearest the viewport centre lights; the rest recede
 function focusNearest(){
-  // pick the move whose centre is closest to the viewport centre — always selects one,
-  // even at the very top (so Focus never leaves the whole page greyed)
+  // the focus unit is the VERSE-SECTION — pick the verse whose centre is nearest the viewport centre,
+  // so every verse can be the focus card, including move-less ones (e.g. 16:7 when its moves nest elsewhere)
+  if(document.body.dataset.focus!=="on")return;
   var mid=window.innerHeight*0.42,best=null,bd=1e9;
-  Array.prototype.forEach.call(document.querySelectorAll("#reading .mv"),function(mv){
-    var r=mv.getBoundingClientRect();var c=(r.top+r.bottom)/2,d=Math.abs(c-mid);if(d<bd){bd=d;best=mv;}
+  Array.prototype.forEach.call(document.querySelectorAll("#reading .verse"),function(v){
+    var r=v.getBoundingClientRect();var c=(r.top+r.bottom)/2,d=Math.abs(c-mid);if(d<bd){bd=d;best=v;}
   });
-  if(best){var i=+best.dataset.idx;if(i!==state.sel){state.sel=i;applySel();}}
+  Array.prototype.forEach.call(document.querySelectorAll(".verse.hassel"),function(e){if(e!==best)e.classList.remove("hassel");});
+  if(best)best.classList.add("hassel");
 }
 var _tick=false;
 window.addEventListener("scroll",function(){if(document.body.dataset.focus!=="on")return;if(_tick)return;_tick=true;requestAnimationFrame(function(){_tick=false;focusNearest();});});
@@ -245,18 +248,14 @@ function setMode(m){document.body.dataset.mode=m;$("tRead").classList.toggle("on
 // ── selection (preserved across Read ↔ Inspect) ─────────────
 function setSel(idx){state.sel=idx;applySel();}
 function applySel(){
+  // .sel = the clicked move (gold accent) + Inspect-row sync. The focus CARD (.hassel) is verse-based, owned by focusNearest.
   Array.prototype.forEach.call(document.querySelectorAll(".mv.sel"),function(e){e.classList.remove("sel");});
-  Array.prototype.forEach.call(document.querySelectorAll(".verse.hassel"),function(e){e.classList.remove("hassel");});
   Array.prototype.forEach.call(document.querySelectorAll(".inspect tr.sel"),function(e){e.classList.remove("sel");});
   if(state.sel==null) return;
   var mv=document.querySelector('.mv[data-idx="'+state.sel+'"]');
-  if(mv){mv.classList.add("sel");var v=mv.closest(".verse");if(v)v.classList.add("hassel");}
+  if(mv){mv.classList.add("sel");}
   var tr=document.querySelector('.inspect tr[data-idx="'+state.sel+'"]');
   if(tr){tr.classList.add("sel");if(document.body.dataset.mode==="inspect")tr.scrollIntoView({block:"center",behavior:"smooth"});}
-  if(document.body.dataset.mode==="read"&&mv){
-    // if a selected move is inside a collapsed accordion, open it
-    var acc=mv.closest(".subacc");if(acc)acc.classList.add("open");
-  }
 }
 
 Promise.all([
