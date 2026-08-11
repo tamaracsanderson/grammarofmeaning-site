@@ -104,6 +104,12 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 .axes dd{margin:0;color:var(--ink)}
 .axes dd .code{font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
 .axes .narr{font-style:italic;color:var(--ink-2);font-size:12.5px}
+/* the Move Score -> Connect tie — where this move reaches (fern = linkage, the Connect logic hue) */
+.conn{display:flex;align-items:baseline;gap:9px;margin:8px 0 2px;padding-top:7px;border-top:1px dotted var(--rule)}
+.conn .rl{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.conn .cn{font-family:var(--mono);font-size:12.5px;color:var(--ink)}
+.conn .follow{font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:var(--fern);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fern) 42%,transparent);opacity:.82}
+.conn .follow:hover{opacity:1;border-bottom-color:var(--fern)}
 /* recomposition beat — one clean bookend, centered */
 .recompose{display:block;margin:5vh auto 0;font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--fern);background:none;border:1px solid color-mix(in srgb,var(--fern) 35%,var(--rule));border-radius:999px;cursor:pointer;padding:8px 18px;opacity:.85}
 .recompose:hover{opacity:1;background:color-mix(in srgb,var(--fern) 8%,transparent)}
@@ -260,10 +266,13 @@ function applySel(){
   if(tr){tr.classList.add("sel");if(document.body.dataset.mode==="inspect")tr.scrollIntoView({block:"center",behavior:"smooth"});}
 }
 
+var CONN={};  // move label -> count of Connect edges touching it (populated in build; drives the Move Score->Connect tie)
 Promise.all([
   fetch(BASE+"checkout.json").then(function(r){return r.json();}),
-  fetch(BASE+"moves.json").then(function(r){return r.json();})
-]).then(function(res){build(res[0],res[1]);}).catch(function(e){
+  fetch(BASE+"moves.json").then(function(r){return r.json();}),
+  // the Connect edge feed — tolerant: if it's missing the score still renders, the tie just goes quiet
+  fetch(BASE+"connect_edges.json").then(function(r){return r.json();}).catch(function(){return null;})
+]).then(function(res){build(res[0],res[1],res[2]);}).catch(function(e){
   $("reading").innerHTML='<div class="err">Could not load the feeds ('+esc(e.message)+').</div>';
 });
 
@@ -328,14 +337,33 @@ function renderVerseTree(mv,verse,depth,childrenOf,byLabel){
   }
   return h;
 }
+function connLine(mv){
+  // "connections: N · follow →" — the tie into Connect (Trace) at this exact move via the #m= hash
+  var n=CONN[mv.label]||0;
+  if(!n) return '';  // all 55 Mark-16 moves have >=1; guard keeps it honest if a feed ever changes
+  var href='viz_connect_arcband.html#m='+encodeURIComponent(mv.label);
+  return '<div class="conn">'+
+    '<span class="rl">connections</span>'+
+    '<span class="cn">'+n+'</span>'+
+    '<a class="follow" href="'+href+'" title="Open '+esc(mv.label)+' in Connect (Trace) — follow where this move reaches">follow in Connect &rarr;</a>'+
+  '</div>';
+}
 function moveHTML(mv,isChild){
   return '<div class="mv'+(isChild?' child':'')+'" data-idx="'+mv.idx+'">'+
     '<div class="para" data-idx="'+mv.idx+'"><span class="mk">'+esc(mv.label)+'</span><span class="pp">'+esc(mv.paraphrase||mv.operation||"")+'</span><span class="exp">see how &rsaquo;</span></div>'+
-    '<div class="anat" id="ra-'+mv.idx+'">'+roleline(mv)+axes(mv)+'</div>'+
+    '<div class="anat" id="ra-'+mv.idx+'">'+roleline(mv)+axes(mv)+connLine(mv)+'</div>'+
   '</div>';
 }
 
-function build(co,mdoc){
+function build(co,mdoc,edoc){
+  // the Move Score -> Connect tie: count edges touching each move (exact-label match, mirroring
+  // Connect's own selectCard) so composite/regen-pending labels (M13+M14+..., M56-M60) don't miscount a move
+  CONN={};
+  var edges=edoc?(edoc.edges||edoc):[];
+  if(edges&&edges.length){for(var ei=0;ei<edges.length;ei++){
+    var s=edges[ei].source_move_label,t=edges[ei].target_move_label;
+    if(s)CONN[s]=(CONN[s]||0)+1; if(t&&t!==s)CONN[t]=(CONN[t]||0)+1;
+  }}
   var verses=parseVerses(co);
   var moves=(mdoc.moves||[]).slice().sort(function(a,b){return a.idx-b.idx;});
   var inr=moves.filter(function(m){var v=m.verse_start||(m.verse_refs&&m.verse_refs[0])||99;return v>=RANGE.lo&&v<=RANGE.hi;});
