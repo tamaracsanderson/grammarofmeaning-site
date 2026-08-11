@@ -91,9 +91,10 @@ function build(mdoc,edoc){
   rowsEl.innerHTML="";
   var svgH=moves.length*ROWH;
   var svg='<svg class="arcs" viewBox="0 0 '+GUT+' '+svgH+'" preserveAspectRatio="none" style="height:'+svgH+'px">';
+  var dropped=[];
   edges.forEach(function(e){
     var a=idxOf[e.source_move_label], b=idxOf[e.target_move_label];
-    if(a==null||b==null)return;
+    if(a==null||b==null){dropped.push(e.source_move_label+"→"+e.target_move_label);return;}
     var y1=a*ROWH+ROWH/2, y2=b*ROWH+ROWH/2;
     var f=fam(e.type), hue=HUE[f];
     var span=Math.abs(b-a), bulge=Math.min(GUT-8, 14+span*7);
@@ -132,7 +133,9 @@ function build(mdoc,edoc){
     row.addEventListener("mouseleave",function(){Array.prototype.forEach.call(document.querySelectorAll(".mrow"),function(r){r.classList.remove("lit","dim");});});
   });
 
-  document.getElementById("src").textContent="rendered from moves.json + connect_edges.json ("+edoc.run_tag+")";
+  var srcTxt="rendered from moves.json + connect_edges.json ("+edoc.run_tag+")";
+  if(dropped.length){ srcTxt+=" · ⚠ "+dropped.length+" edge"+(dropped.length===1?"":"s")+" reference moves not in this moves.json (feeds out of sync — flagged): "+dropped.join(", "); }
+  document.getElementById("src").innerHTML=esc(srcTxt).replace("⚠",'<span style="color:var(--terracotta)">⚠</span>');
 }
 </script>
 </body>
