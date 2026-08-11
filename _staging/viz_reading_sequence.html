@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The reading sequence — one passage, deepening</title>
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#0E0E0C;--ink-soft:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;
+--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;--sky:#3f6d7d;--olive:#6E7B3A;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:60rem;margin:0 auto;padding:38px 20px 90px}
+.mockband{font-family:var(--sans);font-size:11.5px;color:var(--ink-2);background:color-mix(in srgb,var(--gold) 12%,var(--paper-3));border:1px solid color-mix(in srgb,var(--gold) 35%,var(--rule));border-radius:10px;padding:9px 13px;margin:0 0 20px}
+.mockband b{color:var(--ink)}
+.kicker{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--fern);margin:0 0 8px}
+h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line-height:1.14;margin:0 0 6px;letter-spacing:-.01em}
+.sub{font-size:15px;color:var(--ink-2);max-width:42rem;margin:0 0 4px;font-style:italic}
+.err{font-family:var(--mono);font-size:12px;color:var(--terracotta);padding:20px 0}
+
+.layout{display:grid;grid-template-columns:150px 1fr;gap:22px;margin:22px 0 0;align-items:start}
+@media(max-width:640px){.layout{grid-template-columns:1fr}}
+/* depth rail */
+.rail{position:sticky;top:16px;display:flex;flex-direction:column;gap:0}
+.rstop{display:flex;gap:9px;align-items:flex-start;padding:9px 0 12px;cursor:pointer;border-left:2px solid var(--rule);padding-left:12px;position:relative;opacity:.5;transition:opacity .2s}
+.rstop.on,.rstop.done{opacity:1}
+.rstop.on{border-left-color:var(--fern)}
+.rstop .n{font-family:var(--mono);font-size:9px;color:var(--paper);background:var(--ink-3);border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px}
+.rstop.on .n{background:var(--fern)}.rstop.done .n{background:var(--moss)}
+.rstop .lb{font-family:var(--sans)}
+.rstop .lb b{font-size:12.5px;color:var(--ink);display:block}
+.rstop .lb span{font-size:10px;color:var(--ink-3)}
+.railbreak{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding:2px 0 8px 12px;opacity:.7}
+
+/* the passage spine (always visible) */
+.passage{background:var(--paper-3);border:1px solid var(--rule);border-radius:12px;padding:18px 22px;margin:0 0 8px}
+.passage .ref{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
+.vs{font-size:16.5px;color:var(--ink);line-height:1.7;margin:0 0 3px}
+.vs .vn{font-family:var(--mono);font-size:10px;color:var(--fern);margin-right:7px;vertical-align:1px}
+.vs.hot{background:color-mix(in srgb,var(--terracotta) 10%,transparent);border-radius:4px}
+
+/* revealed layers */
+.layer{margin:14px 0 0;border:1px solid var(--rule);border-radius:12px;padding:15px 18px;background:var(--paper);animation:rise .3s ease}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.layer .lh{font-family:var(--mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--fern);margin:0 0 9px;display:flex;justify-content:space-between}
+.layer .lh .feed{color:var(--ink-3)}
+.mv{display:flex;gap:9px;align-items:baseline;padding:3px 0;border-bottom:1px solid color-mix(in srgb,var(--rule) 35%,transparent)}
+.mv .mk{font-family:var(--mono);font-size:10px;color:var(--fern);flex:none;width:2.3rem}
+.mv .pp{font-family:var(--sans);font-size:13px;color:var(--ink-2)}
+.situate p{font-size:14.5px;color:var(--ink-2);line-height:1.6;margin:0 0 6px}
+.situate .tag{font-family:var(--mono);font-size:9px;color:var(--gold);letter-spacing:.04em}
+.gap .g-move{font-family:var(--mono);font-size:10px;color:var(--terracotta)}
+.gap .g-verbatim{font-size:15px;color:var(--ink);font-style:italic;line-height:1.6;margin:5px 0}
+.gap .g-cap{font-family:var(--sans);font-size:12.5px;color:var(--ink-2);line-height:1.5;margin-top:6px}
+/* the facing pair — the finding */
+.facing{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:14px 0 0;border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+@media(max-width:600px){.facing{grid-template-columns:1fr}}
+.facing .side{padding:15px 16px}
+.facing .side.gloss{background:color-mix(in srgb,var(--sky) 7%,var(--paper))}
+.facing .side.recep{background:color-mix(in srgb,var(--gold) 7%,var(--paper));border-left:1px solid var(--rule)}
+.facing .side .lh{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 6px}
+.facing .side.gloss .lh{color:var(--sky)}.facing .side.recep .lh{color:var(--gold)}
+.facing .side .body{font-family:var(--sans);font-size:13px;color:var(--ink-2);line-height:1.55}
+.facing .side .slot{font-family:var(--mono);font-size:10px;color:var(--ink-3);border:1px dashed var(--rule);border-radius:8px;padding:9px 11px;margin-top:8px}
+.findingbar{text-align:center;font-family:var(--disp);font-size:15px;font-style:italic;color:var(--ink);margin:12px 0 0}
+.findingbar b{color:var(--terracotta);font-style:normal}
+.deeper{display:block;margin:16px auto 0;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--fern);background:none;border:1px solid color-mix(in srgb,var(--fern) 38%,var(--rule));border-radius:999px;cursor:pointer;padding:8px 18px}
+.deeper:hover{background:color-mix(in srgb,var(--fern) 8%,transparent)}
+.deeper[disabled]{opacity:.4;cursor:default}
+.src{font-family:var(--mono);font-size:9px;color:var(--ink-3);opacity:.7;margin:34px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mockband"><b>Shape mock.</b> This is the reading <b>flow</b> + the interaction, for reaction to the <em>shape</em> — not the finished product. Real data wired: the text · the move score · the Situate (Sitz) · the M23 gap-seam. Honest slots (wire to their feeds as per-move data lands): the Gloss (agent responses) · the Reception (retrieved texts).</div>
+  <p class="kicker">The reading room · one passage, deepening</p>
+  <h1>The reading sequence</h1>
+  <p class="sub">Mark 16:1–8 — the earliest ending. Receive the text; then go a layer deeper, one at a time, in the lectio rhythm: draw → linger → respond → reflect.</p>
+  <div id="stage"><p class="err" id="loading">Loading the passage…</p></div>
+  <p class="src" id="src"></p>
+</div>
+
+<script>
+var BASE="/engine/data/goldenpath/mark16/";
+var STEPS=[
+  {k:"move",n:"1",b:"Move Score",s:"what the text does",phase:"linger"},
+  {k:"situate",n:"2",b:"Situate",s:"why here, why then",phase:"linger"},
+  {k:"gaps",n:"3",b:"Gaps",s:"the questions it opens",phase:"respond"},
+  {k:"glossrecep",n:"4",b:"Gloss ‖ Reception",s:"could-have-said ‖ was-received",phase:"reflect"}
+];
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+var D={}, DEPTH=0, VMAX=8;
+
+Promise.all([
+  fetch(BASE+"checkout.json").then(function(r){return r.json();}),
+  fetch(BASE+"moves.json").then(function(r){return r.json();}),
+  fetch(BASE+"sitz_node_drawer.json").then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+  fetch(BASE+"m23_seam.json").then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})
+]).then(function(res){D={co:res[0],moves:res[1],sitz:res[2],seam:res[3]};render();}).catch(function(e){
+  document.getElementById("stage").innerHTML='<p class="err">Could not load the feeds ('+esc(e.message)+').</p>';
+});
+
+function parseVerses(co){
+  var whole=(co.units||[]).map(function(u){return u.text||"";}).join("\n");
+  var re=/(\d{3}):(\d{3})/g,out=[],m,marks=[];
+  while((m=re.exec(whole))){marks.push({ch:+m[1],v:+m[2],at:m.index,end:re.lastIndex});}
+  for(var i=0;i<marks.length;i++){var c=marks[i],n=marks[i+1];if(c.ch!==16)continue;out.push({v:c.v,text:whole.slice(c.end,n?n.at:whole.length).replace(/\s+/g," ").trim()});}
+  return out;
+}
+function render(){
+  var verses=parseVerses(D.co).filter(function(x){return x.v<=VMAX;});
+  var h='<div class="layout"><div class="rail" id="rail"></div><div class="main">';
+  // passage spine
+  h+='<div class="passage"><div class="ref">Mark 16 · 1–8 · the earliest ending</div>';
+  verses.forEach(function(x){h+='<p class="vs'+(x.v===8?' hot':'')+'"><span class="vn">'+x.v+'</span>'+esc(x.text)+'</p>';});
+  h+='</div><div id="layers"></div>';
+  h+='<button class="deeper" id="deeper">go deeper &darr;</button>';
+  h+='</div></div>';
+  document.getElementById("stage").innerHTML=h;
+  document.getElementById("deeper").addEventListener("click",function(){if(DEPTH<STEPS.length){DEPTH++;paint();}});
+  paint();
+  document.getElementById("src").textContent="rendered from checkout.json + moves.json + sitz_node_drawer.json + m23_seam.json (real) · gloss/reception = honest slots · MARK-16-WEB";
+}
+function paint(){
+  // rail
+  var r=document.getElementById("rail"),h='';
+  STEPS.forEach(function(st,i){
+    var cls=(i+1<DEPTH)?"done":((i+1===DEPTH)?"on":"");
+    h+='<div class="rstop '+cls+'" data-step="'+(i+1)+'"><span class="n">'+st.n+'</span><span class="lb"><b>'+esc(st.b)+'</b><span>'+esc(st.s)+'</span></span></div>';
+    if(i===1) h+='<div class="railbreak">— lectio break —</div>';
+  });
+  r.innerHTML=h;
+  r.querySelectorAll(".rstop").forEach(function(el){el.addEventListener("click",function(){DEPTH=+this.getAttribute("data-step");paint();});});
+  // layers (accumulate up to DEPTH)
+  var L=document.getElementById("layers"),lh='';
+  for(var i=1;i<=DEPTH;i++) lh+=layerHTML(STEPS[i-1]);
+  L.innerHTML=lh;
+  var d=document.getElementById("deeper");
+  if(DEPTH>=STEPS.length){d.textContent="the reading is open — the gap between 4 and 5 is the finding";d.setAttribute("disabled","");}
+  else {d.removeAttribute("disabled");d.textContent="go deeper ↓";}
+}
+function layerHTML(st){
+  if(st.k==="move"){
+    var mvs=(D.moves.moves||[]).filter(function(m){return (m.verse_start||99)<=VMAX;}).slice(0,14);
+    var b=mvs.map(function(m){return '<div class="mv"><span class="mk">'+esc(m.label)+'</span><span class="pp">'+esc(m.paraphrase||m.operation||"")+'</span></div>';}).join("");
+    return wrap("1 · Move Score — what the text does","moves.json",b);
+  }
+  if(st.k==="situate"){
+    var ma=(D.sitz&&D.sitz.the_method_applied)||{}, tg=ma.text_grounding||{};
+    var body='<div class="situate">';
+    if(tg.sitz_summary) body+='<p>'+esc(tg.sitz_summary)+'</p>';
+    body+='<p><span class="tag">c.'+esc(tg.year_estimate||"70")+' CE · '+esc(tg.paradigm_phase||"Formation")+'</span>'+(tg.native_periodization?' — '+esc(tg.native_periodization):'')+'</p>';
+    body+='</div>';
+    return wrap("2 · Situate — why here, why then","sitz_node_drawer.json",body);
+  }
+  if(st.k==="gaps"){
+    var s=D.seam||{};
+    var body='<div class="gap"><div class="g-move">'+esc(s.move||"M23")+' · '+esc(s.verse_label||"Mark 16:8")+'</div>'+
+      '<div class="g-verbatim">&ldquo;'+esc(s.verbatim||"They said nothing to anyone; for they were afraid.")+'&rdquo;</div>'+
+      '<div class="g-cap">'+esc(s.caption||"")+'</div></div>';
+    return wrap("3 · Gaps — the question the text opens (and won't close)","m23_seam.json",body);
+  }
+  if(st.k==="glossrecep"){
+    return '<div class="facing">'+
+      '<div class="side gloss"><div class="lh">4 · Gloss — what a reader could have said</div>'+
+        '<div class="body">Our agents, reading through a chosen frame (Augustine, Calvin, a modern voice), propose how the silence <em>could</em> be filled — the responses the tradition made available.</div>'+
+        '<div class="slot">wires to move_gloss · the persona-frame responses (per-move) — pending</div></div>'+
+      '<div class="side recep"><div class="lh">5 · Reception — what was actually received</div>'+
+        '<div class="body">The real, provenance-labelled texts that history <em>did</em> produce in response — retrieved, not generated.</div>'+
+        '<div class="slot">wires to the Reception export (Librarian) — pending</div></div>'+
+    '</div><p class="findingbar">Where <b>could-have-said</b> and <b>was-received</b> diverge is the finding.</p>';
+  }
+  return "";
+}
+function wrap(title,feed,body){return '<div class="layer"><div class="lh"><span>'+esc(title)+'</span><span class="feed">'+esc(feed)+'</span></div>'+body+'</div>';}
+</script>
+
+<!-- ── METHODOLOGY FOOTER ──
+HOW PRODUCED: design-SB S170 (2026-08-11), WORK-QUEUE [C] — the READING SEQUENCE shape-mock (the headline COMBO from the
+  forward roadmap: move score → situate → gaps → gloss → reception, progressive disclosure). Built as a lightweight SHAPE-MOCK
+  for PI reaction (prototype-first — the shape was surfaced as a question in viz_roadmap_2026-08-11), NOT a finished product:
+  the depth-rail (one layer at a time, lectio break between Situate and Gaps), the passage always on the spine, and the
+  gloss-vs-reception FACING PAIR where the divergence is the finding. Render-from-data where the feed exists (§2.16): text
+  (checkout.json), move score (moves.json), Situate (sitz_node_drawer.json the_method_applied — the 70 CE post-Temple Sitz),
+  Gaps (m23_seam.json — the real M23 women's-silence seam, Mark 16:8, the paraphrase-strips-the-affect crux). Gloss + Reception
+  are HONEST LABELLED SLOTS (no fabricated scholarship) that name the feed each wires to (move_gloss · the Reception export).
+SCHOLARLY SOURCES: viz_roadmap_2026-08-11 §RS (the reading-sequence design); the lectio telos (draw→linger→respond→reflect,
+  project_piece_telos_interactive_lectio_divina); §2.8 (the gap/silence made visible — the M23 seam + the gloss-vs-reception
+  divergence); the goldenpath/mark16 feeds (real per-layer data where available).
+WHAT NEEDS VERIFICATION: (1) PI read on the SHAPE before the full build (depth-rail · one-layer-at-a-time · facing-pair-at-the-gap).
+  (2) live-verify (pane policy-blocked -> offline+curl). (3) live-wire the Gloss (per-move persona responses) + Reception
+  (retrieved texts) layers when those feeds land; Situate/Gaps deepen to per-move as their per-move feeds mature. -->
+</body>
+</html>
