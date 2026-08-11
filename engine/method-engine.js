@@ -960,10 +960,39 @@ function renderConnectGrammar(host, mc) {
   Object.keys(mc).forEach(function (k) {
     if (k === "note" || k.charAt(0) === "_") return;
     if (k === "grammar" && Array.isArray(mc[k])) { renderKindGrammar(s, mc[k]); return; }
+    if (k === "axes" && Array.isArray(mc[k])) { renderAxesVocab(s, mc[k]); return; }
     s.appendChild(el("p", "me-mc-key", k.replace(/_/g, " ")));
     renderCleanValue(s, mc[k]);
   });
   host.appendChild(s);
+}
+/* the 8-axis controlled VOCABULARIES (Position/Frame drawer) — replaces the raw-JSON vocab blob with a clean
+   collapsible per axis: "axis-handle · N in use [· M retired]" → each value: handle [candidate] — definition.
+   Render-from-data off the_method_clean.axes[].vocab.values_by_usage[] = {value, definition, uses, status}. */
+function renderAxesVocab(host, axes) {
+  var wrap = el("div", "me-vocabs");
+  wrap.appendChild(el("p", "me-mc-key", "vocabularies · the controlled lists"));
+  axes.forEach(function (ax) {
+    var v = ax.vocab || {}, vals = v.values_by_usage || [];
+    var det = el("details", "me-vocab-axis"), sum = el("summary", "me-vocab-sum");
+    sum.appendChild(el("span", "me-vocab-ah", ax.axis || ax.handle || ax.name || ""));
+    var meta = vals.length + " in use";
+    if (typeof v.retired === "number" && v.retired > 0) meta += " · " + v.retired + " retired"; // render retired only when the data carries it
+    sum.appendChild(el("span", "me-vocab-count", meta));
+    det.appendChild(sum);
+    if (ax.gloss) det.appendChild(el("p", "me-vocab-gloss", ax.gloss));
+    var ul = el("ul", "me-vocab-vals");
+    vals.forEach(function (val) {
+      var li = el("li", "me-vocab-val");
+      li.appendChild(el("span", "me-vocab-vh", val.value));
+      if (val.status === "candidate") li.appendChild(el("span", "me-vocab-cand", "candidate"));
+      if (val.definition) li.appendChild(document.createTextNode(" — " + val.definition));
+      ul.appendChild(li);
+    });
+    det.appendChild(ul);
+    wrap.appendChild(det);
+  });
+  host.appendChild(wrap);
 }
 function renderConnectApplied(host, ma) {
   var s = el("div", "me-drawer-section");
