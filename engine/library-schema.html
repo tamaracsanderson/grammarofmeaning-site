@@ -345,7 +345,7 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
       <div><span class="railm">Stock</span>
         <div class="center"><button class="node n-corpus" id="n-corpus" data-node="corpus">
           <h2>The corpus — what we hold</h2>
-          <p class="sub">65,650 held as full text, of 376,726 registered · 12.85M passages chunked into readable atoms.</p>
+          <p class="sub" id="corpus-sub">131,478 held as full primary text · 242,150 metadata-only, of 373,628 registered · 12.85M passages chunked into readable atoms.</p>
           <p class="fine">the honest count — what we hold vs what we only know about</p>
           <span class="openz">open ↗</span>
         </button></div>
@@ -630,7 +630,14 @@ Promise.all([
    var sr=document.getElementById('selfrow');
    if(sr){var c=[];
      if(typeof GAPMAP.sources_held==='number') c.push('<b>'+nfmt(GAPMAP.sources_held)+'</b> held as full text');
+     if(typeof GAPMAP.sources_metadata_only==='number') c.push('<b>'+nfmt(GAPMAP.sources_metadata_only)+'</b> metadata-only');
      if(typeof GAPMAP.sources_registered==='number') c.push('of <b>'+nfmt(GAPMAP.sources_registered)+'</b> registered');
+     // CORPUS node sub-text: render the 3-tier from GAPMAP (retires the drift-prone hardcode) — §2.16
+     var csub=document.getElementById('corpus-sub');
+     if(csub && typeof GAPMAP.sources_held==='number' && typeof GAPMAP.sources_registered==='number'){
+       var mid=(typeof GAPMAP.sources_metadata_only==='number')?(nfmt(GAPMAP.sources_metadata_only)+' metadata-only, '):'';
+       csub.innerHTML=nfmt(GAPMAP.sources_held)+' held as full primary text · '+mid+'of '+nfmt(GAPMAP.sources_registered)+' registered · 12.85M passages chunked into readable atoms.';
+     }
      var hasRows=GAPMAP.recall_rows&&GAPMAP.recall_rows.length;
      if(!hasRows&&typeof GAPMAP.recall_pct==='number') c.push('recall <b>'+GAPMAP.recall_pct+'%</b>');
      if(typeof GAPMAP.cited_silences==='number') c.push('<b>'+nfmt(GAPMAP.cited_silences)+'</b> cited silences');
