@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Connect — one relation, three views</title>
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#0E0E0C;--ink-soft:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;
+--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;--sky:#3f6d7d;--olive:#6E7B3A;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.6;
+-webkit-font-smoothing:antialiased}
+.wrap{max-width:56rem;margin:0 auto;padding:44px 22px 80px}
+.kicker{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--fern);margin:0 0 10px}
+h1{font-family:var(--disp);font-weight:420;font-size:clamp(26px,4.6vw,40px);line-height:1.12;margin:0 0 10px;letter-spacing:-.01em}
+.lede{font-size:16.5px;color:var(--ink-2);max-width:40rem;margin:0 0 6px}
+.lede b{color:var(--ink);font-weight:600}
+.diff{font-family:var(--sans);font-size:12.5px;color:var(--ink-3);max-width:40rem;margin:10px 0 0}
+.err{font-family:var(--mono);font-size:12px;color:var(--terracotta);padding:20px 0}
+
+/* the exemplar relation card */
+.exemplar{margin:30px 0 8px;padding:18px 20px;background:var(--paper-3);border:1px solid var(--rule);border-radius:12px;
+border-left:3px solid var(--fern)}
+.exemplar .rl{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.exemplar .prose{font-family:var(--disp);font-size:20px;color:var(--ink);margin:5px 0 12px;line-height:1.3}
+.exemplar .prose .mk{color:var(--fern);font-style:normal}
+.exemplar .pill{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;
+border:1px solid var(--fern);color:var(--fern);border-radius:999px;padding:1px 8px;margin-left:8px;vertical-align:middle}
+.exemplar .two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:4px}
+.exemplar .mv{font-size:14px;color:var(--ink-2)}
+.exemplar .mv .m{font-family:var(--mono);font-size:10px;color:var(--fern);letter-spacing:.03em;display:block;margin-bottom:1px}
+@media(max-width:560px){.exemplar .two{grid-template-columns:1fr}}
+
+/* the translation line */
+.translate{font-family:var(--disp);font-size:clamp(17px,2.6vw,21px);color:var(--ink);text-align:center;margin:34px 0 18px;line-height:1.4}
+.translate .arc{color:var(--fern)}.translate .cell{color:var(--fern)}.translate .line{color:var(--fern)}
+
+/* the three mini panels */
+.panels{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:6px 0 0}
+@media(max-width:640px){.panels{grid-template-columns:1fr}}
+.panel{background:var(--paper-3);border:1px solid var(--rule);border-radius:12px;padding:14px 14px 16px;text-align:center}
+.panel .verb{font-family:var(--disp);font-size:17px;color:var(--ink);margin:0 0 1px}
+.panel .idiom{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px}
+.panel svg{display:block;width:100%;height:132px;margin:0 auto}
+.panel .look{font-family:var(--sans);font-size:11.5px;color:var(--ink-2);margin:10px 2px 0;line-height:1.45}
+.panel .look b{color:var(--fern);font-weight:600}
+/* svg primitives */
+.tick{fill:var(--ink-3)}.tickon{fill:var(--fern)}
+.edge{stroke:var(--fern);stroke-width:2;fill:none}
+.edgeghost{stroke:var(--rule);stroke-width:1;fill:none}
+.grid{stroke:var(--rule);stroke-width:.6}
+.diag{fill:color-mix(in srgb,var(--rule) 45%,transparent)}
+.cellon{fill:var(--fern)}
+.node{fill:var(--ink-3)}.nodeon{fill:var(--fern)}
+.lbl{font-family:var(--mono);font-size:8px;fill:var(--ink-2)}
+.lblon{font-family:var(--mono);font-size:8.5px;fill:var(--fern);font-weight:600}
+
+/* CTA */
+.cta{margin:36px 0 0;text-align:center}
+.cta .now{font-family:var(--disp);font-size:19px;color:var(--ink);margin:0 0 14px}
+.cta .now a{color:var(--fern);text-decoration:none;border-bottom:1.5px solid color-mix(in srgb,var(--fern) 50%,transparent)}
+.cta .now a:hover{border-bottom-color:var(--fern)}
+.opens{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.opens a{color:var(--ink-2);text-decoration:none;border-bottom:1px dotted var(--rule);padding:0 3px}
+.opens a:hover{color:var(--fern);border-bottom-color:var(--fern)}
+.src{font-family:var(--mono);font-size:9px;color:var(--ink-3);opacity:.7;text-align:center;margin:40px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Connect · how to read it</p>
+  <h1>One relation, three views</h1>
+  <p class="lede">Connect reads the <b>structure</b> between moves — how they wire together. That's a different reading than the move-by-move Move Score: here you follow a <b>relation</b>, not the sentence.</p>
+  <p class="diff">The same relation looks different in each view. Learn the translation once, below, and all three views become one instrument.</p>
+
+  <div id="stage"><p class="err" id="loading">Loading the Mark 16 relations…</p></div>
+
+  <p class="src" id="src"></p>
+</div>
+
+<script>
+var BASE="/engine/data/goldenpath/mark16/", TAX="/engine/data/connect_taxonomy.json";
+var SRC="M12", TGT="M17";  // the exemplar relation the onboarding walks (a real NEST_REPORTS edge)
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function el(id){return document.getElementById(id);}
+
+Promise.all([
+  fetch(BASE+"moves.json").then(function(r){return r.json();}),
+  fetch(BASE+"connect_edges.json").then(function(r){return r.json();}),
+  fetch(TAX).then(function(r){return r.json();})
+]).then(function(res){build(res[0],res[1],res[2]);}).catch(function(e){
+  el("stage").innerHTML='<p class="err">Could not load the feeds ('+esc(e.message)+'). The Connect data may still be propagating.</p>';
+});
+
+function proseFor(tax,edge){
+  var st=(tax.subtypes&&tax.subtypes[String(edge.type||"").toUpperCase()])||{prose:"{src} is linked to {tgt}",label:(edge.type||"").toLowerCase()};
+  return {prose:String(st.prose).replace(/\{src\}/g,edge.source_move_label).replace(/\{tgt\}/g,edge.target_move_label),label:st.label};
+}
+
+function build(mdoc,edoc,tax){
+  var moves=(mdoc.moves||[]).slice().sort(function(a,b){return a.idx-b.idx;});
+  var edges=(edoc.edges||edoc)||[];
+  var byLabel={}; moves.forEach(function(m){byLabel[m.label]=m;});
+  // find the exemplar edge (SRC->TGT); render-from-data — fall back to the highest-degree move's first single-move edge
+  var single=function(l){return byLabel[l];};
+  var edge=null;
+  for(var i=0;i<edges.length;i++){if(edges[i].source_move_label===SRC&&edges[i].target_move_label===TGT){edge=edges[i];break;}}
+  if(!edge){ // fallback: keep the page honest if the seed edge ever changes
+    for(var j=0;j<edges.length;j++){if(single(edges[j].source_move_label)&&single(edges[j].target_move_label)){edge=edges[j];SRC=edge.source_move_label;TGT=edge.target_move_label;break;}}
+  }
+  if(!edge){el("stage").innerHTML='<p class="err">No single-move relation found to walk.</p>';return;}
+  var pr=proseFor(tax,edge), src=byLabel[SRC]||{}, tgt=byLabel[TGT]||{};
+
+  // window of moves for the schematics: from a little before SRC to a little after TGT
+  var si=moves.findIndex(function(m){return m.label===SRC;}), ti=moves.findIndex(function(m){return m.label===TGT;});
+  var lo=Math.max(0,Math.min(si,ti)-2), hi=Math.min(moves.length-1,Math.max(si,ti)+2);
+  var win=moves.slice(lo,hi+1);
+  var pos=function(l){for(var k=0;k<win.length;k++)if(win[k].label===l)return k;return -1;};
+  var pS=pos(SRC), pT=pos(TGT), n=win.length;
+
+  var html='';
+  // exemplar card
+  html+='<div class="exemplar"><div class="rl">the relation we\'ll follow</div>'+
+    '<div class="prose">'+pr.prose.replace(new RegExp(SRC,"g"),'<span class="mk">'+SRC+'</span>').replace(new RegExp(TGT,"g"),'<span class="mk">'+TGT+'</span>')+
+      '<span class="pill">'+esc(pr.label)+'</span></div>'+
+    '<div class="two">'+
+      '<div class="mv"><span class="m">'+esc(SRC)+' · v'+esc(src.verse_start||"")+'</span>'+esc(src.paraphrase||src.operation||"")+'</div>'+
+      '<div class="mv"><span class="m">'+esc(TGT)+' · v'+esc(tgt.verse_start||"")+'</span>'+esc(tgt.paraphrase||tgt.operation||"")+'</div>'+
+    '</div></div>';
+
+  // translation line
+  html+='<p class="translate">The same relation is an <span class="arc">arc</span> here, a <span class="cell">cell</span> here, a <span class="line">line</span> here.</p>';
+
+  // three panels
+  html+='<div class="panels">'+
+    panel("Trace","arc band · reading order",traceSVG(win,pS,pT),'The arc springs from <b>'+esc(SRC)+'</b> to <b>'+esc(TGT)+'</b> in the margin — you read down the text and follow where a move reaches.')+
+    panel("Scan","relation loom · move × move",scanSVG(n,pS,pT),'One lit <b>cell</b> at row '+esc(SRC)+', column '+esc(TGT)+' — the whole grid shows every relation at once; off-diagonal = a long reach.')+
+    panel("Map","topology · order removed",mapSVG(win,pS,pT),'Two dots, <b>'+esc(SRC)+'</b> and <b>'+esc(TGT)+'</b>, joined by a line — sequence is dropped, so hubs and clusters surface.')+
+  '</div>';
+
+  // CTA
+  html+='<div class="cta"><p class="now">Now follow <a href="viz_connect_arcband.html#m='+encodeURIComponent(SRC)+'">'+esc(SRC)+' yourself &rarr;</a></p>'+
+    '<p class="opens">open '+esc(SRC)+' in &nbsp;'+
+      '<a href="viz_connect_arcband.html#m='+encodeURIComponent(SRC)+'">Trace</a> · '+
+      '<a href="viz_connect_loom.html#m='+encodeURIComponent(SRC)+'">Scan</a> · '+
+      '<a href="viz_connect_topology.html#m='+encodeURIComponent(SRC)+'">Map</a></p></div>';
+
+  el("stage").innerHTML=html;
+  el("src").textContent="rendered from moves.json + connect_edges.json + connect_taxonomy.json · exemplar "+SRC+"→"+TGT+" ("+pr.label+")";
+}
+
+function panel(verb,idiom,svg,look){
+  return '<div class="panel"><div class="verb">'+esc(verb)+'</div><div class="idiom">'+esc(idiom)+'</div>'+svg+'<p class="look">'+look+'</p></div>';
+}
+
+// Trace: horizontal baseline of move ticks, a fern arc from SRC to TGT
+function traceSVG(win,pS,pT){
+  var W=200,H=132,padx=16,baseY=104,n=win.length;
+  var x=function(i){return padx+(W-2*padx)*(n<=1?0.5:i/(n-1));};
+  var s='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="arc from '+esc(SRC)+' to '+esc(TGT)+'">';
+  // faint sequence rail
+  s+='<line class="edgeghost" x1="'+x(0)+'" y1="'+baseY+'" x2="'+x(n-1)+'" y2="'+baseY+'"/>';
+  var xa=x(pS),xb=x(pT),mx=(xa+xb)/2,peak=Math.max(18,baseY-Math.abs(xb-xa)*0.9);
+  s+='<path class="edge" d="M'+xa+' '+baseY+' Q '+mx+' '+peak+' '+xb+' '+baseY+'"/>';
+  for(var i=0;i<n;i++){var on=(i===pS||i===pT);s+='<circle class="'+(on?"tickon":"tick")+'" cx="'+x(i)+'" cy="'+baseY+'" r="'+(on?4:2.4)+'"/>';}
+  s+='<text class="lblon" x="'+xa+'" y="'+(baseY+16)+'" text-anchor="middle">'+esc(win[pS].label)+'</text>';
+  s+='<text class="lblon" x="'+xb+'" y="'+(baseY+16)+'" text-anchor="middle">'+esc(win[pT].label)+'</text>';
+  return s+'</svg>';
+}
+
+// Scan: NxN grid, faint diagonal, one lit cell at (row SRC, col TGT)
+function scanSVG(n,pS,pT){
+  var W=200,H=132,pad=20,g=Math.min(n,10),cell=(Math.min(W,H)-2*pad)/g,ox=(W-cell*g)/2,oy=(H-cell*g)/2;
+  var s='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="matrix cell at '+esc(SRC)+','+esc(TGT)+'">';
+  for(var r=0;r<g;r++)for(var c=0;c<g;c++){
+    var x=ox+c*cell,y=oy+r*cell;
+    if(r===c){s+='<rect class="diag" x="'+x+'" y="'+y+'" width="'+cell+'" height="'+cell+'"/>';}
+    s+='<rect class="grid" fill="none" x="'+x+'" y="'+y+'" width="'+cell+'" height="'+cell+'"/>';
+  }
+  var rr=Math.min(pS,g-1),cc=Math.min(pT,g-1);
+  s+='<rect class="cellon" x="'+(ox+cc*cell)+'" y="'+(oy+rr*cell)+'" width="'+cell+'" height="'+cell+'"/>';
+  s+='<text class="lblon" x="'+(ox-3)+'" y="'+(oy+rr*cell+cell*0.7)+'" text-anchor="end">'+esc(SRC)+'</text>';
+  s+='<text class="lblon" x="'+(ox+cc*cell+cell*0.5)+'" y="'+(oy-4)+'" text-anchor="middle">'+esc(TGT)+'</text>';
+  return s+'</svg>';
+}
+
+// Map: deterministic scatter of the window; SRC & TGT fern + a line between them
+function mapSVG(win,pS,pT){
+  var W=200,H=132,cx=W/2,cy=H/2,R=44,n=win.length;
+  var ang=function(i){return (i*2.399963)% (2*Math.PI);};   // golden-angle spread, deterministic (no RNG)
+  var rad=function(i){return R*(0.42+0.58*((i*0.61803)%1));};
+  var px=function(i){return cx+rad(i)*Math.cos(ang(i));}, py=function(i){return cy+rad(i)*Math.sin(ang(i));};
+  var s='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="graph edge '+esc(SRC)+' to '+esc(TGT)+'">';
+  s+='<line class="edge" x1="'+px(pS)+'" y1="'+py(pS)+'" x2="'+px(pT)+'" y2="'+py(pT)+'"/>';
+  for(var i=0;i<n;i++){var on=(i===pS||i===pT);s+='<circle class="'+(on?"nodeon":"node")+'" cx="'+px(i)+'" cy="'+py(i)+'" r="'+(on?5:2.6)+'"/>';}
+  s+='<text class="lblon" x="'+px(pS)+'" y="'+(py(pS)-8)+'" text-anchor="middle">'+esc(SRC)+'</text>';
+  s+='<text class="lblon" x="'+px(pT)+'" y="'+(py(pT)-8)+'" text-anchor="middle">'+esc(TGT)+'</text>';
+  return s+'</svg>';
+}
+</script>
+
+<!-- ── METHODOLOGY FOOTER ──
+HOW PRODUCED: design-SB S170 (2026-08-11), WORK-QUEUE [2] — the 60-second "same relation, three views" onboarding
+  (connect_v2 reconciliation #10). Teaches the cross-view translation ONCE: the real Mark-16 relation M12->M17
+  (NEST_REPORTS) rendered as an arc (Trace), a cell (Scan), a line (Map), then "now follow M12 yourself". Render-from-data
+  (§2.16): the exemplar edge + its plain-language prose + the two move paraphrases all come from the live feeds
+  (moves.json + connect_edges.json + connect_taxonomy.json); a fallback picks the first single-move edge if M12->M17 ever
+  changes. Deep-links carry #m=M12 into each full view (P2 hash convention). §2.16, connect_v2 reconciliation locks 1/4/10.
+SCHOLARLY SOURCES: connect_v2_reconciliation_2026-08-10 (#10 onboarding; #1 one-instrument; #4 plain-language relation);
+  the 3 live Connect figures (Trace/Scan/Map idioms); the edge_grammar_v1 taxonomy (NEST_REPORTS prose).
+WHAT NEEDS VERIFICATION: (1) live-verify in a browser (pane policy-blocked for the live domain last session -> offline+curl
+  fallback per DWS conventions). (2) reading-SB/PI wording pass on the taxonomy `prose` templates (shared with the figures).
+  (3) if moves.json regen 55->60 lands, confirm M12->M17 still holds (fallback covers the else-case). -->
+</body>
+</html>
