@@ -469,6 +469,42 @@
      "provenance": "IRR230 reconciliation (research/00_irr/irr230_copyright_fallback_ladder_reconciliation_2026-08-03.md); S159 CLC walk"
     }
    ]
+  },
+  {
+   "domain": "apparatus",
+   "label": "Supplemental materials · the reusable apparatus",
+   "principles": [
+    {
+     "id": "APPARATUS-A1",
+     "title": "Review before you hunt (the pre-hunt gate)",
+     "statement": "Before claiming a corpus gap or building a harvester, check the three real discovery surfaces — never a naive title-LIKE probe (title-word-dependent → false negatives).",
+     "detail": "Run scripts/analysis/library_gap_check.py --keywords \"…\" --tradition PREFIX --resolver substr. It queries (1) TAXONOMY (sources.tradition_id/tradition_family — the correct held-count), (2) CONTENT (passages_fts MATCH — full-text, title-independent), (3) RESOLVERS (cradle_endpoints + the ~200 source_resolvers). Verdict: HELD / RUN-GAP / REAL-GAP. Prevents the S168 failure — \"spirituals 0 held\" from a title-probe when passages_fts MATCH 'spiritual' = 377,059 and spirituals_corpus.py already existed.",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": null,
+     "provenance": "Librarian S168; §2.9 exhaust-inventory-first + §13 ghost-protection"
+    },
+    {
+     "id": "APPARATUS-A2",
+     "title": "RUN existing → FIX broken → BUILD new",
+     "statement": "Order acquisition work by that priority; weight by gap-fill ROI × uniqueness, NOT technical ease. With ~200 resolvers + ~400K sources, most \"gaps\" are run-gaps, not build-gaps.",
+     "detail": "Grep the resolvers + cradle_endpoints before building (§2.9). A FIX (repair a broken resolver — e.g. the S168 AODL/PARADISEC endpoint repairs) usually beats a BUILD. Full ranking: LWS_harvester_priority_bang_for_buck_s168.",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": null,
+     "provenance": "Librarian S168; feedback_pick_what_hurts_to_build + §2.10 FOUNDRY"
+    },
+    {
+     "id": "APPARATUS-A3",
+     "title": "The acquisition-run checklist",
+     "statement": "Every acquisition honors the same checklist: pre-hunt gate → dry-run first → PD-only full-text (copyright ladder) → dual-store + verify parity → stagger vs coders → chunk + spot-check → provenance + voice_basis → land as a PR.",
+     "detail": "Reusable scripts that embody these (copy, don't reinvent): library_gap_check (the gate); ingest_pacific_pd_texts / ingest_suppressed_reception_pd (curated-PD ingest); ia_fulltext_harvester_s168 (archive.org full-text, beyond Gutenberg); harvest_aodl_oral_primary_voice (bulk-blob); reconcile_neon_requires_care_review (dual-store column reconciliation); reclassify_pac_bucket (rule-based reclassification). Toolkit: LWS_reusable_apparatus_and_prehunt_checklist_s168.",
+     "disposition": "locked",
+     "disposition_label": "LOCKED",
+     "stance": null,
+     "provenance": "Librarian S168; §2.4/§2.7/§2.11/§2.12/§2.13 + Decision 144/147"
+    }
+   ]
   }
  ],
  "badge_table": [
