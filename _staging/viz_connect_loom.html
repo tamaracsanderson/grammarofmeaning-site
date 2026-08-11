@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Connect — the Relation Loom · Mark 16</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FCFBF7;--paper-2:#EFE7D3;--paper-3:#FFFFFF;--ink:#0E0E0C;--ink-soft:#24302A;--ink-2:#52605A;--ink-3:#7C8478;--rule:#C9BE9F;
+--fern:#3F7D57;--moss:#2C4A38;--gold:#B8924A;--terracotta:#C4602F;--sky:#3f6d7d;--olive:#6E7B3A;
+--disp:"Fraunces",Georgia,serif;--serif:"Newsreader",Georgia,serif;--sans:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-soft:#ECE6D8;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#7FB894;--moss:#A9C9B2;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink-soft);font-family:var(--serif);font-size:17px;line-height:1.5}
+.bar{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 20px;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(5px);border-bottom:1px solid var(--rule)}
+.bar .rm{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+header.pg{max-width:46rem;margin:0 auto;padding:5vh 22px 1vh;text-align:center}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+h1{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(26px,4.5vw,38px);color:var(--moss);margin:0 0 8px}
+.lede{font-family:var(--disp);font-style:italic;font-size:15.5px;color:var(--ink-2);max-width:33rem;margin:0 auto;line-height:1.5}
+.how{font-family:var(--sans);font-size:12px;color:var(--ink-3);max-width:40rem;margin:14px auto 0;line-height:1.55;text-align:center}
+.legend{max-width:46rem;margin:16px auto 0;padding:0 22px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.lg{font-family:var(--sans);font-size:12px;border:1px solid var(--rule);border-radius:999px;padding:4px 11px;cursor:pointer;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;user-select:none}
+.lg .sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+.lg.off{opacity:.35}
+.loomwrap{max-width:min(96vw,60rem);margin:3vh auto 0;padding:0 22px 4vh;overflow:auto}
+.loom{display:grid;font-family:var(--mono);font-size:9px}
+.loom .corner{position:sticky;left:0;top:0;background:var(--paper);z-index:3}
+.loom .ch{writing-mode:vertical-rl;transform:rotate(180deg);color:var(--ink-3);text-align:right;padding:2px 0;height:44px;font-size:8px;white-space:nowrap;position:sticky;top:0;background:var(--paper);z-index:2}
+.loom .rh{color:var(--gold);text-align:right;padding:0 6px 0 0;position:sticky;left:0;background:var(--paper);z-index:2;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end}
+.cell{width:15px;height:15px;border-right:1px solid color-mix(in srgb,var(--rule) 25%,transparent);border-bottom:1px solid color-mix(in srgb,var(--rule) 25%,transparent)}
+.cell.on{border-radius:3px;cursor:pointer}
+.cell.hl{outline:2px solid var(--ink-2);outline-offset:-1px}
+.cell.diag{background:color-mix(in srgb,var(--rule) 22%,transparent)}
+.cell.hid{background:transparent!important}
+.tip{position:fixed;z-index:40;display:none;background:var(--moss);color:var(--paper-3);font-family:var(--sans);font-size:12px;padding:6px 10px;border-radius:7px;box-shadow:0 10px 24px -14px rgba(0,0,0,.5);pointer-events:none;max-width:16rem}
+.axhint{font-family:var(--sans);font-size:11px;color:var(--ink-3);text-align:center;margin:8px 0 0}
+.src{font-family:var(--sans);font-size:11px;color:var(--ink-3);text-align:center;margin:4vh 0 0;padding:0 22px}
+.err{color:var(--terracotta);font-family:var(--sans);text-align:center;margin:8vh 0}
+</style>
+<script>(function(){try{var t=localStorage.getItem("gom-theme")||"light";document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+</head>
+<body>
+<div class="bar"><span class="rm">Connect · the Relation Loom · Mark 16</span><span class="rm" id="cnt"></span></div>
+<header class="pg">
+  <p class="kick">how the moves hold together</p>
+  <h1>The Relation Loom</h1>
+  <p class="lede">The same links as the Arc Band, woven as a grid — every move against every other, so clusters and hubs show at a glance.</p>
+  <p class="how">Each row is a move that <em>reaches out</em>; each column a move <em>reached to</em>. A woven cell means a link runs from that row-move to that column-move — its colour is the <em>kind</em> of link. Near the diagonal = neighbours holding together; far off it = a long reach across the passage. Click a legend chip to isolate a kind; hover a cell for the pair.</p>
+</header>
+<div class="legend" id="legend"></div>
+<div class="loomwrap"><div class="loom" id="loom"><div class="err" id="loading">Loading the loom…</div></div></div>
+<p class="axhint">rows reach out → columns reached to</p>
+<p class="src" id="src"></p>
+<div class="tip" id="tip"></div>
+
+<script>
+var BASE="/engine/data/goldenpath/mark16/";
+var esc=function(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});};
+function fam(t){t=String(t||"");if(t.indexOf("NEST")===0)return"nest";if(t.indexOf("SHAPE")===0)return"shape";if(t==="FEED"||t==="FILLS")return"feed";if(t==="LINK_SEQUENCE")return"seq";return"link";}
+var HUE={nest:"var(--moss)",link:"var(--fern)",shape:"var(--gold)",feed:"var(--sky)",seq:"color-mix(in srgb,var(--ink-3) 45%,transparent)"};
+var LEGEND=[{k:"nest",label:"nesting"},{k:"link",label:"linkage (cause·contrast·support)"},{k:"shape",label:"shape (parallelism·ring·leap)"},{k:"feed",label:"feeds into · fills"},{k:"seq",label:"sequence (default)"}];
+var state={off:{}};
+Promise.all([
+  fetch(BASE+"moves.json").then(function(r){return r.json();}),
+  fetch(BASE+"connect_edges.json").then(function(r){return r.json();})
+]).then(function(res){build(res[0],res[1]);}).catch(function(e){document.getElementById("loading").innerHTML='Could not load feeds ('+esc(e.message)+').';});
+
+function build(mdoc,edoc){
+  var moves=(mdoc.moves||[]).slice().sort(function(a,b){return a.idx-b.idx;});
+  var edges=(edoc.edges||edoc||[]);
+  var idxOf={}; moves.forEach(function(m,i){idxOf[m.label]=i;});
+  var n=moves.length;
+  // edge lookup by "i,j"
+  var cell={}, dropped=[];
+  edges.forEach(function(e){
+    var a=idxOf[e.source_move_label], b=idxOf[e.target_move_label];
+    if(a==null||b==null){dropped.push(e.source_move_label+"→"+e.target_move_label);return;}
+    cell[a+","+b]={type:e.type,fam:fam(e.type),src:e.source_move_label,tgt:e.target_move_label};
+  });
+  document.getElementById("cnt").textContent=n+" moves · "+(edges.length-dropped.length)+" woven";
+
+  var loom=document.getElementById("loom");
+  loom.style.gridTemplateColumns="minmax(2.6rem,auto) repeat("+n+",15px)";
+  var html='<div class="corner"></div>';
+  // column headers
+  moves.forEach(function(m){html+='<div class="ch" data-c="'+idxOf[m.label]+'">'+esc(m.label)+'</div>';});
+  // rows
+  moves.forEach(function(m,i){
+    html+='<div class="rh" data-r="'+i+'" style="height:15px">'+esc(m.label)+'</div>';
+    for(var j=0;j<n;j++){
+      if(i===j){html+='<div class="cell diag"></div>';continue;}
+      var c=cell[i+","+j];
+      if(c){html+='<div class="cell on '+c.fam+'" data-r="'+i+'" data-c="'+j+'" data-t="'+esc(c.src+" → "+c.tgt+" · "+c.type)+'" style="background:'+HUE[c.fam]+'"></div>';}
+      else{html+='<div class="cell" data-r="'+i+'" data-c="'+j+'"></div>';}
+    }
+  });
+  loom.innerHTML=html;
+
+  document.getElementById("legend").innerHTML=LEGEND.map(function(L){return '<span class="lg" data-k="'+L.k+'"><span class="sw" style="background:'+HUE[L.k]+'"></span>'+esc(L.label)+'</span>';}).join("");
+  Array.prototype.forEach.call(document.querySelectorAll(".lg"),function(chip){
+    chip.addEventListener("click",function(){var k=chip.dataset.k;state.off[k]=!state.off[k];chip.classList.toggle("off",state.off[k]);Array.prototype.forEach.call(document.querySelectorAll(".cell."+k),function(el){el.classList.toggle("hid",state.off[k]);});});
+  });
+
+  // tooltip + row/col highlight
+  var tip=document.getElementById("tip");
+  loom.addEventListener("mouseover",function(ev){
+    var el=ev.target;
+    if(el.classList.contains("cell")&&el.dataset.t){tip.textContent=el.dataset.t;tip.style.display="block";}
+    var r=el.dataset.r,c=el.dataset.c;
+    if(r!=null||c!=null){Array.prototype.forEach.call(document.querySelectorAll(".cell.hl"),function(x){x.classList.remove("hl");});
+      if(el.classList.contains("cell")){Array.prototype.forEach.call(document.querySelectorAll('.cell[data-r="'+r+'"], .cell[data-c="'+c+'"]'),function(x){x.classList.add("hl");});}}
+  });
+  loom.addEventListener("mousemove",function(ev){tip.style.left=(ev.clientX+12)+"px";tip.style.top=(ev.clientY+12)+"px";});
+  loom.addEventListener("mouseleave",function(){tip.style.display="none";Array.prototype.forEach.call(document.querySelectorAll(".cell.hl"),function(x){x.classList.remove("hl");});});
+
+  var srcTxt="rendered from moves.json + connect_edges.json ("+edoc.run_tag+")";
+  if(dropped.length){srcTxt+=" · ⚠ "+dropped.length+" edge"+(dropped.length===1?"":"s")+" reference moves not in this moves.json (feeds out of sync — flagged): "+dropped.join(", ");}
+  document.getElementById("src").innerHTML=esc(srcTxt).replace("⚠",'<span style="color:var(--terracotta)">⚠</span>');
+}
+</script>
+</body>
+</html>
+<!-- ── METHODOLOGY FOOTER ──
+HOW PRODUCED: design-SB 2026-08-10 — the Connect figure, Relation Loom variant (in-text), v1 draft, the sibling to the Arc Band
+  so the design-crit can pick between them (design_engine connect_intext: "build BOTH variants"). Same 78-edge feed
+  (connect_edges.json), woven as an adjacency matrix: row = source move (reaches out), column = target move (reached to); a filled
+  cell = a link, hue = KIND (nest=moss / link=fern / shape=gold / feed=sky), sequence ghosted; near-diagonal = neighbours,
+  off-diagonal = long reach. Legend chips isolate a kind; hover a cell for the pair; row/col highlight on hover. Render-from-data.
+  Out-of-sync edges (M56-M60 not in moves.json) surfaced as a flagged note, not silently dropped.
+SCHOLARLY SOURCES: connect_edges.json (Method SB, edge_grammar_v1); the locked visual grammar (colour = KIND); the adjacency-
+  matrix idiom (Bertin's reorderable matrix; the "loom" = warp columns × weft rows).
+WHAT NEEDS VERIFICATION: (1) at n=55 the matrix is large — a matrix-reordering (cluster) option would surface hubs better; v1
+  keeps textual order so it maps to the reading. (2) direction is encoded by matrix asymmetry (row→col); confirm that reads. (3)
+  four-check gate before the node flips to built. (4) Arc Band vs Loom is a crit/gate decision, not pre-judged here. -->
