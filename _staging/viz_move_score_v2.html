@@ -87,6 +87,7 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 /* nested moves are SHOWN, demarked (never hidden) — seeing one sentence unpack is the point */
 .subgroup{display:flex;flex-direction:column;gap:7px;margin:2px 0 2px 18px;padding-left:8px;border-left:1px dotted var(--rule)}
 .sublabel{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--ink-3);opacity:.9;padding:1px 0 0 4px}
+.conttag{font-family:var(--mono);font-size:9px;letter-spacing:.03em;color:var(--gold);opacity:.8;padding:2px 0 1px 14px}
 .roleline{display:flex;flex-direction:column;gap:2px;font-family:var(--serif);font-size:14.5px;margin:2px 0 8px;color:var(--ink)}
 .roleline .rl{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-right:8px}
 .roleline .rterm{opacity:.62;font-weight:400}
@@ -221,6 +222,7 @@ var ROLE={ "active":{w:"Acts",g:"the agent performs the action"},
   "middle-passive":{w:"Undergoes",g:"the agent is acted upon, or responds to an outside force"},
   "null-stative":{w:"A state",g:"no action; the text describes a condition"} };
 function roleOf(v){return ROLE[v]||{w:v||"—",g:""};}
+function vstart(m){return m.verse_start||(m.verse_refs&&m.verse_refs[0]);}
 function $(id){return document.getElementById(id);}
 
 // ── controls ────────────────────────────────────────────────
@@ -307,11 +309,22 @@ function roleline(mv){
   if(mv.outcome)p.push('<span><b class="rl">result <span class="rterm">(outcome)</span></b>'+esc(mv.outcome)+'</span>');
   return '<div class="roleline">'+p.join("")+'</div>';
 }
-function renderTree(mv,depth,childrenOf){
-  var h=moveHTML(mv,depth>0);
-  var kids=childrenOf[mv.label]||[];
-  if(kids.length){
-    h+='<div class="subgroup"><div class="sublabel">&#8627; '+esc(mv.label)+' unpacks into '+kids.length+' move'+(kids.length===1?'':'s')+'</div>'+kids.map(function(c){return renderTree(c,depth+1,childrenOf);}).join("")+'</div>';
+function renderVerseTree(mv,verse,depth,childrenOf,byLabel){
+  var h='', p=mv.nested_under;
+  // "continues M#" only when the parent is in an EARLIER verse (a real forward-nesting like the commissioning speech);
+  // a parent in a LATER verse is a run-mismatch artifact — anchor the move to its own verse without a misleading tag
+  if(p&&byLabel[p]&&vstart(byLabel[p])<verse){
+    var pg=(byLabel[p].paraphrase||byLabel[p].operation||"");
+    h+='<div class="conttag">&#8627; continues '+esc(p)+' &middot; '+esc(pg.slice(0,40))+(pg.length>40?'&hellip;':'')+'</div>';
+  }
+  h+=moveHTML(mv,depth>0);
+  var allKids=childrenOf[mv.label]||[];
+  var here=allKids.filter(function(c){return vstart(c)===verse;});
+  if(here.length){
+    var note=(here.length===allKids.length)
+      ? ('&#8627; '+esc(mv.label)+' unpacks into '+allKids.length+' move'+(allKids.length===1?'':'s'))
+      : ('&#8627; '+here.length+' of '+esc(mv.label)+'&rsquo;s '+allKids.length+' sub-moves are here');
+    h+='<div class="subgroup"><div class="sublabel">'+note+'</div>'+here.map(function(c){return renderVerseTree(c,verse,depth+1,childrenOf,byLabel);}).join('')+'</div>';
   }
   return h;
 }
@@ -330,10 +343,11 @@ function build(co,mdoc){
   // A move is top-level if it has no parent OR its parent lives outside this chunk
   // (e.g. M17–M21 are coded under a parent in 16:9–20) — never drop it; show it top-level,
   // its coded nested_under still reads honestly in its axes.
-  var labelSet={}; inr.forEach(function(m){labelSet[m.label]=1;});
-  function isTop(m){return !m.nested_under || !labelSet[m.nested_under];}
-  var childrenOf={}; inr.forEach(function(m){if(!isTop(m)){(childrenOf[m.nested_under]=childrenOf[m.nested_under]||[]).push(m);}});
-  var byV={}; inr.forEach(function(m){ if(!isTop(m)) return; var v=m.verse_start||m.verse_refs[0];(byV[v]=byV[v]||[]).push(m);});
+  // every move is anchored to its OWN verse; nesting shows as inline indentation (same-verse) or a "continues M#" tag (cross-verse)
+  var byLabel={}; inr.forEach(function(m){byLabel[m.label]=m;});
+  var childrenOf={}; inr.forEach(function(m){var p=m.nested_under;if(p&&byLabel[p]){(childrenOf[p]=childrenOf[p]||[]).push(m);}});
+  Object.keys(childrenOf).forEach(function(k){childrenOf[k].sort(function(a,b){return a.idx-b.idx;});});
+  var byV={}; inr.forEach(function(m){var v=vstart(m);(byV[v]=byV[v]||[]).push(m);});
 
   // the KEY — move 1, fully annotated
   var k=inr[0], kr=roleOf(k.voice);
@@ -363,10 +377,11 @@ function build(co,mdoc){
     }
     var prov=(C2_START && v>=C2_START)?'added':'orig';
     html+='<div class="verse '+prov+'" data-verse="'+v+'"><div class="vhead"><span class="vnum">16:'+v+'</span></div><p class="vtext" data-verse="'+v+'">'+verseHTML(verses[v])+'</p>';
-    var mvs=byV[v]||[];
-    if(mvs.length){
+    // roots-in-verse = moves whose parent is NOT in this verse; each renders with its same-verse subtree inline
+    var roots=(byV[v]||[]).filter(function(m){var p=m.nested_under;return !p||!byLabel[p]||vstart(byLabel[p])!==v;}).sort(function(a,b){return a.idx-b.idx;});
+    if(roots.length){
       html+='<div class="moves">';
-      mvs.forEach(function(mv){ html+=renderTree(mv,0,childrenOf); });
+      roots.forEach(function(mv){ html+=renderVerseTree(mv,v,0,childrenOf,byLabel); });
       html+='</div>';
     }
     html+='</div>';
