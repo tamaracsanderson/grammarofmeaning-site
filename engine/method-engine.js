@@ -98,7 +98,6 @@ function nodeCard(node, variant) {
   b.dataset.id = node.id;
 
   const label = el("span", "me-node-label");
-  label.appendChild(el("span", `me-status-dot is-${node.status}`));
   label.appendChild(document.createTextNode(node.label));
   if (node.rendered) label.appendChild(el("span", "me-rendered", "↳ rendered"));
   b.appendChild(label);
@@ -199,14 +198,6 @@ function renderLegend() {
     item.appendChild(el("span", "me-legend-desc", `${desc}`));
     host.appendChild(item);
   });
-  const item = el("span", "me-legend-item is-quiet");
-  item.appendChild(el("span", "me-legend-dot is-populated"));
-  item.appendChild(
-    document.createTextNode(
-      "build-status dot: operational, not epistemic; click a node for detail",
-    ),
-  );
-  host.appendChild(item);
 }
 
 /* cross-links between pills (from FLOW.edges type "shared"/"feeds"): shared = one store (bidirectional "=");
@@ -230,7 +221,6 @@ function renderPill(n) {
   const pill = el("button", `me-situate-pill is-${n.status}`);
   pill.type = "button";
   pill.dataset.id = n.id;
-  pill.appendChild(el("span", `me-status-dot is-${n.status}`));
   pill.appendChild(document.createTextNode(n.label));
   pillXlinkMarkers(n.id).forEach(function (m) {
     const x = el("span", "me-pill-xlink " + m.cls, " " + m.glyph + " " + m.label);
@@ -579,7 +569,6 @@ function openDrawer(id) {
     meta.appendChild(el("span", null, `impl ${node.implementation}`));
     meta.appendChild(el("span", null, `validation ${node.validation}`));
     const statusSpan = el("span");
-    statusSpan.appendChild(el("span", `me-status-dot is-${node.status}`));
     statusSpan.appendChild(
       document.createTextNode(`${node.status}: ${FLOW.meta.maturity[node.status]}`),
     );
