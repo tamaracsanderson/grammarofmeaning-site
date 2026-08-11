@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Move Score · Mark 16:1–8</title>
+<title>The Move Score · Mark 16</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600;0,9..144,400;0,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -29,6 +29,8 @@ header.pg{max-width:44rem;margin:0 auto;padding:5vh 22px 1vh}
 .kick{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 10px;text-align:center}
 h1.title{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(28px,5vw,42px);line-height:1.1;color:var(--moss);margin:0 0 8px;text-align:center}
 .lede{font-family:var(--disp);font-style:italic;font-size:16px;color:var(--ink-2);max-width:32rem;margin:0 auto;line-height:1.5;text-align:center}
+.legend{font-family:var(--sans);font-size:12px;color:var(--ink-3);max-width:33rem;margin:12px auto 0;line-height:1.55;text-align:center}
+.legend em{font-style:italic;color:var(--gold)}
 /* the key */
 .keywrap{max-width:44rem;margin:22px auto 0;padding:0 22px}
 .keytog{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--fern);background:none;border:0;cursor:pointer;padding:6px 0}
@@ -65,11 +67,19 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 .mv{border-left:2px solid color-mix(in srgb,var(--fern) 40%,var(--rule));padding:2px 0 2px 14px;transition:opacity .3s}
 .mv.child{margin-left:22px;border-left-color:color-mix(in srgb,var(--gold) 50%,var(--rule))}
 .mv.sel{border-left-color:var(--gold);border-left-width:3px}
-.mv .para{font-family:var(--serif);font-size:16.5px;color:var(--ink);line-height:1.5;cursor:pointer;margin:0}
-.mv .para .mk{font-family:var(--mono);font-size:10px;color:var(--ink-3);margin-right:8px;letter-spacing:.04em}
-.subtog{font-family:var(--mono);font-size:10px;color:var(--gold);background:none;border:0;cursor:pointer;padding:3px 0 0 14px;letter-spacing:.03em}
-.subacc{display:none;flex-direction:column;gap:7px;margin:7px 0 0}
-.subacc.open{display:flex}
+.mv .para{cursor:pointer;margin:0;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.mv .para .mk{font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:.04em;flex:none;padding-top:2px}
+.mv .para .pp{font-family:var(--serif);font-size:15.5px;color:var(--ink-soft);line-height:1.5;flex:1 1 62%}
+.mv:hover .para .pp{color:var(--ink)}
+.mv .para .exp{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--fern);opacity:.5;flex:none;white-space:nowrap;align-self:center}
+.mv.open .para .exp{opacity:1}
+/* nested moves are SHOWN, demarked (never hidden) — seeing one sentence unpack is the point */
+.subgroup{display:flex;flex-direction:column;gap:7px;margin:2px 0}
+.sublabel{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--gold);opacity:.85;padding:1px 0 0 22px}
+.roleline{display:flex;flex-direction:column;gap:2px;font-family:var(--serif);font-size:14.5px;margin:2px 0 8px;color:var(--ink)}
+.roleline .rl{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-right:8px}
+.asdiagram{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--fern);background:none;border:0;cursor:pointer;padding:0 0 6px;opacity:.75}
+.flow-wrap[hidden]{display:none}
 .anat{margin:8px 0 2px;display:none}
 .anat.open{display:block}
 .flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-family:var(--sans);font-size:13px;margin:0 0 8px}
@@ -81,9 +91,32 @@ mark.trace.hasnote{background:color-mix(in srgb,var(--gold) 40%,transparent);bor
 .axes dd{margin:0;color:var(--ink)}
 .axes dd .code{font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
 .axes .narr{font-style:italic;color:var(--ink-2);font-size:12.5px}
-/* recomposition beat */
-.recompose{font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--fern);background:none;border:0;cursor:pointer;padding:8px 0 0 14px;opacity:.75}
-.recompose:hover{opacity:1}
+/* recomposition beat — one clean bookend, centered */
+.recompose{display:block;margin:5vh auto 0;font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--fern);background:none;border:1px solid color-mix(in srgb,var(--fern) 35%,var(--rule));border-radius:999px;cursor:pointer;padding:8px 18px;opacity:.85}
+.recompose:hover{opacity:1;background:color-mix(in srgb,var(--fern) 8%,transparent)}
+/* the 16:8 silence — the earliest ending; a rest, not a lack */
+.ending-mark{max-width:44rem;margin:16px auto 4px;padding:14px 0;text-align:center;border-top:1px solid var(--rule)}
+.ending-mark .rest{display:inline-block;width:38px;height:22px;border:1.5px dashed var(--terracotta);border-radius:5px}
+.ending-mark .say{font-family:var(--disp);font-style:italic;font-size:15px;color:var(--ink-2);margin:8px 0 0}
+.ending-mark .prov{font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--ink-3);margin:8px 0 0}
+.ending-mark .invite{font-family:var(--sans);font-size:12px;color:var(--fern);margin:6px 0 0}
+/* the longer ending (16:9–20) — visibly ADDED by later hands */
+.added-ending{position:relative;border:1px dashed color-mix(in srgb,var(--terracotta) 40%,var(--rule));border-radius:12px;padding:6px 16px 10px;margin:14px 0 0;background:repeating-linear-gradient(45deg,transparent,transparent 11px,color-mix(in srgb,var(--terracotta) 4%,transparent) 11px,color-mix(in srgb,var(--terracotta) 4%,transparent) 12px)}
+.added-ending .ae-h{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--terracotta);margin:8px 0 2px}
+.added-ending .ae-s{font-family:var(--disp);font-style:italic;font-size:14px;color:var(--ink-2);margin:0 0 6px}
+/* arc — the distant view, always available at the top */
+.arc{max-width:44rem;margin:3vh auto 0;padding:0 22px}
+.arc-h{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 6px;text-align:center}
+.arc-bars{display:flex;align-items:flex-end;gap:3px;height:52px;border-bottom:1px solid var(--rule);padding:0 2px}
+.arc-bars .ab{flex:1;background:color-mix(in srgb,var(--fern) 55%,var(--paper-2));border-radius:2px 2px 0 0;cursor:pointer;min-height:3px;transition:background .15s}
+.arc-bars .ab.c2{background:color-mix(in srgb,var(--terracotta) 55%,var(--paper-2))}
+.arc-bars .ab:hover{background:var(--gold)}
+.arc-beats{display:flex;justify-content:space-between;font-family:var(--sans);font-size:10px;color:var(--ink-3);margin:4px 0 0}
+/* zoom control */
+.zoombtn{border:1px solid var(--rule);border-radius:999px;background:none;padding:5px 12px;cursor:pointer;color:var(--ink-2);font-family:var(--sans);font-size:12px}
+.zoombtn.on{background:var(--fern);border-color:var(--fern);color:#fff}
+body[data-zoom=distant] .moves,body[data-zoom=distant] .subgroup{display:none}
+body[data-zoom=distant] .verse{margin-bottom:2px}
 /* cadence / focus mode: dim what isn't selected */
 body[data-focus=on] .verse:not(.hassel){opacity:.4}
 body[data-focus=on] .mv:not(.sel){opacity:.35}
@@ -131,11 +164,12 @@ footer.foot a{color:var(--fern);text-decoration:none}
 </style>
 <script>(function(){try{var t=localStorage.getItem("gom-theme")||"light";document.documentElement.dataset.theme=t;}catch(e){}})();</script>
 </head>
-<body data-mode="read" data-focus="off">
+<body data-mode="read" data-focus="off" data-zoom="close">
 <div class="bar">
-  <span class="rm">The Move Score · Mark 16:1–8</span>
+  <span class="rm">The Move Score · Mark 16</span>
   <span class="controls">
-    <button class="focusbtn" id="focusbtn" title="Dim everything but the move you're reading">◐ Focus</button>
+    <button class="zoombtn" id="zoombtn" title="Distant view — the whole passage at a glance">⤢ Distant</button>
+    <button class="focusbtn" id="focusbtn" title="Dim all but the move you're reading; follows your scroll">◐ Focus</button>
     <span class="toggle"><button id="tRead" class="on">Read</button><button id="tInspect">Inspect</button></span>
   </span>
 </div>
@@ -143,11 +177,13 @@ footer.foot a{color:var(--fern);text-decoration:none}
   <p class="kick">a reading in moves</p>
   <h1 class="title">The Move Score</h1>
   <p class="lede">Mark 16, read one operation at a time. The words stay; each move is read off them.</p>
+  <p class="legend">Each verse is Mark&rsquo;s words. The notes beneath are how we read its moves; indented notes sit <em>inside</em> the move above.</p>
 </header>
 <div class="keywrap">
   <button class="keytog" id="keytog">ⓘ How to read a move</button>
   <div class="keycard" id="keycard"></div>
 </div>
+<div class="arc" id="arc"></div>
 <div class="read" id="reading">Loading the reading…</div>
 <section class="traces" id="traces"></section>
 <section class="inspect" id="inspect"></section>
@@ -161,7 +197,8 @@ footer.foot a{color:var(--fern);text-decoration:none}
 <script>
 var BASE="/engine/data/goldenpath/mark16/";
 var esc=function(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});};
-var RANGE={lo:1,hi:8};
+var RANGE={lo:1,hi:20}; // full passage: 16:1–8 (earliest) + 16:9–20 (the added longer ending)
+var C2_START=9;          // chunk 2 begins at 16:9 — the disputed ending
 var STORE="gom-traces-mark16-1-8";
 var state={sel:null};
 // decode maps — plain word FIRST, coding term demoted (the crit's #1 fix)
@@ -174,8 +211,20 @@ function $(id){return document.getElementById(id);}
 // ── controls ────────────────────────────────────────────────
 $("tRead").addEventListener("click",function(){setMode("read");});
 $("tInspect").addEventListener("click",function(){setMode("inspect");});
-$("focusbtn").addEventListener("click",function(){var on=document.body.dataset.focus==="on";document.body.dataset.focus=on?"off":"on";this.classList.toggle("on",!on);});
+$("focusbtn").addEventListener("click",function(){var on=document.body.dataset.focus==="on";document.body.dataset.focus=on?"off":"on";this.classList.toggle("on",!on);if(!on)focusNearest();});
+$("zoombtn").addEventListener("click",function(){var d=document.body.dataset.zoom==="distant";document.body.dataset.zoom=d?"close":"distant";this.classList.toggle("on",!d);});
 $("keytog").addEventListener("click",function(){$("keycard").classList.toggle("open");});
+// Focus follows the scroll — the move nearest the viewport centre lights; the rest recede
+function focusNearest(){
+  var mid=window.innerHeight/2,best=null,bd=1e9;
+  Array.prototype.forEach.call(document.querySelectorAll("#reading .mv"),function(mv){
+    var r=mv.getBoundingClientRect();if(r.bottom<60||r.top>window.innerHeight-40)return;
+    var c=(r.top+r.bottom)/2,d=Math.abs(c-mid);if(d<bd){bd=d;best=mv;}
+  });
+  if(best){var i=+best.dataset.idx;if(i!==state.sel){state.sel=i;applySel();}}
+}
+var _tick=false;
+window.addEventListener("scroll",function(){if(document.body.dataset.focus!=="on")return;if(_tick)return;_tick=true;requestAnimationFrame(function(){_tick=false;focusNearest();});});
 function setMode(m){document.body.dataset.mode=m;$("tRead").classList.toggle("on",m==="read");$("tInspect").classList.toggle("on",m==="inspect");applySel();}
 
 // ── selection (preserved across Read ↔ Inspect) ─────────────
@@ -235,10 +284,18 @@ function axes(mv){
     (mv.narrator?'<dt>narrator</dt><dd class="narr">'+esc(mv.narrator)+'</dd>':'')+
   '</dl>';
 }
+function roleline(mv){
+  var p=[];
+  if(mv.agent)p.push('<span><b class="rl">who</b>'+esc(mv.agent)+'</span>');
+  p.push('<span><b class="rl">does</b>'+esc(mv.operation||mv.move_type||"")+'</span>');
+  if(mv.substrate)p.push('<span><b class="rl">on</b>'+esc(mv.substrate)+'</span>');
+  if(mv.outcome)p.push('<span><b class="rl">result</b>'+esc(mv.outcome)+'</span>');
+  return '<div class="roleline">'+p.join("")+'</div>';
+}
 function moveHTML(mv,isChild){
   return '<div class="mv'+(isChild?' child':'')+'" data-idx="'+mv.idx+'">'+
-    '<p class="para" data-idx="'+mv.idx+'"><span class="mk">'+esc(mv.label)+'</span>'+esc(mv.paraphrase||mv.operation||"")+'</p>'+
-    '<div class="anat" id="ra-'+mv.idx+'">'+flow(mv)+axes(mv)+'</div>'+
+    '<div class="para" data-idx="'+mv.idx+'"><span class="mk">'+esc(mv.label)+'</span><span class="pp">'+esc(mv.paraphrase||mv.operation||"")+'</span><span class="exp">see how &rsaquo;</span></div>'+
+    '<div class="anat" id="ra-'+mv.idx+'">'+roleline(mv)+axes(mv)+'<button class="asdiagram" data-dia="dia-'+mv.idx+'">show as diagram</button><div class="flow-wrap" id="dia-'+mv.idx+'" hidden>'+flow(mv)+'</div></div>'+
   '</div>';
 }
 
@@ -273,9 +330,15 @@ function build(co,mdoc){
     '</dl>';
 
   // the reading spine
-  var html="";
+  var html="", c2open=false;
   for(var v=RANGE.lo;v<=RANGE.hi;v++){
     if(verses[v]==null) continue;
+    if(v===C2_START){
+      // the 16:8 silence rendered positively (an empty outcome slot), then the added ending
+      html+='<div class="ending-mark"><div><span class="rest"></span></div><div class="say">&ldquo;&hellip;for they were afraid.&rdquo;</div><div class="prov">Here the earliest manuscripts end &mdash; no appearance; the account stops on fear.</div><div class="invite">&#8615; highlight this ending, or leave a note below</div></div>';
+      html+='<div class="added-ending"><div class="ae-h">The longer ending &middot; 16:9&ndash;20</div><div class="ae-s">Absent from the earliest manuscripts; added by later hands who could not end on silence.</div>';
+      c2open=true;
+    }
     html+='<div class="verse" data-verse="'+v+'"><div class="vhead"><span class="vnum">16:'+v+'</span></div><p class="vtext" data-verse="'+v+'">'+verseHTML(verses[v])+'</p>';
     var mvs=byV[v]||[];
     if(mvs.length){
@@ -284,33 +347,45 @@ function build(co,mdoc){
         html+=moveHTML(mv,false);
         var kids=childrenOf[mv.label]||[];
         if(kids.length){
-          html+='<button class="subtog" data-acc="acc-'+mv.idx+'">&#8627; '+kids.length+' inside '+esc(mv.label)+'</button>';
-          html+='<div class="subacc" id="acc-'+mv.idx+'">'+kids.map(function(c){return moveHTML(c,true);}).join("")+'</div>';
+          html+='<div class="subgroup"><div class="sublabel">&#8627; '+esc(mv.label)+' unpacks into '+kids.length+' moves</div>'+kids.map(function(c){return moveHTML(c,true);}).join("")+'</div>';
         }
       });
-      html+='<button class="recompose" data-verse="'+v+'">&#8635; read the verse again</button>';
       html+='</div>';
     }
     html+='</div>';
   }
+  if(c2open) html+='</div>'; // close .added-ending
+  html+='<button class="recompose" id="recomp-all">&#8635; read Mark 16 again, clean</button>';
   $("reading").innerHTML=html;
 
-  // wire moves: click = select + toggle anatomy
+  // the arc — moves per verse, the whole passage at a glance (distant reading)
+  var perV={}; inr.forEach(function(m){var vs=m.verse_start||(m.verse_refs&&m.verse_refs[0]);perV[vs]=(perV[vs]||0)+1;});
+  var maxC=1; for(var q=RANGE.lo;q<=RANGE.hi;q++){if((perV[q]||0)>maxC)maxC=perV[q];}
+  var bars=""; for(var q2=RANGE.lo;q2<=RANGE.hi;q2++){var c=perV[q2]||0,hh=Math.round(4+(c/maxC)*46);bars+='<div class="ab'+(q2>=C2_START?' c2':'')+'" data-verse="'+q2+'" title="16:'+q2+' · '+c+' move'+(c===1?'':'s')+'" style="height:'+hh+'px"></div>';}
+  $("arc").innerHTML='<div class="arc-h">the whole passage · moves per verse — click a bar to jump</div><div class="arc-bars">'+bars+'</div><div class="arc-beats"><span>anointing &amp; alarm</span><span>the empty tomb</span><span>fear &middot; silence</span><span>the added ending</span></div>';
+  Array.prototype.forEach.call(document.querySelectorAll(".arc-bars .ab"),function(b){
+    b.addEventListener("click",function(){var vt=document.querySelector('.verse[data-verse="'+b.dataset.verse+'"]');if(vt){vt.scrollIntoView({block:"center",behavior:"smooth"});}});
+  });
+
+  // wire moves: click = select + toggle anatomy + flip the affordance label
   Array.prototype.forEach.call(document.querySelectorAll(".para"),function(p){
-    p.addEventListener("click",function(){var i=p.dataset.idx;$("ra-"+i).classList.toggle("open");setSel(+i);});
-  });
-  Array.prototype.forEach.call(document.querySelectorAll(".subtog"),function(b){
-    b.addEventListener("click",function(){$(b.dataset.acc).classList.toggle("open");});
-  });
-  Array.prototype.forEach.call(document.querySelectorAll(".recompose"),function(b){
-    b.addEventListener("click",function(){
-      var vn=b.dataset.verse, block=b.closest(".verse");
-      Array.prototype.forEach.call(block.querySelectorAll(".anat.open"),function(a){a.classList.remove("open");});
-      Array.prototype.forEach.call(block.querySelectorAll(".subacc.open"),function(a){a.classList.remove("open");});
-      state.sel=null;applySel();
-      var vt=block.querySelector(".vtext");vt.classList.remove("flash");void vt.offsetWidth;vt.classList.add("flash");
-      block.scrollIntoView({block:"start",behavior:"smooth"});
+    p.addEventListener("click",function(){
+      var i=p.dataset.idx, open=$("ra-"+i).classList.toggle("open");
+      p.closest(".mv").classList.toggle("open",open);
+      var ex=p.querySelector(".exp"); if(ex) ex.innerHTML=open?'hide &rsaquo;':'see how &rsaquo;';
+      setSel(+i);
     });
+  });
+  // the diagram is optional — the labeled line reads as language by default
+  Array.prototype.forEach.call(document.querySelectorAll(".asdiagram"),function(b){
+    b.addEventListener("click",function(ev){ev.stopPropagation();var d=$(b.dataset.dia),hid=d.hasAttribute("hidden");if(hid){d.removeAttribute("hidden");b.textContent="hide diagram";}else{d.setAttribute("hidden","");b.textContent="show as diagram";}});
+  });
+  // one clean recomposition bookend
+  var rc=$("recomp-all");
+  if(rc) rc.addEventListener("click",function(){
+    Array.prototype.forEach.call(document.querySelectorAll(".anat.open"),function(a){a.classList.remove("open");});
+    Array.prototype.forEach.call(document.querySelectorAll(".mv.open"),function(a){a.classList.remove("open");});
+    state.sel=null;applySel();window.scrollTo({top:0,behavior:"smooth"});
   });
 
   // held horizon — declared, not empty
