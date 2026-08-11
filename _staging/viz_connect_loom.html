@@ -61,9 +61,9 @@ h1{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(26p
 <script>
 var BASE="/engine/data/goldenpath/mark16/";
 var esc=function(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});};
-function fam(t){t=String(t||"");if(t.indexOf("NEST")===0)return"nest";if(t.indexOf("SHAPE")===0)return"shape";if(t==="FEED"||t==="FILLS")return"feed";if(t==="LINK_SEQUENCE")return"seq";return"link";}
-var HUE={nest:"var(--moss)",link:"var(--fern)",shape:"var(--gold)",feed:"var(--sky)",seq:"color-mix(in srgb,var(--ink-3) 45%,transparent)"};
-var LEGEND=[{k:"nest",label:"nesting"},{k:"link",label:"linkage (cause·contrast·support)"},{k:"shape",label:"shape (parallelism·ring·leap)"},{k:"feed",label:"feeds into · fills"},{k:"seq",label:"sequence (default)"}];
+function fam(e){var k=String(e.edge_kind||"").toUpperCase();if(k==="SHAPE")return"resonance";if(k==="SONIC")return"sonic";if(String(e.type||"")==="LINK_SEQUENCE")return"seq";return"logic";}
+var HUE={logic:"var(--fern)",resonance:"var(--gold)",sonic:"var(--sky)",seq:"color-mix(in srgb,var(--ink-3) 45%,transparent)"};
+var LEGEND=[{k:"logic",label:"logic — cause·contrast·support·nesting"},{k:"resonance",label:"resonance — parallelism·ring·leap"},{k:"sonic",label:"sonic — sound (not coded for Mark 16 yet)"},{k:"seq",label:"sequence — plain “and then” (default)"}];
 var state={off:{}};
 Promise.all([
   fetch(BASE+"moves.json").then(function(r){return r.json();}),
@@ -80,7 +80,7 @@ function build(mdoc,edoc){
   edges.forEach(function(e){
     var a=idxOf[e.source_move_label], b=idxOf[e.target_move_label];
     if(a==null||b==null){dropped.push(e.source_move_label+"→"+e.target_move_label);return;}
-    cell[a+","+b]={type:e.type,fam:fam(e.type),src:e.source_move_label,tgt:e.target_move_label};
+    cell[a+","+b]={type:e.type,fam:fam(e),src:e.source_move_label,tgt:e.target_move_label};
   });
   document.getElementById("cnt").textContent=n+" moves · "+(edges.length-dropped.length)+" woven";
 
