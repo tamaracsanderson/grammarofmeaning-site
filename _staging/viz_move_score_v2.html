@@ -216,10 +216,11 @@ $("zoombtn").addEventListener("click",function(){var d=document.body.dataset.zoo
 $("keytog").addEventListener("click",function(){$("keycard").classList.toggle("open");});
 // Focus follows the scroll — the move nearest the viewport centre lights; the rest recede
 function focusNearest(){
-  var mid=window.innerHeight/2,best=null,bd=1e9;
+  // pick the move whose centre is closest to the viewport centre — always selects one,
+  // even at the very top (so Focus never leaves the whole page greyed)
+  var mid=window.innerHeight*0.42,best=null,bd=1e9;
   Array.prototype.forEach.call(document.querySelectorAll("#reading .mv"),function(mv){
-    var r=mv.getBoundingClientRect();if(r.bottom<60||r.top>window.innerHeight-40)return;
-    var c=(r.top+r.bottom)/2,d=Math.abs(c-mid);if(d<bd){bd=d;best=mv;}
+    var r=mv.getBoundingClientRect();var c=(r.top+r.bottom)/2,d=Math.abs(c-mid);if(d<bd){bd=d;best=mv;}
   });
   if(best){var i=+best.dataset.idx;if(i!==state.sel){state.sel=i;applySel();}}
 }
