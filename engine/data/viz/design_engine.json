@@ -1,276 +1,531 @@
 {
-  "_owner": "design-SB — THE DESIGN ENGINE SCHEMA (the SSOT for the right side of the bow-tie). The visuals (nodes) that render the first three FINALIZED method engines (Text / Decompose / Connect) into figures. Each node carries a spec-drawer so a future LLM can re-render it into another frontend. The visual grammar + the four-check gate live in viz_principles.json (design-principles.html); this file is the node map. Sibling of method_flow.json + the *_node_drawer.json feeds. Validated by 3DR-16 (reading_room_viz_reconciliation_2026-08-10).",
-  "_generated_by": "design-SB, authored (the diagram + spec structure). Node STATUS is honest: 'plate' + 'move_score' are v1-draft BUILT (staged, render-from-data), gate cold_read still pending; the Connect-family nodes are 'planned'/'next'. Never render a planned node as done. The Move Score is FROZEN as v1 draft pending the Situate data layer (PI, 2026-08-10).",
-  "page": {
-    "title": "The Design Engine",
-    "tagline": "What we're building — each visual's spec, its data source, and whether it's built.",
-    "family": [
-      {
-        "name": "Engine",
-        "here": true,
-        "href": "/engine/design-engine.html",
-        "does": "what we're building"
-      },
-      {
-        "name": "Principles",
-        "href": "/engine/design-principles.html",
-        "does": "how to make a good visual"
-      },
-      {
-        "name": "House",
-        "href": "/_staging/viz_house_pattern.html",
-        "does": "the figures, as reference"
-      }
-    ],
-    "subtitle": "the visuals that render the instrument's output — one grammar, many forms, each gated",
-    "reads": "The right-side companion to the method engine. The method engine breaks a text into moves and wires them; THIS engine renders that finalized output into figures for two audiences, composing into a reading room. Each visual is a node with a spec-drawer (what it shows, which method node + feed it reads, its encoding, its four-check gate). The grammar every node obeys, and the gate every node passes, live on the design principles page. Validated by 3DR-16."
-  },
-  "seam": "This engine's INPUT is the method's FINALIZED feeds (Text=checkout.json · Decompose=moves.json · Connect=connect_node_drawer.json); the TRANSFORMATION is design-SB's. A node reads_from a feed field — it never re-authors a method fact (that was the Connect-status bug). Un-finalized engines (Situate / Frame / Gloss) are out of scope until finalized.",
-  "steps": [
-    {
-      "key": "Text",
-      "label": "Text",
-      "method_node": "Text",
-      "gloss": "the verbatim passage, checked out of the library"
-    },
-    {
-      "key": "Decompose",
-      "label": "Decompose",
-      "method_node": "Decompose",
-      "gloss": "the passage broken into moves"
-    },
-    {
-      "key": "Connect",
-      "label": "Connect",
-      "method_node": "Connect",
-      "gloss": "typed edges between the moves — and the ones that are absent"
-    }
+ "_owner": "design-SB — THE DESIGN ENGINE SCHEMA (the SSOT for the right side of the bow-tie). The visuals (nodes) that render the first three FINALIZED method engines (Text / Decompose / Connect) into figures. Each node carries a spec-drawer so a future LLM can re-render it into another frontend. The visual grammar + the four-check gate live in viz_principles.json (design-principles.html); this file is the node map. Sibling of method_flow.json + the *_node_drawer.json feeds. Validated by 3DR-16 (reading_room_viz_reconciliation_2026-08-10).",
+ "_generated_by": "design-SB, authored (the diagram + spec structure). Node STATUS is honest: 'plate' + 'move_score' are v1-draft BUILT (staged, render-from-data), gate cold_read still pending; the Connect-family nodes are 'planned'/'next'. Never render a planned node as done. The Move Score is FROZEN as v1 draft pending the Situate data layer (PI, 2026-08-10). | S170: registered the 7 figures built this session (connect_logic/shape/sonic-planned/intro, partiture, reading_sequence, lineage_matrix, watershed) + bumped connect_intext/topology to v2 — they were shipped to _staging but not on the SSOT, so the PI couldn't see them.",
+ "page": {
+  "title": "The Design Engine",
+  "tagline": "What we're building — each visual's spec, its data source, and whether it's built.",
+  "family": [
+   {
+    "name": "Engine",
+    "here": true,
+    "href": "/engine/design-engine.html",
+    "does": "what we're building"
+   },
+   {
+    "name": "Principles",
+    "href": "/engine/design-principles.html",
+    "does": "how to make a good visual"
+   },
+   {
+    "name": "House",
+    "href": "/_staging/viz_house_pattern.html",
+    "does": "the figures, as reference"
+   }
   ],
-  "nodes": [
+  "subtitle": "the visuals that render the instrument's output — one grammar, many forms, each gated",
+  "reads": "The right-side companion to the method engine. The method engine breaks a text into moves and wires them; THIS engine renders that finalized output into figures for two audiences, composing into a reading room. Each visual is a node with a spec-drawer (what it shows, which method node + feed it reads, its encoding, its four-check gate). The grammar every node obeys, and the gate every node passes, live on the design principles page. Validated by 3DR-16."
+ },
+ "seam": "This engine's INPUT is the method's FINALIZED feeds (Text=checkout.json · Decompose=moves.json · Connect=connect_node_drawer.json); the TRANSFORMATION is design-SB's. A node reads_from a feed field — it never re-authors a method fact (that was the Connect-status bug). Un-finalized engines (Situate / Frame / Gloss) are out of scope until finalized.",
+ "steps": [
+  {
+   "key": "Text",
+   "label": "Text",
+   "method_node": "Text",
+   "gloss": "the verbatim passage, checked out of the library"
+  },
+  {
+   "key": "Decompose",
+   "label": "Decompose",
+   "method_node": "Decompose",
+   "gloss": "the passage broken into moves"
+  },
+  {
+   "key": "Connect",
+   "label": "Connect",
+   "method_node": "Connect",
+   "gloss": "typed edges between the moves — and the ones that are absent"
+  },
+  {
+   "key": "Situate · Lineage",
+   "label": "Situate · Lineage",
+   "method_node": "Situate · Lineage",
+   "gloss": "where prior tradition bears weight (and where it doesn't — the negative space)"
+  },
+  {
+   "key": "Compare",
+   "label": "Compare",
+   "method_node": "Compare",
+   "gloss": "one scene, many translations — what re-cutting the text drops or re-shapes"
+  },
+  {
+   "key": "Reading room",
+   "label": "Reading room",
+   "method_node": "(combines engines)",
+   "gloss": "the passage, deepening — the frame every output plugs into"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "plate",
+   "name": "The Plate",
+   "also": "Witnessed Text",
+   "step": "Text",
+   "one_line": "the verbatim passage, apparatus preserved",
+   "reads_from": {
+    "method_node": "Text",
+    "feeds": [
+     "goldenpath/mark16/checkout.json"
+    ]
+   },
+   "encoding": "the text is the only pure black; verse ids in a narrow gutter; the {TR adds …} apparatus is a superscript siglum that expands on select — never analytical colour.",
+   "audience": "both",
+   "composes_into": "the reading room — the fixed centre column that never reflows",
+   "variants": [
     {
-      "id": "plate",
-      "name": "The Plate",
-      "also": "Witnessed Text",
-      "step": "Text",
-      "one_line": "the verbatim passage, apparatus preserved",
-      "reads_from": {
-        "method_node": "Text",
-        "feeds": [
-          "goldenpath/mark16/checkout.json"
-        ]
-      },
-      "encoding": "the text is the only pure black; verse ids in a narrow gutter; the {TR adds …} apparatus is a superscript siglum that expands on select — never analytical colour.",
-      "audience": "both",
-      "composes_into": "the reading room — the fixed centre column that never reflows",
-      "variants": [
-        {
-          "name": "The Plate",
-          "note": "single-column verbatim + inline apparatus sigla"
-        }
-      ],
-      "gate": {
-        "fidelity": "pending",
-        "cold_read": "pending",
-        "cold_start": "pass",
-        "vs_wild": "n/a"
-      },
-      "off_the_shelf": "TEI + CETEIcean / EVT, or plain HTML/CSS",
-      "reference": "the Nestle-Aland critical apparatus",
-      "status": "v1 draft — built (staged: /_staging/viz_plate.html)",
-      "built": {
-        "file": "/_staging/viz_plate.html",
-        "state": "v1 draft",
-        "renders": "verbatim Mark 16:1–8 from checkout.json; TR apparatus siglum; audit/reading modes"
-      }
-    },
-    {
-      "id": "move_score",
-      "name": "The Move Score",
-      "also": "the Architectural Move",
-      "step": "Decompose",
-      "one_line": "the passage read move by move, each move aligned to the words it covers",
-      "reads_from": {
-        "method_node": "Decompose",
-        "feeds": [
-          "goldenpath/mark16/checkout.json",
-          "goldenpath/mark16/moves.json"
-        ]
-      },
-      "encoding": "Read (default): verbatim verse is the foreground reading text; each move is a secondary 'reading' note beneath (serif, lighter, M-label + 'see how' affordance). Reveal = a labeled line (who/does/on/result) with the chip-diagram optional; decoded keyed axes (kind of move / agent's role: Acts·Undergoes·A state / place) — plain word first, code term demoted; narrator shown. Nesting SHOWN + demarked (recursive, accumulating indent) — never collapsed. The 16:8 textual-variant apparatus kept in Read; 16:9–20 rendered as the visibly-ADDED longer ending; the 16:8 silence as an empty-outcome slot. Focus = scroll-driven cadence (nearest move lights). Distant = the arc (moves-per-verse). Read|Inspect toggle with preserved selection. Zero-token annotation trace (highlight+note+save, W3C-quote anchor). v1 aligns at VERSE grain; exact move→char-span highlighting is the fidelity ceiling, pending a span map (method roadmap).",
-      "audience": "both",
-      "composes_into": "the reading room — the inner margin beside the Plate",
-      "variants": [
-        {
-          "name": "labeled line (default)",
-          "note": "who/does/on/result — reads as language"
-        },
-        {
-          "name": "chip diagram (optional)",
-          "note": "agent→operation→substrate→outcome, on demand"
-        },
-        {
-          "name": "Inspect table",
-          "note": "all fields + IDs, the audit surface"
-        }
-      ],
-      "gate": {
-        "fidelity": "pass — labels track the real decompose fields (agent/operation/substrate/outcome/narrator/move_type/voice/nested_under); no invented terms",
-        "cold_read": "pending — not yet formally gated",
-        "cold_start": "pass",
-        "vs_wild": "n/a"
-      },
-      "off_the_shelf": "D3 / d3-hierarchy",
-      "reference": "Sefaria's reader + Resource Panel (the interaction model); the Talmud daf (text centre, commentary demarked); pudding.cool 'A Brief History' (the scroll cadence — text stays, analysis reveals)",
-      "status": "v1 draft — CURRENT VERSION, live (staged); reader-refinement frozen pending Situate data (PI, 2026-08-10)",
-      "built": {
-        "file": "/_staging/viz_move_score_v2.html",
-        "state": "v1 draft",
-        "renders": "full passage Mark 16:1–20 from checkout.json + moves.json; 55 moves, nothing dropped",
-        "frozen_reason": "awaiting the coded Situate layer (paradigm/sitz/position/form) — no more refining until that data lands; it fills the left/right margins + inline typed glosses (colour = KIND, click → panel, reusing the apparatus pattern)"
-      }
-    },
-    {
-      "id": "connect_intext",
-      "name": "The in-text edges",
-      "also": "Arc Band / Relation Loom",
-      "step": "Connect",
-      "one_line": "how the moves in one passage hold together (LINKAGE / SHAPE / SONIC)",
-      "reads_from": {
-        "method_node": "Connect",
-        "feeds": [
-          "goldenpath/mark16/connect_node_drawer.json"
-        ]
-      },
-      "encoding": "the moves stay in textual order; edges live in gutters (never across the prose); hue = KIND = edge_kind (logic=LINKAGE · resonance=SHAPE · sonic=SONIC); LINK_SEQUENCE (the weak default) is ghosted; arrow/tip = direction. sonic is declared-but-empty for Mark 16 (not coded yet) — shown honestly, like the held Situate horizon.",
-      "audience": "both (one KIND at a time for readers; all filterable for audit)",
-      "composes_into": "the reading room — a band expanding from the Move Score margin",
-      "variants": [
-        {
-          "name": "The Arc Band",
-          "note": "one baseline; LINKAGE arcs above, SHAPE/SONIC below (Fable)"
-        },
-        {
-          "name": "The Relation Loom",
-          "note": "the move spine + five parallel KIND gutters (GPT)"
-        }
-      ],
-      "gate": {
-        "fidelity": "pending",
-        "cold_read": "pending",
-        "cold_start": "pass",
-        "vs_wild": "n/a"
-      },
-      "off_the_shelf": "D3 (arcs)",
-      "reference": "Wattenberg, The Shape of Song / Arc Diagrams",
-      "status": "v2 — real 5-kind grammar (LINKAGE/LINEAGE/RESONANCE/SHAPE/SONIC) render-from-data via connect_core.js + connect_taxonomy.json; sub-type drill-down + plain-language relation cards; unified as Trace (Arc Band) + Scan (Relation Loom) with view-switch state-carry; live (staged)",
-      "built": {
-        "arc_band": "/_staging/viz_connect_arcband.html",
-        "relation_loom": "/_staging/viz_connect_loom.html",
-        "state": "v1 draft",
-        "renders": "78 typed edges from connect_edges.json; hue=KIND, sequence ghosted; 9 edges (M56-M60) surfaced as out-of-sync, not dropped"
-      }
-    },
-    {
-      "id": "facing_page",
-      "name": "The Facing Page",
-      "also": "Resonance Diptych",
-      "step": "Connect",
-      "one_line": "what corresponds across texts — and where the correspondence breaks",
-      "reads_from": {
-        "method_node": "Connect",
-        "feeds": [
-          "goldenpath/mark16/connect_node_drawer.json"
-        ]
-      },
-      "encoding": "two texts intact, side by side; the shared MOVE stated in a centre band; the BREAK stated directly beneath it, mandatory — a resonance without its break is not renderable. No causal arrow (RESONANCE is non-genealogical).",
-      "audience": "both (the most contemplative object in the set)",
-      "composes_into": "the reading room — the outer margin (distance-from-centre = epistemic distance)",
-      "variants": [
-        {
-          "name": "The Facing Page",
-          "note": "the one worked MATCH: Mark 'he is not here' ⟷ Daodejing 1"
-        }
-      ],
-      "gate": {
-        "fidelity": "pending",
-        "cold_read": "pending",
-        "cold_start": "pass",
-        "vs_wild": "n/a"
-      },
-      "off_the_shelf": "HTML/CSS grid + a D3 connector",
-      "reference": "the Hexapla / polyglot Bibles",
-      "status": "blocked — no move-level cross-text/rhyme coding for Mark 16 yet (that's the resonance layer, later)"
-    },
-    {
-      "id": "ledger",
-      "name": "The Ledger of Absences",
-      "also": "Negative-Space Register",
-      "step": "Connect",
-      "one_line": "the edges that are NOT there — a first-class finding, not blank space",
-      "reads_from": {
-        "method_node": "Connect",
-        "feeds": [
-          "goldenpath/mark16/connect_node_drawer.json"
-        ]
-      },
-      "encoding": "a positive mark for a negative result: ○ = tested-and-absent, · = not assessed, — = not applicable. Every ○ carries its search-scope, so 'no edge found within the declared universe' never overclaims 'no edge exists'. Mark 16:8 itself ends in an absence — the convention rhymes with the passage.",
-      "audience": "academic-first; quiet marks for readers ('nothing answers this')",
-      "composes_into": "the reading room — inline empty sockets + a full register margin",
-      "variants": [
-        {
-          "name": "The Ledger",
-          "note": "styled register + empty-socket marks in the Move Score / edges views"
-        }
-      ],
-      "gate": {
-        "fidelity": "pending",
-        "cold_read": "pending",
-        "cold_start": "pass",
-        "vs_wild": "n/a"
-      },
-      "off_the_shelf": "Observable Plot (the register table)",
-      "reference": "the apparatus criticus (the silence of a witness is evidence)",
-      "status": "blocked — a FINDING: edge-absences aren't recorded, so the Ledger can't be built render-from-data. Needs the Connect coder to LOG its no-edge decisions + declared search-universe AT CODING TIME — negative space must be coded at the instrument, it can't be reconstructed after (Method SB S168, 2026-08-10)"
-    },
-    {
-      "id": "topology",
-      "name": "The Topology Lab",
-      "also": "Structure Matrix",
-      "step": "Connect",
-      "one_line": "hubs, components, density — the graph, when we temporarily set textual order aside",
-      "reads_from": {
-        "method_node": "Connect",
-        "feeds": [
-          "goldenpath/mark16/connect_node_drawer.json"
-        ]
-      },
-      "encoding": "a node-link graph or an adjacency matrix; nested moves as compound nodes; strong filtering by KIND/TYPE. Explicitly the SECONDARY / research view — never the primary reading view (it sacrifices textual order).",
-      "audience": "academic / research only",
-      "composes_into": "opened from the reading room, not embedded in it",
-      "variants": [
-        {
-          "name": "Structure Matrix",
-          "note": "rows/cols = moves in text order; cell = edge (Observable Plot)"
-        },
-        {
-          "name": "Topology graph",
-          "note": "Cytoscape.js compound-node graph; or hierarchical edge-bundling (Gemini-DR)"
-        }
-      ],
-      "gate": {
-        "fidelity": "pending",
-        "cold_read": "pending",
-        "cold_start": "pass",
-        "vs_wild": "n/a"
-      },
-      "off_the_shelf": "Cytoscape.js / Observable Plot",
-      "reference": "Holten, Hierarchical Edge Bundles; Bertin",
-      "status": "v2 — as Map (Topology); same 5-kind grammar + drill-down + relation cards + view-switch state-carry; secondary/research view; live (staged)",
-      "built": {
-        "file": "/_staging/viz_connect_topology.html",
-        "state": "v1 draft",
-        "renders": "node-link force graph; node size=degree (hubs); edges by KIND logic/resonance/sonic; sequence ghosted; deterministic layout"
-      }
+     "name": "The Plate",
+     "note": "single-column verbatim + inline apparatus sigla"
     }
-  ]
+   ],
+   "gate": {
+    "fidelity": "pending",
+    "cold_read": "pending",
+    "cold_start": "pass",
+    "vs_wild": "n/a"
+   },
+   "off_the_shelf": "TEI + CETEIcean / EVT, or plain HTML/CSS",
+   "reference": "the Nestle-Aland critical apparatus",
+   "status": "v1 draft — built (staged: /_staging/viz_plate.html)",
+   "built": {
+    "file": "/_staging/viz_plate.html",
+    "state": "v1 draft",
+    "renders": "verbatim Mark 16:1–8 from checkout.json; TR apparatus siglum; audit/reading modes"
+   }
+  },
+  {
+   "id": "move_score",
+   "name": "The Move Score",
+   "also": "the Architectural Move",
+   "step": "Decompose",
+   "one_line": "the passage read move by move, each move aligned to the words it covers",
+   "reads_from": {
+    "method_node": "Decompose",
+    "feeds": [
+     "goldenpath/mark16/checkout.json",
+     "goldenpath/mark16/moves.json"
+    ]
+   },
+   "encoding": "Read (default): verbatim verse is the foreground reading text; each move is a secondary 'reading' note beneath (serif, lighter, M-label + 'see how' affordance). Reveal = a labeled line (who/does/on/result) with the chip-diagram optional; decoded keyed axes (kind of move / agent's role: Acts·Undergoes·A state / place) — plain word first, code term demoted; narrator shown. Nesting SHOWN + demarked (recursive, accumulating indent) — never collapsed. The 16:8 textual-variant apparatus kept in Read; 16:9–20 rendered as the visibly-ADDED longer ending; the 16:8 silence as an empty-outcome slot. Focus = scroll-driven cadence (nearest move lights). Distant = the arc (moves-per-verse). Read|Inspect toggle with preserved selection. Zero-token annotation trace (highlight+note+save, W3C-quote anchor). v1 aligns at VERSE grain; exact move→char-span highlighting is the fidelity ceiling, pending a span map (method roadmap).",
+   "audience": "both",
+   "composes_into": "the reading room — the inner margin beside the Plate",
+   "variants": [
+    {
+     "name": "labeled line (default)",
+     "note": "who/does/on/result — reads as language"
+    },
+    {
+     "name": "chip diagram (optional)",
+     "note": "agent→operation→substrate→outcome, on demand"
+    },
+    {
+     "name": "Inspect table",
+     "note": "all fields + IDs, the audit surface"
+    }
+   ],
+   "gate": {
+    "fidelity": "pass — labels track the real decompose fields (agent/operation/substrate/outcome/narrator/move_type/voice/nested_under); no invented terms",
+    "cold_read": "pending — not yet formally gated",
+    "cold_start": "pass",
+    "vs_wild": "n/a"
+   },
+   "off_the_shelf": "D3 / d3-hierarchy",
+   "reference": "Sefaria's reader + Resource Panel (the interaction model); the Talmud daf (text centre, commentary demarked); pudding.cool 'A Brief History' (the scroll cadence — text stays, analysis reveals)",
+   "status": "v1 draft — CURRENT VERSION, live (staged); reader-refinement frozen pending Situate data (PI, 2026-08-10)",
+   "built": {
+    "file": "/_staging/viz_move_score_v2.html",
+    "state": "v1 draft",
+    "renders": "full passage Mark 16:1–20 from checkout.json + moves.json; 55 moves, nothing dropped",
+    "frozen_reason": "awaiting the coded Situate layer (paradigm/sitz/position/form) — no more refining until that data lands; it fills the left/right margins + inline typed glosses (colour = KIND, click → panel, reusing the apparatus pattern)"
+   }
+  },
+  {
+   "id": "connect_intext",
+   "name": "The in-text edges",
+   "also": "Arc Band / Relation Loom",
+   "step": "Connect",
+   "one_line": "how the moves in one passage hold together (LINKAGE / SHAPE / SONIC)",
+   "reads_from": {
+    "method_node": "Connect",
+    "feeds": [
+     "goldenpath/mark16/connect_node_drawer.json"
+    ]
+   },
+   "encoding": "the moves stay in textual order; edges live in gutters (never across the prose); hue = KIND = edge_kind (logic=LINKAGE · resonance=SHAPE · sonic=SONIC); LINK_SEQUENCE (the weak default) is ghosted; arrow/tip = direction. sonic is declared-but-empty for Mark 16 (not coded yet) — shown honestly, like the held Situate horizon.",
+   "audience": "both (one KIND at a time for readers; all filterable for audit)",
+   "composes_into": "the reading room — a band expanding from the Move Score margin",
+   "variants": [
+    {
+     "name": "The Arc Band",
+     "note": "one baseline; LINKAGE arcs above, SHAPE/SONIC below (Fable)"
+    },
+    {
+     "name": "The Relation Loom",
+     "note": "the move spine + five parallel KIND gutters (GPT)"
+    }
+   ],
+   "gate": {
+    "fidelity": "pending",
+    "cold_read": "pending",
+    "cold_start": "pass",
+    "vs_wild": "n/a"
+   },
+   "off_the_shelf": "D3 (arcs)",
+   "reference": "Wattenberg, The Shape of Song / Arc Diagrams",
+   "status": "v2 — 5-kind grammar (LINKAGE/LINEAGE/RESONANCE/SHAPE/SONIC) render-from-data; Trace (Arc Band) + Scan (Relation Loom) unified with view-switch state-carry; live (staged). NOTE (PI S170): the PER-KIND views (Logic/Shape/Sonic, each in its own best form) are now the PRIMARY reading; Trace/Scan/Map = the all-kinds instrument (secondary).",
+   "built": {
+    "trace_arc_band": "/_staging/viz_connect_arcband.html",
+    "scan_relation_loom": "/_staging/viz_connect_loom.html",
+    "onboarding": "/_staging/viz_connect_intro.html",
+    "state": "v2",
+    "renders": "78 typed edges from connect_edges.json; 5-kind hue; sub-type drill-down; plain-language relation cards; view-switch state-carry"
+   }
+  },
+  {
+   "id": "facing_page",
+   "name": "The Facing Page",
+   "also": "Resonance Diptych",
+   "step": "Connect",
+   "one_line": "what corresponds across texts — and where the correspondence breaks",
+   "reads_from": {
+    "method_node": "Connect",
+    "feeds": [
+     "goldenpath/mark16/connect_node_drawer.json"
+    ]
+   },
+   "encoding": "two texts intact, side by side; the shared MOVE stated in a centre band; the BREAK stated directly beneath it, mandatory — a resonance without its break is not renderable. No causal arrow (RESONANCE is non-genealogical).",
+   "audience": "both (the most contemplative object in the set)",
+   "composes_into": "the reading room — the outer margin (distance-from-centre = epistemic distance)",
+   "variants": [
+    {
+     "name": "The Facing Page",
+     "note": "the one worked MATCH: Mark 'he is not here' ⟷ Daodejing 1"
+    }
+   ],
+   "gate": {
+    "fidelity": "pending",
+    "cold_read": "pending",
+    "cold_start": "pass",
+    "vs_wild": "n/a"
+   },
+   "off_the_shelf": "HTML/CSS grid + a D3 connector",
+   "reference": "the Hexapla / polyglot Bibles",
+   "status": "blocked — no move-level cross-text/rhyme coding for Mark 16 yet (that's the resonance layer, later)"
+  },
+  {
+   "id": "ledger",
+   "name": "The Ledger of Absences",
+   "also": "Negative-Space Register",
+   "step": "Connect",
+   "one_line": "the edges that are NOT there — a first-class finding, not blank space",
+   "reads_from": {
+    "method_node": "Connect",
+    "feeds": [
+     "goldenpath/mark16/connect_node_drawer.json"
+    ]
+   },
+   "encoding": "a positive mark for a negative result: ○ = tested-and-absent, · = not assessed, — = not applicable. Every ○ carries its search-scope, so 'no edge found within the declared universe' never overclaims 'no edge exists'. Mark 16:8 itself ends in an absence — the convention rhymes with the passage.",
+   "audience": "academic-first; quiet marks for readers ('nothing answers this')",
+   "composes_into": "the reading room — inline empty sockets + a full register margin",
+   "variants": [
+    {
+     "name": "The Ledger",
+     "note": "styled register + empty-socket marks in the Move Score / edges views"
+    }
+   ],
+   "gate": {
+    "fidelity": "pending",
+    "cold_read": "pending",
+    "cold_start": "pass",
+    "vs_wild": "n/a"
+   },
+   "off_the_shelf": "Observable Plot (the register table)",
+   "reference": "the apparatus criticus (the silence of a witness is evidence)",
+   "status": "blocked — a FINDING: edge-absences aren't recorded, so the Ledger can't be built render-from-data. Needs the Connect coder to LOG its no-edge decisions + declared search-universe AT CODING TIME — negative space must be coded at the instrument, it can't be reconstructed after (Method SB S168, 2026-08-10)"
+  },
+  {
+   "id": "topology",
+   "name": "The Topology Lab",
+   "also": "Structure Matrix",
+   "step": "Connect",
+   "one_line": "hubs, components, density — the graph, when we temporarily set textual order aside",
+   "reads_from": {
+    "method_node": "Connect",
+    "feeds": [
+     "goldenpath/mark16/connect_node_drawer.json"
+    ]
+   },
+   "encoding": "a node-link graph or an adjacency matrix; nested moves as compound nodes; strong filtering by KIND/TYPE. Explicitly the SECONDARY / research view — never the primary reading view (it sacrifices textual order).",
+   "audience": "academic / research only",
+   "composes_into": "opened from the reading room, not embedded in it",
+   "variants": [
+    {
+     "name": "Structure Matrix",
+     "note": "rows/cols = moves in text order; cell = edge (Observable Plot)"
+    },
+    {
+     "name": "Topology graph",
+     "note": "Cytoscape.js compound-node graph; or hierarchical edge-bundling (Gemini-DR)"
+    }
+   ],
+   "gate": {
+    "fidelity": "pending",
+    "cold_read": "pending",
+    "cold_start": "pass",
+    "vs_wild": "n/a"
+   },
+   "off_the_shelf": "Cytoscape.js / Observable Plot",
+   "reference": "Holten, Hierarchical Edge Bundles; Bertin",
+   "status": "v2 — as Map (Topology); same 5-kind grammar + drill-down + relation cards + view-switch; secondary/research view; live (staged)",
+   "built": {
+    "file": "/_staging/viz_connect_topology.html",
+    "state": "v1 draft",
+    "renders": "node-link force graph; node size=degree (hubs); edges by KIND logic/resonance/sonic; sequence ghosted; deterministic layout"
+   }
+  },
+  {
+   "id": "connect_logic",
+   "name": "Connect · Logic",
+   "also": "the discourse spine",
+   "step": "Connect",
+   "one_line": "how the argument holds together — the discourse relations between moves, with sequence dropped and nesting shown as indentation",
+   "reads_from": {
+    "method_node": "Connect",
+    "feeds": [
+     "goldenpath/mark16/connect_edges.json",
+     "goldenpath/mark16/moves.json"
+    ]
+   },
+   "encoding": "vertical move-spine; SEQUENCE draws no line (reading order encodes it); NEST_* = indentation not arcs; the ~21 informative LINKAGE relations as directional MARGIN ARCS (forward-right / retrospective-left); colour = relation family (causal/adversative/evidential/additive, adversative hottest); the connective spelled in words at the apex; click a move → fade to its lineage.",
+   "audience": "reader (one kind at a time)",
+   "composes_into": "the reading room — the Connect · Logic view",
+   "gate": {
+    "fidelity": "pass",
+    "cold_read": "pending",
+    "cold_start": "pass",
+    "vs_wild": "n/a"
+   },
+   "reference": "3DR-19 reconciliation (the per-kind spec); Wattenberg arc diagrams; Ghoniem node-link-beats-matrix on path tasks",
+   "status": "v1 — per-kind reading view (LINKAGE only); the 3DR-19 PRIMARY mode; live (staged)",
+   "built": {
+    "file": "/_staging/viz_connect_logic.html",
+    "state": "v1",
+    "renders": "70 LINKAGE edges → 21 informative arcs (19 sequence + 26 nesting absorbed into order + indentation), directional margins, family-coloured"
+   }
+  },
+  {
+   "id": "connect_shape",
+   "name": "Connect · Shape",
+   "also": "symmetries and returns",
+   "step": "Connect",
+   "one_line": "the form, not the flow — where the passage rings, pairs, holds apart, or leaps",
+   "reads_from": {
+    "method_node": "Connect",
+    "feeds": [
+     "goldenpath/mark16/connect_edges.json",
+     "goldenpath/mark16/moves.json"
+    ]
+   },
+   "encoding": "same shared move-spine (object constancy); each SHAPE sub-type as its own GEOMETRY, not a colour — RING = concentric arc + marked pivot; PARALLELISM = paired bracket; JUXTAPOSITION = held-open seam (no connector); LEAP = broken jump; annotated per-structure.",
+   "audience": "reader (one kind at a time)",
+   "composes_into": "the reading room — the Connect · Shape view",
+   "gate": {
+    "fidelity": "pass",
+    "cold_read": "pending",
+    "cold_start": "pass",
+    "vs_wild": "n/a"
+   },
+   "reference": "3DR-19 reconciliation; the chiasm-as-mirror literature (avoiding the crossed-arcs anti-pattern)",
+   "status": "v1 — per-kind reading view (SHAPE only); live (staged)",
+   "built": {
+    "file": "/_staging/viz_connect_shape.html",
+    "state": "v1",
+    "renders": "8 SHAPE structures (5 parallel · 1 ring M2→M23 · 1 leap · 1 juxtaposition) as geometry"
+   }
+  },
+  {
+   "id": "connect_sonic",
+   "name": "Connect · Sonic",
+   "also": "the sound field",
+   "step": "Connect",
+   "one_line": "the phonetic field on the verbatim words — rhyme / assonance / alliteration / consonance",
+   "reads_from": {
+    "method_node": "Connect",
+    "feeds": [
+     "(word-level sonic_ties.json — owed by Method SB)"
+    ]
+   },
+   "encoding": "stay ON the words; sound families marked IN the text (tint the sound-bearing grapheme span) + a per-family density strip; the constellation idiom (the PI-liked VIZ_constellation_v3 form is the target). NOT arcs.",
+   "audience": "reader (one kind at a time)",
+   "composes_into": "the reading room — the Connect · Sonic view",
+   "gate": {
+    "fidelity": "pending",
+    "cold_read": "pending",
+    "cold_start": "pending",
+    "vs_wild": "n/a"
+   },
+   "off_the_shelf": "VIZ_constellation_v3 (Poemage + pronouncing + panphon) — the target form",
+   "reference": "3DR-19 reconciliation; Poemage (Meyer et al., keep sound in poem-space)",
+   "status": "PLANNED — data-blocked on word-level sonic (Method SB); target form = the constellation the PI likes",
+   "built": null
+  },
+  {
+   "id": "connect_intro",
+   "name": "Connect · one relation, three views",
+   "also": "the onboarding",
+   "step": "Connect",
+   "one_line": "the 60-second worked example — the same relation as an arc (Trace), a cell (Scan), and a line (Map)",
+   "reads_from": {
+    "method_node": "Connect",
+    "feeds": [
+     "goldenpath/mark16/connect_edges.json",
+     "goldenpath/mark16/moves.json",
+     "connect_taxonomy.json"
+    ]
+   },
+   "encoding": "the real M12→M17 (NEST_REPORTS) shown as an arc / cell / line across the three views, then 'follow M12 yourself' deep-linking #m=M12 into each.",
+   "audience": "reader (first-time)",
+   "composes_into": "the Connect entry",
+   "gate": {
+    "fidelity": "pass",
+    "cold_read": "pending",
+    "cold_start": "pass",
+    "vs_wild": "n/a"
+   },
+   "status": "v1 — onboarding; live (staged)",
+   "built": {
+    "file": "/_staging/viz_connect_intro.html",
+    "state": "v1",
+    "renders": "render-from-data; teaches the cross-view translation once"
+   }
+  },
+  {
+   "id": "partiture",
+   "name": "The translation partiture",
+   "also": "Compare · translations",
+   "step": "Compare",
+   "one_line": "one scene, four translations (Greek/Latin/KJV/WEB) — block-count = granularity (the re-cutting), a variance seismograph, glossa on the hotspot",
+   "reads_from": {
+    "method_node": "Compare",
+    "feeds": [
+     "partiture_mark16_v1.json"
+    ]
+   },
+   "encoding": "4 stacked language-lanes over the shared verse spine (lane position IS the version); each cell renders the verse's move-blocks as stripes (count = granularity — 16:6 re-cut 4/3/7/6); a variance seismograph (16:8 = 1.0 the abrupt ending); glossa card gated by variance/confidence (the 4-part source-pressure/rendering-choice/formal-consequence/interpretive-stakes).",
+   "audience": "both",
+   "composes_into": "the reading room — the Compare hero",
+   "gate": {
+    "fidelity": "pass",
+    "cold_read": "pending",
+    "cold_start": "pass",
+    "vs_wild": "n/a"
+   },
+   "off_the_shelf": "CollateX align + D3",
+   "reference": "3DR-4 viz reconciliation (Fable mockup = visual target); DESIGN_BRIEF_translation_compare_partiture_s161",
+   "status": "v1 hero — live (staged); v2 = move-level GRC↔EN alignment + per-block sonic + etymology threads (Method SB)",
+   "built": {
+    "file": "/_staging/viz_partiture.html",
+    "state": "v1",
+    "renders": "20 verse-moments × 4 lanes from partiture_mark16_v1.json; verse-level; the finding = scene stable, translation re-cuts"
+   }
+  },
+  {
+   "id": "reading_sequence",
+   "name": "The reading sequence",
+   "also": "the headline combo",
+   "step": "Reading room",
+   "one_line": "one passage, deepening — move score → situate → gaps → gloss → reception; where gloss and reception diverge is the finding",
+   "reads_from": {
+    "method_node": "(combines engines)",
+    "feeds": [
+     "goldenpath/mark16/checkout.json",
+     "moves.json",
+     "sitz_node_drawer.json",
+     "m23_seam.json"
+    ]
+   },
+   "encoding": "the passage always on the spine; a left depth-rail (1→5) reveals one layer at a time (lectio: draw→linger→respond→reflect; the lectio break between Situate and Gaps); the gloss-vs-reception FACING PAIR (could-have-said ‖ was-received) is the finding.",
+   "audience": "reader",
+   "composes_into": "the reading room (the frame everything plugs into)",
+   "gate": {
+    "fidelity": "pending",
+    "cold_read": "pending",
+    "cold_start": "pass",
+    "vs_wild": "n/a"
+   },
+   "reference": "viz_roadmap_2026-08-11 §RS; the lectio telos",
+   "status": "SHAPE-MOCK — live (staged); real data for text/moves/situate/M23-seam, honest labelled slots for gloss/reception (pending feeds); for PI shape-confirmation",
+   "built": {
+    "file": "/_staging/viz_reading_sequence.html",
+    "state": "shape-mock",
+    "renders": "Mark 16:1–8; 4 layers wire from real feeds, gloss+reception honest slots"
+   }
+  },
+  {
+   "id": "lineage_matrix",
+   "name": "Lineage — where prior tradition bears weight",
+   "also": "Situate · Lineage (the audit matrix)",
+   "step": "Situate · Lineage",
+   "one_line": "source-family × move + the absence spine — 39 of 55 moves stand on NO coded upstream (the negative space is the finding)",
+   "reads_from": {
+    "method_node": "Situate · Lineage",
+    "feeds": [
+     "lineage_matrix_mark16_s161.json"
+    ]
+   },
+   "encoding": "the 55-move ABSENCE spine (filled = coded upstream / hollow = none); the family × move matrix (cell shape=vehicle, opacity=certainty, colour=family); a seam-detail panel (the `seam` = what each borrowing leaves unsaid).",
+   "audience": "both",
+   "composes_into": "the reading room — the Lineage output",
+   "gate": {
+    "fidelity": "pass",
+    "cold_read": "pending",
+    "cold_start": "pass",
+    "vs_wild": "n/a"
+   },
+   "reference": "DESIGN_BRIEF_lineage_tributary_viz_s161; §2.8 (show absences)",
+   "status": "v1 — live (staged); pairs with the Watershed",
+   "built": {
+    "file": "/_staging/viz_lineage_matrix.html",
+    "state": "v1",
+    "renders": "17 cells + 39 absence moves from lineage_matrix_mark16_s161.json; 29% upstream coverage"
+   }
+  },
+  {
+   "id": "lineage_watershed",
+   "name": "The watershed of Mark 16",
+   "also": "Situate · Lineage (memorable)",
+   "step": "Situate · Lineage",
+   "one_line": "the memorable companion — Mark 16 as a river, source-family tributaries joining at the moves they feed; the dry reaches are the negative space",
+   "reads_from": {
+    "method_node": "Situate · Lineage",
+    "feeds": [
+     "lineage_matrix_mark16_s161.json"
+    ]
+   },
+   "encoding": "one trunk per source family (branch near the receiving move, kills crossings); line style grades the claim (quotes/echoes/reworks); a stream isolates on click; a river node opens the source + seam.",
+   "audience": "reader (memorable)",
+   "composes_into": "the reading room — the Lineage output",
+   "gate": {
+    "fidelity": "pass",
+    "cold_read": "pending",
+    "cold_start": "pass",
+    "vs_wild": "n/a"
+   },
+   "reference": "DESIGN_BRIEF_lineage_tributary_viz_s161 (§watershed: one-trunk-per-family)",
+   "status": "v1 — live (staged); the 'makes it stick' half of the lineage deliverable",
+   "built": {
+    "file": "/_staging/viz_lineage_watershed.html",
+    "state": "v1",
+    "renders": "3 family trunks (synoptic heaviest, 9 moves) → 17 tributaries + 16 river nodes"
+   }
+  }
+ ]
 }
