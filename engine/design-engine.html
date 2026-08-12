@@ -41,6 +41,9 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
 .status{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.03em;color:var(--fg);background:var(--paper2);border:1px solid var(--line);border-radius:5px;padding:2px 8px}
 .status.next{color:#8a5a12;background:color-mix(in srgb,var(--honey) 24%,var(--bg));border-color:color-mix(in srgb,var(--honey) 55%,var(--line))}
 .status.built{color:#2f6d43;background:color-mix(in srgb,#3F7D57 18%,var(--bg));border-color:color-mix(in srgb,#3F7D57 45%,var(--line))}
+.lv{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.03em;border-radius:5px;padding:1px 7px;margin-right:8px;vertical-align:1px}
+.lv.live{color:#2f6d43;background:color-mix(in srgb,#3F7D57 16%,var(--bg));border:1px solid color-mix(in srgb,#3F7D57 40%,var(--line))}
+.lv.broken{color:#a33;background:color-mix(in srgb,#C4602F 14%,var(--bg));border:1px solid color-mix(in srgb,#C4602F 45%,var(--line))}
 .builtlink{color:#2f6d43;font-weight:600;text-decoration:none;border-bottom:1px solid color-mix(in srgb,#3F7D57 45%,transparent)}
 .frozen{font-family:var(--mono);font-size:10px;color:var(--fg);opacity:.7}
 .oneline{font-family:var(--serif);font-size:14.5px;color:var(--fg);margin:0 0 10px}
@@ -102,7 +105,7 @@ function nodeCard(n){
     '<p class="oneline">'+esc(n.one_line)+'</p>'+
     pills+
     '<dl class="spec">'+
-      (n.built?'<dt>built</dt><dd><a class="builtlink" href="'+esc(n.built.file)+'">view the '+esc(n.built.state||'draft')+' &rarr;</a> <span class="mono">'+esc(n.built.renders||'')+'</span>'+(n.built.frozen_reason?'<br><span class="frozen">frozen — '+esc(n.built.frozen_reason)+'</span>':'')+'</dd>':'')+
+      (n.built?'<dt>built</dt><dd>'+((n.built.missing&&n.built.missing.length)?'<span class="lv broken">⚠ link broken</span>':(n.built.live?'<span class="lv live">● live</span>':''))+'<a class="builtlink" href="'+esc(n.built.file)+'">view the '+esc(n.built.state||'draft')+' &rarr;</a> <span class="mono">'+esc(n.built.renders||'')+'</span>'+(n.built.frozen_reason?'<br><span class="frozen">frozen — '+esc(n.built.frozen_reason)+'</span>':'')+'</dd>':'')+
       '<dt>reads from</dt><dd><b>'+esc(rf.method_node||'')+'</b> · <span class="mono">'+feeds+'</span></dd>'+
       '<dt>encoding</dt><dd>'+esc(n.encoding)+'</dd>'+
       '<dt>variants</dt><dd>'+vars+'</dd>'+
