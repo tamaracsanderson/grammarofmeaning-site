@@ -59,7 +59,7 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
   <p class="kicker">Multi-media engine · step 1 — external imagery</p>
   <h1>What did this look like — then, and there?</h1>
   <p class="sub">Pick a word from the passage and see it in the world it came from: the empty tomb, but also the <em>spices</em>, the <em>linen</em>, the <em>stone</em> — public-domain museum art, filtered toward the period.</p>
-  <p class="how"><b>Step 1 (this):</b> keyword-driven — the words are pulled <b>from the Mark 16 text</b> (and its coded moves), CC0 imagery from the Art Institute of Chicago open collection. <b>Later:</b> the query is driven by <b>Situate</b> (paradigm · location · time) so it grounds in the <em>Sitz</em>. <b>Step 2:</b> complemented by what's already in the library.</p>
+  <p class="how"><b>Step 1 (this):</b> keyword-driven — the words are pulled <b>from the Mark 16 text</b> (and its coded moves), CC0 imagery from the Cleveland Museum of Art open collection. <b>Later:</b> the query is driven by <b>Situate</b> (paradigm · location · time) so it grounds in the <em>Sitz</em>. <b>Step 2:</b> complemented by what's already in the library.</p>
 
   <div class="controls">
     <p class="clabel">words from the passage <span class="src-tag" id="srctag">— loading from the Mark 16 text…</span></p>
@@ -78,7 +78,7 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
       <div class="chips" id="ctx" style="margin:0"></div>
     </div>
     <p class="chipnote">a bare word ("spices") pulls anything; add context so it grounds in the scene / the era / the place — the manual stand-in for the Situate-driven query (v2)</p>
-    <p class="src-note">source: Art Institute of Chicago Open Access (CC0) · public-domain only · provenance shown per image (§2.4)</p>
+    <p class="src-note">source: Cleveland Museum of Art Open Access (CC0) · public-domain only · provenance shown per image (§2.4)</p>
   </div>
 
   <div id="results"><p class="status" id="status">Pick a word above to see it.</p></div>
@@ -87,8 +87,7 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
 
 <script>
 var BASE="/engine/data/goldenpath/mark16/";
-var AIC="https://api.artic.edu/api/v1/artworks/search";
-var IIIF="https://www.artic.edu/iiif/2";
+var CMA="https://openaccess-api.clevelandart.org/api/artworks/";
 // stopwords so the derived chips are the CONTENT words, not glue
 var STOP=("the a an and or but of to in on at for with by from as is was were be been are that this these those it its "+
  "he she they them him her his their you your we our me my not no so then when where who whom which what had has have "+
@@ -148,41 +147,40 @@ el("go").addEventListener("click",run);
 el("q").addEventListener("keydown",function(e){if(e.key==="Enter")run();});
 function setStatus(t,err){el("results").innerHTML='<p class="status'+(err?" err":"")+'">'+esc(t)+'</p>';}
 
-// antiquity ≈ ancient Near East / classical / late antique (broad, so AIC's smaller ancient holdings still return)
-function inAntiquity(a){ var s=a.date_start, e=a.date_end; if(typeof s!=="number"&&typeof e!=="number")return false; var lo=(typeof s==="number"?s:e), hi=(typeof e==="number"?e:s); return lo<=700 && hi>=-1200; }
+// antiquity ≈ ancient Near East / classical / late antique (broad range, so period-era holdings return)
+function inAntiquity(a){ var s=a.creation_date_earliest, e=a.creation_date_latest; if(typeof s!=="number"&&typeof e!=="number")return false; var lo=(typeof s==="number"?s:e), hi=(typeof e==="number"?e:s); return lo<=700 && hi>=-1200; }
 
 function run(){
   var base=el("q").value.trim(); if(!base||state.busy)return;
   var ctx=activeCtx(); var q=(base+(ctx.length?" "+ctx.join(" "):"")).trim();  // base word + Situate-context stand-in
-  state.busy=true; setStatus("Searching the Art Institute for “"+esc(q)+"”"+(state.period==="antiquity"?" (antiquity)":"")+"…");
-  var url=AIC+"?q="+encodeURIComponent(q)+"&limit=40&fields=id,title,artist_display,date_display,date_start,date_end,image_id,is_public_domain,place_of_origin,classification_title";
+  state.busy=true; setStatus("Searching the Cleveland Museum for “"+esc(q)+"”"+(state.period==="antiquity"?" (antiquity)":"")+"…");
+  var url=CMA+"?q="+encodeURIComponent(q)+"&has_image=1&limit=40&fields=id,title,creation_date,creation_date_earliest,creation_date_latest,culture,images,share_license_status,url";
   fetch(url).then(function(r){if(!r.ok)throw new Error("search "+r.status);return r.json();}).then(function(d){
-    var iiif=(d.config&&d.config.iiif_url)||IIIF;
-    var arts=(d.data||[]).filter(function(a){return a.is_public_domain && a.image_id;});
+    var arts=(d.data||[]).filter(function(a){return a.share_license_status==="CC0" && a.images && a.images.web && a.images.web.url;});
     if(state.period==="antiquity") arts=arts.filter(inAntiquity);
     arts=arts.slice(0,12);
     state.busy=false;
-    if(!arts.length){ setStatus("No public-domain images for “"+q+"”"+(state.period==="antiquity"?" in antiquity — the AIC's ancient holdings are thin; try 'any period'":". Try another word")+"."); return; }
-    renderGrid(q,arts,iiif,(d.pagination&&d.pagination.total)||arts.length);
-  }).catch(function(e){ state.busy=false; setStatus("Could not reach the Art Institute API ("+esc(e.message)+"). Try again in a moment.",true); });
+    if(!arts.length){ setStatus("No CC0 images for “"+esc(q)+"”"+(state.period==="antiquity"?" in antiquity — try 'any period'":". Try another word or context (e.g. + Christ)")+"."); return; }
+    renderGrid(q,arts,(d.info&&d.info.total)||arts.length);
+  }).catch(function(e){ state.busy=false; setStatus("Could not reach the Cleveland Museum API ("+esc(e.message)+"). Try again in a moment.",true); });
 }
 
-function renderGrid(q,arts,iiif,total){
-  var h='<p class="status">“'+esc(q)+'” · '+arts.length+' public-domain images'+(state.period==="antiquity"?" · narrowed to antiquity":"")+' (of ~'+total+' matches)</p><div class="grid">';
+function renderGrid(q,arts,total){
+  var h='<p class="status">“'+esc(q)+'” · '+arts.length+' CC0 images'+(state.period==="antiquity"?" · narrowed to antiquity":"")+' (of ~'+total+' matches)</p><div class="grid">';
   arts.forEach(function(a){
-    var img=iiif+"/"+a.image_id+"/full/400,/0/default.jpg";
-    var meta=[a.date_display,a.place_of_origin].filter(Boolean).join(" · ");
-    var credit=(a.title||"Untitled")+(a.date_display?", "+a.date_display:"")+" · Art Institute of Chicago · CC0";
+    var img=a.images.web.url;
+    var culture=Array.isArray(a.culture)?a.culture.join(", "):(a.culture||"");
+    var meta=[a.creation_date,culture].filter(Boolean).join(" · ");
+    var credit=(a.title||"Untitled")+(a.creation_date?", "+a.creation_date:"")+" · Cleveland Museum of Art · CC0";
     h+='<div class="card"><div class="imgwrap"><img loading="lazy" src="'+esc(img)+'" alt="'+esc(a.title||q)+'"></div>'+
        '<div class="meta"><div class="t">'+esc(a.title||"Untitled")+'</div>'+
-       (a.artist_display?'<div class="a">'+esc(a.artist_display.split("\n")[0])+'</div>':'')+
        '<div class="d">'+esc(meta)+'</div>'+
-       '<div class="foot"><span class="cc" title="'+esc(credit)+'">CC0 · AIC</span>'+
-       '<a class="lnk" href="https://www.artic.edu/artworks/'+esc(a.id)+'" target="_blank" rel="noopener">at the AIC &rarr;</a></div></div></div>';
+       '<div class="foot"><span class="cc" title="'+esc(credit)+'">CC0 · CMA</span>'+
+       (a.url?'<a class="lnk" href="'+esc(a.url)+'" target="_blank" rel="noopener">at the CMA &rarr;</a>':'')+'</div></div></div>';
   });
   el("results").innerHTML=h+'</div>';
 }
-el("footsrc").innerHTML="keywords derived live from goldenpath/mark16/checkout.json + moves.json · images from the Art Institute of Chicago API (api.artic.edu, keyless, CC0, CORS) · public-domain filtered · v2 will add MET/Cleveland + Situate-driven period/place";
+el("footsrc").innerHTML="keywords derived live from goldenpath/mark16/checkout.json + moves.json · images from the Cleveland Museum of Art Open Access API (openaccess-api.clevelandart.org, keyless, CC0, CORS) · v2 will add MET (via proxy) + Situate-driven period/place";
 </script>
 
 <!-- ── METHODOLOGY FOOTER ──
