@@ -139,6 +139,7 @@ function rich(s){return String(s==null?'':s);} // author text may carry inline <
 
 // the section order + labels (PI-locked TOC order), each with a renderer over its data object
 var SECTIONS = [
+  {id:'goal',       label:'The goal · engine loop', key:'engine_development_loop', render:renderEngineLoop},
   {id:'components', label:'Reusable components', key:'reusable_components', render:renderComponents},
   {id:'commitments',label:'Core commitments',    key:'principles',         render:renderPrinciples},
   {id:'checks',     label:'The four checks',      key:'the_four_checks',    render:renderFourChecks},
@@ -178,6 +179,16 @@ function renderComponents(d){
     return '<div class="pr"><div class="pr-h"><h3>'+rich(it.name)+'</h3></div>'+body+'</div>';
   }).join('');
   return noteHTML(d)+items;
+}
+function renderEngineLoop(d){
+  var h=noteHTML(d);
+  if(d.goal) h+='<div class="pr"><div class="pr-h"><h3>The goal</h3></div><p class="stmt">'+rich(d.goal)+'</p></div>';
+  if(Array.isArray(d.the_loop)&&d.the_loop.length) h+='<div class="pr"><div class="pr-h"><h3>The loop</h3></div><ol class="chk-items">'+d.the_loop.map(function(x){return '<li>'+rich(x)+'</li>';}).join('')+'</ol></div>';
+  if(d.the_anti_pattern) h+='<div class="pr"><div class="pr-h"><h3>The anti-pattern &mdash; measure-and-handoff</h3></div><p class="stmt">'+rich(d.the_anti_pattern)+'</p></div>';
+  if(d.all_five_need_live_engines) h+='<div class="pr"><div class="pr-h"><h3>All five aspects need live engines</h3></div><p class="stmt">'+rich(d.all_five_need_live_engines)+'</p></div>';
+  if(d.pass_criterion) h+='<div class="pr"><div class="pr-h"><h3>The pass criterion</h3></div><p class="stmt">'+rich(d.pass_criterion)+'</p></div>';
+  if(d.what_passing_means) h+='<div class="pr"><div class="pr-h"><h3>What passing means</h3></div><p class="stmt">'+rich(d.what_passing_means)+'</p></div>';
+  return h;
 }
 function renderPrinciples(d){
   var items=(d.items||[]).map(function(it){
