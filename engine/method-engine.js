@@ -953,6 +953,49 @@ function renderCleanValue(host, v) {
   }
 }
 /* the method (clean): the KIND grammar (Connect) OR any other node's clean contract (Frame axes / Situate sub-engines / Lineage enums) */
+/* the negative-space GATE (Position/atlas-reader drawer) — how Position records silences as first-class data
+   (grain-2 record-in). Render-from-data off the_negative_space_gate; in_scope_postures reuse the vocab-row shape
+   (value/status/definition) so the ontology renames (not-asserted→deferred) auto-render. */
+function renderNegativeSpaceGate(host, g) {
+  var s = el("div", "me-drawer-section me-anatomy");
+  s.appendChild(el("h3", null, "The negative-space gate"));
+  if (g.note) s.appendChild(el("p", "me-drawer-p", g.note));
+  var line = function (label, cls, text) { var p = el("p", "me-gram-row"); p.appendChild(el("b", cls || "me-def-mod", label)); p.appendChild(document.createTextNode(" " + text)); s.appendChild(p); };
+  if (g.two_gate) {
+    s.appendChild(el("p", "me-mc-key", "the two gates"));
+    if (g.two_gate.gate_1_applicability) line("Gate 1 · applicability", "me-def-part", g.two_gate.gate_1_applicability);
+    if (g.two_gate.gate_2_stance) line("Gate 2 · stance", "me-def-part", g.two_gate.gate_2_stance);
+  }
+  var pvo = g.present_vs_obligated;
+  if (pvo) {
+    s.appendChild(el("p", "me-mc-key", "present vs obligated"));
+    if (pvo.note) s.appendChild(el("p", "me-drawer-caption", pvo.note));
+    ["present", "obligated", "why_separate"].forEach(function (k) { if (pvo[k]) line(k.replace(/_/g, " "), "me-def-mod", pvo[k]); });
+  }
+  var st = g.silence_typing;
+  if (st) {
+    s.appendChild(el("p", "me-mc-key", "silence typing"));
+    if (st.note) s.appendChild(el("p", "me-drawer-caption", st.note));
+    if (st.not_engaged) line("not-engaged", "me-def-mod", st.not_engaged);
+    if (Array.isArray(st.in_scope_postures) && st.in_scope_postures.length) {
+      var ul = el("ul", "me-vocab-vals");
+      st.in_scope_postures.forEach(function (v) {
+        var li = el("li", "me-vocab-val");
+        li.appendChild(el("span", "me-vocab-vh", v.value));
+        if (v.status === "candidate") li.appendChild(el("span", "me-vocab-cand", "candidate"));
+        if (v.definition) li.appendChild(document.createTextNode(" — " + v.definition));
+        ul.appendChild(li);
+      });
+      s.appendChild(ul);
+    }
+    if (st.void_note) s.appendChild(el("p", "me-drawer-caption", st.void_note));
+    if (st.relational_analogue) s.appendChild(el("p", "me-drawer-caption", st.relational_analogue));
+  }
+  if (g.the_seam) line("the seam", "me-def-part", g.the_seam);
+  if (g.one_engine_contract) line("one-engine contract", "me-def-part", g.one_engine_contract);
+  if (g.provenance) s.appendChild(el("p", "me-drawer-caption", g.provenance));
+  host.appendChild(s);
+}
 function renderConnectGrammar(host, mc) {
   var s = el("div", "me-drawer-section me-anatomy");
   s.appendChild(el("h3", null, "The method (clean)"));
@@ -1104,6 +1147,7 @@ function renderConnectDrawer(aside, node) {
     glossSection("Pipeline context", D.pipeline_context);
     glossSection("How we grade it", D.how_we_grade_it);
     if (D.the_method_clean) renderConnectGrammar(host, D.the_method_clean);
+    if (D.the_negative_space_gate) renderNegativeSpaceGate(host, D.the_negative_space_gate);
     if (D.the_method_applied) renderConnectApplied(host, D.the_method_applied);
     if (D.where_saved) {
       var ws = el("div", "me-drawer-section"); ws.appendChild(el("h3", null, "Where the work is saved"));
