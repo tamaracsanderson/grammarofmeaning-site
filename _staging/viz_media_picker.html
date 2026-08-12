@@ -19,21 +19,24 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
 .sub{font-size:15px;color:var(--ink-2);max-width:44rem;margin:0 0 4px;font-style:italic}
 .how{font-family:var(--sans);font-size:12px;color:var(--ink-3);max-width:44rem;margin:8px 0 0;line-height:1.5}
 .how b{color:var(--ink-2)}
-
 .controls{margin:22px 0 0}
 .clabel{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
-.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 14px}
-.chip{font-family:var(--sans);font-size:13px;cursor:pointer;padding:5px 13px;border-radius:999px;border:1px solid var(--rule);background:var(--paper-3);color:var(--ink-2)}
+.clabel .src-tag{color:var(--fern);text-transform:none;letter-spacing:0;font-size:10px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 6px}
+.chip{font-family:var(--sans);font-size:13px;cursor:pointer;padding:5px 12px;border-radius:999px;border:1px solid var(--rule);background:var(--paper-3);color:var(--ink-2)}
 .chip:hover{border-color:var(--gold);color:var(--ink)}
 .chip.on{background:var(--gold);border-color:var(--gold);color:#fff}
+.chip .n{font-family:var(--mono);font-size:9px;color:var(--ink-3);margin-left:5px}
+.chip.on .n{color:#fff;opacity:.85}
+.chip.mv{border-style:dashed}
+.chipnote{font-family:var(--sans);font-size:10.5px;color:var(--ink-3);margin:0 0 14px}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 6px}
 .q{flex:1;min-width:200px;font-family:var(--serif);font-size:15px;padding:8px 12px;border:1px solid var(--rule);border-radius:9px;background:var(--paper-3);color:var(--ink)}
-.period{display:flex;gap:0;border:1px solid var(--rule);border-radius:9px;overflow:hidden}
+.period{display:flex;border:1px solid var(--rule);border-radius:9px;overflow:hidden}
 .period button{font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;padding:8px 12px;border:0;background:var(--paper-3);color:var(--ink-3);cursor:pointer}
 .period button.on{background:var(--gold);color:#fff}
 .go{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:9px 18px;border:1px solid var(--fern);background:var(--fern);color:#fff;border-radius:9px;cursor:pointer}
 .src-note{font-family:var(--sans);font-size:11px;color:var(--ink-3);margin:4px 0 0}
-
 .status{font-family:var(--mono);font-size:12px;color:var(--ink-3);padding:20px 2px}
 .status.err{color:var(--terracotta)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin:18px 0 0}
@@ -44,9 +47,9 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
 .card .t{font-family:var(--disp);font-size:14px;color:var(--ink);line-height:1.25}
 .card .a{font-family:var(--sans);font-size:11.5px;color:var(--ink-2)}
 .card .d{font-family:var(--mono);font-size:9.5px;letter-spacing:.03em;color:var(--ink-3);margin-top:2px}
-.card .foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px}
-.card .cc{font-family:var(--mono);font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:var(--fern);border:1px solid color-mix(in srgb,var(--fern) 40%,transparent);border-radius:999px;padding:1px 6px}
-.card .lnk{font-family:var(--mono);font-size:9px;color:var(--ink-3);text-decoration:none;border-bottom:1px dotted var(--rule)}
+.card .foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px;gap:6px}
+.card .cc{font-family:var(--mono);font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:var(--fern);border:1px solid color-mix(in srgb,var(--fern) 40%,transparent);border-radius:999px;padding:1px 6px;white-space:nowrap}
+.card .lnk{font-family:var(--mono);font-size:9px;color:var(--ink-3);text-decoration:none;border-bottom:1px dotted var(--rule);white-space:nowrap}
 .card .lnk:hover{color:var(--gold)}
 .src{font-family:var(--mono);font-size:9px;color:var(--ink-3);opacity:.7;margin:36px 0 0;line-height:1.6}
 </style>
@@ -55,21 +58,27 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
 <div class="wrap">
   <p class="kicker">Multi-media engine · step 1 — external imagery</p>
   <h1>What did this look like — then, and there?</h1>
-  <p class="sub">Pick a word from the passage and see it in the world it came from: the empty tomb, but also the <em>spices</em>, the <em>market</em>, the anointing — public-domain museum art, filtered toward the period.</p>
-  <p class="how"><b>Step 1 (this):</b> keyword-driven, from the passage + its moves — CC0 imagery from open museum collections (the Met now; Art Institute of Chicago + Cleveland next). <b>Later:</b> the query is driven by <b>Situate</b> (paradigm · location · time-period) so it grounds in the <em>Sitz</em>, not a generic illustration. <b>Step 2:</b> complemented by what's already in the library.</p>
+  <p class="sub">Pick a word from the passage and see it in the world it came from: the empty tomb, but also the <em>spices</em>, the <em>linen</em>, the <em>stone</em> — public-domain museum art, filtered toward the period.</p>
+  <p class="how"><b>Step 1 (this):</b> keyword-driven — the words are pulled <b>from the Mark 16 text</b> (and its coded moves), CC0 imagery from the Art Institute of Chicago open collection. <b>Later:</b> the query is driven by <b>Situate</b> (paradigm · location · time) so it grounds in the <em>Sitz</em>. <b>Step 2:</b> complemented by what's already in the library.</p>
 
   <div class="controls">
-    <p class="clabel">from Mark 16 — a word to see</p>
+    <p class="clabel">words from the passage <span class="src-tag" id="srctag">— loading from the Mark 16 text…</span></p>
     <div class="chips" id="chips"></div>
+    <p class="chipnote">solid = word from the verbatim Mark text (by frequency) · dashed = a thing the coded moves act on · or type your own below</p>
     <div class="row">
       <input class="q" id="q" placeholder="…or type any word (spices, tomb, myrrh, market, linen)" />
       <div class="period" id="period">
         <button data-p="any" class="on">any period</button>
-        <button data-p="antiquity">antiquity (~1st c.)</button>
+        <button data-p="antiquity">antiquity</button>
       </div>
       <button class="go" id="go">show</button>
     </div>
-    <p class="src-note">source: The Metropolitan Museum of Art Open Access (CC0) · public-domain only · provenance shown per image (§2.4)</p>
+    <div class="row" style="margin-top:10px">
+      <span class="clabel" style="margin:0 4px 0 0;align-self:center">with context</span>
+      <div class="chips" id="ctx" style="margin:0"></div>
+    </div>
+    <p class="chipnote">a bare word ("spices") pulls anything; add context so it grounds in the scene / the era / the place — the manual stand-in for the Situate-driven query (v2)</p>
+    <p class="src-note">source: Art Institute of Chicago Open Access (CC0) · public-domain only · provenance shown per image (§2.4)</p>
   </div>
 
   <div id="results"><p class="status" id="status">Pick a word above to see it.</p></div>
@@ -77,76 +86,117 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
 </div>
 
 <script>
-var MET="https://collectionapi.metmuseum.org/public/collection/v1";
-// keywords drawn from the Mark 16 passage + its moves (v1 hardcoded seed; v2 = derived from moves.json + Situate)
-var KEYWORDS=["resurrection","empty tomb","spices","anointing","myrrh","the women","Mary Magdalene","angel","the stone","Galilee","market","sabbath","linen shroud","ointment jar"];
-var PERIOD={any:"",antiquity:"&dateBegin=-100&dateEnd=400"};
+var BASE="/engine/data/goldenpath/mark16/";
+var AIC="https://api.artic.edu/api/v1/artworks/search";
+var IIIF="https://www.artic.edu/iiif/2";
+// stopwords so the derived chips are the CONTENT words, not glue
+var STOP=("the a an and or but of to in on at for with by from as is was were be been are that this these those it its "+
+ "he she they them him her his their you your we our me my not no so then when where who whom which what had has have "+
+ "having do did does will would shall should may might can could into out up down over under again there here all any "+
+ "some each more most other onto unto upon themselves went come came go going gone said say says saying tell told them "+
+ "one two three very after first also because while about them-selves such been being were are").split(/\s+/);
+var STOPSET={}; STOP.forEach(function(w){STOPSET[w]=1;});
 var state={period:"any",busy:false};
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 function el(id){return document.getElementById(id);}
 
-// chips
-el("chips").innerHTML=KEYWORDS.map(function(k){return '<span class="chip" data-k="'+esc(k)+'">'+esc(k)+'</span>';}).join("");
-el("chips").querySelectorAll(".chip").forEach(function(c){c.addEventListener("click",function(){
-  el("chips").querySelectorAll(".chip").forEach(function(x){x.classList.remove("on");});
-  this.classList.add("on"); el("q").value=this.getAttribute("data-k"); run();
-});});
+// derive the keyword chips FROM the Mark 16 verbatim text (+ concrete move substrates) — never hand-picked
+Promise.all([
+  fetch(BASE+"checkout.json").then(function(r){return r.json();}).catch(function(){return null;}),
+  fetch(BASE+"moves.json").then(function(r){return r.json();}).catch(function(){return null;})
+]).then(function(res){ buildChips(res[0],res[1]); })
+  .catch(function(){ buildChips(null,null); });
+
+function buildChips(co,mdoc){
+  var textWords=[], moveWords=[];
+  if(co){
+    var whole=(co.units||[]).map(function(u){return u.text||"";}).join(" ").replace(/\d{3}:\d{3}/g," ");
+    var freq={};
+    (whole.toLowerCase().match(/[a-z][a-z'-]{3,}/g)||[]).forEach(function(w){ if(!STOPSET[w]) freq[w]=(freq[w]||0)+1; });
+    textWords=Object.keys(freq).sort(function(a,b){return freq[b]-freq[a];}).slice(0,20).map(function(w){return {w:w,n:freq[w]};});
+    el("srctag").textContent="— "+textWords.length+" pulled from the verbatim Mark 16 text, by frequency";
+  } else { el("srctag").textContent="— (text feed unavailable; type a word below)"; }
+  // supplement with concrete single-word-ish substrates from the moves (skip the abstract 'M10a'/'not-stated' labels)
+  if(mdoc){
+    var seen={}; textWords.forEach(function(t){seen[t.w]=1;});
+    (mdoc.moves||[]).forEach(function(m){
+      var s=(m.substrate||"").toLowerCase();
+      if(s && s.length<=14 && !/not-stated|^m\d|\(/.test(s) && !seen[s] && !STOPSET[s]){ seen[s]=1; moveWords.push(s); }
+    });
+    moveWords=moveWords.slice(0,6);
+  }
+  var h=textWords.map(function(t){return '<span class="chip" data-k="'+esc(t.w)+'">'+esc(t.w)+'<span class="n">'+t.n+'</span></span>';}).join("");
+  h+=moveWords.map(function(w){return '<span class="chip mv" data-k="'+esc(w)+'">'+esc(w)+'</span>';}).join("");
+  el("chips").innerHTML=h||'<span class="chipnote">no words derived — type one below</span>';
+  el("chips").querySelectorAll(".chip").forEach(function(c){c.addEventListener("click",function(){
+    el("chips").querySelectorAll(".chip").forEach(function(x){x.classList.remove("on");});
+    this.classList.add("on"); el("q").value=this.getAttribute("data-k"); run();
+  });});
+}
+
+// context terms that AUGMENT the query so a bare word grounds in the scene/era/place (the manual Situate stand-in)
+var CTX=[{k:"biblical",q:"biblical"},{k:"Christ / Jesus",q:"Christ"},{k:"Jerusalem",q:"Jerusalem"},{k:"ancient",q:"ancient"}];
+el("ctx").innerHTML=CTX.map(function(c,i){return '<span class="chip" data-ci="'+i+'">'+esc(c.k)+'</span>';}).join("");
+el("ctx").querySelectorAll(".chip").forEach(function(c){c.addEventListener("click",function(){ this.classList.toggle("on"); if(el("q").value.trim()) run(); });});
+function activeCtx(){ var out=[]; el("ctx").querySelectorAll(".chip.on").forEach(function(c){ out.push(CTX[+c.getAttribute("data-ci")].q); }); return out; }
+
 el("period").querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){
   el("period").querySelectorAll("button").forEach(function(x){x.classList.remove("on");});
   this.classList.add("on"); state.period=this.getAttribute("data-p"); if(el("q").value.trim()) run();
 });});
 el("go").addEventListener("click",run);
 el("q").addEventListener("keydown",function(e){if(e.key==="Enter")run();});
-
 function setStatus(t,err){el("results").innerHTML='<p class="status'+(err?" err":"")+'">'+esc(t)+'</p>';}
 
+// antiquity ≈ ancient Near East / classical / late antique (broad, so AIC's smaller ancient holdings still return)
+function inAntiquity(a){ var s=a.date_start, e=a.date_end; if(typeof s!=="number"&&typeof e!=="number")return false; var lo=(typeof s==="number"?s:e), hi=(typeof e==="number"?e:s); return lo<=700 && hi>=-1200; }
+
 function run(){
-  var q=el("q").value.trim(); if(!q||state.busy)return;
-  state.busy=true; setStatus("Searching the Met for “"+q+"”"+(state.period==="antiquity"?" (antiquity)":"")+"…");
-  var url=MET+"/search?q="+encodeURIComponent(q)+"&hasImages=true"+(PERIOD[state.period]||"");
+  var base=el("q").value.trim(); if(!base||state.busy)return;
+  var ctx=activeCtx(); var q=(base+(ctx.length?" "+ctx.join(" "):"")).trim();  // base word + Situate-context stand-in
+  state.busy=true; setStatus("Searching the Art Institute for “"+esc(q)+"”"+(state.period==="antiquity"?" (antiquity)":"")+"…");
+  var url=AIC+"?q="+encodeURIComponent(q)+"&limit=40&fields=id,title,artist_display,date_display,date_start,date_end,image_id,is_public_domain,place_of_origin,classification_title";
   fetch(url).then(function(r){if(!r.ok)throw new Error("search "+r.status);return r.json();}).then(function(d){
-    var ids=(d.objectIDs||[]).slice(0,24);
-    if(!ids.length){state.busy=false;setStatus("No public-domain images for “"+q+"” in that period. Try another word, or widen the period.");return;}
-    // fetch objects, keep public-domain-with-image, show up to 12
-    return Promise.all(ids.map(function(id){return fetch(MET+"/objects/"+id).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;});}))
-      .then(function(objs){
-        var keep=objs.filter(function(o){return o&&o.isPublicDomain&&(o.primaryImageSmall||o.primaryImage);}).slice(0,12);
-        state.busy=false;
-        if(!keep.length){setStatus("Found records for “"+q+"” but no open-access images in that period. Try widening the period.");return;}
-        renderGrid(q,keep,d.total||keep.length);
-      });
-  }).catch(function(e){state.busy=false;setStatus("Could not reach the Met Open Access API ("+esc(e.message)+"). It may be a CORS/network limit from this page — the API is public + keyless, so this works when the page can reach it.",true);});
+    var iiif=(d.config&&d.config.iiif_url)||IIIF;
+    var arts=(d.data||[]).filter(function(a){return a.is_public_domain && a.image_id;});
+    if(state.period==="antiquity") arts=arts.filter(inAntiquity);
+    arts=arts.slice(0,12);
+    state.busy=false;
+    if(!arts.length){ setStatus("No public-domain images for “"+q+"”"+(state.period==="antiquity"?" in antiquity — the AIC's ancient holdings are thin; try 'any period'":". Try another word")+"."); return; }
+    renderGrid(q,arts,iiif,(d.pagination&&d.pagination.total)||arts.length);
+  }).catch(function(e){ state.busy=false; setStatus("Could not reach the Art Institute API ("+esc(e.message)+"). Try again in a moment.",true); });
 }
 
-function renderGrid(q,objs,total){
-  var h='<p class="status">“'+esc(q)+'” · '+objs.length+' shown of ~'+total+' with open-access images'+(state.period==="antiquity"?" · narrowed to antiquity":"")+'</p><div class="grid">';
-  objs.forEach(function(o){
-    var img=o.primaryImageSmall||o.primaryImage;
-    var credit=(o.title||"Untitled")+(o.objectDate?", "+o.objectDate:"")+" · The Met · CC0";
-    h+='<div class="card"><div class="imgwrap"><img loading="lazy" src="'+esc(img)+'" alt="'+esc(o.title||q)+'"></div>'+
-       '<div class="meta"><div class="t">'+esc(o.title||"Untitled")+'</div>'+
-       (o.artistDisplayName?'<div class="a">'+esc(o.artistDisplayName)+'</div>':'')+
-       '<div class="d">'+esc([o.objectDate,o.culture].filter(Boolean).join(" · "))+'</div>'+
-       '<div class="foot"><span class="cc" title="'+esc(credit)+'">CC0 · Met</span>'+
-       (o.objectURL?'<a class="lnk" href="'+esc(o.objectURL)+'" target="_blank" rel="noopener">at the Met &rarr;</a>':'')+'</div></div></div>';
+function renderGrid(q,arts,iiif,total){
+  var h='<p class="status">“'+esc(q)+'” · '+arts.length+' public-domain images'+(state.period==="antiquity"?" · narrowed to antiquity":"")+' (of ~'+total+' matches)</p><div class="grid">';
+  arts.forEach(function(a){
+    var img=iiif+"/"+a.image_id+"/full/400,/0/default.jpg";
+    var meta=[a.date_display,a.place_of_origin].filter(Boolean).join(" · ");
+    var credit=(a.title||"Untitled")+(a.date_display?", "+a.date_display:"")+" · Art Institute of Chicago · CC0";
+    h+='<div class="card"><div class="imgwrap"><img loading="lazy" src="'+esc(img)+'" alt="'+esc(a.title||q)+'"></div>'+
+       '<div class="meta"><div class="t">'+esc(a.title||"Untitled")+'</div>'+
+       (a.artist_display?'<div class="a">'+esc(a.artist_display.split("\n")[0])+'</div>':'')+
+       '<div class="d">'+esc(meta)+'</div>'+
+       '<div class="foot"><span class="cc" title="'+esc(credit)+'">CC0 · AIC</span>'+
+       '<a class="lnk" href="https://www.artic.edu/artworks/'+esc(a.id)+'" target="_blank" rel="noopener">at the AIC &rarr;</a></div></div></div>';
   });
   el("results").innerHTML=h+'</div>';
 }
-el("footsrc").innerHTML="live query · The Met Collection API (collectionapi.metmuseum.org, keyless, CC0) · images from images.metmuseum.org · public-domain filtered · v2 will add Art Institute of Chicago + Cleveland + Situate-driven period/place";
+el("footsrc").innerHTML="keywords derived live from goldenpath/mark16/checkout.json + moves.json · images from the Art Institute of Chicago API (api.artic.edu, keyless, CC0, CORS) · public-domain filtered · v2 will add MET/Cleveland + Situate-driven period/place";
 </script>
 
 <!-- ── METHODOLOGY FOOTER ──
-HOW PRODUCED: design-SB S170 (2026-08-11), PI-directed — step 1 of the MULTI-MEDIA ENGINE (roadmap item C), the version
-  buildable NOW without waiting on data: keyword-driven external imagery from the open-access museum APIs the Lovable mock
-  indexed (IMAGE-CREDITS.md §Image APIs). v1 queries the Met Collection API (collectionapi.metmuseum.org — keyless, CC0,
-  CORS-friendly) live from keywords drawn from the Mark 16 passage + its moves, with a period toggle (any / antiquity
-  dateBegin=-100..dateEnd=400) so a reader can see "spices" or "market" AT the period, not a generic illustration. Public-
-  domain-only (isPublicDomain filter); provenance per image (§2.4 — title/date/culture + CC0 + the Met object link).
-SCHOLARLY SOURCES: IMAGE-CREDITS.md §Image APIs (MET used; AIC/Cleveland/Rijksmuseum/Smithsonian/etc. available); the
-  roadmap §C media gallery-picker (Situate-driven query = the v2 elevation); the Night Gallery gospels_room_config precedent.
-WHAT NEEDS VERIFICATION: (1) LIVE CORS check — my browser pane is policy-blocked this session, so I could not confirm the
-  client-side fetch to the Met API succeeds from grammarofmeaning.org (the API sets Access-Control-Allow-Origin:* + GitHub
-  Pages has no blocking CSP, so it should — but PI/live eyeball needed). (2) v2: keywords DERIVED from moves.json + Situate
-  (paradigm/location/time) instead of the hardcoded seed list; add AIC + Cleveland sources; step-2 library-media complement. -->
+HOW PRODUCED: design-SB S170 (2026-08-11), PI-directed — step 1 of the MULTI-MEDIA ENGINE (roadmap C), rebuilt twice per PI
+  feedback: (1) the Met API 403s intermittently → switched to the Art Institute of Chicago API (api.artic.edu — keyless, CC0,
+  CORS: access-control-allow-origin *); (2) the keyword chips are NO LONGER hand-picked — they are DERIVED live from the
+  verbatim Mark 16 text (goldenpath/mark16/checkout.json, content words by frequency, stopword-filtered) + a few concrete
+  move-substrates (moves.json, skipping the abstract 'M10a'/'not-stated' coded labels). Period toggle filters client-side on
+  date_start/date_end (antiquity ≈ ancient Near East / classical / late antique). Public-domain only (is_public_domain);
+  provenance per image (§2.4 — title/date/place + CC0 + the AIC object link).
+SCHOLARLY SOURCES: IMAGE-CREDITS.md §Image APIs (AIC is CORS-friendly + CC0; Met 403s → v2 proxy); the roadmap §C media
+  gallery-picker (Situate-driven query = the v2 elevation); the Night Gallery gospels_room_config precedent.
+WHAT NEEDS VERIFICATION: (1) live eyeball — pane blocked this session; AIC returns 200 + CORS * (curl-confirmed) so the
+  client fetch should work, but confirm images render. (2) v2: keywords from Situate (paradigm/location/time) not just
+  frequency; add MET (via proxy) + Cleveland; step-2 library-media complement; a richer keyword-extraction than frequency. -->
 </body>
 </html>
