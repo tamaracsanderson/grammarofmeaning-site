@@ -80,6 +80,7 @@ Promise.all([
 function build(mdoc,edoc,tax){
   TAX=tax; CC.injectCSS();
   var moves=(mdoc.moves||[]).slice().sort(function(a,b){return a.idx-b.idx;});
+  CC.useMoves(moves);  // so relation cards can show what each move SAYS (§2.16)
   var raw=(edoc.edges||edoc||[]);
   var idxOf={}; moves.forEach(function(m,i){idxOf[m.label]=i;}); IDX=idxOf;
   var HASH=CC.readHash();
