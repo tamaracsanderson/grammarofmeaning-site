@@ -147,6 +147,7 @@ var SECTIONS = [
   {id:'checklist',  label:'Drawer-build checklist',key:'drawer_build_checklist',render:renderChecklist},
   {id:'glossary',   label:'Glossary',             key:'glossary',           render:renderGlossary},
   {id:'reliability',label:'Reliability',          key:'reliability_explainer',render:renderReliability},
+  {id:'reprotest',  label:'Reproducibility test', key:'reproducibility_test',render:renderReproTest},
   {id:'versioning', label:'Grammar versioning',   key:'grammar_versioning', render:renderGrammarVersioning},
   {id:'faq',        label:'FAQ',                  key:'faq',                render:renderFaq},
   {id:'positioning',label:'Positioning',          key:'positioning',        render:renderPositioning},
@@ -239,6 +240,14 @@ function renderReliability(d){
     return '<div class="kv"><p class="k">'+esc(r[0])+'</p><p class="v">'+rich(r[1])+'</p></div>';
   }).join('');
   return noteHTML(d)+rows;
+}
+function renderReproTest(d){
+  var h=noteHTML(d);
+  if(d.name) h+='<div class="pr"><div class="pr-h"><h3>'+rich(d.name)+'</h3></div>'+(d.what_it_certifies?'<p class="stmt">'+rich(d.what_it_certifies)+'</p>':'')+'</div>';
+  if(Array.isArray(d.the_template)&&d.the_template.length) h+='<div class="pr"><div class="pr-h"><h3>The template</h3></div><ol class="chk-items">'+d.the_template.map(function(x){return '<li>'+rich(String(x).replace(/^\s*\d+\.\s*/,''))+'</li>';}).join('')+'</ol></div>';
+  if(d.the_load_bearing_warning) h+='<div class="pr"><div class="pr-h"><h3>Load-bearing warning &mdash; reproducible &ne; valid</h3></div><p class="stmt">'+rich(d.the_load_bearing_warning)+'</p></div>';
+  if(d.where_it_plugs_in) h+='<div class="pr"><div class="pr-h"><h3>Where it plugs in</h3></div><p class="stmt">'+rich(d.where_it_plugs_in)+'</p></div>';
+  return h;
 }
 function renderGrammarVersioning(d){
   var rows=[['Major (vN)',d.major],['Minor (vN.M)',d.minor],['Current',d.current],['What v3 is',d.v3_is]]
