@@ -35,6 +35,8 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
 .chip.th{border-color:var(--fern);color:var(--fern)}
 .chip.th.on{background:var(--gold);border-color:var(--gold);color:#fff}
 .warn{color:var(--terracotta)}
+.chip.src-gated{opacity:.42;cursor:default;border-style:dashed}
+.chip.src-gated .lock{font-family:var(--mono);font-size:9px;color:var(--ink-3);margin-left:4px}
 .chipnote{font-family:var(--sans);font-size:10.5px;color:var(--ink-3);margin:0 0 14px}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 6px}
 .q{flex:1;min-width:200px;font-family:var(--serif);font-size:15px;padding:8px 12px;border:1px solid var(--rule);border-radius:9px;background:var(--paper-3);color:var(--ink)}
@@ -65,7 +67,7 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
   <p class="kicker">Multi-media engine · step 1 — external imagery</p>
   <h1>What did this look like — then, and there?</h1>
   <p class="sub">Pick a word from the passage and see it in the world it came from: the empty tomb, but also the <em>spices</em>, the <em>linen</em>, the <em>stone</em> — public-domain museum art, filtered toward the period.</p>
-  <p class="how"><b>Step 1 (this):</b> keyword-driven — the words are pulled <b>from the Mark 16 text</b> (and its coded moves), public-domain / CC0 imagery from three open collections at once: <b>Cleveland</b> · <b>the Met</b> · <b>Wikimedia Commons</b> (public-domain only). <b>Later:</b> the query is driven by <b>Situate</b> (paradigm · location · time) so it grounds in the <em>Sitz</em>. <b>Step 2:</b> complemented by what's already in the library.</p>
+  <p class="how"><b>Step 1 (this):</b> keyword-driven — the words are pulled <b>from the Mark 16 text</b> (and its coded moves), public-domain / CC0 imagery from open collections at once — <b>Cleveland</b> · <b>the Met</b> · <b>Wikimedia Commons</b> now, and <b>Cooper Hewitt</b> · <b>Smithsonian</b> · <b>Europeana</b> · <b>Harvard</b> once the media proxy is deployed (dashed until then). <b>Later:</b> the query is driven by <b>Situate</b> (paradigm · location · time) so it grounds in the <em>Sitz</em>. <b>Step 2:</b> complemented by what's already in the library.</p>
 
   <div class="controls">
     <p class="clabel">words from the passage <span class="src-tag" id="srctag">— loading from the Mark 16 text…</span></p>
@@ -236,13 +238,33 @@ function wmFetch(q){
     return out;
   });
 }
+// PROXY = the deployed Cloudflare Worker URL (see _staging/media_proxy_worker.js). Empty = not deployed yet:
+// the four proxied galleries render DISABLED until it's set. Paste the Worker URL here after deploy and they light up.
+var PROXY="";
+function proxyFetch(source){ return function(q){
+  if(!PROXY) return Promise.resolve([]);
+  return fetch(PROXY+"?source="+source+"&q="+encodeURIComponent(q)).then(function(r){if(!r.ok)throw new Error(source+" "+r.status);return r.json();}).then(function(d){return (d&&d.items)||[];});
+};}
 var SOURCES=[
   {id:"cma",name:"Cleveland Museum of Art",short:"CMA",fetch:cmaFetch},
   {id:"met",name:"The Met",short:"MET",fetch:metFetch},
-  {id:"wm", name:"Wikimedia Commons · PD only",short:"WM",fetch:wmFetch}
+  {id:"wm", name:"Wikimedia Commons · PD only",short:"WM",fetch:wmFetch},
+  // proxied (keyless-but-no-CORS or keyed) — need the Worker; disabled until PROXY is set
+  {id:"ch", name:"Cooper Hewitt",short:"CH",fetch:proxyFetch("cooperhewitt"),proxied:true},
+  {id:"si", name:"Smithsonian",short:"SI",fetch:proxyFetch("smithsonian"),proxied:true},
+  {id:"eu", name:"Europeana · PD only",short:"EU",fetch:proxyFetch("europeana"),proxied:true},
+  {id:"hv", name:"Harvard Art Museums",short:"HV",fetch:proxyFetch("harvard"),proxied:true}
 ];
-el("src").innerHTML=SOURCES.map(function(s,i){return '<span class="chip on" data-si="'+i+'">'+esc(s.name)+'</span>';}).join("");  // all on by default
-el("src").querySelectorAll(".chip").forEach(function(c){c.addEventListener("click",function(){ this.classList.toggle("on"); if(el("q").value.trim())run(); });});
+el("src").innerHTML=SOURCES.map(function(s,i){
+  var gated = s.proxied && !PROXY;
+  var cls = "chip" + (gated ? " src-gated" : " on");     // direct sources on; proxied disabled until the Worker is deployed
+  var t = gated ? ' title="needs the media proxy — deploy _staging/media_proxy_worker.js to a Cloudflare Worker, then it lights up"' : '';
+  return '<span class="'+cls+'" data-si="'+i+'"'+t+'>'+esc(s.name)+(gated?' <span class="lock">·proxy</span>':'')+'</span>';
+}).join("");
+el("src").querySelectorAll(".chip").forEach(function(c){
+  if(c.classList.contains("src-gated")) return;          // not toggleable until the proxy is live
+  c.addEventListener("click",function(){ this.classList.toggle("on"); if(el("q").value.trim())run(); });
+});
 function activeSources(){ var out=[]; el("src").querySelectorAll(".chip.on").forEach(function(c){ out.push(SOURCES[+c.getAttribute("data-si")]); }); return out; }
 
 // antiquity ≈ ancient Near East / classical / late antique (broad, so period holdings return); needs a known date to qualify
@@ -260,6 +282,7 @@ function run(){
     results.forEach(function(r,i){ if(r.status==="fulfilled"&&Array.isArray(r.value)) items=items.concat(r.value.slice(0,8)); else failed.push(srcs[i].short); });
     if(state.period==="antiquity") items=items.filter(inAntiquity);
     var seen={}; items=items.filter(function(it){ if(!it.img||seen[it.img])return false; seen[it.img]=1; return true; });  // dedup across sources
+    items=items.slice(0,28);  // total cap — up to 7 sources can contribute
     if(!items.length){ setStatus("No public-domain images for “"+esc(q)+"”"+(state.period==="antiquity"?" in antiquity — try ‘any period’":". Try another word or context (e.g. + Christ)")+(failed.length?" ["+failed.join("/")+" didn’t respond]":"")+"."); return; }
     renderGrid(q,items,failed);
   });
@@ -279,7 +302,7 @@ function renderGrid(q,items,failed){
   });
   el("results").innerHTML=h+'</div>';
 }
-el("footsrc").innerHTML="keywords + themes derived live from goldenpath/mark16/{checkout,moves,paradigm_node_drawer}.json · images from three keyless CORS collections queried in parallel — Cleveland Open Access (CC0) + the Met Collection API (public-domain) + Wikimedia Commons (public-domain filtered) · one source failing never blanks the grid · v2: Situate-driven period/place, library-media complement, keyed collections (Harvard/Smithsonian/Rijks) via a proxy";
+el("footsrc").innerHTML="keywords + themes derived live from goldenpath/mark16/{checkout,moves,paradigm_node_drawer}.json · images from keyless CORS collections queried in parallel — Cleveland Open Access (CC0) + the Met (public-domain) + Wikimedia Commons (PD-filtered); plus Cooper Hewitt + Smithsonian + Europeana + Harvard via the media proxy (a Cloudflare Worker that adds CORS + hides keys — dashed until deployed) · one source failing never blanks the grid · v2: Situate-driven period/place, library-media complement";
 </script>
 
 <!-- ── METHODOLOGY FOOTER ──
