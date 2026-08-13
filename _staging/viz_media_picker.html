@@ -29,6 +29,11 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
 .chip .n{font-family:var(--mono);font-size:9px;color:var(--ink-3);margin-left:5px}
 .chip.on .n{color:#fff;opacity:.85}
 .chip.mv{border-style:dashed}
+.grp{flex:0 0 100%;display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:0 0 3px}
+.glab{flex:0 0 100%;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:3px 0 1px}
+.chip.big{font-size:14px;font-weight:600;padding:6px 14px}
+.chip.th{border-color:var(--fern);color:var(--fern)}
+.chip.th.on{background:var(--gold);border-color:var(--gold);color:#fff}
 .chipnote{font-family:var(--sans);font-size:10.5px;color:var(--ink-3);margin:0 0 14px}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 6px}
 .q{flex:1;min-width:200px;font-family:var(--serif);font-size:15px;padding:8px 12px;border:1px solid var(--rule);border-radius:9px;background:var(--paper-3);color:var(--ink)}
@@ -64,7 +69,7 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
   <div class="controls">
     <p class="clabel">words from the passage <span class="src-tag" id="srctag">— loading from the Mark 16 text…</span></p>
     <div class="chips" id="chips"></div>
-    <p class="chipnote">solid = word from the verbatim Mark text (by frequency) · dashed = a thing the coded moves act on · or type your own below</p>
+    <p class="chipnote">grouped by how often each word recurs — the bigger ones are what the scene turns on · dashed = a thing the coded moves act on · or type your own below</p>
     <div class="row">
       <input class="q" id="q" placeholder="…or type any word (spices, tomb, myrrh, market, linen)" />
       <div class="period" id="period">
@@ -77,7 +82,7 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
       <span class="clabel" style="margin:0 4px 0 0;align-self:center">with context</span>
       <div class="chips" id="ctx" style="margin:0"></div>
     </div>
-    <p class="chipnote">a bare word ("spices") pulls anything; add context so it grounds in the scene / the era / the place — the manual stand-in for the Situate-driven query (v2)</p>
+    <p class="chipnote">a bare word ("stone") pulls the material, not the scene — the <span style="color:var(--fern)">green theme chips</span> come from the passage's own paradigms (its "table of contents") and turn "stone" into the <em>tomb-stone</em>; the plain chips add era / place. Manual stand-in for the Situate-driven query (v2).</p>
     <p class="src-note">source: Cleveland Museum of Art Open Access (CC0) · public-domain only · provenance shown per image (§2.4)</p>
   </div>
 
@@ -99,12 +104,14 @@ var state={period:"any",busy:false};
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 function el(id){return document.getElementById(id);}
 
-// derive the keyword chips FROM the Mark 16 verbatim text (+ concrete move substrates) — never hand-picked
+// derive keyword chips FROM the Mark 16 text (+ move substrates); themes FROM the passage's paradigm drawer — never hand-picked
+function normw(x){return String(x||"").toLowerCase().replace(/^(the|a|an)\s+/,"").trim();}
 Promise.all([
   fetch(BASE+"checkout.json").then(function(r){return r.json();}).catch(function(){return null;}),
-  fetch(BASE+"moves.json").then(function(r){return r.json();}).catch(function(){return null;})
-]).then(function(res){ buildChips(res[0],res[1]); })
-  .catch(function(){ buildChips(null,null); });
+  fetch(BASE+"moves.json").then(function(r){return r.json();}).catch(function(){return null;}),
+  fetch(BASE+"paradigm_node_drawer.json").then(function(r){return r.json();}).catch(function(){return null;})
+]).then(function(res){ buildChips(res[0],res[1]); buildContext(res[2]); })
+  .catch(function(){ buildChips(null,null); buildContext(null); });
 
 function buildChips(co,mdoc){
   var textWords=[], moveWords=[];
@@ -113,19 +120,26 @@ function buildChips(co,mdoc){
     var freq={};
     (whole.toLowerCase().match(/[a-z][a-z'-]{3,}/g)||[]).forEach(function(w){ if(!STOPSET[w]) freq[w]=(freq[w]||0)+1; });
     textWords=Object.keys(freq).sort(function(a,b){return freq[b]-freq[a];}).slice(0,20).map(function(w){return {w:w,n:freq[w]};});
-    el("srctag").textContent="— "+textWords.length+" pulled from the verbatim Mark 16 text, by frequency";
+    el("srctag").textContent="— "+textWords.length+" pulled from the verbatim Mark 16 text, grouped by how often they recur";
   } else { el("srctag").textContent="— (text feed unavailable; type a word below)"; }
-  // supplement with concrete single-word-ish substrates from the moves (skip the abstract 'M10a'/'not-stated' labels)
+  // supplement with concrete substrates from the moves — DEDUP against the text words (article-stripped) so "the stone" != "stone"
   if(mdoc){
-    var seen={}; textWords.forEach(function(t){seen[t.w]=1;});
+    var seen={}; textWords.forEach(function(t){seen[normw(t.w)]=1;});
     (mdoc.moves||[]).forEach(function(m){
-      var s=(m.substrate||"").toLowerCase();
-      if(s && s.length<=14 && !/not-stated|^m\d|\(/.test(s) && !seen[s] && !STOPSET[s]){ seen[s]=1; moveWords.push(s); }
+      var s=(m.substrate||"").toLowerCase().trim(), ns=normw(s);
+      if(s && s.length<=14 && !/not-stated|^m\d|\(/.test(s) && !seen[ns] && !STOPSET[s] && !STOPSET[ns]){ seen[ns]=1; moveWords.push(s); }
     });
     moveWords=moveWords.slice(0,6);
   }
-  var h=textWords.map(function(t){return '<span class="chip" data-k="'+esc(t.w)+'">'+esc(t.w)+'<span class="n">'+t.n+'</span></span>';}).join("");
-  h+=moveWords.map(function(w){return '<span class="chip mv" data-k="'+esc(w)+'">'+esc(w)+'</span>';}).join("");
+  // GROUP by recurrence so the eye lands on the important words first (data-driven: frequency, not hand-picked)
+  var recurring=textWords.filter(function(t){return t.n>=3;});
+  var mentioned=textWords.filter(function(t){return t.n<3;});
+  function chipFor(t,big){return '<span class="chip'+(big?' big':'')+'" data-k="'+esc(t.w)+'">'+esc(t.w)+'<span class="n">'+t.n+'</span></span>';}
+  function grp(lab,inner){return '<div class="grp"><span class="glab">'+lab+'</span>'+inner+'</div>';}
+  var h="";
+  if(recurring.length) h+=grp("recurring — the words the scene turns on", recurring.map(function(t){return chipFor(t,true);}).join(""));
+  if(mentioned.length) h+=grp("mentioned once or twice", mentioned.map(function(t){return chipFor(t,false);}).join(""));
+  if(moveWords.length) h+=grp("what the coded moves act on (incl. the longer ending)", moveWords.map(function(w){return '<span class="chip mv" data-k="'+esc(w)+'">'+esc(w)+'</span>';}).join(""));
   el("chips").innerHTML=h||'<span class="chipnote">no words derived — type one below</span>';
   el("chips").querySelectorAll(".chip").forEach(function(c){c.addEventListener("click",function(){
     el("chips").querySelectorAll(".chip").forEach(function(x){x.classList.remove("on");});
@@ -133,10 +147,33 @@ function buildChips(co,mdoc){
   });});
 }
 
-// context terms that AUGMENT the query so a bare word grounds in the scene/era/place (the manual Situate stand-in)
-var CTX=[{k:"biblical",q:"biblical"},{k:"Christ / Jesus",q:"Christ"},{k:"Jerusalem",q:"Jerusalem"},{k:"ancient",q:"ancient"}];
-el("ctx").innerHTML=CTX.map(function(c,i){return '<span class="chip'+(i===0?' on':'')+'" data-ci="'+i+'">'+esc(c.k)+'</span>';}).join("");  // default "biblical" on — grounds every keyword from the first click (v2: the default comes from the Sitz)
-el("ctx").querySelectorAll(".chip").forEach(function(c){c.addEventListener("click",function(){ this.classList.toggle("on"); if(el("q").value.trim()) run(); });});
+// context terms that AUGMENT the query so a bare word grounds in the scene/era/place (the manual Situate stand-in).
+// THEME chips come from the passage's own paradigms (paradigm_node_drawer.json = the "table of contents" of what the text is about);
+// they turn a bare word like "stone" (the material) into the scene ("stone" + "empty tomb" -> the tomb-stone). v2 pulls these from the Sitz.
+var CTX=[];
+var GROUND=[{k:"biblical",q:"biblical"},{k:"Christ / Jesus",q:"Christ"},{k:"Jerusalem",q:"Jerusalem"},{k:"ancient",q:"ancient"}];
+function collectNames(o,out){ if(Array.isArray(o)) o.forEach(function(x){collectNames(x,out);}); else if(o&&typeof o==="object"){ for(var k in o){ if(k==="name"&&typeof o[k]==="string") out.push(o[k]); else collectNames(o[k],out); } } }
+function buildContext(pdoc){
+  var themes=[];
+  if(pdoc){
+    var names=[]; collectNames(pdoc,names);
+    var seenT={};
+    names.forEach(function(n){
+      var head=n.split("/")[0].replace(/-/g," ").replace(/\b(of|the|a|an)\b/g," ").replace(/\s+/g," ").trim();
+      if(head && !seenT[head]){ seenT[head]=1; themes.push(head); }
+    });
+    themes=themes.slice(0,5);
+  }
+  // default-on the resurrection-scene theme (the one naming the tomb) so every keyword grounds in the scene from the first click
+  var defIdx=-1; themes.forEach(function(t,i){ if(defIdx<0 && /tomb|resurrect/.test(t)) defIdx=i; });
+  if(defIdx<0 && themes.length) defIdx=0;
+  CTX = themes.map(function(t){return {k:t,q:t,th:true};}).concat(GROUND);
+  el("ctx").innerHTML = CTX.map(function(c,i){
+    var on = (c.th && i===defIdx) ? " on" : "";
+    return '<span class="chip'+(c.th?" th":"")+on+'" data-ci="'+i+'">'+esc(c.k)+'</span>';
+  }).join("");
+  el("ctx").querySelectorAll(".chip").forEach(function(c){c.addEventListener("click",function(){ this.classList.toggle("on"); if(el("q").value.trim()) run(); });});
+}
 function activeCtx(){ var out=[]; el("ctx").querySelectorAll(".chip.on").forEach(function(c){ out.push(CTX[+c.getAttribute("data-ci")].q); }); return out; }
 
 el("period").querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){
