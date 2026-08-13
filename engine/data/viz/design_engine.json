@@ -557,7 +557,7 @@
    "name": "The media picker",
    "also": "multi-media engine · step 1",
    "step": "Reading room",
-   "one_line": "see a word from the passage in the world it came from — CC0 museum imagery; the words are pulled from the Mark text + moves (not hand-picked), + a context selector (biblical / era / Jerusalem)",
+   "one_line": "see a word from the passage in the world it came from — public-domain art across multiple museum collections at once; words pulled from the Mark text + moves + paradigm themes (not hand-picked), context-augmented query, collection toggle",
    "reads_from": {
     "method_node": "(external · Met Open Access)",
     "feeds": [
@@ -575,16 +575,17 @@
     "cold_start": "pass",
     "vs_wild": "n/a"
    },
-   "off_the_shelf": "Cleveland Museum of Art Open Access API (keyless, CC0, CORS-verified, hotlink-friendly images) — MET 403s + AIC blocks image hotlinking + ignores context, so Cleveland is the reliable one",
+   "off_the_shelf": "Three keyless CORS collections queried in parallel: Cleveland Open Access (CC0) + the Met Collection API (public-domain) + Wikimedia Commons (public-domain filtered, CC-BY-SA dropped). AIC dropped (hotlink-blocks images cross-origin). Keyed collections (Smithsonian/Europeana/DPLA — keys already in .env; Harvard/Rijksmuseum TBD) deferred to a shared server-side key-proxy (v3).",
    "reference": "IMAGE-CREDITS.md §Image APIs; roadmap §C media gallery-picker",
-   "status": "v1 — external-imagery step; keywords derived from the passage+moves, context-augmented query (Cleveland, CC0); live (staged); images + biblical relevance verified",
+   "status": "v2 — multi-source (Cleveland + Met + Wikimedia-PD) with a collection toggle; keywords from passage+moves, theme context from the paradigm ToC; live (staged); relevance + cross-origin images end-to-end tested (Met 390 BCE funerary reliefs, CMA 'Three Marys at the Tomb'); v3: key-proxy for Smithsonian/Europeana/DPLA + Situate-driven query",
    "built": {
     "file": "/_staging/viz_media_picker.html",
     "state": "v1",
     "renders": "live Cleveland Open Access queries from Mark-16-derived keywords + context, CC0-only, period toggle; images load cross-origin",
     "live": true,
     "_title": "The media picker — what this looked like, then and there"
-   }
+   },
+   "renders": "live parallel queries across Cleveland + Met + Wikimedia from Mark-16-derived keywords + paradigm-theme context; PD/CC0 only; per-source failure is silent (Promise.allSettled) so no source blanks the grid; dedup across sources; period toggle; each card credits collection + license"
   }
  ],
  "_generated_note": "VOLATILE FIELDS (built.file / built.live / reads_from.feeds / built._title) are DERIVED by _scripts/build_design_engine.py from the actual figure files — re-run it to refresh; a dead link shows as built.live=false. Authored fields are preserved."
