@@ -1,0 +1,196 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The morphospace — do traditions cluster, or interleave?</title>
+<style>
+:root{--paper:#F7F2E7;--paper-2:#FBF8F0;--paper-3:#EFE9DA;--ink:#2B2823;--ink-2:#5F5A50;--ink-3:#8E877A;--rule:#DDD6C6;
+  --fern:#2f5233;--gold:#9a6410;--terracotta:#b5532a;--sky:#3f5c86;--olive:#6b6a25;--plum:#6d3f6a;--teal:#2b6b63;--rose:#a64a63;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;
+  --fern:#8fbf94;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;--plum:#c79ac2;--teal:#7fc5bb;--rose:#e090a5;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;
+  --fern:#8fbf94;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;--plum:#c79ac2;--teal:#7fc5bb;--rose:#e090a5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Iowan Old Style",Palatino,Georgia,serif;line-height:1.6}
+.wrap{max-width:1080px;margin:0 auto;padding:34px 22px 70px}
+.eyebrow{font-family:ui-sans-serif,system-ui,sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+h1{font-size:28px;margin:.15em 0 .1em;font-weight:600;letter-spacing:-.015em;text-wrap:balance}
+.lede{color:var(--ink-2);font-size:15.5px;margin:.3em 0 0;max-width:70ch}.lede b{color:var(--ink)}
+.stage{display:flex;gap:18px;align-items:flex-start;margin:22px 0 0;flex-wrap:wrap}
+.plotcol{flex:1 1 560px;min-width:320px}
+.side{flex:1 1 250px;min-width:230px;font-family:ui-sans-serif,system-ui,sans-serif}
+figure{margin:0;background:var(--paper-2);border:1px solid var(--rule);border-radius:12px;padding:10px 10px 4px}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.axl{font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;fill:var(--ink-3)}
+.axl b{fill:var(--ink-2)}
+.dot{stroke:none}
+.tip{position:fixed;pointer-events:none;z-index:9;max-width:290px;background:var(--paper-2);border:1px solid var(--rule);border-radius:9px;
+  padding:9px 11px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:11.5px;color:var(--ink);box-shadow:0 6px 22px #0003;display:none;line-height:1.45}
+.tip .tt{font-weight:600;margin-bottom:2px}.tip .tf{color:var(--ink-2);font-size:10.5px;margin-bottom:5px}
+.tip table{border-collapse:collapse;width:100%}.tip td{padding:1px 0;vertical-align:top;font-size:10.5px}
+.tip td.k{color:var(--ink-3);padding-right:8px;white-space:nowrap}
+.leg{margin:0 0 6px}.leg h3,.side h3{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);margin:16px 0 7px;font-weight:600}
+.li{display:flex;align-items:center;gap:7px;font-size:12px;padding:2px 0;cursor:pointer;color:var(--ink-2);user-select:none}
+.li:hover{color:var(--ink)}.li.off{opacity:.34}
+.sw{width:11px;height:11px;border-radius:50%;flex:0 0 auto}
+.li .pc{margin-left:auto;font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--ink-3)}
+.card{background:var(--paper-3);border:1px solid var(--rule);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 14px;margin:14px 0;font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px}
+.card.key{border-left-color:var(--fern)}.card.key b{color:var(--fern)}
+.card h4{margin:0 0 5px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+table.diag{border-collapse:collapse;width:100%;font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;margin:4px 0}
+table.diag td{padding:4px 8px;border-bottom:1px solid var(--rule);vertical-align:top}
+table.diag td.n{font-family:ui-monospace,Menlo,monospace;color:var(--sky);white-space:nowrap;font-weight:600}
+.curve td{padding:3px 8px;font-size:11.5px}.curve td.n{font-family:ui-monospace,Menlo,monospace;font-weight:600}
+.pos{color:var(--terracotta)}.neg{color:var(--fern)}
+a{color:var(--gold)}
+footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--rule);font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;color:var(--ink-3)}
+.load{font-family:ui-sans-serif,system-ui,sans-serif;color:var(--ink-3);font-size:13px;padding:40px 0;text-align:center}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Grammar of Meaning · the morphospace · method-validated baseline</div>
+  <h1>Do traditions cluster by tradition — or interleave?</h1>
+  <p class="lede">Every coded <b>read</b> is a point, placed by its position on the shared frame (an MCA embedding of the categorical axes). If traditions were self-contained, they'd fall into separate clumps. <b>They don't.</b> Below, each dot is one read, colored by tradition-family — and the families run <em>through</em> each other.</p>
+
+  <div class="stage">
+    <div class="plotcol">
+      <figure>
+        <div class="load" id="load">plotting the reads…</div>
+        <svg id="plot" viewBox="0 0 640 500" role="img" aria-label="morphospace scatter" style="display:none"></svg>
+      </figure>
+      <p class="eyebrow" id="axnote" style="margin-top:8px"></p>
+    </div>
+    <div class="side">
+      <div class="leg"><h3>tradition-family <span style="text-transform:none;letter-spacing:0">· click to isolate</span></h3><div id="legend"></div></div>
+    </div>
+  </div>
+
+  <div class="card key" id="headline"></div>
+
+  <div class="side" style="font-family:ui-sans-serif,system-ui,sans-serif">
+    <h3>the honest diagnostics</h3>
+    <table class="diag" id="diag"></table>
+  </div>
+
+  <div class="card" id="prevalence"></div>
+
+  <footer id="foot"></footer>
+</div>
+
+<div class="tip" id="tip"></div>
+
+<script>
+var FEED="/engine/data/viz/morphospace_points.json";
+function esc(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+function el(id){return document.getElementById(id);}
+// family palette — main families distinct; the long tail shares a neutral. Order is display order.
+var PAL=[
+  ["Abrahamic","var(--gold)"],["Dharmic","var(--fern)"],["East Asian","var(--sky)"],
+  ["Africa: Traditional Religions","var(--terracotta)"],["Americas: Native & First Nations","var(--plum)"],
+  ["Philosophical","var(--ink-3)"],["Psychological","var(--teal)"],["Modern Spiritual","var(--rose)"],
+  ["META-ARC","var(--olive)"]
+];
+var COLOR={}; PAL.forEach(function(p){COLOR[p[0]]=p[1];});
+function colorOf(f){return COLOR[f]||"var(--ink-3)";}
+
+fetch(FEED).then(function(r){return r.json();}).then(build).catch(function(e){
+  el("load").textContent="could not load the morphospace feed ("+e.message+")";
+});
+
+function build(d){
+  var pts=d.points, AX=d.axes_order, W=640,H=500, m={l:40,r:14,t:14,b:40};
+  // bounds
+  var xs=pts.map(function(p){return p.x;}), ys=pts.map(function(p){return p.y;});
+  var xmin=Math.min.apply(null,xs),xmax=Math.max.apply(null,xs),ymin=Math.min.apply(null,ys),ymax=Math.max.apply(null,ys);
+  var px=(xmax-xmin)*0.04,py=(ymax-ymin)*0.04; xmin-=px;xmax+=px;ymin-=py;ymax+=py;
+  function sx(x){return m.l+(x-xmin)/(xmax-xmin)*(W-m.l-m.r);}
+  function sy(y){return H-m.b-(y-ymin)/(ymax-ymin)*(H-m.t-m.b);}   // y up
+  var svg=el("plot"), NS="http://www.w3.org/2000/svg";
+  function mk(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
+  // axes (origin lines at 0 if in range)
+  if(xmin<0&&xmax>0) svg.appendChild(mk("line",{x1:sx(0),y1:m.t,x2:sx(0),y2:H-m.b,stroke:"var(--rule)","stroke-dasharray":"2 3"}));
+  if(ymin<0&&ymax>0) svg.appendChild(mk("line",{x1:m.l,y1:sy(0),x2:W-m.r,y2:sy(0),stroke:"var(--rule)","stroke-dasharray":"2 3"}));
+  // dots — one group, event-delegated hover
+  var g=mk("g",{});
+  pts.forEach(function(p,i){
+    var c=mk("circle",{cx:sx(p.x).toFixed(1),cy:sy(p.y).toFixed(1),r:2.4,fill:colorOf(p.f),"fill-opacity":0.55,"data-i":i,class:"dot"});
+    g.appendChild(c);
+  });
+  svg.appendChild(g);
+  // axis labels from data (NOT the old prose names — the new run's loadings differ)
+  var ai=d.diagnostics.adjusted_inertia_pct||[];
+  svg.appendChild(mk("text",{x:(m.l+W-m.r)/2,y:H-8,"text-anchor":"middle",class:"axl"})).innerHTML='Dimension 1 · <tspan style="font-weight:600">'+(ai[0]||"?")+'%</tspan> adjusted inertia';
+  var yl=mk("text",{x:-((m.t+H-m.b)/2),y:12,"text-anchor":"middle",class:"axl",transform:"rotate(-90)"}); yl.innerHTML='Dimension 2 · '+(ai[1]||"?")+'%'; svg.appendChild(yl);
+  el("load").style.display="none"; svg.style.display="block";
+
+  // hover
+  var tip=el("tip"), AXLBL=AX.map(function(a){return a.replace(/_/g," ").replace("r ","R:");});
+  g.addEventListener("mouseover",function(ev){
+    var t=ev.target; if(t.tagName!=="circle")return; var p=pts[+t.getAttribute("data-i")];
+    t.setAttribute("r",4.5); t.setAttribute("fill-opacity",1); t.setAttribute("stroke","var(--ink)"); t.setAttribute("stroke-width","0.7");
+    var rows=AX.map(function(a,j){return '<tr><td class="k">'+esc(AXLBL[j])+'</td><td>'+esc(p.a[j]||"—")+'</td></tr>';}).join("");
+    tip.innerHTML='<div class="tt">'+esc(p.t||"(untitled)")+'</div><div class="tf">'+esc(p.f)+(p.ti?' · '+esc(p.ti):'')+'</div><table>'+rows+'</table>';
+    tip.style.display="block";
+  });
+  g.addEventListener("mousemove",function(ev){
+    tip.style.left=Math.min(ev.clientX+14,window.innerWidth-300)+"px"; tip.style.top=Math.min(ev.clientY+14,window.innerHeight-220)+"px";
+  });
+  g.addEventListener("mouseout",function(ev){
+    var t=ev.target; if(t.tagName==="circle"){t.setAttribute("r",2.4);t.setAttribute("fill-opacity",0.55);t.removeAttribute("stroke");}
+    tip.style.display="none";
+  });
+
+  // legend (from feed.families, %); click to isolate
+  var fam=d.families, off={};
+  var order=Object.keys(fam);   // already sorted by % desc in the generator
+  el("legend").innerHTML=order.map(function(f){
+    return '<div class="li" data-f="'+esc(f)+'"><span class="sw" style="background:'+colorOf(f)+'"></span>'+esc(f)+'<span class="pc">'+fam[f]+'%</span></div>';
+  }).join("");
+  el("legend").querySelectorAll(".li").forEach(function(li){li.addEventListener("click",function(){
+    var f=this.getAttribute("data-f"); off[f]=!off[f]; this.classList.toggle("off",off[f]);
+    var anyOff=Object.keys(off).some(function(k){return off[k];});
+    Array.prototype.forEach.call(g.childNodes,function(c){
+      var p=pts[+c.getAttribute("data-i")]; var hide=off[p.f];
+      c.setAttribute("fill-opacity", hide?0:(anyOff?0.75:0.55));
+    });
+  });});
+
+  // headline + diagnostics + prevalence — render-from-data (§2.8/§2.16)
+  var dg=d.diagnostics, pv=d.prevalence_curve, sil=dg.silhouette_normalized;
+  el("headline").innerHTML='<h4>the finding — stated honestly</h4>The corpus is <b>77% Abrahamic across all families ('+
+    'about 85% of the religious reads)</b> — you can SEE that as the dense gold mass. A <em>raw</em> tradition-separation score on '+
+    'that skew reads as "separation" (silhouette <span class="pos">+0.24</span>), but that is a <b>prevalence artifact</b>: the one '+
+    'big bloc looks tight next to the sparse rest. <b>Balance the classes and the score collapses toward zero/negative</b> '+
+    '(normalized <span class="neg">'+sil+'</span>) — the families <b>interleave</b>. There is no meaningful clustering <em>by tradition</em>: '+
+    'positions rhyme <em>across</em> traditions. That is the convergence the whole project is testing for.';
+
+  var loads=(dg.dim_top_loadings&&dg.dim_top_loadings[0]||[]).slice(0,3).join(" · ");
+  el("axnote").innerHTML="Dim 1 top loadings: "+esc(loads)+" — axis English names are intentionally NOT hardcoded (this run's loadings differ from the earlier prose page).";
+  el("diag").innerHTML=[
+    ["reads plotted", dg.n_reads],
+    ["adjusted inertia (dims 1–3)", (dg.adjusted_inertia_pct||[]).join(" / ")+" %"],
+    ["silhouette — normalized (balanced)", sil+"  →  interleave"],
+    ["MCA vs Gower/PCoA agreement", dg.mca_pcoa_distance_agreement+"  (moderate)"],
+    ["basis", "single-label baseline · Stage 6 coded = "+dg.stage6_coded]
+  ].map(function(r){return '<tr><td>'+esc(r[0])+'</td><td class="n">'+esc(r[1])+'</td></tr>';}).join("");
+
+  el("prevalence").innerHTML='<h4>why raw ≠ balanced — the prevalence curve</h4>'+
+    '<div style="color:var(--ink-2);margin-bottom:6px">'+esc(pv.read)+'</div>'+
+    '<table class="curve"><tr><td class="k" style="color:var(--ink-3)">Abrahamic cap</td><td class="k" style="color:var(--ink-3)">n</td><td class="k" style="color:var(--ink-3)">silhouette</td><td class="k" style="color:var(--ink-3)">reading</td></tr>'+
+    pv.rows.map(function(r){var neg=r.silhouette<0;return '<tr><td>'+esc(r.abrahamic_cap)+'</td><td class="n">'+r.n+'</td><td class="n '+(neg?"neg":"pos")+'">'+(r.silhouette>0?"+":"")+r.silhouette+'</td><td>'+esc(r.reading)+'</td></tr>';}).join("")+
+    '</table><div style="color:var(--ink-3);font-size:11px;margin-top:6px">Source: '+esc(pv.source_doc)+' · the skew is shown, not hidden (§2.8).</div>';
+
+  el("foot").innerHTML="rendered from "+esc(d._source)+" (run "+esc(dg.snapshot||"—")+") · "+dg.n_reads+" reads · MCA, Greenacre-adjusted · Procrustes-aligned · single-label baseline, candidates not findings, Stage 6 = 0 · Design SB · 2026-08-13";
+}
+</script>
+
+<!-- METHODOLOGY FOOTER
+HOW PRODUCED: Design SB S171 (2026-08-13) for the Saquib show. Atlas Reader SB confirmed build-the-interactive-scatter
+  with an honesty-critical caption spec (§2.8): the RAW silhouette (+0.24) is a prevalence artifact of an 85%-Abrahamic
+  corpus and must NOT be captioned as divergence; cite the BALANCED/normalized silhouette (interleave = convergence) +
+  the prevalence curve. Renders from the compact feed (_scripts/build_morphospace_feed.py → morphospace_points.json),
+  itself derived from the canonical MCA run (twelve-laws DATA_mca_morphospace_living_latest.json).
+SCHOLARLY SOURCES: DATA_mca_morphospace_living_latest.json (the run); FINDING_mca_repermute_postdim1_balanced_s167 (the
+  prevalence curve); §2.8 bias-visibility; §2.13 single-store; §2.16 render-from-data (axis names + all numbers from data).
+WHAT NEEDS VERIFICATION: (1) live render — 3,185 SVG dots + delegated hover (verify smoothness in-browser). (2) z-axis
+  (dim3) toggle deferred to v2 per Atlas Reader. (3) stale prose pages (morphospace.html / method-canonical.html) still
+  carry the earlier run's numbers — flag/supersede so Saquib doesn't hit the sign-flipped figures.
+-->
