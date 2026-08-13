@@ -586,6 +586,36 @@
     "_title": "The media picker — what this looked like, then and there"
    },
    "renders": "live parallel queries across Cleveland + Met + Wikimedia from Mark-16-derived keywords + paradigm-theme context; PD/CC0 only; per-source failure is silent (Promise.allSettled) so no source blanks the grid; dedup across sources; period toggle; each card credits collection + license"
+  },
+  {
+   "id": "morphospace",
+   "name": "The morphospace — do traditions cluster, or interleave?",
+   "also": "MCA scatter · the geometry of positions",
+   "step": "Compare",
+   "one_line": "every coded observation as a dot; near = similar meaning-move, color = tradition — so you see whether traditions clump into territories or blend (they blend = convergence)",
+   "reads_from": {
+    "method_node": "atlas / MCA morphospace",
+    "feeds": [
+     "viz/morphospace_points.json"
+    ]
+   },
+   "encoding": "2D scatter (dim1×dim2), color=tradition_family, hover=text+8 axis values, click-to-isolate legend; ?text=<slug> highlights one text's passage+move points on the faint background (reading-room mode)",
+   "audience": "method reviewer (Saquib) + reading-room visitor",
+   "composes_into": "method SSOT + reading-room 'locate this text'",
+   "gate": {
+    "fidelity": "render-from-data; axis names NOT hardcoded",
+    "cold_read": "legible without MCA knowledge — dot=observation, near=similar, color=tradition, watch-the-colors",
+    "cold_start": "how-to-read strip + plain finding up top; stats in fine-print",
+    "vs_wild": "honest §2.8 prevalence caption — raw +0.24 artifact, balanced interleave"
+   },
+   "off_the_shelf": "none — bespoke SVG scatter; feed derived by _scripts/build_morphospace_feed.py from the canonical MCA run",
+   "reference": "pudding-style scatter, but legibility-first (the pattern carries meaning, not the axes)",
+   "status": "v1 — Saquib build; full scatter + prevalence-honest caption + highlight-mode scaffold (surface 2 awaits Atlas Reader's projected Mark-16 coords)",
+   "built": {
+    "file": "/_staging/viz_morphospace.html",
+    "live": true,
+    "_title": "The morphospace — do traditions cluster, or interleave?"
+   }
   }
  ],
  "_generated_note": "VOLATILE FIELDS (built.file / built.live / reads_from.feeds / built._title) are DERIVED by _scripts/build_design_engine.py from the actual figure files — re-run it to refresh; a dead link shows as built.live=false. Authored fields are preserved."

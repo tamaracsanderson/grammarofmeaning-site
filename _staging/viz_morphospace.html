@@ -43,12 +43,25 @@ table.diag td.n{font-family:ui-monospace,Menlo,monospace;color:var(--sky);white-
 a{color:var(--gold)}
 footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--rule);font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;color:var(--ink-3)}
 .load{font-family:ui-sans-serif,system-ui,sans-serif;color:var(--ink-3);font-size:13px;padding:40px 0;text-align:center}
+.howto{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;padding:0;font-family:ui-sans-serif,system-ui,sans-serif}
+.howto li{flex:1 1 150px;min-width:140px;background:var(--paper-2);border:1px solid var(--rule);border-radius:9px;padding:9px 12px;font-size:12.5px;color:var(--ink-2);display:flex;align-items:center;gap:9px}
+.howto li span{flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:var(--gold);color:var(--paper);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:ui-monospace,Menlo,monospace}
+.howto li b{color:var(--ink)}
+details.fine{margin:16px 0 0;font-family:ui-sans-serif,system-ui,sans-serif}
+details.fine summary{cursor:pointer;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);padding:6px 0}
+details.fine[open] summary{color:var(--ink-2)}
 </style>
 
 <div class="wrap">
   <div class="eyebrow">Grammar of Meaning · the morphospace · method-validated baseline</div>
   <h1>Do traditions cluster by tradition — or interleave?</h1>
-  <p class="lede">Every coded <b>read</b> is a point, placed by its position on the shared frame (an MCA embedding of the categorical axes). If traditions were self-contained, they'd fall into separate clumps. <b>They don't.</b> Below, each dot is one read, colored by tradition-family — and the families run <em>through</em> each other.</p>
+  <p class="lede">Each dot is one <b>observation</b> a text makes about reality — its stance on eight questions we code (what it treats as real, how it knows, what it's for, and so on). Two dots sit <b>close</b> when the two observations make <b>similar moves</b>, far apart when they differ. Color marks the <b>tradition</b>. So the question is plain — <b>do the colors clump into separate territories, or blend?</b></p>
+  <ol class="howto">
+    <li><span>1</span><div>a dot = one <b>observation</b> a text makes</div></li>
+    <li><span>2</span><div><b>near</b> = the two make similar moves</div></li>
+    <li><span>3</span><div><b>color</b> = which tradition it's from</div></li>
+    <li><span>4</span><div>so — do the colors <b>clump, or blend?</b></div></li>
+  </ol>
 
   <div class="stage">
     <div class="plotcol">
@@ -65,12 +78,14 @@ footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--rule);font-fa
 
   <div class="card key" id="headline"></div>
 
-  <div class="side" style="font-family:ui-sans-serif,system-ui,sans-serif">
-    <h3>the honest diagnostics</h3>
-    <table class="diag" id="diag"></table>
-  </div>
-
-  <div class="card" id="prevalence"></div>
+  <details class="fine">
+    <summary>the fine print — how the space is built, and the honest numbers ▾</summary>
+    <div class="side" style="font-family:ui-sans-serif,system-ui,sans-serif">
+      <p style="font-size:12.5px;color:var(--ink-2);max-width:70ch">The space is a computed compression (MCA — correspondence analysis) of the eight coded axes: it finds the directions along which the observations differ most, so that <b>nearness on the plot means agreement across those eight axes</b>. The axes aren't labels to decode — they're just those directions of difference.</p>
+      <table class="diag" id="diag"></table>
+    </div>
+    <div class="card" id="prevalence"></div>
+  </details>
 
   <footer id="foot"></footer>
 </div>
@@ -79,6 +94,7 @@ footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--rule);font-fa
 
 <script>
 var FEED="/engine/data/viz/morphospace_points.json";
+var HL=(new URLSearchParams(location.search)).get("text");   // ?text=mark16 → "locate this text" reading-room mode (surface 2)
 function esc(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
 function el(id){return document.getElementById(id);}
 // family palette — main families distinct; the long tail shares a neutral. Order is display order.
@@ -115,10 +131,9 @@ function build(d){
     g.appendChild(c);
   });
   svg.appendChild(g);
-  // axis labels from data (NOT the old prose names — the new run's loadings differ)
-  var ai=d.diagnostics.adjusted_inertia_pct||[];
-  svg.appendChild(mk("text",{x:(m.l+W-m.r)/2,y:H-8,"text-anchor":"middle",class:"axl"})).innerHTML='Dimension 1 · <tspan style="font-weight:600">'+(ai[0]||"?")+'%</tspan> adjusted inertia';
-  var yl=mk("text",{x:-((m.t+H-m.b)/2),y:12,"text-anchor":"middle",class:"axl",transform:"rotate(-90)"}); yl.innerHTML='Dimension 2 · '+(ai[1]||"?")+'%'; svg.appendChild(yl);
+  // axes labelled in PLAIN terms — they're the directions of biggest difference, not codes to decode
+  svg.appendChild(mk("text",{x:(m.l+W-m.r)/2,y:H-8,"text-anchor":"middle",class:"axl"})).textContent="← the widest way the observations differ →";
+  var yl=mk("text",{x:-((m.t+H-m.b)/2),y:12,"text-anchor":"middle",class:"axl",transform:"rotate(-90)"}); yl.textContent="← next-widest →"; svg.appendChild(yl);
   el("load").style.display="none"; svg.style.display="block";
 
   // hover
@@ -155,15 +170,9 @@ function build(d){
 
   // headline + diagnostics + prevalence — render-from-data (§2.8/§2.16)
   var dg=d.diagnostics, pv=d.prevalence_curve, sil=dg.silhouette_normalized;
-  el("headline").innerHTML='<h4>the finding — stated honestly</h4>The corpus is <b>77% Abrahamic across all families ('+
-    'about 85% of the religious reads)</b> — you can SEE that as the dense gold mass. A <em>raw</em> tradition-separation score on '+
-    'that skew reads as "separation" (silhouette <span class="pos">+0.24</span>), but that is a <b>prevalence artifact</b>: the one '+
-    'big bloc looks tight next to the sparse rest. <b>Balance the classes and the score collapses toward zero/negative</b> '+
-    '(normalized <span class="neg">'+sil+'</span>) — the families <b>interleave</b>. There is no meaningful clustering <em>by tradition</em>: '+
-    'positions rhyme <em>across</em> traditions. That is the convergence the whole project is testing for.';
+  el("headline").innerHTML='<h4>what the picture shows</h4><b>The colors blend — they don’t clump.</b> If each tradition were its own island of meaning, you’d see separate colored territories. Instead the families run <em>through</em> each other: similar observations keep recurring <b>across</b> traditions that never met. That interleaving is <b>convergence</b> — the very thing this project asks about.<br><span style="color:var(--ink-2);font-size:12px">One honest catch: the corpus is <b>77% Abrahamic</b> (the dense gold mass), so a naive “separation” score is really just that one big bloc looking tight. Balance the traditions evenly and the apparent separation vanishes — the interleaving is what holds. The numbers are in the fine print.</span>';
 
-  var loads=(dg.dim_top_loadings&&dg.dim_top_loadings[0]||[]).slice(0,3).join(" · ");
-  el("axnote").innerHTML="Dim 1 top loadings: "+esc(loads)+" — axis English names are intentionally NOT hardcoded (this run's loadings differ from the earlier prose page).";
+  el("axnote").innerHTML='The two axes are just the directions of biggest difference — a computed compression, not a label to read. <b>Watch the colors, not the axes.</b>';
   el("diag").innerHTML=[
     ["reads plotted", dg.n_reads],
     ["adjusted inertia (dims 1–3)", (dg.adjusted_inertia_pct||[]).join(" / ")+" %"],
@@ -179,6 +188,36 @@ function build(d){
     '</table><div style="color:var(--ink-3);font-size:11px;margin-top:6px">Source: '+esc(pv.source_doc)+' · the skew is shown, not hidden (§2.8).</div>';
 
   el("foot").innerHTML="rendered from "+esc(d._source)+" (run "+esc(dg.snapshot||"—")+") · "+dg.n_reads+" reads · MCA, Greenacre-adjusted · Procrustes-aligned · single-label baseline, candidates not findings, Stage 6 = 0 · Design SB · 2026-08-13";
+
+  // "locate this text" mode (surface 2 — reading room): ?text=mark16 highlights one text's passage + move points on the faint background
+  if(HL){
+    var slug=HL.toLowerCase().replace(/[^a-z0-9]/g,"");
+    fetch("/engine/data/viz/morphospace_highlight_"+slug+".json").then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(hl){
+      Array.prototype.forEach.call(g.childNodes,function(c){c.setAttribute("fill-opacity",0.07);c.setAttribute("fill","var(--ink-3)");});  // fade the whole background
+      var ov=mk("g",{}); svg.appendChild(ov);
+      function hov(elm,title,axes,extra){
+        elm.addEventListener("mouseover",function(){
+          var rows=(axes||[]).map(function(a,j){return '<tr><td class="k">'+esc(AXLBL[j]||("axis "+(j+1)))+'</td><td>'+esc(a||"—")+'</td></tr>';}).join("");
+          tip.innerHTML='<div class="tt">'+esc(title)+'</div>'+(extra?'<div class="tf">'+esc(extra)+'</div>':'')+'<table>'+rows+'</table>'; tip.style.display="block";
+        });
+        elm.addEventListener("mousemove",function(ev){tip.style.left=Math.min(ev.clientX+14,window.innerWidth-300)+"px";tip.style.top=Math.min(ev.clientY+14,window.innerHeight-220)+"px";});
+        elm.addEventListener("mouseout",function(){tip.style.display="none";});
+      }
+      (hl.move_points||[]).forEach(function(p){
+        var c=mk("circle",{cx:sx(p.x).toFixed(1),cy:sy(p.y).toFixed(1),r:3,fill:"var(--sky)","fill-opacity":0.82,stroke:"var(--paper)","stroke-width":0.5}); ov.appendChild(c);
+        hov(c,p.label||"move",p.a,p.gloss||p.paraphrase);
+      });
+      (hl.passage_points||[]).forEach(function(p){
+        var s=sx(p.x),y=sy(p.y);
+        var dm=mk("path",{d:"M"+s+" "+(y-7)+"L"+(s+7)+" "+y+"L"+s+" "+(y+7)+"L"+(s-7)+" "+y+"Z",fill:"var(--terracotta)",stroke:"var(--paper)","stroke-width":1.4}); ov.appendChild(dm);
+        hov(dm,p.label||"passage",p.a);
+      });
+      var tl=hl.text_label||HL;
+      document.querySelector("h1").textContent="Where does "+tl+" sit in the space?";
+      document.querySelector(".lede").innerHTML='The faint dots are the whole coded space ('+dg.n_reads+' observations). Highlighted: <b>'+esc(tl)+'</b> — its <span style="color:var(--terracotta);font-weight:600">passage-level points ◆</span> and its <span style="color:var(--sky);font-weight:600">individual move positions ●</span>, projected onto the space (not re-fit). The reading practice: watch how one text’s moves <em>distribute</em> — some near each other, some flung apart — across the whole space of meaning.';
+      el("headline").innerHTML='<h4>the reading-room view</h4>'+esc(hl.background_note||("The background is Abrahamic-skewed (OT/NT acquisition priority for the gospels, §2.8) — so read "+tl+"’s moves relative to each OTHER, and to where other traditions fall, not as absolute coordinates."))+' <b>'+((hl.move_points||[]).length)+' move points · '+((hl.passage_points||[]).length)+' passage points.</b>';
+    }).catch(function(){ el("axnote").innerHTML+=' <span style="color:var(--terracotta)">· (no highlight data for “'+esc(HL)+'” yet — hand me the projected coords)</span>'; });
+  }
 }
 </script>
 
