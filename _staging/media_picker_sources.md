@@ -11,9 +11,7 @@ Verified 2026-08-13 (design-SB, server-side curl with a foreign `Origin`/`Refere
 | **Cleveland Museum of Art** | `openaccess-api.clevelandart.org/api/artworks/?q=` | ✓ | `*` | ✓ | CC0 filter (`share_license_status`) | **shipped** |
 | **The Met** | `collectionapi.metmuseum.org/.../search` → per-object | ✓ | ✓ | ✓ | `isPublicDomain` filter | **shipped** |
 | **Wikimedia Commons** | `commons.wikimedia.org/w/api.php` (generator=search) | ✓ | `*` | ✓ | PD/CC0 filtered (drops CC-BY-SA) | **shipped** |
-| **Rijksmuseum** | `data.rijksmuseum.nl/search/collection?title=&description=` → resolve object URI | ✓ | `*` | ⚠ IIIF path unconfirmed | rights per record (EDM) | search verified; **image path TBD** |
-
-Rijksmuseum note: Search API returns `orderedItems` as bare object URIs (`id.rijksmuseum.nl/NNN`); each must be content-negotiated (`Accept: application/ld+json`, CORS `*`) to a Linked-Art object — but the object JSON did NOT surface an obvious image URL in a first pass. The image comes from the IIIF Image API; needs one more probe to wire `shows → VisualItem → IIIF` before Rijksmuseum joins Tier 1.
+Rijksmuseum was investigated for Tier 1 and **deferred** — see below.
 
 ## Tier 2 — VIA PROXY (needs the Worker: key and/or CORS)
 
@@ -33,9 +31,13 @@ The **proxy solves TWO problems at once**, not just one:
 
 So one small Cloudflare Worker unlocks Cooper Hewitt + Smithsonian + Europeana + DPLA + Harvard together. The picker's `SOURCES` adapter array already supports adding them as normalized modules; each Tier-2 source becomes `fetch(WORKER_URL + "?source=cooperhewitt&q=…")`.
 
+## Deferred from the live picker
+
+- **Rijksmuseum Search API** (`data.rijksmuseum.nl/search/collection`) — keyless + CORS `*` + JSON, so it *technically* qualifies, BUT the image is **four hops deep** in the Linked-Art graph: search → object URI → resolve → `shows` VisualItem URI → resolve → `digitally_shown_by` DigitalObject URI → resolve → IIIF `access_point`. That's ~4 content-negotiation resolves per result (≈25 requests to render 8 thumbnails), relevance on `description=` is loose (a "resurrection" search surfaced a Saenredam architectural interior), and — decisively — **Rijksmuseum is already coming in via OAI-PMH on the library side**, so a heavy live-picker path would be redundant. Deferred: Rijksmuseum's route in is the library harvest; the picker reaches it later via step-2 (library-complement).
+
 ## Not for the picker (library lane)
 
-- **Rijksmuseum OAI-PMH** (`data.rijksmuseum.nl/oai`) — keyless, CORS `*`, XML, but a *bulk-harvest* protocol (no keyword search). Handed to the Librarian as a CRADLE harvest feed (§2.10) → becomes library content → the picker's eventual "step 2" (library-complement) draws on it.
+- **Rijksmuseum OAI-PMH** (`data.rijksmuseum.nl/oai`) — keyless, CORS `*`, XML, but a *bulk-harvest* protocol (no keyword search). Handed to the Librarian as a CRADLE harvest feed (§2.10) → becomes library content → the picker's eventual "step 2" (library-complement) draws on it. **This is Rijksmuseum's route in.**
 
 ---
 
