@@ -34,6 +34,7 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
 .chip.big{font-size:14px;font-weight:600;padding:6px 14px}
 .chip.th{border-color:var(--fern);color:var(--fern)}
 .chip.th.on{background:var(--gold);border-color:var(--gold);color:#fff}
+.warn{color:var(--terracotta)}
 .chipnote{font-family:var(--sans);font-size:10.5px;color:var(--ink-3);margin:0 0 14px}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 6px}
 .q{flex:1;min-width:200px;font-family:var(--serif);font-size:15px;padding:8px 12px;border:1px solid var(--rule);border-radius:9px;background:var(--paper-3);color:var(--ink)}
@@ -64,7 +65,7 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
   <p class="kicker">Multi-media engine · step 1 — external imagery</p>
   <h1>What did this look like — then, and there?</h1>
   <p class="sub">Pick a word from the passage and see it in the world it came from: the empty tomb, but also the <em>spices</em>, the <em>linen</em>, the <em>stone</em> — public-domain museum art, filtered toward the period.</p>
-  <p class="how"><b>Step 1 (this):</b> keyword-driven — the words are pulled <b>from the Mark 16 text</b> (and its coded moves), CC0 imagery from the Cleveland Museum of Art open collection. <b>Later:</b> the query is driven by <b>Situate</b> (paradigm · location · time) so it grounds in the <em>Sitz</em>. <b>Step 2:</b> complemented by what's already in the library.</p>
+  <p class="how"><b>Step 1 (this):</b> keyword-driven — the words are pulled <b>from the Mark 16 text</b> (and its coded moves), public-domain / CC0 imagery from three open collections at once: <b>Cleveland</b> · <b>the Met</b> · <b>Wikimedia Commons</b> (public-domain only). <b>Later:</b> the query is driven by <b>Situate</b> (paradigm · location · time) so it grounds in the <em>Sitz</em>. <b>Step 2:</b> complemented by what's already in the library.</p>
 
   <div class="controls">
     <p class="clabel">words from the passage <span class="src-tag" id="srctag">— loading from the Mark 16 text…</span></p>
@@ -79,11 +80,15 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
       <button class="go" id="go">show</button>
     </div>
     <div class="row" style="margin-top:10px">
+      <span class="clabel" style="margin:0 4px 0 0;align-self:center">collections</span>
+      <div class="chips" id="src" style="margin:0"></div>
+    </div>
+    <div class="row" style="margin-top:10px">
       <span class="clabel" style="margin:0 4px 0 0;align-self:center">with context</span>
       <div class="chips" id="ctx" style="margin:0"></div>
     </div>
     <p class="chipnote">a bare word ("stone") pulls the material, not the scene — the <span style="color:var(--fern)">green theme chips</span> come from the passage's own paradigms (its "table of contents") and turn "stone" into the <em>tomb-stone</em>; the plain chips add era / place. Manual stand-in for the Situate-driven query (v2).</p>
-    <p class="src-note">source: Cleveland Museum of Art Open Access (CC0) · public-domain only · provenance shown per image (§2.4)</p>
+    <p class="src-note">sources: Cleveland Open Access (CC0) · the Met Open Access (public-domain) · Wikimedia Commons (public-domain only; CC-BY-SA filtered out) · each card credits its collection + license (§2.4)</p>
   </div>
 
   <div id="results"><p class="status" id="status">Pick a word above to see it.</p></div>
@@ -184,40 +189,97 @@ el("go").addEventListener("click",run);
 el("q").addEventListener("keydown",function(e){if(e.key==="Enter")run();});
 function setStatus(t,err){el("results").innerHTML='<p class="status'+(err?" err":"")+'">'+esc(t)+'</p>';}
 
-// antiquity ≈ ancient Near East / classical / late antique (broad range, so period-era holdings return)
-function inAntiquity(a){ var s=a.creation_date_earliest, e=a.creation_date_latest; if(typeof s!=="number"&&typeof e!=="number")return false; var lo=(typeof s==="number"?s:e), hi=(typeof e==="number"?e:s); return lo<=700 && hi>=-1200; }
+// ── MULTI-SOURCE ENGINE ──────────────────────────────────────────────────────
+// Each source is keyless + CORS + serves images that load cross-origin (the constraint that killed AIC).
+// A source normalizes its hits to {img,title,date,lo,hi,culture,url,src,short,lic}; run() fires all ACTIVE
+// sources in parallel and MERGES via allSettled, so one source failing (e.g. a Met 429) never blanks the grid.
+var MET="https://collectionapi.metmuseum.org/public/collection/v1/";
+function num(x){ if(typeof x==="number")return x; var n=parseInt(x,10); return isNaN(n)?undefined:n; }
+function parseYear(s){ var m=String(s||"").match(/-?\b\d{3,4}\b/); return m?parseInt(m[0],10):undefined; }
+function cleanDate(s){ return String(s||"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim().slice(0,40); }
+
+// Cleveland Museum of Art — CC0, one call, images.web.url loads cross-origin
+function cmaFetch(q){
+  var url=CMA+"?q="+encodeURIComponent(q)+"&has_image=1&limit=40&fields=id,title,creation_date,creation_date_earliest,creation_date_latest,culture,images,share_license_status,url";
+  return fetch(url).then(function(r){if(!r.ok)throw new Error("CMA "+r.status);return r.json();}).then(function(d){
+    return (d.data||[]).filter(function(a){return a.share_license_status==="CC0"&&a.images&&a.images.web&&a.images.web.url;}).map(function(a){
+      return {img:a.images.web.url,title:a.title||"Untitled",date:a.creation_date||"",lo:num(a.creation_date_earliest),hi:num(a.creation_date_latest),
+              culture:Array.isArray(a.culture)?a.culture.join(", "):(a.culture||""),url:a.url||"",src:"Cleveland Museum of Art",short:"CMA",lic:"CC0"};
+    });
+  });
+}
+// The Met — public-domain, N+1 (search -> objectIDs -> per-object detail); richest for actual period objects
+function metFetch(q){
+  return fetch(MET+"search?q="+encodeURIComponent(q)+"&hasImages=true").then(function(r){if(!r.ok)throw new Error("Met "+r.status);return r.json();}).then(function(d){
+    var ids=(d.objectIDs||[]).slice(0,16);
+    return Promise.all(ids.map(function(id){ return fetch(MET+"objects/"+id).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}); }));
+  }).then(function(objs){
+    return objs.filter(function(o){return o&&o.isPublicDomain&&o.primaryImageSmall;}).map(function(o){
+      return {img:o.primaryImageSmall,title:o.title||"Untitled",date:o.objectDate||"",lo:num(o.objectBeginDate),hi:num(o.objectEndDate),
+              culture:[o.culture,o.period].filter(Boolean).join(", "),url:o.objectURL||"",src:"The Met",short:"MET",lic:"CC0"};
+    });
+  });
+}
+// Wikimedia Commons — one call; licenses are MIXED so we KEEP only public-domain / CC0 (drop CC-BY-SA etc.)
+function wmFetch(q){
+  var url="https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch="+encodeURIComponent("filetype:bitmap "+q)+"&gsrnamespace=6&gsrlimit=20&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=420&format=json&origin=*";
+  return fetch(url).then(function(r){if(!r.ok)throw new Error("WM "+r.status);return r.json();}).then(function(d){
+    var pages=(d.query&&d.query.pages)||{}, out=[];
+    Object.keys(pages).forEach(function(k){
+      var p=pages[k], ii=(p.imageinfo||[])[0]; if(!ii)return;
+      var em=ii.extmetadata||{}, lic=((em.LicenseShortName||{}).value||"").trim();
+      if(!(/public domain|^pd\b|CC0/i.test(lic) || /public domain|CC0/i.test(((em.License||{}).value||"")))) return;  // PD/CC0 only
+      var raw=((em.DateTimeOriginal||{}).value)||((em.DateTime||{}).value)||"", yr=parseYear(raw);
+      out.push({img:ii.thumburl||ii.url,title:(p.title||"").replace(/^File:/,"").replace(/\.[a-z0-9]+$/i,""),date:cleanDate(raw),lo:yr,hi:yr,
+                culture:"",url:ii.descriptionurl||"",src:"Wikimedia Commons",short:"WM",lic:lic||"PD"});
+    });
+    return out;
+  });
+}
+var SOURCES=[
+  {id:"cma",name:"Cleveland Museum of Art",short:"CMA",fetch:cmaFetch},
+  {id:"met",name:"The Met",short:"MET",fetch:metFetch},
+  {id:"wm", name:"Wikimedia Commons · PD only",short:"WM",fetch:wmFetch}
+];
+el("src").innerHTML=SOURCES.map(function(s,i){return '<span class="chip on" data-si="'+i+'">'+esc(s.name)+'</span>';}).join("");  // all on by default
+el("src").querySelectorAll(".chip").forEach(function(c){c.addEventListener("click",function(){ this.classList.toggle("on"); if(el("q").value.trim())run(); });});
+function activeSources(){ var out=[]; el("src").querySelectorAll(".chip.on").forEach(function(c){ out.push(SOURCES[+c.getAttribute("data-si")]); }); return out; }
+
+// antiquity ≈ ancient Near East / classical / late antique (broad, so period holdings return); needs a known date to qualify
+function inAntiquity(a){ if(typeof a.lo!=="number"&&typeof a.hi!=="number")return false; var lo=(typeof a.lo==="number"?a.lo:a.hi), hi=(typeof a.hi==="number"?a.hi:a.lo); return lo<=700 && hi>=-1200; }
+function countSrc(items){ var c={}; items.forEach(function(it){c[it.short]=(c[it.short]||0)+1;}); return Object.keys(c).map(function(k){return k+" "+c[k];}).join(" · "); }
 
 function run(){
   var base=el("q").value.trim(); if(!base||state.busy)return;
-  var ctx=activeCtx(); var q=(base+(ctx.length?" "+ctx.join(" "):"")).trim();  // base word + Situate-context stand-in
-  state.busy=true; setStatus("Searching the Cleveland Museum for “"+esc(q)+"”"+(state.period==="antiquity"?" (antiquity)":"")+"…");
-  var url=CMA+"?q="+encodeURIComponent(q)+"&has_image=1&limit=40&fields=id,title,creation_date,creation_date_earliest,creation_date_latest,culture,images,share_license_status,url";
-  fetch(url).then(function(r){if(!r.ok)throw new Error("search "+r.status);return r.json();}).then(function(d){
-    var arts=(d.data||[]).filter(function(a){return a.share_license_status==="CC0" && a.images && a.images.web && a.images.web.url;});
-    if(state.period==="antiquity") arts=arts.filter(inAntiquity);
-    arts=arts.slice(0,12);
+  var ctx=activeCtx(), q=(base+(ctx.length?" "+ctx.join(" "):"")).trim();  // base word + Situate-context stand-in
+  var srcs=activeSources(); if(!srcs.length){ setStatus("Pick at least one collection above."); return; }
+  state.busy=true; setStatus("Searching "+srcs.map(function(s){return s.short;}).join(" · ")+" for “"+esc(q)+"”"+(state.period==="antiquity"?" (antiquity)":"")+"…");
+  Promise.allSettled(srcs.map(function(s){return s.fetch(q);})).then(function(results){
     state.busy=false;
-    if(!arts.length){ setStatus("No CC0 images for “"+esc(q)+"”"+(state.period==="antiquity"?" in antiquity — try 'any period'":". Try another word or context (e.g. + Christ)")+"."); return; }
-    renderGrid(q,arts,(d.info&&d.info.total)||arts.length);
-  }).catch(function(e){ state.busy=false; setStatus("Could not reach the Cleveland Museum API ("+esc(e.message)+"). Try again in a moment.",true); });
+    var items=[], failed=[];
+    results.forEach(function(r,i){ if(r.status==="fulfilled"&&Array.isArray(r.value)) items=items.concat(r.value.slice(0,8)); else failed.push(srcs[i].short); });
+    if(state.period==="antiquity") items=items.filter(inAntiquity);
+    var seen={}; items=items.filter(function(it){ if(!it.img||seen[it.img])return false; seen[it.img]=1; return true; });  // dedup across sources
+    if(!items.length){ setStatus("No public-domain images for “"+esc(q)+"”"+(state.period==="antiquity"?" in antiquity — try ‘any period’":". Try another word or context (e.g. + Christ)")+(failed.length?" ["+failed.join("/")+" didn’t respond]":"")+"."); return; }
+    renderGrid(q,items,failed);
+  });
 }
 
-function renderGrid(q,arts,total){
-  var h='<p class="status">“'+esc(q)+'” · '+arts.length+' CC0 images'+(state.period==="antiquity"?" · narrowed to antiquity":"")+' (of ~'+total+' matches)</p><div class="grid">';
-  arts.forEach(function(a){
-    var img=a.images.web.url;
-    var culture=Array.isArray(a.culture)?a.culture.join(", "):(a.culture||"");
-    var meta=[a.creation_date,culture].filter(Boolean).join(" · ");
-    var credit=(a.title||"Untitled")+(a.creation_date?", "+a.creation_date:"")+" · Cleveland Museum of Art · CC0";
-    h+='<div class="card"><div class="imgwrap"><img loading="lazy" src="'+esc(img)+'" alt="'+esc(a.title||q)+'"></div>'+
+function renderGrid(q,items,failed){
+  var note=failed.length?' · <span class="warn">'+esc(failed.join("/"))+' didn’t respond</span>':'';
+  var h='<p class="status">“'+esc(q)+'” · '+items.length+' public-domain images ('+esc(countSrc(items))+')'+(state.period==="antiquity"?" · narrowed to antiquity":"")+note+'</p><div class="grid">';
+  items.forEach(function(a){
+    var meta=[a.date,a.culture].filter(Boolean).join(" · ");
+    var credit=a.title+(a.date?", "+a.date:"")+" · "+a.src+" · "+a.lic;
+    h+='<div class="card"><div class="imgwrap"><img loading="lazy" src="'+esc(a.img)+'" alt="'+esc(a.title||q)+'"></div>'+
        '<div class="meta"><div class="t">'+esc(a.title||"Untitled")+'</div>'+
        '<div class="d">'+esc(meta)+'</div>'+
-       '<div class="foot"><span class="cc" title="'+esc(credit)+'">CC0 · CMA</span>'+
-       (a.url?'<a class="lnk" href="'+esc(a.url)+'" target="_blank" rel="noopener">at the CMA &rarr;</a>':'')+'</div></div></div>';
+       '<div class="foot"><span class="cc" title="'+esc(credit)+'">'+esc(a.lic)+' · '+esc(a.short)+'</span>'+
+       (a.url?'<a class="lnk" href="'+esc(a.url)+'" target="_blank" rel="noopener">source &rarr;</a>':'')+'</div></div></div>';
   });
   el("results").innerHTML=h+'</div>';
 }
-el("footsrc").innerHTML="keywords derived live from goldenpath/mark16/checkout.json + moves.json · images from the Cleveland Museum of Art Open Access API (openaccess-api.clevelandart.org, keyless, CC0, CORS) · v2 will add MET (via proxy) + Situate-driven period/place";
+el("footsrc").innerHTML="keywords + themes derived live from goldenpath/mark16/{checkout,moves,paradigm_node_drawer}.json · images from three keyless CORS collections queried in parallel — Cleveland Open Access (CC0) + the Met Collection API (public-domain) + Wikimedia Commons (public-domain filtered) · one source failing never blanks the grid · v2: Situate-driven period/place, library-media complement, keyed collections (Harvard/Smithsonian/Rijks) via a proxy";
 </script>
 
 <!-- ── METHODOLOGY FOOTER ──
