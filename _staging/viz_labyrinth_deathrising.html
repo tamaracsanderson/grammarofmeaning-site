@@ -1,0 +1,474 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The labyrinth — death &amp; rising, one path across traditions</title>
+<!--
+  A contemplative labyrinth-walk. Unicursal path (one way in, no maze), 2D top-down,
+  motion-safe. Scroll advances a pilgrim marker along the path; stops fade in at points
+  along the walk, weaving death-and-rising across four traditions to a shared center.
+  Reference prototype for the Garden — renders from a JOURNEY feed. See footer.
+-->
+<style>
+/* ── house tokens, ported from _staging/viz_morphospace.html (the Garden design system) ── */
+:root{--paper:#F7F2E7;--paper-2:#FBF8F0;--paper-3:#EFE9DA;--ink:#2B2823;--ink-2:#5F5A50;--ink-3:#8E877A;--rule:#DDD6C6;
+  --fern:#2f5233;--gold:#9a6410;--terracotta:#b5532a;--sky:#3f5c86;--olive:#6b6a25;--plum:#6d3f6a;--teal:#2b6b63;--rose:#a64a63;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;
+  --fern:#8fbf94;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;--plum:#c79ac2;--teal:#7fc5bb;--rose:#e090a5;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;
+  --fern:#8fbf94;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--olive:#A6B06A;--plum:#c79ac2;--teal:#7fc5bb;--rose:#e090a5;}
+*{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Iowan Old Style",Palatino,Georgia,serif;line-height:1.6}
+.eyebrow{font-family:ui-sans-serif,system-ui,sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
+
+/* theme toggle — house parity */
+#theme{position:fixed;top:14px;right:16px;z-index:40;background:var(--paper-2);border:1px solid var(--rule);color:var(--ink-2);
+  border-radius:50%;width:34px;height:34px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+#theme:hover{color:var(--ink)}
+
+/* ── the walk: a tall relative container so the sticky scene has room to travel ── */
+main.walk{position:relative}
+.scene{position:sticky;top:0;height:100vh;width:100%;overflow:hidden;display:flex;align-items:center;justify-content:center}
+
+/* the labyrinth itself */
+.labwrap{position:relative;width:min(86vh,92vw);height:min(86vh,92vw);flex:0 0 auto}
+svg.lab{width:100%;height:100%;display:block;overflow:visible}
+.lab .base{fill:none;stroke:var(--rule);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
+.lab .walked{fill:none;stroke:var(--gold);stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;
+  transition:stroke .9s ease}
+.lab .goalring{fill:none;stroke:var(--ink-3);stroke-width:1;stroke-dasharray:2 4;opacity:.5}
+.lab .stopdot{fill:var(--paper);stroke:var(--ink-3);stroke-width:1.4;transition:fill .9s ease,stroke .9s ease,r .9s ease}
+.lab .stopdot.past{fill:var(--gold);stroke:var(--gold)}
+.pilgrim{fill:var(--terracotta);stroke:var(--paper);stroke-width:1.6}
+.pilgrim-halo{fill:var(--terracotta);opacity:.16}
+
+/* the floating stop card — one thing at a time */
+.stagecard{position:absolute;z-index:20;left:50%;bottom:5.5vh;transform:translateX(-50%);
+  width:min(440px,88vw);background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--gold);
+  border-radius:0 12px 12px 0;padding:16px 18px 15px;box-shadow:0 10px 34px #0000002e;
+  opacity:0;transition:opacity .9s ease,transform .9s ease;pointer-events:none;transform:translateX(-50%) translateY(10px)}
+.stagecard.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.stagecard .row{display:flex;gap:14px;align-items:flex-start}
+.stagecard .art{flex:0 0 82px;height:82px;border-radius:8px;border:1px solid var(--rule);overflow:hidden;
+  display:flex;align-items:center;justify-content:center;position:relative}
+.stagecard .art img{width:100%;height:100%;object-fit:cover;display:block}
+.stagecard .art .glyph{font-size:30px;line-height:1;opacity:.9}
+.stagecard .body{flex:1 1 auto;min-width:0}
+.stagecard .trad{font-family:ui-sans-serif,system-ui,sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 3px}
+.stagecard h3{margin:0 0 6px;font-size:19px;font-weight:600;color:var(--ink);line-height:1.2}
+.stagecard .why{margin:0;font-size:14.5px;color:var(--ink-2);line-height:1.5}
+.stagecard .why .lead{font-family:ui-sans-serif,system-ui,sans-serif;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:3px}
+.stagecard blockquote{margin:10px 0 0;padding:8px 0 2px 12px;border-left:2px solid var(--rule);font-size:14px;color:var(--ink);font-style:italic}
+.stagecard .label{margin:11px 0 0;padding-top:9px;border-top:1px solid var(--rule);
+  font-family:ui-sans-serif,system-ui,sans-serif;font-size:10.5px;color:var(--ink-3);line-height:1.5}
+.stagecard .counter{font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--ink-3);float:right}
+
+/* intro + arrival overlays */
+.veil{position:absolute;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;background:radial-gradient(closest-side,transparent 40%,var(--paper) 96%);
+  transition:opacity .9s ease;pointer-events:none}
+.veil.gone{opacity:0}
+.veil h1{font-size:clamp(26px,5vw,44px);font-weight:600;margin:0;color:var(--ink);letter-spacing:.01em}
+.veil .sub{font-size:16px;color:var(--ink-2);margin:.5em 0 0;max-width:34ch}
+.veil .cue{margin-top:22px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);animation:breathe 3.6s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.4}50%{opacity:.9}}
+.arrival{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:25;width:min(430px,86vw);text-align:center;
+  opacity:0;transition:opacity 1.1s ease;pointer-events:none}
+.arrival.show{opacity:1}
+.arrival .k{font-family:ui-sans-serif,system-ui,sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.arrival h2{font-size:23px;font-weight:600;margin:6px 0 8px;color:var(--ink)}
+.arrival p{font-size:15px;color:var(--ink-2);margin:0;line-height:1.55}
+
+/* progress hairline */
+.progress{position:fixed;left:0;top:0;height:2px;width:0;background:var(--gold);z-index:40;opacity:.6}
+
+/* first / last screen framing text (accessible, scroll-native) */
+.frame{position:relative;z-index:5;pointer-events:none}
+.credits{max-width:640px;margin:0 auto;padding:8vh 22px 12vh;font-family:ui-sans-serif,system-ui,sans-serif;
+  font-size:12.5px;color:var(--ink-3);line-height:1.7;pointer-events:auto}
+.credits h4{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
+.credits a{color:var(--gold)}
+
+/* keyboard/list fallback — the "printed checklist by the door" (a11y twin) */
+.checklist{max-width:640px;margin:0 auto;padding:2vh 22px 8vh;font-family:ui-sans-serif,system-ui,sans-serif;pointer-events:auto}
+.checklist h4{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px}
+.checklist ol{margin:0;padding:0;list-style:none;counter-reset:st}
+.checklist li{counter-increment:st;padding:11px 0;border-bottom:1px solid var(--rule);font-size:13.5px;color:var(--ink-2)}
+.checklist li::before{content:counter(st);display:inline-flex;width:20px;height:20px;margin-right:10px;border-radius:50%;
+  background:var(--gold);color:var(--paper);font-size:11px;font-weight:700;align-items:center;justify-content:center;font-family:ui-monospace,monospace}
+.checklist li b{color:var(--ink);font-family:"Iowan Old Style",Palatino,Georgia,serif;font-weight:600}
+.checklist li .r{display:block;margin:4px 0 0 30px;color:var(--ink-3);font-size:12.5px}
+
+/* ── motion-safe: no transforms, crossfade only, marker snaps ── */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .lab .walked,.lab .stopdot,.pilgrim,.pilgrim-halo{transition:none}
+  .stagecard{transition:opacity .35s ease;transform:translateX(-50%)!important}
+  .stagecard.show{transform:translateX(-50%)!important}
+  .veil,.arrival{transition:opacity .35s ease}
+  .veil .cue{animation:none;opacity:.7}
+}
+</style>
+
+<button id="theme" title="Toggle light / dark" aria-label="Toggle light or dark theme">◐</button>
+<div class="progress" id="prog" aria-hidden="true"></div>
+
+<div class="frame">
+  <div class="credits">
+    <div class="eyebrow">The Garden · a contemplative path</div>
+    <h4 style="margin-top:10px">Death &amp; Rising</h4>
+    <p>A labyrinth is not a maze. There are no choices and no dead ends — one path winds
+    inward to a center. Scroll slowly to walk it. The path crosses four traditions on a single
+    theme; at each stop, an object and the reason it belongs here. The reason is the finding:
+    the same <em>move</em> — a passage through absence — recurring across traditions that never met.</p>
+  </div>
+</div>
+
+<main class="walk" id="walk" aria-label="Death and rising labyrinth walk">
+  <div class="scene">
+    <div class="labwrap">
+      <svg class="lab" id="lab" viewBox="0 0 1000 1000" role="img" aria-label="A single winding path to a center, with five stops.">
+        <circle class="goalring" cx="500" cy="500" r="34"></circle>
+        <path class="base"   id="basePath"   d=""></path>
+        <path class="walked" id="walkedPath" d=""></path>
+        <g id="stopDots"></g>
+        <g id="pilgrim">
+          <circle class="pilgrim-halo" id="halo" r="16" cx="500" cy="500"></circle>
+          <circle class="pilgrim"      id="dot"  r="6.5" cx="500" cy="500"></circle>
+        </g>
+      </svg>
+    </div>
+
+    <!-- intro veil -->
+    <div class="veil" id="veil">
+      <div class="eyebrow">The labyrinth</div>
+      <h1>Death &amp; Rising</h1>
+      <p class="sub">One path, weaving across traditions, winding to a shared center.</p>
+      <div class="cue">Scroll to walk ↓</div>
+    </div>
+
+    <!-- one stop card at a time -->
+    <div class="stagecard" id="card" role="group" aria-live="polite"></div>
+
+    <!-- arrival at center -->
+    <div class="arrival" id="arrival">
+      <div class="k">The center</div>
+      <h2 id="arrivalTitle"></h2>
+      <p id="arrivalText"></p>
+    </div>
+  </div>
+</main>
+
+<div class="frame">
+  <div class="checklist" id="checklist" aria-label="The walk as a list (keyboard accessible)">
+    <h4>The walk, as a list</h4>
+    <ol id="checkOl"></ol>
+  </div>
+  <div class="credits">
+    <h4>About this prototype</h4>
+    <p>Reference kernel for the Garden's pilgrimage surface — the one bespoke component (the SVG
+    labyrinth), proven before assembly. Motion-safe (honors <code>prefers-reduced-motion</code>);
+    renders from a <code>JOURNEY</code> feed so any theme can flow through it. Christian stop text is
+    verbatim public-domain corpus (WEB, GUT-8268, Mark 16). Other artifacts are placeholders pending
+    the media picker's museum feeds.</p>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════ THE JOURNEY FEED (render-from-data) ═══════════════════
+   Any theme flows through this shape. path_t = position along the walk (0 = entrance,
+   1 = center), measured as fraction of arc length so stops sit where the pilgrim passes. */
+const JOURNEY = {
+  theme: "Death & Rising",
+  subtitle: "one path, weaving across traditions",
+  center: {
+    title: "A passage through absence",
+    text: "Across all four: the body is prepared, absence is entered, and presence returns transfigured. Death is not the end of the sentence but its turn. This is the move the morphospace shows as a cluster — walked here as a single path."
+  },
+  stops: [
+    {
+      id: "empty-tomb",
+      label: "The Empty Tomb",
+      tradition: "Christian · Mark 16",
+      family: "gold",
+      glyph: "⛰",
+      path_t: 0.09,
+      artifact_img: null,
+      why_here: "The body is prepared with spices, then absent — the tomb is empty. Presence has relocated, not ended.",
+      quote: "“He has risen. He is not here. Behold, the place where they laid him.”",
+      label_text: "Mark 16:6 · World English Bible (public domain) · corpus GUT-8268 · verbatim from passages.passage_text"
+    },
+    {
+      id: "parinirvana",
+      label: "The Parinirvāṇa",
+      tradition: "Buddhist",
+      family: "fern",
+      glyph: "☸",
+      path_t: 0.30,
+      artifact_img: null,
+      why_here: "The Buddha's final passing is not annihilation but unbinding — the flame goes out because its fuel is spent, released rather than destroyed.",
+      quote: null,
+      label_text: "Reclining Buddha / parinirvāṇa scene · placeholder — museum feed pending · CC0 target: Met / Cleveland"
+    },
+    {
+      id: "osiris-rite",
+      label: "The Anointing of the Dead",
+      tradition: "Ancient Egyptian",
+      family: "olive",
+      glyph: "𓂀",
+      path_t: 0.52,
+      artifact_img: null,
+      why_here: "The corpse is anointed and wrapped so the dead may live — Osiris re-membered, made to rise. The same prepared body, the same turn.",
+      quote: null,
+      label_text: "Funerary / Osiris rite · placeholder — museum feed pending · CC0 target: Met / British Museum"
+    },
+    {
+      id: "fana",
+      label: "Fanā' — Passing Away",
+      tradition: "Sufi",
+      family: "plum",
+      glyph: "۞",
+      path_t: 0.74,
+      artifact_img: null,
+      why_here: "Fanā': the annihilation of the self in God, so that only the Real remains — to die before you die. The passage is turned inward.",
+      quote: null,
+      label_text: "Sufi illuminated folio · placeholder — museum feed pending · CC0 target: Met / Walters"
+    },
+    {
+      id: "center",
+      label: "The Shared Move",
+      tradition: "Convergence",
+      family: "terracotta",
+      glyph: "❋",
+      path_t: 0.99,
+      artifact_img: null,
+      why_here: "Four traditions, no historical contact, one grammar: prepare the body, enter the absence, return transfigured.",
+      quote: null,
+      label_text: "The center · the coded rhyme these four stops share"
+    }
+  ]
+};
+
+/* ═══════════════════ THE LABYRINTH GEOMETRY (the one bespoke piece) ═══════════════════
+   A unicursal Archimedean spiral, sampled outer→center. Pure functions so the same math
+   verifies offline (deno) and drives the browser. */
+const GEO = { CX:500, CY:500, R_OUTER:432, TURNS:4.25, SAMPLES:1400 };
+const THETA_MAX = GEO.TURNS * 2 * Math.PI;
+
+// theta runs THETA_MAX (outer entrance) → 0 (center); radius scales with theta.
+function spiralPoint(theta){
+  const r = GEO.R_OUTER * (theta / THETA_MAX);
+  return { x: GEO.CX + r * Math.cos(theta), y: GEO.CY + r * Math.sin(theta) };
+}
+// ordered samples from entrance to center
+function buildSamples(){
+  const pts = [];
+  for(let i=0;i<=GEO.SAMPLES;i++){
+    const theta = THETA_MAX * (1 - i / GEO.SAMPLES); // i=0 → outer, i=N → center
+    pts.push(spiralPoint(theta));
+  }
+  return pts;
+}
+// cumulative arc-length table
+function arcTable(pts){
+  const cum = [0];
+  for(let i=1;i<pts.length;i++){
+    const dx = pts[i].x - pts[i-1].x, dy = pts[i].y - pts[i-1].y;
+    cum.push(cum[i-1] + Math.hypot(dx,dy));
+  }
+  return cum;
+}
+// point at arc-length fraction f∈[0,1] over the sampled polyline (mirrors getPointAtLength)
+function pointAtFraction(pts,cum,f){
+  const total = cum[cum.length-1];
+  const target = Math.max(0,Math.min(1,f)) * total;
+  // binary search
+  let lo=0, hi=cum.length-1;
+  while(lo<hi){ const mid=(lo+hi)>>1; if(cum[mid]<target) lo=mid+1; else hi=mid; }
+  const i = Math.max(1,lo);
+  const seg = cum[i]-cum[i-1] || 1;
+  const t = (target - cum[i-1]) / seg;
+  return { x: pts[i-1].x + (pts[i].x-pts[i-1].x)*t, y: pts[i-1].y + (pts[i].y-pts[i-1].y)*t };
+}
+function pathD(pts){
+  let d = "M " + pts[0].x.toFixed(2) + " " + pts[0].y.toFixed(2);
+  for(let i=1;i<pts.length;i++) d += " L " + pts[i].x.toFixed(2) + " " + pts[i].y.toFixed(2);
+  return d;
+}
+
+/* exported for the offline verification harness (deno) */
+const LAB = { JOURNEY, GEO, THETA_MAX, spiralPoint, buildSamples, arcTable, pointAtFraction, pathD };
+if (typeof globalThis !== "undefined" && !("document" in globalThis)) {
+  // running under deno / node — expose and stop (no DOM wiring)
+  globalThis.__LAB__ = LAB;
+}
+
+/* ═══════════════════ BROWSER WIRING ═══════════════════ */
+if (typeof document !== "undefined") {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const samples = buildSamples();
+  const cum = arcTable(samples);
+  const svg = document.getElementById("lab");
+  const base = document.getElementById("basePath");
+  const walked = document.getElementById("walkedPath");
+  const dot = document.getElementById("dot");
+  const halo = document.getElementById("halo");
+  const stopDots = document.getElementById("stopDots");
+  const card = document.getElementById("card");
+  const veil = document.getElementById("veil");
+  const arrival = document.getElementById("arrival");
+  const walk = document.getElementById("walk");
+  const prog = document.getElementById("prog");
+
+  // draw the path
+  const d = pathD(samples);
+  base.setAttribute("d", d);
+  walked.setAttribute("d", d);
+  const L = base.getTotalLength ? base.getTotalLength() : cum[cum.length-1];
+  walked.style.strokeDasharray = L;
+  walked.style.strokeDashoffset = L; // nothing walked yet
+
+  const FAM = { gold:"var(--gold)", fern:"var(--fern)", olive:"var(--olive)", plum:"var(--plum)",
+                terracotta:"var(--terracotta)", sky:"var(--sky)", teal:"var(--teal)", rose:"var(--rose)" };
+
+  // place stop dots on the path
+  const stops = JOURNEY.stops;
+  stops.forEach((s,i)=>{
+    const p = pointAtFraction(samples,cum,s.path_t);
+    const c = document.createElementNS("http://www.w3.org/2000/svg","circle");
+    c.setAttribute("class","stopdot");
+    c.setAttribute("cx",p.x.toFixed(2)); c.setAttribute("cy",p.y.toFixed(2));
+    c.setAttribute("r", i===stops.length-1 ? "7.5" : "5.5");
+    c.dataset.i = i;
+    stopDots.appendChild(c);
+    s._pt = p;
+  });
+  const dotEls = [...stopDots.children];
+
+  // build the accessible checklist twin
+  const ol = document.getElementById("checkOl");
+  stops.forEach(s=>{
+    const li = document.createElement("li");
+    li.innerHTML = "<b>"+esc(s.label)+"</b> — <span style='color:var(--ink-3)'>"+esc(s.tradition)+"</span>"+
+                   "<span class='r'>"+esc(s.why_here)+"</span>";
+    ol.appendChild(li);
+  });
+
+  // render a stop card from data
+  let shownIdx = -2;
+  function renderCard(i){
+    if(i===shownIdx) return;
+    shownIdx = i;
+    const s = stops[i];
+    const fam = FAM[s.family] || "var(--gold)";
+    const art = s.artifact_img
+      ? "<img src='"+esc(s.artifact_img)+"' alt=''>"
+      : "<span class='glyph' style='color:"+fam+"'>"+esc(s.glyph||"◦")+"</span>";
+    card.style.borderLeftColor = fam;
+    card.innerHTML =
+      "<span class='counter'>"+(i+1)+" / "+stops.length+"</span>"+
+      "<div class='row'>"+
+        "<div class='art' style='background:color-mix(in srgb,"+fam+" 12%,var(--paper-3))'>"+art+"</div>"+
+        "<div class='body'>"+
+          "<p class='trad'>"+esc(s.tradition)+"</p>"+
+          "<h3>"+esc(s.label)+"</h3>"+
+          "<p class='why'><span class='lead'>Why here</span>"+esc(s.why_here)+"</p>"+
+          (s.quote ? "<blockquote>"+esc(s.quote)+"</blockquote>" : "")+
+        "</div>"+
+      "</div>"+
+      "<p class='label'>"+esc(s.label_text)+"</p>";
+  }
+
+  function setMarker(p){
+    dot.setAttribute("cx",p.x.toFixed(2)); dot.setAttribute("cy",p.y.toFixed(2));
+    halo.setAttribute("cx",p.x.toFixed(2)); halo.setAttribute("cy",p.y.toFixed(2));
+  }
+
+  // active stop = the last stop the pilgrim has reached
+  function activeIndex(progress){
+    let idx = -1;
+    for(let i=0;i<stops.length;i++){ if(progress >= stops[i].path_t - 0.02) idx = i; }
+    return idx;
+  }
+
+  let raf = 0;
+  function update(){
+    raf = 0;
+    const top = walk.offsetTop;
+    const span = walk.offsetHeight - window.innerHeight;
+    let progress = span>0 ? (window.scrollY - top) / span : 0;
+    progress = Math.max(0, Math.min(1, progress));
+    prog.style.width = (progress*100).toFixed(2) + "%";
+
+    // marker: arc-length walk. reduced-motion → snap to nearest reached stop.
+    let mp;
+    const idx = activeIndex(progress);
+    if(reduce){
+      mp = idx>=0 ? stops[idx]._pt : samples[0];
+    } else {
+      mp = base.getPointAtLength ? base.getPointAtLength(progress*L) : pointAtFraction(samples,cum,progress);
+    }
+    setMarker(mp);
+    walked.style.strokeDashoffset = L*(1-progress);
+
+    // dots past/future
+    dotEls.forEach((c,i)=>c.classList.toggle("past", i<=idx));
+
+    // veil fades once the walk begins
+    veil.classList.toggle("gone", progress > 0.015);
+
+    // card: show active stop unless we've truly arrived (center handled by arrival overlay)
+    const atCenter = progress > 0.985;
+    if(idx>=0 && !(atCenter && idx===stops.length-1)){
+      renderCard(idx);
+      card.classList.add("show");
+    } else {
+      card.classList.remove("show");
+    }
+
+    // arrival at center
+    if(atCenter){
+      document.getElementById("arrivalTitle").textContent = JOURNEY.center.title;
+      document.getElementById("arrivalText").textContent = JOURNEY.center.text;
+      arrival.classList.add("show");
+    } else {
+      arrival.classList.remove("show");
+    }
+  }
+  function onScroll(){ if(!raf) raf = requestAnimationFrame(update); }
+  addEventListener("scroll", onScroll, {passive:true});
+  addEventListener("resize", onScroll);
+  update();
+
+  // theme toggle (house parity)
+  const tbtn = document.getElementById("theme");
+  tbtn.addEventListener("click", ()=>{
+    const cur = document.documentElement.getAttribute("data-theme");
+    const dark = cur ? cur==="dark" : matchMedia("(prefers-color-scheme:dark)").matches;
+    document.documentElement.setAttribute("data-theme", dark ? "light" : "dark");
+  });
+
+}
+function esc(x){ return String(x==null?"":x).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c] || c; }); }
+</script>
+
+<!-- METHODOLOGY FOOTER
+HOW PRODUCED: Labyrinth SB v1 (S171, 2026-08-13). Built per research/10_dr/labyrinth_DWS_2026-08-13.md — the pre-Lovable
+  kernel: the one bespoke component (SVG unicursal labyrinth) proven before app assembly. Scroll advances a pilgrim marker
+  along an Archimedean-spiral unicursal path (getPointAtLength over the sampled SVG polyline; arc-length pointAtFraction as
+  the pure/verifiable + reduced-motion twin). Five death-and-rising stops weave across four traditions to a shared center;
+  each renders from the JOURNEY feed (theme · stops[] · center). Design tokens ported verbatim from _staging/viz_morphospace.html
+  (the Garden design system, itself derived from the June _moodboards). 2D only, no 3D camera, no scroll-jack beyond advancing
+  the marker; motion-safe (prefers-reduced-motion → marker snaps to stops, cards crossfade). Verified offline with deno 2.7
+  (parse via `deno check` with dom lib ref; geometry render-replay asserting stop ordering / in-bounds / monotone arc length).
+SCHOLARLY SOURCES: labyrinth_DWS_2026-08-13.md; gallery_design_plan_2026-08-13.md; gallery_experience_3DR-21_reconciliation_2026-08-13.md
+  (§UNANIMOUS: labyrinth≠maze; motion-safe; quiet museum label; artifact≠journey; restrained serif; negative space = distance).
+  Christian stop = verbatim public-domain corpus text: Mark 16:6, World English Bible, engine/data/goldenpath/mark16/checkout.json
+  (source GUT-8268, content-hash-anchored). §2.16 render-from-data (drawer/feed, no hardcoded stops); §2.12 land-via-PR.
+WHAT NEEDS VERIFICATION: (1) Browser pane is policy-blocked here — NOT verified visually; scroll feel / eases / card timing need a
+  human eye (PI or Design SB). (2) The four non-Christian stops use placeholder glyph tiles + CC0-target notes; real museum images +
+  IIIF come from the media picker feed (artifact_img slot ready). (3) The "why here" reasons for Buddhist/Egyptian/Sufi are
+  curatorial drafts, NOT yet engine-coded (Situate coding exists for Mark 16 / death-and-rising today; breadth rides on Stage 6).
+  (4) Spiral vs a true Chartres 11-circuit pattern is a design call — spiral chosen for clean unicursal legibility; PI/Design SB to confirm.
+-->
