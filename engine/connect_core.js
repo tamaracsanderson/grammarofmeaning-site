@@ -186,15 +186,34 @@
     });
   }
 
-  /* the relation-card HTML for a single edge (typed relation in prose + direction + kind chip) */
-  function relationCardHTML(tax, e) {
+  /* move index — so a relation card can show WHAT each move says, not just its label (M6 → M4).
+     Set once per figure via CC.useMoves(moves); a card falls back to label-only if it isn't set (§2.16 render-from-data). */
+  var MOVES = {};
+  function useMoves(moves) { MOVES = {}; (moves || []).forEach(function (m) { if (m && m.label) MOVES[m.label] = m; }); }
+  function moveText(label) { var m = MOVES[label]; return m ? (m.paraphrase || m.gloss || "") : ""; }
+  function moveContentHTML(label) {
+    var t = moveText(label); if (!t) return "";
+    return '<span class="cc-mv"><b>' + esc(label) + '</b> ' + esc(t) + '</span>';
+  }
+
+  /* the relation-card HTML for a single edge (typed relation in prose + direction + kind chip + what each move SAYS).
+     `focus` = the selected move's label (when shown under a move); the card then foregrounds the FAR endpoint's content. */
+  function relationCardHTML(tax, e, focus) {
     var kid = kindOf(e), kd = kindDef(tax, kid) || { label: kid, hue: "--ink-3" };
     var arrow = e.direction === "backward" ? "←" : (e.direction === "forward" ? "→" : "↔");
+    var content;
+    if (focus && (MOVES[e.source_move_label] || MOVES[e.target_move_label])) {
+      var other = (e.source_move_label === focus) ? e.target_move_label : e.source_move_label;
+      content = moveContentHTML(other);                              // M6 is the context; show what M4 says
+    } else {
+      content = moveContentHTML(e.source_move_label) + moveContentHTML(e.target_move_label);  // standalone: show both
+    }
     return '<div class="cc-rel">' +
       '<span class="cc-pill" style="border-color:var(' + kd.hue + ');color:var(' + kd.hue + ')">' +
       esc(kd.label) + " · " + esc(subLabel(tax, e)) + '</span>' +
       '<span class="cc-relp">' + esc(prose(tax, e)) + '</span>' +
       '<span class="cc-dir">' + esc(e.source_move_label) + " " + arrow + " " + esc(e.target_move_label) + '</span>' +
+      (content ? '<div class="cc-mvs">' + content + '</div>' : "") +
       '</div>';
   }
 
@@ -206,10 +225,12 @@
     if (!mine.length) return '<p class="cc-none">' + esc(label) + ' reaches to nothing coded here.</p>';
     // strong (meaning-bearing) first, weak "and then" last
     mine.sort(function (a, b) { return (isWeak(tax, a) ? 1 : 0) - (isWeak(tax, b) ? 1 : 0); });
-    var head = '<p class="cc-relhead"><strong>' + esc(label) + '</strong> · ' + mine.length +
-      ' connection' + (mine.length === 1 ? "" : "s") + '</p>';
+    var selTxt = moveText(label);
+    var head = '<p class="cc-relhead"><strong>' + esc(label) + '</strong>' +
+      (selTxt ? ' · <span class="cc-selp">' + esc(selTxt) + '</span>' : "") +
+      ' · ' + mine.length + ' connection' + (mine.length === 1 ? "" : "s") + '</p>';
     var body = "";
-    for (var j = 0; j < mine.length; j++) body += relationCardHTML(tax, mine[j]);
+    for (var j = 0; j < mine.length; j++) body += relationCardHTML(tax, mine[j], label);
     return head + body;
   }
 
@@ -235,6 +256,10 @@
     '.cc-relp{font-family:var(--serif);font-size:14.5px;color:var(--ink)}' +
     '.cc-dir{display:block;font-family:var(--mono);font-size:10px;color:var(--ink-3);margin-top:4px;letter-spacing:.04em}' +
     '.cc-relhead{font-family:var(--sans);font-size:12px;color:var(--ink-2);margin:0 0 6px}' +
+    '.cc-selp{font-family:var(--serif);font-style:italic;color:var(--ink-2)}' +
+    '.cc-mvs{margin-top:6px;display:flex;flex-direction:column;gap:3px;border-top:1px solid var(--rule);padding-top:6px}' +
+    '.cc-mv{font-family:var(--serif);font-size:12.5px;color:var(--ink-2);line-height:1.4}' +
+    '.cc-mv b{font-family:var(--mono);font-size:9.5px;color:var(--ink-3);margin-right:5px;font-weight:400;vertical-align:1px}' +
     '.cc-none{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:italic}' +
     '.cc-nav{display:inline-flex;border:1px solid var(--rule);border-radius:999px;overflow:hidden;background:var(--paper-3)}' +
     '.cc-nv{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 20px;text-decoration:none;color:var(--ink-2);border-right:1px solid var(--rule)}' +
@@ -269,7 +294,7 @@
     esc: esc, load: load, kindOf: kindOf, typeOf: typeOf,
     kindDef: kindDef, hueVar: hueVar, subInfo: subInfo, isWeak: isWeak,
     prose: prose, subLabel: subLabel, counts: counts,
-    Filter: Filter, relationCardHTML: relationCardHTML, moveConnectionsHTML: moveConnectionsHTML,
+    Filter: Filter, relationCardHTML: relationCardHTML, moveConnectionsHTML: moveConnectionsHTML, useMoves: useMoves,
     injectCSS: injectCSS, dropNote: dropNote,
     VIEWS: VIEWS, readHash: readHash, writeHash: writeHash, hashStr: hashStr, mountNav: mountNav
   };
