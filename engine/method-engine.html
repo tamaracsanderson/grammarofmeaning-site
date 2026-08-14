@@ -41,7 +41,7 @@
   <script>
   (function(){
     function fail(m){var f=document.getElementById('me-figure'); if(f) f.innerHTML='<p style="color:#C4602F;font-family:system-ui;padding:20px">could not load the method flow ('+m+')</p>';}
-    fetch('./data/method_flow.json')
+    fetch('./data/method_flow.json', {cache:'no-cache'})
       .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(d){
         window.METHOD_FLOW = d;
