@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The prevalence curve — why the raw separation score is an artifact</title>
+<title>What happens when we balance the corpus?</title>
 <style>
 :root{--paper:#F7F2E7;--paper-2:#FBF8F0;--paper-3:#EFE9DA;--ink:#2B2823;--ink-2:#5F5A50;--ink-3:#8E877A;--rule:#DDD6C6;--fern:#2f5233;--gold:#9a6410;--terracotta:#b5532a;--sky:#3f5c86;}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#8fbf94;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;}}
@@ -22,9 +22,9 @@ footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--rule);font-fa
 a{color:var(--gold)}.load{color:var(--ink-3);font-family:ui-sans-serif,sans-serif;padding:30px 0;text-align:center}
 </style>
 <div class="wrap">
-  <div class="eyebrow">Grammar of Meaning · the morphospace · the prevalence curve</div>
-  <h1>Why "traditions separate" is an artifact of the corpus's shape</h1>
-  <p class="lede">A tradition-separation score (silhouette) on the raw corpus reads <b>positive</b> — as if traditions clump into their own territories. But the corpus is <b>85% Abrahamic</b>. Cap every family to the same size and re-measure — and the score <b>collapses, crossing zero into interleave.</b> The raw number was measuring the big bloc, not the structure.</p>
+  <div class="eyebrow">Grammar of Meaning · the morphospace · a robustness check</div>
+  <h1>What happens when we balance the corpus?</h1>
+  <p class="lede">Three beats. <b>(1) The problem:</b> the corpus is <b>85% Abrahamic</b>. <b>(2) The test:</b> a <b>tradition-separation score</b> — does each passage sit closer to its own tradition than to any other? — reads <b>positive</b> on the raw corpus, as if traditions clump into their own territories; so we cap every family to the same size and re-measure. <b>(3) The finding:</b> the score <b>drops through zero into interleave</b> — the apparent separation was the big Abrahamic bloc looking tight next to a sparse rest, not a stable property of the space. In short: the separation is <b>prevalence-sensitive</b>. <span style="color:var(--ink-3);font-size:13px">(Metric: tradition-label silhouette. "Near ≠ same doctrine" — near = similar coded stance.)</span></p>
   <figure><svg id="plot" viewBox="0 0 640 340" role="img" aria-label="silhouette vs class-cap, collapsing from positive to negative"><text class="load" x="320" y="170" text-anchor="middle">plotting the curve…</text></svg></figure>
   <div class="card" id="finding"></div>
   <details class="fine"><summary>the fine print — how it's measured ▾</summary><p id="method"></p><p class="k" id="nums"></p></details>
@@ -66,7 +66,7 @@ function build(d){
   });
   svg.appendChild(mk("text",{x:(m.l+W-m.r)/2,y:H-4,"text-anchor":"middle",class:"ax"},"← imbalanced (raw corpus)   ·   each family capped to the same size   ·   balanced →"));
   var raw=c[0].silhouette, bal=c[c.length-1].silhouette;
-  el("finding").innerHTML='<h4>the reading</h4>The raw score is <span class="pv">'+(raw>0?"+":"")+raw.toFixed(3)+'</span> — it <em>looks</em> like separation. But it drops <b>monotonically</b> as the majority family is capped down, crossing zero to <b>'+bal.toFixed(3)+'</b> when the classes are balanced. So the apparent structure was ~the Abrahamic bloc looking tight next to a sparse rest — a <b>prevalence artifact</b>. Balanced, the traditions <b>interleave</b>. '+esc(d.reading||"");
+  el("finding").innerHTML='<h4>the reading</h4>The raw score is <span class="pv">'+(raw>0?"+":"")+raw.toFixed(3)+'</span> — it <em>looks</em> like separation. But it drops <b>monotonically</b> as the majority family is capped down, crossing zero to <b>'+bal.toFixed(3)+'</b> when the classes are balanced. So the apparent structure was ~the Abrahamic bloc looking tight next to a sparse rest: the separation is <b>prevalence-sensitive</b> — it moves when the corpus is balanced. Balanced, the traditions <b>interleave</b>. <span style="color:var(--ink-3)">(One robustness check; the stronger "pure artifact" claim would need the full suite — resample bands, weight-vs-cap, metric + dimension sensitivity.)</span> '+esc(d.reading||"");
   el("method").textContent=d._method_summary||"";
   el("nums").textContent=c.map(function(r){return (r.cap==null?"raw":"cap"+r.cap)+"="+(r.silhouette>0?"+":"")+r.silhouette;}).join(" · ")+" · produced by "+d._producing_script+" (re-run --json-out to regenerate)";
   el("foot").innerHTML="rendered from "+esc(FEED.split('/').pop())+" (canonical: pm/40_architecture/DATA_morphospace_prevalence_curve_feed_s167.json) · candidates not findings, Stage 6 = 0 · Design SB · 2026-08-14";
