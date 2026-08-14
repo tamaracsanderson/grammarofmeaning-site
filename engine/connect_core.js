@@ -136,10 +136,14 @@
      (per the reconciliation lock) but carry the selected move + active filters
      in the hash, so a selection survives the switch ("this arc, this cell, this
      line are the same thing" becomes self-teaching). */
+  // the five Connect instruments — TASK NAMES only in the nav (the design-names Arc Band / Relation Loom / Topology are
+  // internal; keeping them in the nav read as "TraceArc BandScanRelation Loom…" — retired per the IA crit 2026-08-14)
   var VIEWS = [
-    { id: "trace", label: "Trace", sub: "Arc Band",     file: "viz_connect_arcband.html",  verb: "follow a relation as you read" },
-    { id: "scan",  label: "Scan",  sub: "Relation Loom", file: "viz_connect_loom.html",     verb: "see the whole pattern" },
-    { id: "map",   label: "Map",   sub: "Topology",      file: "viz_connect_topology.html", verb: "hubs & clusters, order removed" }
+    { id: "trace", label: "Trace", sub: "",  file: "viz_connect_arcband.html",  verb: "follow one move's connections" },
+    { id: "scan",  label: "Scan",  sub: "",  file: "viz_connect_loom.html",     verb: "the whole pattern at once" },
+    { id: "map",   label: "Map",   sub: "",  file: "viz_connect_topology.html", verb: "hubs & clusters, order removed" },
+    { id: "logic", label: "Logic", sub: "",  file: "viz_connect_logic.html",    verb: "read the argument's connectives" },
+    { id: "shape", label: "Shape", sub: "",  file: "viz_connect_shape.html",    verb: "pairings, rings, returns" }
   ];
   function readHash() {
     var h = String(location.hash || "").replace(/^#/, ""), o = { m: null, off: { kinds: [], subs: [] } };
@@ -172,7 +176,7 @@
       var v = VIEWS[i], cur = v.id === active;
       html += '<a class="cc-nv' + (cur ? " cur" : "") + '" data-file="' + v.file + '"' +
         (cur ? ' aria-current="page"' : '') + ' href="' + v.file + '" title="' + esc(v.verb) + '">' +
-        '<span class="cc-nvl">' + esc(v.label) + '</span><span class="cc-nvs">' + esc(v.sub) + '</span></a>';
+        '<span class="cc-nvl">' + esc(v.label) + '</span>' + (v.sub ? '<span class="cc-nvs">' + esc(v.sub) + '</span>' : '') + '</a>';
     }
     html += '</nav>';
     host.innerHTML = html;
