@@ -28,6 +28,7 @@ svg{display:block;width:100%;height:auto;overflow:visible}
 .arch-ev{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-weight:600;fill:var(--ink)}
 .arch-nm{font-family:ui-sans-serif,system-ui,sans-serif;fill:var(--ink-2)}
 .arch-sp{font-family:ui-monospace,Menlo,monospace;fill:var(--ink-3)}
+.arch-tt{font-family:ui-monospace,Menlo,monospace;fill:var(--ink-3)}
 .tip{position:fixed;pointer-events:none;z-index:9;background:var(--paper-2);border:1px solid var(--rule);border-radius:9px;padding:7px 10px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:11.5px;color:var(--ink);box-shadow:0 6px 22px #0003;display:none}
 .leg h3,.side h3{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);margin:6px 0 7px;font-weight:600}
 .li{display:flex;align-items:center;gap:7px;font-size:12px;padding:2px 0;cursor:pointer;color:var(--ink-2);user-select:none}
@@ -111,6 +112,8 @@ function build(d){
     svg.appendChild(mk("text",{x:qx,y:qy-8,"text-anchor":"middle",class:"arch-ev","font-size":"17"})).textContent=a.evocative||a.name;
     svg.appendChild(mk("text",{x:qx,y:qy+9,"text-anchor":"middle",class:"arch-nm","font-size":"11.5"})).textContent=a.name;
     svg.appendChild(mk("text",{x:qx,y:qy+25,"text-anchor":"middle",class:"arch-sp","font-size":"10.5"})).textContent="shared by "+(a.span_count||a.n_traditions)+" traditions";
+    var tt=(a.top_traditions_tier||[]).slice(0,3).map(function(t){return (t.name||t.code).replace(/\s*\(.*\)$/,"")+" "+t.n;}).join("  ·  ");
+    if(tt) svg.appendChild(mk("text",{x:qx,y:qy+39,"text-anchor":"middle",class:"arch-tt","font-size":"9"})).textContent=tt;
   });
   // axis poles (verbatim, positioned by the data's sign convention: +x=Received, +y=Rupture)
   svg.appendChild(mk("text",{x:W-m.r,y:y0-6,"text-anchor":"end",class:"pole"})).textContent="Received →";
@@ -130,7 +133,7 @@ function build(d){
   el("legend").querySelectorAll(".li").forEach(function(li){li.addEventListener("click",function(){var f=this.getAttribute("data-f");off[f]=!off[f];this.classList.toggle("off",off[f]);var any=Object.keys(off).some(function(k){return off[k];});Array.prototype.forEach.call(g.childNodes,function(c){var p=pts[+c.getAttribute("data-i")];c.setAttribute("fill-opacity",off[p.tradition_family]?0:(any?0.72:0.5));});});});
   // finding + fine print (render-from-data)
   var spans=(d.archetypes||[]).map(function(a){return a.span_count||a.n_traditions;}); var lo=Math.min.apply(null,spans),hi=Math.max.apply(null,spans);
-  el("finding").innerHTML='<h4>the finding — convergence <i>through</i> the archetypes</h4>The four stances aren’t one-per-religion. <b>Each archetype is shared by '+lo+'–'+hi+' traditions</b> that share no history — the Unmasker and the Weaver each gather '+hi+'. So the deep grouping is the <b>stance</b>, not the tradition: a Sufi and a Zen text can sit in the same corner; two Christian texts can sit in opposite ones. That cross-tradition sharing is the convergence the project asks about. <span style="color:var(--ink-2);font-size:12px">(The corpus is Abrahamic-dense — the gold mass — so read the <em>spread of colors within each corner</em>, not the raw counts.)</span>';
+  el("finding").innerHTML='<h4>the finding — convergence <i>through</i> the archetypes</h4>The four stances aren’t one-per-religion. <b>Each archetype is shared by '+lo+'–'+hi+' traditions</b> that share no history — the Unmasker and the Weaver each gather '+hi+'. So the deep grouping is the <b>stance</b>, not the tradition: a Sufi and a Zen text can sit in the same corner; two Christian texts can sit in opposite ones. That cross-tradition sharing is the convergence the project asks about. <span style="color:var(--ink-2);font-size:12px">(Each corner lists its top traditions by name — <b>Islam and Judaism appear in all four stances</b>, not folded into "Abrahamic". The corpus is Christianity-dense, so read the <em>spread of names within each corner</em>, not the raw counts.)</span>';
   el("method").textContent=d._method_summary||"";
   el("diag").innerHTML=[
     ["reads placed", d.n_reads],
