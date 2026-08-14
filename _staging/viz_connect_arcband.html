@@ -18,162 +18,284 @@
 body{margin:0;background:var(--paper);color:var(--ink-soft);font-family:var(--serif);font-size:17px;line-height:1.55}
 .bar{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 20px;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(5px);border-bottom:1px solid var(--rule)}
 .bar .rm{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
-header.pg{max-width:46rem;margin:0 auto;padding:5vh 22px 1vh;text-align:center}
-.kick{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
-h1{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(26px,4.5vw,38px);color:var(--moss);margin:0 0 8px}
-h1 .sub{font-style:normal;font-size:.5em;letter-spacing:.02em;color:var(--ink-3);display:block;margin-top:4px;font-family:var(--mono);text-transform:uppercase}
-.lede{font-family:var(--disp);font-style:italic;font-size:15.5px;color:var(--ink-2);max-width:32rem;margin:0 auto;line-height:1.5}
-.task{font-family:var(--sans);font-size:13px;color:var(--ink);max-width:34rem;margin:16px auto 0;line-height:1.5;background:color-mix(in srgb,var(--gold) 9%,transparent);border:1px solid color-mix(in srgb,var(--gold) 35%,var(--rule));border-radius:10px;padding:9px 14px}
-.task b{color:var(--moss)}
-.how{font-family:var(--sans);font-size:12px;color:var(--ink-3);max-width:38rem;margin:12px auto 0;line-height:1.55;text-align:center}
-.navwrap{margin:16px auto 0;padding:0 22px;text-align:center}
-.legendwrap{max-width:52rem;margin:16px auto 0;padding:0 22px}
-/* selection relation panel */
-.relwrap{max-width:40rem;margin:14px auto 0;padding:0 22px}
-.relbox{border:1px solid var(--rule);border-radius:12px;padding:12px 16px;background:var(--paper-3)}
-.relhint{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:italic;text-align:center}
-/* the band */
-.band{max-width:46rem;margin:3vh auto 0;padding:0 22px 14vh;position:relative}
-.rows{position:relative;margin-left:120px}
-svg.arcs{position:absolute;top:0;left:0;width:120px;height:100%;overflow:visible;pointer-events:none}
-.mrow{height:34px;display:flex;align-items:center;gap:9px;border-bottom:1px solid color-mix(in srgb,var(--rule) 40%,transparent);cursor:pointer}
-.mrow .mk{font-family:var(--mono);font-size:10px;color:var(--gold);min-width:2.4rem;letter-spacing:.03em}
-.mrow .pp{font-family:var(--serif);font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mrow.dim{opacity:.3}
-.mrow.lit{background:color-mix(in srgb,var(--gold) 10%,transparent)}
-.mrow.sel{background:color-mix(in srgb,var(--gold) 18%,transparent);box-shadow:inset 3px 0 0 var(--gold)}
-path.arc{fill:none;stroke-width:1.6;opacity:.7}
-path.arc.weak{stroke-width:1;opacity:.26;stroke-dasharray:2 3}
+.navwrap{margin:14px auto 0;padding:0 22px;text-align:center}
+/* compressed, per-view top */
+header.pg{max-width:52rem;margin:0 auto;padding:3vh 22px 0;text-align:center}
+.kick{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 8px}
+h1{font-family:var(--disp);font-style:italic;font-weight:600;font-size:clamp(28px,5vw,42px);color:var(--moss);margin:0 0 6px}
+.lede{font-family:var(--disp);font-style:italic;font-size:16px;color:var(--ink-2);max-width:34rem;margin:0 auto;line-height:1.45}
+.controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 12px;max-width:56rem;margin:16px auto 0;padding:0 22px}
+.chips{display:flex;flex-wrap:wrap;gap:5px;justify-content:center}
+.chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.02em;text-transform:uppercase;color:var(--ink-2);background:var(--paper-3);border:1px solid var(--rule);border-radius:999px;padding:3px 9px;cursor:pointer;user-select:none}
+.chip .n{color:var(--ink-3);margin-left:4px}
+.chip.off{opacity:.4;text-decoration:line-through}
+.chip .sw{display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--fern);margin-right:5px;vertical-align:middle}
+.seqtog{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-3);background:transparent;border:1px dashed var(--rule);border-radius:999px;padding:3px 10px;cursor:pointer}
+.seqtog.on{color:var(--moss);border-style:solid;background:color-mix(in srgb,var(--fern) 8%,transparent)}
+details.how{max-width:40rem;margin:10px auto 0}
+details.how>summary{font-family:var(--sans);font-size:12px;color:var(--gold);cursor:pointer;list-style:none;text-align:center}
+details.how>summary::-webkit-details-marker{display:none}
+details.how>summary:after{content:" ↗"}
+details.how p{font-family:var(--sans);font-size:12.5px;color:var(--ink-3);line-height:1.6;margin:8px 0 0;text-align:center}
+/* two-column: band + sticky inspector */
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:30px;max-width:76rem;margin:4vh auto 0;padding:0 22px 14vh;align-items:start}
+.band{position:relative;min-width:0}
+.rows{position:relative;margin-left:280px}
+svg.arcs{position:absolute;top:0;left:0;width:280px;height:100%;overflow:visible;pointer-events:none}
+.mrow{min-height:48px;display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid color-mix(in srgb,var(--rule) 40%,transparent);cursor:pointer;position:relative}
+.mrow .mk{font-family:var(--mono);font-size:10px;color:var(--gold);min-width:2.4rem;letter-spacing:.03em;align-self:flex-start;padding-top:2px}
+.mrow .pp{font-family:var(--serif);font-size:14.5px;color:var(--ink);line-height:1.32;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mrow .badge{position:absolute;left:-262px;font-family:var(--mono);font-size:9px;color:var(--paper);background:var(--moss);width:15px;height:15px;border-radius:50%;text-align:center;line-height:15px;display:none}
+.mrow.tgt .badge{display:block}
+.mrow.dim{opacity:.28}
+.mrow.lit .pp{color:var(--ink)}
+.mrow.lit{background:color-mix(in srgb,var(--gold) 9%,transparent)}
+.mrow.sel{background:color-mix(in srgb,var(--gold) 16%,transparent);box-shadow:inset 3px 0 0 var(--gold)}
+.mrow.sel .pp{-webkit-line-clamp:6}
+.mrow.vstart{border-top:1px solid color-mix(in srgb,var(--rule) 85%,transparent);margin-top:6px}
+.mrow .vtag{position:absolute;left:-278px;top:6px;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+path.arc{fill:none;stroke:var(--fern);stroke-width:1.5;opacity:.26;transition:opacity .15s,stroke-width .15s}
+path.arc.seq{stroke-dasharray:2 4;opacity:.16;stroke-width:1}
 path.arc.hid{display:none}
-circle.tip.hid{display:none}
+path.arc.on{opacity:.95;stroke-width:2.4}
+path.arc.faded{opacity:.05}
+.arctip{fill:var(--fern)}
+.arctip.hid{display:none}
+.arctip.faded{opacity:.05}
+/* inspector */
+.inspector{position:sticky;top:64px;align-self:start;background:var(--paper-3);border:1px solid var(--rule);border-radius:14px;padding:14px 16px;max-height:82vh;overflow:auto}
+.insp-rest{font-family:var(--sans);font-size:13px;color:var(--ink-3);font-style:italic;line-height:1.5;text-align:center;padding:18px 6px}
+.insp-h{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--moss)}
+.insp-sel{font-family:var(--serif);font-size:14px;color:var(--ink);line-height:1.4;margin:6px 0 12px;padding-bottom:12px;border-bottom:1px solid var(--rule)}
+.insp-sel .mk{font-family:var(--mono);font-size:10px;color:var(--gold)}
+.rel{padding:10px 0;border-bottom:1px solid color-mix(in srgb,var(--rule) 45%,transparent);cursor:pointer}
+.rel:last-child{border-bottom:0}
+.rel .verb{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--moss)}
+.rel .verb .ar{color:var(--gold);margin:0 5px}
+.rel .say{font-family:var(--serif);font-size:13.5px;color:var(--ink-2);font-style:italic;line-height:1.4;margin:4px 0 0}
+.rel .tgt-txt{font-family:var(--serif);font-size:13px;color:var(--ink);line-height:1.35;margin:5px 0 0;padding-left:9px;border-left:2px solid color-mix(in srgb,var(--fern) 45%,transparent)}
+.rel:hover{background:color-mix(in srgb,var(--gold) 7%,transparent)}
+.rel .go{font-family:var(--mono);font-size:10px;color:var(--gold);opacity:0;margin-top:4px}
+.rel:hover .go{opacity:1}
 .src{font-family:var(--sans);font-size:11px;color:var(--ink-3);text-align:center;margin:5vh 0 0}
 .err{color:var(--terracotta);font-family:var(--sans);text-align:center;margin:8vh 0}
+@media(max-width:880px){
+  .wrap{grid-template-columns:1fr;gap:0}
+  .rows{margin-left:230px}svg.arcs{width:230px}
+  .mrow .badge{left:-212px}.mrow .vtag{left:-228px}
+  .inspector{position:sticky;bottom:0;top:auto;max-height:46vh;margin-top:16px;border-radius:14px 14px 0 0;box-shadow:0 -8px 24px color-mix(in srgb,var(--ink) 12%,transparent)}
+}
 </style>
 <script>(function(){try{var t=localStorage.getItem("gom-theme")||"light";document.documentElement.dataset.theme=t;}catch(e){}})();</script>
 </head>
 <body>
-<div class="bar"><span class="rm">Trace · the Arc Band · Mark 16</span><span class="rm" id="cnt"></span></div>
+<div class="bar"><span class="rm">Trace · Arc Band · Mark 16</span><span class="rm" id="cnt"></span></div>
 <div class="navwrap"><div id="viewnav"></div></div>
 <header class="pg">
   <p class="kick">how the moves hold together</p>
-  <h1>Trace<span class="sub">the Arc Band</span></h1>
-  <p class="lede">The moves stay in reading order; an arc joins two that are linked. The shape of the passage is the shape of the arcs.</p>
-  <p class="task"><b>Pick a move that catches you</b> — click its line. Where does it reach, and what kind of connection is it?</p>
-  <p class="how">Each row is a move, top to bottom in textual order. An arc in the left margin joins two linked moves; its colour is the <em>kind</em> of connection, and it lands on the move it points to. The faint dotted arcs are plain sequence (&ldquo;and then&rdquo;). Filter by kind below, or break a kind down by relation.</p>
+  <h1>Trace</h1>
+  <p class="lede">Put your finger on one move and follow where it reaches — and what kind of connection it is.</p>
+  <div class="controls">
+    <div class="chips" id="legend"></div>
+    <button class="seqtog" id="seqtog">+ show sequence</button>
+  </div>
+  <details class="how"><summary>How to read this</summary><p>Each row is a move, top to bottom in reading order. Click a move to trace its links: an arc bends out from it to each move it connects to — the farther the arc reaches, the farther across the passage the connection runs. The panel names each connection in plain language. Plain sequence (“and then”) is hidden by default — the reading order already shows it. This view shows <b>linkage</b> only (how the moves hold together); the few <em>shape</em> echoes live in another view.</p></details>
 </header>
-<div class="legendwrap"><div id="legend"></div></div>
-<div class="relwrap"><div class="relbox" id="relcard"><p class="relhint">Click a move to see its connections in plain language.</p></div></div>
-<div class="band"><div class="rows" id="rows"><div class="err" id="loading">Loading the edges…</div></div></div>
+<div class="wrap">
+  <div class="band"><div class="rows" id="rows"><div class="err" id="loading">Loading the edges…</div></div></div>
+  <aside class="inspector" id="insp"><p class="insp-rest">Click any move to trace its connections.</p></aside>
+</div>
 <p class="src" id="src"></p>
 
 <script src="/engine/connect_core.js"></script>
 <script>
 var CC=window.ConnectCore;
 var BASE="/engine/data/goldenpath/mark16/";
-var esc=CC.esc, ROWH=34, GUT=118;
-var TAX, EDGES=[], FILTER, IDX={}, SEL=null;
+var esc=CC.esc, ROWH=48, GUT=280;
+var TAX, MOVES=[], MTXT={}, EDGES=[], IDX={}, SEL=null, SHOWSEQ=false, OFFSUB={};
 
 Promise.all([
   fetch(BASE+"moves.json").then(function(r){return r.json();}),
   fetch(BASE+"connect_edges.json").then(function(r){return r.json();}),
   CC.load()
 ]).then(function(res){build(res[0],res[1],res[2]);}).catch(function(e){
-  document.getElementById("loading").innerHTML='Could not load feeds ('+esc(e.message)+'). connect_edges.json / connect_taxonomy.json may still be propagating.';
+  document.getElementById("loading").innerHTML='Could not load feeds ('+esc(e.message)+').';
 });
 
-function build(mdoc,edoc,tax){
-  TAX=tax; CC.injectCSS();
-  var moves=(mdoc.moves||[]).slice().sort(function(a,b){return a.idx-b.idx;});
-  CC.useMoves(moves);  // so relation cards can show what each move SAYS (§2.16)
-  var raw=(edoc.edges||edoc||[]);
-  var idxOf={}; moves.forEach(function(m,i){idxOf[m.label]=i;}); IDX=idxOf;
-  var HASH=CC.readHash();
-  document.getElementById("cnt").textContent=moves.length+" moves · "+raw.length+" edges";
+function subLabel(type){var s=TAX.subtypes&&TAX.subtypes[String(type).toUpperCase()];return s&&s.label?s.label:String(type).toLowerCase();}
+function isSeq(e){return String(e.type).toUpperCase()==="LINK_SEQUENCE";}
 
-  // keep only edges whose endpoints are single moves present in moves.json
-  var dropped=[];
+function build(mdoc,edoc,tax){
+  TAX=tax;
+  MOVES=(mdoc.moves||[]).slice().sort(function(a,b){return (+a.idx)-(+b.idx);});
+  CC.useMoves(MOVES);
+  MOVES.forEach(function(m,i){IDX[m.label]=i;MTXT[m.label]=m.paraphrase||m.gloss||m.operation||"";});
+  var raw=(edoc.edges||edoc||[]);
+  var HASH=CC.readHash();
+
+  // LINKAGE-scope: keep only LINKAGE edges whose endpoints are present moves (the crit's #1 — Trace is linkage only)
+  var dropped=[], shapeN=0;
   raw.forEach(function(e){
-    var a=idxOf[e.source_move_label], b=idxOf[e.target_move_label];
-    if(a==null){dropped.push(e.source_move_label);return;}
-    if(b==null){dropped.push(e.target_move_label);return;}
+    var k=String(e.edge_kind).toUpperCase();
+    if(k!=="LINKAGE"){ if(k==="SHAPE")shapeN++; return; }
+    var a=IDX[e.source_move_label], b=IDX[e.target_move_label];
+    if(a==null||b==null){dropped.push(a==null?e.source_move_label:e.target_move_label);return;}
     e._a=a; e._b=b; EDGES.push(e);
   });
+  document.getElementById("cnt").textContent=MOVES.length+" moves · "+EDGES.length+" linkages";
 
-  // rows
-  var rowsEl=document.getElementById("rows");
-  var svgH=moves.length*ROWH;
-  var svg='<svg class="arcs" viewBox="0 0 '+GUT+' '+svgH+'" preserveAspectRatio="none" style="height:'+svgH+'px">';
-  EDGES.forEach(function(e,k){
-    var a=e._a,b=e._b, y1=a*ROWH+ROWH/2, y2=b*ROWH+ROWH/2;
-    var hue="var("+CC.hueVar(TAX,CC.kindOf(e))+")", weak=CC.isWeak(TAX,e);
-    var span=Math.abs(b-a), bulge=Math.min(GUT-8, 14+span*7);
-    var x=GUT-2, cx=x-bulge, my=(y1+y2)/2;
-    svg+='<path class="arc'+(weak?" weak":"")+'" data-e="'+k+'" data-kind="'+CC.kindOf(e)+'" data-sub="'+CC.typeOf(e)+'" data-a="'+a+'" data-b="'+b+'" d="M'+x+','+y1+' Q'+cx+','+my+' '+x+','+y2+'" stroke="'+hue+'"/>';
-    svg+='<circle class="tip" data-e="'+k+'" cx="'+x+'" cy="'+y2+'" r="'+(weak?1.6:2.6)+'" fill="'+hue+'" opacity="'+(weak?.3:.85)+'"/>';
-  });
-  svg+='</svg>';
-  var rowsHTML="";
-  moves.forEach(function(m,i){
-    rowsHTML+='<div class="mrow" data-i="'+i+'" data-label="'+esc(m.label)+'"><span class="mk">'+esc(m.label)+'</span><span class="pp">'+esc(m.paraphrase||m.operation||"")+'</span></div>';
-  });
-  rowsEl.innerHTML=svg+rowsHTML;
+  renderRows(); renderArcs(); renderLegend();
+  CC.mountNav("viewnav","trace",function(){return {m:SEL,off:{}};});
+  document.getElementById("seqtog").addEventListener("click",function(){SHOWSEQ=!SHOWSEQ;this.classList.toggle("on",SHOWSEQ);applyVis();});
 
-  // one-instrument view-switch (carries selection + filters across Trace/Scan/Map)
-  CC.mountNav("viewnav","trace",function(){return {m:SEL,off:FILTER?FILTER.state():{}};});
-  // shared 5-kind filter + sub-type drill-down (restore any filters from the hash)
-  FILTER=CC.Filter(document.getElementById("legend"),TAX,EDGES,applyVis,HASH.off);
-  SEL=HASH.m||null;
   applyVis();
+  if(HASH.m){selectMove(HASH.m,true);}
 
-  // hover a move → light it + its neighbours (visible edges only)
-  Array.prototype.forEach.call(document.querySelectorAll(".mrow"),function(row){
-    row.addEventListener("mouseenter",function(){
-      var i=+row.dataset.i, nb={};
-      EDGES.forEach(function(e){ if((e._a===i||e._b===i)&&FILTER.visible(e)){nb[e._a]=1;nb[e._b]=1;} });
-      Array.prototype.forEach.call(document.querySelectorAll(".mrow"),function(r){var j=+r.dataset.i;r.classList.toggle("lit",j===i);r.classList.toggle("dim",Object.keys(nb).length>0&&!nb[j]&&j!==i);});
-    });
-    row.addEventListener("mouseleave",function(){Array.prototype.forEach.call(document.querySelectorAll(".mrow"),function(r){r.classList.remove("lit","dim");});});
-    row.addEventListener("click",function(){ selectMove(row.dataset.label,false); });
-  });
-
-  // restore a selection carried in from another view
-  if(HASH.m) selectMove(HASH.m,true);
-
-  var srcTxt="rendered from moves.json + connect_edges.json ("+edoc.run_tag+")"+CC.dropNote(dropped);
+  var note=shapeN?(" · "+shapeN+" shape echoes shown in the Map view"):"";
+  var srcTxt="rendered from moves.json + connect_edges.json ("+(edoc.run_tag||"")+")"+note+CC.dropNote(dropped);
   document.getElementById("src").innerHTML=esc(srcTxt).replace("⚠",'<span style="color:var(--terracotta)">⚠</span>');
 }
 
-function applyVis(){
-  Array.prototype.forEach.call(document.querySelectorAll("path.arc, circle.tip"),function(el){
-    var e=EDGES[+el.dataset.e]; el.classList.toggle("hid",!FILTER.visible(e));
+function renderRows(){
+  var html="", lastV=null;
+  MOVES.forEach(function(m,i){
+    var v=m.verse_start, vs=(v!=null&&v!==lastV);
+    var vtag=vs?'<span class="vtag">v.'+esc(String(v))+'</span>':'';
+    html+='<div class="mrow'+(vs?' vstart':'')+'" data-i="'+i+'" data-label="'+esc(m.label)+'" style="min-height:'+ROWH+'px">'+
+      vtag+'<span class="badge"></span>'+
+      '<span class="mk">'+esc(m.label)+'</span><span class="pp">'+esc(m.paraphrase||m.operation||"")+'</span></div>';
+    if(vs)lastV=v;
   });
-  if(SEL) selectMove(SEL,false); // keep the card in sync with the visible edges
-  if(FILTER) CC.writeHash({m:SEL,off:FILTER.state()});
+  var rowsEl=document.getElementById("rows");
+  rowsEl.innerHTML='<svg class="arcs" id="arcs" preserveAspectRatio="none"></svg>'+html;
+  Array.prototype.forEach.call(rowsEl.querySelectorAll(".mrow"),function(row){
+    row.addEventListener("mouseenter",function(){ if(!SEL) hoverMove(+row.dataset.i,true); });
+    row.addEventListener("mouseleave",function(){ if(!SEL) hoverMove(+row.dataset.i,false); });
+    row.addEventListener("click",function(){ selectMove(row.dataset.label,false); });
+  });
+}
+
+function renderArcs(){
+  var svgH=MOVES.length*ROWH;
+  var svg=document.getElementById("arcs");
+  svg.setAttribute("viewBox","0 0 "+GUT+" "+svgH); svg.style.height=svgH+"px";
+  var s="";
+  EDGES.forEach(function(e,k){
+    var y1=e._a*ROWH+ROWH/2, y2=e._b*ROWH+ROWH/2, span=Math.abs(e._b-e._a);
+    var bulge=Math.min(GUT-10, 20+span*10);        // wide gutter → span is dramatic (crit #3/#11)
+    var x=GUT-4, cx=x-bulge, my=(y1+y2)/2;
+    s+='<path class="arc'+(isSeq(e)?" seq":"")+'" data-e="'+k+'" data-a="'+e._a+'" data-b="'+e._b+'" d="M'+x+','+y1+' Q'+cx+','+my+' '+x+','+y2+'"/>';
+    // direction: source dot, target arrowhead pointing into the text (crit #6/#6b)
+    s+='<circle class="arctip" data-e="'+k+'" cx="'+x+'" cy="'+y1+'" r="2.4"/>';
+    s+='<path class="arctip" data-e="'+k+'" d="M'+x+','+(y2-3.2)+' L'+(x+6)+','+y2+' L'+x+','+(y2+3.2)+' z"/>';
+  });
+  svg.innerHTML=s;
+}
+
+function renderLegend(){
+  var c={}; EDGES.forEach(function(e){ if(isSeq(e))return; var t=String(e.type).toUpperCase(); c[t]=(c[t]||0)+1; });
+  var order=Object.keys(c).sort(function(a,b){return c[b]-c[a];});
+  var host=document.getElementById("legend");
+  host.innerHTML=order.map(function(t){
+    return '<span class="chip'+(OFFSUB[t]?" off":"")+'" data-sub="'+t+'"><span class="sw"></span>'+esc(subLabel(t))+'<span class="n">'+c[t]+'</span></span>';
+  }).join("");
+  Array.prototype.forEach.call(host.querySelectorAll(".chip"),function(ch){
+    ch.addEventListener("click",function(){var t=ch.dataset.sub;OFFSUB[t]=!OFFSUB[t];ch.classList.toggle("off",OFFSUB[t]);applyVis();if(SEL)selectMove(SEL,false);});
+  });
+}
+
+function edgeVisible(e){ if(isSeq(e))return SHOWSEQ; return !OFFSUB[String(e.type).toUpperCase()]; }
+
+function applyVis(){
+  Array.prototype.forEach.call(document.querySelectorAll("#arcs .arc, #arcs .arctip"),function(el){
+    var e=EDGES[+el.dataset.e]; el.classList.toggle("hid",!edgeVisible(e));
+  });
+  CC.writeHash({m:SEL,off:{}});
+}
+
+function hoverMove(i,on){
+  var nb={}; if(on) EDGES.forEach(function(e){ if((e._a===i||e._b===i)&&edgeVisible(e)){nb[e._a]=1;nb[e._b]=1;} });
+  Array.prototype.forEach.call(document.querySelectorAll(".mrow"),function(r){var j=+r.dataset.i;
+    r.classList.toggle("lit",on&&j===i); r.classList.toggle("dim",on&&Object.keys(nb).length>0&&!nb[j]&&j!==i);});
 }
 
 function selectMove(label,scroll){
-  var i=IDX[label]; if(i==null){return;}
-  SEL=label;
-  Array.prototype.forEach.call(document.querySelectorAll(".mrow"),function(r){r.classList.toggle("sel",+r.dataset.i===i);});
-  var vis=EDGES.filter(function(e){return FILTER.visible(e);});
-  document.getElementById("relcard").innerHTML=CC.moveConnectionsHTML(TAX,vis,label);
-  CC.writeHash({m:SEL,off:FILTER.state()});
+  var i=IDX[label]; if(i==null)return; SEL=label;
+  var mine=EDGES.filter(function(e){return (e._a===i||e._b===i)&&edgeVisible(e);});
+  var nbSet={}; mine.forEach(function(e){nbSet[e._a]=1;nbSet[e._b]=1;});
+
+  // rows: select, light targets, dim the rest; number the targets
+  var order=mine.map(function(e){return (e._a===i)?e._b:e._a;});
+  var num={}; order.forEach(function(t,ix){ if(num[t]==null) num[t]=Object.keys(num).length+1; });
+  Array.prototype.forEach.call(document.querySelectorAll(".mrow"),function(r){
+    var j=+r.dataset.i;
+    r.classList.toggle("sel",j===i);
+    r.classList.toggle("lit",j!==i&&!!nbSet[j]);
+    r.classList.toggle("dim",j!==i&&!nbSet[j]);
+    r.classList.toggle("tgt",num[j]!=null);
+    var bd=r.querySelector(".badge"); if(bd) bd.textContent=num[j]!=null?num[j]:"";
+  });
+  // arcs: this move's on + directional, the rest faded (crit #4/#7)
+  Array.prototype.forEach.call(document.querySelectorAll("#arcs .arc, #arcs .arctip"),function(el){
+    var e=EDGES[+el.dataset.e], mineEl=(e._a===i||e._b===i)&&edgeVisible(e), vis=edgeVisible(e);
+    el.classList.toggle("hid",!vis);
+    el.classList.toggle("on",mineEl); el.classList.toggle("faded",vis&&!mineEl);
+  });
+  renderInspector(i,mine,num);
+  CC.writeHash({m:SEL,off:{}});
   if(scroll){var row=document.querySelector('.mrow[data-i="'+i+'"]');if(row&&row.scrollIntoView)row.scrollIntoView({block:"center",behavior:"smooth"});}
+}
+
+function renderInspector(i,mine,num){
+  var label=MOVES[i].label;
+  var rows=mine.map(function(e){
+    var out=(e._a===i), other=out?e._b:e._a, otherLabel=MOVES[other].label, verb=subLabel(e.type).toUpperCase();
+    var say=""; try{ say=CC.prose(TAX,e)||""; }catch(_){}
+    var dir=out?('<span class="verb">'+esc(verb)+'<span class="ar">→</span>'+esc(otherLabel)+'</span>')
+               :('<span class="verb">'+esc(otherLabel)+'<span class="ar">→</span>'+esc(verb)+'</span>');
+    return '<div class="rel" data-go="'+esc(otherLabel)+'">'+dir+
+      (say?'<p class="say">'+esc(say)+'</p>':'')+
+      '<p class="tgt-txt"><span style="font-family:var(--mono);font-size:10px;color:var(--gold)">'+esc(otherLabel)+'</span> '+esc(MTXT[otherLabel]||"")+'</p>'+
+      '<p class="go">follow to '+esc(otherLabel)+' →</p></div>';
+  }).join("");
+  var n=mine.length;
+  var html='<div class="insp-h">'+esc(label)+' · '+n+' connection'+(n===1?"":"s")+'</div>'+
+    '<p class="insp-sel"><span class="mk">'+esc(label)+'</span> '+esc(MTXT[label]||"")+'</p>'+
+    (n?rows:'<p class="insp-rest">No linkages from this move'+(SHOWSEQ?"":" (sequence is hidden — toggle “show sequence” to include it)")+'.</p>');
+  var insp=document.getElementById("insp"); insp.innerHTML=html; insp.scrollTop=0;
+  Array.prototype.forEach.call(insp.querySelectorAll(".rel"),function(rel){
+    rel.addEventListener("mouseenter",function(){ isolateArc(i,IDX[rel.dataset.go]); });
+    rel.addEventListener("mouseleave",function(){ selectMove(SEL,false); });
+    rel.addEventListener("click",function(){ selectMove(rel.dataset.go,true); });
+  });
+}
+
+// FOLLOW-lite: hovering a relation isolates that single arc (crit #8)
+function isolateArc(i,j){
+  Array.prototype.forEach.call(document.querySelectorAll("#arcs .arc, #arcs .arctip"),function(el){
+    var e=EDGES[+el.dataset.e], hit=((e._a===i&&e._b===j)||(e._a===j&&e._b===i))&&edgeVisible(e);
+    el.classList.toggle("on",hit); el.classList.toggle("faded",edgeVisible(e)&&!hit); el.classList.toggle("hid",!edgeVisible(e));
+  });
+  Array.prototype.forEach.call(document.querySelectorAll(".mrow"),function(r){var k=+r.dataset.i;r.classList.toggle("lit",k===j||k===i);});
 }
 </script>
 </body>
 </html>
 <!-- ── METHODOLOGY FOOTER ──
-HOW PRODUCED: design-SB 2026-08-11 — Connect figures v2 (P1), the Trace / Arc Band view. Relabelled off the S168 invented
-  3-family scheme (logic/resonance/sonic) onto the REAL 5 edge-kinds (LINKAGE/LINEAGE/RESONANCE/SHAPE/SONIC) via the shared
-  connect_core.js + connect_taxonomy.json (render-from-data, §2.16; one taxonomy source across all Connect views). Colour = KIND
-  (linkage=fern/lineage=moss/resonance=gold/shape=olive/sonic=sky; LINK_SEQUENCE ghosted). Adds the 5-kind legend + sub-type
-  drill-down with live counts (absent kinds shown declared-but-empty; SONIC → "on the Plate"), and the plain-language relation
-  card on click (NEST_REPORTS → "M4 is the speech reported inside M3"; direction shown). Composite parallelism-run edges + the
-  M56–M60 regen mismatch are surfaced honestly in the source note, not silently dropped.
-SCHOLARLY SOURCES: _staging/connect_v2_reconciliation_2026-08-10.md (the v2 spec); the Connect method drawer edge_grammar_v1
-  (SSOT, §2.16); connect_edges.json (edge_kind + type); the arc-diagram idiom (Wattenberg / genome-browser track stacks); the
-  old VIZ_constellation_v3 per-sub-type filter bar (the drill-down model).
-WHAT NEEDS VERIFICATION: (1) pane eyeball of the 5-kind colour key + drill-down + relation card on the live deploy. (2) prose
-  templates in connect_taxonomy.json want a reading-SB/PI wording pass. (3) P2 will fold Trace/Scan/Map into one shell with
-  shared selection state that survives the view switch (this figure already routes selection through the shared core). -->
+HOW PRODUCED: Design SB 2026-08-14 — Trace / Arc Band V2, rebuilt against the GPT crit (trace_arcband_crit_2026-08-14.md).
+  Six priorities: (1) scoped to LINKAGE only (70/78 Mark-16 edges; the 8 SHAPE echoes are pointed to the Map view, not shown);
+  (2) explanation moved BESIDE the move — a sticky right inspector on desktop, a bottom sheet on narrow; (3) arc gutter widened
+  118→280px so span reads (bulge = f(span)); (4) selection dims every unrelated edge + lights source/targets + numbers them;
+  (5) prominent directional relation labels (SUPPORTS → M5) with the plain sentence + the target's full text; (6) no truncation —
+  rows wrap to 2 lines, the selected move + every target show full text in the inspector. Plus: directional arcs (source dot →
+  target arrowhead), sequence demoted OFF by default, verse landmarks (native division, v.N) from moves.verse_start, compressed
+  per-view top (its own hero proposition — the "top stays the same across tabs" fix), and hover-a-relation isolates that one arc
+  (walk: click a relation to follow to that move). Grammar + plain-language come from connect_taxonomy.json + CC.prose (§2.16, no
+  invented grammar); the figure only renders what the taxonomy declares.
+SCHOLARLY SOURCES: trace_arcband_crit_2026-08-14.md (the crit + six priorities); connect_taxonomy.json (LINKAGE sub-types +
+  labels + prose templates, mirrors edge_grammar_v1 SSOT); connect_edges.json (Mark 16, run_tag edge_grammar_v1_2026-08-09);
+  moves.json (paraphrase = the datum; verse_start = native landmark). The arc-diagram idiom (Wattenberg). §2.16 render-from-data.
+WHAT NEEDS VERIFICATION: (1) live pane eyeball — density of the wider gutter, 2-line clamp readability, sticky inspector on
+  desktop + bottom sheet on narrow. (2) direction semantics per sub-type (taxonomy `directional` null; rendered from source→target)
+  want a Method pass. (3) the linguistic vs researcher split (crit #13) — currently one linguistic card; a "researcher details"
+  disclosure is a follow-up. (4) full redundant line-grammar per sub-type (crit #14) deferred; sequence-dotted is the only line cue now. -->
