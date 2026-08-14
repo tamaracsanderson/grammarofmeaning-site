@@ -6,12 +6,12 @@
   "engine": "morphospace",
   "status": "v1 · numbers computed on the current (pre-rebalance) coords; regenerate after the Islamic+Jewish atlas batch lands",
   "generated_from": [
-    "scripts/analysis/mca_cross_tradition_mixing_s167.py",
+    "scripts/analysis/mca_cross_tradition_mixing_s167.py --tier family",
     "scripts/analysis/mca_cross_tradition_mixing_s167.py --tier tradition",
     "scripts/analysis/mca_prevalence_curve_s167.py",
     "scripts/analysis/mca_archetype_spemca_s167.py"
   ],
-  "n_reads": 3173,
+  "n_reads": 3308,
   "headline": {
     "claim": "Traditions converge without being the same, and differ without being incommensurable — and you can measure which is which, axis by axis.",
     "gloss": "Positionality-as-coordinates says the thing the universal-vs-particular binary structurally cannot: a text can be tradition-specific on one axis and convergent on another, at the same time. The convergence is a measured, located fact — not a claim."
@@ -22,7 +22,7 @@
       "name": "The map (archetypes)",
       "method": "speMCA-style MCA (not-engaged + rare values set PASSIVE, not dropped)",
       "question": "Do recurring positions cut across traditions?",
-      "result": "4 archetypes, each spanning 6–16 traditions across 3173 coded reads: Devotional-Covenantal (n=1007, 8 traditions), Prophetic (n=894, 6 traditions), Critical-Deconstructive (n=554, 16 traditions), Emergent-Relational (n=718, 16 traditions).",
+      "result": "4 archetypes, each spanning 6–16 traditions across 3308 coded reads: Devotional-Covenantal (n=1083, 8 traditions), Prophetic (n=887, 6 traditions), Critical-Deconstructive (n=575, 16 traditions), Emergent-Relational (n=763, 16 traditions).",
       "reading": "Every archetype is occupied by many traditions in their own voices — rhyme, not identity."
     },
     {
@@ -30,32 +30,32 @@
       "name": "Interleaving",
       "method": "cross-tradition nearest-neighbor rate (k=10), computed at the TRADITION tier",
       "question": "Do traditions cluster in their own corners, or interleave? (axis-free)",
-      "result": "MACRO 86% (equal-tradition weight, 14 traditions). Christianity 8% (n=2262) is the ONLY tradition that looks clustered; every other tradition mixes 76–99%.",
-      "reading": "The low rate tracks CLASS SIZE, not distinctiveness: Christianity is ~92% of the Abrahamic reads, so its neighbors are Christian by default. Un-lumping 'Abrahamic' (family MACRO was 79%) makes the prevalence mechanism visible.",
+      "result": "MACRO 86% (equal-tradition weight, 14 traditions). Christianity 11% (n=2262) is the ONLY tradition that looks clustered; every other tradition mixes 75–99%.",
+      "reading": "The low rate tracks CLASS SIZE, not distinctiveness: Christianity is ~87% of the Abrahamic reads, so its neighbors are Christian by default. Un-lumping 'Abrahamic' (family MACRO was 79%) makes the prevalence mechanism visible.",
       "table": [
         {
           "tradition": "Christianity",
           "code": "ABR-CHR",
           "n": 2262,
-          "cross_pct": 8
-        },
-        {
-          "tradition": "Buddhism",
-          "code": "DHR-BUD",
-          "n": 125,
-          "cross_pct": 76
+          "cross_pct": 11
         },
         {
           "tradition": "Islam",
           "code": "ABR-ISL",
-          "n": 110,
-          "cross_pct": 91
+          "n": 169,
+          "cross_pct": 90
         },
         {
           "tradition": "Judaism",
           "code": "ABR-JUD",
-          "n": 78,
-          "cross_pct": 90
+          "n": 155,
+          "cross_pct": 87
+        },
+        {
+          "tradition": "Buddhism",
+          "code": "DHR-BUD",
+          "n": 126,
+          "cross_pct": 75
         },
         {
           "tradition": "Hinduism",
@@ -79,7 +79,7 @@
           "tradition": "Confucianism",
           "code": "EAS-CON",
           "n": 27,
-          "cross_pct": 95
+          "cross_pct": 96
         },
         {
           "tradition": "African Indigenous",
@@ -103,7 +103,7 @@
           "tradition": "Andean",
           "code": "IND-AND",
           "n": 14,
-          "cross_pct": 91
+          "cross_pct": 92
         },
         {
           "tradition": "Mesoamerican",
@@ -124,8 +124,8 @@
       "name": "Prevalence curve",
       "method": "tradition silhouette vs class-balance cap",
       "question": "Is the apparent separation real, or a corpus-skew artifact?",
-      "result": "Raw silhouette +0.24 → -0.05 when classes are balanced.",
-      "reading": "Silhouette runs -1..+1: +1 = tight separate clusters, 0 = interleaved, negative = closer to OTHER groups than your own. The raw +0.24 looks like separation; balance the classes and it collapses to -0.05. The 'separation' was manufactured by a corpus that is ~78% Christianity. The collapse IS the finding."
+      "result": "Raw silhouette +0.24 → -0.04 when classes are balanced.",
+      "reading": "Silhouette runs -1..+1: +1 = tight separate clusters, 0 = interleaved, negative = closer to OTHER groups than your own. The raw +0.24 looks like separation; balance the classes and it collapses to -0.04. The 'separation' was manufactured by a corpus that is ~75% Christianity. The collapse IS the finding."
     }
   ],
   "surprises": [
@@ -137,7 +137,7 @@
     {
       "n": 2,
       "title": "Abrahamic isn't special — it's just big.",
-      "finding": "Its 8% cross-tradition rate reads as a tight cluster, but it is pure prevalence (~92% of it is Christianity). Freed from the lump, Islam mixes 91% and Judaism 90%, like every other tradition."
+      "finding": "Its 11% cross-tradition rate reads as a tight cluster, but it is pure prevalence (~87% of it is Christianity). Freed from the lump, Islam mixes 90% and Judaism 87%, like every other tradition."
     },
     {
       "n": 3,
@@ -147,7 +147,7 @@
     {
       "n": 4,
       "title": "Your own data lied at first glance.",
-      "finding": "Naïvely the numbers say traditions DIVERGE (silhouette +0.24) — the opposite of the truth. Skew doesn't just hide structure, it manufactures false structure. Corrected (balanced), the signal is convergence (-0.05)."
+      "finding": "Naïvely the numbers say traditions DIVERGE (silhouette +0.24) — the opposite of the truth. Skew doesn't just hide structure, it manufactures false structure. Corrected (balanced), the signal is convergence (-0.04)."
     },
     {
       "n": 5,
@@ -203,6 +203,10 @@
     {
       "question": "Is the 3rd axis inside the 2×2 archetypes, or a separate dimension?",
       "answer": "A separate, orthogonal 3rd dimension (unitive↔relational), not inside the 2×2. It carries 18% inertia vs dim2's 19% — nearly equal — so it's shown BESIDE the archetypes (a dim1×dim3 panel), never folded into them."
+    },
+    {
+      "question": "Does the low held% of core scripture mean the scripture is MISSING (a corpus gap that would bias the morphospace)?",
+      "answer": "Mostly no — it's a held-metric artifact, not absence. The whole Tanakh is present (23206 verse-rows, 94% in the 51–300-char band so each reads as a 'snippet' though it's a complete verse); the held threshold (>300 chars, Decision 218) can't tell a verse from a metadata stub. The Qur'an is present too but at MIXED granularity (verse + sura + whole-work rows — a dedup/normalization target, not clean like the Tanakh). The ONE real gap is canonical Sunni hadith (9% of the Kutub al-Sittah, Bukhari barely present) — a CRADLE acquire target. So the scripture regions of the morphospace are backed by real, complete text; low held% is measurement, not missing data. (Librarian S171 audit.)"
     }
   ],
   "how_to_extend": "Append a finding-object to cuts / surprises / validity and re-run this builder. Numbers are pulled live from the 4 source feeds — never type a figure into the prose. Method / Design / Library have append-access; the page is a growing ledger.",

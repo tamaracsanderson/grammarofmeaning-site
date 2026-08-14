@@ -28,21 +28,21 @@ a{color:var(--gold)}.load{color:var(--ink-3);font-family:ui-sans-serif,sans-seri
 <div class="wrap">
   <div class="eyebrow">Grammar of Meaning · the morphospace · interleaving</div>
   <h1>How often is a tradition's nearest neighbor <em>another</em> tradition?</h1>
-  <p class="lede">For each coded observation, we ask: of its ten nearest neighbors in the morphospace, how many come from a <b>different</b> tradition-family? If traditions clumped into their own territories, this would be near zero. It isn't — <b>it's mostly near the top.</b></p>
+  <p class="lede">For each coded observation, we ask: of its ten nearest neighbors in the morphospace, how many come from a <b>different</b> tradition? If traditions clumped into their own territories, this would be near zero. It isn't — <b>it's mostly near the top.</b></p>
   <div class="chart" id="chart"><div class="load">measuring the neighborhoods…</div></div>
   <div class="card" id="finding"></div>
   <details class="fine"><summary>the fine print — how it's measured ▾</summary><p id="method"></p><p class="k" id="nums"></p></details>
   <footer id="foot"></footer>
 </div>
 <script>
-var FEED="/engine/data/viz/morphospace_mixing.json";
+var FEED="/engine/data/viz/morphospace_mixing_tradition_tier.json";
 function esc(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
 function el(id){return document.getElementById(id);}
 fetch(FEED).then(function(r){return r.json();}).then(build).catch(function(e){el("chart").innerHTML='<div class="load">could not load the mixing feed ('+e.message+')</div>';});
 function build(d){
   var pf=d.per_family, macro=d.cross_tradition_rate_macro_equal_family;
-  var rows=Object.keys(pf).map(function(f){return {f:f,r:pf[f].cross_rate,n:pf[f].n};}).sort(function(a,b){return b.r-a.r;});
-  var lo=rows[rows.length-1];  // the outlier (Abrahamic)
+  var rows=Object.keys(pf).map(function(c){return {f:(pf[c].name||c),r:pf[c].cross_rate,n:pf[c].n};}).sort(function(a,b){return b.r-a.r;});
+  var lo=rows[rows.length-1];  // the outlier (Christianity — the over-sampled one)
   var html=rows.map(function(x){
     var pct=Math.round(x.r*100), low=x.f===lo.f;
     var col=low?"var(--terracotta)":"var(--fern)";
@@ -50,18 +50,20 @@ function build(d){
       '<div class="barwrap"><div class="bar" style="width:'+pct+'%;background:'+col+';opacity:'+(low?0.9:0.72)+'"></div></div>'+
       '<div class="val">'+pct+'% <span style="color:var(--ink-3)">· n='+x.n+'</span></div></div>';
   }).join("");
-  html+='<div class="macro"><div class="row"><div class="fam" style="font-style:italic">weight families equally →</div>'+
+  html+='<div class="macro"><div class="row"><div class="fam" style="font-style:italic">weight traditions equally →</div>'+
     '<div class="barwrap"><div class="bar" style="width:'+Math.round(macro*100)+'%;background:var(--sky);opacity:.8"></div></div>'+
     '<div class="val" style="color:var(--sky);font-weight:700">'+Math.round(macro*100)+'%</div></div></div>';
   el("chart").innerHTML=html;
-  el("finding").innerHTML='<h4>the reading</h4>Every family’s observations mostly sit next to <b>other</b> traditions — '+
-    Math.round(rows[rows.length-2].r*100)+'–'+Math.round(rows[0].r*100)+'%. That’s strong <b>interleave</b>: the space is not carved into per-religion territories. '+
+  var isl=rows.filter(function(x){return /Islam/i.test(x.f);})[0]||{r:0}, jud=rows.filter(function(x){return /Judaism/i.test(x.f);})[0]||{r:0};
+  el("finding").innerHTML='<h4>the reading</h4>Every tradition’s observations mostly sit next to <b>other</b> traditions — '+
+    Math.round(rows[rows.length-2].r*100)+'–'+Math.round(rows[0].r*100)+'%. That’s strong <b>interleave</b>: the space is not carved into per-tradition territories. '+
     'The one exception, <span class="pv">'+esc(lo.f)+' at '+Math.round(lo.r*100)+'%</span>, is a <b>prevalence artifact</b> — it’s '+
     Math.round(100*lo.n/rows.reduce(function(s,x){return s+x.n;},0))+'% of the coded corpus, so its neighbors are <em>mostly its own</em> by sheer mass, not by distinctiveness. '+
-    'Weight the families equally and the cross-tradition rate is <b>'+Math.round(macro*100)+'%</b> — the honest measure.';
+    'And this is the sharper cut than lumping “Abrahamic”: <b>Islam ('+Math.round(isl.r*100)+'%) and Judaism ('+Math.round(jud.r*100)+'%) interleave like everyone else</b> — it’s specifically Christianity that’s over-sampled, not an Abrahamic trait. '+
+    'Weight the traditions equally and the cross-tradition rate is <b>'+Math.round(macro*100)+'%</b> — the honest measure.';
   el("method").textContent=d._method_summary||"";
-  el("nums").textContent="micro (per-read): "+(d.cross_tradition_rate_micro*100).toFixed(1)+"% · macro (equal-family): "+(macro*100).toFixed(1)+"% · null (shuffled): "+(d.null_shuffled*100).toFixed(1)+"% · produced by "+d._producing_script+" (re-run --json-out to regenerate)";
-  el("foot").innerHTML="rendered from "+esc(FEED.split('/').pop())+" (canonical: pm/40_architecture/DATA_morphospace_mixing_feed_s167.json) · candidates not findings, Stage 6 = 0 · Design SB · 2026-08-14";
+  el("nums").textContent="micro (per-read): "+(d.cross_tradition_rate_micro*100).toFixed(1)+"% · macro (equal-tradition): "+(macro*100).toFixed(1)+"% · null (shuffled): "+(d.null_shuffled*100).toFixed(1)+"% · produced by "+d._producing_script+" (re-run --json-out to regenerate)";
+  el("foot").innerHTML="rendered from "+esc(FEED.split('/').pop())+" (canonical: pm/40_architecture/DATA_morphospace_mixing_tradition_tier_feed_s167.json) · candidates not findings, Stage 6 = 0 · Design SB · 2026-08-14";
 }
 </script>
 <!-- METHODOLOGY FOOTER
