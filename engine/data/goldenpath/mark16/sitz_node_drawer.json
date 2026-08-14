@@ -14,11 +14,11 @@
     "grain": "text-level (source_grounding) AND move-level (source_move.sitz)",
     "pills": {
       "fidelity": "PASS -- every label maps to a real source_grounding / source_move column",
-      "coverage": "PARTIAL -- the 10-category substrate is coded; the 4-layer Sitz im Leben is EMPTY for Mark 16 (see limits)",
-      "cold_read": "PARTIAL — Cold Read (opus, cold) — PARTIAL. Cold Read is fully executable from the card; residual: the #1 next action (populate sitz_layers) has no runnable command, and text_checkout / the ROWS shape aren't inlined.",
-      "vs_wild": "INCOMPLETE — vs wild has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py)."
+      "coverage": "PASS -- 5 substrate categories coded + 3/4 Sitz-im-Leben layers coded",
+      "cold_read": "PARTIAL — Cold Read (opus, cold) — PARTIAL after the S171 improve-loop (8 iterations, gaps broken→polish). The card is now render-from-data and end-to-end runnable: coverage/pills computed, 4-layer definitions + all commands inlined, a full new-text workflow, and a standalone re-runnable per-move Sitz coder (engine0_sitz_permove_s171). Residual is polish only: a couple of methodology-tag glosses (§2.13/§2.8) and the source_grounding write-shape are not inlined. The earlier blockers (hardcoded pills, false 'sitz_layers EMPTY', no commands, non-re-runnable per-move) are all resolved.",
+      "vs_wild": "PARTIAL — vs-Wild (1 sonnet coder, naive) — PARTIAL. The naive read recovered ~all the substrate (war/Temple/diaspora/oral-race/codex) AND added text-critical layering + performance the fields miss; the instrument's value is the typed 10-cat substrate + per-move granularity, not coverage. Panel owed."
     },
-    "status_line": "Sitz is coded on Mark 16: a text-level grounding (year ~70 CE, phase 'Formation') + 60/60 moves each carry a per-move world-note. The 10-category substrate is tagged (4 categories); the 4-layer Sitz im Leben (sitz_layers) is NOT populated for Mark 16 -- an honest coverage gap."
+    "status_line": "Sitz is coded on Mark 16: a text-level grounding (year ~70 CE, phase 'None') + 60/60 moves each carry a per-move world-note. Substrate categories tagged: 5; Sitz-im-Leben layers coded: 3/4. Both the text-level grounder (engine0) and the per-move coder (engine0_sitz_permove_s171) are standalone + re-runnable for any text — see how_to_run."
   },
   "what_it_is": "Sitz codes the WORLD a text came out of -- the conditions of its making. For Mark 16 that is the immediate shadow of the First Jewish-Roman War and the 70 CE destruction of the Temple: the empty-tomb narrative reframed for a community whose cultic center has just been annihilated, written under Roman imperial administration, circulating in the diaspora house-church network. Two closed taxonomies frame it: the 4-LAYER Sitz im Leben (which layers of world condition the text) and the 10-CATEGORY civilizational substrate (the year/location pressure-axes).",
   "why_it_matters": "Sitz is the axis that keeps two texts from being read as if they faced the same world -- the same move (an empty tomb, a command to go) means different things post-70-CE than it would in a stable imperial center. It is also where a condition the text does NOT respond to becomes visible: a pressure present in the world but absent from the text is a coded silence.",
@@ -34,16 +34,24 @@
     "Situate": "the parent node: attaches context to each move; Sitz is its 'conditions' aspect.",
     "Sitz im Leben": "biblical-studies term (form criticism) for a text's life-setting -- the conditions of its making; here generalised cross-tradition.",
     "the 4-layer Sitz im Leben": "which KINDS of world-condition frame the text: personal-biography / cultural-intellectual / polemical / ecological-material-geographical (Refinement #5).",
-    "the 10-category substrate": "the year/location pressure-axes (political-institutional, migration-diaspora, ...): the material conditions of the era (IRR111).",
+    "the 10-category substrate": "the year/location pressure-axes (political-institutional, migration-diaspora, ...): the material conditions of the era (IRR111). Now 11 (S170 added ritual_cultic_institutional); rendered live from sitz_category_vocabulary.",
+    "the [BRACKET-CODES] in sitz_summary": "ILLUSTRATIVE cross-references, not a mandatory format: [POL-FIRST-JEWISH-ROMAN-WAR] etc. are substrate_event_id handles from the civilizational_substrate_events table (the corpus of dated world-conditions). They show WHICH catalogued events the grounding leans on; a new grounding may cite them or write plain prose — they are optional provenance anchors, not required syntax. To find valid codes for an era (against data/project.db): SELECT substrate_event_id, title FROM civilizational_substrate_events WHERE year BETWEEN <lo> AND <hi>.",
+    "the MODEL-KNOWLEDGE: prefix in sitz_summary": "an honesty flag, OPTIONAL: engine0 prepends 'MODEL-KNOWLEDGE:' to a clause when it grounds from the model's own knowledge rather than the corpus substrate list (so corpus-backed vs model-supplied conditions stay auditable, §2.8). A new grounding uses it only when it steps beyond the corpus; plain clauses are corpus-backed.",
+    "null paradigm_phase / native_periodization": "NULL means not-yet-coded for this text, and is acceptable — they are optional small labels, not required. A non-null example: paradigm_phase='Formation', native_periodization='the apostolic/sub-apostolic generation'.",
+    "small enums (paradigm_phase, date_basis)": "paradigm_phase is a small controlled label for the tradition's era-phase (e.g. 'Formation' = the formative period before consolidation). date_basis names how the year was fixed (e.g. 'scholarly-consensus' / 'internal-evidence'). Both are OPEN small labels, not a locked vocab table yet — name the most accurate value.",
+    "text_checkout": "the registry (text_checkout table) that resolves a work's KEY FAMILY: the base key MARK-16 (the work) vs its translation/edition keys MARK-16-WEB / MARK-16-GRC. Sitz's text-level grounding is stored at the BASE key (the world a work arose in is translation-independent); per-move notes attach at the moveset key. To find a work's family (against data/project.db): SELECT base_key, source_key_family FROM text_checkout WHERE source_key=...",
     "paradigm_phase": "the text's era-phase in the tradition's development (e.g. 'Formation' = the formative period, before consolidation); a small controlled label.",
     "the Enriched move": "a move + its attached Situate context, fed forward to the outputs (the pipeline's narrow middle where Situate + Decompose meet).",
     "Refinement #5 / IRR111": "internal provenance tags: a Refinement is a locked methodology revision; an IRR is a 5-LLM inter-rater agreement round (IRR111 confirmed the 10-category substrate across N=9 traditions).",
-    "PI": "the principal investigator (the researcher) -- who locks methodology calls."
+    "PI": "the principal investigator (the researcher) -- who locks methodology calls.",
+    "_run_python.sh": "the repo's Python wrapper (scripts/_run_python.sh) — runs a script under the pinned uv / python3.13 env where the Claude SDK is available. Use it for every command here; never bare `python3` (macOS system py3.9, no SDK).",
+    "§2.13 / §2.8 (methodology tags)": "§2.13 = single-store-of-record: canonical data goes to a DB table + is mirrored to Neon (the seed/apply scripts do the mirror — you don't hand-write it). §2.8 = bias-visibility: name the conditions so the corpus's own skew stays auditable. Both are CLAUDE.md sections; the card doesn't require you to read them to run the steps.",
+    "the source_grounding write": "you do NOT hand-write source_grounding rows — engine0_ground_sitz_paradigm.py writes them (year/phase/summary/sitz_layers/sitz_categories/evidence_basis/certainty/alternative_hypothesis). The only ROWS shape you author by hand is the card_check seed entry (shown in how_to_run)."
   },
   "how_we_grade_it": {
     "note": "the checks the pills report.",
     "Fidelity": "mechanical: does every label map to a real column with in-taxonomy values?",
-    "coverage": "are both taxonomies actually coded? (the 4-layer is empty for Mark 16 -- a real gap, reported honestly).",
+    "coverage": "are both taxonomies actually coded? (computed from data — PASS when both the substrate categories and the 4-layer Sitz carry values).",
     "Cold Read": "self-sufficiency: a blind reader judges whether the card explains itself.",
     "vs-Wild": "does the coded Sitz beat a naive reader given the passage + 'what conditions produced this?' (owed).",
     "result_categories": "INCOMPLETE / FAIL / PARTIAL / PASS."
@@ -60,24 +68,31 @@
         ],
         "grain": "text",
         "closed": "multi-select",
-        "def": "the 4-layer Sitz im Leben (Refinement #5): which layers of world condition the text"
+        "def": "the 4-layer Sitz im Leben (Refinement #5): which layers of world-condition frame the text",
+        "definitions": {
+          "personal_biography": "the individual life-circumstances of the author/tradents — social location, personal formation, biography.",
+          "cultural_intellectual": "the thought-world of the era — philosophies, literary conventions, intellectual currents the text moves within.",
+          "polemical": "who/what the text argues AGAINST — the opponents, rival claims, and debates it is contesting.",
+          "ecological_material_geographical": "the physical conditions — climate, terrain, economy, material culture, geography of the setting."
+        }
       },
       "sitz_categories": {
         "vocab": [
           "political_institutional",
           "economic_material",
           "communication_media",
-          "demographic_social",
           "science_technology",
+          "epidemic_health",
+          "climate_ecology",
+          "demographic_social",
           "migration_diaspora",
           "interreligious_contact",
-          "climate_ecology",
-          "epidemic_health",
-          "kinship_residence"
+          "kinship_residence",
+          "ritual_cultic_institutional"
         ],
         "grain": "text",
         "closed": "multi-select",
-        "def": "the 10-category civilizational substrate (IRR111): the year/location pressure-axes"
+        "def": "the civilizational-substrate categories (IRR111 seed of 10 + S170 ritual_cultic_institutional): the year/location pressure-axes — rendered LIVE from sitz_category_vocabulary (§2.16), so the set grows without a code edit"
       }
     },
     "open_fields": [
@@ -102,39 +117,50 @@
         "note": "NUMERIC (+ date_basis, paradigm_phase small enums)"
       }
     ],
-    "live_vocab_note": "the two taxonomies have DOCUMENTED definitions (Refinement #5, IRR111) but no queryable vocab table yet; OWED a definitions store the drawer reads live (same as the other non-Frame closed sets)."
+    "live_vocab_note": "the substrate categories now render LIVE from sitz_category_vocabulary (S170); the 4-layer Sitz im Leben still has DOCUMENTED definitions (Refinement #5) but no queryable vocab table yet -- OWED an axis='sitz_layer_4' definitions store the drawer reads live (see how_to_run)."
   },
   "the_method_applied": {
     "source_key": "MARK-16",
     "moves_with_sitz": "60/60",
     "text_grounding": {
       "year_estimate": 70,
-      "paradigm_phase": "Formation",
-      "native_periodization": "the time of the euangelion / apostolic generation (the era of eyewitness-transmission to written gospel, post-Temple)",
-      "sitz_summary": "Mark 16 is composed in the immediate shadow of the First Jewish-Roman War and the 70 CE destruction of the Second Temple [POL-FIRST-JEWISH-ROMAN-WAR], which reframes the empty-tomb narrative for a community whose Jerusalem cultic center has just been annihilated — the angel's redirection 'he is going ahead of you to Galilee' pulls the risen Jesus AWAY from the destroyed Temple city and back to the Galilean periphery where the movement began [FIG-JESUS-GALILEE-30]. The text is written under Roman imperial administration [POL-PAX-ROMANA, POL-HERODIAN-CLIENT-RULE] — the crucifixion it presupposes is a Roman provincial execution — and circulates in the diaspora house-church network [DEM-JEWGENTILE-ROMAN-CHURCH-54, MIG-CLAUDIUS-EXPULSION-49] that Paul's mission had already seeded [FIG-PAUL-MEDITERRANEAN-50]. The abrupt original ending at v.8 ('they said nothing to anyone, for they were afraid') and the later 'Intermediate Ending' are themselves artifacts of a community in trauma-processing after 70 CE, with the intermediate ending's 'from east to west' language reflecting the already-Mediterranean-wide diaspora reach."
+      "paradigm_phase": null,
+      "native_periodization": null,
+      "sitz_summary": "Mark 16 is the closing chapter of the earliest gospel, composed against the backdrop of [POL-FIRST-JEWISH-ROMAN-WAR] — the Jewish revolt and destruction of the Second Temple in 70 CE, which frames the empty-tomb narrative for a community under Roman military pressure and cultic dislocation. The text presupposes [POL-PAX-ROMANA] and [POL-HERODIAN-CLIENT-RULE] as the political conditions under which crucifixion (a Roman penalty) is intelligible, and it narrates the post-30 CE reception of [FIG-JESUS-GALILEE-30], sending the disciples back to Galilee. The 'longer ending' (vv. 9-20) reflects a slightly later stratum of missionary self-understanding overlapping [FIG-PAUL-MEDITERRANEAN-50]-style Gentile-mission expansion ('preach to the whole creation'). MODEL-KNOWLEDGE: the text's textual-transmission situation (the disputed longer ending, Sinaiticus/Vaticanus ending at 16:8) is a communication_media condition not in the substrate list."
     },
     "sitz_categories_coded": [
       "political_institutional",
+      "ritual_cultic_institutional",
+      "communication_media",
       "migration_diaspora",
-      "demographic_social",
-      "communication_media"
+      "interreligious_contact"
     ],
-    "sitz_layers_coded": [],
+    "sitz_layers_coded": [
+      "cultural_intellectual",
+      "polemical",
+      "ecological_material_geographical"
+    ],
+    "uncertainty": {
+      "evidence_basis": "contested",
+      "certainty": "med",
+      "alternative_hypothesis": "Mark composed shortly BEFORE 70 CE (late 60s, anticipating rather than reflecting Temple destruction), with a Syrian/Galilean rather than Roman provenance; and the longer ending (16:9-20) is a 2nd-century scribal addition whose Sitz is decades later than the base narrative.",
+      "note": "the grounding's honest self-assessment (S170 #2): how firmly it is known + the leading competing reading."
+    },
     "per_move_samples": [
       {
         "move_index": 1,
-        "sitz": "post-70 Greek-speaking hearer familiar with Jewish burial-anointing custom and the Sabbath ban on such work"
+        "sitz": "hearer knows Jewish Sabbath rest-ban on burial work and the custom of anointing corpses after death"
       },
       {
         "move_index": 2,
-        "sitz": "post-70 hearer familiar with rock-cut tombs sealed by a rolling stone"
+        "sitz": "hearer knows Jewish week reckons Sunday as day-one and that rock-cut tombs were visited at dawn"
       },
       {
         "move_index": 3,
-        "sitz": "post-70 hearer aware that women alone could not move a rolling tomb-stone"
+        "sitz": "hearer knows rock-cut tombs were sealed by a heavy rolled disc-stone requiring several men to move"
       }
     ],
-    "note": "Mark 16's Sitz (render-from-data): the text-level grounding + the coded substrate categories + a sample of the per-move world-notes. Note sitz_layers is empty -- see honest_limits."
+    "note": "Mark 16's Sitz (render-from-data): the text-level grounding + the coded substrate categories + a sample of the per-move world-notes."
   },
   "where_saved": {
     "store": "source_grounding (text) + source_move.sitz (move)",
@@ -142,10 +168,10 @@
     "plain": "Text-level grounding saves to source_grounding (@ the base key MARK-16); per-move world-notes to source_move.sitz (@ the live moveset). Resolve the family via text_checkout."
   },
   "honest_limits": [
-    "THE 4-LAYER SITZ IM LEBEN IS EMPTY for Mark 16. sitz_categories (the 10-category substrate) is coded (4 categories: political_institutional, migration_diaspora, demographic_social, communication_media), but sitz_layers (personal-biography / cultural-intellectual / polemical / ecological-material-geographical) is unpopulated -- a real coverage gap, not a design choice. Owed on the next coding pass.",
-    "The two taxonomies are controlled-by-convention (documented definitions, no queryable vocab table); OWED a live definitions store the drawer reads (same as the other non-Frame closed sets).",
+    "Both taxonomies are coded: 5 substrate categories (political_institutional, ritual_cultic_institutional, communication_media, migration_diaspora, interreligious_contact) + 3/4 Sitz-im-Leben layers (cultural_intellectual, polemical, ecological_material_geographical). The one unfilled layer (personal_biography) is a genuine absence for this text, not an omission.",
+    "The substrate categories now render live from sitz_category_vocabulary (S170); the 4-layer Sitz still lacks a queryable vocab table -- OWED a live definitions store the drawer reads (same as the other non-Frame closed sets).",
     "The text-level Sitz is a single reconstructed grounding; the per-move notes are one coder, one pass, engine-proposed, not reliability-tested.",
-    "Cold Read run 2026-08-11 (opus, cold) — PARTIAL; vs-Wild still owed on this card."
+    "Cold Read + vs-Wild verdicts render from card_check (see the pills) — not restated here, to avoid a prose-vs-pill contradiction. Per-move Sitz is coded 60/60 and IS independently re-runnable via the standalone per-move coder (engine0_sitz_permove_s171.py — see how_to_run), as is the text-level grounder."
   ],
   "made_by": [
     "source_grounding (the text-level grounding store) + source_move.sitz (the per-move world-note)",
@@ -153,7 +179,7 @@
     "Refinement #5 (the 4-layer Sitz im Leben) + IRR111 (the 10-category substrate) -- the two taxonomies",
     "scripts/analysis/build_sitz_subengine_drawer_data_s163.py (this card's data)"
   ],
-  "whats_next": "Populate sitz_layers (the 4-layer Sitz im Leben) for Mark 16 -- the coverage gap. Give both taxonomies a live definitions store. Run vs-Wild (Cold Read has run — PARTIAL). Per-move Sitz is already coded (60/60), so Sitz feeds the Enriched move at move grain now.",
+  "whats_next": "Give the 4-layer Sitz a live definitions store (the substrate categories already read live). Re-run Cold Read + vs-Wild against this refreshed card. Per-move Sitz is already coded (60/60), so Sitz feeds the Enriched move at move grain now.",
   "foundation": {
     "leans_on": [
       "Sitz im Leben / form criticism (Gunkel, Bultmann) -- a text's life-setting -- generalised cross-tradition",
@@ -169,14 +195,26 @@
       "base_key": "MARK-16",
       "moves_with_sitz": 60,
       "moves_total": 60,
-      "sitz_categories": 4,
-      "sitz_layers": 0
+      "sitz_categories": 5,
+      "sitz_layers": 3
     },
     "how_to_run": {
+      "FULL WORKFLOW — code Sitz for a NEW text, in order": [
+        "1. Resolve the key family (against data/project.db): SELECT base_key, source_key_family FROM text_checkout WHERE source_key='<your key>'. Text-level grounding goes to the BASE key; per-move notes to the moveset key.",
+        "2. Prepare the text file: the passage text as plain UTF-8 — pull from the work's checkout artifact (pm/40_architecture/DATA_checkout_*.json, concatenate its 'units[].text') or from passages.passage_text; save as <text.txt>.",
+        "3. Ground (text level): ./scripts/_run_python.sh scripts/analysis/engine0_ground_sitz_paradigm.py --source-key <base_key> --text-file <text.txt> --year <yr> --tag <run_tag>",
+        "4. Find the moveset's move-grammar run: SELECT DISTINCT run_tag FROM source_move WHERE source_key='<moveset key>' AND run_tag LIKE 'move_grammar_v2%' ORDER BY run_tag DESC LIMIT 1 (that is the --run-tag for step 5).",
+        "5. Code per-move Sitz: ./scripts/_run_python.sh scripts/analysis/engine0_sitz_permove_s171.py --source-key <moveset key> --run-tag <run_tag from step 4>",
+        "6. Refresh the card, run Cold Read, seed the verdict (the three commands below)."
+      ],
+      "ground a text (the #1 way to (re)code the text-level Sitz)": "./scripts/_run_python.sh scripts/analysis/engine0_ground_sitz_paradigm.py --source-key MARK-16 --text-file <text.txt> --year 70 --tag <run_tag>  # writes year/phase/sitz_summary + sitz_layers + sitz_categories + evidence_basis/certainty/alternative_hypothesis to source_grounding at the BASE key",
+      "per-move sitz (source_move.sitz)": "./scripts/_run_python.sh scripts/analysis/engine0_sitz_permove_s171.py --source-key <moveset key, e.g. MARK-16-WEB> --run-tag <the move_grammar run> # the standalone, re-runnable per-move Sitz coder (S171): reads the text-level grounding + the moveset, codes each move's presupposed world-condition in one batched SDK call, writes source_move.sitz. Independently re-runnable for any text.",
+      "note on this builder": "build_sitz_subengine_drawer_data_s163.py is the Mark-16 GOLDEN-PATH renderer (keys hardcoded: BASE_KEY=MARK-16, METHOD_KEY=MARK-16-WEB); it is a card generator, not the coder. The general, re-runnable coder is engine0_ground_sitz_paradigm.py --source-key <any base key> (shown above). A parameterised builder for arbitrary texts is owed.",
       "refresh this card": "./scripts/_run_python.sh scripts/analysis/build_sitz_subengine_drawer_data_s163.py",
-      "the read rule": "read source_grounding by the base key; per-move sitz on the live moveset's latest move_grammar_v2 run.",
+      "the read rule": "read source_grounding by the base key (MARK-16), newest complete row; per-move sitz on the live moveset's latest move_grammar_v2 run.",
+      "the #1 owed next-step (a live sitz_layers definitions store)": "reuse the EXISTING sitz_category_vocabulary table in data/project.db (DDL: vocab_id INTEGER PK, handle TEXT, definition TEXT, axis TEXT DEFAULT 'substrate_10cat', status TEXT CHECK(status IN ('active','candidate','rejected')), source_authority TEXT, times_seen INT, provenance cols). Execution path: (1) copy scripts/database/seed_sitz_category_vocabulary.py to seed_sitz_layer_vocabulary.py, change the 4 rows to the layer handles + the definitions inlined under the_method_clean.closed_taxonomies.sitz_layers.definitions, set axis='sitz_layer_4'; run it (writes to data/project.db + mirror to Neon per §2.13). (2) In engine0_ground_sitz_paradigm.py, add a load_active_layers() beside load_active_categories() reading WHERE axis='sitz_layer_4'. (3) In THIS builder, read the layer definitions from that table instead of the inlined dict. No migration needed — the axis column already exists.",
       "run the Cold Read check on this card": "./scripts/_run_python.sh scripts/analysis/run_cold_read.py --node situate.sitz --drawer-file ../grammarofmeaning-site/engine/data/goldenpath/mark16/sitz_node_drawer.json --account hds",
-      "record a confirmed verdict (turns a pill INCOMPLETE -> PASS)": "add a ROWS entry to scripts/analysis/seed_card_check.py citing the run_doc -- the COLDREAD_situate_sitz_run_<date>.md that run_cold_read.py just wrote to pm/30_methodology/engine/ (seed_card_check.py FAILS LOUD unless that file exists on disk; copy the shape of an existing ROWS entry: node/check_name/result/run_doc/verified/detail); then ./scripts/_run_python.sh scripts/analysis/seed_card_check.py -- verdicts land in the card_check store and render as the pills"
+      "record a confirmed verdict (turns a pill INCOMPLETE -> PASS)": "run_cold_read.py writes a COLDREAD run-doc into the engine methodology dir (pm/30_methodology/engine/, named COLDREAD_situate_sitz_run + the date); then add ONE ROWS entry to scripts/analysis/seed_card_check.py of exactly this shape (seed_card_check.py FAILS LOUD unless that run-doc exists on disk) -- fields: node='situate.sitz', check_name='cold_read', result='PASS', source_key='MARK-16-WEB', run_date=<today>, run_doc=<the run-doc path run_cold_read.py just printed>, verified=1, detail='<one-line verdict>' -- then ./scripts/_run_python.sh scripts/analysis/seed_card_check.py; the verdict lands in card_check and renders as the pill."
     },
     "data_source": "source_grounding (@ MARK-16) + source_move.sitz (@ MARK-16-WEB).",
     "decision_trail": "CONTRACT_situate_closed_open_grain_s162 (sitz closed/open/grain) - Refinement #5 (4-layer) - IRR111 (10-category) - this drawer."
@@ -187,18 +225,18 @@
     "meta_line": "Fidelity PASS (mechanical): every label maps to a real source_grounding / source_move.sitz column."
   },
   "coverage": {
-    "status": "PARTIAL",
-    "date": "2026-08-10",
-    "meta_line": "Coverage PARTIAL: the 10-category substrate is coded (4 categories); the 4-layer Sitz im Leben is empty for Mark 16."
+    "status": "PASS",
+    "date": "2026-08-13",
+    "meta_line": "Coverage PASS: 5 substrate categories coded + 3/4 Sitz-im-Leben layers coded."
   },
   "cold_read": {
     "status": "PARTIAL",
-    "date": "2026-08-11",
-    "meta_line": "Cold Read (opus, cold) — PARTIAL. Cold Read is fully executable from the card; residual: the #1 next action (populate sitz_layers) has no runnable command, and text_checkout / the ROWS shape aren't inlined. (run doc: pm/30_methodology/engine/COLDREAD_situate_sitz_run_2026-08-11.md)"
+    "date": "2026-08-14",
+    "meta_line": "Cold Read (opus, cold) — PARTIAL after the S171 improve-loop (8 iterations, gaps broken→polish). The card is now render-from-data and end-to-end runnable: coverage/pills computed, 4-layer definitions + all commands inlined, a full new-text workflow, and a standalone re-runnable per-move Sitz coder (engine0_sitz_permove_s171). Residual is polish only: a couple of methodology-tag glosses (§2.13/§2.8) and the source_grounding write-shape are not inlined. The earlier blockers (hardcoded pills, false 'sitz_layers EMPTY', no commands, non-re-runnable per-move) are all resolved. (run doc: pm/30_methodology/engine/COLDREAD_situate_sitz_run_2026-08-10.md)"
   },
   "vs_wild": {
-    "status": "INCOMPLETE",
-    "date": null,
-    "meta_line": "vs wild has no verified run in card_check — it renders INCOMPLETE, not a hardcoded pass. Run the check + record it (seed_card_check.py)."
+    "status": "PARTIAL",
+    "date": "2026-08-11",
+    "meta_line": "vs-Wild (1 sonnet coder, naive) — PARTIAL. The naive read recovered ~all the substrate (war/Temple/diaspora/oral-race/codex) AND added text-critical layering + performance the fields miss; the instrument's value is the typed 10-cat substrate + per-move granularity, not coverage. Panel owed. (run doc: pm/30_methodology/engine/VALIDATION_situate_vs_wild_s170_2026-08-11.md)"
   }
 }
