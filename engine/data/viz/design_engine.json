@@ -672,6 +672,64 @@
     "live": true,
     "_title": "The labyrinth — the Resurrection braided across four gospels"
    }
+  },
+  {
+   "id": "morphospace_mixing",
+   "name": "Interleaving — a tradition's neighbors are other traditions",
+   "also": "MCA nearest-neighbor mixing per family",
+   "step": "Compare",
+   "one_line": "for each observation, how many of its 10 nearest neighbors are from a DIFFERENT tradition-family → 72–98% for all but Abrahamic (prevalence)",
+   "reads_from": {
+    "feeds": [
+     "viz/morphospace_mixing.json"
+    ]
+   },
+   "encoding": "left-aligned decreasing-bar chart per family + equal-weight macro reference; render-from-data",
+   "audience": "method reviewer (Saquib) + honest-corpus",
+   "composes_into": "the morphospace suite (scatter · archetypes · mixing · prevalence)",
+   "gate": {
+    "fidelity": "render-from-data; §2.13 canonical in twelve-laws",
+    "cold_read": "one plain reading up top",
+    "cold_start": "lede + finding",
+    "vs_wild": "§2.8 prevalence honesty"
+   },
+   "off_the_shelf": "none — bespoke; feed from the s167 script --json-out",
+   "reference": "the honest-corpus discipline",
+   "status": "v1 — live; render-from-data; Abrahamic 8% flagged as prevalence artifact (§2.8); macro 79% the honest measure",
+   "built": {
+    "file": "/_staging/viz_morphospace_mixing.html",
+    "live": true,
+    "_title": "Interleaving — how often a tradition's neighbors are other traditions"
+   }
+  },
+  {
+   "id": "morphospace_prevalence",
+   "name": "The prevalence curve — why raw separation is an artifact",
+   "also": "silhouette vs class-cap",
+   "step": "Compare",
+   "one_line": "silhouette collapses +0.24 (raw, 85% Abrahamic) → −0.05 (balanced) as each family is capped to equal size — the raw separation was a corpus-shape artifact",
+   "reads_from": {
+    "feeds": [
+     "viz/morphospace_prevalence.json"
+    ]
+   },
+   "encoding": "SVG line, zero-crossing tints (apparent-separation → interleave); render-from-data",
+   "audience": "method reviewer (Saquib) + honest-corpus",
+   "composes_into": "the morphospace suite (scatter · archetypes · mixing · prevalence)",
+   "gate": {
+    "fidelity": "render-from-data; §2.13 canonical in twelve-laws",
+    "cold_read": "one plain reading up top",
+    "cold_start": "lede + finding",
+    "vs_wild": "§2.8 prevalence honesty"
+   },
+   "off_the_shelf": "none — bespoke; feed from the s167 script --json-out",
+   "reference": "the honest-corpus discipline",
+   "status": "v1 — live; render-from-data; supersedes the hand-cited curve in the scatter's fine-print",
+   "built": {
+    "file": "/_staging/viz_morphospace_prevalence.html",
+    "live": true,
+    "_title": "The prevalence curve — why the raw separation score is an artifact"
+   }
   }
  ],
  "_generated_note": "VOLATILE FIELDS (built.file / built.live / reads_from.feeds / built._title) are DERIVED by _scripts/build_design_engine.py from the actual figure files — re-run it to refresh; a dead link shows as built.live=false. Authored fields are preserved."

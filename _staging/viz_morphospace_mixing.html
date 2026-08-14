@@ -1,0 +1,75 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interleaving — how often a tradition's neighbors are other traditions</title>
+<style>
+:root{--paper:#F7F2E7;--paper-2:#FBF8F0;--paper-3:#EFE9DA;--ink:#2B2823;--ink-2:#5F5A50;--ink-3:#8E877A;--rule:#DDD6C6;--fern:#2f5233;--gold:#9a6410;--terracotta:#b5532a;--sky:#3f5c86;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#8fbf94;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#8fbf94;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Iowan Old Style",Palatino,Georgia,serif;line-height:1.6}
+.wrap{max-width:820px;margin:0 auto;padding:34px 22px 70px}
+.eyebrow{font-family:ui-sans-serif,system-ui,sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+h1{font-size:26px;margin:.15em 0 .12em;font-weight:600;letter-spacing:-.015em;text-wrap:balance}
+.lede{color:var(--ink-2);font-size:15px;margin:.3em 0 0;max-width:70ch}.lede b{color:var(--ink)}
+.chart{margin:26px 0 0;font-family:ui-sans-serif,system-ui,sans-serif}
+.row{display:flex;align-items:center;gap:10px;margin:7px 0}
+.row .fam{flex:0 0 200px;text-align:right;font-size:12.5px;color:var(--ink-2)}
+.row .barwrap{flex:1 1 auto;position:relative;height:22px;background:var(--paper-3);border-radius:5px;overflow:hidden}
+.row .bar{height:100%;border-radius:5px;transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.row .val{flex:0 0 74px;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink-2)}
+.row.low .fam{color:var(--terracotta);font-weight:600}
+.macro{position:relative;margin:14px 0 0;border-top:1px dashed var(--rule);padding-top:8px}
+.card{background:var(--paper-3);border:1px solid var(--rule);border-left:3px solid var(--fern);border-radius:0 10px 10px 0;padding:12px 15px;margin:20px 0;font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px}.card h4{margin:0 0 5px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}.card b{color:var(--fern)}.card .pv{color:var(--terracotta)}
+details.fine{margin:12px 0 0;font-family:ui-sans-serif,system-ui,sans-serif}details.fine summary{cursor:pointer;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);padding:6px 0}
+.fine p{font-size:12.5px;color:var(--ink-2);max-width:70ch}.fine .k{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--ink-3)}
+footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--rule);font-family:ui-sans-serif,system-ui,sans-serif;font-size:11px;color:var(--ink-3)}
+a{color:var(--gold)}.load{color:var(--ink-3);font-family:ui-sans-serif,sans-serif;padding:30px 0}
+</style>
+<div class="wrap">
+  <div class="eyebrow">Grammar of Meaning · the morphospace · interleaving</div>
+  <h1>How often is a tradition's nearest neighbor <em>another</em> tradition?</h1>
+  <p class="lede">For each coded observation, we ask: of its ten nearest neighbors in the morphospace, how many come from a <b>different</b> tradition-family? If traditions clumped into their own territories, this would be near zero. It isn't — <b>it's mostly near the top.</b></p>
+  <div class="chart" id="chart"><div class="load">measuring the neighborhoods…</div></div>
+  <div class="card" id="finding"></div>
+  <details class="fine"><summary>the fine print — how it's measured ▾</summary><p id="method"></p><p class="k" id="nums"></p></details>
+  <footer id="foot"></footer>
+</div>
+<script>
+var FEED="/engine/data/viz/morphospace_mixing.json";
+function esc(s){return String(s==null?"":s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+function el(id){return document.getElementById(id);}
+fetch(FEED).then(function(r){return r.json();}).then(build).catch(function(e){el("chart").innerHTML='<div class="load">could not load the mixing feed ('+e.message+')</div>';});
+function build(d){
+  var pf=d.per_family, macro=d.cross_tradition_rate_macro_equal_family;
+  var rows=Object.keys(pf).map(function(f){return {f:f,r:pf[f].cross_rate,n:pf[f].n};}).sort(function(a,b){return b.r-a.r;});
+  var lo=rows[rows.length-1];  // the outlier (Abrahamic)
+  var html=rows.map(function(x){
+    var pct=Math.round(x.r*100), low=x.f===lo.f;
+    var col=low?"var(--terracotta)":"var(--fern)";
+    return '<div class="row'+(low?' low':'')+'"><div class="fam">'+esc(x.f)+'</div>'+
+      '<div class="barwrap"><div class="bar" style="width:'+pct+'%;background:'+col+';opacity:'+(low?0.9:0.72)+'"></div></div>'+
+      '<div class="val">'+pct+'% <span style="color:var(--ink-3)">· n='+x.n+'</span></div></div>';
+  }).join("");
+  html+='<div class="macro"><div class="row"><div class="fam" style="font-style:italic">weight families equally →</div>'+
+    '<div class="barwrap"><div class="bar" style="width:'+Math.round(macro*100)+'%;background:var(--sky);opacity:.8"></div></div>'+
+    '<div class="val" style="color:var(--sky);font-weight:700">'+Math.round(macro*100)+'%</div></div></div>';
+  el("chart").innerHTML=html;
+  el("finding").innerHTML='<h4>the reading</h4>Every family’s observations mostly sit next to <b>other</b> traditions — '+
+    Math.round(rows[rows.length-2].r*100)+'–'+Math.round(rows[0].r*100)+'%. That’s strong <b>interleave</b>: the space is not carved into per-religion territories. '+
+    'The one exception, <span class="pv">'+esc(lo.f)+' at '+Math.round(lo.r*100)+'%</span>, is a <b>prevalence artifact</b> — it’s '+
+    Math.round(100*lo.n/rows.reduce(function(s,x){return s+x.n;},0))+'% of the coded corpus, so its neighbors are <em>mostly its own</em> by sheer mass, not by distinctiveness. '+
+    'Weight the families equally and the cross-tradition rate is <b>'+Math.round(macro*100)+'%</b> — the honest measure.';
+  el("method").textContent=d._method_summary||"";
+  el("nums").textContent="micro (per-read): "+(d.cross_tradition_rate_micro*100).toFixed(1)+"% · macro (equal-family): "+(macro*100).toFixed(1)+"% · null (shuffled): "+(d.null_shuffled*100).toFixed(1)+"% · produced by "+d._producing_script+" (re-run --json-out to regenerate)";
+  el("foot").innerHTML="rendered from "+esc(FEED.split('/').pop())+" (canonical: pm/40_architecture/DATA_morphospace_mixing_feed_s167.json) · candidates not findings, Stage 6 = 0 · Design SB · 2026-08-14";
+}
+</script>
+<!-- METHODOLOGY FOOTER
+HOW PRODUCED: Design SB S171 (2026-08-14), morphospace suite (2/3). PI/Atlas Reader ask. Left-aligned decreasing-bar
+  cross-tradition nearest-neighbor rate per family, render-from-data from engine/data/viz/morphospace_mixing.json
+  (derived from twelve-laws DATA_morphospace_mixing_feed_s167.json; mca_cross_tradition_mixing_s167.py). Abrahamic's low
+  rate is flagged as a prevalence artifact (§2.8); macro equal-family rate cited as the honest measure.
+SCHOLARLY SOURCES: the mixing feed; §2.8 bias-visibility; §2.13 single-store; §2.16 render-from-data.
+WHAT NEEDS VERIFICATION: (1) live render (pane blocked; offline only). (2) unify with the archetype + scatter + prevalence
+  under one Morphospace drawer (3/3 + drawer next).
+-->
