@@ -1,0 +1,233 @@
+<!-- viz_labyrinth.html — the Garden's gospels labyrinth (pan/zoom MAP, Leaflet CRS.Simple).
+     A unicursal switchback path winds through the six gospel signposts (Nativity → Resurrection); a curated CLUSTER of
+     miniatures sits at each. Pan/zoom like Pudding (no scroll-jack, motion-safe); aerial view = the labyrinth gestalt
+     (Eames Powers-of-Ten wayfinding); zoom in → individual illuminated leaves; click a tile → its museum label + the
+     gospel braid. Renders entirely from engine/data/labyrinth/journey_gospels.json (§2.16 render-from-data). One island
+     of the eventual Garden map — Paul's well, the flood-story island, the ocean are later regions on this same plane. -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Gospels Labyrinth</title>
+<link rel="stylesheet" href="/_staging/_vendor/leaflet/leaflet.css">
+<style>
+  :root{
+    --ink:#14110d; --ink2:#1d1811; --gold:#c9a227; --gold-lit:#e6c65a; --parch:#e8ddc7; --parch-dim:#a99f88;
+    --serif:Georgia,'Cormorant Garamond','Times New Roman',serif;
+    --mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--ink);color:var(--parch);font-family:var(--serif)}
+  a{color:var(--gold-lit)}
+  /* header / wayfinding strip */
+  header{padding:14px 20px 10px;border-bottom:1px solid #3a3223;background:linear-gradient(#1d1811,#14110d)}
+  header h1{margin:0;font-size:26px;font-weight:500;letter-spacing:.02em}
+  header .sub{margin:3px 0 0;color:var(--parch-dim);font-size:13px;max-width:70ch}
+  .waylegend{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:9px;font-family:var(--mono);font-size:11.5px;color:var(--parch-dim)}
+  .waylegend b{color:var(--gold-lit);font-weight:600}
+  .waylegend button{all:unset;cursor:pointer;padding:2px 6px;border-radius:3px}
+  .waylegend button:hover,.waylegend button:focus-visible{background:#2a2415;color:var(--parch);outline:1px solid var(--gold)}
+  /* map */
+  #map{width:100%;height:calc(100vh - 190px);min-height:420px;background:var(--ink)}
+  .leaflet-container{background:radial-gradient(120% 120% at 50% 40%,#1c1710,#100d09)}
+  .leaflet-bar a{background:#241d12;color:var(--gold-lit);border-color:#3a3223}
+  .leaflet-bar a:hover{background:#2f2716}
+  .tile-img{cursor:pointer;box-shadow:0 2px 10px #0008;border:1px solid #0006;transition:box-shadow .18s,outline-color .18s;outline:2px solid transparent}
+  .tile-img:hover{box-shadow:0 3px 20px #000b,0 0 0 2px var(--gold);z-index:600!important}
+  .station-lbl{font-family:var(--mono);color:var(--gold-lit);text-align:center;white-space:nowrap;text-shadow:0 1px 5px #000,0 0 12px #000;pointer-events:none}
+  .station-lbl .rn{font-size:15px;font-weight:700;letter-spacing:.06em}
+  .station-lbl .ti{font-family:var(--serif);font-size:15px;color:var(--parch)}
+  .station-lbl .la{font-size:10px;color:var(--parch-dim);font-style:italic}
+  /* detail drawer */
+  #drawer{position:fixed;top:0;right:0;height:100%;width:min(420px,92vw);background:var(--ink2);border-left:1px solid #3a3223;
+    box-shadow:-8px 0 30px #000a;transform:translateX(102%);transition:transform .28s ease;z-index:1200;overflow-y:auto;padding:0 0 40px}
+  #drawer.open{transform:none}
+  @media(prefers-reduced-motion:reduce){#drawer{transition:none}}
+  #drawer .dimg{width:100%;max-height:52vh;object-fit:contain;background:#0c0a07;display:block}
+  #drawer .dbody{padding:16px 20px}
+  #drawer h2{font-size:22px;font-weight:500;margin:0 0 4px;line-height:1.2}
+  #drawer .meta{font-family:var(--mono);font-size:12px;color:var(--parch-dim);line-height:1.7;margin:8px 0 0}
+  #drawer .meta .k{color:var(--gold)}
+  #drawer .why{margin-top:16px;padding:13px 15px;border:1px solid #3a3223;border-radius:6px;background:#181309;font-size:14px;line-height:1.5}
+  #drawer .why .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+  #drawer .braid{margin:8px 0 0;padding-left:0;list-style:none;font-size:13px;line-height:1.5}
+  #drawer .braid li{margin:5px 0;padding-left:15px;text-indent:-15px}
+  #drawer .braid b{color:var(--gold-lit);font-family:var(--mono);font-size:11.5px}
+  #drawer .close{position:sticky;top:0;float:right;margin:8px;background:#241d12;color:var(--parch);border:1px solid #3a3223;
+    border-radius:50%;width:32px;height:32px;font-size:17px;cursor:pointer;z-index:2}
+  #drawer .src{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:11.5px}
+  /* accessible list twin */
+  details.twin{margin:0;border-top:1px solid #3a3223;background:#100d09}
+  details.twin>summary{padding:9px 20px;cursor:pointer;font-family:var(--mono);font-size:12px;color:var(--parch-dim);list-style:none}
+  details.twin>summary::-webkit-details-marker{display:none}
+  details.twin>summary:before{content:"▸ ";color:var(--gold)}
+  details.twin[open]>summary:before{content:"▾ "}
+  .twin .tw-body{padding:4px 20px 20px;max-height:40vh;overflow:auto}
+  .twin h3{font-size:15px;color:var(--gold-lit);margin:14px 0 4px;font-weight:600}
+  .twin ol{margin:0;padding-left:20px}
+  .twin li{font-size:13px;color:var(--parch-dim);margin:3px 0}
+  .twin li a{color:var(--parch);text-decoration:none;border-bottom:1px dotted #5a4f38}
+  footer{padding:9px 20px;font-family:var(--mono);font-size:11px;color:#6f6650;border-top:1px solid #3a3223}
+</style>
+
+<header>
+  <h1>The Gospels Labyrinth</h1>
+  <p class="sub">A walking path, not a maze — one way in. It winds through the six turnings of the gospel and gathers,
+     at each, the images a hundred workshops made of that moment. Pan and drift; zoom to look closely. The center is the empty tomb.</p>
+  <div class="waylegend" id="waylegend"><b>the walk:</b></div>
+</header>
+
+<div id="map" role="application" aria-label="Pan-and-zoom labyrinth of gospel miniatures"></div>
+
+<details class="twin">
+  <summary>Text version — the six signposts and every image, as a list (accessible / no-map)</summary>
+  <div class="tw-body" id="twin"></div>
+</details>
+
+<footer id="credit">Images: Cleveland Museum of Art open access (CC0). Rendered from <span style="color:#8a7f63">journey_gospels.json</span> · one record → every tile.</footer>
+
+<aside id="drawer" aria-live="polite" aria-label="Artwork detail"></aside>
+
+<script src="/_staging/_vendor/leaflet/leaflet.js"></script>
+<script>
+(function(){
+  "use strict";
+  var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var FEED = "/engine/data/labyrinth/journey_gospels.json";
+
+  // ── the labyrinth path (design space 0..100; a switchback that folds inward to a center — a labyrinth, not a spiral) ──
+  var PATH = [[8,8],[92,8],[92,26],[8,26],[8,44],[92,44],[92,62],[8,62],[8,80],[92,80],[92,92],[50,92],[50,52]];
+  var SCALE = 10;                                  // → 0..1000 plane
+  var STATION_F = [0.05,0.225,0.40,0.575,0.75,0.965]; // arc-length fractions for the 6 signposts (VI near center)
+
+  // arc-length helpers over the polyline (in plane units)
+  var pts = PATH.map(function(p){return [p[0]*SCALE,p[1]*SCALE];});
+  var segLen=[], total=0;
+  for(var i=1;i<pts.length;i++){var dx=pts[i][0]-pts[i-1][0],dy=pts[i][1]-pts[i-1][1];var L=Math.hypot(dx,dy);segLen.push(L);total+=L;}
+  function atFraction(f){
+    var target=f*total, acc=0;
+    for(var i=0;i<segLen.length;i++){
+      if(acc+segLen[i]>=target){var t=(target-acc)/segLen[i];
+        return [pts[i][0]+(pts[i+1][0]-pts[i][0])*t, pts[i][1]+(pts[i+1][1]-pts[i][1])*t];}
+      acc+=segLen[i];
+    }
+    return pts[pts.length-1];
+  }
+  // deterministic scatter of tile k (of n) around a station centre — golden-angle spiral, so clusters read as gathered, not gridded
+  var GOLD=2.399963229728653;
+  function scatterOffset(k,n){
+    var r = 20 + 58*Math.sqrt((k+0.6)/n);          // grow outward — a gathered, overlapping mass (image-heavy)
+    var a = k*GOLD;
+    return [Math.cos(a)*r, Math.sin(a)*r*0.82];     // slight vertical squash
+  }
+
+  var map, LL = function(x,y){return L.latLng(y, x);};  // plane (x right, y down) → latLng(y,x)
+
+  fetch(FEED).then(function(r){return r.json();}).then(function(d){ build(d); })
+    .catch(function(e){ document.getElementById("map").innerHTML =
+      '<p style="padding:24px;color:#a99f88">Could not load the journey feed ('+e+').</p>'; });
+
+  function build(d){
+    map = L.map("map",{crs:L.CRS.Simple, minZoom:-2, maxZoom:2, zoomSnap:0.25, wheelPxPerZoomLevel:120,
+      zoomAnimation:!REDUCED, fadeAnimation:!REDUCED, attributionControl:false, zoomControl:true, markerZoomAnimation:!REDUCED});
+    var bounds=[[-40,-40],[1040,1040]];
+    map.fitBounds(bounds);
+    map.setMaxBounds([[-260,-260],[1260,1260]]);
+
+    // the path, drawn faint under everything
+    var line = pts.map(function(p){return LL(p[0],p[1]);});
+    L.polyline(line,{color:"#6d5a2e",weight:2,opacity:.7,dashArray:"1 7",lineCap:"round"}).addTo(map);
+    L.polyline(line,{color:"#c9a227",weight:1,opacity:.28}).addTo(map);
+
+    var sps = d.signposts||[];
+    var wl = document.getElementById("waylegend");
+    var twin = document.getElementById("twin");
+
+    sps.forEach(function(sp,si){
+      var c = atFraction(STATION_F[si]||((si+0.5)/sps.length));  // station centre
+      // wayfinding legend chip (also flies the map to the station)
+      var b=document.createElement("button");
+      b.innerHTML='<b>'+sp.n+'</b> '+sp.title;
+      b.onclick=function(){ map.flyTo(LL(c[0],c[1]), 0.4, {animate:!REDUCED,duration:.8}); };
+      wl.appendChild(b);
+
+      // station label marker (always visible → aerial wayfinding, Eames 10x)
+      L.marker(LL(c[0],c[1]),{interactive:false,keyboard:false,icon:L.divIcon({className:"",html:
+        '<div class="station-lbl"><div class="rn">'+sp.n+'</div><div class="ti">'+sp.title+'</div><div class="la">'+(sp.latin||"")+'</div></div>',
+        iconSize:[120,52],iconAnchor:[60,26]})}).addTo(map);
+
+      // the tiles — scattered miniatures, each an imageOverlay sized to its true aspect (preloaded)
+      (sp.tiles||[]).forEach(function(t,k){
+        var off = scatterOffset(k, (sp.tiles||[]).length);
+        var cx = c[0]+off[0], cy = c[1]+off[1];
+        placeTile(t, cx, cy, sp);
+      });
+
+      // list twin
+      var h=document.createElement("h3"); h.textContent=sp.n+". "+sp.title+" — "+(sp.line||"");
+      twin.appendChild(h);
+      var ol=document.createElement("ol");
+      (sp.tiles||[]).forEach(function(t){
+        var li=document.createElement("li");
+        li.innerHTML='<a href="#" data-id="'+t.id+'">'+t.title+'</a> · <span>'+(t.culture||"")+', '+(t.date||"")+'</span>';
+        li.querySelector("a").onclick=function(ev){ev.preventDefault(); openDrawer(t, sp); map.flyTo(map.getCenter(),map.getZoom(),{animate:false});};
+        ol.appendChild(li);
+      });
+      twin.appendChild(ol);
+    });
+
+    // fit to the whole labyrinth on load (aerial gestalt)
+    map.fitBounds(bounds,{padding:[10,10]});
+  }
+
+  var TILE_H = 44; // map-units tall; width follows the image's true aspect (bigger = denser, image-heavy field)
+  function placeTile(t, cx, cy, sp){
+    var im = new Image();
+    im.onload = function(){
+      var aspect = (im.naturalWidth||1)/(im.naturalHeight||1);
+      var h=TILE_H, w=TILE_H*aspect;
+      var b=[ LL(cx-w/2, cy-h/2), LL(cx+w/2, cy+h/2) ];
+      var ov=L.imageOverlay(t.img, b, {interactive:true, className:"tile-img", alt:t.title});
+      ov.addTo(map);
+      ov.on("click", function(){ openDrawer(t, sp); });
+    };
+    im.onerror=function(){ /* skip a broken image silently — one bad tile never blanks the field */ };
+    im.src = t.img;
+  }
+
+  // ── the resurrection braid (the "why here" for the center — the one signpost coded today) ──
+  var BRAID = {
+    resurrection: [
+      ["Mt 28","an earthquake, an angel like lightning — the women leave with fear AND great joy."],
+      ["Mk 16:1–8","the oldest ending: they find the stone rolled back, flee trembling, and “said nothing to anyone, for they were afraid.” It stops there."],
+      ["Lk 24","the road to Emmaus — he is known, and vanishes, in the breaking of bread."],
+      ["Jn 20","Mary mistakes him for the gardener; Thomas asks to touch the wound."]
+    ]
+  };
+
+  var drawer=document.getElementById("drawer");
+  function openDrawer(t, sp){
+    var braid = BRAID[sp.key];
+    var html='<button class="close" aria-label="Close">×</button>'+
+      '<img class="dimg" src="'+(t.full||t.img)+'" alt="'+esc(t.title)+'">'+
+      '<div class="dbody"><h2>'+esc(t.title)+'</h2>'+
+      '<div class="meta"><span class="k">'+sp.n+' · '+sp.title+'</span> — '+esc(sp.refs||"")+'<br>'+
+        (t.culture?'<span class="k">where</span> '+esc(t.culture)+'<br>':'')+
+        (t.date?'<span class="k">when</span> '+esc(t.date)+'<br>':'')+
+        (t.medium?'<span class="k">made</span> '+esc(t.medium)+'<br>':'')+
+        '<span class="k">held</span> '+esc(t.museum)+' · '+esc(t.license)+'</div>'+
+      '<div class="why"><div class="lab">why it’s here</div>'+
+        esc(sp.line||"")+
+        (braid? '<ul class="braid">'+braid.map(function(x){return '<li><b>'+x[0]+'</b> — '+esc(x[1])+'</li>';}).join('')+'</ul>'
+              : '<div style="margin-top:8px;color:#a99f88;font-size:12.5px">The move-by-move coding for this turning is still being run (the empty tomb is coded first). For now, the image is placed by scene.</div>')+
+      '</div>'+
+      '<a class="src" href="'+esc(t.url)+'" target="_blank" rel="noopener">view at the museum →</a>'+
+      '</div>';
+    drawer.innerHTML=html;
+    drawer.classList.add("open");
+    drawer.querySelector(".close").onclick=closeDrawer;
+    drawer.scrollTop=0;
+  }
+  function closeDrawer(){ drawer.classList.remove("open"); }
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeDrawer(); });
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+})();
+</script>
