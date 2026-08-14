@@ -24,7 +24,10 @@ FEEDS = {
     "morphospace_mixing.json":           "DATA_morphospace_mixing_feed_s167.json",
     "morphospace_mixing_tradition_tier.json": "DATA_morphospace_mixing_tradition_tier_feed_s167.json",
     "morphospace_prevalence.json":       "DATA_morphospace_prevalence_curve_feed_s167.json",
-    "findings_morphospace.json":         "DATA_findings_morphospace_s167.json",
+    # findings page is manifest-driven: deploy the manifest + every feed it lists UNDER THEIR CANONICAL NAMES
+    # (the page resolves FEED_BASE + entry.feed by basename), so a renamed copy would break manifest resolution.
+    "DATA_findings_index.json":          "DATA_findings_index.json",
+    "DATA_findings_morphospace_s167.json": "DATA_findings_morphospace_s167.json",
 }
 
 
