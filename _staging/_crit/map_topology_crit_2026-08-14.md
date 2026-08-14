@@ -52,6 +52,22 @@ This is a **second, thesis-aligned Map** distinct from the within-passage Topolo
 - **Map-B (Position Map):** each move plotted by its **8-coordinate frame position** in the morphospace; **k-nearest-neighbors** across ALL coded moves/traditions → the cross-tradition **rhyme** view (Q2 convergence). "What rhymes with this move, anywhere in the atlas?"
 Map-B is the stronger "Map" for the thesis (rhyme = nearest neighbor in position-space). **Depends on Atlas Reader:** (a) per-move 8-coordinate present in the atlas, (b) a k-NN feed (10 closest, expandable). Asked Atlas Reader 2026-08-14.
 
+### Map-B fully speced — "Neighbors" (GPT crit 2026-08-14)
+Verdict: **build the local neighbor map — much more intuitive than Mixing-as-aggregate.** Name it **"Neighbors"** ("what else in the archive stands like this move?"), NOT "Mixing"/"interleaving" (statistical terms). "Traditions interleave" is abstract; "here is this exact Mark line + the 10 texts nearest it" is graspable + surprising.
+
+**⭐ THE LOAD-BEARING TECHNICAL CONSTRAINT:** use Topology's *interaction* model (select node → see neighborhood → click-to-refocus/walk) but **NOT its force-layout physics.** A force sim would invent a *second* geometry on top of the morphospace, so screen-distance would partly reflect layout settings, not real distance. Instead — a **local constellation**: **radial distance from center = the actual kNN distance** (the full-MCA-space metric used for the neighbors); **angle = meaningless** (just avoid overlap). Say so on the figure: "distance from center = morphospace distance; angle has no meaning." This makes the viz *exactly match* the analytical claim (vs plotting Dim1/Dim2, where a true neighbor can look far).
+
+**Structure:**
+- **Mark 16 = the navigator** (left rail: M1…M55). Click a move → its neighborhood updates → walk Mark through the space.
+- **Center = the selected move + its actual paraphrase/text** (Mark 16:6 "He names whom they seek…"), not an ID.
+- **Neighbors surround it**, each labeled **tradition + work + ref + one-line paraphrase**, colored by tradition-family (border/dot only — the multicolored neighborhood *shows* interleaving without a statistic). Info hierarchy: **paraphrase (primary) → tradition+work+ref (secondary) → why-near/which-axes (tertiary) → raw MCA dims/distance (research detail)**. NOT raw x/y first.
+- **"Why nearby" inspector = the 8-axis fingerprint compare** (M4 vs neighbor per coded axis: epistemic-warrant =, ontology ≠, telos =, …) → "near = similar STANCE, not same doctrine." The research claim made visible. (Plain =/≠ table, not radar.)
+- **Permanent caveat:** *"Near ≠ same doctrine or topic. Near means the passages stand similarly across the coded position axes."*
+
+**Modes (the 4-scale Atlas IA):** **Landscape** (archetypes — broad regions) · **Neighbors** (this — who's next door to THIS text) · **Path** (M1→M55 trajectory through the morphospace — "does the stance move as the narrative progresses?") · **Mixing** (the aggregate stat — KEEP IT as evidence: proves interleaving is characteristic of the corpus, not one cherry-picked neighborhood). Story: **FINDING (aggregate) → EXPERIENCE IT (Neighbors) → PATH.** + "make this the center →" re-centers on a neighbor (walk the morphospace).
+
+**Depends on Atlas Reader:** per-move 8-coordinate + the **kNN feed** with, per neighbor: distance, tradition+work+ref, paraphrase, and the **8-axis fingerprint** (for the why-near compare). Research mode: neighborhood composition vs base rates + whether kNN is raw / tradition-balanced / work-capped (corpus-skew honesty — dominant traditions get more chances to be neighbors). A neighbor explorer also **face-validates the morphospace** (absurd neighbors → an axis dominating / metric wrong).
+
 <!-- appended round -->
 
 ---
