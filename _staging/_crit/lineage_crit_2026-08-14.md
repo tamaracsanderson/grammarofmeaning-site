@@ -28,6 +28,21 @@
 - Reorder the seam card: **meaning before coding apparatus** (source→M#, what Mark draws, what remains open, THEN the badges).
 - Counts clarity: "16/55 moves have ≥1 coded upstream · 7/55 explicit quotation · 17 family→move reaches (one move may be reached by >1 family)".
 
+## Watershed — GPT crit (2026-08-14): "the metaphor is stronger in the prose than the picture"
+Verdict: **like the Watershed idea MORE than the matrix** — "Mark is the channel; earlier materials flow into particular moments." Metaphor/distinctiveness 4.5/5, but connection-to-text 1.5/5. V2 principle: **"make me see an actual Mark move receiving an actual upstream source."** Watershed = the *explanatory* view; matrix = the *research inventory* (don't make both do everything).
+
+8 priorities:
+1. **Put the Mark move TEXT on the receiving river** (M25 alone is inert → show "Mary Magdalene, freed of seven demons…").
+2. **Keep selected source + Mark target + Seam together onscreen** (no below-fold explanation; sticky side panel).
+3. **Named streams, not families** — Luke / Matthew / Isaiah / Psalms, not "synoptic gospel" / "Hebrew Bible". Hierarchy: **family = watershed · book = tributary · reference = feeder · Mark = channel.**
+4. **Tributaries actually CONVERGE into the Mark river** (the huge empty parallel columns kill the metaphor — geometry should flow in).
+5. **Show direction + relation explicitly** — `Luke 8:2 —ECHO→ M25`.
+6. **On select, show the wording/evidence from BOTH texts** (highlight shared material — inspect the claim, don't trust it).
+7. **⭐ The four-part grammar as the culmination:** **FROM → INTO → CARRIES → LEAVES-OPEN** (e.g. Psalm 110:1 → M50 → "royal right-hand enthronement" → "waiting-for-enemies preserved or collapsed?"). A tributary should say **what it carries**.
+8. **Caution on "upstream" + "dry":** the river metaphor asserts *ancestry* more strongly than a neutral line — distinguish **upstream** (directional source) from **parallel witness** (early-Christian material, no strong dependency). And "dry/unfed reach" must not read as *lesser* (Markan composition ≠ deficient). Label dry stretches **"no coded tributary"**, not "no lineage".
+- "Early Christian" is too heterogeneous for a giant river (John/Acts/Hebrews) — surface the actual sources, group lightly. Copy: "Select a Mark move" not "click a river node".
+- Optional toggle **BY PASSAGE | BY SOURCE** (passage-view stronger for the public reader).
+
 ## Shared-contract fit
 Identical to the Connect walk: **show the real text (not IDs) · beside/sticky inspector · explain+interpret · encoding matches the phenomenon (kind ≠ degree) · negative-space honesty (§2.8)**.
 
