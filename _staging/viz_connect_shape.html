@@ -46,13 +46,20 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
 .card .rel{font-family:var(--disp);font-size:16px;color:var(--ink)}
 .card .rel .k{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--olive)}
 .card .members{font-family:var(--sans);font-size:12.5px;color:var(--ink-2);margin-top:6px}
+.card .whypaired{margin:11px 0 0}
+.card .pr{font-family:var(--serif);font-size:14px;color:var(--ink);line-height:1.4;padding:2px 0}
+.card .pr .mk{font-family:var(--mono);font-size:10px;color:var(--olive)}
+.card .prarrow{font-family:var(--mono);font-size:14px;color:var(--olive);text-align:center;line-height:1;margin:2px 0}
+.card .evi{font-family:var(--sans);font-size:11.5px;color:var(--ink-3);margin:12px 0 0;padding-top:10px;border-top:1px solid color-mix(in srgb,var(--rule) 55%,transparent);line-height:1.5}
+.card .evi b{color:var(--ink-2)}
+.card .evi .strength{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.04em;color:#8a5a12;background:color-mix(in srgb,var(--gold) 18%,transparent);border-radius:4px;padding:1px 6px}
 .hint{font-family:var(--sans);font-size:12px;color:var(--ink-3);font-style:italic}
 .src{font-family:var(--mono);font-size:9px;color:var(--ink-3);opacity:.7;margin:36px 0 0}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="nav"><span>Connect ·</span><a href="viz_connect_logic.html">Logic</a><a class="cur" href="viz_connect_shape.html">Shape</a><a href="viz_connect_arcband.html">all kinds</a><span style="color:var(--ink-3);border:0">· sonic (on the Plate)</span></div>
+  <div class="nav" style="justify-content:center"><span style="border:0">Connect ·</span><a href="viz_connect_arcband.html">Trace</a><a href="viz_connect_loom.html">Scan</a><a href="viz_connect_topology.html">Map</a><a href="viz_connect_logic.html">Logic</a><a class="cur" href="viz_connect_shape.html">Shape</a></div>
   <p class="kicker">Connect · Shape — one kind at a time</p>
   <h1>The symmetries and returns</h1>
   <p class="task"><b>Look for the form, not the flow.</b> Where does the passage echo, pair, fold back on itself, or leap? Shape is not a chain — it's the architecture the moves make together.</p>
@@ -129,7 +136,7 @@ function renderShapes(){
       s+='<path data-i="'+i+'" d="M2 '+y1+' C '+reach+' '+y1+' '+reach+' '+y2+' 2 '+y2+'" fill="none" stroke="var(--olive)" stroke-width="2.4" opacity="'+op+'"/>';
       s+='<line data-i="'+i+'" x1="2" y1="'+mid+'" x2="'+(reach*0.5)+'" y2="'+mid+'" stroke="var(--olive)" stroke-width="1" stroke-dasharray="3 3" opacity="'+op+'"/>';
       s+='<circle data-i="'+i+'" cx="2" cy="'+mid+'" r="3.5" fill="var(--olive)" opacity="'+op+'"/>';
-      s+='<text class="slbl" x="'+(reach-4)+'" y="'+(mid-4)+'" text-anchor="end" opacity="'+op+'">ring · pivot at centre</text>';
+      s+='<text class="slbl" x="'+(reach-4)+'" y="'+(mid-4)+'" text-anchor="end" opacity="'+op+'">ring · centre</text>';
     } else if(sh.type==="PARALLELISM"){
       var x=18+((i*22)%60);
       s+='<line data-i="'+i+'" x1="2" y1="'+ya+'" x2="'+x+'" y2="'+ya+'" stroke="var(--olive)" stroke-width="1.8" opacity="'+op+'"/>';
@@ -163,9 +170,23 @@ function paint(){
   var det=document.getElementById("detail");
   if(SEL===null){det.innerHTML='<p class="hint">Click a shape (in the margin) or a move to read the structure it belongs to.</p>';return;}
   var sh=SHAPES[SEL], names={RING:"Ring / chiasm",PARALLELISM:"Parallel",JUXTAPOSITION:"Juxtaposition",LEAP:"Leap"};
-  var gloss={RING:"an A…A′ return — the passage folds around a centre; the pivot carries the weight.",PARALLELISM:"two moves in matching form — read them as a pair, not a sequence.",JUXTAPOSITION:"set side by side with the connective withheld — the gap is the meaning.",LEAP:"a non-logical jump — the bridge is deliberately absent."};
-  det.innerHTML='<div class="card"><div class="rel"><span class="k">'+esc(names[sh.type]||sh.type)+'</span></div>'+
-    '<div class="members">'+esc(sh.src)+' &harr; '+esc(sh.tgt)+' — <span style="font-style:italic">'+esc(gloss[sh.type]||"")+'</span></div></div>';
+  var gloss={RING:"an A…A′ return — the end mirrors the beginning; the passage folds around a centre.",PARALLELISM:"two moves in matching form — read them as a pair, not a sequence.",JUXTAPOSITION:"set side by side with the connective withheld — the gap is the meaning.",LEAP:"a non-logical jump — the bridge is deliberately absent."};
+  // evidence basis is a TYPE-level default until per-edge coding lands (RING/PARALLELISM read at the move/discourse level → paraphrase-safe;
+  // verbal/lexical/sonic parallelism would need the Greek — flagged). Strength is "proposed" until coded.
+  var basis={RING:"move-level (discourse) — the frame is visible in paraphrase",PARALLELISM:"move-level — a verbal/lexical parallel would need the Greek source",JUXTAPOSITION:"move-level — two scenes held apart",LEAP:"move-level — a discontinuous return"};
+  det.innerHTML='<div class="card"><div class="rel"><span class="k">'+esc(names[sh.type]||sh.type)+'</span> <span style="font-style:italic;color:var(--ink-2);font-family:var(--serif);font-size:14px">'+esc(gloss[sh.type]||"")+'</span></div>'+
+    '<div class="whypaired">'+pairRows(sh)+'</div>'+
+    '<div class="evi"><b>why paired:</b> '+esc(basis[sh.type]||"move-level")+' · <span class="strength">proposed</span>'+
+      (sh.type==="RING"?' — the ring’s inner correspondences + its pivot are not yet coded (only the M2↔M23 frame is)':'')+
+      '. The connective/pivot is our reading, not a mark in the text.</div></div>';
+}
+function txt(label){ var out=[]; String(label).split("+").forEach(function(p){ var f=FLAT[IDX[p]]; if(f) out.push({l:p,pp:f.pp}); }); return out; }
+function pairRows(sh){
+  var a=txt(sh.src), b=txt(sh.tgt), rows=[];
+  a.forEach(function(x){rows.push('<div class="pr"><span class="mk">'+esc(x.l)+'</span> '+esc(x.pp)+'</div>');});
+  rows.push('<div class="prarrow">&#8597;</div>');
+  b.forEach(function(x){rows.push('<div class="pr"><span class="mk">'+esc(x.l)+'</span> '+esc(x.pp)+'</div>');});
+  return rows.join('');
 }
 </script>
 
