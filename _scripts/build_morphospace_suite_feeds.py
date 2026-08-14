@@ -24,10 +24,10 @@ FEEDS = {
     "morphospace_mixing.json":           "DATA_morphospace_mixing_feed_s167.json",
     "morphospace_mixing_tradition_tier.json": "DATA_morphospace_mixing_tradition_tier_feed_s167.json",
     "morphospace_prevalence.json":       "DATA_morphospace_prevalence_curve_feed_s167.json",
-    # findings page is manifest-driven: deploy the manifest + every feed it lists UNDER THEIR CANONICAL NAMES
-    # (the page resolves FEED_BASE + entry.feed by basename), so a renamed copy would break manifest resolution.
+    # the findings MANIFEST — every feed it lists is copied DYNAMICALLY below (so Method/Library feeds auto-copy
+    # when they append to the manifest; no generator edit needed). Deployed under canonical names so the page's
+    # FEED_BASE + entry.feed resolves.
     "DATA_findings_index.json":          "DATA_findings_index.json",
-    "DATA_findings_morphospace_s167.json": "DATA_findings_morphospace_s167.json",
 }
 
 
@@ -52,6 +52,24 @@ def main() -> int:
         (OUT / out_name).write_text(raw)
         n = len(d.get("points", d.get("curve", d.get("per_family", []))))
         print(f"  ✓ {out_name}  <-  {canon}  ({n} rows · script {d.get('_producing_script')})")
+
+    # DYNAMIC: copy every feed the findings manifest lists (each owner's feed, under its canonical name)
+    try:
+        manifest = json.loads((OUT / "DATA_findings_index.json").read_text())
+        for entry in manifest.get("feeds", []):
+            fname = entry.get("feed")
+            if not fname or (OUT / fname).exists() and fname in FEEDS.values():
+                continue  # already copied above
+            try:
+                raw = canonical(fname)
+                json.loads(raw)
+                (OUT / fname).write_text(raw)
+                print(f"  ✓ {fname}  <-  (manifest: {entry.get('domain')} / {entry.get('owner')})")
+            except Exception as e:
+                print(f"  ⚠ manifest feed {fname} ({entry.get('owner')}) not on origin/main yet — skipped ({e})")
+    except Exception as e:
+        print(f"  ⚠ could not read the findings manifest to resolve owner feeds ({e})")
+
     print("re-derived. Now deploy the changed feeds (worktree off origin/main → PR).")
     return 0
 
