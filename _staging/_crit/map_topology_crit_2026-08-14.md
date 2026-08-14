@@ -21,8 +21,38 @@
 - The 8 SHAPE echoes belong here (Map is where cross-view "shape" was pointed from Trace). Consider showing LINKAGE (structure) + SHAPE (echoes) as two edge families here, since Map is the "whole web" view — but avoid confetti (one family emphasized at a time).
 - Force graphs handle 55 nodes but can spaghetti; keep labels legible, let selection prune.
 
-## Round 2 — GPT crit (append when PI runs it)
-<!-- next round -->
+## Round 2 — GPT crit (2026-08-14)
+Verdict: "right object, wrong claim." Keep the force graph (appeal 4.5/5); change what Map *claims to show*. Scores: Intuitiveness 2.5→4 · Usability 2→4.5 · Info-fit 3→4.5 · Wayfinding 2→4 · **Analytical payoff 2.5→5**.
+
+**THE METHODOLOGICAL FINDING (biggest point — not UI):** raw degree is a **grammar artifact**, not importance. M42's "7 links" are mostly **REPORTS** (a 7-move speech container), so "7 links ≠ 7 independent ways it organizes meaning." **Do NOT size nodes by raw degree.** Affordance that exposes it: **hide REPORTS → watch M42 shrink** → teaches "M42 looked central because it contains reported speech." This is the instrument revealing something about the METHOD (§2.8) → flag to Method/Atlas Reader.
+
+Seven priorities:
+- [ ] **1. Never scroll away on selection** — persistent side/bottom inspector (same as Trace/Scan).
+- [ ] **2. Selected move's actual TEXT stays visible** continuously, not just its M-number.
+- [ ] **3. On selection, label every immediate edge with sub-type + direction** (M42 —REPORTS→ M43).
+- [ ] **4. Replace "7 links = hub" with a decomposition** — `7 links · 5 REPORTS · 2 other · reaches 2 regions`.
+- [ ] **5. Teach that graph distance ≠ semantic/textual distance** — "Position shows network structure, not reading order or similarity; exact distances have no independent meaning" (force layout, D3). In the viz, not buried.
+- [ ] **6. Make bridges / communities / isolates the payoff**, not big dots. Bridge (removal fragments the graph) = the close-reading question Map can pose that Scan can't. Isolate ("M31 · no coded linkage") = a negative-space result.
+- [ ] **7. Relation-type toggle central** — turn REPORTS off, watch topology change (exposes taxonomy artifacts).
+- Own proposition (#1/#20): **"See what groups together when reading order is removed."** REST → SELECT (neighborhood) → FOLLOW (recenter + breadcrumb M42→M47→M53) → ANALYZE (Bridges·Communities·Isolates·Hide-REPORTS). "Topology Lab."
+- Bundle repetitive REPORTS fans (one "REPORTS fan" node, click to expand) so a speech-container reads as one thing, not 7 hubs.
+
+**The trio, made complementary (use in the top copy):**
+| View | Keeps reading order? | Best question |
+|---|---|---|
+| Trace | yes | Where does THIS move reach? |
+| Scan | yes (matrix) | Where is the passage densely / distantly connected? |
+| Map | **no** | What neighborhoods emerge when order is removed? |
+
+## ⟐ NEW DIRECTION — Map = POSITION, nearest-neighbor across the atlas (PI, 2026-08-14)
+> "Map would be very interesting connected to **position** — each Mark 16 move's **8-coordinate**, mapped against the morphospace, and see its **nearest neighbors**. The 10 closest positions, then explore those, and eventually across the entire atlas reader. Ask the atlas reader about the 'nearest neighbor' idea."
+
+This is a **second, thesis-aligned Map** distinct from the within-passage Topology Lab:
+- **Map-A (Topology Lab):** within-passage LINKAGE graph (the crit above) — "what groups in THIS passage."
+- **Map-B (Position Map):** each move plotted by its **8-coordinate frame position** in the morphospace; **k-nearest-neighbors** across ALL coded moves/traditions → the cross-tradition **rhyme** view (Q2 convergence). "What rhymes with this move, anywhere in the atlas?"
+Map-B is the stronger "Map" for the thesis (rhyme = nearest neighbor in position-space). **Depends on Atlas Reader:** (a) per-move 8-coordinate present in the atlas, (b) a k-NN feed (10 closest, expandable). Asked Atlas Reader 2026-08-14.
+
+<!-- appended round -->
 
 ---
 ## ⟐ CROSS-CUTTING (now confirmed across ALL THREE Connect views)
