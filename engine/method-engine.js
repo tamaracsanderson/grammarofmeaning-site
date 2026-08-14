@@ -274,6 +274,9 @@ function renderFigure() {
   cone.appendChild(nodeCard(byId["text"]));
   const branches = el("div", "me-branches");
   branches.appendChild(nodeCard(byId["decompose"]));
+  // Position — its own card, peer of connect/situate, FIRST of the position·connect·situate trio (PI S171).
+  // At text+move level; its frame→morphospace edge draws the connection to the Atlas.
+  if (byId["frame"]) branches.appendChild(nodeCard(byId["frame"]));
   // Connect — the reconstruction half (wire the moves back together); pairs with Decompose, sits between it and Situate.
   // Guarded: a missing node (e.g. a stale cached method_flow.json) must not blank the whole figure.
   if (byId["connect"]) {
