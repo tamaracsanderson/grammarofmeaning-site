@@ -17,14 +17,28 @@
 ## The redirect: Partiture V2 = a reader-facing parallel reader (not a variance dashboard)
 The variance chart is a *research* view (where do translations diverge structurally). What the PI wants is the *reader* view: **4 translations side by side, click an English word → it highlights across Greek/Latin/KJV/WEB, with lexicon + etymology on click** (how the Greek/Latin word means, how the translation choice shifts sense). This is her "experience Greek vs Latin vs Old English vs WEB" + on-telos with interactive lectio divina. Keep the variance chart as the *research* sibling; build the parallel reader as the *reader* one.
 
-## Q4 — real, open, off-the-shelf tools (verify embeddability — browser was blocked at write time)
-- **Alpheios** (alpheios.net, open-source) — click a Greek OR Latin word → morphology + lexicon (LSJ for Greek, Lewis & Short for Latin). Closest to "click a word, unpack it." Embeddable as a reading tool.
-- **Scaife Viewer** (scaife.perseus.org, `scaife-viewer` on GitHub, open-source) — Perseus reader; Greek + Latin with word-level lexicon/morphology links. Forkable.
-- **STEP Bible** (stepbible.org, Tyndale House, free) — interlinear Greek/Hebrew ↔ English + Strong's; the interlinear/click-highlight is native.
-- **Alignment DATA for the click-highlight** (open): MACULA Greek, Nestle 1904 + Strong's, Berean interlinear — word-level Greek↔English alignment you can build the Pudding-"Plain" highlight on directly. (Greek↔English is the tractable core; Latin/KJV/WEB 4-way alignment is harder — needs per-pair alignment.)
-- **Etymology/lexicon sources** (open): LSJ (Greek), Lewis & Short (Latin), Strong's — all in Perseus/STEP data.
+## Round 2 — GPT crit (2026-08-14): demote the Partiture to a MINIMAP; the four texts are the experience
+Verdict: keep the Partiture but **demote it from "the translation experience" to "the overview/minimap of translation divergence."** Intuitiveness 2→5 once the four actual texts are the primary object. Connection-to-translation 1.5/5 now.
+- **"One stripe = one coded move"** (from DECOMPOSE), not word-density — must be taught. 16:8 = Greek 8 · Latin 4 · KJV 4 · WEB 2 moves.
+- **"Variance" is too opaque** — rename to **"segmentation difference"** (or split: segmentation / wording / sound). Don't collapse several measures into one mystery number.
+- **Reverse the order:** reader asks "what changed in the WORDS?" first → then "did it change shape/moves/sound/meaning?" Begin with **"One scene, four versions"** showing all four aligned; the Partiture becomes the bird's-eye map of *where to look*.
+- **Hero interaction = click-a-word → highlight aligned phrase(s) across all versions** (Pudding "Plain"); handle 1→1, 1→many, many→1, reorder, omission (alignment itself is the finding).
+- **Word inspector:** FORM → LEMMA → MORPHOLOGY → RANGE → HERE (contextual sense) → each version's CHOICE → **what the choice changes** (voice/aspect/agency/register/ambiguity). Call it "word history & range," not just etymology.
+- **Translation taxonomy** a selected phrase can carry: EXPANDS · COMPRESSES · REORDERS · EXPLICITATES · OMITS · SHIFTS-SENSE/GRAMMAR/REGISTER/SOUND.
+- **Toggle WORDS · MOVES · SOUND** (three phenomena currently mixed). Keep the seismograph bars as **navigation** (sparkline → hotspots 16:6/16:8 → click opens the four-text reader), not the finding.
+- **Methodology warnings:** "more moves ≠ more meaning" (label "segmented into 8 moves", not "high granularity" — readers read stripe-count normatively); "one textual scene, four renderings", not "same events".
+- **The distinctive contribution** (nobody else has it): connecting a translation choice to **what happens to the meaning-making OPERATION** — the lexical/morphology infrastructure is all off-the-shelf; the move-consequence layer is ours.
 
-**Recommendation:** build the parallel reader on **open interlinear/alignment data** (STEP/MACULA/Nestle1904+Strong's) for the click-word-highlight + lexicon, and consider **embedding/forking Alpheios or Scaife** for the Greek/Latin morphology-on-click rather than building a morphology engine. Reader view first (4-up + click-highlight + lexicon); variance chart stays as the research sibling.
+## Q4 — CONFIRMED off-the-shelf tools (GPT verified with links, 2026-08-14; still confirm licensing before committing)
+- **⭐ Alpheios Embedded (`alpheios-project/embed-lib`)** — clickable Ancient Greek/Latin → morphology + short definitions + grammar; its embedded lib **already highlights aligned words/phrases across translations (incl. 1→many) on hover, pin on click** — i.e. the exact interaction the PI described, almost verbatim. CDN or npm. **GPT's #1 UI shortcut** — put it under the Greek/Latin lanes rather than rebuilding lexical popovers.
+- **Alpheios Alignment Editor (`alpheios-project/alignment-editor-new`)** — build/fix word-by-word alignments across texts, JSON/HTML out.
+- **⭐ Clear Bible Alignments (`Clear-Bible/Alignments`)** — pre-existing Bible word alignments (auto + manually corrected); **data CC BY 4.0, code MIT**. First place to look before generating our own.
+- **MACULA Greek (`Clear-Bible/macula-greek`)** — word-level morphology, lemmas, English glosses, word senses, semantic roles; trees + TSV. Backend for "click Greek word → what's it doing."
+- **STEPBible-Data (`STEPBible/STEPBible-Data`)** — open Greek datasets, morphology, lexical tagging, context-sensitive translations, LSJ material (CC BY 4.0). For semantic range / lexicon / contextual gloss.
+- **PROIEL / Syntacticus** — morphosyntactic Greek + Latin (incl. NT) for Greek↔Vulgate **grammatical** comparison.
+- Scaife/Perseus (UX reference) · CollateX (same-language variant collation) · API.Bible (many modern translations, later).
+
+**Recommended stack (GPT, modest — not machine-translation-first):** texts we control (Gk/Vulgate/KJV/WEB) + **Clear Bible alignments** (auto + manual-correct the hotspot verses via Alpheios editor) + **MACULA + STEPBible** lexical layer + a custom React 4-lane reader with **Alpheios embedded** lookup/alignment. MT (Google/DeepL) is a different research object — use language tech only for alignment/lemmatization/morphology/lexical retrieval; keep the *meaning-consequence* analysis ours. Reader view first (4-up + click-highlight + word inspector); the variance chart demotes to the navigational minimap.
 
 <!-- ── METHODOLOGY FOOTER ──
 HOW PRODUCED: Design SB 2026-08-14. PI couldn't read the Partiture variance chart + asked what the bars/variance mean, for a
