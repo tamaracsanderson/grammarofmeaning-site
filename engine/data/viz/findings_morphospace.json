@@ -1,0 +1,219 @@
+{
+  "_producing_script": "scripts/analysis/build_findings_morphospace_feed_s167.py",
+  "_method_summary": "The morphospace findings as a render-from-data feed. Prose is authored interpretation; every NUMBER is pulled live from the 4 source feeds and injected — nothing hardcoded. Re-run after refining the morphospace and the findings update.",
+  "title": "What the morphospace is teaching us",
+  "subtitle": "Findings from the instrument — not how we build, but what we are learning about meaning-making.",
+  "engine": "morphospace",
+  "status": "v1 · numbers computed on the current (pre-rebalance) coords; regenerate after the Islamic+Jewish atlas batch lands",
+  "generated_from": [
+    "scripts/analysis/mca_cross_tradition_mixing_s167.py",
+    "scripts/analysis/mca_cross_tradition_mixing_s167.py --tier tradition",
+    "scripts/analysis/mca_prevalence_curve_s167.py",
+    "scripts/analysis/mca_archetype_spemca_s167.py"
+  ],
+  "n_reads": 3173,
+  "headline": {
+    "claim": "Traditions converge without being the same, and differ without being incommensurable — and you can measure which is which, axis by axis.",
+    "gloss": "Positionality-as-coordinates says the thing the universal-vs-particular binary structurally cannot: a text can be tradition-specific on one axis and convergent on another, at the same time. The convergence is a measured, located fact — not a claim."
+  },
+  "cuts": [
+    {
+      "n": 1,
+      "name": "The map (archetypes)",
+      "method": "speMCA-style MCA (not-engaged + rare values set PASSIVE, not dropped)",
+      "question": "Do recurring positions cut across traditions?",
+      "result": "4 archetypes, each spanning 6–16 traditions across 3173 coded reads: Devotional-Covenantal (n=1007, 8 traditions), Prophetic (n=894, 6 traditions), Critical-Deconstructive (n=554, 16 traditions), Emergent-Relational (n=718, 16 traditions).",
+      "reading": "Every archetype is occupied by many traditions in their own voices — rhyme, not identity."
+    },
+    {
+      "n": 2,
+      "name": "Interleaving",
+      "method": "cross-tradition nearest-neighbor rate (k=10), computed at the TRADITION tier",
+      "question": "Do traditions cluster in their own corners, or interleave? (axis-free)",
+      "result": "MACRO 86% (equal-tradition weight, 14 traditions). Christianity 8% (n=2262) is the ONLY tradition that looks clustered; every other tradition mixes 76–99%.",
+      "reading": "The low rate tracks CLASS SIZE, not distinctiveness: Christianity is ~92% of the Abrahamic reads, so its neighbors are Christian by default. Un-lumping 'Abrahamic' (family MACRO was 79%) makes the prevalence mechanism visible.",
+      "table": [
+        {
+          "tradition": "Christianity",
+          "code": "ABR-CHR",
+          "n": 2262,
+          "cross_pct": 8
+        },
+        {
+          "tradition": "Buddhism",
+          "code": "DHR-BUD",
+          "n": 125,
+          "cross_pct": 76
+        },
+        {
+          "tradition": "Islam",
+          "code": "ABR-ISL",
+          "n": 110,
+          "cross_pct": 91
+        },
+        {
+          "tradition": "Judaism",
+          "code": "ABR-JUD",
+          "n": 78,
+          "cross_pct": 90
+        },
+        {
+          "tradition": "Hinduism",
+          "code": "DHR-HIN",
+          "n": 76,
+          "cross_pct": 89
+        },
+        {
+          "tradition": "African Diaspora",
+          "code": "AFR-DIA",
+          "n": 34,
+          "cross_pct": 94
+        },
+        {
+          "tradition": "Aboriginal Australian",
+          "code": "IND-AUS",
+          "n": 34,
+          "cross_pct": 91
+        },
+        {
+          "tradition": "Confucianism",
+          "code": "EAS-CON",
+          "n": 27,
+          "cross_pct": 95
+        },
+        {
+          "tradition": "African Indigenous",
+          "code": "IND-AFR",
+          "n": 26,
+          "cross_pct": 90
+        },
+        {
+          "tradition": "Ubuntu / African",
+          "code": "AFR-UBU",
+          "n": 20,
+          "cross_pct": 93
+        },
+        {
+          "tradition": "Daoism",
+          "code": "EAS-TAO",
+          "n": 16,
+          "cross_pct": 99
+        },
+        {
+          "tradition": "Andean",
+          "code": "IND-AND",
+          "n": 14,
+          "cross_pct": 91
+        },
+        {
+          "tradition": "Mesoamerican",
+          "code": "IND-MES",
+          "n": 12,
+          "cross_pct": 97
+        },
+        {
+          "tradition": "Māori",
+          "code": "IND-MAO",
+          "n": 11,
+          "cross_pct": 99
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "name": "Prevalence curve",
+      "method": "tradition silhouette vs class-balance cap",
+      "question": "Is the apparent separation real, or a corpus-skew artifact?",
+      "result": "Raw silhouette +0.24 → -0.05 when classes are balanced.",
+      "reading": "Silhouette runs -1..+1: +1 = tight separate clusters, 0 = interleaved, negative = closer to OTHER groups than your own. The raw +0.24 looks like separation; balance the classes and it collapses to -0.05. The 'separation' was manufactured by a corpus that is ~78% Christianity. The collapse IS the finding."
+    }
+  ],
+  "surprises": [
+    {
+      "n": 1,
+      "title": "Texts differ most in HOW MUCH they engage, not in what they claim.",
+      "finding": "The dominant raw axis (dim1, 28% inertia) was engagement-breadth — how many of the eight questions a text even touches — not 'observed vs revealed'. The first thing that separates texts is whether they speak on a dimension at all. That is honest, not broken: it is why the method separates an engagement layer from a content layer."
+    },
+    {
+      "n": 2,
+      "title": "Abrahamic isn't special — it's just big.",
+      "finding": "Its 8% cross-tradition rate reads as a tight cluster, but it is pure prevalence (~92% of it is Christianity). Freed from the lump, Islam mixes 91% and Judaism 90%, like every other tradition."
+    },
+    {
+      "n": 3,
+      "title": "Diversity doesn't just add data — it reveals dimensions.",
+      "finding": "Adding African, Pacific, Aboriginal, and Native traditions (kinship/ancestral/belonging-heavy) grew a whole new third axis (unitive↔relational, dim3 18% — nearly dim2's 19%) that the mostly-Abrahamic early sample literally could not see."
+    },
+    {
+      "n": 4,
+      "title": "Your own data lied at first glance.",
+      "finding": "Naïvely the numbers say traditions DIVERGE (silhouette +0.24) — the opposite of the truth. Skew doesn't just hide structure, it manufactures false structure. Corrected (balanced), the signal is convergence (-0.05)."
+    },
+    {
+      "n": 5,
+      "title": "Convergence is rhyme, not identity.",
+      "finding": "A Buddhist Sanctuary text is still Buddhist; it just shares a coordinate with a Christian one. The archetypes aren't the universal truth behind religions — they are recurring positions traditions independently occupy, each in its own voice. That is little-t/Big-T made geometric: little-t = the shared coordinate, Big-T = the voice."
+    }
+  ],
+  "argument_universal_vs_particular": {
+    "title": "Why positionality-as-a-space (vs collapsing to universal-vs-particular)",
+    "points": [
+      "The binary forces a false choice: collapse toward the universal and you erase the particular (perennialism — usually the majority's view in disguise); insist on the particular and you lose comparison (mute relativism). Neither holds resemblance AND distinctness at once.",
+      "The space refuses the choice: a text isn't universal OR particular — it has coordinates. It can be tradition-specific on ontology and convergent on telos, located dimension by dimension.",
+      "Convergence stops being a claim and becomes a measured, located fact: not 'everything is one' but 'this move appears in Buddhism and Christianity and Yoruba — each in its own vocabulary'.",
+      "'Universal' was never a place you could stand: there is no view-from-nowhere. In the morphospace there is no outside — 'universal' is just a region where many positions happen to land.",
+      "Tonight is the proof the coarse binary would have lied: ask 'same or different?' on the raw data → 'different' → wrong (a skew artifact). The binary can't self-correct; the space can."
+    ]
+  },
+  "method_foundation": {
+    "note": "What methods we reuse here and why (the drawer's foundation).",
+    "glossary": [
+      {
+        "method": "MCA (Multiple Correspondence Analysis)",
+        "what": "PCA's cousin for categorical data — turns 'which value on each of 8 axes' into x/y/z.",
+        "why": "what we've used; its math inflates rare + sentinel categories, which is why dim1 became engagement-breadth."
+      },
+      {
+        "method": "speMCA (Specific MCA)",
+        "what": "MCA where chosen categories are marked PASSIVE (projected, not driving the axes).",
+        "why": "the fix for the extremes: (not-engaged) + rare values passive → the clean archetype biplot. Passive ≠ dropped."
+      },
+      {
+        "method": "Gower + PCoA",
+        "what": "Gower = a '% of axes on which two texts differ' distance handling missing/rare gracefully; PCoA turns it into coordinates.",
+        "why": "the IRR234 cohort's pick for the PRIMARY clustering question — less sensitive to rare-value inflation than MCA (post-Saquib refactor)."
+      },
+      {
+        "method": "LCA (Latent Class Analysis)",
+        "what": "'how many hidden profiles best explain the data?'",
+        "why": "downgraded by the diverse cohort — answers 'how many types', not 'do texts cluster by tradition'. Optional benchmark only."
+      }
+    ],
+    "decision": "Saquib demo: MCA / speMCA-approx (built + reproducible now). Locked refactor (post-Saquib, IRR234): Gower+PCoA primary + speMCA for the interpretable biplot; LCA at most a benchmark. We've DECIDED the refactor, not yet done it — that honesty belongs on the page."
+  },
+  "validity": [
+    {
+      "question": "Are the tradition labels defined independently of the 8 coding axes, or partly inferred from them (circularity)?",
+      "answer": "Independent. tradition_id is stamped on the SOURCE at ingestion (provenance — 'this is a Qur'an'), across 550 traditions, NOT inferred from the coded axes. So the clustering test uses an external grouping variable — it is not circular. (DeepSeek's cross-check, answered.)"
+    },
+    {
+      "question": "What level do we compute traditions at — family, tradition, or sub-tradition?",
+      "answer": "Locked at the TRADITION tier (2-segment: Christianity / Islam / Buddhism / Daoism …). Family (Abrahamic) lumps three world religions and hides the prevalence mechanism; sub-tradition (Lutheran) is too sparse (n<10). The tradition tier is the honest, consistent middle."
+    },
+    {
+      "question": "Is the 3rd axis inside the 2×2 archetypes, or a separate dimension?",
+      "answer": "A separate, orthogonal 3rd dimension (unitive↔relational), not inside the 2×2. It carries 18% inertia vs dim2's 19% — nearly equal — so it's shown BESIDE the archetypes (a dim1×dim3 panel), never folded into them."
+    }
+  ],
+  "how_to_extend": "Append a finding-object to cuts / surprises / validity and re-run this builder. Numbers are pulled live from the 4 source feeds — never type a figure into the prose. Method / Design / Library have append-access; the page is a growing ledger.",
+  "provenance": {
+    "authored_by": "atlas-reader SB (S167), PI-directed",
+    "prose": "authored interpretation (thesis-chapter draft)",
+    "numbers": "computed live from the source feeds at build time; regenerate to refresh",
+    "sources": [
+      "research/00_irr/irr234_geometry_method_render_reconciliation_2026-08-13.md",
+      "pm/40_architecture/FINDINGS_morphospace_insights_s167_2026-08-13.md",
+      "pm/40_architecture/METHOD_morphospace_archetypes_and_cuts_s167_2026-08-13.md"
+    ]
+  }
+}

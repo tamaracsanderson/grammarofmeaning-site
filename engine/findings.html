@@ -1,0 +1,109 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Findings — what the morphospace is teaching us · Grammar of Meaning</title>
+<style>
+:root{--paper:#F7F2E7;--paper-2:#FBF8F0;--paper-3:#EFE9DA;--ink:#2B2823;--ink-2:#5F5A50;--ink-3:#8E877A;--rule:#DDD6C6;--fern:#2f5233;--gold:#9a6410;--terracotta:#b5532a;--sky:#3f5c86;--code:#EFE9DA;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#8fbf94;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--code:#2b2620;}}
+:root[data-theme=dark]{--paper:#1C1813;--paper-2:#26211A;--paper-3:#221D16;--ink:#F7F1E3;--ink-2:#C3BCAC;--ink-3:#8E877A;--rule:#3D362B;--fern:#8fbf94;--gold:#D8B36A;--terracotta:#E08A54;--sky:#8fb6c4;--code:#2b2620;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Iowan Old Style",Palatino,Georgia,serif;line-height:1.62}
+.wrap{max-width:760px;margin:0 auto;padding:44px 24px 80px}
+h1{font-size:31px;margin:.1em 0 .1em;font-weight:600;letter-spacing:-.015em;text-wrap:balance}
+.subtitle{color:var(--ink-2);font-size:16px;margin:.3em 0 0;max-width:66ch}
+.status{display:inline-block;margin:14px 0 0;font-family:ui-sans-serif,system-ui,sans-serif;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);border:1px solid var(--rule);border-radius:20px;padding:3px 11px}
+h2{font-size:13px;font-family:ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:var(--ink);margin:44px 0 8px;padding-bottom:8px;border-bottom:2px solid var(--rule)}
+p{margin:.7em 0}
+.num{font-family:ui-monospace,Menlo,monospace;font-size:.92em;color:var(--sky)}
+code{font-family:ui-monospace,Menlo,monospace;font-size:.85em;background:var(--code);border:1px solid var(--rule);border-radius:5px;padding:.05rem .35rem}
+.headline{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--fern);border-radius:0 12px 12px 0;padding:16px 20px;margin:22px 0}
+.headline .claim{font-size:19px;font-weight:600;color:var(--ink);margin:0}
+.headline .gloss{color:var(--ink-2);font-size:14.5px;margin:.5em 0 0}
+.cut{background:var(--paper-2);border:1px solid var(--rule);border-radius:11px;padding:15px 18px;margin:14px 0}
+.cut .name{font-size:17px;font-weight:600}
+.cut .meta{font-family:ui-sans-serif,system-ui,sans-serif;font-size:12.5px;color:var(--ink-3);margin:3px 0 8px}
+.cut .result{font-size:15px}
+.cut .reading{margin-top:8px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;color:var(--ink-2);background:var(--paper-3);border-radius:8px;padding:9px 12px}
+.tblwrap{overflow-x:auto;margin:10px 0 0}
+table{border-collapse:collapse;width:100%;font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px}
+th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:middle}
+th{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+td.n,td.pct{font-family:ui-monospace,Menlo,monospace;font-size:12px;white-space:nowrap}
+td.pct{position:relative}
+.bar{display:inline-block;height:8px;background:var(--fern);opacity:.55;border-radius:3px;margin-left:8px;vertical-align:middle}
+.gloss-tbl td:first-child{white-space:nowrap;color:var(--ink)}
+.surprises{margin:0;padding:0;list-style:none;counter-reset:s}
+.surprises li{counter-increment:s;position:relative;padding:9px 0 9px 34px;border-bottom:1px solid var(--rule)}
+.surprises li::before{content:counter(s);position:absolute;left:0;top:9px;width:22px;height:22px;border-radius:50%;background:var(--gold);color:var(--paper);font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.surprises .t{display:block;font-weight:600;font-size:14.5px}
+.surprises .f{display:block;color:var(--ink-2);font-size:13.5px;margin-top:2px}
+.arg{margin:.5em 0;padding-left:1.1em}.arg li{margin:.4em 0;color:var(--ink-2)}
+.decision{margin:12px 0 0;background:var(--paper-3);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:11px 14px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px}
+.vq{font-weight:600;margin:16px 0 2px;font-size:15px}
+.va{color:var(--ink-2);font-size:14px;margin:0}
+.foot{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);font-family:ui-sans-serif,system-ui,sans-serif;font-size:11.5px;color:var(--ink-3)}
+.err{color:var(--terracotta)}
+a{color:var(--gold)}
+</style>
+<div class="wrap" id="app"><p id="loading" class="subtitle">Loading findings…</p></div>
+<script>
+  // render-from-data: fetches the deploy feed and renders it — nothing hand-typed (§2.16).
+  const FEED_URL = "/engine/data/viz/findings_morphospace.json";
+  const esc = s => String(s==null?"":s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const num = s => esc(s).replace(/([+\-]?\d[\d,]*(?:\.\d+)?%?)/g, '<span class="num">$1</span>');
+  function render(F){
+    const el = document.getElementById('app'); let h = '';
+    h += `<h1>${esc(F.title)}</h1>`;
+    h += `<p class="subtitle">${esc(F.subtitle||'')}</p>`;
+    if(F.status) h += `<div class="status">${esc(F.status)}</div>`;
+    if(F.headline){ h += `<div class="headline"><p class="claim">${esc(F.headline.claim)}</p><p class="gloss">${esc(F.headline.gloss||'')}</p></div>`; }
+    h += `<h2>The three cuts</h2>`;
+    (F.cuts||[]).forEach(c=>{
+      h += `<div class="cut"><div class="name">Cut ${c.n} — ${esc(c.name)}</div>`;
+      h += `<div class="meta">${esc(c.method)} · <em>${esc(c.question)}</em></div>`;
+      h += `<div class="result">${num(c.result)}</div>`;
+      if(c.table){
+        const max = Math.max(...c.table.map(r=>r.cross_pct));
+        h += `<div class="tblwrap"><table><thead><tr><th>tradition</th><th>n</th><th>cross-tradition %</th></tr></thead><tbody>`;
+        c.table.forEach(r=>{ const w = Math.round(r.cross_pct/max*120);
+          h += `<tr><td>${esc(r.tradition)}</td><td class="n">${r.n}</td><td class="pct">${r.cross_pct}%<span class="bar" style="width:${w}px"></span></td></tr>`; });
+        h += `</tbody></table></div>`;
+      }
+      if(c.reading) h += `<div class="reading">${num(c.reading)}</div>`;
+      h += `</div>`;
+    });
+    h += `<h2>The surprises</h2><ol class="surprises">`;
+    (F.surprises||[]).forEach(s=>{ h += `<li><span class="t">${esc(s.title)}</span><span class="f">${num(s.finding)}</span></li>`; });
+    h += `</ol>`;
+    if(F.argument_universal_vs_particular){ const a = F.argument_universal_vs_particular;
+      h += `<h2>${esc(a.title)}</h2><ul class="arg">`; (a.points||[]).forEach(p=> h += `<li>${esc(p)}</li>`); h += `</ul>`; }
+    if(F.method_foundation){ const m = F.method_foundation;
+      h += `<h2>Method foundation — what we reuse and why</h2>`;
+      if(m.note) h += `<p class="subtitle">${esc(m.note)}</p>`;
+      h += `<div class="tblwrap"><table class="gloss-tbl"><thead><tr><th>method</th><th>what it is</th><th>why here</th></tr></thead><tbody>`;
+      (m.glossary||[]).forEach(g=> h += `<tr><td><strong>${esc(g.method)}</strong></td><td>${esc(g.what)}</td><td>${esc(g.why)}</td></tr>`);
+      h += `</tbody></table></div>`;
+      if(m.decision) h += `<div class="decision"><strong>Decision:</strong> ${esc(m.decision)}</div>`; }
+    if(F.validity){ h += `<h2>Validity — the questions a methodologist will ask</h2>`;
+      F.validity.forEach(v=>{ h += `<p class="vq">${esc(v.question)}</p><p class="va">${num(v.answer)}</p>`; }); }
+    h += `<div class="foot">`;
+    if(F.how_to_extend) h += `<p>${esc(F.how_to_extend)}</p>`;
+    const pv = F.provenance||{};
+    h += `<p>Rendered from <code>${esc(FEED_URL.split('/').pop())}</code> (produced by <code>${esc(F._producing_script||'the findings feed')}</code>). `;
+    h += `Prose: ${esc(pv.prose||'authored')}. Numbers: ${esc(pv.numbers||'computed live')}. n_reads=${esc(F.n_reads)}. Candidates, not findings; Stage 6 = 0.</p></div>`;
+    el.innerHTML = h;
+  }
+  fetch(FEED_URL).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); }).then(render)
+    .catch(e=>{ document.getElementById('app').innerHTML = `<h1>Findings</h1><p class="err">Could not load <code>${esc(FEED_URL)}</code> (${esc(e.message)}).</p>`; });
+</script>
+<!-- METHODOLOGY FOOTER
+HOW PRODUCED: Design SB S171 (2026-08-14). Adopted Atlas Reader's render-from-data draft (findings_morphospace_v1_s167.html,
+  twelve-laws PR #3215) into the engine SSOT: reskinned with the Garden engine tokens (theme-aware), wired FEED_URL to the
+  deploy feed (engine/data/viz/findings_morphospace.json, derived from the twelve-laws canonical
+  DATA_findings_morphospace_s167.json, produced by build_findings_morphospace_feed_s167.py). A sibling to method-principles:
+  method-principles says HOW we build; findings says WHAT we're learning about meaning-making. NOTHING hardcoded — every
+  number renders live from the feed (§2.16); prose authored, numbers computed.
+SCHOLARLY SOURCES: the findings feed; the mca suite feeds it draws from; §2.13 single-store; §2.16 render-from-data.
+WHAT NEEDS VERIFICATION: (1) live render (pane blocked; offline-verified). (2) the tradition-tier mixing switch (per PI's
+  locked tier) is a separate follow-up — its keys are tradition IDs needing a readable-name map. (3) add the findings feed to
+  build_morphospace_suite_feeds.py's pull list so it re-derives with the suite.
+-->
