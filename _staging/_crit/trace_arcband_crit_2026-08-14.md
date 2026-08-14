@@ -47,8 +47,17 @@ Scores now → potential: Intuitiveness 2.5→4.5 · Usability 2.5→4 · Info-d
 - [ ] 16. **"Shape of the passage"** — reserve the strong claim for when higher-order structure is exposed (dense/sparse zones, hubs, bridges, isolated moves). Currently shows *distribution of encoded connections* — still powerful; name it accurately until then.
 
 ---
-## Round 2 crit (append below as it comes)
-<!-- next GPT/PI crit round goes here -->
+## Round 2 — GPT crit on Trace V2 (2026-08-14): the problem is the IA, not the graphic
+Selected-M4 interaction is now **4/5** ("first version I can imagine reading with"); overall page/nav **2/5**, wayfinding **1.5/5**. "Do NOT redraw the graphic — fix the conceptual hierarchy." The "what is this?" comes from naming + nav one level ABOVE the visualization.
+
+**⭐ THE DECIDED IA — five peer instruments (not a view×lens grid):**
+> ## CONNECT — five ways to see how the moves hold together.
+> **Trace** follow one move · **Scan** all connections at once · **Map** neighborhoods without order · **Logic** the argument's hidden connectives · **Shape** pairings, rings, returns.
+- Nav = `Trace · Scan · Map · Logic · Shape` — **task names only**. Design-names ("Arc Band"/"Relation Loom"/"Topology") are internal; they must NOT sit in the nav (that's what made "TraceArc BandScanRelation Loom…" read as six broken things).
+- **Kill "All kinds"** — category error (*kind* = the technical 5-edge-kind term). Current scope = **"All Linkage relations."** Strict: **kind ≠ relation ≠ visualization.**
+- Logic + Shape are **peer instruments**, not filters inside Trace/Scan/Map (each has its own bespoke geometry + question).
+
+**8 polish priorities:** 1) nav→task-names-only · 2) header "Trace · Follow one move · Showing: All Linkage `Filter▾`" · 3) "All kinds"→"All Linkage" · 4) **standardize inspector direction** `A —REL→ B` grouped **INTO/OUT** (current "M7→FILLS"/"BUT→M6"/"M3→REPORTS" are 3 syntaxes) · 5) **label active arcs** with relation type on focus · 6) **route arcs around text** (connection lane; text wins) · 7) explain/remove the left numbered dots · 8) keep the selected/faded state (the win) + rename "+ show reading sequence".
 
 <!-- ── METHODOLOGY FOOTER ──
 HOW PRODUCED: Design SB 2026-08-14. PI ran a GPT design crit on the Trace / Arc Band figure and asked to collect it in an md
