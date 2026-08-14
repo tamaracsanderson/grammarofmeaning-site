@@ -72,7 +72,7 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
   <div class="controls">
     <p class="clabel">words from the passage <span class="src-tag" id="srctag">— loading from the Mark 16 text…</span></p>
     <div class="chips" id="chips"></div>
-    <p class="chipnote">grouped by how often each word recurs — the bigger ones are what the scene turns on · dashed = a thing the coded moves act on · or type your own below</p>
+    <p class="chipnote"><b>Pick one or more</b> — the grid shows images for <b>any</b> selected word (they add up, they don't narrow). Grouped by how often each word recurs; the bigger ones are what the scene turns on · dashed = a thing the coded moves act on · or type your own below. The top words are pre-selected so the page lands with images.</p>
     <div class="row">
       <input class="q" id="q" placeholder="…or type any word (spices, tomb, myrrh, market, linen)" />
       <div class="period" id="period">
@@ -89,7 +89,7 @@ h1{font-family:var(--disp);font-weight:420;font-size:clamp(23px,3.8vw,34px);line
       <span class="clabel" style="margin:0 4px 0 0;align-self:center">with context</span>
       <div class="chips" id="ctx" style="margin:0"></div>
     </div>
-    <p class="chipnote">a bare word ("stone") pulls the material, not the scene — the <span style="color:var(--fern)">green theme chips</span> come from the passage's own paradigms (its "table of contents") and turn "stone" into the <em>tomb-stone</em>; the plain chips add era / place. Manual stand-in for the Situate-driven query (v2).</p>
+    <p class="chipnote">Context <b>grounds</b> each word (it doesn't add coverage) — a bare "stone" pulls the material; add a context chip and it becomes the <em>tomb-stone</em>. The <span style="color:var(--fern)">green theme chips</span> come from the passage's own paradigms (its "table of contents"); the plain chips add era / place. <b>More context = more specific</b> (each chip is added to the search); the <em>words</em> above are what broaden coverage. Manual stand-in for the Situate-driven query (v2).</p>
     <p class="src-note">sources: Cleveland Open Access (CC0) · the Met Open Access (public-domain) · Wikimedia Commons (public-domain only; CC-BY-SA filtered out) · each card credits its collection + license (§2.4)</p>
   </div>
 
@@ -117,8 +117,9 @@ Promise.all([
   fetch(BASE+"checkout.json").then(function(r){return r.json();}).catch(function(){return null;}),
   fetch(BASE+"moves.json").then(function(r){return r.json();}).catch(function(){return null;}),
   fetch(BASE+"paradigm_node_drawer.json").then(function(r){return r.json();}).catch(function(){return null;})
-]).then(function(res){ buildChips(res[0],res[1]); buildContext(res[2]); })
-  .catch(function(){ buildChips(null,null); buildContext(null); });
+]).then(function(res){ buildChips(res[0],res[1]); buildContext(res[2]); seedDefault(); run(); })
+  .catch(function(){ buildChips(null,null); buildContext(null); seedDefault(); run(); });
+var CATCHALL="empty tomb resurrection";  // if nothing is selected, the grid still shows the scene (never blank)
 
 function buildChips(co,mdoc){
   var textWords=[], moveWords=[];
@@ -148,11 +149,14 @@ function buildChips(co,mdoc){
   if(mentioned.length) h+=grp("mentioned once or twice", mentioned.map(function(t){return chipFor(t,false);}).join(""));
   if(moveWords.length) h+=grp("what the coded moves act on (incl. the longer ending)", moveWords.map(function(w){return '<span class="chip mv" data-k="'+esc(w)+'">'+esc(w)+'</span>';}).join(""));
   el("chips").innerHTML=h||'<span class="chipnote">no words derived — type one below</span>';
+  // MULTI-SELECT: toggle a word in/out; the grid is the OR (union) of every selected word → coverage, not one-at-a-time
   el("chips").querySelectorAll(".chip").forEach(function(c){c.addEventListener("click",function(){
-    el("chips").querySelectorAll(".chip").forEach(function(x){x.classList.remove("on");});
-    this.classList.add("on"); el("q").value=this.getAttribute("data-k"); run();
+    this.classList.toggle("on"); run();
   });});
 }
+function selectedWords(){ var out=[]; el("chips").querySelectorAll(".chip.on").forEach(function(c){out.push(c.getAttribute("data-k"));}); var t=el("q").value.trim(); if(t&&out.indexOf(t)<0)out.push(t); return out; }
+// default coverage: pre-select the top recurring words so the page LANDS with images (not the empty "pick a word" state)
+function seedDefault(){ var bigs=el("chips").querySelectorAll(".chip.big"); Array.prototype.slice.call(bigs,0,3).forEach(function(c){c.classList.add("on");}); }
 
 // context terms that AUGMENT the query so a bare word grounds in the scene/era/place (the manual Situate stand-in).
 // THEME chips come from the passage's own paradigms (paradigm_node_drawer.json = the "table of contents" of what the text is about);
@@ -179,13 +183,13 @@ function buildContext(pdoc){
     var on = (c.th && i===defIdx) ? " on" : "";
     return '<span class="chip'+(c.th?" th":"")+on+'" data-ci="'+i+'">'+esc(c.k)+'</span>';
   }).join("");
-  el("ctx").querySelectorAll(".chip").forEach(function(c){c.addEventListener("click",function(){ this.classList.toggle("on"); if(el("q").value.trim()) run(); });});
+  el("ctx").querySelectorAll(".chip").forEach(function(c){c.addEventListener("click",function(){ this.classList.toggle("on"); run(); });});
 }
 function activeCtx(){ var out=[]; el("ctx").querySelectorAll(".chip.on").forEach(function(c){ out.push(CTX[+c.getAttribute("data-ci")].q); }); return out; }
 
 el("period").querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){
   el("period").querySelectorAll("button").forEach(function(x){x.classList.remove("on");});
-  this.classList.add("on"); state.period=this.getAttribute("data-p"); if(el("q").value.trim()) run();
+  this.classList.add("on"); state.period=this.getAttribute("data-p"); run();
 });});
 el("go").addEventListener("click",run);
 el("q").addEventListener("keydown",function(e){if(e.key==="Enter")run();});
@@ -263,7 +267,7 @@ el("src").innerHTML=SOURCES.map(function(s,i){
 }).join("");
 el("src").querySelectorAll(".chip").forEach(function(c){
   if(c.classList.contains("src-gated")) return;          // not toggleable until the proxy is live
-  c.addEventListener("click",function(){ this.classList.toggle("on"); if(el("q").value.trim())run(); });
+  c.addEventListener("click",function(){ this.classList.toggle("on"); run(); });
 });
 function activeSources(){ var out=[]; el("src").querySelectorAll(".chip.on").forEach(function(c){ out.push(SOURCES[+c.getAttribute("data-si")]); }); return out; }
 
@@ -272,19 +276,27 @@ function inAntiquity(a){ if(typeof a.lo!=="number"&&typeof a.hi!=="number")retur
 function countSrc(items){ var c={}; items.forEach(function(it){c[it.short]=(c[it.short]||0)+1;}); return Object.keys(c).map(function(k){return k+" "+c[k];}).join(" · "); }
 
 function run(){
-  var base=el("q").value.trim(); if(!base||state.busy)return;
-  var ctx=activeCtx(), q=(base+(ctx.length?" "+ctx.join(" "):"")).trim();  // base word + Situate-context stand-in
+  if(state.busy)return;
+  var words=selectedWords(); if(!words.length) words=[CATCHALL];   // never blank — fall back to the scene
+  var ctx=activeCtx();  // context AUGMENTS each word (grounds it in the scene/era); more context = more specific
   var srcs=activeSources(); if(!srcs.length){ setStatus("Pick at least one collection above."); return; }
-  state.busy=true; setStatus("Searching "+srcs.map(function(s){return s.short;}).join(" · ")+" for “"+esc(q)+"”"+(state.period==="antiquity"?" (antiquity)":"")+"…");
-  Promise.allSettled(srcs.map(function(s){return s.fetch(q);})).then(function(results){
+  // one query per (word × source); OR/union across the words for coverage — each word grounded by the context terms
+  var jobs=[]; words.forEach(function(w){ var q=(w+(ctx.length?" "+ctx.join(" "):"")).trim(); srcs.forEach(function(s){ jobs.push({w:w,s:s,q:q}); }); });
+  var label=words.join(" / ");
+  state.busy=true; setStatus("Searching "+srcs.map(function(s){return s.short;}).join(" · ")+" for "+words.map(function(w){return "“"+esc(w)+"”";}).join(" / ")+(state.period==="antiquity"?" (antiquity)":"")+"…");
+  Promise.allSettled(jobs.map(function(j){return j.s.fetch(j.q);})).then(function(results){
     state.busy=false;
-    var items=[], failed=[];
-    results.forEach(function(r,i){ if(r.status==="fulfilled"&&Array.isArray(r.value)) items=items.concat(r.value.slice(0,8)); else failed.push(srcs[i].short); });
+    var perWord=Math.max(3, Math.ceil(30/words.length)), got={}; words.forEach(function(w){got[w]=0;});
+    var items=[], failed={};
+    results.forEach(function(r,i){ var j=jobs[i];
+      if(r.status==="fulfilled"&&Array.isArray(r.value)){ r.value.forEach(function(it){ if(got[j.w]<perWord){ items.push(it); got[j.w]++; } }); }
+      else failed[j.s.short]=1; });
     if(state.period==="antiquity") items=items.filter(inAntiquity);
-    var seen={}; items=items.filter(function(it){ if(!it.img||seen[it.img])return false; seen[it.img]=1; return true; });  // dedup across sources
-    items=items.slice(0,28);  // total cap — up to 7 sources can contribute
-    if(!items.length){ setStatus("No public-domain images for “"+esc(q)+"”"+(state.period==="antiquity"?" in antiquity — try ‘any period’":". Try another word or context (e.g. + Christ)")+(failed.length?" ["+failed.join("/")+" didn’t respond]":"")+"."); return; }
-    renderGrid(q,items,failed);
+    var seen={}; items=items.filter(function(it){ if(!it.img||seen[it.img])return false; seen[it.img]=1; return true; });  // dedup across words + sources
+    items=items.slice(0,28);
+    var fail=Object.keys(failed);
+    if(!items.length){ setStatus("No public-domain images for "+esc(label)+(state.period==="antiquity"?" in antiquity — try ‘any period’":". Try another word or context")+(fail.length?" ["+fail.join("/")+" didn’t respond]":"")+"."); return; }
+    renderGrid(label,items,fail);
   });
 }
 
