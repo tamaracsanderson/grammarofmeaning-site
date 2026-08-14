@@ -1,0 +1,21 @@
+{
+  "_producing_script": "scripts/analysis/build_findings_method_feed_s170.py",
+  "_generated_note": "render-from-data; the Cold Read verdict spread is pulled live from card_check.",
+  "subtitle": "What running the checks teaches us about the checks.",
+  "findings": [
+    {
+      "title": "Cold Read PASS is asymptotic on a rich card.",
+      "detail": "A fresh cold reader (the Cold Read gives a blind model ONLY the card and asks whether it can act) surfaces new clarifications every iteration no matter how much is inlined — running it on the Sitz drawer, 9 successive iterations each fixed the flagged gaps and each drew ~4 new ones. The gaps travelled from BROKEN (hardcoded pills, false 'sitz_layers EMPTY', no runnable commands, a non-re-runnable per-move coder) to POLISH (wording, a naming convention) — but the verdict stayed PARTIAL throughout. The honest signal is the TRAJECTORY (broken→polish), not a binary stamp. Implication: PASS should mean 'no BROKEN gaps + all remaining limits honestly flagged', not 'zero clarifications a fresh reader could want' — otherwise no rich card ever passes and the bar measures verbosity, not self-sufficiency."
+    }
+  ],
+  "validity": [
+    {
+      "question": "Does a check passing mean the engine is good — or that the card is exhaustive?",
+      "answer": "They come apart. A card can be genuinely self-sufficient (every command, definition, and DB pointer present) and still draw fresh Cold Read nits, because a blind reader's appetite for clarification is unbounded. Grade the check on whether BROKEN gaps remain, and read the iteration trajectory as the real quality signal."
+    },
+    {
+      "question": "Live state — where do the Situate engine cards sit on Cold Read right now?",
+      "answer": "6 Situate engine cards, current Cold Read spread: 6 PARTIAL (pulled live from card_check)."
+    }
+  ]
+}
