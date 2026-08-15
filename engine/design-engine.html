@@ -83,6 +83,12 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
 .figfooter a{color:var(--out);text-decoration:none}
 .themebtn{position:fixed;top:14px;right:14px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:6px 12px;font-size:12px;cursor:pointer;z-index:20}
 .err{color:var(--out);font-family:var(--mono);font-size:13px;padding:20px}
+.critbox .rlab{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:block;margin:0 0 2px}
+.critbox ol,.critbox ul{margin:4px 0 0;padding-left:20px}
+.critbox ol li,.critbox ul li{font-family:var(--sans);font-size:11.5px;color:var(--muted);line-height:1.5;margin:2px 0}
+.critbox .ctsec{margin:9px 0 0}
+.critbox .ctdocs{font-family:var(--mono);font-size:10px;color:var(--muted);margin:10px 0 0}
+.critbox .ctdocs a{color:var(--out);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--out) 40%,transparent)}
 </style>
 </head>
 <body>
@@ -105,6 +111,7 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
   </header>
   <nav class="stepnav" id="stepnav"></nav>
   <div id="steps"></div>
+  <section id="contract"></section>
   <footer class="figfooter">
     <span>Grammar of Meaning · the design engine</span>
     <span><a href="/engine/design-principles.html">grammar + gate</a> · <a href="/_staging/viz_house_pattern.html">the gallery (look-and-feel)</a> · validated by 3DR-16</span>
@@ -171,6 +178,18 @@ fetch('/engine/data/viz/design_engine.json').then(function(r){if(!r.ok)throw new
      return '<div class="steph" id="step-'+esc(st.key)+'">'+esc(st.label)+' <span class="sg">'+esc(st.gloss||'')+'</span></div>'+ns.map(nodeCard).join('');
    }).join('');
    document.getElementById('steps').innerHTML=html;
+   var ct=d.contract;
+   if(ct){ document.getElementById('contract').innerHTML=
+     '<div class="critbox"><div class="crith"><b>'+esc(ct.title)+'</b></div>'+
+     '<div class="csnote">'+esc(ct.intro)+'</div>'+
+     (ct.review?'<div class="ctsec"><span class="rlab">the review · '+esc(ct.review.who||'')+'</span><ul>'+
+        (ct.review.tiers||[]).map(function(t){return '<li>'+esc(t)+'</li>';}).join('')+'</ul></div>'+
+        '<div class="ctsec"><span class="rlab">each sweep checks</span><ul>'+
+        (ct.review.checks||[]).map(function(c){return '<li>'+esc(c)+'</li>';}).join('')+'</ul></div>':'')+
+     '<div class="ctsec"><span class="rlab">the rules content-owners follow</span><ol>'+
+        (ct.rules||[]).map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ol></div>'+
+     '<div class="ctdocs">canonical: '+(ct.docs||[]).map(function(dd){return dd.href?('<a href="'+esc(dd.href)+'">'+esc(dd.label)+' &rarr;</a>'):(esc(dd.label)+' — '+esc(dd.ref));}).join(' · ')+'</div>'+
+     '</div>'; }
  })
  .catch(function(e){document.getElementById('steps').innerHTML='<p class="err">could not load the design engine ('+e.message+').</p>';});
 </script>

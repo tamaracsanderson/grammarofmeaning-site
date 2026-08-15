@@ -738,5 +738,42 @@
   "build_plan": "/_staging/_crit/DESIGN_WORK_STATEMENT.md",
   "note": "Every figure carries a review pill below: PI notes / GPT crit / status + a link to its feedback (crit log) or the build plan. Status shipped/ok = updated & live; next/building = in the queue; blocked = waiting on Atlas Reader feeds.",
   "crit_logs_dir": "/_staging/_crit/"
+ },
+ "contract": {
+  "title": "The SSOT render contract — how these pages stay honest",
+  "intro": "Content-owner SBs (Method · Atlas Reader · Librarian) update their OWN SSOT engine pages; Design SB owns the render contract + a periodic review, not every change. This kills the bottleneck (no single Design session gates every edit) and the lost handoff (transcription that rots in chat).",
+  "review": {
+   "who": "Design SB",
+   "tiers": [
+    "Top of each Design session (~10 min): quick sweep for drift + fresh hardcoding.",
+    "Sprint boundary / when handoffs land: the deeper pass."
+   ],
+   "checks": [
+    "Does it still make sense? — numbers agree, copy matches the data, no orphaned refs, drawers render (human judgment).",
+    "Is anything hardcoded that shouldn't be? — pre-screened by a mechanical ssot_hardcode_scan (TBD-build), human-confirmed → §2.16 defect → converted."
+   ]
+  },
+  "rules": [
+   "Render from data — never hardcode.",
+   "One store of record.",
+   "You make your own update — don't hand Design a blob to transcribe.",
+   "Heads-up to Design on major changes.",
+   "const P edits: parse → modify → serialize, never string-subs.",
+   "Cache-bust rendered assets when you change them.",
+   "Done = rendered + verified live, not data-on-main.",
+   "The page is the authority; markdown is subordinate.",
+   "Provenance + methodology footer on every feed/script/doc.",
+   "Track handoffs in the registry/DWS, not chat."
+  ],
+  "docs": [
+   {
+    "label": "the Design role + build plan (DWS)",
+    "href": "/_staging/_crit/DESIGN_WORK_STATEMENT.md"
+   },
+   {
+    "label": "the full rules template",
+    "ref": "pm/30_methodology/SSOT_contributor_rules_v1_2026-08-15.md (twelve-laws)"
+   }
+  ]
  }
 }
