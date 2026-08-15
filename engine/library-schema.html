@@ -345,7 +345,7 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
       <div><span class="railm">Stock</span>
         <div class="center"><button class="node n-corpus" id="n-corpus" data-node="corpus">
           <h2>The corpus — what we hold</h2>
-          <p class="sub" id="corpus-sub">131,478 held as full primary text · 242,150 metadata-only, of 373,628 registered · 12.85M passages chunked into readable atoms.</p>
+          <p class="sub" id="corpus-sub">64,871 held as full primary text · 308,773 metadata-only, of 373,644 registered · 12.8M passages chunked into readable atoms.</p>
           <p class="fine">the honest count — what we hold vs what we only know about</p>
           <span class="openz">open ↗</span>
         </button></div>
@@ -636,7 +636,8 @@ Promise.all([
      var csub=document.getElementById('corpus-sub');
      if(csub && typeof GAPMAP.sources_held==='number' && typeof GAPMAP.sources_registered==='number'){
        var mid=(typeof GAPMAP.sources_metadata_only==='number')?(nfmt(GAPMAP.sources_metadata_only)+' metadata-only, '):'';
-       csub.innerHTML=nfmt(GAPMAP.sources_held)+' held as full primary text · '+mid+'of '+nfmt(GAPMAP.sources_registered)+' registered · 12.85M passages chunked into readable atoms.';
+       var pM=(typeof GAPMAP.passages_l4==='number')?(GAPMAP.passages_l4/1e6).toFixed(1)+'M':'12.8M';
+       csub.innerHTML=nfmt(GAPMAP.sources_held)+' held as full primary text · '+mid+'of '+nfmt(GAPMAP.sources_registered)+' registered · '+pM+' passages chunked into readable atoms.';
      }
      var hasRows=GAPMAP.recall_rows&&GAPMAP.recall_rows.length;
      if(!hasRows&&typeof GAPMAP.recall_pct==='number') c.push('recall <b>'+GAPMAP.recall_pct+'%</b>');
