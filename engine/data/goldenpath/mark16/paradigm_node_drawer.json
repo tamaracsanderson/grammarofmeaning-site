@@ -14,10 +14,10 @@
     "grain": "text-level (source_paradigm) AND move-level (source_move.paradigm)",
     "pills": {
       "fidelity": "PASS -- every label maps to a real source_paradigm column",
-      "cold_read": "PARTIAL — Cold Read (opus, cold) — PARTIAL. Commands + field semantics are complete enough to run the Cold Read; the vs-Wild pill/prose contradiction was reconciled this session; residual: seeding needs codebase access.",
+      "cold_read": "PARTIAL — Cold Read (opus, cold) - PARTIAL. Engine, Cold Read, vs-Wild and seeding commands are all complete enough to act from the card alone. Residual, honestly flagged: DEPLOY_REPO is given as a pattern rather than a literal path, and adding a new text to the vs-Wild wild-arm PROMPTS has no stated format.",
       "vs_wild": "PASS — Instrument covered the naive read of the scripts + added salience/stance rigor; captured the Markan reticence."
     },
-    "status_line": "Paradigm is coded on Mark 16: 9 named cultural templates (text-level) + 60/60 moves carry a per-move template-note. The dominant is 'vindication-of-the-righteous-sufferer' (salience 0.95). The paradigm NAME is emergent (named in the tradition's own terms, not from a fixed list, s2.1); the posture toward it (stance) and its relation to the dominant are closed enums."
+    "status_line": "Paradigm is coded on Mark 16: 17 named cultural templates (text-level) + 60/60 moves carry a per-move template-note. The dominant is 'vindication of the righteous sufferer' (salience 0.95). The paradigm NAME is emergent (named in the tradition's own terms, not from a fixed list, s2.1); the posture toward it (stance) and its relation to the dominant are closed enums."
   },
   "what_it_is": "Paradigm names the cultural SCRIPTS a text runs on -- the templates that pre-exist the text and give its content shape: a role-set, a set of relations between the roles, and an end the script is oriented toward. Mark 16 runs 'vindication-of-the-righteous-sufferer', 'empty-tomb / translation-of-the-hero', 'burial-anointing / mourning-rite' and more; it does not merely cite them, it ENDORSES some, INVOKES others, and SUBVERTS others (the women's mourning-rite is set up in full, then broken open by the absent body).",
   "why_it_matters": "A move can look unique until you see the template it is running. Paradigm is what lets two texts that share NO wording still share a script -- and it is where an absence speaks: a template a text could have invoked and did NOT (a paradigm it declines) is a coded silence. The stance + relation fields keep 'invokes' distinct from 'endorses' from 'subverts', so a text using a script AGAINST itself is not misread as affirming it.",
@@ -95,63 +95,62 @@
   },
   "the_method_applied": {
     "source_key": "MARK-16",
-    "paradigms": 9,
+    "paradigms": 17,
     "moves_with_paradigm": "60/60",
-    "note": "Mark 16's cultural templates (render-from-data): the TOP 5 of 9 by salience shown, each with its stance + relation-to-dominant + the evidence snippet. Distributions above cover all 9.",
+    "note": "Mark 16's cultural templates (render-from-data): the TOP 5 of 17 by salience shown, each with its stance + relation-to-dominant + the evidence snippet. Distributions above cover all 17.",
     "distributions": {
       "stance": {
-        "endorsed": 3,
-        "invoked": 5,
+        "endorsed": 13,
+        "invoked": 3,
         "subverted": 1
       },
       "relation_to_dominant": {
         "self": 1,
-        "reinforces": 5,
-        "subverts": 1,
-        "ironizes": 1,
-        "competes": 1
+        "reinforces": 14,
+        "competes": 1,
+        "subverts": 1
       }
     },
     "worked_paradigms": [
       {
-        "name": "vindication-of-the-righteous-sufferer",
+        "name": "vindication of the righteous sufferer",
         "is_dominant": true,
         "salience": 0.95,
         "stance": "endorsed",
         "relation_to_dominant": "self",
-        "evidence": "'Jesus of Nazareth, who was crucified. He has been raised' — the announcement fuses the shameful execution and the divine reversal in a single breath,"
+        "evidence": "'You seek Jesus, the Nazarene, who has been crucified. He has risen' (v.6); culminates in enthronement 'at the right hand of God' (v.19) — the crucifi"
       },
       {
         "name": "empty-tomb / translation-of-the-hero",
         "is_dominant": false,
+        "salience": 0.9,
+        "stance": "endorsed",
+        "relation_to_dominant": "reinforces",
+        "evidence": "'the stone was rolled back' (v.4); 'He is not here. Behold, the place where they laid him!' (v.6) — absent body read as divine taking-up rather than m"
+      },
+      {
+        "name": "prophetic commission / messenger-dispatch",
+        "is_dominant": false,
+        "salience": 0.9,
+        "stance": "endorsed",
+        "relation_to_dominant": "reinforces",
+        "evidence": "'Go into all the world, and preach the Good News to the whole creation' (v.15); 'They went out, and preached everywhere' (v.20) — encounter → charge →"
+      },
+      {
+        "name": "angelophany",
+        "is_dominant": false,
+        "salience": 0.85,
+        "stance": "endorsed",
+        "relation_to_dominant": "reinforces",
+        "evidence": "'a young man sitting on the right side, dressed in a white robe, and they were amazed. He said to them, \"Don't be amazed\"' (vv.5-6) — appearance → fea"
+      },
+      {
+        "name": "failed-messenger / silenced witness",
+        "is_dominant": false,
         "salience": 0.85,
         "stance": "invoked",
-        "relation_to_dominant": "reinforces",
-        "evidence": "The stone rolled away, the body absent, the interpreting angelic figure ('a young man ... in a white robe'), and the instruction to look at 'the place"
-      },
-      {
-        "name": "angelophany / commissioning-of-the-messenger",
-        "is_dominant": false,
-        "salience": 0.75,
-        "stance": "invoked",
-        "relation_to_dominant": "reinforces",
-        "evidence": "White-robed figure, the formula 'Do not be alarmed,' the disclosure, the imperative 'go, tell' with a specified addressee and destination — the standa"
-      },
-      {
-        "name": "burial-anointing / mourning rite",
-        "is_dominant": false,
-        "salience": 0.7,
-        "stance": "subverted",
-        "relation_to_dominant": "subverts",
-        "evidence": "The women 'bought spices, so that they might go and anoint him' and worry 'Who will roll away the stone' — the script of proper female mourning-and-an"
-      },
-      {
-        "name": "failed-disciple / hidden-witness (Markan messianic-secret shape)",
-        "is_dominant": false,
-        "salience": 0.7,
-        "stance": "invoked",
-        "relation_to_dominant": "ironizes",
-        "evidence": "'they went out and fled ... they said nothing to anyone, for they were afraid' — the paradoxical ending runs the recurrent Markan script in which the "
+        "relation_to_dominant": "competes",
+        "evidence": "'They went out, and fled from the tomb, for trembling and astonishment had come on them. They said nothing to anyone; for they were afraid' (v.8) — co"
       }
     ]
   },
@@ -165,14 +164,14 @@
     "stance + relation_to_dominant are controlled-by-convention (no formal vocab table + definitions the drawer reads live); OWED, like the other non-Frame closed enums.",
     "One coder, one pass, engine-proposed; not reliability-tested. salience is a single-coder judgment.",
     "Cold Read run 2026-08-11 (opus, cold) — PARTIAL; vs-Wild validated 2026-08-08 — PASS. Both render from card_check.",
-    "SCALE: coded on the worked text (Mark 16); 9 paradigms here. The corpus holds 115 distinct paradigm names, but this card is the Mark-16 worked example, not corpus coverage."
+    "SCALE: coded on the worked text (Mark 16); 17 paradigms here. The corpus holds 115 distinct paradigm names, but this card is the Mark-16 worked example, not corpus coverage."
   ],
   "made_by": [
     "source_paradigm (the text-level paradigm store) + source_move.paradigm (the per-move template)",
     "scripts/analysis/engine05_detect_paradigm.py + paradigm_generation.py (the detectors)",
     "scripts/analysis/build_paradigm_subengine_drawer_data_s163.py (this card's data)"
   ],
-  "whats_next": "Give stance + relation_to_dominant a live vocab source (the last owed vocab item). Cold Read + vs-Wild have now run (PARTIAL / PASS). Cross-text paradigm-matching (which texts share a script) is a later comparative step, not this aspect.",
+  "whats_next": "Checks on the record: Cold Read PARTIAL (2026-08-15); vs-Wild PASS (2026-08-08, predates the current engine, so it is owed a re-run). Give stance + relation_to_dominant a live vocab source (the last owed vocab item). The vs-Wild PASS predates the S170 living-vocab engine and was WEB-only, so it is owed a rerun on an UNDERSTUDIED text (§2.14: Mark 16 compresses millennia of commentary, so naive parity there measures the model's memory, not the instrument). Cross-text paradigm-matching (which texts share a script) is a later comparative step, not this aspect.",
   "foundation": {
     "leans_on": [
       "frame semantics (Fillmore) + cultural-script theory (a template of roles -> relations -> telos)",
@@ -186,7 +185,7 @@
     "receipt": {
       "method_key": "MARK-16-WEB",
       "base_key": "MARK-16",
-      "paradigms": 9,
+      "paradigms": 17,
       "moves_with_paradigm": 60,
       "moves_total": 60
     },
@@ -206,12 +205,101 @@
   },
   "cold_read": {
     "status": "PARTIAL",
-    "date": "2026-08-11",
-    "meta_line": "Cold Read (opus, cold) — PARTIAL. Commands + field semantics are complete enough to run the Cold Read; the vs-Wild pill/prose contradiction was reconciled this session; residual: seeding needs codebase access. (run doc: pm/30_methodology/engine/COLDREAD_situate_paradigm_run_2026-08-11.md)"
+    "date": "2026-08-15",
+    "meta_line": "Cold Read (opus, cold) - PARTIAL. Engine, Cold Read, vs-Wild and seeding commands are all complete enough to act from the card alone. Residual, honestly flagged: DEPLOY_REPO is given as a pattern rather than a literal path, and adding a new text to the vs-Wild wild-arm PROMPTS has no stated format. (run doc: pm/30_methodology/engine/COLDREAD_situate_paradigm_run_2026-08-15.md)"
   },
   "vs_wild": {
     "status": "PASS",
     "date": "2026-08-08",
     "meta_line": "Instrument covered the naive read of the scripts + added salience/stance rigor; captured the Markan reticence. (run doc: pm/30_methodology/engine/VALIDATION_paradigm_instrument_vs_wild_run_2026-08-08.md)"
+  },
+  "run_and_record": {
+    "_this_is_the_agent_spec": "everything needed to RUN this engine and record a result, in one block. The rest of the card is written for a human reader; nothing there is required to act.",
+    "black_box_contract": {
+      "reads": "see the engine script's header contract.",
+      "writes": "see the engine script's header contract.",
+      "command": "./scripts/_run_python.sh scripts/analysis/engine05_detect_paradigm.py --source-key <key> --text-file <text.txt> --tag <run_tag>",
+      "upstream": "Decompose (source_move) must already have run for this key; Situate refines an existing moveset.",
+      "gates": "the run tag names one run, never a text; CHECK-constrained values are coerced against the vocab SSOT before write; an empty model response fails loud rather than writing a partial batch."
+    },
+    "how_to_read_the_pills": "a pill is the verdict of one DATED run, not a live status; where it and the card body disagree, the body is current. whats_next is generated fresh on every build.",
+    "before_you_run": {
+      "decompose_first": "Situate codes a text Decompose has already broken into moves, and the move-grain aspects read that moveset directly. Against an empty moveset a run does not error, it silently produces nothing. Check: SELECT COUNT(*), MAX(run_tag) FROM source_move WHERE source_key='<key>';",
+      "the_text_file": "--text-file takes plain UTF-8. The reproducible way to make one is the LIBRARY checkout (shared_terms.text_checkout); a hand-pasted file works once but flag it in evidence_basis.",
+      "the_card_builder_is_mark_16_only": "the CODERS run on any text; the drawer BUILDERS have the Mark 16 keys hardcoded and take no arguments. A new text can be coded and queried today, but its card cannot be generated, so its Cold Read cannot run. The parameterised builder is owed."
+    },
+    "how_to_run_on_a_new_text": "./scripts/_run_python.sh scripts/analysis/engine05_detect_paradigm.py --source-key <key> --text-file <text.txt> --tag <run_tag>",
+    "naming_conventions": {
+      "run_tag": "<textslug>_s<session>_<YYYYMMDD>, e.g. mark16_s170_20260813. One tag per RUN, not per text, so a re-code never overwrites an older run. Lands in: source_paradigm has NO run_tag column: the tag is written into extraction_provenance as `tag=<run_tag>`. Filter with: WHERE extraction_provenance LIKE '%tag=<run_tag>%'. Older rows carry pre-convention tags (form_v1_s168, witness_s161, ood_s168) — historical, do not copy, and the reason a query must name its run.",
+      "deployed_drawer_file": "../grammarofmeaning-site/engine/data/goldenpath/<text_slug>/paradigm_node_drawer.json — the SIBLING deploy repo (what other cards call DEPLOY_REPO), not this one. text_slug is the source_key lowercased without punctuation: MARK-16-WEB -> mark16, MARK-16-GRC -> mark16_grc, TTC-CH1-EN -> ttc_ch1. A new text needs its directory made first (mkdir -p).",
+      "cold_read_run_doc": "pm/30_methodology/engine/COLDREAD_situate_paradigm_run_<YYYY-MM-DD>.md — run_cold_read.py writes it and prints the path. Pass --date or the filename carries the wrong day.",
+      "vs_wild_run_doc": "pm/30_methodology/engine/VALIDATION_situate_paradigm_vs_wild_run_<YYYY-MM-DD>.md — YOU write this one. The runner only drops the wild arm in field_ed/_persona_engine/out/situate_vs_wild/; the comparison against the instrument arm is yours to write, and seed_card_check.py fails loud if the cited file is absent.",
+      "the_account_flag": "--account hds picks which Claude Max plan the SDK call uses (Tier 1, $0). Check it is live first: ./scripts/_run_python.sh scripts/lib/sdk_account_refresh.py hds --check"
+    },
+    "how_to_record_a_verdict": {
+      "step_1": "run the Cold Read: ./scripts/_run_python.sh scripts/analysis/run_cold_read.py --node situate.paradigm --drawer-file <the deployed drawer json for this text> --date <YYYY-MM-DD> --account hds  (it prints the COLDREAD run-doc path it wrote; see naming_conventions).",
+      "step_2": "add ONE ROWS entry to scripts/analysis/seed_card_check.py of exactly this shape:",
+      "rows_entry_shape": {
+        "node": "situate.paradigm",
+        "check_name": "cold_read",
+        "result": "PASS or PARTIAL",
+        "source_key": "<the text key, e.g. MARK-16-WEB>",
+        "run_date": "<today, YYYY-MM-DD>",
+        "run_doc": "<the COLDREAD run-doc path run_cold_read.py just printed>",
+        "verified": 1,
+        "detail": "<one-line verdict>"
+      },
+      "step_3": "run ./scripts/_run_python.sh scripts/analysis/seed_card_check.py  (it FAILS LOUD unless the cited run_doc exists on disk); the verdict lands in card_check and renders as the pill. Seeding just means adding that ROWS entry and running the script: there is no other step.",
+      "the_bar": "PASS = a fresh reader can RUN the engine from this card (Cold Read) and FIND where the prior work lives (Cold Start), with no broken gaps, honest limits flagged, and the card TIGHT — a reader should not be able to cut a third of it without loss. Not zero-clarifications: close the broken gaps, flag the limits, cut the padding, stop."
+    },
+    "how_to_run_vs_wild": {
+      "what_it_asks": "does our scaffolding beat the same text read by an unscaffolded LLM given none of the instrument's fields. Primary metric is RELIABILITY (do repeated runs agree), not eloquence. Scope the wild arm to ONLY this aspect's job: an unscoped wild reader borrows the other layers' work and appears to win.",
+      "step_1_wild_arm": "SDK_BACKEND_TIMEOUT_S=300 ./scripts/_run_python.sh scripts/analysis/situate_vs_wild_wild_arm_s170.py --aspect paradigm --account hds (writes field_ed/_persona_engine/out/situate_vs_wild/).",
+      "step_2_instrument_arm": "this aspect's coded rows, already in its store. Comparison protocol: pm/30_methodology/engine/VALIDATION_situate_vs_wild_RUNSHEET_s170_2026-08-11.md.",
+      "step_3_record": "record it like a Cold Read, with check_name 'vs_wild'.",
+      "for_a_new_text": "PROMPTS in the runner is {aspect: prompt}; copy an entry and swap the text's name. It currently holds sitz / transmission / lineage, all written for Mark 16.",
+      "honest_limit": "per §2.14 the DECISIVE run is on an UNDERSTUDIED text. On Mark 16 a naive model scores well from memory of the commentary, so parity there measures recall, not the instrument."
+    },
+    "foundation_codes": {
+      "_what": "the honesty tags on EVERY Situate coding, whatever wrote it. C4/R7 = evidence_basis + certainty (on what basis, how sure). C8/R3 = scope_level (at what grain). Grammar situate_foundation_v1, rendered from scripts/lib/situate_foundation_vocab.py.",
+      "evidence_basis (C4/R7)": {
+        "attested": "the source itself states it (self-attesting).",
+        "external-documentary": "another text/document attests it.",
+        "external-material": "archaeology / epigraphy / material culture attests it.",
+        "scholarly-consensus-with-citation": "the field agrees AND a real citation is attached (corpus/DR only, never LLM memory).",
+        "strongly-inferred": "the coder reasoned it from strong, multi-source warrant (not from the coded text alone).",
+        "internally-inferred": "inferred FROM the text being coded — the context-laundering flag; downstream may EXCLUDE.",
+        "LLM-proposed": "a model proposed it with no external warrant (make the LLM-ness visible, §2.8).",
+        "contested": "the field actively disagrees; there is no settled basis.",
+        "unknown": "honestly undetermined — no basis established."
+      },
+      "certainty (C4/R7)": {
+        "low": "the coder would not defend this value against a competing reading; treat as provisional.",
+        "med": "the coder's best reading, but a competing reading is live (record it in alternative_hypothesis).",
+        "high": "the coder would defend this value; no live competing reading at this grain."
+      },
+      "scope_level (C8/R3)": {
+        "text": "the whole source — the coding is a property of the work, not of any one part of it.",
+        "pericope": "the source's NATIVE sub-division (Mark 16:1-8 vs 16:9-20). Where no native division is marked, fall back to the Connect bundle / spine-segment — do NOT invent a new pericope primitive (R3).",
+        "move": "a single move (one operation plus its arguments), as produced by Decompose."
+      },
+      "alternative_hypothesis (C4/R7)": "OPEN free text: the competing reading the coder rejected. Expected whenever certainty is low or med."
+    },
+    "codes_glossary": {
+      "stance": "invoked | endorsed | subverted (how the text uses the paradigm)",
+      "relation_to_dominant": "reinforces | competes | ... (vs the dominant paradigm)"
+    },
+    "shared_terms": {
+      "text_checkout": "the LIBRARY's package of a text, and the mandated read path: verbatim (byte-identical to the stored passage text, hashed), anchored (carries {source_id, passage_id, verse_markers}), and versioned (a pinned snapshot). Engines code the checkout OFFLINE rather than reading the live DB, and results ingest back joined on the anchor. Build one with: ./scripts/_run_python.sh scripts/analysis/build_checkout_package_s162.py --source-id <id> --ref \"Mark 16\" --out <path>  (optional: --verse-prefix / --section-prefix to pick the in-text markers, --edition WEB, --version v1). It resolves a source already in-corpus and chunked.",
+      "move": "one operation plus its arguments: the derived sense-unit Decompose produces. Distinct from a passage, which is the source's own container (verse, pericope, paragraph).",
+      "wild": "an unscaffolded LLM read of the same text, given none of the instrument's fields. The control arm."
+    },
+    "methodology_tags": {
+      "§2.1": "code from the text's own terms; do not force a pre-set label (anti-pre-anchoring).",
+      "§2.8": "bias-visibility: name the conditions so corpus skew stays auditable, not hidden.",
+      "§2.14": "test the method out-of-domain (an understudied text), not only the one it was tuned on.",
+      "§2.16": "render from data: the card is generated from the coding, so it cannot silently drift.",
+      "§2.13": "single store of record: canonical data lives in a DB table (mirrored to Neon), not a loose file."
+    }
   }
 }
