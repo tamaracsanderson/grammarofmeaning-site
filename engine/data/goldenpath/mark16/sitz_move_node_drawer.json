@@ -1,33 +1,32 @@
 {
   "node": "situate",
-  "sub_engine": "sitz",
+  "sub_engine": "sitz.move",
   "_generated_by": "build_sitz_subengine_drawer_data_s163.py (render-from-data; re-run to refresh)",
-  "_superseded_by": [
-    "sitz_text_node_drawer.json",
-    "sitz_move_node_drawer.json"
-  ],
-  "_status": "TRANSITIONAL RENDER FEED, not a drawer. The Sitz drawer was split in two at S174 (F39). This file exists only so the engine page's single `sitz` node keeps rendering, and is generated from the same run as the two drawers so it cannot drift from them. Read the split drawers for the method; read this only if you are the renderer.",
-  "_open_question": "Does the engine diagram show ONE Sitz node with two grains inside it, or TWO nodes? That changes the picture of the instrument, so it is Design's and the PI's, not the generator's. When it is answered this file is deleted and method-engine.js points at the two drawers.",
+  "_reads_from": {
+    "grounding": "source_grounding (@ MARK-16)",
+    "moves": "source_move (@ MARK-16-WEB)"
+  },
+  "_split_from": "Sitz was ONE drawer serving two engines until S174. They were split because they differ in the three ways that matter: GRAIN (a whole work vs a single move), STORE (source_grounding vs source_move_sitz_condition) and RELIABILITY (one reconstructed grounding vs 60 engine-proposed notes, unmeasured). A joint card had to describe them jointly, and every joint sentence was half true of each.",
   "header": {
-    "title": "Sitz",
-    "subtitle": "the conditions the text arose in (when / where / what pressures)",
+    "title": "Sitz · move",
+    "subtitle": "which of the work's conditions each single move actually leans on",
     "parent": "Situate",
-    "output": "the world-conditions attached to the text and to each move",
-    "grain": "text-level (source_grounding) AND move-level (source_move_sitz_condition)",
+    "output": "a world-note attached to each move",
+    "grain": "move-level (source_move_sitz_condition, rendered into source_move.sitz)",
     "pills": {
-      "fidelity": "PASS -- every label maps to a real source_grounding column",
-      "coverage": "PASS -- 5 substrate categories coded + 3/4 Sitz-im-Leben layers coded",
+      "fidelity": "PASS -- every label maps to a real source_move column",
+      "coverage": "PASS -- 60/60 moves carry a world-note",
       "cold_read": "PARTIAL — Cold Read (opus, cold) - PARTIAL. The 6-step new-text workflow and every command are complete and actionable, and the duplicated Cold Read instructions (two copies that had drifted apart on --date) are collapsed into the one shared run_and_record block. Residual, honestly flagged: this card builder is hardcoded to MARK-16 so step 6 needs the owed parameterised builder for a new text, and step 4 has no stated fallback when Decompose has not yet run.",
       "vs_wild": "PARTIAL — vs-Wild (1 sonnet coder, naive) — PARTIAL. The naive read recovered ~all the substrate (war/Temple/diaspora/oral-race/codex) AND added text-critical layering + performance the fields miss; the instrument's value is the typed 10-cat substrate + per-move granularity, not coverage. Panel owed."
     },
-    "status_line": "The text-level Sitz is coded on Mark 16: year ~70 CE, phase 'None'. Substrate categories tagged: 5; Sitz-im-Leben layers coded: 3/4. The grounder (engine0_ground_sitz_paradigm) is standalone and re-runnable for any text — see how_to_run."
+    "status_line": "60/60 Mark 16 moves carry a per-move world-note, coded by the standalone per-move coder (engine0_sitz_permove_s171), which is re-runnable for any text. The note is currently a free-text v0: the structured shape the method calls for is designed but NOT built, and is blocked on the relation set (see honest_limits)."
   },
-  "what_it_is": "Sitz·text codes the WORLD a text came out of -- the conditions of its making. For Mark 16 that is the immediate shadow of the First Jewish-Roman War and the 70 CE destruction of the Temple: the empty-tomb narrative reframed for a community whose cultic center has just been annihilated, written under Roman imperial administration, circulating in the diaspora house-church network. Two closed taxonomies frame it: the 4-LAYER Sitz im Leben (which layers of world condition the text) and the 10-CATEGORY civilizational substrate (the year/location pressure-axes). It runs once per work, at the BASE key, because the world a work arose in does not change with its translation.",
+  "what_it_is": "Sitz·move asks, for one move at a time, WHICH of the conditions already established for the whole work becomes locally operative in it — the specific condition that move presupposes. It does not re-establish the world; Sitz·text does that once, and this reads a single move against it. Finding NO activation is a real answer, not a gap: a move may simply not lean on the work's conditions at all.",
   "why_it_matters": "Sitz is the axis that keeps two texts from being read as if they faced the same world -- the same move (an empty tomb, a command to go) means different things post-70-CE than it would in a stable imperial center. It is also where a condition the text does NOT respond to becomes visible: a pressure present in the world but absent from the text is a coded silence.",
   "how_it_works": {
-    "you_give_it": "a coded text (its moves) + what is known of its date/place.",
-    "the_method_does": "writes a text-level grounding, tags the 4-layer Sitz im Leben + the 10-category substrate, and attaches a per-move world-note.",
-    "you_get_back": "the text and each move carrying their world-conditions, ready for the Enriched move."
+    "you_give_it": "the text-level grounding (from Sitz·text) + the moveset for that text.",
+    "the_method_does": "codes, for each move, the specific world-condition it presupposes -- or records that it activates none.",
+    "you_get_back": "each move carrying its world-conditions, ready for the Enriched move."
   },
   "pipeline_context": {
     "note": "sibling terms glossed so the card stands alone.",
@@ -43,11 +42,6 @@
     "PI": "the principal investigator (the researcher) -- who locks methodology calls.",
     "_run_python.sh": "the repo's Python wrapper (scripts/_run_python.sh) — runs a script under the pinned uv / python3.13 env where the Claude SDK is available. Use it for every command here; never bare `python3` (macOS system py3.9, no SDK).",
     "§2.13 / §2.8 (methodology tags)": "§2.13 = single-store-of-record: canonical data goes to a DB table + is mirrored to Neon (the seed/apply scripts do the mirror — you don't hand-write it). §2.8 = bias-visibility: name the conditions so the corpus's own skew stays auditable. Both are CLAUDE.md sections; the card doesn't require you to read them to run the steps.",
-    "the [BRACKET-CODES] in sitz_summary": "ILLUSTRATIVE cross-references, not a mandatory format: [POL-FIRST-JEWISH-ROMAN-WAR] etc. are substrate_event_id handles from the civilizational_substrate_events table (the corpus of dated world-conditions). They show WHICH catalogued events the grounding leans on; a new grounding may cite them or write plain prose — they are optional provenance anchors, not required syntax. To find valid codes for an era (against data/project.db): SELECT substrate_event_id, title FROM civilizational_substrate_events WHERE year BETWEEN <lo> AND <hi>.",
-    "the MODEL-KNOWLEDGE: prefix in sitz_summary": "an honesty flag, OPTIONAL: engine0 prepends 'MODEL-KNOWLEDGE:' to a clause when it grounds from the model's own knowledge rather than the corpus substrate list (so corpus-backed vs model-supplied conditions stay auditable, §2.8). A new grounding uses it only when it steps beyond the corpus; plain clauses are corpus-backed.",
-    "null paradigm_phase / native_periodization": "NULL means not-yet-coded for this text, and is acceptable — they are optional small labels, not required. A non-null example: paradigm_phase='Formation', native_periodization='the apostolic/sub-apostolic generation'.",
-    "small enums (paradigm_phase, date_basis)": "paradigm_phase is a small controlled label for the tradition's era-phase (e.g. 'Formation' = the formative period before consolidation). date_basis names how the year was fixed (e.g. 'scholarly-consensus' / 'internal-evidence'). Both are OPEN small labels, not a locked vocab table yet — name the most accurate value.",
-    "the source_grounding write": "you do NOT hand-write source_grounding rows — engine0_ground_sitz_paradigm.py writes them (year/phase/summary/sitz_layers/sitz_categories/evidence_basis/certainty/alternative_hypothesis). The only ROWS shape you author by hand is the card_check seed entry (shown in how_to_run).",
     "NO_ACTIVATION": "the legal answer for a move that leans on none of the work's conditions. It is a result, not a coder failure; 18 of 60 Mark 16 moves used it.",
     "activation": "the relation this engine codes: a condition established at the WORK level becoming operative in a SINGLE move. The engine does not discover new conditions; it reads a move against the ones Sitz·text already established."
   },
@@ -57,98 +51,28 @@
     "Cold Read": "self-sufficiency: a blind reader judges whether the card explains itself.",
     "vs-Wild": "does the coded Sitz beat a naive reader given the passage + 'what conditions produced this?'",
     "result_categories": "INCOMPLETE / FAIL / PARTIAL / PASS.",
-    "coverage": "are both taxonomies actually coded? (computed from data — PASS when both the substrate categories and the 4-layer Sitz carry values)."
+    "coverage": "do the moves carry notes? (computed from data — the share of the moveset with a world-note, counting NO_ACTIVATION as coded)."
   },
   "the_method_clean": {
-    "note": "Sitz's two closed taxonomies (multi-select) + the open text-level fields + the per-move open note.",
-    "closed_taxonomies": {
-      "sitz_layers": {
-        "vocab": [
-          "personal_biography",
-          "cultural_intellectual",
-          "polemical",
-          "ecological_material_geographical"
-        ],
-        "grain": "text",
-        "closed": "multi-select",
-        "def": "the 4-layer Sitz im Leben (Refinement #5): which layers of world-condition frame the text",
-        "definitions": {
-          "personal_biography": "the individual life-circumstances of the author/tradents — social location, personal formation, biography.",
-          "cultural_intellectual": "the thought-world of the era — philosophies, literary conventions, intellectual currents the text moves within.",
-          "polemical": "who/what the text argues AGAINST — the opponents, rival claims, and debates it is contesting.",
-          "ecological_material_geographical": "the physical conditions — climate, terrain, economy, material culture, geography of the setting."
-        }
-      },
-      "sitz_categories": {
-        "vocab": [
-          "political_institutional",
-          "economic_material",
-          "communication_media",
-          "science_technology",
-          "epidemic_health",
-          "climate_ecology",
-          "demographic_social",
-          "migration_diaspora",
-          "interreligious_contact",
-          "kinship_residence",
-          "ritual_cultic_institutional"
-        ],
-        "grain": "text",
-        "closed": "multi-select",
-        "def": "the civilizational-substrate categories (IRR111 seed of 10 + S170 ritual_cultic_institutional): the year/location pressure-axes — rendered LIVE from sitz_category_vocabulary (§2.16), so the set grows without a code edit"
-      }
-    },
+    "note": "Sitz·move's coding contract, as the engine ACTUALLY runs today. The redesigned structured shape is named under `owed` below and is not described here as though it existed.",
     "open_fields": [
-      {
-        "field": "sitz_summary",
-        "grain": "text",
-        "note": "OPEN -- the paragraph naming the world the text arose in"
-      },
-      {
-        "field": "native_periodization",
-        "grain": "text",
-        "note": "OPEN -- the era in the tradition's own terms"
-      },
-      {
-        "field": "year_estimate",
-        "grain": "text",
-        "note": "NUMERIC (+ date_basis, paradigm_phase small enums)"
-      },
       {
         "field": "source_move.sitz",
         "grain": "move",
         "note": "OPEN -- the specific condition each move presupposes, as free text"
       }
     ],
-    "live_vocab_note": "the substrate categories now render LIVE from sitz_category_vocabulary (S170); the 4-layer Sitz im Leben still has DOCUMENTED definitions (Refinement #5) but no queryable vocab table yet -- OWED an axis='sitz_layer_4' definitions store the drawer reads live (see how_to_run)."
+    "no_activation_rule": "A move that leans on none of the work's conditions is coded NO_ACTIVATION. This is a legitimate result and must not be read as missing data.",
+    "owed": {
+      "note": "The redesign is specified and NOT built. It is recorded here so the card states what the engine does today rather than what it is meant to become — the gap is the point (§2.8).",
+      "structured_datum": "The per-move datum is to become {grounding_claim_ids, move_evidence_span, a controlled relation}, with the prose generated FROM those fields as a display layer rather than authored (F30). The store for it exists and is EMPTY: nothing has been coded against it (F32).",
+      "blocked_on": "The controlled RELATION SET is vocabulary, so the PI locks it (F29). Until she does, this drawer describes the v0 free-text note and no relation vocabulary is declared here. 48% of the current notes lean on one relation an outside model flagged as unfalsifiable, which is why the lock matters and why building past it would be worse than waiting.",
+      "atomized_grounding": "Citing a grounding claim needs the grounding broken into numbered claims. The store (source_grounding_claim) exists in both databases and is EMPTY; the atomizer is unbuilt."
+    }
   },
   "the_method_applied": {
-    "source_key": "MARK-16",
-    "text_grounding": {
-      "year_estimate": 70,
-      "paradigm_phase": null,
-      "native_periodization": null,
-      "sitz_summary": "Mark 16 is the closing chapter of the earliest gospel, composed against the backdrop of [POL-FIRST-JEWISH-ROMAN-WAR] — the Jewish revolt and destruction of the Second Temple in 70 CE, which frames the empty-tomb narrative for a community under Roman military pressure and cultic dislocation. The text presupposes [POL-PAX-ROMANA] and [POL-HERODIAN-CLIENT-RULE] as the political conditions under which crucifixion (a Roman penalty) is intelligible, and it narrates the post-30 CE reception of [FIG-JESUS-GALILEE-30], sending the disciples back to Galilee. The 'longer ending' (vv. 9-20) reflects a slightly later stratum of missionary self-understanding overlapping [FIG-PAUL-MEDITERRANEAN-50]-style Gentile-mission expansion ('preach to the whole creation'). MODEL-KNOWLEDGE: the text's textual-transmission situation (the disputed longer ending, Sinaiticus/Vaticanus ending at 16:8) is a communication_media condition not in the substrate list."
-    },
-    "sitz_categories_coded": [
-      "political_institutional",
-      "ritual_cultic_institutional",
-      "communication_media",
-      "migration_diaspora",
-      "interreligious_contact"
-    ],
-    "sitz_layers_coded": [
-      "cultural_intellectual",
-      "polemical",
-      "ecological_material_geographical"
-    ],
-    "uncertainty": {
-      "evidence_basis": "contested",
-      "certainty": "med",
-      "alternative_hypothesis": "Mark composed shortly BEFORE 70 CE (late 60s, anticipating rather than reflecting Temple destruction), with a Syrian/Galilean rather than Roman provenance; and the longer ending (16:9-20) is a 2nd-century scribal addition whose Sitz is decades later than the base narrative.",
-      "note": "the grounding's honest self-assessment (S170 #2): how firmly it is known + the leading competing reading."
-    },
-    "note": "Mark 16's text-level Sitz (render-from-data): the grounding + the coded substrate categories.",
+    "source_key": "MARK-16-WEB",
+    "run_tag": "move_grammar_v2_2026-08-09",
     "moves_with_sitz": "60/60",
     "per_move_samples": [
       {
@@ -163,17 +87,15 @@
         "move_index": 3,
         "sitz": "ecological_material_geographical: The worry only makes sense inside a burial-culture that uses rock-cut cave-t"
       }
-    ]
+    ],
+    "note": "A sample of Mark 16's per-move world-notes (render-from-data), with the coverage they come from."
   },
   "where_saved": {
-    "store": "source_grounding (text) + source_move_sitz_condition (move)",
+    "store": "source_move_sitz_condition (the structured store of record) + source_move.sitz (the human rendering of the same rows)",
     "key": "source_key",
-    "plain": "The text-level grounding saves to source_grounding, at the BASE key MARK-16 (the world a work arose in is translation-independent, so it is not stored per edition). Resolve the family via text_checkout. Per-move world-notes attach at the moveset key MARK-16-WEB, on its latest move-grammar run. source_move_sitz_condition is the store of record and source_move.sitz is the readable rendering of the same rows, which is why source_move.sitz is a bare text column by design. Resolve the family via text_checkout."
+    "plain": "Per-move world-notes attach at the moveset key MARK-16-WEB, on its latest move-grammar run. source_move_sitz_condition is the store of record and source_move.sitz is the readable rendering of the same rows, which is why source_move.sitz is a bare text column by design. Resolve the family via text_checkout."
   },
   "honest_limits": [
-    "Both taxonomies are coded: 5 substrate categories (political_institutional, ritual_cultic_institutional, communication_media, migration_diaspora, interreligious_contact) + 3/4 Sitz-im-Leben layers (cultural_intellectual, polemical, ecological_material_geographical). The one unfilled layer (personal_biography) is a genuine absence for this text, not an omission.",
-    "The substrate categories now render live from sitz_category_vocabulary (S170); the 4-layer Sitz still lacks a queryable vocab table -- OWED a live definitions store the drawer reads (same as the other non-Frame closed sets).",
-    "The text-level Sitz is a SINGLE reconstructed grounding: one run, one model, never repeated. Nothing here reports how much of it would survive a second pass, because that has not been measured at this grain.",
     "The per-move notes are ONE coder, ONE pass, engine-proposed, and not reliability-tested at this grain.",
     "THE NOTES DO NOT DEMONSTRABLY USE THE GROUNDING THEY ARE MEANT TO REFINE. Measured on Mark 16: the passage-level Sitz names the Jewish revolt, the Temple's destruction, Roman military pressure and the Gentile mission, while the per-move notes name the Sabbath calendar, the seven-day week and rock-cut tomb form. The overlap is essentially zero. The guard that checks a note names a legal condition passed throughout, because it checks the label and not the reasoning (F16).",
     "SOME NOTES ARE NEAR-TAUTOLOGICAL. 'first day of the week at dawn presupposes the Jewish seven-day cultic week' says little more than the move already said. A note that could have been written from the move alone, without the grounding, is not an activation — and the rate of those is not yet measured (F17).",
@@ -181,9 +103,6 @@
     "The Cold Read and vs-Wild verdicts in the pills were recorded against the COMBINED Sitz card, before this drawer was split out of it (F39, S174). They are shown rather than reset because they are real results, and they are labelled rather than inherited silently because they were not earned by THIS card. Each grain owes its own Cold Read and its own vs-Wild; until those run, read the pills as provenance, not as this drawer's verdict."
   ],
   "made_by": [
-    "source_grounding (the text-level grounding store)",
-    "scripts/analysis/engine0_ground_sitz_paradigm.py + build_romans_sitz.py (the grounders)",
-    "Refinement #5 (the 4-layer Sitz im Leben) + IRR111 (the 10-category substrate) -- the two taxonomies",
     "source_move_sitz_condition (the structured store) + source_move.sitz (the rendering)",
     "scripts/analysis/engine0_sitz_permove_s171.py (the per-move coder)",
     "scripts/analysis/build_sitz_subengine_drawer_data_s163.py (this card's data)"
@@ -196,40 +115,40 @@
       "the 10-category civilizational substrate (IRR111): the material-conditions axis (political / economic / media / demographic / ...)",
       "the bias-visibility principle (s2.8): naming the conditions makes the corpus's own situatedness auditable"
     ],
-    "how_we_arrived": "the sitz/paradigm grounder (engine0) + Refinement #5 + IRR111 (the N=9 substrate confirmation), at the work grain."
+    "how_we_arrived": "the per-move coder (S171) built on the text-level grounding, then read by a 4-arm CRT (S172) that found the activation claim needs a structured datum and a locked relation set before it can be trusted."
   },
   "research_view": {
     "receipt": {
-      "base_key": "MARK-16",
-      "sitz_categories": 5,
-      "sitz_layers": 3
+      "method_key": "MARK-16-WEB",
+      "run_tag": "move_grammar_v2_2026-08-09",
+      "moves_with_sitz": 60,
+      "moves_total": 60
     },
     "how_to_run": {
-      "FULL WORKFLOW — ground a NEW text, in order": [
-        "1. Resolve the key family (against data/project.db): SELECT base_key, source_key_family FROM text_checkout WHERE source_key='<your key>'. Text-level grounding goes to the BASE key.",
-        "2. Prepare the text file: the passage text as plain UTF-8 — pull from the work's checkout artifact (concatenate its 'units[].text') or from passages.passage_text; save as <text.txt>.",
-        "3. Ground: ./scripts/_run_python.sh scripts/analysis/engine0_ground_sitz_paradigm.py --source-key <base_key> --text-file <text.txt> --year <yr> --tag <run_tag>",
+      "FULL WORKFLOW — code per-move Sitz for a text, in order": [
+        "1. Ground the work first (Sitz·text) — this engine reads that grounding and cannot run without it.",
+        "2. Find the moveset's move-grammar run: SELECT DISTINCT run_tag FROM source_move WHERE source_key='<moveset key>' AND run_tag LIKE 'move_grammar_v2%' ORDER BY run_tag DESC LIMIT 1.",
+        "3. Code: ./scripts/_run_python.sh scripts/analysis/engine0_sitz_permove_s171.py --source-key <moveset key> --run-tag <run_tag from step 2>",
         "4. Refresh the card, run Cold Read, seed the verdict (see run_and_record)."
       ],
-      "ground a text (the #1 way to (re)code the text-level Sitz)": "./scripts/_run_python.sh scripts/analysis/engine0_ground_sitz_paradigm.py --source-key MARK-16 --text-file <text.txt> --year 70 --tag <run_tag>  # writes year/phase/sitz_summary + sitz_layers + sitz_categories + evidence_basis/certainty/alternative_hypothesis to source_grounding at the BASE key",
+      "per-move sitz": "./scripts/_run_python.sh scripts/analysis/engine0_sitz_permove_s171.py --source-key <moveset key, e.g. MARK-16-WEB> --run-tag <the move_grammar run> # the standalone, re-runnable per-move Sitz coder (S171): reads the text-level grounding + the moveset, codes each move's presupposed world-condition in one batched SDK call. Independently re-runnable for any text.",
       "refresh this card": "./scripts/_run_python.sh scripts/analysis/build_sitz_subengine_drawer_data_s163.py  # rebuilds BOTH Sitz drawers",
-      "the read rule": "read source_grounding by the base key (MARK-16), newest complete row.",
-      "the #1 owed next-step (a live sitz_layers definitions store)": "reuse the EXISTING sitz_category_vocabulary table in data/project.db (DDL: vocab_id INTEGER PK, handle TEXT, definition TEXT, axis TEXT DEFAULT 'substrate_10cat', status TEXT CHECK(status IN ('active','candidate','rejected')), source_authority TEXT, times_seen INT, provenance cols). Execution path: (1) copy scripts/database/seed_sitz_category_vocabulary.py to seed_sitz_layer_vocabulary.py, change the 4 rows to the layer handles + the definitions inlined under the_method_clean.closed_taxonomies.sitz_layers.definitions, set axis='sitz_layer_4'; run it. (2) In engine0_ground_sitz_paradigm.py, add a load_active_layers() beside load_active_categories() reading WHERE axis='sitz_layer_4'. (3) In THIS builder, read the layer definitions from that table instead of the inlined dict. No migration needed — the axis column already exists.",
+      "the read rule": "per-move sitz on the live moveset's latest move_grammar_v2 run; the grounding by the base key.",
       "run the Cold Read + record the verdict": "see the run_and_record section of this card."
     },
-    "data_source": "source_grounding (@ MARK-16).",
-    "decision_trail": "CONTRACT_situate_closed_open_grain_s162 (sitz closed/open/grain) - Refinement #5 (4-layer) - IRR111 (10-category) - F39 (the text/move split, S174) - this drawer."
+    "data_source": "source_move (@ MARK-16-WEB) + source_grounding (@ MARK-16).",
+    "decision_trail": "CONTRACT_situate_closed_open_grain_s162 - the S171 per-move coder - the S172 4-arm CRT on the per-move format (F30) - F39 (the text/move split, S174) - this drawer."
   },
   "checks_provenance": "The Cold Read and vs-Wild verdicts in the pills were recorded against the COMBINED Sitz card, before this drawer was split out of it (F39, S174). They are shown rather than reset because they are real results, and they are labelled rather than inherited silently because they were not earned by THIS card. Each grain owes its own Cold Read and its own vs-Wild; until those run, read the pills as provenance, not as this drawer's verdict.",
   "fidelity": {
     "status": "PASS",
     "date": "2026-08-10",
-    "meta_line": "Fidelity PASS (mechanical): every label maps to a real source_grounding column."
+    "meta_line": "Fidelity PASS (mechanical): every label maps to a real source_move column."
   },
   "coverage": {
     "status": "PASS",
     "date": "2026-08-13",
-    "meta_line": "Coverage PASS: 5 substrate categories coded + 3/4 Sitz-im-Leben layers coded."
+    "meta_line": "Coverage: 60/60 moves carry a world-note."
   },
   "cold_read": {
     "status": "PARTIAL",
@@ -244,9 +163,9 @@
   "run_and_record": {
     "_this_is_the_agent_spec": "everything needed to RUN this engine and record a result, in one block. The rest of the card is written for a human reader; nothing there is required to act.",
     "black_box_contract": {
-      "reads": "source_grounding @ the BASE key; the closed condition vocabulary from sitz_category_vocabulary (axes substrate_10cat + sitz_layer_4).",
-      "writes": "source_grounding (text grain, one row per run).",
-      "command": "./scripts/_run_python.sh scripts/analysis/engine0_ground_sitz_paradigm.py --source-key <base_key> --text-file <text.txt> --year <yr> --tag <run_tag>",
+      "reads": "source_move @ the moveset key + source_grounding @ the BASE key (the conditions this engine reads a move against).",
+      "writes": "source_move_sitz_condition (move grain, one row per activated condition) + source_move.sitz (the human rendering of that).",
+      "command": "./scripts/_run_python.sh scripts/analysis/engine0_sitz_permove_s171.py --source-key <moveset key> --run-tag <move_grammar run>",
       "upstream": "Decompose (source_move) must already have run for this key; Situate refines an existing moveset.",
       "gates": "the run tag names one run, never a text; CHECK-constrained values are coerced against the vocab SSOT before write; an empty model response fails loud rather than writing a partial batch."
     },
@@ -256,10 +175,10 @@
       "the_text_file": "--text-file takes plain UTF-8. The reproducible way to make one is the LIBRARY checkout (shared_terms.text_checkout); a hand-pasted file works once but flag it in evidence_basis.",
       "the_card_builder_is_mark_16_only": "the CODERS run on any text; the drawer BUILDERS have the Mark 16 keys hardcoded and take no arguments. A new text can be coded and queried today, but its card cannot be generated, so its Cold Read cannot run. The parameterised builder is owed."
     },
-    "how_to_run_on_a_new_text": "./scripts/_run_python.sh scripts/analysis/engine0_ground_sitz_paradigm.py --source-key <base_key> --text-file <text.txt> --year <yr> --tag <run_tag>",
+    "how_to_run_on_a_new_text": "./scripts/_run_python.sh scripts/analysis/engine0_sitz_permove_s171.py --source-key <moveset key> --run-tag <move_grammar run>",
     "naming_conventions": {
-      "run_tag": "<textslug>_s<session>_<YYYYMMDD>, e.g. mark16_s170_20260813. One tag per RUN, not per text, so a re-code never overwrites an older run. Lands in: source_grounding has NO run_tag column: the tag is written into extraction_provenance as `tag=<run_tag>`. Filter with: WHERE extraction_provenance LIKE '%tag=<run_tag>%'. Older rows carry pre-convention tags (form_v1_s168, witness_s161, ood_s168) — historical, do not copy, and the reason a query must name its run.",
-      "deployed_drawer_file": "../grammarofmeaning-site/engine/data/goldenpath/<text_slug>/sitz_text_node_drawer.json — the SIBLING deploy repo (what other cards call DEPLOY_REPO), not this one. text_slug is the source_key lowercased without punctuation: MARK-16-WEB -> mark16, MARK-16-GRC -> mark16_grc, TTC-CH1-EN -> ttc_ch1. A new text needs its directory made first (mkdir -p).",
+      "run_tag": "<textslug>_s<session>_<YYYYMMDD>, e.g. mark16_s170_20260813. One tag per RUN, not per text, so a re-code never overwrites an older run. Lands in: the run tag is the moveset's move_grammar_v2 run; filter source_move on (source_key, run_tag). Older rows carry pre-convention tags (form_v1_s168, witness_s161, ood_s168) — historical, do not copy, and the reason a query must name its run.",
+      "deployed_drawer_file": "../grammarofmeaning-site/engine/data/goldenpath/<text_slug>/sitz_move_node_drawer.json — the SIBLING deploy repo (what other cards call DEPLOY_REPO), not this one. text_slug is the source_key lowercased without punctuation: MARK-16-WEB -> mark16, MARK-16-GRC -> mark16_grc, TTC-CH1-EN -> ttc_ch1. A new text needs its directory made first (mkdir -p).",
       "cold_read_run_doc": "pm/30_methodology/engine/COLDREAD_situate_sitz_run_<YYYY-MM-DD>.md — run_cold_read.py writes it and prints the path. Pass --date or the filename carries the wrong day.",
       "vs_wild_run_doc": "pm/30_methodology/engine/VALIDATION_situate_sitz_vs_wild_run_<YYYY-MM-DD>.md — YOU write this one. The runner only drops the wild arm in field_ed/_persona_engine/out/situate_vs_wild/; the comparison against the instrument arm is yours to write, and seed_card_check.py fails loud if the cited file is absent.",
       "the_account_flag": "--account hds picks which Claude Max plan the SDK call uses (Tier 1, $0). Check it is live first: ./scripts/_run_python.sh scripts/lib/sdk_account_refresh.py hds --check"
@@ -314,8 +233,7 @@
       "alternative_hypothesis (C4/R7)": "OPEN free text: the competing reading the coder rejected. Expected whenever certainty is low or med."
     },
     "codes_glossary": {
-      "sitz_categories": "the substrate conditions (live vocab: sitz_category_vocabulary).",
-      "sitz_layers": "the 4-layer Sitz im Leben: personal-biographical, cultural-intellectual, polemical, ecological-material-geographical."
+      "source_move.sitz": "the specific world-condition a single move presupposes, or NO_ACTIVATION."
     },
     "shared_terms": {
       "text_checkout": "the LIBRARY's package of a text, and the mandated read path: verbatim (byte-identical to the stored passage text, hashed), anchored (carries {source_id, passage_id, verse_markers}), and versioned (a pinned snapshot). Engines code the checkout OFFLINE rather than reading the live DB, and results ingest back joined on the anchor. Build one with: ./scripts/_run_python.sh scripts/analysis/build_checkout_package_s162.py --source-id <id> --ref \"Mark 16\" --out <path>  (optional: --verse-prefix / --section-prefix to pick the in-text markers, --edition WEB, --version v1). It resolves a source already in-corpus and chunked.",

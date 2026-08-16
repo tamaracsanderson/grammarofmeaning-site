@@ -61,6 +61,9 @@
     "how_chapter_16_is_stored": "Chapter 16 is spread across 2 paragraph-pieces (the pieces follow the text's own paragraphs, which do not stop at chapter lines, so a piece can straddle 15 and 16). Piece 55 is one paragraph that begins with the burial (15:43) and runs through the first half of verse 16:8 ('...trembling and astonishment had come on them'). Piece 56 opens with the second half of 16:8 ('They said nothing to anyone; for they were afraid') and runs to 16:20. So even the 16:1 to 8 reading touches both pieces: the fear-clause the whole reading turns on sits just past the piece seam, in piece 56."
   },
   "where_saved": {
+    "store": "text_checkout (the checkout row, and the crosswalk every later step joins on)",
+    "home_row": "text_checkout (gut-8268_016_v1)",
+    "key": "method_source_key",
     "plain": "The words in this checkout are a copy. Everything the method builds on them saves to the corpus, in the same tables every text uses: the moves, the situating, the gaps, the glosses. One record ties them together for this passage, the text's home: a row in the text_checkout table. It holds the checkout and crosswalks two keys: the library side finds the text by its source and passage, the method side joins every coded output (moves, situating, gaps, glosses) on the method key MARK-16-WEB. So this passage's coding sits in one findable place. Every text gets the same home, from the first one. The reading room reads it, the library folds results from it back into the corpus, and any later report or model reads the same store.",
     "home": {
       "registered": true,
@@ -84,13 +87,16 @@
     "Mark exists in the library two ways (as the whole book, GUT-8268, and verse-by-verse). We use the whole-book source and will remove the duplicate.",
     "The automatic checkout (ask for any text, get a package) is not built. This is a worked example for Mark. The general version is WEMI Phase-1 (WEMI = Work, Expression, Manifestation, Item: the library-science model for telling a text apart from its editions and copies; it is the model behind acquire, dedup, and chunk)."
   ],
-  "the_contract": {
+  "the_method_clean": {
     "note": "The checkout contract, settled on this worked example so the next text reuses it without a rebuild. Nothing here is broken: the Mark path works end to end. This states what the checkout guarantees.",
     "locked": [
       "The checkout returns whole native pieces. It never cuts below a piece, because the paragraph is the unit the method reads whole. The goal-span is chosen in the reading layer (see goal_span), not carved out of the package.",
       "The rights gate is auditable. 'Permission to share' reads sources.rights_status (see rights_basis) with a link to verify, not an opaque true or false. This is what makes the public-domain claim defensible."
-    ],
-    "future": [
+    ]
+  },
+  "future_scope": {
+    "note": "Named so it stays visible, and kept out of the method block so it is never transcribed as something the engine already does.",
+    "items": [
       "The automatic checkout (WEMI Phase-1): resolve any human reference to its pieces for a new text, including texts with no verse markers (a sermon, a poem) and texts with level 0 to 3 scaffolding. This is the general 'check out any text' engine, built when the corpus needs it. It is future scope, not a gap in the Mark path."
     ]
   },
