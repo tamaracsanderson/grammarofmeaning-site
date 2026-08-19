@@ -1,0 +1,37 @@
+{
+  "_owner": "Design SB — THE DESIGN STATE REGISTRY (the single normalized store of record for Design-owned PRESENTATION STATE, plane D). Replaces status strings hardcoded across reading-room-preview/all.html, viz_house_pattern.html, and overloaded inside design_engine.json. Per the Design Architecture Reconciliation 2026-08-19 (P0.5) + SSOT_contributor_rules v2 (rule 8, the four epistemic planes). A page RENDERS its status pill from this file; it never hand-types status again.",
+  "_schema": {
+    "axes": {
+      "implementation": ["built", "partial", "unbuilt"],
+      "maturity": ["draft", "pilot", "validated"],
+      "deployment": ["live", "staging", "offline"],
+      "data": ["canonical", "fixture", "mock", "blocked"],
+      "coverage": ["complete", "partial", "n/a"],
+      "review": ["approved", "revise", "open"],
+      "dependency": ["none", "blocked"],
+      "evidence": ["current", "stale", "not-tested"]
+    },
+    "note": "Eight ORTHOGONAL axes. Never fuse them into one free-text pill. The display label a page shows is DERIVED from these axes by the shared deriveLabel() contract below, so one store produces every status view."
+  },
+  "_derive_label": "deployment=live & implementation=built -> {label:'live', cls:'live'}; deployment=live & (implementation=partial | maturity=pilot) -> {label:'pilot', cls:'pilot'}; deployment=staging -> {label:'preview', cls:'pilot'}; deployment=offline & implementation=partial -> {label:'paused', cls:'paused'}; deployment=offline & implementation=unbuilt -> {label:'planned', cls:'soon'}. dependency=blocked appends ' · blocked'.",
+  "_generated_by": "Design SB S180 2026-08-19, seeded from the fidelity-agent inventory of reading-room-preview/all.html + the honest per-card read. HAND-AUTHORED presentation state (plane D, Design-owned) — this IS the store of record, not a snapshot of another store.",
+  "surfaces": [
+    { "id": "resurrection.html", "title": "The braided reading", "reader_question": "READ", "status": {"implementation":"built","maturity":"pilot","deployment":"live","data":"canonical","coverage":"partial","review":"approved","dependency":"none","evidence":"current"}, "method_outputs": ["compare"] },
+    { "id": "reading.html", "title": "The Talmudic reading (scroll-linked)", "reader_question": "SEE", "status": {"implementation":"partial","maturity":"pilot","deployment":"live","data":"canonical","coverage":"partial","review":"open","dependency":"none","evidence":"current"}, "method_outputs": ["moves","sitz","paradigm","lineage"], "anchor_keys": ["move_id","verse_refs"] },
+    { "id": "voices.html", "title": "The four voices", "reader_question": "READ", "status": {"implementation":"built","maturity":"validated","deployment":"live","data":"canonical","coverage":"complete","review":"approved","dependency":"none","evidence":"current"} },
+    { "id": "spine.html", "title": "The convergence map", "reader_question": "COMPARE", "status": {"implementation":"built","maturity":"pilot","deployment":"live","data":"canonical","coverage":"partial","review":"approved","dependency":"none","evidence":"current"}, "method_outputs": ["compare"], "non_claims": ["'convergence' here = TEXTUAL alignment of the 4 gospels, NOT coder agreement (see absence-collision ledger)"] },
+    { "id": "reception.html", "title": "The end-gap reception", "reader_question": "AFTERLIVES", "status": {"implementation":"built","maturity":"pilot","deployment":"live","data":"canonical","coverage":"partial","review":"approved","dependency":"none","evidence":"current"}, "method_outputs": ["reception"] },
+    { "id": "situate.html", "title": "Situate — the field guide", "reader_question": "WORLD", "status": {"implementation":"built","maturity":"pilot","deployment":"live","data":"canonical","coverage":"partial","review":"approved","dependency":"none","evidence":"current"}, "method_outputs": ["sitz","paradigm","position","lineage"] },
+    { "id": "resituate.html", "title": "Resituation — the sensitivity map", "reader_question": "TEST", "status": {"implementation":"built","maturity":"validated","deployment":"live","data":"canonical","coverage":"partial","review":"approved","dependency":"none","evidence":"current"}, "method_outputs": ["resituate"] },
+    { "id": "abduction.html", "title": "The abductive run", "reader_question": "TEST", "status": {"implementation":"built","maturity":"pilot","deployment":"live","data":"canonical","coverage":"partial","review":"approved","dependency":"none","evidence":"current"}, "method_outputs": ["resituate"] },
+    { "id": "moves.html", "title": "The coded moves (move × frame)", "reader_question": "SEE", "status": {"implementation":"built","maturity":"pilot","deployment":"live","data":"canonical","coverage":"partial","review":"open","dependency":"none","evidence":"current"}, "method_outputs": ["moves","position"], "non_claims": ["'one coder, one pass' — reliability not yet established"] },
+    { "id": "fan.html", "title": "The alternative-worlds fan", "reader_question": "TEST", "status": {"implementation":"partial","maturity":"draft","deployment":"offline","data":"fixture","coverage":"partial","review":"open","dependency":"none","evidence":"not-tested"} },
+    { "id": "open-frames-eyeball.html", "title": "The 35 open frames", "reader_question": "OPEN", "status": {"implementation":"partial","maturity":"draft","deployment":"staging","data":"canonical","coverage":"partial","review":"open","dependency":"none","evidence":"not-tested"} },
+    { "id": "mark16-moves-gaps-glosses.html", "title": "Mark 16 — moves · gaps · glosses", "reader_question": "OPEN", "status": {"implementation":"partial","maturity":"draft","deployment":"staging","data":"canonical","coverage":"partial","review":"open","dependency":"none","evidence":"not-tested"}, "non_claims": ["internal 41-vs-42 frame-count discrepancy flagged in fidelity ledger"] },
+    { "id": "/church-map/", "title": "The church map", "reader_question": "WORLD", "status": {"implementation":"built","maturity":"pilot","deployment":"live","data":"canonical","coverage":"partial","review":"approved","dependency":"none","evidence":"current"}, "non_claims": ["'gaps' here = corpus/library coverage absence (CCA), a distinct absence type"] },
+    { "id": "morphospace-gospel-slice", "title": "The morphospace — Christian slice", "reader_question": "WORLD", "status": {"implementation":"unbuilt","maturity":"draft","deployment":"offline","data":"canonical","coverage":"n/a","review":"open","dependency":"blocked","evidence":"not-tested"}, "dependency_note": "awaits Atlas Reader's projected Mark-16 coords" },
+    { "id": "threshold.html", "title": "The new landing — the door", "reader_question": "READ", "status": {"implementation":"partial","maturity":"pilot","deployment":"staging","data":"fixture","coverage":"partial","review":"open","dependency":"none","evidence":"not-tested"} },
+    { "id": "constellation-greek", "title": "Constellation — in the original Greek", "reader_question": "SEE", "status": {"implementation":"unbuilt","maturity":"draft","deployment":"offline","data":"blocked","coverage":"n/a","review":"open","dependency":"blocked","evidence":"not-tested"} },
+    { "id": "comparison-translations", "title": "Comparison — across translations", "reader_question": "COMPARE", "status": {"implementation":"unbuilt","maturity":"draft","deployment":"offline","data":"blocked","coverage":"n/a","review":"open","dependency":"blocked","evidence":"not-tested"} }
+  ]
+}
