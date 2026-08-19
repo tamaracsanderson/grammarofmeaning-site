@@ -4973,7 +4973,8 @@
  },
  "cross_gospel": {
   "anchor": "unanchored",
-  "seam": "comparative beats key on narrative beat + carried_by gospel; no verse_id or move handle joins a beat to the reader's selection. Method seam item (SS E requirement (a)/(b), SS I).",
+  "seam": "comparative beats key on narrative beat + carried_by gospel; no verse or move handle joins a beat to the reader's selection. Method seam item (SS E requirement (a)/(b), SS I).",
+  "seam_reader": "the four gospels are lined up by episode, not verse by verse, so an episode cannot yet be matched to the verse you are reading.",
   "sources": {
    "MATT-28": {
     "label": "Matthew",
@@ -5248,29 +5249,91 @@
  },
  "absence": {
   "plane": "A",
-  "anchor": "blocked",
-  "status": "BLOCKED ON METHOD -- absence ontology (P2). The typed absences below are rendered in Method's OWN words; the unified visual grammar waits on the ontology so Design does not aestheticize an untyped absence (SS F).",
+  "anchor": "partial",
+  "status": "Method S180 ruled: the open ring carries EPISTEMIC STATUS only; the KIND of absence is a SECOND, orthogonal encoding (RULING 1). Five kinds have live stores; four gap-id namespaces still lack a crosswalk and two of them reach no deployed feed, so only the kind this slice can actually resolve is rendered.",
+  "axis_a_epistemic_status": [
+   "tested-and-absent",
+   "not-assessed",
+   "not-applicable"
+  ],
+  "axis_b_kinds": [
+   {
+    "kind": "move-slot unsaid",
+    "store": "source_move_gap (grammar-slot/frame-role/edge/...)",
+    "rows": 313,
+    "reaches_a_feed": false,
+    "id_prefix": "GAP-"
+   },
+   {
+    "kind": "lineage seam",
+    "store": "source_move_gap (locus=lineage)",
+    "rows": 493,
+    "reaches_a_feed": true,
+    "id_prefix": "LINSEAM-"
+   },
+   {
+    "kind": "cross-witness gap",
+    "store": "source_move_gap (locus=cross-source)",
+    "rows": 123,
+    "reaches_a_feed": false,
+    "id_prefix": "XSRC-"
+   },
+   {
+    "kind": "bibliographic silence",
+    "store": "silence_finding",
+    "rows": 348,
+    "reaches_a_feed": true,
+    "id_prefix": "SIL-"
+   }
+  ],
   "typed_now": [
    {
-    "type": "lineage-absence (LA)",
-    "claim": "a move that stands on no source -- most do not stand on one; that is correct, not missing data",
+    "kind": "lineage seam",
+    "claim": "a move that stands on no source — most do not stand on one; that is correct, not missing data",
     "source": "moves.html / coded_move_state lineage[] (Method's own wording)",
     "count": 39,
     "of": 55
-   },
-   {
-    "type": "obligated-textual absence (OTA)",
-    "claim": "Mark breaks off at 16:8 with the women afraid and saying nothing; what happens after is unnarrated, later supplied, or left open",
-    "source": "reading-room-preview/data/reception_endgap.json (center node)",
-    "verse_id": "016:008"
    }
   ],
+  "not_an_absence": {
+   "case": "the silence at Mark 16:8",
+   "ruling": "The text SAYS the women said nothing. That is something the writer put there — not something our reading failed to find. So it is not counted here as a gap at all; it is one of the things the passage does, and it is marked as one.",
+   "shown_as": "move M23 (say nothing), in the SEE lens",
+   "source": "Method S180, RULING 3"
+  },
+  "awaiting_reader": [
+   "one shared way of naming a gap, so a gap seen in one reading can be looked up in another",
+   "two of the four kinds are recorded but reach no reading yet",
+   "a decision on whether “the text was obliged to say this and didn’t” becomes something we code, or stays a finding about how hard it is to code"
+  ],
   "awaiting": [
-   "four-vs-five absence types (is corpus-coverage absence first-class?)",
-   "whether the open ring needs a second orthogonal KIND channel",
-   "the convergence 4-way split",
-   "ratify LA != DNC and NA != omission"
-  ]
+   "a crosswalk across the four gap-id namespaces (GAP- / LINSEAM- / XSRC- / SIL-)",
+   "feeds for GAP- (398 rows) and XSRC- (123 rows), which reach none today",
+   "PI: does silence_obligated become a coded field, or stay a reliability finding?",
+   "PI: the two renames (fills_target_is_money_move; severity='multi-pass')"
+  ],
+  "design_owns": "the visual encoding of Axis B is Design's call (RULING 1). The family-resemblance treatment is a PI aesthetic decision and is NOT authored here yet."
+ },
+ "reliability": {
+  "plane": "A",
+  "anchor": "text-level",
+  "state": "not-established",
+  "n_carded": 11,
+  "n_measured": 1,
+  "n_measured_without_threshold": 1,
+  "disposition": "Reliability for this reading: not established. 1 of 11 engines has been measured, and no acceptance threshold has been declared — so the measurement cannot yield a verdict.",
+  "why_no_number": "A number with no acceptance criterion cannot produce a verdict, and drawing it beside a claim will read as one. Repetition is evidence that runs happened, not that they agreed; agreement between runs is evidence about the instrument's stability, not about whether the reading is right.",
+  "source": "Method S180 (METHOD_reply_to_design_P0_s180_2026-08-19.md) + pm/40_architecture/reliability/",
+  "evidence": [
+   {
+    "engine_id": "situate.sitz.move",
+    "runs": 3,
+    "threshold": "UNDECLARED",
+    "verdict": "MEASURED-NO-THRESHOLD",
+    "agreement": 0.415
+   }
+  ],
+  "not_rendered_on_the_page": "the agreement figures above -- deliberately (see why_no_number)"
  },
  "reader_words": {
   "epistemic-warrant|": "how we know it / what makes it credible",
