@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Mark 16 — the reading room · Grammar of Meaning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,380;1,9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════════════════════════════════════════
+   THE MARK 16 READING ROOM — the shell (Design P1)
+
+   The text is the road; everything else is the landscape beside it.  The verbatim text is the
+   persistent centre and NEVER moves: opening a lens shifts the STAGE by a CSS transform, which
+   changes no layout at all, so a line never re-breaks and the reader never loses their place.
+
+   ONE grammar, learned once:  select once -> align everywhere · scroll -> lenses stay anchored ·
+   choose a lens -> the text stays visible · compare -> witnesses align · open evidence ->
+   provenance appears · close -> ordinary reading, same place.
+
+   Everything data-dependent renders from engine/data/design/reading_room_mark16.json.
+   Nothing analytical is authored here.  (SSOT_contributor_rules v2 rule 1; the four planes.)
+   ══════════════════════════════════════════════════════════════════════════════════════════════ */
+:root{
+  --paper:#FCFBF7; --paper-2:#F3EEE0; --paper-3:#FFFFFF;
+  --ink:#24302A; --ink-2:#52605A; --ink-3:#8B9288; --rule:#D6CCB0;
+  --fern:#3F7D57; --moss:#2C4A38; --sage:#7E9E86; --gold:#B8924A; --terracotta:#C4602F;
+  --lit:rgba(184,146,74,.15); --lit-edge:#B8924A;
+  --disp:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --measure:34rem; --aside-w:23rem; --rail-w:7.4rem; --gutter:2.4rem;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){
+  --paper:#1C1813; --paper-2:#26211A; --paper-3:#221D16;
+  --ink:#ECE6D8; --ink-2:#C3BCAC; --ink-3:#8E877A; --rule:#3D362B;
+  --fern:#7FB894; --moss:#A9C9B2; --sage:#7E9E86; --gold:#D8B36A; --terracotta:#E08A54;
+  --lit:rgba(216,179,106,.13); --lit-edge:#D8B36A;
+}}
+:root[data-theme=dark]{
+  --paper:#1C1813; --paper-2:#26211A; --paper-3:#221D16;
+  --ink:#ECE6D8; --ink-2:#C3BCAC; --ink-3:#8E877A; --rule:#3D362B;
+  --fern:#7FB894; --moss:#A9C9B2; --sage:#7E9E86; --gold:#D8B36A; --terracotta:#E08A54;
+  --lit:rgba(216,179,106,.13); --lit-edge:#D8B36A;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.022'/%3E%3C/svg%3E");}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+
+/* ── masthead ───────────────────────────────────────────────────────────────────── */
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:baseline;gap:.9rem;
+  padding:.85rem 1.3rem;border-bottom:1px solid var(--rule);
+  background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px)}
+.top h1{margin:0;font-family:var(--disp);font-style:italic;font-weight:600;font-size:1.16rem;color:var(--moss)}
+.top .ed{font-family:var(--mono);font-size:.66rem;letter-spacing:.05em;color:var(--ink-3);text-transform:uppercase}
+.top .sp{flex:1}
+.pill{font-family:var(--mono);font-size:.63rem;letter-spacing:.05em;padding:.16rem .55rem;border-radius:999px;
+  border:1px solid var(--rule);color:var(--ink-3)}
+.pill.live{color:var(--fern);border-color:color-mix(in srgb,var(--fern) 45%,transparent)}
+.pill.pilot{color:var(--gold);border-color:color-mix(in srgb,var(--gold) 45%,transparent)}
+.pill.na{opacity:.55}
+.tbtn{font-family:var(--mono);font-size:.66rem;color:var(--ink-3);border:1px solid var(--rule);
+  border-radius:999px;padding:.2rem .6rem}
+
+/* ── the stage: text centre + two absolutely-placed wings ───────────────────────── */
+.stage{position:relative;width:var(--measure);margin:0 auto;padding:4.2rem 0 8rem;
+  transition:transform .62s cubic-bezier(.32,.06,.24,1)}
+body.open .stage{transform:translateX(calc((var(--aside-w) + var(--gutter)) / -2))}
+
+/* ── the invitation (L0) ────────────────────────────────────────────────────────── */
+.invite{font-family:var(--disp);font-style:italic;font-size:.98rem;color:var(--ink-3);
+  text-align:center;margin:0 0 2.6rem;transition:opacity .5s}
+body.open .invite{opacity:0}
+
+/* ── the text — the persistent centre ───────────────────────────────────────────── */
+.text{font-family:var(--disp);font-size:1.115rem;line-height:1.82;color:var(--ink)}
+.v{position:relative;margin:0 0 .28rem;padding:.42rem .8rem .42rem .95rem;border-radius:5px;
+  border-left:2px solid transparent;cursor:pointer;transition:background .34s ease,border-color .34s ease}
+.v .vn{position:absolute;left:-2.5rem;top:.62rem;width:1.9rem;text-align:right;
+  font-family:var(--mono);font-size:.66rem;color:var(--ink-3);opacity:.55;transition:opacity .3s}
+/* the faint affordance: something here can be touched, without shouting */
+.v:hover{background:color-mix(in srgb,var(--paper-2) 62%,transparent)}
+.v:hover .vn{opacity:1;color:var(--gold)}
+.v.lit{background:var(--lit);border-left-color:var(--lit-edge)}
+.v.lit .vn{opacity:1;color:var(--lit-edge)}
+.v.dim{opacity:.42}
+body.open .text{transition:opacity .4s}
+/* translator apparatus stays IN the text, marked — deleting it would alter a Library fact */
+.app{font-family:var(--mono);font-size:.66rem;color:var(--ink-3);opacity:.7;
+  border-bottom:1px dotted var(--rule);cursor:help;padding:0 .1em}
+
+/* ── move chips: appear under the selected verse ────────────────────────────────── */
+.chips{display:flex;flex-wrap:wrap;gap:.3rem;margin:.4rem 0 .55rem .95rem;
+  animation:rise .42s cubic-bezier(.32,.06,.24,1)}
+@keyframes rise{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+.chip{font-family:var(--mono);font-size:.65rem;letter-spacing:.02em;padding:.2rem .5rem;border-radius:999px;
+  border:1px solid var(--rule);color:var(--ink-2);background:var(--paper-3);transition:all .22s}
+.chip:hover{border-color:var(--gold);color:var(--ink)}
+.chip.on{background:var(--moss);color:var(--paper);border-color:var(--moss)}
+:root[data-theme=dark] .chip.on{color:#1C1813}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .chip.on{color:#1C1813}}
+.chip .op{opacity:.72;margin-left:.35rem}
+
+/* ── the lens rail (left wing) ──────────────────────────────────────────────────── */
+.rail{position:absolute;top:0;bottom:0;right:calc(100% + var(--gutter));width:var(--rail-w);
+  opacity:0;transition:opacity .5s;pointer-events:none}
+body.open .rail{opacity:1;pointer-events:auto}
+.rail-in{position:sticky;top:5.4rem;display:flex;flex-direction:column;gap:.08rem}
+.rail-h{font-family:var(--mono);font-size:.58rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 .5rem}
+.lens{display:block;width:100%;text-align:left;padding:.42rem .5rem;border-radius:4px;
+  border-left:2px solid transparent;transition:all .2s}
+.lens .q{display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase}
+.lens .n{display:block;font-family:var(--disp);font-style:italic;font-size:.72rem;color:var(--ink-3);
+  line-height:1.25;margin-top:.08rem}
+.lens:hover{background:color-mix(in srgb,var(--paper-2) 70%,transparent)}
+.lens.on{border-left-color:var(--gold);background:var(--lit)}
+.lens.on .q{color:var(--moss)}
+.lens[data-state=none-here] .q,.lens[data-state=out-of-scope] .q{opacity:.5}
+.lens[data-state=no-join] .q,.lens[data-state=awaiting-method] .q{opacity:.5;font-style:italic}
+.lens .mk{font-family:var(--mono);font-size:.56rem;color:var(--ink-3);margin-left:.3rem}
+
+/* ── the open lens (right wing) ─────────────────────────────────────────────────── */
+.aside{position:absolute;top:0;bottom:0;left:calc(100% + var(--gutter));width:var(--aside-w);
+  opacity:0;pointer-events:none;transition:opacity .45s .1s}
+body.open .aside{opacity:1;pointer-events:auto}
+.aside-in{position:sticky;top:5.4rem;max-height:calc(100vh - 7rem);overflow:auto;
+  padding:1rem 1.05rem 1.4rem;background:var(--paper-3);border:1px solid var(--rule);border-radius:10px}
+.a-top{display:flex;align-items:baseline;gap:.5rem;margin:0 0 .2rem}
+.a-q{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--moss)}
+.a-x{margin-left:auto;font-family:var(--mono);font-size:.8rem;color:var(--ink-3);line-height:1}
+.a-x:hover{color:var(--terracotta)}
+.a-sub{font-family:var(--disp);font-style:italic;font-size:.83rem;color:var(--ink-3);margin:0 0 .85rem}
+.a-anchor{font-family:var(--mono);font-size:.6rem;color:var(--ink-3);border-top:1px dotted var(--rule);
+  margin-top:1.1rem;padding-top:.5rem;line-height:1.55}
+.h{font-family:var(--mono);font-size:.58rem;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);
+  margin:1.05rem 0 .32rem}
+.h:first-of-type{margin-top:.2rem}
+.p{font-size:.8rem;line-height:1.62;color:var(--ink-2);margin:0 0 .2rem}
+.p b{color:var(--ink);font-weight:500}
+.gloss{font-family:var(--disp);font-style:italic;font-size:.88rem;line-height:1.55;color:var(--ink);
+  border-left:2px solid var(--gold);padding-left:.7rem;margin:.15rem 0 0}
+
+/* the move grammar diagram */
+.gram{margin:.15rem 0 0}
+.g-row{display:flex;align-items:stretch;gap:.32rem;margin:.3rem 0}
+.g-box{flex:1;min-width:0;padding:.36rem .5rem;border:1px solid var(--rule);border-radius:6px;background:var(--paper)}
+.g-t{display:block;font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:.12rem}
+.g-v{font-size:.78rem;line-height:1.4;color:var(--ink)}
+.g-op{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 .1rem}
+.g-op .arw{color:var(--ink-3);font-size:.7rem;line-height:1}
+.g-op .opn{font-family:var(--mono);font-size:.68rem;color:var(--terracotta);padding:.08rem 0}
+.g-meta{font-family:var(--mono);font-size:.62rem;color:var(--ink-3);margin-top:.35rem;line-height:1.5}
+.dim{color:var(--ink-3);opacity:.7}
+
+/* the frame ribbon */
+.ax{display:flex;justify-content:space-between;gap:.6rem;padding:.2rem 0;border-bottom:1px dotted var(--rule)}
+.ax:last-child{border-bottom:0}
+.ax .an{font-size:.72rem;color:var(--ink-3);flex:0 0 47%}
+.ax .av{font-size:.72rem;color:var(--ink);text-align:right;flex:1}
+.ax.veer .av{color:var(--terracotta)}
+.ax .base{display:block;font-size:.62rem;color:var(--ink-3);text-decoration:line-through;opacity:.7}
+
+/* rows (lineage · connect · witnesses · readers) */
+.row{padding:.5rem 0;border-bottom:1px dotted var(--rule);width:100%;text-align:left;display:block}
+.row:last-child{border-bottom:0}
+.row:hover{background:color-mix(in srgb,var(--paper-2) 55%,transparent)}
+.row .rt{display:block;font-size:.78rem;color:var(--ink);line-height:1.4}
+.row .rm{display:block;font-family:var(--mono);font-size:.6rem;color:var(--ink-3);margin-top:.14rem}
+.row .rs{display:block;font-size:.73rem;color:var(--ink-2);line-height:1.5;margin-top:.26rem;font-style:italic}
+.lane{padding:.45rem 0;border-bottom:1px dotted var(--rule)}
+.lane:last-child{border-bottom:0}
+.lane .ln{font-family:var(--mono);font-size:.6rem;letter-spacing:.05em;color:var(--moss)}
+.lane .ld{font-family:var(--mono);font-size:.58rem;color:var(--ink-3);margin-left:.35rem}
+.lane .lt{font-size:.79rem;line-height:1.55;color:var(--ink);margin-top:.16rem}
+
+/* ── the typed states — six of them, each saying WHY, never one grey ────────────── */
+.st{border-radius:7px;padding:.65rem .75rem;font-size:.76rem;line-height:1.6;margin:.2rem 0 0}
+.st .stl{display:block;font-family:var(--mono);font-size:.57rem;letter-spacing:.09em;text-transform:uppercase;
+  margin-bottom:.28rem}
+.st-none-here{background:color-mix(in srgb,var(--paper-2) 60%,transparent);color:var(--ink-2);
+  border-left:2px solid color-mix(in srgb,var(--fern) 55%,transparent)}
+.st-none-here .stl{color:var(--fern)}
+.st-no-join{background:color-mix(in srgb,var(--terracotta) 7%,transparent);color:var(--ink-2);
+  border:1px dashed color-mix(in srgb,var(--terracotta) 42%,transparent)}
+.st-no-join .stl{color:var(--terracotta)}
+.st-awaiting-method{background:color-mix(in srgb,var(--gold) 9%,transparent);color:var(--ink-2);
+  border:1px dashed color-mix(in srgb,var(--gold) 48%,transparent)}
+.st-awaiting-method .stl{color:var(--gold)}
+.st-out-of-scope{background:color-mix(in srgb,var(--paper-2) 60%,transparent);color:var(--ink-2);
+  border-left:2px dotted var(--ink-3)}
+.st-out-of-scope .stl{color:var(--ink-3)}
+.st-text-level{background:color-mix(in srgb,var(--sage) 12%,transparent);color:var(--ink-2);
+  border-left:2px solid color-mix(in srgb,var(--sage) 62%,transparent)}
+.st-text-level .stl{color:var(--fern)}
+.st-defect{background:color-mix(in srgb,var(--terracotta) 9%,transparent);color:var(--ink-2);
+  border:1px solid color-mix(in srgb,var(--terracotta) 40%,transparent)}
+.st-defect .stl{color:var(--terracotta)}
+.st .why{display:block;font-family:var(--mono);font-size:.6rem;color:var(--ink-3);margin-top:.35rem;line-height:1.55}
+
+.deeper{font-family:var(--mono);font-size:.6rem;color:var(--ink-3);margin-top:.9rem;line-height:1.7}
+.deeper a{color:var(--fern);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fern) 35%,transparent)}
+
+.foot{max-width:var(--measure);margin:0 auto;padding:2rem 0 4rem;font-family:var(--mono);font-size:.62rem;
+  line-height:1.8;color:var(--ink-3);border-top:1px solid var(--rule)}
+.foot a{color:var(--fern);text-decoration:none}
+.err{font-family:var(--mono);font-size:.72rem;color:var(--terracotta);text-align:center;padding:3rem 1rem}
+
+/* ── narrow: the wings stack; no transform (nothing to shift) ───────────────────── */
+@media(max-width:1180px){
+  :root{--measure:min(34rem,calc(100vw - 5.5rem))}
+  .stage{padding-left:0}
+  body.open .stage{transform:none}
+  .rail{position:static;width:auto;opacity:1;pointer-events:auto;margin:0 0 1.4rem}
+  .rail-in{position:static;flex-direction:row;flex-wrap:wrap;gap:.25rem}
+  .rail-h{width:100%;margin-bottom:.3rem}
+  .lens{width:auto;border-left:0;border-bottom:2px solid transparent;padding:.3rem .5rem}
+  .lens .n{display:none}
+  .lens.on{border-left:0;border-bottom-color:var(--gold)}
+  .aside{position:fixed;left:0;right:0;bottom:0;top:auto;width:auto;z-index:30;
+    max-height:62vh;background:var(--paper-3);border-top:1px solid var(--rule);
+    box-shadow:0 -14px 34px -20px rgba(0,0,0,.42);opacity:0;transform:translateY(100%);
+    transition:transform .42s cubic-bezier(.32,.06,.24,1),opacity .3s}
+  body.open .aside{opacity:1;transform:none}
+  .aside-in{position:static;max-height:62vh;border:0;border-radius:0}
+}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>Mark 16</h1>
+  <span class="ed" id="ed">·</span>
+  <span class="sp"></span>
+  <span class="pill na" id="status" data-surface="room.html">—</span>
+  <button class="tbtn" id="theme" aria-label="switch light or dark">◐</button>
+</header>
+
+<main class="stage" id="stage">
+  <p class="invite" id="invite">Begin by reading. Select any verse to see what it is doing.</p>
+  <nav class="rail" id="rail" aria-label="lenses"></nav>
+  <div class="text" id="text"><p class="err">loading Mark 16…</p></div>
+  <aside class="aside" id="aside" aria-live="polite"></aside>
+</main>
+
+<footer class="foot" id="foot"></footer>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════════════════
+   Everything below RENDERS a feed.  It classifies nothing, scores nothing, and
+   adjudicates nothing (SSOT_contributor_rules v2, rule 1 / the four epistemic planes).
+   Plane C — Design editorial — is exactly: the reader questions, the section names,
+   the pacing, and the wording of the typed states.  Those are marked EDITORIAL below.
+   ══════════════════════════════════════════════════════════════════════════════════ */
+var D=null, S={verse:null, move:null, lens:null};
+
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function hum(v){return String(v==null?'':v).replace(/[-_]/g,' ');}
+function axLabel(a){var m=D&&D.reader_words;return (m&&m[a+'|'])||hum(a);}          /* reader words, from the feed */
+function valLabel(a,v){if(v==null)return '—';var m=D&&D.reader_words;return (m&&m[a+'|'+v])||hum(v);}
+
+/* ── EDITORIAL (plane C): the public IA is reader QUESTIONS, never engine names ── */
+var LENSES=[
+ {id:'see',       q:'SEE',       n:'what is it doing?'},
+ {id:'connect',   q:'CONNECT',   n:'what does it link to?'},
+ {id:'world',     q:'WORLD',     n:'what world is this?'},
+ {id:'inherits',  q:'INHERITS',  n:'what does it draw on?'},
+ {id:'compare',   q:'COMPARE',   n:'how do witnesses differ?'},
+ {id:'afterlives',q:'AFTERLIVES',n:'what did readers do?'},
+ {id:'open',      q:'OPEN',      n:"what's unresolved?"},
+ {id:'evidence',  q:'EVIDENCE',  n:'where is this from?'}
+];
+
+/* ── the six TYPED states.  A blank is never just a blank: it says which KIND of
+      blank it is and why, so an absence is informative rather than a dead end.
+      (The anchor-layer analogue of "type the absence before you aestheticize it".) ── */
+var STATES={
+ 'none-here':      'nothing here — and that is a finding',
+ 'no-join':        'cannot align to your selection yet',
+ 'awaiting-method':'awaiting the method',
+ 'out-of-scope':   'coded elsewhere in this text',
+ 'text-level':     'true of the whole text, not this verse',
+ 'defect':         'a declared defect in the feed'
+};
+function state(kind,body,why){
+  return '<div class="st st-'+kind+'"><span class="stl">'+esc(STATES[kind])+'</span>'+body
+       + (why?'<span class="why">'+esc(why)+'</span>':'')+'</div>';
+}
+
+/* ── selection helpers ──────────────────────────────────────────────────────────── */
+function movesForVerse(vid){return D.moves.items.filter(function(m){return m.verse_ids.indexOf(vid)>=0;});}
+function moveByHandle(h){return D.moves.items.filter(function(m){return m.move_handle===h;})[0]||null;}
+function activeMoves(){ if(S.move){var m=moveByHandle(S.move);return m?[m]:[];} return S.verse?movesForVerse(S.verse):[]; }
+function verseById(v){return D.text.verses.filter(function(x){return x.verse_id===v;})[0]||null;}
+
+/* ══ THE TEXT — the persistent centre.  Rebuilt only on selection change, and only
+      its CLASSES change, so no line ever re-breaks and no scroll position is lost. ══ */
+function paintText(){
+  var lit=S.verse?[S.verse]:[];
+  if(S.move){var m=moveByHandle(S.move); if(m) lit=m.verse_ids;}
+  [].forEach.call(document.querySelectorAll('.v'),function(el){
+    el.classList.toggle('lit', lit.indexOf(el.getAttribute('data-verse'))>=0);
+  });
+  /* the move chips live under the selected verse only */
+  var old=document.querySelector('.chips'); if(old) old.remove();
+  if(!S.verse) return;
+  var host=document.querySelector('.v[data-verse="'+S.verse+'"]'); if(!host) return;
+  var ms=movesForVerse(S.verse);
+  if(!ms.length) return;
+  var box=document.createElement('div'); box.className='chips';
+  box.innerHTML=ms.map(function(m){
+    return '<button class="chip'+(m.move_handle===S.move?' on':'')+'" data-move="'+esc(m.move_handle)+'">'
+      +esc(m.label)+'<span class="op">'+esc(m.operation||'')+'</span></button>';
+  }).join('');
+  host.after(box);
+  [].forEach.call(box.querySelectorAll('.chip'),function(b){
+    b.onclick=function(e){e.stopPropagation();selectMove(b.getAttribute('data-move'));};
+  });
+}
+
+function buildText(){
+  var t=D.text;
+  var edName=String(t.edition||'').replace(/^The\s+/,'').replace(/\s*\([^)]*\)\s*:.*$/,'');   /* "The World English Bible (WEB): Mark" -> "World English Bible" */
+  document.getElementById('ed').textContent=edName+' · '+String(t.rights_status||'').replace(/_/g,' ');
+  document.getElementById('text').innerHTML=t.verses.map(function(v){
+    var body=esc(v.text);
+    (v.apparatus||[]).forEach(function(a){                       /* apparatus stays, marked */
+      body=body.split(esc(a.mark)).join('<span class="app" title="translator apparatus, carried verbatim from the edition — the brace marking is the edition\u2019s own">'+esc(a.mark)+'</span>');
+    });
+    return '<p class="v" data-verse="'+esc(v.verse_id)+'" tabindex="0"><span class="vn">'+v.n+'</span>'+body+'</p>';
+  }).join('');
+  [].forEach.call(document.querySelectorAll('.v'),function(el){
+    el.onclick=function(){selectVerse(el.getAttribute('data-verse'));};
+    el.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();selectVerse(el.getAttribute('data-verse'));}};
+  });
+}
+
+/* ══ SELECT ONCE -> ALIGN EVERYWHERE ══ */
+function selectVerse(vid){
+  if(S.verse===vid && !S.move && S.lens){ return; }
+  S.verse=vid; S.move=null;
+  if(!S.lens) S.lens='see';                     /* the first gesture teaches the grammar */
+  var ms=movesForVerse(vid); if(ms.length) S.move=ms[0].move_handle;
+  open();
+}
+function selectMove(h){ var m=moveByHandle(h); if(!m)return; S.move=h; if(m.verse_ids.length) S.verse=m.verse_ids[0];
+  if(!S.lens) S.lens='see'; open(); }
+function showLens(id){ S.lens=id; open(); }
+function open(){ document.body.classList.add('open'); paintText(); paintRail(); paintAside(); }
+
+/* ══ CLOSE -> ORDINARY READING, SAME PLACE.  Only classes + a transform change, so the
+      document never reflows and the scroll offset is untouched. ══ */
+function closeAll(){
+  S.verse=null; S.move=null; S.lens=null;
+  document.body.classList.remove('open');
+  paintText();
+  document.getElementById('rail').innerHTML='';
+  document.getElementById('aside').innerHTML='';
+}
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeAll(); });
+
+/* ══ THE RAIL — every lens says, for THIS selection, whether it can answer ══ */
+function lensState(id){
+  var ms=activeMoves();
+  if(id==='see')      return ms.length?{s:'ok'}:{s:'none-here'};
+  if(id==='world')    return ms.length?{s:'ok'}:{s:'none-here'};
+  if(id==='inherits'){var n=ms.reduce(function(a,m){return a+(m.lineage||[]).length;},0);
+                      return n?{s:'ok',mk:n}:{s:'none-here'};}
+  if(id==='connect'){ var n=edgesFor(ms).length; return n?{s:'ok',mk:n}:{s:'none-here'};}
+  if(id==='compare')  return (S.verse&&D.witnesses.by_verse[S.verse])?{s:'ok',mk:D.witnesses.lanes.length}:{s:'no-join'};
+  if(id==='afterlives')return (S.verse===D.reception.anchored_verse_id)?{s:'ok',mk:D.reception.readers.length}:{s:'out-of-scope'};
+  if(id==='open')     return {s:'awaiting-method'};
+  if(id==='evidence') return {s:'ok'};
+  return {s:'ok'};
+}
+function paintRail(){
+  document.getElementById('rail').innerHTML='<div class="rail-in"><p class="rail-h">ask of it</p>'+
+   LENSES.map(function(L){
+     var st=lensState(L.id);
+     var tip=st.s==='ok'?'':STATES[st.s];   /* the rail says WHY a lens is quiet, not merely that it is */
+     return '<button class="lens'+(S.lens===L.id?' on':'')+'" data-lens="'+L.id+'" data-state="'+(st.s==='ok'?'':st.s)+'"'
+      +(tip?' title="'+esc(tip)+'"':'')+'>'
+      +'<span class="q">'+L.q+(st.mk?'<span class="mk">'+st.mk+'</span>':'')+'</span>'
+      +'<span class="n">'+esc(L.n)+'</span></button>';
+   }).join('')+'</div>';
+  [].forEach.call(document.querySelectorAll('.lens'),function(b){
+    b.onclick=function(){showLens(b.getAttribute('data-lens'));};
+  });
+}
+
+function edgesFor(ms){
+  var set={}; ms.forEach(function(m){set[m.move_handle]=1;});
+  return D.connect.edges.filter(function(e){
+    return e.from.some(function(x){return set[x];}) || e.to.some(function(x){return set[x];});
+  });
+}
+
+/* ══ THE OPEN LENS ══ */
+function paintAside(){
+  var L=LENSES.filter(function(x){return x.id===S.lens;})[0]; if(!L) return;
+  var v=verseById(S.verse), m=S.move?moveByHandle(S.move):null;
+  var head='<div class="a-top"><span class="a-q">'+L.q+'</span>'
+    +'<button class="a-x" id="ax" title="close (Esc)">✕</button></div>'
+    +'<p class="a-sub">'+esc(L.n)+(v?' · '+esc(v.ref):'')+(m?' · '+esc(m.label):'')+'</p>';
+  var body=({see:lensSee,connect:lensConnect,world:lensWorld,inherits:lensInherits,
+             compare:lensCompare,afterlives:lensAfterlives,open:lensOpen,evidence:lensEvidence}[S.lens])(v,m);
+  document.getElementById('aside').innerHTML='<div class="aside-in">'+head+body+'</div>';
+  var x=document.getElementById('ax'); if(x) x.onclick=closeAll;
+  [].forEach.call(document.querySelectorAll('[data-goto-move]'),function(b){
+    b.onclick=function(){selectMove(b.getAttribute('data-goto-move'));};
+  });
+}
+
+/* SEE — the move grammar (Method fact, plane A; rendered, never re-derived) */
+function lensSee(v,m){
+  if(!m) return state('none-here','No move is coded on this verse.',
+    'the coded set is '+D.moves.items.length+' moves across '+D.text.ref+':'+D.text.verses[0].n+'\u2013'+D.text.verses[D.text.verses.length-1].n);
+  var af=D.account_frame.values||{}, veer=0;
+  var ribbon=Object.keys(af).sort().map(function(a){
+    var fp=(m.frame_permove||{})[a], isV=(fp!=null&&fp!==af[a]); if(isV)veer++;
+    return '<div class="ax'+(isV?' veer':'')+'" title="'+esc(a+(fp!=null?' = '+fp:''))+'">'
+      +'<span class="an">'+esc(axLabel(a))+'</span>'
+      +'<span class="av">'+esc(valLabel(a,fp))
+      +(isV?'<span class="base">'+esc(valLabel(a,af[a]))+'</span>':'')+'</span></div>';
+  }).join('');
+  var d='';
+  if(m.frame_delta_axis&&m.frame_delta_from!=null&&m.frame_delta_to!=null){
+    d='<p class="h">what shifted from the move before</p><p class="p">'
+      +esc(axLabel(m.frame_delta_axis))+' — '+esc(valLabel(m.frame_delta_axis,m.frame_delta_from))
+      +' → <b>'+esc(valLabel(m.frame_delta_axis,m.frame_delta_to))+'</b></p>';
+  }
+  return '<div class="gram"><div class="g-row">'
+      +'<div class="g-box"><span class="g-t">who</span><span class="g-v">'+esc(m.agent||'—')+'</span></div>'
+      +'<div class="g-op"><span class="arw">→</span><span class="opn">'+esc(m.operation||'')+'</span><span class="arw">→</span></div>'
+      +'<div class="g-box"><span class="g-t">what results</span><span class="g-v">'+esc(m.outcome||'—')+'</span></div>'
+    +'</div>'
+    +(m.substrate?'<div class="g-box" style="margin-top:.32rem"><span class="g-t">upon</span><span class="g-v">'+esc(m.substrate)+'</span></div>':'')
+    +'<p class="g-meta">'+esc(m.voice||'')+' · '+esc(m.move_type||'')
+      +(m.nested_under?' · nested under '+esc(m.nested_under):'')+'<br>told by '+esc(m.narrator||'—')+'</p></div>'
+    +(m.gloss?'<p class="h">in plain words</p><p class="gloss">'+esc(m.gloss)+'</p>':'')
+    +'<p class="h">the frame — '+(veer?veer+' of 8 axes veer from this account':'holds the account baseline')+'</p>'+ribbon+d
+    +anchorNote('This reading is tied to this verse by the verse numbers the coder recorded. Everything above was supplied by the method; nothing on this panel was inferred here.');
+}
+
+/* CONNECT — the typed edges (no edge_id upstream, so an edge is shown, not selectable) */
+function lensConnect(v,m){
+  var ms=activeMoves(), es=edgesFor(ms);
+  var bites=es.some(function(e){return !e.resolves;});
+  var drift=(bites&&D.connect.drift_note)?state('defect',esc(D.connect.drift_note),
+      'reported to the method; the unresolvable endpoints are marked above rather than dropped'):'';
+  if(!es.length) return state('none-here','This move links to no other move in the coded set of links.',
+      D.connect.count+' links are recorded across the text');
+  return es.map(function(e){
+    var mine=ms.some(function(x){return e.from.indexOf(x.move_handle)>=0;});
+    var other=(mine?e.to_labels:e.from_labels).join(' + ');
+    var bad=!e.resolves;
+    return '<button class="row"'+(bad?'':' data-goto-move="MARK-16:'+esc((mine?e.to_labels:e.from_labels)[0])+'"')+'>'
+      +'<span class="rt">'+(mine?'→ ':'← ')+esc(other)+(bad?' <span class="dim">(not in the coded set)</span>':'')+'</span>'
+      +'<span class="rm">'+esc(e.type)+' · '+esc(e.edge_kind)+' · '+esc(e.confidence)+' confidence</span></button>';
+  }).join('')+drift
+   +anchorNote('Links are recorded between moves, so they follow whichever move you have selected. A link cannot yet be selected in its own right — the method does not give each one a name.');
+}
+
+/* WORLD — sitz + paradigm (move-grain), plus the account-level frame declared text-level */
+function lensWorld(v,m){
+  if(!m) return state('none-here','No move is coded on this verse, so no world-conditions are attached here.','');
+  var af=D.account_frame.values||{};
+  return '<p class="h">the conditions it arose in</p><p class="p">'+esc(m.sitz||'—')+'</p>'
+    +'<p class="h">the practice it belongs to</p><p class="p">'+esc(m.paradigm||'—')+'</p>'
+    +'<p class="h">the account it sits in</p>'
+    +state('text-level','<b>'+esc(valLabel('telos',af.telos))+'</b> · '+esc(valLabel('epistemic-warrant',af['epistemic-warrant']))
+      +' · '+esc(valLabel('hermeneutic-posture',af['hermeneutic-posture'])),
+      'the account frame is coded once for the whole of Mark 16, not per verse — the SEE lens shows where this move veers from it')
+    +anchorNote('The conditions and the practice are recorded for each move, and reach this verse through the move you have selected.');
+}
+
+/* INHERITS — lineage.  An empty answer here is Method's own finding, in Method's words. */
+function lensInherits(v,m){
+  var ms=activeMoves(), cells=[];
+  ms.forEach(function(x){(x.lineage||[]).forEach(function(l){cells.push({m:x,l:l});});});
+  if(!cells.length){
+    var mt=D.lineage.metrics||{};
+    return state('none-here','This move stands on no source — and most do not. That is correct, not missing data.',
+      'across Mark 16, '+Math.round((mt.upstream_coverage||0)*100)+'% of moves carry an upstream source ('
+      +D.lineage.cells.length+' lineage cells over '+D.moves.items.length+' moves)')
+      +anchorNote('What a move draws on is recorded move by move. The sentence above is the method’s own wording, not a gloss written for this page.');
+  }
+  return cells.map(function(c){
+    var full=D.lineage.cells.filter(function(z){return z.move_handle===c.m.move_handle&&z.source===c.l.source_ref;})[0]
+          || D.lineage.cells.filter(function(z){return z.move_handle===c.m.move_handle;})[0] || {};
+    return '<div class="row"><span class="rt">'+esc(c.l.source_ref||full.source||'—')+'</span>'
+      +'<span class="rm">'+esc([c.l.vehicle||full.vehicle,c.l.certainty||full.link_certainty,full.family].filter(Boolean).join(' · '))+'</span>'
+      +((c.l.seam||full.seam)?'<span class="rs">'+esc(c.l.seam||full.seam)+'</span>':'')+'</div>';
+  }).join('')+anchorNote('What a move draws on is recorded move by move. The open question under each source is the method’s, quoted as written.');
+}
+
+/* COMPARE — the one comparison that genuinely joins on verse_id, plus the one that does not */
+function lensCompare(v,m){
+  var cg=D.cross_gospel;
+  var noJoin=state('no-join',
+    'The four gospels are compared as <b>'+cg.beats.length+' narrative beats</b>, not verse by verse — so no beat can be lined up against '+esc(v?v.ref:'this verse')+' yet.',
+    'the beats key on beat-index + which gospels carry them; there is no verse_id or move handle on a beat. Named as a Method seam item (anchor-key normalisation).');
+  var w=S.verse&&D.witnesses.by_verse[S.verse];
+  if(!w) return noJoin;
+  var lanes=D.witnesses.lanes.map(function(l){
+    var blocks=(w.lanes||{})[l.key]||[];
+    if(!blocks.length) return '';
+    return '<div class="lane"><span class="ln">'+esc(l.label)+'</span><span class="ld">'+esc(l.date||'')+'</span>'
+      +'<div class="lt">'+esc(blocks.join(' '))+'</div></div>';
+  }).join('');
+  return '<p class="h">the same verse in four witnesses</p>'+lanes
+    +(w.variance!=null?'<p class="h">how far apart they run</p><p class="p"><b>'+w.variance+'</b> composite variance'
+      +((w.glossa&&w.glossa.note)?' <span class="dim">— '+esc(w.glossa.note)+'</span>':'')+'</p>':'')
+    +'<p class="h">across the four gospels</p>'+noJoin
+    +anchorNote('The four translations are recorded verse by verse, so they line up with what you selected. The comparison across the four gospels is not recorded that way — see above.');
+}
+
+/* AFTERLIVES — reception, coded for the end-silence only; elsewhere that is said plainly */
+function lensAfterlives(v,m){
+  var R=D.reception;
+  if(!v||v.verse_id!==R.anchored_verse_id){
+    return state('out-of-scope','Later readers are coded for one place in this chapter — the end-silence at <b>Mark 16:8</b>.',
+      'select 16:8 to read them. Reception is not yet coded verse by verse across Mark 16.')
+      +'<p class="deeper">→ <a href="reception.html">the reception map</a></p>';
+  }
+  return '<p class="h">'+esc(R.center&&R.center.label||R.gap)+'</p>'
+    +(R.center?'<p class="gloss">'+esc(R.center.reading)+'</p>':'')
+    +'<p class="h">'+R.readers.length+' later readers</p>'
+    +R.readers.map(function(r){
+      return '<div class="row"><span class="rt">'+esc(r.label)+'</span>'
+        +'<span class="rm">'+esc(r.grounding||'')+(r.source_id?' · '+esc(r.source_id):'')+'</span>'
+        +(r.reading?'<span class="rs">'+esc(r.reading)+'</span>':'')+'</div>';
+    }).join('')
+    +state('no-join','These readers attach to the end-silence through prose, not a structured key.',
+      'reception rows carry notes like “cites PASS-L4-…” rather than a verse or move handle. Named as a Method seam item.')
+    +anchorNote('These readers are attached to the end-silence by a written note rather than a verse number, so they appear at 16:8 and nowhere else.');
+}
+
+/* OPEN — the absence slot.  Kept whole and honest: what IS typed, and what it waits on. */
+function lensOpen(v,m){
+  var A=D.absence;
+  var typed=A.typed_now.map(function(t){
+    return '<div class="row"><span class="rt">'+esc(t.claim)+'</span>'
+      +'<span class="rm">'+esc(t.type)+(t.count!=null?' · '+t.count+' of '+t.of+' moves':'')+(t.verse_id?' · '+esc(t.verse_id):'')+'</span></div>';
+  }).join('');
+  return '<p class="h">the absences already typed by the method</p>'+typed
+    +'<p class="h">the rest of this lens</p>'
+    +state('awaiting-method','One mark is currently doing four jobs — comparative omission, lineage absence, obligated textual absence, and not-yet-coded all read the same. A single visual grammar would make them look like one thing.',
+      'the absence must be typed before it is given a shape, so this slot stays open rather than guessing. Waiting on: '+A.awaiting.join(' · ')+'.')
+    +anchorNote('Only absences the method has already named appear here. No picture or metaphor for absence has been invented on this page.');
+}
+
+/* EVIDENCE — where every proposition on screen came from */
+function lensEvidence(v,m){
+  var t=D.text, g=t.gate||{};
+  var lensSrc={see:'moves',connect:'connect',world:'moves',inherits:'lineage',compare:'witnesses',
+               afterlives:'reception',open:'moves',evidence:'text'};
+  return '<p class="h">this text</p>'
+    +'<p class="p"><b>'+esc(t.edition)+'</b><br>'+esc(t.source_id)+' · '+esc(String(t.rights_status).replace(/_/g,' '))
+      +' · fidelity '+esc(t.current_fidelity)+'</p>'
+    +(v?'<p class="h">this verse</p><p class="p">'+esc(v.ref)+' · <span class="dim">'+esc(v.verse_id)+'</span>'
+      +(v.passage_id?'<br>passage '+esc(v.passage_id):'')+'</p>':'')
+    +'<p class="h">the package</p>'
+    +'<p class="p">'+esc(t.checkout_version)+'<br><span class="dim" style="font-family:var(--mono);font-size:.62rem;word-break:break-all">'+esc(t.package_hash)+'</span></p>'
+    +'<p class="h">gates</p><p class="p">'
+      +Object.keys(g).map(function(k){return (g[k]?'✓ ':'✕ ')+hum(k);}).join(' · ')+'</p>'
+    +'<p class="h">what each lens reads</p>'
+    +'<p class="p">'+LENSES.filter(function(L){return L.id!=='evidence';}).map(function(L){
+        return '<b>'+L.q+'</b> — '+esc((D._sources||{})[lensSrc[L.id]]||'—');}).join('<br>')+'</p>'
+    +'<p class="h">the text itself</p>'
+    +'<p class="p">'+esc(t.extraction||'')+'</p>'
+    +(D.connect.drift_note?'<p class="h">declared defects in the feed</p>'
+        +state('defect',esc(D.connect.drift_note),'shown here so it is disclosed on every verse, and marked in place wherever it actually bites'):'')
+    +'<p class="deeper">→ <a href="/engine/method-schema.html">the method</a> · <a href="/engine/library-schema.html">the library</a> · <a href="all.html">every reading-room surface</a></p>';
+}
+
+function anchorNote(s){return '<p class="a-anchor">'+esc(s)+'</p>';}
+
+/* ── status pill: derived from the Design State Registry, never hand-typed (rule 8) ── */
+function derive(s){
+  if(!s) return {label:'—',cls:'na'};
+  var d=s.deployment,i=s.implementation,o;
+  if(d==='live'&&i==='built') o={label:'live',cls:'live'};
+  else if(d==='live'&&(i==='partial'||s.maturity==='pilot')) o={label:'pilot',cls:'pilot'};
+  else if(d==='staging') o={label:'preview',cls:'pilot'};
+  else if(d==='offline'&&i==='partial') o={label:'paused',cls:'paused'};
+  else if(d==='offline'&&i==='unbuilt') o={label:'planned',cls:'soon'};
+  else o={label:(i||'—'),cls:'na'};
+  if(s.dependency==='blocked') o.label+=' · blocked';
+  return o;
+}
+fetch('/engine/data/design/design_state.json?v='+Date.now(),{cache:'no-cache'})
+ .then(function(r){return r.ok?r.json():null;}).then(function(reg){
+   if(!reg) return;
+   var me=(reg.surfaces||[]).filter(function(x){return x.id==='room.html';})[0];
+   var d=derive(me&&me.status), el=document.getElementById('status');
+   el.textContent=d.label; el.className='pill '+d.cls;
+ }).catch(function(){});
+
+/* ── theme ── */
+(function(){var b=document.getElementById('theme');
+ var saved=null; try{saved=localStorage.getItem('gom-theme');}catch(e){}
+ if(saved) document.documentElement.setAttribute('data-theme',saved);
+ b.onclick=function(){
+   var cur=document.documentElement.getAttribute('data-theme');
+   var next=cur==='dark'?'light':(cur==='light'?'dark':(matchMedia('(prefers-color-scheme: dark)').matches?'light':'dark'));
+   document.documentElement.setAttribute('data-theme',next);
+   try{localStorage.setItem('gom-theme',next);}catch(e){}
+ };})();
+
+/* ── boot ── */
+fetch('/engine/data/design/reading_room_mark16.json?v='+Date.now(),{cache:'no-cache'})
+ .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+ .then(function(j){
+   D=j; buildText();
+   document.getElementById('foot').innerHTML=
+     'Mark 16, verbatim from the library checkout ('+esc(D.text.edition)+', '+esc(String(D.text.rights_status).replace(/_/g,' '))+'). '
+    +D.moves.items.length+' coded moves · '+D.connect.edges.length+' typed links · '+D.lineage.cells.length+' lineage cells · '
+    +D.witnesses.lanes.length+' translation witnesses · '+D.reception.readers.length+' later readers.<br>'
+    +'Every panel renders from one feed; nothing analytical is written into this page. '
+    +'<a href="all.html">every surface</a> · <a href="/engine/method-schema.html">the method</a>';
+ })
+ .catch(function(e){
+   document.getElementById('text').innerHTML='<p class="err">Could not load the Mark 16 feed ('+esc(e.message)+'). '
+     +'Run <code>scripts/analysis/build_reading_room_feed.py</code> to regenerate it.</p>';
+ });
+</script>
+</body></html>
