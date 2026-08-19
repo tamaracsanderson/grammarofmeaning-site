@@ -147,23 +147,36 @@ body.open .aside{opacity:1;pointer-events:auto}
 
 /* the move grammar diagram */
 .gram{margin:.15rem 0 0}
-.g-row{display:flex;align-items:stretch;gap:.32rem;margin:.3rem 0}
-.g-box{flex:1;min-width:0;padding:.36rem .5rem;border:1px solid var(--rule);border-radius:6px;background:var(--paper)}
+/* who -> operation -> outcome. The boxes were flex:1 with no floor, so a long agent squeezed them below
+   their own label width and the row spilled past the panel. Let the row WRAP instead of crushing its
+   children: side by side when they fit, stacked with the arrow between when they don't. */
+.g-row{display:flex;align-items:stretch;gap:.32rem;margin:.3rem 0;flex-wrap:wrap}
+.g-box{flex:1 1 8.5rem;min-width:7.5rem;padding:.36rem .5rem;border:1px solid var(--rule);border-radius:6px;background:var(--paper)}
 .g-t{display:block;font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;
   color:var(--ink-3);margin-bottom:.12rem}
-.g-v{font-size:.78rem;line-height:1.4;color:var(--ink)}
-.g-op{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 .1rem}
+.g-v{font-size:.78rem;line-height:1.4;color:var(--ink);overflow-wrap:anywhere}
+/* a flex item defaults to min-width:auto, so a long operation ("see (a young man sitting…)") refused to
+   shrink and pushed the whole row past the panel. Found by checking scrollWidth across all 440 panels —
+   the earlier sweeps only asked for errors and blanks, which this is neither. */
+.g-op{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 .1rem;
+  min-width:0;flex:1 1 4rem}
 .g-op .arw{color:var(--ink-3);font-size:.7rem;line-height:1}
-.g-op .opn{font-family:var(--mono);font-size:.68rem;color:var(--terracotta);padding:.08rem 0}
+.g-op .opn{font-family:var(--mono);font-size:.68rem;color:var(--terracotta);padding:.08rem 0;
+  text-align:center;overflow-wrap:anywhere;line-height:1.3}
 .g-meta{font-family:var(--mono);font-size:.62rem;color:var(--ink-3);margin-top:.35rem;line-height:1.5}
 .dim{color:var(--ink-3);opacity:.7}
 
 /* the frame ribbon */
 .ax{display:flex;justify-content:space-between;gap:.6rem;padding:.2rem 0;border-bottom:1px dotted var(--rule)}
 .ax:last-child{border-bottom:0}
-.ax .an{font-size:.72rem;color:var(--ink-3);flex:0 0 47%}
-.ax .av{font-size:.72rem;color:var(--ink);text-align:right;flex:1}
-.ax .av.raw{font-family:var(--mono);font-size:.66rem;color:var(--ink-3)}
+.ax .an{flex:0 0 47%}
+.ax .av{text-align:right;flex:1}
+/* TERM first (the handle the method hangs on), plain gloss beneath (the on-ramp). Never the gloss alone —
+   replacing the precise term loses the word the rest of the method is written in. */
+.ax .term{display:block;font-family:var(--mono);font-size:.68rem;font-weight:500;color:var(--ink);
+  line-height:1.35;word-break:break-word}
+.ax .gl{display:block;font-size:.68rem;color:var(--ink-3);line-height:1.35;margin-top:.05rem}
+.ax.veer .av .term{color:var(--terracotta)}
 .ax.veer .av{color:var(--terracotta)}
 .ax .base{display:block;font-size:.62rem;color:var(--ink-3);text-decoration:line-through;opacity:.7}
 
@@ -461,17 +474,22 @@ function lensSee(v,m){
     var fp=(m.frame_permove||{})[a], isV=(fp!=null&&fp!==af[a]); if(isV)veer++;
     var raw=(fp!=null && !isGlossed(a,fp));
     if(raw) rawN++;
-    return '<div class="ax'+(isV?' veer':'')+'" title="'+esc(a+(fp!=null?' = '+fp:'')
-        +(raw?' — no reader phrase written for this value; shown as the code-name with its hyphens removed':''))+'">'
-      +'<span class="an">'+esc(axLabel(a))+'</span>'
-      +'<span class="av'+(raw?' raw':'')+'">'+esc(valLabel(a,fp))
-      +(isV?'<span class="base">'+esc(valLabel(a,af[a]))+'</span>':'')+'</span></div>';
+    var aGloss=isGlossed(a,'')?axLabel(a):'';                    /* the axis's own reader phrase, if written */
+    var vGloss=raw?'':valLabel(a,fp);                            /* the value's, if written */
+    var vTerm=(fp==null)?'—':hum(fp);                            /* the method's word, always shown */
+    return '<div class="ax'+(isV?' veer':'')+'">'
+      +'<span class="an"><b class="term">'+esc(a)+'</b>'
+        +(aGloss?'<span class="gl">'+esc(aGloss)+'</span>':'')+'</span>'
+      +'<span class="av"><b class="term">'+esc(vTerm)+'</b>'
+        +(vGloss?'<span class="gl">'+esc(vGloss)+'</span>':'')
+        +(isV?'<span class="base">'+esc(hum(af[a]))+'</span>':'')+'</span></div>';
   }).join('');
   var d='';
   if(m.frame_delta_axis&&m.frame_delta_from!=null&&m.frame_delta_to!=null){
+    var ax=m.frame_delta_axis;
     d='<p class="h">what shifted from the move before</p><p class="p">'
-      +esc(axLabel(m.frame_delta_axis))+' — '+esc(valLabel(m.frame_delta_axis,m.frame_delta_from))
-      +' → <b>'+esc(valLabel(m.frame_delta_axis,m.frame_delta_to))+'</b></p>';
+      +'<b>'+esc(ax)+'</b>'+(isGlossed(ax,'')?' <span class="dim">'+esc(axLabel(ax))+'</span>':'')+'<br>'
+      +esc(hum(m.frame_delta_from))+' <span class="sh">\u2192</span> <b>'+esc(hum(m.frame_delta_to))+'</b></p>';
   }
   return '<div class="gram"><div class="g-row">'
       +'<div class="g-box"><span class="g-t">who</span><span class="g-v">'+esc(m.agent||'—')+'</span></div>'
@@ -487,8 +505,8 @@ function lensSee(v,m){
        filled entries are the axis NAMES. Worded so the all-raw case reads as a state of the work rather
        than as a broken panel, and so it updates itself as Content SB fills entries in. */
     +(rawN? '<p class="a-anchor">'+(rawN===8
-        ? 'The axis names above are in reader\u2019s words; none of the values are yet. Each value is the method\u2019s own code-name with its hyphens removed \u2014 shown in the lighter face.'
-        : rawN+' of these 8 values have no reader phrase yet, and are shown as the method\u2019s code-name with the hyphens removed \u2014 marked in the lighter face.')+'</p>' : '')
+        ? 'Each axis is named in the method\u2019s own word, with the plain meaning beneath it. The values have no plain wording written for them yet, so they appear as the method\u2019s word alone.'
+        : rawN+' of these 8 values have no plain wording written for them yet, so they appear as the method\u2019s word alone.')+'</p>' : '')
     +anchorNote('This reading is tied to this verse by the verse numbers the coder recorded. Everything above was supplied by the method; nothing on this panel was inferred here.');
 }
 
