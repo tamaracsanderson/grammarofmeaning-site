@@ -301,12 +301,35 @@ function verseById(v){return D.text.verses.filter(function(x){return x.verse_id=
 
 /* ══ THE TEXT — the persistent centre.  Rebuilt only on selection change, and only
       its CLASSES change, so no line ever re-breaks and no scroll position is lost. ══ */
+/* Adding or removing the move-chip row changes document height ABOVE the reader when the previous
+   selection was higher up the page — which would slide the text under them. So every mutation of the
+   text column is wrapped: anchor on the topmost verse still in view, then give back exactly the
+   offset the mutation took. Class changes alone are free; this is only for the chips. */
+function keepingPlace(mutate, preferId){
+  /* Anchor on what the reader is actually looking at: the verse they just acted on if there is one,
+     otherwise the topmost verse still in view. Chips land UNDER the selected verse, so anchoring there
+     is also what makes "the thing I clicked doesn't jump" true — content below it moving down is
+     correct, and is where the new material went. */
+  var anchor=preferId?document.querySelector('.v[data-verse="'+preferId+'"]'):null;
+  if(!anchor)[].some.call(document.querySelectorAll('.v'),function(el){
+    if(el.getBoundingClientRect().bottom>0){anchor=el;return true;} return false;});
+  var before=anchor?anchor.getBoundingClientRect().top:0;
+  mutate();
+  if(!anchor) return;
+  var delta=anchor.getBoundingClientRect().top-before;
+  if(Math.abs(delta)>0.5) window.scrollBy(0,delta);
+}
+
 function paintText(){
   var lit=S.verse?[S.verse]:[];
   if(S.move){var m=moveByHandle(S.move); if(m) lit=m.verse_ids;}
   [].forEach.call(document.querySelectorAll('.v'),function(el){
     el.classList.toggle('lit', lit.indexOf(el.getAttribute('data-verse'))>=0);
   });
+  paintChips();     /* the caller wraps this in keepingPlace — see open() / closeAll() */
+}
+
+function paintChips(){
   /* the move chips live under the selected verse only */
   var old=document.querySelector('.chips'); if(old) old.remove();
   if(!S.verse) return;
@@ -352,16 +375,22 @@ function selectVerse(vid){
 function selectMove(h){ var m=moveByHandle(h); if(!m)return; S.move=h; if(m.verse_ids.length) S.verse=m.verse_ids[0];
   if(!S.lens) S.lens='see'; open(); }
 function showLens(id){ S.lens=id; open(); }
-function open(){ document.body.classList.add('open'); paintText(); paintRail(); paintAside(); }
+/* Wide layout: the rail and the panel are absolutely placed, so opening one costs no layout.
+   Narrow layout: the rail joins the flow and would push the text down by its own height. Both cases
+   are covered by compensating around the whole mutation rather than around any one part of it. */
+function open(){ keepingPlace(function(){
+  document.body.classList.add('open'); paintText(); paintRail(); paintAside(); }, S.verse); }
 
 /* ══ CLOSE -> ORDINARY READING, SAME PLACE.  Only classes + a transform change, so the
       document never reflows and the scroll offset is untouched. ══ */
 function closeAll(){
-  S.verse=null; S.move=null; S.lens=null;
-  document.body.classList.remove('open');
-  paintText();
-  document.getElementById('rail').innerHTML='';
-  document.getElementById('aside').innerHTML='';
+  keepingPlace(function(){
+    S.verse=null; S.move=null; S.lens=null;
+    document.body.classList.remove('open');
+    paintText();
+    document.getElementById('rail').innerHTML='';
+    document.getElementById('aside').innerHTML='';
+  });
 }
 document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeAll(); });
 
@@ -505,7 +534,7 @@ function lensCompare(v,m){
   var cg=D.cross_gospel;
   var noJoin=state('no-join',
     'The four gospels are compared as <b>'+cg.beats.length+' narrative beats</b>, not verse by verse — so no beat can be lined up against '+esc(v?v.ref:'this verse')+' yet.',
-    'the beats key on beat-index + which gospels carry them; there is no verse_id or move handle on a beat. Named as a Method seam item (anchor-key normalisation).');
+    cg.seam_reader||'');
   var w=S.verse&&D.witnesses.by_verse[S.verse];
   if(!w) return noJoin;
   var lanes=D.witnesses.lanes.map(function(l){
@@ -537,23 +566,41 @@ function lensAfterlives(v,m){
         +'<span class="rm">'+esc(r.grounding||'')+(r.source_id?' · '+esc(r.source_id):'')+'</span>'
         +(r.reading?'<span class="rs">'+esc(r.reading)+'</span>':'')+'</div>';
     }).join('')
-    +state('no-join','These readers attach to the end-silence through prose, not a structured key.',
-      'reception rows carry notes like “cites PASS-L4-…” rather than a verse or move handle. Named as a Method seam item.')
+    +state('no-join','These readers are attached to the end-silence by a written note rather than by a verse number.',
+      'so they can be shown here, at 16:8, but they cannot yet follow you to any other verse.')
     +anchorNote('These readers are attached to the end-silence by a written note rather than a verse number, so they appear at 16:8 and nowhere else.');
 }
 
-/* OPEN — the absence slot.  Kept whole and honest: what IS typed, and what it waits on. */
+/* OPEN — the absence slot.  Method S180 adjudicated the ontology, and one ruling corrected what this
+   lens shipped earlier: the silence at 16:8 is NOT an absence. It is content — the text says the women
+   said nothing — so it is a coded move and is marked as a move. Keeping it here beside lineage-absence
+   would assert that the evangelist's silence and our not-having-coded-something are the same kind of
+   object. They are not; the resemblance is in the English word. (RULING 3.) */
 function lensOpen(v,m){
   var A=D.absence;
   var typed=A.typed_now.map(function(t){
     return '<div class="row"><span class="rt">'+esc(t.claim)+'</span>'
-      +'<span class="rm">'+esc(t.type)+(t.count!=null?' · '+t.count+' of '+t.of+' moves':'')+(t.verse_id?' · '+esc(t.verse_id):'')+'</span></div>';
+      +'<span class="rm">'+esc(t.kind)+(t.count!=null?' · '+t.count+' of '+t.of+' moves':'')+'</span></div>';
   }).join('');
-  return '<p class="h">the absences already typed by the method</p>'+typed
-    +'<p class="h">the rest of this lens</p>'
-    +state('awaiting-method','One mark is currently doing four jobs — comparative omission, lineage absence, obligated textual absence, and not-yet-coded all read the same. A single visual grammar would make them look like one thing.',
-      'the absence must be typed before it is given a shape, so this slot stays open rather than guessing. Waiting on: '+A.awaiting.join(' · ')+'.')
-    +anchorNote('Only absences the method has already named appear here. No picture or metaphor for absence has been invented on this page.');
+  /* the four KINDS, and how far each one currently reaches — the shape of the lens, honestly drawn */
+  var kinds=(A.axis_b_kinds||[]).map(function(k){
+    return '<div class="row"><span class="rt">'+esc(k.kind)+(k.reaches_a_feed?'':' <span class="dim">— recorded, but reaches no reading yet</span>')+'</span>'
+      +'<span class="rm">'+k.rows+' recorded</span></div>';
+  }).join('');
+  /* at 16:8 this is the most interesting thing on the panel, so lead with it there */
+  var NA=A.not_an_absence;
+  var naBlock=NA?('<p class="h">what is <em>not</em> an absence here</p>'
+      +'<div class="st st-none-here"><span class="stl">content, not a gap</span>'
+      +esc(NA.ruling)+'<span class="why">'+esc(NA.case+' — shown instead as '+NA.shown_as)+'</span></div>'):'';
+  var atEnd = v && NA && /16:8/.test(NA.case) && v.verse_id===(D.reception&&D.reception.anchored_verse_id);
+  return (atEnd?naBlock:'')
+    +'<p class="h">what the method has named, for this move</p>'+typed
+    +'<p class="h">the kinds of absence, and how far each reaches</p>'+kinds
+    +(atEnd?'':naBlock)
+    +'<p class="h">still open</p>'
+    +state('awaiting-method','The open ring carries one thing — whether a slot was tested. Which <em>kind</em> of absence it is needs a second, separate mark, and that mark has not been drawn yet.',
+      'waiting on: '+(A.awaiting_reader||A.awaiting).join(' · ')+'.')
+    +anchorNote('Only absences the method has already named appear here, and the visual grammar for the second channel has not been invented on this page.');
 }
 
 /* EVIDENCE — where every proposition on screen came from */
@@ -572,7 +619,10 @@ function lensEvidence(v,m){
       +Object.keys(g).map(function(k){return (g[k]?'✓ ':'✕ ')+hum(k);}).join(' · ')+'</p>'
     +'<p class="h">what each lens reads</p>'
     +'<p class="p">'+LENSES.filter(function(L){return L.id!=='evidence';}).map(function(L){
-        return '<b>'+L.q+'</b> — '+esc((D._sources||{})[lensSrc[L.id]]||'—');}).join('<br>')+'</p>'
+        var src=String((D._sources||{})[lensSrc[L.id]]||'—').replace(/\s*\(plane [A-D]\)/,'');
+        return '<b>'+L.q+'</b> — '+esc(src.split('/').pop());}).join('<br>')+'</p>'
+    +(D.reliability?'<p class="h">how stable is this reading?</p>'
+        +state('awaiting-method',esc(D.reliability.disposition),D.reliability.why_no_number):'')
     +'<p class="h">the text itself</p>'
     +'<p class="p">'+esc(t.extraction||'')+'</p>'
     +(D.connect.drift_note?'<p class="h">declared defects in the feed</p>'
