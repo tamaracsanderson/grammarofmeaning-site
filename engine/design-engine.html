@@ -120,7 +120,34 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
 <script>
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function pill(name,st){var w=String(st||'').toLowerCase();var c=w==='pass'?'pass':w==='pending'?'pending':w==='fail'?'fail':'na';var disp=w==='n/a'||w===''?'n/a':st;return '<span class="pill '+c+'">'+esc(name)+' · '+esc(disp)+'</span>';}
-function statusBadge(s){var str=String(s||'');var built=/built|v1 draft/i.test(str);var next=/^(next|build)/i.test(str);return '<span class="status'+(built?' built':(next?' next':''))+'">'+esc(s)+'</span>';}
+/* The pill used to be recovered by REGEXING the free-text status prose (/built|v1 draft/i) — the status
+   -vocabulary collapse made executable. It now derives from n.status_axes, which is itself derived from the
+   node's own machine fields by scripts/analysis/build_design_engine_status_axes.py. Same derive() contract as
+   all.html, room.html and the viz house: one store, one label rule.
+   The prose survives as the editorial one-liner beneath — it says what the axes cannot (which grammar a
+   figure uses, what v2 would add). It just no longer decides a colour. */
+function derive(s){
+  if(!s) return {label:'\u2014',cls:''};
+  var d=s.deployment,i=s.implementation,o;
+  if(d==='live'&&i==='built') o={label:'live',cls:' built'};
+  else if(d==='live'&&(i==='partial'||s.maturity==='pilot')) o={label:'pilot',cls:' next'};
+  else if(d==='staging') o={label:'preview',cls:' next'};
+  else if(d==='offline'&&i==='partial') o={label:'paused',cls:''};
+  else if(d==='offline'&&i==='unbuilt') o={label:'planned',cls:''};
+  else o={label:(i||'\u2014'),cls:''};
+  if(s.dependency==='blocked') o.label+=' \u00b7 blocked';
+  return o;
+}
+function statusBadge(n){
+  var ax=n&&n.status_axes, d=derive(ax);
+  var tip=ax?['implementation','maturity','deployment','data','coverage','review','dependency','evidence']
+      .map(function(k){return k+': '+ax[k];}).join(' \u00b7 '):'';
+  /* a prose-vs-machine disagreement is shown, not silently resolved in favour of one of them */
+  var warn=(ax&&ax.disagrees_with_prose)?'<span class="status" title="'+esc(ax.disagrees_with_prose.join('; '))
+      +'" style="margin-left:6px;color:#a33;border-color:color-mix(in srgb,#C4602F 45%,var(--line))">\u26a0 disagrees with its own record</span>':'';
+  return '<span class="status'+d.cls+'"'+(tip?' title="'+esc(tip)+'"':'')+'>'+esc(d.label)+'</span>'+warn;
+}
+function statusProse(s){return s?'<p class="one" style="opacity:.72">'+esc(s)+'</p>':'';}
 function reviewRow(r){
   if(!r||(!r.pi&&!r.gpt&&!r.status))return '';
   var h='<div class="review"><span class="rlab">review</span>';
@@ -138,7 +165,7 @@ function nodeCard(n){
   var feeds=(rf.feeds||[]).map(function(f){return esc(f);}).join(' · ');
   var vars='<div class="vchips">'+(n.variants||[]).map(function(v){return '<span class="vchip">'+esc(v.name)+'<span class="vn">'+esc(v.note||'')+'</span></span>';}).join('')+'</div>';
   return '<div class="node" id="'+esc(n.id)+'">'+
-    '<div class="node-h"><h3>'+esc(n.name)+'</h3>'+(n.also?'<span class="also">also: '+esc(n.also)+'</span>':'')+statusBadge(n.status)+'</div>'+
+    '<div class="node-h"><h3>'+esc(n.name)+'</h3>'+(n.also?'<span class="also">also: '+esc(n.also)+'</span>':'')+statusBadge(n)+'</div>'+statusProse(n.status)+
     reviewRow(n.review)+
     '<p class="oneline">'+esc(n.one_line)+'</p>'+
     pills+

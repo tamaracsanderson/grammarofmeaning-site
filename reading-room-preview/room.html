@@ -621,6 +621,11 @@ function lensEvidence(v,m){
     +'<p class="p">'+LENSES.filter(function(L){return L.id!=='evidence';}).map(function(L){
         var src=String((D._sources||{})[lensSrc[L.id]]||'—').replace(/\s*\(plane [A-D]\)/,'');
         return '<b>'+L.q+'</b> — '+esc(src.split('/').pop());}).join('<br>')+'</p>'
+    +'<p class="h">which reading of the text</p>'
+    +(D.coded_run.recorded
+       ? '<p class="p"><b>'+esc(D.coded_run.run_tag)+'</b><br>'+D.coded_run.n_moves+' coded moves</p>'
+       : state('defect','This page shows a reading of '+D.coded_run.n_moves+' coded moves, and the file it comes from does not say which run produced it.',
+               D.coded_run.note))
     +(D.reliability?'<p class="h">how stable is this reading?</p>'
         +state('awaiting-method',esc(D.reliability.disposition),D.reliability.why_no_number):'')
     +'<p class="h">the text itself</p>'
