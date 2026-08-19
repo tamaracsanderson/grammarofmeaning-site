@@ -163,6 +163,7 @@ body.open .aside{opacity:1;pointer-events:auto}
 .ax:last-child{border-bottom:0}
 .ax .an{font-size:.72rem;color:var(--ink-3);flex:0 0 47%}
 .ax .av{font-size:.72rem;color:var(--ink);text-align:right;flex:1}
+.ax .av.raw{font-family:var(--mono);font-size:.66rem;color:var(--ink-3)}
 .ax.veer .av{color:var(--terracotta)}
 .ax .base{display:block;font-size:.62rem;color:var(--ink-3);text-decoration:line-through;opacity:.7}
 
@@ -264,6 +265,11 @@ function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'
 function hum(v){return String(v==null?'':v).replace(/[-_]/g,' ');}
 function axLabel(a){var m=D&&D.reader_words;return (m&&m[a+'|'])||hum(a);}          /* reader words, from the feed */
 function valLabel(a,v){if(v==null)return '—';var m=D&&D.reader_words;return (m&&m[a+'|'+v])||hum(v);}
+/* Has the method actually written a reader phrase for this value, or are we just de-tokenizing the raw
+   code-name? The fallback contract (de-tokenize only, never invent sense) is right — but it renders a miss
+   and a hit identically, so a page can look fully translated while most of it is only hyphen-stripped.
+   Corpus-wide that is roughly two thirds of all frame reads. Marked, quietly, rather than smoothed. */
+function isGlossed(a,v){var m=D&&D.reader_words;return !!(m&&m[a+'|'+v]);}
 
 /* ── EDITORIAL (plane C): the public IA is reader QUESTIONS, never engine names ── */
 var LENSES=[
@@ -450,12 +456,15 @@ function paintAside(){
 function lensSee(v,m){
   if(!m) return state('none-here','No move is coded on this verse.',
     'the coded set is '+D.moves.items.length+' moves across '+D.text.ref+':'+D.text.verses[0].n+'\u2013'+D.text.verses[D.text.verses.length-1].n);
-  var af=D.account_frame.values||{}, veer=0;
+  var af=D.account_frame.values||{}, veer=0, rawN=0;
   var ribbon=Object.keys(af).sort().map(function(a){
     var fp=(m.frame_permove||{})[a], isV=(fp!=null&&fp!==af[a]); if(isV)veer++;
-    return '<div class="ax'+(isV?' veer':'')+'" title="'+esc(a+(fp!=null?' = '+fp:''))+'">'
+    var raw=(fp!=null && !isGlossed(a,fp));
+    if(raw) rawN++;
+    return '<div class="ax'+(isV?' veer':'')+'" title="'+esc(a+(fp!=null?' = '+fp:'')
+        +(raw?' — no reader phrase written for this value; shown as the code-name with its hyphens removed':''))+'">'
       +'<span class="an">'+esc(axLabel(a))+'</span>'
-      +'<span class="av">'+esc(valLabel(a,fp))
+      +'<span class="av'+(raw?' raw':'')+'">'+esc(valLabel(a,fp))
       +(isV?'<span class="base">'+esc(valLabel(a,af[a]))+'</span>':'')+'</span></div>';
   }).join('');
   var d='';
@@ -474,6 +483,12 @@ function lensSee(v,m){
       +(m.nested_under?' · nested under '+esc(m.nested_under):'')+'<br>told by '+esc(m.narrator||'—')+'</p></div>'
     +(m.gloss?'<p class="h">in plain words</p><p class="gloss">'+esc(m.gloss)+'</p>':'')
     +'<p class="h">the frame — '+(veer?veer+' of 8 axes veer from this account':'holds the account baseline')+'</p>'+ribbon+d
+    /* today this is 8 of 8 on every move — value_gloss says so itself: 8 filled, 279 pending, and all 8
+       filled entries are the axis NAMES. Worded so the all-raw case reads as a state of the work rather
+       than as a broken panel, and so it updates itself as Content SB fills entries in. */
+    +(rawN? '<p class="a-anchor">'+(rawN===8
+        ? 'The axis names above are in reader\u2019s words; none of the values are yet. Each value is the method\u2019s own code-name with its hyphens removed \u2014 shown in the lighter face.'
+        : rawN+' of these 8 values have no reader phrase yet, and are shown as the method\u2019s code-name with the hyphens removed \u2014 marked in the lighter face.')+'</p>' : '')
     +anchorNote('This reading is tied to this verse by the verse numbers the coder recorded. Everything above was supplied by the method; nothing on this panel was inferred here.');
 }
 
