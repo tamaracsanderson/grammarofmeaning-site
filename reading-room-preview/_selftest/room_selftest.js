@@ -26,6 +26,14 @@
   var ESC = function () { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); };
 
   if (!document.querySelector('.v')) { console.error('the text has not loaded — is the feed reachable?'); return; }
+  /* A degenerate viewport makes every width-based check nonsense — a 0px-wide window reported 495 panels
+     overflowing by 180px, which is a confident failure about nothing. Refuse rather than report: a check
+     that cries wolf is the mirror of one that cannot go red, and both end in being ignored. */
+  if (window.innerWidth < 320 || window.innerHeight < 320) {
+    console.error('viewport is ' + window.innerWidth + 'x' + window.innerHeight +
+      ' — too small to measure. Resize to a real window and run again; width-based checks would be noise here.');
+    return { panels: 0, failed: 0, results: [], aborted: 'degenerate viewport' };
+  }
 
   /* ── 1 · walk EVERY panel: 20 verses x every move x every lens ────────────────────────────── */
   var panels = 0, thrown = 0, blanks = 0, overflow = 0, worstOver = 0, states = {}, leaks = {};
