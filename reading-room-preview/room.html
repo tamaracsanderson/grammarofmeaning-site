@@ -291,6 +291,7 @@ var LENSES=[
  {id:'world',     q:'WORLD',     n:'what world is this?'},
  {id:'inherits',  q:'INHERITS',  n:'what does it draw on?'},
  {id:'compare',   q:'COMPARE',   n:'how do witnesses differ?'},
+ {id:'reached',    q:'REACHED US', n:'how did it get here?'},
  {id:'afterlives',q:'AFTERLIVES',n:'what did readers do?'},
  {id:'open',      q:'OPEN',      n:"what's unresolved?"},
  {id:'evidence',  q:'EVIDENCE',  n:'where is this from?'}
@@ -422,6 +423,7 @@ function lensState(id){
                       return n?{s:'ok',mk:n}:{s:'none-here'};}
   if(id==='connect'){ var n=edgesFor(ms).length; return n?{s:'ok',mk:n}:{s:'none-here'};}
   if(id==='compare')  return (S.verse&&D.witnesses.by_verse[S.verse])?{s:'ok',mk:D.witnesses.lanes.length}:{s:'no-join'};
+  if(id==='reached')  return (D.witness_chain&&D.witness_chain.this_text)?{s:'text-level'}:{s:'none-here'};
   if(id==='afterlives')return (S.verse===D.reception.anchored_verse_id)?{s:'ok',mk:D.reception.readers.length}:{s:'out-of-scope'};
   if(id==='open')     return {s:'awaiting-method'};
   if(id==='evidence') return {s:'ok'};
@@ -457,7 +459,8 @@ function paintAside(){
     +'<button class="a-x" id="ax" title="close (Esc)">✕</button></div>'
     +'<p class="a-sub">'+esc(L.n)+(v?' · '+esc(v.ref):'')+(m?' · '+esc(m.label):'')+'</p>';
   var body=({see:lensSee,connect:lensConnect,world:lensWorld,inherits:lensInherits,
-             compare:lensCompare,afterlives:lensAfterlives,open:lensOpen,evidence:lensEvidence}[S.lens])(v,m);
+             compare:lensCompare,reached:lensReached,afterlives:lensAfterlives,
+             open:lensOpen,evidence:lensEvidence}[S.lens])(v,m);
   document.getElementById('aside').innerHTML='<div class="aside-in">'+head+body+'</div>';
   var x=document.getElementById('ax'); if(x) x.onclick=closeAll;
   [].forEach.call(document.querySelectorAll('[data-goto-move]'),function(b){
@@ -570,17 +573,72 @@ function lensCompare(v,m){
     cg.seam_reader||'');
   var w=S.verse&&D.witnesses.by_verse[S.verse];
   if(!w) return noJoin;
+  /* Each witness's unit-count for THIS verse, shown beside it. The four are lined up at the verse and at
+     no finer grain — they agree on how a verse divides in only 5 of 20 — so showing four lanes flush
+     without saying so would imply a correspondence the editions do not support. */
   var lanes=D.witnesses.lanes.map(function(l){
     var blocks=(w.lanes||{})[l.key]||[];
     if(!blocks.length) return '';
+    var u=(w.units_per_witness||{})[l.key];
     return '<div class="lane"><span class="ln">'+esc(l.label)+'</span><span class="ld">'+esc(l.date||'')+'</span>'
+      +(u?'<span class="ld">· '+u+(u===1?' part':' parts')+'</span>':'')
       +'<div class="lt">'+esc(blocks.join(' '))+'</div></div>';
   }).join('');
-  return '<p class="h">the same verse in four witnesses</p>'+lanes
+  var spreadNote = (w.spread>0)
+    ? state('text-level','They do not divide this verse alike — '
+        +D.witnesses.lanes.map(function(l){var u=(w.units_per_witness||{})[l.key];
+            return u?esc(l.label)+' '+u:null;}).filter(Boolean).join(' · ')
+        +'. So they are lined up here <b>at the verse</b>, and the parts within it do not correspond.',
+        D.witnesses.grain_note_reader)
+    : '';
+  return '<p class="h">the same verse in four witnesses</p>'+lanes+spreadNote
     +(w.variance!=null?'<p class="h">how far apart they run</p><p class="p"><b>'+w.variance+'</b> composite variance'
       +((w.glossa&&w.glossa.note)?' <span class="dim">— '+esc(w.glossa.note)+'</span>':'')+'</p>':'')
     +'<p class="h">across the four gospels</p>'+noJoin
-    +anchorNote('The four translations are recorded verse by verse, so they line up with what you selected. The comparison across the four gospels is not recorded that way — see above.');
+    +anchorNote('The four translations are recorded verse by verse, so they line up with what you selected — '
+       +'but only at the verse: across Mark 16 they agree on how a verse divides in just '
+       +D.witnesses.verses_where_all_witnesses_agree+' of '+D.witnesses.verses_total+'. '
+       +'The comparison across the four gospels is not recorded that way at all — see above.');
+}
+
+/* REACHED US — witness / transmission. The one lens whose danger is entirely in how it is drawn.
+   IRR231 is unanimous that these degrees are a reconstruction MODEL, not a measurement, and the feed's own
+   design brief says the reconstruction-vs-explicit-in-source asymmetry must be unavoidable. So: the number
+   never leads, it never appears without the word "reconstruction" beside it, and what it rests on is shown
+   next to it. A degree drawn as a clean integer beside a claim reads as a count of real hops — which is
+   exactly the vote-count-becomes-truth failure the Panel refuses, one output over. */
+function lensReached(v,m){
+  var W=D.witness_chain, me=W&&W.this_text;
+  if(!me) return state('none-here','No transmission reconstruction is recorded for this text.','');
+  var lo=me.degree_range[0], hi=me.degree_range[1];
+  var span=(lo===hi)?String(lo):(lo+'–'+hi);
+  var tops=Object.keys(me.per_topology||{});
+  return '<p class="h">how far this text stands from what it reports</p>'
+    +'<div class="st st-text-level"><span class="stl">a reconstruction, not a count</span>'
+    +'<b>'+esc(span)+' removes</b> under '+tops.length+' different scholarly pictures of who copied whom'
+    +(me.degree_stable?' — and the same under each of them.':' — and it differs between them.')
+    +'<span class="why">'+esc(W.reader_caveat)+'</span></div>'
+    +'<p class="h">what that rests on</p>'
+    +'<p class="p">'+esc(me.load_bearing_edge||'—')+'<br><span class="dim">remove that one link and the '
+    +'estimate moves — it is the load-bearing step, not one among equals.</span></p>'
+    +(me.tradition_antiquity?'<p class="h">how early the tradition is</p><p class="p">'
+      +esc(me.tradition_antiquity.est||'')+(me.tradition_antiquity.note?'<br><span class="dim">'
+      +esc(me.tradition_antiquity.note)+'</span>':'')+'</p>':'')
+    +'<p class="h">the other witnesses, on the same reconstruction</p>'
+    +W.others.map(function(o){
+       var r=(o.degree_range[0]===o.degree_range[1])?String(o.degree_range[0])
+             :(o.degree_range[0]+'–'+o.degree_range[1]);
+       return '<div class="row"><span class="rt">'+esc(o.key.replace(/-/g,' '))+'</span>'
+         +'<span class="rm">'+esc(r)+' removes · '+esc(String(o.evidence_status).replace(/-/g,' '))+'</span></div>';
+     }).join('')
+    +'<p class="h">where it is contested</p>'
+    +'<p class="p">'+esc(W.contested||'—')+'</p>'
+    +state('awaiting-method','That these texts hold the same order under different scholarly pictures is '
+      +'agreement among scholars — not proof of how the texts actually descended.',
+      W.circularity_note)
+    +anchorNote('This describes the whole of Mark, not the verse you selected — it is one estimate for the '
+      +'text as a text. Every figure here is a modern reconstruction; where a tradition records its own '
+      +'chain of transmitters instead, that is a different kind of claim and is never merged with these.');
 }
 
 /* AFTERLIVES — reception, coded for the end-silence only; elsewhere that is said plainly */
@@ -640,7 +698,7 @@ function lensOpen(v,m){
 function lensEvidence(v,m){
   var t=D.text, g=t.gate||{};
   var lensSrc={see:'moves',connect:'connect',world:'moves',inherits:'lineage',compare:'witnesses',
-               afterlives:'reception',open:'moves',evidence:'text'};
+               reached:'witness',afterlives:'reception',open:'moves',evidence:'text'};
   return '<p class="h">this text</p>'
     +'<p class="p"><b>'+esc(t.edition)+'</b><br>'+esc(t.source_id)+' · '+esc(String(t.rights_status).replace(/_/g,' '))
       +' · fidelity '+esc(t.current_fidelity)+'</p>'
