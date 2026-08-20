@@ -313,8 +313,12 @@ fetch('/engine/data/viz/design_engine.json?v='+Date.now(),{cache:'no-cache'}).th
        making the readability complaint worse while fixing the organisation one. A response record
        is a ledger, not a gallery: one dense row each, the not-done ones first because they are the
        part a reader cannot get anywhere else. */
+    /* `rank[state] || 9` sent `blocked` to the BOTTOM, because rank.blocked is 0 and 0||9 is 9 —
+       the falsy-zero idiom swallowing a legitimate zero. It demoted the one row a reader cannot
+       get anywhere else (P2 blocked, and why) to last of sixteen. Use an explicit lookup. */
     var rank={blocked:0,open:1,partial:2,done:3};
-    var rows=d.responses.slice().sort(function(a,b){return (rank[a.state]||9)-(rank[b.state]||9);});
+    var rk=function(s){return (s in rank)?rank[s]:9;};
+    var rows=d.responses.slice().sort(function(a,b){return rk(a.state)-rk(b.state);});
     host.innerHTML='<div class="steph" id="step-crit">What the '+esc(d.crit.date)+' crit changed '
       +'<span class="sg">'+esc(d.crit.title)+' &middot; '+d.crit.pages+'pp &middot; '
       +(n.done||0)+' applied, '+((n.partial||0)+(n.open||0)+(n.blocked||0))+' not yet &mdash; '
