@@ -25,7 +25,7 @@
    ══════════════════════════════════════════════════════════════════════════════════════════════ */
 :root{
   --paper:#FCFBF7; --paper-2:#F3EEE0; --paper-3:#FFFFFF;
-  --ink:#24302A; --ink-2:#52605A; --ink-3:#8B9288; --rule:#D6CCB0;
+  --ink:#24302A; --ink-2:#52605A; --ink-3:#6E7669; --rule:#D6CCB0;   /* ink-3 = the house `muted`: 4.55:1 on paper, 4.71:1 on the panel. #8B9288 was 3.09:1. */
   --fern:#3F7D57; --moss:#2C4A38; --sage:#7E9E86; --gold:#B8924A; --terracotta:#C4602F;
   --lit:rgba(184,146,74,.15); --lit-edge:#B8924A;
   --disp:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,-apple-system,sans-serif;
@@ -81,16 +81,22 @@ body.open .invite{opacity:0}
 .v{position:relative;margin:0 0 .28rem;padding:.42rem .8rem .42rem .95rem;border-radius:5px;
   border-left:2px solid transparent;cursor:pointer;transition:background .34s ease,border-color .34s ease}
 .v .vn{position:absolute;left:-2.5rem;top:.62rem;width:1.9rem;text-align:right;
-  font-family:var(--mono);font-size:.66rem;color:var(--ink-3);opacity:.55;transition:opacity .3s}
+  font-family:var(--mono);font-size:.66rem;color:var(--ink-3);transition:color .3s}
 /* the faint affordance: something here can be touched, without shouting */
 .v:hover{background:color-mix(in srgb,var(--paper-2) 62%,transparent)}
-.v:hover .vn{opacity:1;color:var(--gold)}
+/* keyboard readers could select a verse but not see which one they were on. :focus-visible so it
+   appears for the keyboard and not on a mouse click. */
+.v:focus{outline:none}
+.v:focus-visible{outline:2px solid var(--terracotta);outline-offset:2px;border-radius:5px}
+.lens:focus-visible,.chip:focus-visible,.a-x:focus-visible,.tbtn:focus-visible,.row:focus-visible{
+  outline:2px solid var(--terracotta);outline-offset:2px;border-radius:4px}
+.v:hover .vn{color:var(--terracotta)}
 .v.lit{background:var(--lit);border-left-color:var(--lit-edge)}
-.v.lit .vn{opacity:1;color:var(--lit-edge)}
+.v.lit .vn{color:var(--terracotta)}
 .v.dim{opacity:.42}
 body.open .text{transition:opacity .4s}
 /* translator apparatus stays IN the text, marked — deleting it would alter a Library fact */
-.app{font-family:var(--mono);font-size:.66rem;color:var(--ink-3);opacity:.7;
+.app{font-family:var(--mono);font-size:.66rem;color:var(--ink-3);
   border-bottom:1px dotted var(--rule);cursor:help;padding:0 .1em}
 
 /* ── move chips: appear under the selected verse ────────────────────────────────── */
@@ -120,8 +126,8 @@ body.open .rail{opacity:1;pointer-events:auto}
 .lens:hover{background:color-mix(in srgb,var(--paper-2) 70%,transparent)}
 .lens.on{border-left-color:var(--gold);background:var(--lit)}
 .lens.on .q{color:var(--moss)}
-.lens[data-state=none-here] .q,.lens[data-state=out-of-scope] .q{opacity:.5}
-.lens[data-state=no-join] .q,.lens[data-state=awaiting-method] .q{opacity:.5;font-style:italic}
+.lens[data-state=none-here] .q,.lens[data-state=out-of-scope] .q{color:var(--ink-3)}
+.lens[data-state=no-join] .q,.lens[data-state=awaiting-method] .q{color:var(--ink-3);font-style:italic}
 .lens .mk{font-family:var(--mono);font-size:.56rem;color:var(--ink-3);margin-left:.3rem}
 
 /* ── the open lens (right wing) ─────────────────────────────────────────────────── */
@@ -164,7 +170,7 @@ body.open .aside{opacity:1;pointer-events:auto}
 .g-op .opn{font-family:var(--mono);font-size:.68rem;color:var(--terracotta);padding:.08rem 0;
   text-align:center;overflow-wrap:anywhere;line-height:1.3}
 .g-meta{font-family:var(--mono);font-size:.62rem;color:var(--ink-3);margin-top:.35rem;line-height:1.5}
-.dim{color:var(--ink-3);opacity:.7}
+.dim{color:var(--ink-3)}
 
 /* the frame ribbon */
 .ax{display:flex;justify-content:space-between;gap:.6rem;padding:.2rem 0;border-bottom:1px dotted var(--rule)}
@@ -178,7 +184,7 @@ body.open .aside{opacity:1;pointer-events:auto}
 .ax .gl{display:block;font-size:.68rem;color:var(--ink-3);line-height:1.35;margin-top:.05rem}
 .ax.veer .av .term{color:var(--terracotta)}
 .ax.veer .av{color:var(--terracotta)}
-.ax .base{display:block;font-size:.62rem;color:var(--ink-3);text-decoration:line-through;opacity:.7}
+.ax .base{display:block;font-size:.62rem;color:var(--ink-3);text-decoration:line-through}
 
 /* rows (lineage · connect · witnesses · readers) */
 .row{padding:.5rem 0;border-bottom:1px dotted var(--rule);width:100%;text-align:left;display:block}

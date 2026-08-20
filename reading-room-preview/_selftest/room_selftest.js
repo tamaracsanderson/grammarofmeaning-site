@@ -163,6 +163,81 @@
   /* ── 8 · the page never presents a reliability number as a verdict ────────────────────────── */
   esc('no agreement figure on the page', !/0\.415/.test(document.body.innerText), '');
 
+
+  /* ── 9 · ACCESSIBILITY — Design owns this outright, and it had only had the minimum ───────────
+   * Contrast is measured against the nearest element that actually PAINTS a background, and after
+   * compositing the element's own opacity. A first pass compared everything to the body ground and
+   * scored the selected chip at 1.00:1 — meaningless. The real finding underneath was systematic:
+   * opacity stacked on an already-muted colour. Each layer reasonable, the composition failing. */
+  function _lum(c){var m=c.match(/[\d.]+/g).map(Number);
+    var f=m.slice(0,3).map(function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);});
+    return .2126*f[0]+.7152*f[1]+.0722*f[2];}
+  function _bgOf(el){for(var n=el;n&&n!==document.documentElement;n=n.parentElement){
+    var c=getComputedStyle(n).backgroundColor;
+    if(c&&!/rgba\(0, 0, 0, 0\)|transparent/.test(c)) return c;}
+    return getComputedStyle(document.body).backgroundColor;}
+  function _contrast(el){
+    var cs=getComputedStyle(el), o=parseFloat(cs.opacity), bgc=_bgOf(el);
+    var f=cs.color.match(/[\d.]+/g).map(Number), b=bgc.match(/[\d.]+/g).map(Number);
+    if(o<1) f=[0,1,2].map(function(i){return f[i]*o+b[i]*(1-o);});
+    var fg='rgb('+f.slice(0,3).map(Math.round).join(', ')+')';
+    var a=_lum(fg), c2=_lum(bgc), r=(Math.max(a,c2)+.05)/(Math.min(a,c2)+.05);
+    var px=parseFloat(cs.fontSize), large=(px>=24)||(px>=18.66&&+cs.fontWeight>=700);
+    return {r:r, need:large?3:4.5, px:px};
+  }
+  V('016:001').click();
+  var TEXT=['.v','.v .vn','.app','.lens .q','.lens .n','.h','.p','.ax .term','.ax .gl','.a-anchor',
+            '.chip','.gloss','.foot','.row .rt','.row .rm','.lane .lt','.st','.st .why','.ed'];
+  var bad=[];
+  TEXT.forEach(function(sel){
+    var el=document.querySelector(sel); if(!el) return;
+    var c=_contrast(el);
+    if(c.r < c.need) bad.push(sel+' '+c.r.toFixed(2)+':1 (need '+c.need+')');
+  });
+  esc('text meets WCAG AA contrast', bad.length===0, bad.length?bad.join(' · '):'all measured text passes');
+
+  var vv=V('016:003'); vv.focus();
+  var fv=getComputedStyle(vv,':focus-visible');
+  esc('a keyboard reader can see where they are',
+      document.activeElement===vv && /solid|auto|dotted|dashed/.test(fv.outlineStyle||getComputedStyle(vv).outlineStyle),
+      'outline ' + (fv.outlineStyle||getComputedStyle(vv).outlineStyle));
+
+  esc('every control is a real control (not a div)',
+      document.querySelector('.lens').tagName==='BUTTON' && document.querySelector('.chip').tagName==='BUTTON',
+      'lens=' + document.querySelector('.lens').tagName + ' chip=' + document.querySelector('.chip').tagName);
+  esc('the page announces its language and landmarks',
+      document.documentElement.lang==='en' && !!document.querySelector('main') && !!document.querySelector('[aria-live]'),
+      'lang=' + (document.documentElement.lang||'unset') +
+      ' landmarks=' + document.querySelectorAll('main,nav,aside,header,footer').length +
+      ' aria-live=' + !!document.querySelector('[aria-live]'));
+
+  /* ── 10 · SOURCE SENSITIVITY — change the input, the displayed proposition must change ──────── */
+  var beforeTxt = (function(){V('016:001').click();
+    return document.querySelector('.aside-in').innerText;})();
+  var savedGloss = D.moves.items[0].gloss;
+  D.moves.items[0].gloss = '__SENTINEL__';
+  V('016:002').click(); V('016:001').click();
+  var afterTxt = document.querySelector('.aside-in').innerText;
+  D.moves.items[0].gloss = savedGloss;
+  V('016:002').click(); V('016:001').click();
+  esc('the page is sensitive to its source (change the feed, the panel changes)',
+      /__SENTINEL__/.test(afterTxt) && !/__SENTINEL__/.test(beforeTxt),
+      'a mutated feed value reached the panel — the page is not showing a baked copy');
+
+  /* ── 11 · PROVENANCE ROUNDTRIP — a visible claim traces to a declared source ─────────────────── */
+  var evTxt=(function(){lensBtns().filter(function(e){return /^EVIDENCE/.test(e.innerText);})[0].click();
+    return document.querySelector('.aside-in').innerText;})();
+  esc('every lens names the file its claims came from',
+      lensIds.filter(function(L){return L!=='evidence';}).every(function(L){
+        return new RegExp(L==='see'?'SEE':L.toUpperCase()).test(evTxt);}) && /\.json/.test(evTxt),
+      'EVIDENCE lists a source file per lens');
+
+  /* ── 12 · ABSENCE SEMANTICS — a comparative omission must not render as a textual absence ────── */
+  esc('16:8 is not listed as an absence (Method S180 RULING 3)',
+      !(D.absence.typed_now||[]).some(function(t){return /obligated|textual/i.test(t.kind||'');}) &&
+      !!D.absence.not_an_absence,
+      'textual silence is rendered as a coded move, not as a gap');
+
   ESC(); window.scrollTo(0, 0);
   var failed = R.filter(function (x) { return x.pass === false; });
   console.table(R);
