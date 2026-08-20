@@ -1,44 +1,253 @@
 {
-  "_owner": "Design SB — what the 2026-08-19 GPT Design crit changed, finding by finding. Rendered on design-engine.html so the question 'what was updated based on the crit?' is answerable from the page rather than from a chat log.",
-  "_note": "Each row names the finding, what it asked, and what actually happened — including the ones NOT done and why. A response record that only lists wins is a marketing page.",
-  "crit": {
-    "title": "Design Lane — Final Executive Implementation Brief + Work Order",
-    "date": "2026-08-19",
-    "pages": 47,
-    "status": "controlling — supersedes the earlier Design handover where they conflict"
+ "_owner": "Design SB — what the 2026-08-19 GPT Design crit changed, finding by finding. Rendered on design-engine.html so the question 'what was updated based on the crit?' is answerable from the page rather than from a chat log.",
+ "_note": "Every numbered finding and build phase in the controlling brief, with an honest state — not only the ones that were acted on. 'affirmed' means the crit ACCEPTED existing work and no change was needed; counting those as wins would overclaim. A response record that lists only what was done is a marketing page.",
+ "crit": {
+  "title": "Design Lane — Final Executive Implementation Brief + Work Order",
+  "date": "2026-08-19",
+  "pages": 47,
+  "status": "controlling — supersedes the earlier Design handover where they conflict"
+ },
+ "responses": [
+  {
+   "id": "Decisive 1",
+   "asked": "build the integration shell BEFORE more lenses — it is infrastructure, not the culmination",
+   "state": "done",
+   "did": "Built and live. The DWS had it as build #8, 'after the lenses exist'; it is now first on this page too.",
+   "where": "/reading-room-preview/room.html"
   },
-  "responses": [
-    { "id": "F1 / P1", "asked": "build the integration shell BEFORE more lenses — the shell is infrastructure, not the culmination",
-      "did": "The Reading Room shell built and live: Mark 16 verbatim at the centre, nine lenses, one interaction grammar.", "state": "done", "where": "/reading-room-preview/room.html" },
-    { "id": "F7 / F20 / F21 / F22", "asked": "one interaction grammar; the primary text persistent; reader QUESTIONS not engine names; progressive disclosure L0–L5",
-      "did": "Select once → align everywhere. Opening a lens moves nothing: the stage shifts by a CSS transform, so the clicked verse holds position to the pixel. Nine lenses named as questions. Text alone at L0.", "state": "done", "where": "/reading-room-preview/room.html" },
-    { "id": "F5 / F12", "asked": "TYPE THE ABSENCE BEFORE YOU AESTHETICIZE IT; the open ring is for tested absence only",
-      "did": "Six typed empty states, each saying which kind of empty. Method S180 then ruled that textual silence is NOT an absence — Mark 16:8 is content the evangelist wrote — so it was removed from the absence lens and is shown as a coded move. viz_principles line 96 corrected.", "state": "done", "where": "/reading-room-preview/room.html" },
-    { "id": "F9", "asked": "REJECT 'the academic skin is the source of truth'",
-      "did": "Corrected in the visual grammar: neither skin is the source of truth; the canonical output is, and the two modes render the same propositions. This was the SSOT confusion surviving one layer below where we had 'fixed' it.", "state": "done", "where": "/engine/design-principles.html" },
-    { "id": "F10 / F8", "asked": "REJECT 'one skeleton, swap tradition config' as a universal law; reuse the contract, not necessarily the visual form",
-      "did": "Accepted for the Gospel prototype, rejected as universal. Shared primitives, potentially different compositions — because imposing one tradition's textual architecture on all others is what Method is trying not to do conceptually.", "state": "done", "where": "/engine/design-principles.html" },
-    { "id": "F11", "asked": "REJECT 'distance-from-centre = authority' as a general encoding",
-      "did": "Reworded: the Talmud page is information architecture, not an authority metric. Spatial distance must not encode authority unless the data supports it.", "state": "done", "where": "/engine/design-principles.html" },
-    { "id": "F14", "asked": "'relevance guarantee' overstates a title match",
-      "did": "Renamed to 'minimum inclusion gate'. A title match is a deterministic curation gate, not a semantic claim.", "state": "done", "where": "labyrinth_DWS_v2" },
-    { "id": "F19", "asked": "the anchor contract is P0 infrastructure — select once, align everywhere",
-      "did": "One canonical verse_id and a namespaced move handle, declared as Design-side adapters. Method has since shipped the store's own move_id and the adapters switched to it with no edit.", "state": "done", "where": "reading_room_mark16.json" },
-    { "id": "P3", "asked": "the Panel must show uncertainty WITHOUT converting a vote count into truth",
-      "did": "Ships as a refusal, which Method ruled is the answer: 'Reliability for this reading: not established. 1 of 11 engines has been measured, and no acceptance threshold declared.' The agreement figure is deliberately absent from the page.", "state": "done", "where": "/reading-room-preview/room.html" },
-    { "id": "P4", "asked": "complete the missing core outputs — Witness/transmission first (the one 'weak' output)",
-      "did": "Built as REACHED US, the ninth lens. Its degrees are a reconstruction, not a measurement, so the number never leads and the panel names the load-bearing edge the estimate rests on.", "state": "done", "where": "/reading-room-preview/room.html" },
-    { "id": "F3 / F25", "asked": "render-from-data refined; every thesis-critical surface gets a Design Surface Contract",
-      "did": "The Design State Registry carries the eight axes plus the contract fields per surface. The viz house's 13 hand-typed pills and design_engine's node statuses now derive from it. The root corpus panel reads its feed and shows its own staleness.", "state": "done", "where": "design_state.json" },
-    { "id": "F26 / F27", "asked": "add Design-specific tests; refine the four checks",
-      "did": "26 committed checks (room_selftest.js + check_reading_room_shell.py): contrast, focus, source-sensitivity, provenance round-trip, absence semantics, reduced motion, plain-text fallback, layout regression. Mutation-tested — three could not go red and were rewritten.", "state": "done", "where": "/reading-room-preview/_selftest/room_selftest.js" },
-    { "id": "R-10", "asked": "(raised after the crit) the provenance badge certifies a key exists, not that the page rendered from that data",
-      "did": "The badge now verifies the page ACTUALLY FETCHED the feed it claims, using the browser's own resource timing. Three states: grounded / hand-authored / draft. The audit then found the same shape on three pages, not one.", "state": "done", "where": "/engine/artifacts/provenance.js" },
-    { "id": "P2", "asked": "typed negative-space grammar — distinct treatments per authorized absence type",
-      "did": "NOT BUILT, and not for design reasons: two of the four absence kinds (GAP- 398 rows, XSRC- 123) reach no deployed feed, so a visual channel would have nothing to carry. Demonstrating it on invented data is what the crit warns against.", "state": "blocked", "where": "blocked on Method data" },
-    { "id": "F18", "asked": "build the Method Output Registry → Design Coverage Registry seam so Design never reconstructs Method's inventory again",
-      "did": "NOT BUILT. The coverage map in the P0 deliverable is still the provisional Design-side one.", "state": "open", "where": "—" },
-    { "id": "F17", "asked": "add a real Design adapter layer with declared upstream owner / version / fields consumed / non-claims per record",
-      "did": "PARTIAL. The reading-room feed declares its sources, planes, key regime and non-claims; there is no general adapter layer across surfaces.", "state": "partial", "where": "reading_room_mark16.json" }
-  ]
+  {
+   "id": "Decisive 2",
+   "asked": "the SSOT rule 'the page is the authority' is incompatible with a headless architecture",
+   "state": "done",
+   "did": "Corrected in SSOT_contributor_rules v2: the canonical store owns truth, the page is a rendered view, a discrepancy is a rendering defect."
+  },
+  {
+   "id": "Decisive 3",
+   "asked": "'render from data' is correct but overbroad — Design legitimately authors the encounter",
+   "state": "done",
+   "did": "The binding line adopted: every DATA-DEPENDENT or ANALYTICAL proposition resolves to a declared source; copy, sequence, pacing and encoding stay Design's."
+  },
+  {
+   "id": "Decisive 4",
+   "asked": "make the four epistemic planes canonical",
+   "state": "done",
+   "did": "Method fact / Library fact / Design editorial / reader state, carried per surface in the Design State Registry."
+  },
+  {
+   "id": "Decisive 5",
+   "asked": "'silence' is semantically overloaded — type the absence before you aestheticize it",
+   "state": "done",
+   "did": "Six typed states in the shell; Method S180 then ruled textual silence is not an absence at all and 16:8 became a coded move.",
+   "where": "/reading-room-preview/room.html"
+  },
+  {
+   "id": "Decisive 6",
+   "asked": "two kinds of 'convergence' — textual alignment vs agent agreement — never render both ambiguously",
+   "state": "done",
+   "did": "Method locked the four-way split. Verified: the reading room renders none of senses 2/3/4 with the bare word."
+  },
+  {
+   "id": "Decisive 7",
+   "asked": "the project has enough figures; it needs one grammar of interaction",
+   "state": "done",
+   "did": "Select once → align everywhere, and the text never moves: opening a lens shifts the stage by a CSS transform.",
+   "where": "/reading-room-preview/room.html"
+  },
+  {
+   "id": "F1 / F2",
+   "asked": "design-engine.html and design-principles.html are good render-from-data patterns — ACCEPT",
+   "state": "affirmed",
+   "did": "No action needed; both already fetch their feeds. The feeds inside them needed the work, not the pages."
+  },
+  {
+   "id": "F3",
+   "asked": "root Library stats are a stale GENERATED SNAPSHOT, not a hardcode — the defect is silent staleness",
+   "state": "done",
+   "did": "The corpus panel reads /counts.json and shows its own age past 30 days. The Librarian then ruled the whole shape wrong — a headline must not substitute a larger easier number for a smaller defensible one — so it is now registered / held / reference-only, with serve-readiness stated as a gap.",
+   "where": "/index.html"
+  },
+  {
+   "id": "F4 / F5 / F6",
+   "asked": "all.html, viz_house_pattern.html and design_engine.json hardcode mutable status",
+   "state": "done",
+   "did": "All three derive from the registry's eight axes now. design_engine's axes are DERIVED by a generator, not hand-typed — which immediately caught three nodes contradicting their own machine records."
+  },
+  {
+   "id": "F7",
+   "asked": "reorder the DWS build sequence — move the shell to the front",
+   "state": "done",
+   "did": "Shell built first; this page now opens with it."
+  },
+  {
+   "id": "F8",
+   "asked": "'finalize once, reuse everywhere' is good semantically, risky visually — reuse the contract, not the form",
+   "state": "done",
+   "did": "Recorded in the visual grammar: same data + same semantics + shared interaction contract; form may adapt to context."
+  },
+  {
+   "id": "F9",
+   "asked": "REMOVE 'the academic skin is the source of truth'",
+   "state": "done",
+   "did": "Corrected. Neither skin is; the canonical output is. This was the SSOT confusion surviving one layer below where we had already fixed it.",
+   "where": "/engine/design-principles.html"
+  },
+  {
+   "id": "F10",
+   "asked": "REJECT 'one skeleton, swap tradition config' as a universal law",
+   "state": "done",
+   "did": "Accepted for the Gospel prototype, rejected as universal — imposing one tradition's textual architecture on all others is what Method is trying not to do conceptually.",
+   "where": "/engine/design-principles.html"
+  },
+  {
+   "id": "F11",
+   "asked": "REJECT 'distance-from-centre = authority' as a general encoding",
+   "state": "done",
+   "did": "Reworded to information architecture; spatial distance must not encode authority unless the data supports it.",
+   "where": "/engine/design-principles.html"
+  },
+  {
+   "id": "F12",
+   "asked": "the open ring is excellent for TESTED absence — do not reuse it for the other kinds",
+   "state": "done",
+   "did": "Method RULING 1 confirmed two orthogonal axes; viz_principles line 96 corrected (it had given the ring to 'not coded', which is the dot)."
+  },
+  {
+   "id": "F13",
+   "asked": "Design may author what the MARK means; Method owns what the textual RELATIONSHIP means",
+   "state": "affirmed",
+   "did": "Observed throughout — the shell renders Method's wording verbatim and marks its own editorial as editorial."
+  },
+  {
+   "id": "F14",
+   "asked": "the Labyrinth's 'relevance guarantee' overstates a title match",
+   "state": "done",
+   "did": "Renamed to 'minimum inclusion gate' — a deterministic curation gate, not a semantic claim."
+  },
+  {
+   "id": "F15",
+   "asked": "the Garden's one-dataset-two-forms architecture is a strong headless pattern — ACCEPT",
+   "state": "affirmed",
+   "did": "No action; Labyrinth/Mandala kept as is."
+  },
+  {
+   "id": "F16",
+   "asked": "keep the three lanes clean: Library custody → Method analysis → Design rendering",
+   "state": "affirmed",
+   "did": "Held all session; every cross-lane finding was routed rather than fixed in place."
+  },
+  {
+   "id": "F17",
+   "asked": "add a real Design adapter layer with declared owner / version / fields / non-claims per record",
+   "state": "partial",
+   "did": "The reading-room feed declares its sources, planes, key regime and non-claims. There is no general adapter layer across surfaces yet."
+  },
+  {
+   "id": "F18",
+   "asked": "build the Method Output Registry → Design Coverage Registry seam",
+   "state": "open",
+   "did": "Not built. The coverage map is still the provisional Design-side one, which is exactly what this finding says to stop doing."
+  },
+  {
+   "id": "F19",
+   "asked": "the anchor contract is P0 infrastructure — select once, align everywhere",
+   "state": "done",
+   "did": "One canonical verse_id and a namespaced move handle, declared as adapters. Method has since shipped the store's move_id and the adapters switched with no edit."
+  },
+  {
+   "id": "F20 / F21 / F22",
+   "asked": "primary text persistent · reader QUESTIONS not engine names · progressive disclosure binding",
+   "state": "done",
+   "did": "All three in the shell: text alone at L0, nine lenses named as questions, complexity arriving only when asked for.",
+   "where": "/reading-room-preview/room.html"
+  },
+  {
+   "id": "F23",
+   "asked": "the Talmudic inspiration should be structural, not 'boxes around a centre'",
+   "state": "done",
+   "did": "Primary text sovereign, commentary anchored, voices attributable, disagreement uncollapsed — and the authority-by-distance metric explicitly rejected (F11)."
+  },
+  {
+   "id": "F24",
+   "asked": "Reading Room and Garden are siblings — do not collapse them",
+   "state": "affirmed",
+   "did": "Kept separate; different interaction mechanics preserved."
+  },
+  {
+   "id": "F25",
+   "asked": "every thesis-critical surface gets a Design Surface Contract",
+   "state": "done",
+   "did": "Registry records carry reader question, outputs consumed, anchor keys, presentational derivations, absence types, empty/stale state and non-claims."
+  },
+  {
+   "id": "F26",
+   "asked": "add Design-specific tests — source sensitivity, hardcode audit, empty/stale state, anchors, provenance roundtrip, absence semantics, coldread, accessibility, visual regression",
+   "state": "done",
+   "did": "26 committed checks across two files, mutation-tested. Three could not go red and were rewritten. Accessibility found seven contrast failures and a keyboard reader who could select but not see.",
+   "where": "/reading-room-preview/_selftest/room_selftest.js"
+  },
+  {
+   "id": "F27",
+   "asked": "retain the four-check gate but refine it — Cold Start must require owner, version and anchor contract, not merely a filename",
+   "state": "done",
+   "did": "The feed names its run, its generator, and the exact command that reproduces it."
+  },
+  {
+   "id": "F28",
+   "asked": "keep two modes, but neither is authoritative — a public surface may hide complexity, not change the finding",
+   "state": "done",
+   "did": "Same correction as F9; recorded in the visual grammar."
+  },
+  {
+   "id": "F29 / F30",
+   "asked": "keep Labyrinth and Mandala; keep Design curation explicit per artwork",
+   "state": "affirmed",
+   "did": "No action taken; the curation-basis fields are already specified in the Labyrinth DWS."
+  },
+  {
+   "id": "P0",
+   "asked": "authority + output + anchor contracts",
+   "state": "done",
+   "did": "Shipped before this session; the anchor half was completed here."
+  },
+  {
+   "id": "P1",
+   "asked": "build the actual Mark 16 Reading Room shell",
+   "state": "done",
+   "did": "Live. Definition of done met and measured: enter → read → select → reveal → compare → inspect provenance → return, without losing position.",
+   "where": "/reading-room-preview/room.html"
+  },
+  {
+   "id": "P2",
+   "asked": "typed negative-space grammar — distinct treatments per authorized absence type",
+   "state": "blocked",
+   "did": "Blocked on DATA, not design. Two of the four absence kinds (GAP- 398 rows, XSRC- 123) reach no deployed feed, so a visual channel would have nothing to carry — and demonstrating it on invented data is what this finding warns against. Thesis-critical."
+  },
+  {
+   "id": "P3",
+   "asked": "the Panel — show uncertainty WITHOUT converting a vote count into truth",
+   "state": "done",
+   "did": "Ships as a refusal, which Method ruled is the answer. The agreement figure is deliberately absent from the page.",
+   "where": "/reading-room-preview/room.html"
+  },
+  {
+   "id": "P4",
+   "asked": "complete missing core outputs — Witness/transmission first",
+   "state": "done",
+   "did": "Built as REACHED US, the ninth lens. Its degrees are a reconstruction, so the number never leads and the panel names the edge the estimate rests on.",
+   "where": "/reading-room-preview/room.html"
+  },
+  {
+   "id": "P5",
+   "asked": "Garden integration — owned hosting, corpus-generated journey, deep links",
+   "state": "open",
+   "did": "Not started. The crit says it is not the current bottleneck unless hosting becomes an actual blocker."
+  },
+  {
+   "id": "R-10",
+   "asked": "(after the crit) the provenance badge certifies a key exists, not that the page rendered from that data",
+   "state": "done",
+   "did": "The badge now verifies the page ACTUALLY FETCHED the feed it claims, using the browser's own resource timing. Three states. A surface audit then found the same shape on three pages, not one.",
+   "where": "/engine/artifacts/provenance.js"
+  }
+ ]
 }

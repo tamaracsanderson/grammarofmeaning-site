@@ -226,38 +226,9 @@ fetch('/engine/data/viz/design_engine.json?v='+Date.now(),{cache:'no-cache'}).th
    if(p.subtitle)document.getElementById('subtitle').textContent=p.subtitle;
    if(p.reads)document.getElementById('reads').textContent=p.reads;
    if(d.seam)document.getElementById('seam').innerHTML='<b>The seam:</b> '+esc(d.seam);
-   var cs=d.crit_session;
-   if(cs){ document.getElementById('critbanner').innerHTML=
-     /* The walk's tallies are frozen facts about its date; today's node count is a different fact
-        and is shown as one, so neither can be mistaken for the other. */
-     '<div class="critbox"><div class="crith"><b>'+esc(cs.title)+'</b> · <span class="csnum">'
-       +cs.updated_on_the_day+' updated</span> / '+cs.reviewed_on_the_day+' reviewed <span class="csnum" '
-       +'style="opacity:.75">on '+esc(cs.date)+'</span> · <span class="csnum" style="opacity:.75">'
-       +(d.nodes||[]).length+' figures today</span>'+
-     (cs.build_plan?' · <a href="'+esc(cs.build_plan)+'">the build plan (DWS) &rarr;</a>':'')+'</div>'+
-     '<div class="csnote">'+esc(cs.note)+'</div>'+
-     '<div class="cskey"><span class="k-ship">■ shipped / ok = updated &amp; live</span><span class="k-next">■ next / building = in the queue</span><span class="k-block">■ blocked = waiting on Atlas Reader feeds</span> · each figure below links to its feedback</div></div>'; }
-   if(p.family)document.getElementById('familynav').innerHTML=p.family.map(function(f){return '<a class="fam-item'+(f.here?' current':'')+'" href="'+esc(f.href)+'"><span class="fn">'+esc(f.name)+'</span><span class="fd">'+esc(f.does)+'</span></a>';}).join('');
-   var nodes=d.nodes||[];
-   var steps=(d.steps||[]).filter(function(st){return nodes.some(function(n){return n.step===st.key;});});
-   document.getElementById('stepnav').innerHTML='<span class="k">the engine</span>'+
-     steps.map(function(st){return '<a href="#step-'+esc(st.key)+'">'+esc(st.label)+'</a>';}).join('<span class="sep">&rarr;</span>');
-   /* Eight Connect cards in a flat list read as eight unrelated things and took half the page.
-      Where the feed assigns clusters, group under them — the reader sees four kinds, not eight
-      figures. The crit's own note: stop proliferating, integrate. */
-   var CL=d.clusters||{};
-   function renderNodes(ns){
-     var withCl=ns.filter(function(n){return n.cluster && CL[n.cluster];});
-     if(withCl.length<2) return ns.map(nodeCard).join('');
-     var seen={}, order=[];
-     ns.forEach(function(n){var k=n.cluster||'_'; if(!seen[k]){seen[k]=[];order.push(k);} seen[k].push(n);});
-     return order.map(function(k){
-       var c=CL[k], group=seen[k];
-       var head=c?'<div class="clusterh"><b>'+esc(c.label)+'</b><span class="cg">'+esc(c.gloss||'')+'</span>'
-                 +'<span class="cn">'+group.length+'</span></div>':'';
-       return head+group.map(nodeCard).join('');
-     }).join('');
-   }
+   /* The 2026-08-14 walk box is retired per the PI: the Aug-19 crit is the record we work
+      against now. The walk itself is not deleted — it lives in crit_sessions[] in the feed,
+      frozen with its own tallies, so the history survives without competing for the page. */
    var html=steps.map(function(st){
      var ns=nodes.filter(function(n){return n.step===st.key;});
      return '<div class="steph" id="step-'+esc(st.key)+'">'+esc(st.label)+' <span class="sg">'+esc(st.gloss||'')+'</span></div>'+renderNodes(ns);
