@@ -100,13 +100,40 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 body:not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .marg-l{visibility:hidden}
 body:not([data-step="respond"]) .marg-r{visibility:hidden}
 
-/* ── the move, inline UNDER its verse (the Move Score's arrangement) ─────────────────────────── */
-.mv{border-left:2px solid var(--gold);margin:.5rem 0 .9rem .9rem;padding:.1rem 0 .1rem .8rem}
-.mv-h{display:flex;gap:.5rem;align-items:baseline}
-.mv-l{font-family:var(--mono);font-size:.6rem;color:var(--accent-sm);flex:none}
-.mv-p{font-family:var(--sans);font-size:.86rem;line-height:1.5;color:var(--ink)}
-.mv-body{margin-top:.45rem}
-body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .mv{display:none}
+/* ── THE MOVE COMPONENT — lifted from _staging/viz_move_score_v2.html, not re-approximated ────
+   Twice now I have rebuilt this from a description and twice it came out wrong, so these are that
+   page's own rules and its own markup (para / anat / axes / subgroup / conttag), retuned only where
+   this page's design tokens differ in name. The nesting, the "see how" disclosure, the sub-move
+   grouping and the "continues M#" tag all come with it, because they are the component. */
+.mv{border-left:2px solid var(--hair);padding:.15rem 0 .15rem .85rem;margin:.45rem 0 .45rem .9rem}
+.mv.child{border-left-style:dotted;border-left-color:color-mix(in srgb,var(--hair) 62%,transparent)}
+.para{display:flex;align-items:baseline;gap:.5rem;cursor:pointer}
+.para .mk{font-family:var(--mono);font-size:.6rem;color:var(--accent-sm);flex:none}
+.para .pp{font-family:var(--sans);font-size:.86rem;line-height:1.5;color:var(--ink);flex:1}
+.para .exp{font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;color:var(--moss);flex:none;white-space:nowrap}
+.para:hover .exp{text-decoration:underline}
+.mv.open .para .exp::after{content:''}
+.anat{margin:.5rem 0 .15rem;display:none}
+.mv.open .anat{display:block}
+.axes{display:grid;grid-template-columns:auto 1fr;gap:.2rem .75rem;font-size:.8rem;margin:.15rem 0 .4rem}
+.axes dt{font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-3);padding-top:.2rem}
+.axes dd{margin:0;color:var(--ink)}
+.axes dd .code{font-family:var(--mono);font-size:.62rem;color:var(--ink-3)}
+.axes dd .narr{font-family:var(--disp);font-style:italic;color:var(--ink-2)}
+.subgroup{display:flex;flex-direction:column;gap:.45rem;margin:.15rem 0 .15rem 1.1rem;padding-left:.5rem;
+  border-left:1px dotted var(--hair)}
+.sublabel{font-family:var(--mono);font-size:.55rem;letter-spacing:.05em;color:var(--ink-3);padding:.1rem 0 0 .25rem}
+.conttag{font-family:var(--mono);font-size:.55rem;color:var(--gold);padding:.15rem 0 .1rem .85rem}
+.conn{display:flex;align-items:baseline;gap:.55rem;margin:.5rem 0 .15rem;padding-top:.45rem;
+  border-top:1px dotted var(--hair)}
+.conn .rl{font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.conn a{color:var(--moss)}
+/* provenance, per verse — the Move Score's left-line rule: which text this is from */
+.v.orig{box-shadow:-3px 0 0 0 var(--moss)}
+.v.added{box-shadow:-3px 0 0 0 var(--accent-sm)}
+body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .mv,
+body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .conttag{display:none}
 @media(max-width:1180px){
   .daf{grid-template-columns:1fr;gap:1.6rem}
   .stage,.marg-l,.marg-r{grid-column:1}
@@ -150,7 +177,15 @@ body.open .text{transition:opacity .4s}
 .arc-bars{display:flex;align-items:flex-end;gap:3px;height:52px;border-bottom:1px solid var(--hair)}
 .ab{flex:1;background:color-mix(in srgb,var(--moss) 42%,var(--paper-2));border:0;border-radius:2px 2px 0 0;
   cursor:pointer;min-height:3px;padding:0;transition:background .15s}
+.ab.c2{background:color-mix(in srgb,var(--accent-sm) 42%,var(--paper-2))}
 .ab:hover{background:var(--gold)}
+.arc-beats{display:flex;justify-content:space-between;font-family:var(--disp);font-style:italic;
+  font-size:.7rem;color:var(--ink-3);margin:.3rem 0 .45rem}
+.arc-key{display:flex;justify-content:center;gap:1.1rem;font-family:var(--mono);font-size:.55rem;
+  letter-spacing:.04em;color:var(--ink-3)}
+.arc-key .k::before{content:'';display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:.35rem}
+.arc-key .f::before{background:color-mix(in srgb,var(--moss) 55%,var(--paper-2))}
+.arc-key .t::before{background:color-mix(in srgb,var(--accent-sm) 55%,var(--paper-2))}
 .ladder{width:var(--measure);margin:0 auto 2.2rem;padding:0}
 .ladder-r{display:flex;gap:.3rem;flex-wrap:wrap}
 .st{flex:1 1 0;min-width:78px;text-align:left;background:none;border:0;border-top:2px solid var(--hair);
@@ -476,6 +511,68 @@ var STEPS=[
    Marginalia, not sidebars: many small things each anchored to the line they read, rather than one
    panel that swaps. LEFT is Sitz -- the world the text is in. RIGHT is what readers made of it.
    Both render from the feed; a margin with nothing in it says so rather than going blank. */
+/* ── THE MOVE COMPONENT (lifted from viz_move_score_v2.html) ─────────────────────────────────── */
+var ROLE={active:{w:'Acts',g:'the agent performs the action'},
+          passive:{w:'Undergoes',g:'the action happens to the agent'},
+          middle:{w:'Acts on itself',g:'agent and affected are the same'},
+          reported:{w:'Is reported',g:'told at second hand'}};
+function roleOf(v){return ROLE[v]||{w:hum(v||'—'),g:''};}
+
+function moveHTML(m,isChild){
+  return '<div class="mv'+(isChild?' child':'')+'" data-mv="'+esc(m.move_handle)+'">'
+    +'<div class="para"><span class="mk">'+esc(m.label)+'</span>'
+      +'<span class="pp">'+esc(m.paraphrase||m.operation||'')+'</span>'
+      +'<span class="exp">see how \u203a</span></div>'
+    +'<div class="anat">'+roleline(m)+axesHTML(m)+connLine(m)+'</div>'
+  +'</div>';
+}
+function roleline(m){
+  var p=[];
+  if(m.agent)     p.push('<span><b class="rl">who <span class="rterm">(agent)</span></b>'+esc(m.agent)+'</span>');
+                  p.push('<span><b class="rl">does <span class="rterm">(operation)</span></b>'+esc(m.operation||m.move_type||'')+'</span>');
+  if(m.substrate) p.push('<span><b class="rl">on <span class="rterm">(substrate)</span></b>'+esc(m.substrate)+'</span>');
+  if(m.outcome)   p.push('<span><b class="rl">result <span class="rterm">(outcome)</span></b>'+esc(m.outcome)+'</span>');
+  return '<div class="roleline">'+p.join('')+'</div>';
+}
+function axesHTML(m){
+  var role=roleOf(m.voice);
+  return '<dl class="axes">'
+    +'<dt>kind of move</dt><dd>'+esc(hum(m.move_type)||'—')+'</dd>'
+    +'<dt>agent\u2019s role</dt><dd>'+esc(role.w)+' <span class="code">('+esc(m.voice||'')+')</span>'
+      +(role.g?' \u00b7 <span class="narr">'+esc(role.g)+'</span>':'')+'</dd>'
+    +'<dt>place</dt><dd>'+(m.nested_under?('inside '+esc(m.nested_under)+' <span class="code">(nested)</span>')
+                                         :'main move <span class="code">(top-level)</span>')+'</dd>'
+    +(m.narrator?'<dt>narrator</dt><dd class="narr">'+esc(m.narrator)+'</dd>':'')
+  +'</dl>';
+}
+function connLine(m){
+  var n=((D.connect||{}).edges||[]).filter(function(e){
+    return e.from===m.label||e.to===m.label||e.source_move===m.label||e.target_move===m.label;}).length;
+  if(!n) return '';
+  return '<div class="conn"><span class="rl">connections</span><span>'+n+'</span>'
+    +'<a href="#" data-conn="'+esc(m.move_handle)+'">follow in Connect \u2192</a></div>';
+}
+function verseTree(m,vid,depth,kidsOf,byLabel){
+  var h='', par=m.nested_under;
+  /* "continues M#" only when the parent is in an EARLIER verse -- a parent in a LATER verse is a
+     run-mismatch artifact, and tagging it would mislead. The Move Score's rule, carried over. */
+  if(par&&byLabel[par]&&firstVerse(byLabel[par])<vid){
+    var pg=(byLabel[par].paraphrase||byLabel[par].operation||'');
+    h+='<div class="conttag">\u21b3 continues '+esc(par)+' \u00b7 '+esc(pg.slice(0,40))+(pg.length>40?'\u2026':'')+'</div>';
+  }
+  h+=moveHTML(m,depth>0);
+  var all=kidsOf[m.label]||[], here=all.filter(function(c){return firstVerse(c)===vid;});
+  if(here.length){
+    var note=(here.length===all.length)
+      ? ('\u21b3 '+esc(m.label)+' unpacks into '+all.length+' move'+(all.length===1?'':'s'))
+      : ('\u21b3 '+here.length+' of '+esc(m.label)+'\u2019s '+all.length+' sub-moves are here');
+    h+='<div class="subgroup"><div class="sublabel">'+note+'</div>'
+      +here.map(function(c){return verseTree(c,vid,depth+1,kidsOf,byLabel);}).join('')+'</div>';
+  }
+  return h;
+}
+function firstVerse(m){return (m.verse_ids||[])[0];}
+
 function paintMargins(){
   var L=document.getElementById('margL'), R=document.getElementById('margR');
 
@@ -569,15 +666,21 @@ function vref(vid){ var v=(D.text.verses||[]).filter(function(x){return x.verse_
 
 /* ── the whole passage, as bars (ported from the Move Score) ─────────────────────────────────── */
 function paintArc(){
+  /* the Move Score's arc, with what my first port dropped: colour marks WHICH TEXT a verse is from,
+     the beats are named, and the key says what the colours mean. On Mark 16 that is not decoration --
+     the provenance split at 16:8 is the central fact of the chapter, and a monochrome bar hides it. */
   var vs=D.text.verses||[], mx=1;
   var counts=vs.map(function(v){ var n=movesForVerse(v.verse_id).length; if(n>mx)mx=n; return n; });
   document.getElementById('arc').innerHTML=
     '<p class="arc-h">the whole passage</p>'
-   +'<p class="arc-how">each bar is a verse \u2014 taller means more moves happen in it. click a bar to jump.</p>'
+   +'<p class="arc-how">each bar is a verse \u2014 taller means more moves happen in it; colour marks which text it\u2019s from. click a bar to jump.</p>'
    +'<div class="arc-bars">'+vs.map(function(v,k){
-      return '<button class="ab" data-verse="'+esc(v.verse_id)+'" title="'+esc(D.text.ref)+':'+v.n+' \u00b7 '
-        +counts[k]+' move'+(counts[k]===1?'':'s')+'" style="height:'+Math.max(3,Math.round(counts[k]/mx*52))+'px"></button>';
-    }).join('')+'</div>';
+      return '<button class="ab'+(v.n<=8?'':' c2')+'" data-verse="'+esc(v.verse_id)+'" title="'+esc(D.text.ref)+':'+v.n
+        +' \u00b7 '+counts[k]+' move'+(counts[k]===1?'':'s')+'" style="height:'+Math.max(3,Math.round(counts[k]/mx*52))+'px"></button>';
+    }).join('')+'</div>'
+   +'<div class="arc-beats"><span>anointing &amp; alarm</span><span>the empty tomb</span><span>fear \u00b7 silence</span><span>the added ending</span></div>'
+   +'<div class="arc-key"><span class="k f">the earliest text \u00b7 16:1\u20138</span>'
+     +'<span class="k t">added by later hands \u00b7 16:9\u201320</span></div>';
   [].forEach.call(document.querySelectorAll('.ab'),function(b){
     b.onclick=function(){ selectVerse(b.getAttribute('data-verse'));
       var el=document.querySelector('.v[data-verse="'+b.getAttribute('data-verse')+'"]');
@@ -630,47 +733,51 @@ function paintText(){
   [].forEach.call(document.querySelectorAll('.v'),function(el){
     el.classList.toggle('lit', lit.indexOf(el.getAttribute('data-verse'))>=0);
   });
-  paintChips();     /* the caller wraps this in keepingPlace — see open() / closeAll() */
 }
 
-function paintChips(){
-  /* the move chips live under the selected verse only */
-  var old=document.querySelector('.chips'); if(old) old.remove();
-  if(!S.verse) return;
-  var host=document.querySelector('.v[data-verse="'+S.verse+'"]'); if(!host) return;
-  var ms=movesForVerse(S.verse);
-  if(!ms.length) return;
-  var box=document.createElement('div'); box.className='chips';
-  box.innerHTML=ms.map(function(m){
-    return '<button class="chip'+(m.move_handle===S.move?' on':'')+'" data-move="'+esc(m.move_handle)+'">'
-      +esc(m.label)+'<span class="op">'+esc(m.operation||'')+'</span></button>';
-  }).join('');
-  host.after(box);
-  [].forEach.call(box.querySelectorAll('.chip'),function(b){
-    b.onclick=function(e){e.stopPropagation();selectMove(b.getAttribute('data-move'));};
-  });
-}
+/* paintChips() is DELETED. It rendered a pill under the selected verse ("M1 buy") whose click
+   opened the SEE drawer on the right -- which is the "move pops to the right" the PI objected to,
+   and it survived the daf rebuild because I added the inline move without removing the old path.
+   The move is on the page now; a pill that opens a panel containing the same move is not a second
+   affordance, it is a second copy. */
 
 function buildText(){
   var t=D.text;
   var edName=String(t.edition||'').replace(/^The\s+/,'').replace(/\s*\([^)]*\)\s*:.*$/,'');   /* "The World English Bible (WEB): Mark" -> "World English Bible" */
   document.getElementById('ed').textContent=edName+' · '+String(t.rights_status||'').replace(/_/g,' ');
+  var BY={}, KIDS={};
+  D.moves.items.forEach(function(m){ BY[m.label]=m; });
+  D.moves.items.forEach(function(m){ if(m.nested_under)(KIDS[m.nested_under]=KIDS[m.nested_under]||[]).push(m); });
   document.getElementById('text').innerHTML=t.verses.map(function(v){
     var body=esc(v.text);
     (v.apparatus||[]).forEach(function(a){                       /* apparatus stays, marked */
       body=body.split(esc(a.mark)).join('<span class="app" title="translator apparatus, carried verbatim from the edition — the brace marking is the edition\u2019s own">'+esc(a.mark)+'</span>');
     });
-    /* the move sits UNDER its verse, the way the Move Score arranges it: you read the sentence, then
-       you read what the sentence is doing, in that order and in one column. A move in a side panel
-       asks the reader to hold the verse in memory while they look away from it. */
-    var mvs=movesForVerse(v.verse_id).map(function(m){
-      return '<div class="mv" data-mv="'+esc(m.move_handle)+'">'
-        +'<div class="mv-h"><span class="mv-l">'+esc(m.label)+'</span>'
-        +'<span class="mv-p">'+esc(m.paraphrase||m.operation||'')+'</span></div>'
-        +'<div class="mv-body">'+grammar(m)+'</div></div>';
-    }).join('');
-    return '<p class="v" data-verse="'+esc(v.verse_id)+'" tabindex="0"><span class="vn">'+v.n+'</span>'+body+'</p>'+mvs;
+    /* top-level moves only at this level; the component nests its own children */
+    var mine=movesForVerse(v.verse_id).filter(function(m){
+      return !m.nested_under || !BY[m.nested_under] || firstVerse(BY[m.nested_under])!==v.verse_id; });
+    var prov=(v.n<=8?' orig':' added');
+    return '<p class="v'+prov+'" data-verse="'+esc(v.verse_id)+'" tabindex="0"><span class="vn">'+v.n+'</span>'+body+'</p>'
+      +mine.map(function(m){return verseTree(m,v.verse_id,0,KIDS,BY);}).join('');
   }).join('');
+  /* the component discloses itself in place -- "see how" opens the anatomy under the paraphrase,
+     which is the Move Score's gesture. Clicking a move selects it too, so the margins and the arc
+     stay aligned with what is being read. */
+  [].forEach.call(document.querySelectorAll('.mv > .para'),function(pa){
+    pa.onclick=function(e){ e.stopPropagation();
+      var mv=pa.parentElement, wasOpen=mv.classList.contains('open');
+      keepingPlace(function(){
+        mv.classList.toggle('open', !wasOpen);
+        pa.querySelector('.exp').innerHTML = wasOpen ? 'see how \u203a' : 'hide \u2039';
+      }, S.verse);
+      selectMove(mv.getAttribute('data-mv'));
+      scheduleAlign();
+    };
+  });
+  [].forEach.call(document.querySelectorAll('[data-conn]'),function(a){
+    a.onclick=function(e){e.preventDefault();e.stopPropagation();
+      selectMove(a.getAttribute('data-conn')); showLens('connect');};
+  });
   [].forEach.call(document.querySelectorAll('.v'),function(el){
     el.onclick=function(){selectVerse(el.getAttribute('data-verse'));};
     el.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();selectVerse(el.getAttribute('data-verse'));}};
@@ -685,8 +792,15 @@ function selectVerse(vid){
   var ms=movesForVerse(vid); if(ms.length) S.move=ms[0].move_handle;
   open();
 }
-function selectMove(h){ var m=moveByHandle(h); if(!m)return; S.move=h; if(m.verse_ids.length) S.verse=m.verse_ids[0];
-  if(!S.lens) S.lens='see'; open(); }
+/* MARKING a move is not OPENING a panel about it. The move's own anatomy is on the page, under its
+   paraphrase, so selecting one only needs to align the margins and the arc with what is being read.
+   The old selectMove() called open(), which is why clicking a move made it "pop to the right" -- the
+   reader was shown a drawer containing the thing they had just clicked on. openMove() is kept for
+   the places that genuinely want the drawer (the arc's jump-to, a cross-reference from Connect). */
+function selectMove(h){ var m=moveByHandle(h); if(!m)return;
+  S.move=h; if(m.verse_ids.length) S.verse=m.verse_ids[0];
+  keepingPlace(function(){ paintText(); if(document.body.classList.contains('open')) paintAside(); }, S.verse); }
+function openMove(h){ selectMove(h); if(!S.lens) S.lens='see'; open(); }
 function showLens(id){ S.lens=id; open(); }
 /* Wide layout: the rail and the panel are absolutely placed, so opening one costs no layout.
    Narrow layout: the rail joins the flow and would push the text down by its own height. Both cases
@@ -770,7 +884,7 @@ function paintAside(){
   document.getElementById('aside').innerHTML='<div class="aside-in">'+head+body+'</div>';
   var x=document.getElementById('ax'); if(x) x.onclick=closeAll;
   [].forEach.call(document.querySelectorAll('[data-goto-move]'),function(b){
-    b.onclick=function(){selectMove(b.getAttribute('data-goto-move'));};
+    b.onclick=function(){openMove(b.getAttribute('data-goto-move'));};
   });
   /* the diagram is optional -- the labeled line reads as language by default (the Move Score's rule) */
   [].forEach.call(document.querySelectorAll('.asdiagram'),function(b){
