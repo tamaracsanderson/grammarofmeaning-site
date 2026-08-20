@@ -160,7 +160,18 @@ fetch('data/essay_workstream.json').then(function(r){if(!r.ok)throw new Error('e
     var rows=(d.axes||Object.keys(dist)).map(function(ax){
       var vals=dist[ax]||{};
       var items=Object.keys(vals).map(function(v){return [v,vals[v]];}).sort(function(a,b){return b[1]-a[1];});
-      if(!items.length) return '';
+      /* An axis with NO coded values is the emptiest cell in the field, which on a map built to
+         show emptiness makes it the most informative row on the page. Dropping it — which the
+         first version did, silently, for r_condition and r_topology — hid the two strongest
+         signals and left the map looking eight-eighths complete at six-eighths. Draw it. */
+      if(!items.length){
+        return '<div style="margin:0 0 .7rem"><div style="font:600 12px var(--mono,ui-monospace,monospace);'
+          +'letter-spacing:.04em;color:#8A2B0F;margin:0 0 .25rem">'+esc(ax)+' <span style="font-weight:400">'
+          +'· nothing coded on this axis yet</span></div>'
+          +'<span style="display:inline-block;padding:.25rem .55rem;border:1px dashed #B4551F;'
+          +'border-radius:.3rem;background:rgba(180,85,31,.05);font-size:12px;color:#8A2B0F">'
+          +'the whole axis is open</span></div>';
+      }
       var min=items[items.length-1][1];
       var cells=items.map(function(it){
         var sparse=it[1]===min;
@@ -185,7 +196,9 @@ fetch('data/essay_workstream.json').then(function(r){if(!r.ok)throw new Error('e
     host.innerHTML =
       '<h2 style="font-size:17px;margin:1.6rem 0 .3rem">Where the essays could go</h2>'
       +'<p class="lede" style="margin:0 0 .8rem">The coded Position field the essays are written into — '
-      +M.figure_clouds+' figures across '+M.axes+' axes, from '+M.passages_coded+' coded passages. '
+      +M.figure_clouds+' figures across '+M.axes+' axes, from '+M.passages_coded+' coded passages \u2014 '
+      +'though only '+(d.axes||[]).filter(function(a){return Object.keys(dist[a]||{}).length;}).length
+      +' of the '+M.axes+' carry any coded values yet. '
       +'The thin cells are the point: a value only a handful of figures occupy is a place the field '
       +'is quiet.</p>'
       +rows
