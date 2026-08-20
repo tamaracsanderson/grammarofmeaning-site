@@ -255,6 +255,56 @@
    }
   },
   {
+   "id": "connect_intro",
+   "name": "Connect · one relation, three views",
+   "also": "the onboarding",
+   "step": "Connect",
+   "one_line": "the 60-second worked example — the same relation as an arc (Trace), a cell (Scan), and a line (Map)",
+   "reads_from": {
+    "method_node": "Connect",
+    "feeds": [
+     "goldenpath/mark16/connect_edges.json",
+     "goldenpath/mark16/moves.json"
+    ]
+   },
+   "encoding": "the real M12→M17 (NEST_REPORTS) shown as an arc / cell / line across the three views, then 'follow M12 yourself' deep-linking #m=M12 into each.",
+   "audience": "reader (first-time)",
+   "composes_into": "the Connect entry",
+   "gate": {
+    "fidelity": "pass",
+    "cold_read": "pending",
+    "cold_start": "pass",
+    "vs_wild": "n/a"
+   },
+   "status": "v1 — onboarding; live (staged)",
+   "built": {
+    "file": "/_staging/viz_connect_intro.html",
+    "state": "v1",
+    "renders": "render-from-data; teaches the cross-view translation once",
+    "live": true,
+    "_title": "Connect — one relation, three views"
+   },
+   "review": {
+    "pi": true,
+    "gpt": false,
+    "status": "repurpose",
+    "note": "cards are keepers → fold into lab header; standalone page not needed",
+    "doc": "/_staging/_crit/DESIGN_WORK_STATEMENT.md"
+   },
+   "status_axes": {
+    "_derived_by": "scripts/analysis/build_design_engine_status_axes.py -- from built/review/gate; never hand-typed. The prose `status` is editorial and no longer sets the pill.",
+    "implementation": "built",
+    "maturity": "pilot",
+    "deployment": "live",
+    "data": "canonical",
+    "coverage": "partial",
+    "review": "open",
+    "dependency": "none",
+    "evidence": "current"
+   },
+   "cluster": "learn"
+  },
+  {
    "id": "connect_intext",
    "name": "The in-text edges",
    "also": "Arc Band / Relation Loom",
@@ -316,105 +366,8 @@
     "review": "open",
     "dependency": "none",
     "evidence": "stale"
-   }
-  },
-  {
-   "id": "facing_page",
-   "name": "The Facing Page",
-   "also": "Resonance Diptych",
-   "step": "Connect",
-   "one_line": "what corresponds across texts — and where the correspondence breaks",
-   "reads_from": {
-    "method_node": "Connect",
-    "feeds": [
-     "goldenpath/mark16/connect_node_drawer.json"
-    ]
    },
-   "encoding": "two texts intact, side by side; the shared MOVE stated in a centre band; the BREAK stated directly beneath it, mandatory — a resonance without its break is not renderable. No causal arrow (RESONANCE is non-genealogical).",
-   "audience": "both (the most contemplative object in the set)",
-   "composes_into": "the reading room — the outer margin (distance-from-centre = epistemic distance)",
-   "variants": [
-    {
-     "name": "The Facing Page",
-     "note": "the one worked MATCH: Mark 'he is not here' ⟷ Daodejing 1"
-    }
-   ],
-   "gate": {
-    "fidelity": "pending",
-    "cold_read": "pending",
-    "cold_start": "pass",
-    "vs_wild": "n/a"
-   },
-   "off_the_shelf": "HTML/CSS grid + a D3 connector",
-   "reference": "the Hexapla / polyglot Bibles",
-   "status": "blocked — no move-level cross-text/rhyme coding for Mark 16 yet (that's the resonance layer, later)",
-   "review": {
-    "pi": true,
-    "gpt": false,
-    "status": "blocked",
-    "note": "needs resonance coding; single-diptych proof buildable from the one worked match",
-    "doc": "/_staging/_crit/DESIGN_WORK_STATEMENT.md"
-   },
-   "status_axes": {
-    "_derived_by": "scripts/analysis/build_design_engine_status_axes.py -- from built/review/gate; never hand-typed. The prose `status` is editorial and no longer sets the pill.",
-    "implementation": "unbuilt",
-    "maturity": "draft",
-    "deployment": "offline",
-    "data": "blocked",
-    "coverage": "n/a",
-    "review": "open",
-    "dependency": "blocked",
-    "evidence": "stale"
-   }
-  },
-  {
-   "id": "ledger",
-   "name": "The Ledger of Absences",
-   "also": "Negative-Space Register",
-   "step": "Connect",
-   "one_line": "the edges that are NOT there — a first-class finding, not blank space",
-   "reads_from": {
-    "method_node": "Connect",
-    "feeds": [
-     "goldenpath/mark16/connect_node_drawer.json"
-    ]
-   },
-   "encoding": "a positive mark for a negative result: ○ = tested-and-absent, · = not assessed, — = not applicable. Every ○ carries its search-scope, so 'no edge found within the declared universe' never overclaims 'no edge exists'. Mark 16:8 itself ends in an absence — the convention rhymes with the passage.",
-   "audience": "academic-first; quiet marks for readers ('nothing answers this')",
-   "composes_into": "the reading room — inline empty sockets + a full register margin",
-   "variants": [
-    {
-     "name": "The Ledger",
-     "note": "styled register + empty-socket marks in the Move Score / edges views"
-    }
-   ],
-   "gate": {
-    "fidelity": "pending",
-    "cold_read": "pending",
-    "cold_start": "pass",
-    "vs_wild": "n/a"
-   },
-   "off_the_shelf": "Observable Plot (the register table)",
-   "reference": "the apparatus criticus (the silence of a witness is evidence)",
-   "status": "blocked — a FINDING: edge-absences aren't recorded, so the Ledger can't be built render-from-data. Needs the Connect coder to LOG its no-edge decisions + declared search-universe AT CODING TIME — negative space must be coded at the instrument, it can't be reconstructed after (Method SB S168, 2026-08-10)",
-   "review": {
-    "pi": true,
-    "gpt": false,
-    "status": "blocked",
-    "note": "needs edge-absence logging at coding time (Method SB)",
-    "doc": "/_staging/_crit/DESIGN_WORK_STATEMENT.md"
-   },
-   "status_axes": {
-    "_derived_by": "scripts/analysis/build_design_engine_status_axes.py -- from built/review/gate; never hand-typed. The prose `status` is editorial and no longer sets the pill.",
-    "implementation": "unbuilt",
-    "maturity": "draft",
-    "deployment": "offline",
-    "data": "blocked",
-    "coverage": "n/a",
-    "review": "open",
-    "dependency": "blocked",
-    "evidence": "stale"
-   }
+   "cluster": "all"
   },
   {
    "id": "topology",
@@ -478,7 +431,8 @@
     "disagrees_with_prose": [
      "prose says v2, built.state says v1"
     ]
-   }
+   },
+   "cluster": "all"
   },
   {
    "id": "connect_logic",
@@ -528,7 +482,8 @@
     "review": "approved",
     "dependency": "none",
     "evidence": "current"
-   }
+   },
+   "cluster": "one-kind"
   },
   {
    "id": "connect_shape",
@@ -578,7 +533,8 @@
     "review": "approved",
     "dependency": "none",
     "evidence": "current"
-   }
+   },
+   "cluster": "one-kind"
   },
   {
    "id": "connect_sonic",
@@ -622,56 +578,108 @@
     "review": "open",
     "dependency": "blocked",
     "evidence": "stale"
-   }
+   },
+   "cluster": "one-kind"
   },
   {
-   "id": "connect_intro",
-   "name": "Connect · one relation, three views",
-   "also": "the onboarding",
+   "id": "facing_page",
+   "name": "The Facing Page",
+   "also": "Resonance Diptych",
    "step": "Connect",
-   "one_line": "the 60-second worked example — the same relation as an arc (Trace), a cell (Scan), and a line (Map)",
+   "one_line": "what corresponds across texts — and where the correspondence breaks",
    "reads_from": {
     "method_node": "Connect",
     "feeds": [
-     "goldenpath/mark16/connect_edges.json",
-     "goldenpath/mark16/moves.json"
+     "goldenpath/mark16/connect_node_drawer.json"
     ]
    },
-   "encoding": "the real M12→M17 (NEST_REPORTS) shown as an arc / cell / line across the three views, then 'follow M12 yourself' deep-linking #m=M12 into each.",
-   "audience": "reader (first-time)",
-   "composes_into": "the Connect entry",
+   "encoding": "two texts intact, side by side; the shared MOVE stated in a centre band; the BREAK stated directly beneath it, mandatory — a resonance without its break is not renderable. No causal arrow (RESONANCE is non-genealogical).",
+   "audience": "both (the most contemplative object in the set)",
+   "composes_into": "the reading room — the outer margin (distance-from-centre = epistemic distance)",
+   "variants": [
+    {
+     "name": "The Facing Page",
+     "note": "the one worked MATCH: Mark 'he is not here' ⟷ Daodejing 1"
+    }
+   ],
    "gate": {
-    "fidelity": "pass",
+    "fidelity": "pending",
     "cold_read": "pending",
     "cold_start": "pass",
     "vs_wild": "n/a"
    },
-   "status": "v1 — onboarding; live (staged)",
-   "built": {
-    "file": "/_staging/viz_connect_intro.html",
-    "state": "v1",
-    "renders": "render-from-data; teaches the cross-view translation once",
-    "live": true,
-    "_title": "Connect — one relation, three views"
-   },
+   "off_the_shelf": "HTML/CSS grid + a D3 connector",
+   "reference": "the Hexapla / polyglot Bibles",
+   "status": "blocked — no move-level cross-text/rhyme coding for Mark 16 yet (that's the resonance layer, later)",
    "review": {
     "pi": true,
     "gpt": false,
-    "status": "repurpose",
-    "note": "cards are keepers → fold into lab header; standalone page not needed",
+    "status": "blocked",
+    "note": "needs resonance coding; single-diptych proof buildable from the one worked match",
     "doc": "/_staging/_crit/DESIGN_WORK_STATEMENT.md"
    },
    "status_axes": {
     "_derived_by": "scripts/analysis/build_design_engine_status_axes.py -- from built/review/gate; never hand-typed. The prose `status` is editorial and no longer sets the pill.",
-    "implementation": "built",
-    "maturity": "pilot",
-    "deployment": "live",
-    "data": "canonical",
-    "coverage": "partial",
+    "implementation": "unbuilt",
+    "maturity": "draft",
+    "deployment": "offline",
+    "data": "blocked",
+    "coverage": "n/a",
     "review": "open",
-    "dependency": "none",
-    "evidence": "current"
-   }
+    "dependency": "blocked",
+    "evidence": "stale"
+   },
+   "cluster": "across"
+  },
+  {
+   "id": "ledger",
+   "name": "The Ledger of Absences",
+   "also": "Negative-Space Register",
+   "step": "Connect",
+   "one_line": "the edges that are NOT there — a first-class finding, not blank space",
+   "reads_from": {
+    "method_node": "Connect",
+    "feeds": [
+     "goldenpath/mark16/connect_node_drawer.json"
+    ]
+   },
+   "encoding": "a positive mark for a negative result: ○ = tested-and-absent, · = not assessed, — = not applicable. Every ○ carries its search-scope, so 'no edge found within the declared universe' never overclaims 'no edge exists'. Mark 16:8 itself ends in an absence — the convention rhymes with the passage.",
+   "audience": "academic-first; quiet marks for readers ('nothing answers this')",
+   "composes_into": "the reading room — inline empty sockets + a full register margin",
+   "variants": [
+    {
+     "name": "The Ledger",
+     "note": "styled register + empty-socket marks in the Move Score / edges views"
+    }
+   ],
+   "gate": {
+    "fidelity": "pending",
+    "cold_read": "pending",
+    "cold_start": "pass",
+    "vs_wild": "n/a"
+   },
+   "off_the_shelf": "Observable Plot (the register table)",
+   "reference": "the apparatus criticus (the silence of a witness is evidence)",
+   "status": "blocked — a FINDING: edge-absences aren't recorded, so the Ledger can't be built render-from-data. Needs the Connect coder to LOG its no-edge decisions + declared search-universe AT CODING TIME — negative space must be coded at the instrument, it can't be reconstructed after (Method SB S168, 2026-08-10)",
+   "review": {
+    "pi": true,
+    "gpt": false,
+    "status": "blocked",
+    "note": "needs edge-absence logging at coding time (Method SB)",
+    "doc": "/_staging/_crit/DESIGN_WORK_STATEMENT.md"
+   },
+   "status_axes": {
+    "_derived_by": "scripts/analysis/build_design_engine_status_axes.py -- from built/review/gate; never hand-typed. The prose `status` is editorial and no longer sets the pill.",
+    "implementation": "unbuilt",
+    "maturity": "draft",
+    "deployment": "offline",
+    "data": "blocked",
+    "coverage": "n/a",
+    "review": "open",
+    "dependency": "blocked",
+    "evidence": "stale"
+   },
+   "cluster": "across"
   },
   {
    "id": "partiture",
@@ -1105,5 +1113,27 @@
    "note": "Every figure carries a review pill below: PI notes / GPT crit / status + a link to its feedback (crit log) or the build plan. Status shipped/ok = updated & live; next/building = in the queue; blocked = waiting on Atlas Reader feeds.",
    "_frozen": "Both tallies are facts about the walk of 2026-08-14 and do not move. An earlier edit re-derived `reviewed` from the current node list, which made this record claim the walk reviewed figures that did not exist on the day."
   }
- ]
+ ],
+ "clusters": {
+  "learn": {
+   "label": "Learn the grammar once",
+   "gloss": "one relation shown three ways — the 60-second way in",
+   "order": 0
+  },
+  "all": {
+   "label": "All the relations at once",
+   "gloss": "the whole set in one passage, and the graph behind it",
+   "order": 1
+  },
+  "one-kind": {
+   "label": "One kind at a time",
+   "gloss": "the same passage read through a single relation type",
+   "order": 2
+  },
+  "across": {
+   "label": "Across texts",
+   "gloss": "correspondence between passages — and the edges that are NOT there",
+   "order": 3
+  }
+ }
 }
