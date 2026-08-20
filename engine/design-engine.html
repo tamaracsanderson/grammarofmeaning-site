@@ -181,7 +181,11 @@ function nodeCard(n){
     '</dl>'+
   '</div>';
 }
-fetch('/engine/data/viz/design_engine.json').then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+/* Cache-bust, as all.html and room.html already do. Without it this page renders whatever the
+   browser last cached, so a reader can be shown a feed from before the deploy and nothing says
+   so — the drift class arriving via HTTP rather than via a hand-copy. It surfaced here because
+   the orphan guard above flagged two nodes as unplaced against a STALE copy of the steps. */
+fetch('/engine/data/viz/design_engine.json?v='+Date.now(),{cache:'no-cache'}).then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
  .then(function(d){
    var p=d.page||{};
    if(p.title)document.getElementById('title').textContent=p.title;
