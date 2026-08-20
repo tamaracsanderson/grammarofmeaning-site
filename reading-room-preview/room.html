@@ -33,7 +33,7 @@
   --accent-sm:#B4551F;
   --disp:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,-apple-system,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,monospace;
-  --measure:34rem; --aside-w:23rem; --rail-w:7.4rem; --gutter:2.4rem;
+  --measure:34rem; --aside-w:23rem; --rail-w:7.4rem; --gutter:2.4rem; --marg:15.5rem;
 }
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]){
   --paper:#1C1813; --paper-2:#26211A; --paper-3:#221D16;
@@ -72,9 +72,46 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   border-radius:999px;padding:.2rem .6rem}
 
 /* ── the stage: text centre + two absolutely-placed wings ───────────────────────── */
-.stage{position:relative;width:var(--measure);margin:0 auto;padding:4.2rem 0 8rem;
-  transition:transform .62s cubic-bezier(.32,.06,.24,1)}
-body.open .stage{transform:translateX(calc((var(--aside-w) + var(--gutter)) / -2))}
+/* ── THE DAF ─────────────────────────────────────────────────────────────────────────────────
+   Text at the center, hemmed by commentary — the oldest reading-technology for dwelling, and the
+   layout the PI asked for: Sitz cards left, gloss + reception cards right, the move UNDER its verse.
+   The margins are not a sidebar: a sidebar holds one thing that changes, marginalia hold many small
+   things that each belong to a line. So each card is anchored to the verse it reads, and appears
+   beside it. */
+.daf{display:grid;grid-template-columns:var(--marg) var(--measure) var(--marg);gap:var(--gutter);
+  justify-content:center;align-items:start;margin:0 auto;padding:1.2rem 0 8rem}
+.stage{position:relative;width:auto;margin:0;padding:0;grid-column:2}
+.marg{position:relative}
+.marg .mcard{width:auto}
+.marg-l{grid-column:1}
+.marg-r{grid-column:3}
+.marg-h{font-family:var(--mono);font-size:.55rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 .55rem;position:sticky;top:5.4rem;background:var(--paper);padding:.2rem 0}
+.mcard{border:1px solid var(--hair);border-radius:7px;padding:.55rem .65rem;margin:0 0 .5rem;
+  background:var(--paper-2);cursor:pointer;transition:border-color .18s,transform .18s}
+.mcard:hover{border-color:var(--gold)}
+.mcard.lit{border-color:var(--accent-sm);background:var(--paper)}
+.mcard .mc-v{font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;color:var(--accent-sm)}
+.mcard .mc-k{font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);display:block;margin:.1rem 0 .18rem}
+.mcard .mc-t{font-family:var(--disp);font-style:italic;font-size:.79rem;line-height:1.45;color:var(--ink-2)}
+.marg-empty{font-family:var(--disp);font-style:italic;font-size:.76rem;color:var(--ink-3);line-height:1.5}
+/* the margins arrive with their step, and only then */
+body:not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .marg-l{visibility:hidden}
+body:not([data-step="respond"]) .marg-r{visibility:hidden}
+
+/* ── the move, inline UNDER its verse (the Move Score's arrangement) ─────────────────────────── */
+.mv{border-left:2px solid var(--gold);margin:.5rem 0 .9rem .9rem;padding:.1rem 0 .1rem .8rem}
+.mv-h{display:flex;gap:.5rem;align-items:baseline}
+.mv-l{font-family:var(--mono);font-size:.6rem;color:var(--accent-sm);flex:none}
+.mv-p{font-family:var(--sans);font-size:.86rem;line-height:1.5;color:var(--ink)}
+.mv-body{margin-top:.45rem}
+body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .mv{display:none}
+@media(max-width:1180px){
+  .daf{grid-template-columns:1fr;gap:1.6rem}
+  .stage,.marg-l,.marg-r{grid-column:1}
+  .marg-h{position:static}
+}
 
 /* ── the invitation (L0) ────────────────────────────────────────────────────────── */
 .invite{font-family:var(--disp);font-style:italic;font-size:.98rem;color:var(--ink-3);
@@ -106,6 +143,14 @@ body.open .text{transition:opacity .4s}
 
 /* ── move chips: appear under the selected verse ────────────────────────────────── */
 /* ── THE LADDER stepper ─────────────────────────────────────────────────────────────── */
+.arcwrap{width:var(--measure);margin:0 auto 1.6rem}
+.arc-h{font-family:var(--mono);font-size:.55rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-3);text-align:center;margin:0 0 .2rem}
+.arc-how{font-family:var(--disp);font-style:italic;font-size:.74rem;color:var(--ink-3);text-align:center;margin:0 0 .5rem}
+.arc-bars{display:flex;align-items:flex-end;gap:3px;height:52px;border-bottom:1px solid var(--hair)}
+.ab{flex:1;background:color-mix(in srgb,var(--moss) 42%,var(--paper-2));border:0;border-radius:2px 2px 0 0;
+  cursor:pointer;min-height:3px;padding:0;transition:background .15s}
+.ab:hover{background:var(--gold)}
 .ladder{width:var(--measure);margin:0 auto 2.2rem;padding:0}
 .ladder-r{display:flex;gap:.3rem;flex-wrap:wrap}
 .st{flex:1 1 0;min-width:78px;text-align:left;background:none;border:0;border-top:2px solid var(--hair);
@@ -154,7 +199,10 @@ body.open .rail{opacity:1;pointer-events:auto}
 .lens .mk{font-family:var(--mono);font-size:.56rem;color:var(--ink-3);margin-left:.3rem}
 
 /* ── the open lens (right wing) ─────────────────────────────────────────────────── */
-.aside{position:absolute;top:0;bottom:0;left:calc(100% + var(--gutter));width:var(--aside-w);
+/* the aside is now a DRAWER over the right margin, not a resident of it: a lens is transient,
+   the gloss is persistent, and the persistent thing keeps the space. */
+.aside{position:fixed;top:4.4rem;right:1.2rem;bottom:1.2rem;width:var(--aside-w);z-index:30;
+  background:var(--paper);border:1px solid var(--hair);border-radius:9px;box-shadow:0 18px 40px -26px rgba(0,0,0,.45);
   opacity:0;pointer-events:none;transition:opacity .45s .1s}
 body.open .aside{opacity:1;pointer-events:auto}
 .aside-in{position:sticky;top:5.4rem;max-height:calc(100vh - 7rem);overflow:auto;
@@ -299,12 +347,18 @@ body.open .aside{opacity:1;pointer-events:auto}
   <button class="tbtn" id="theme" aria-label="switch light or dark">◐</button>
 </header>
 
-<main class="stage" id="stage">
-  <div class="ladder" id="ladder"></div>
+<div class="ladder" id="ladder"></div>
+<div class="arcwrap" id="arc"></div>
+<div class="daf">
+  <aside class="marg marg-l" id="margL" aria-label="the world this text is in"></aside>
+  <main class="stage" id="stage">
   <p class="invite" id="invite">Begin by reading. Select any verse to see what it is doing.</p>
   <nav class="rail" id="rail" aria-label="lenses"></nav>
   <div class="text" id="text"><p class="err">loading Mark 16…</p></div>
-  <aside class="aside" id="aside" aria-live="polite"></aside>
+  </main>
+  <aside class="marg marg-r" id="margR" aria-label="what readers made of it"></aside>
+</div>
+<aside class="aside" id="aside" aria-live="polite"></aside>
 </main>
 
 <footer class="foot" id="foot"></footer>
@@ -418,6 +472,119 @@ var STEPS=[
   {id:'respond', n:'RESPOND', ask:'What did readers do with it?',
    note:'Readings, later hands, whole added endings \u2014 answers to the gaps you just saw.', lens:'afterlives'}
 ];
+/* ── THE MARGINS ───────────────────────────────────────────────────────────────────────────────
+   Marginalia, not sidebars: many small things each anchored to the line they read, rather than one
+   panel that swaps. LEFT is Sitz -- the world the text is in. RIGHT is what readers made of it.
+   Both render from the feed; a margin with nothing in it says so rather than going blank. */
+function paintMargins(){
+  var L=document.getElementById('margL'), R=document.getElementById('margR');
+
+  /* ONE card per VERSE, not per move. A margin column is narrower and shorter than the text it
+     hems, so a card per move cannot stay beside its line -- measured at 55 cards, the stacking rule
+     pushed some 905px below the verse they claimed, which silently attributes a reading to the wrong
+     verse. Marginalia are fewer and denser than the text by their nature; the daf does not gloss
+     every clause. So each verse gets at most one card a side, and the moves inside it are named
+     within the card. */
+  var byVerse={};
+  D.moves.items.forEach(function(m){
+    var v=(m.verse_ids||[])[0]; if(!v) return;
+    (byVerse[v]=byVerse[v]||[]).push(m);
+  });
+
+  /* LEFT — Sitz. The PI has reserved this margin for the five kinds of situate; the feed carries
+     sitz + paradigm as free text per move, so what is shown is what exists, and the note says the
+     rest is pending Method rather than pretending five buckets are here. */
+  var lc=Object.keys(byVerse).map(function(v){
+    var seen={}, bits=[];
+    byVerse[v].forEach(function(m){
+      if(m.sitz&&!seen['s'+m.sitz]){seen['s'+m.sitz]=1;bits.push({k:'the world it assumes',t:m.sitz});}
+      if(m.paradigm&&!seen['p'+m.paradigm]){seen['p'+m.paradigm]=1;bits.push({k:'the practice',t:m.paradigm});}
+    });
+    if(!bits.length) return '';
+    return '<div class="mcard" data-for="'+esc(v)+'"><span class="mc-v">'+esc(vref(v))+'</span>'
+      +bits.map(function(b){return '<span class="mc-k">'+esc(b.k)+'</span><span class="mc-t">'+esc(b.t)+'</span>';}).join('')
+      +'</div>';
+  }).filter(Boolean);
+  L.innerHTML='<p class="marg-h">the world it is in</p>'
+    +(lc.length?lc.join(''):'<p class="marg-empty">Nothing situates this text yet.</p>');
+
+  /* RIGHT — what readers made of it: recorded later readers first, then the close readings. */
+  var rc=((D.reception||{}).items)||[];
+  var recByVerse={};
+  rc.forEach(function(r){ var v=(r.verse_ids||[])[0]; if(v)(recByVerse[v]=recByVerse[v]||[]).push(r); });
+  var verses=(D.text.verses||[]).map(function(x){return x.verse_id;});
+  var rcards=verses.map(function(v){
+    var parts=[];
+    (recByVerse[v]||[]).forEach(function(r){
+      parts.push('<span class="mc-k">'+esc(r.who||r.tradition||'a later reader')+'</span>'
+        +'<span class="mc-t">'+esc(r.reading||r.text||r.note||'')+'</span>');
+    });
+    (byVerse[v]||[]).forEach(function(m){
+      if(m.gloss) parts.push('<span class="mc-k">read closely \u00b7 '+esc(m.label)+'</span>'
+        +'<span class="mc-t">'+esc(m.gloss)+'</span>');
+    });
+    if(!parts.length) return '';
+    return '<div class="mcard" data-for="'+esc(v)+'"><span class="mc-v">'+esc(vref(v))+'</span>'
+      +parts.join('')+'</div>';
+  }).filter(Boolean);
+  R.innerHTML='<p class="marg-h">what readers made of it</p>'
+    +(rcards.length?rcards.join(''):'<p class="marg-empty">No reading of this text is recorded yet.</p>');
+
+  [].forEach.call(document.querySelectorAll('.mcard'),function(c){
+    c.onclick=function(){ var v=c.getAttribute('data-for'); if(v) selectVerse(v); };
+  });
+}
+
+/* Marginalia sit BESIDE the line they read — that is what makes them marginalia rather than a
+   sidebar with a long list in it. So each card is placed at its verse's own vertical position, and
+   when two cards would overlap the second slides down to clear the first (the classic margin-note
+   stacking rule). Recomputed on resize and whenever the center reflows, because a card that has
+   drifted from its line is worse than no card: it silently attributes a reading to the wrong verse. */
+function alignMargins(){
+  if(window.innerWidth<1180){                     /* stacked layout: no alignment to do */
+    [].forEach.call(document.querySelectorAll('.mcard'),function(c){c.style.position='';c.style.top='';});
+    return;
+  }
+  ['margL','margR'].forEach(function(id){
+    var host=document.getElementById(id); if(!host) return;
+    var hostTop=host.getBoundingClientRect().top, last=-1e9;
+    [].forEach.call(host.querySelectorAll('.mcard'),function(c){
+      var v=c.getAttribute('data-for');
+      var el=v?document.querySelector('.v[data-verse="'+v+'"]'):null;
+      if(!el){ c.style.position=''; c.style.top=''; return; }
+      var want=el.getBoundingClientRect().top-hostTop;
+      var top=Math.max(want, last+8);
+      c.style.position='absolute'; c.style.top=top+'px'; c.style.left='0'; c.style.right='0';
+      last=top+c.offsetHeight;
+    });
+    host.style.height=Math.max(0,last+40)+'px';
+  });
+}
+var _alignT=null;
+function scheduleAlign(){ clearTimeout(_alignT); _alignT=setTimeout(alignMargins,60); }
+window.addEventListener('resize',scheduleAlign);
+
+function vref(vid){ var v=(D.text.verses||[]).filter(function(x){return x.verse_id===vid;})[0];
+  return v?String(D.text.ref)+':'+v.n:''; }
+
+/* ── the whole passage, as bars (ported from the Move Score) ─────────────────────────────────── */
+function paintArc(){
+  var vs=D.text.verses||[], mx=1;
+  var counts=vs.map(function(v){ var n=movesForVerse(v.verse_id).length; if(n>mx)mx=n; return n; });
+  document.getElementById('arc').innerHTML=
+    '<p class="arc-h">the whole passage</p>'
+   +'<p class="arc-how">each bar is a verse \u2014 taller means more moves happen in it. click a bar to jump.</p>'
+   +'<div class="arc-bars">'+vs.map(function(v,k){
+      return '<button class="ab" data-verse="'+esc(v.verse_id)+'" title="'+esc(D.text.ref)+':'+v.n+' \u00b7 '
+        +counts[k]+' move'+(counts[k]===1?'':'s')+'" style="height:'+Math.max(3,Math.round(counts[k]/mx*52))+'px"></button>';
+    }).join('')+'</div>';
+  [].forEach.call(document.querySelectorAll('.ab'),function(b){
+    b.onclick=function(){ selectVerse(b.getAttribute('data-verse'));
+      var el=document.querySelector('.v[data-verse="'+b.getAttribute('data-verse')+'"]');
+      if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); };
+  });
+}
+
 function paintLadder(){
   var i=stepIndex(), st=STEPS[i];
   document.getElementById('ladder').innerHTML=
@@ -446,7 +613,7 @@ function setStep(id){
        selection, which is what makes the change visible rather than merely available. */
     if(!st.lens){ S.lens=null; S.move=null; closePanels(); }
     else if(S.verse){ S.lens=st.lens; open(); }
-    paintLadder(); paintRail(); paintText();
+    paintLadder(); paintRail(); paintText(); scheduleAlign();
   }, S.verse);
 }
 
@@ -493,7 +660,16 @@ function buildText(){
     (v.apparatus||[]).forEach(function(a){                       /* apparatus stays, marked */
       body=body.split(esc(a.mark)).join('<span class="app" title="translator apparatus, carried verbatim from the edition — the brace marking is the edition\u2019s own">'+esc(a.mark)+'</span>');
     });
-    return '<p class="v" data-verse="'+esc(v.verse_id)+'" tabindex="0"><span class="vn">'+v.n+'</span>'+body+'</p>';
+    /* the move sits UNDER its verse, the way the Move Score arranges it: you read the sentence, then
+       you read what the sentence is doing, in that order and in one column. A move in a side panel
+       asks the reader to hold the verse in memory while they look away from it. */
+    var mvs=movesForVerse(v.verse_id).map(function(m){
+      return '<div class="mv" data-mv="'+esc(m.move_handle)+'">'
+        +'<div class="mv-h"><span class="mv-l">'+esc(m.label)+'</span>'
+        +'<span class="mv-p">'+esc(m.paraphrase||m.operation||'')+'</span></div>'
+        +'<div class="mv-body">'+grammar(m)+'</div></div>';
+    }).join('');
+    return '<p class="v" data-verse="'+esc(v.verse_id)+'" tabindex="0"><span class="vn">'+v.n+'</span>'+body+'</p>'+mvs;
   }).join('');
   [].forEach.call(document.querySelectorAll('.v'),function(el){
     el.onclick=function(){selectVerse(el.getAttribute('data-verse'));};
@@ -607,6 +783,31 @@ function paintAside(){
 }
 
 /* SEE — the move grammar (Method fact, plane A; rendered, never re-derived) */
+/* ONE definition of the move's grammar, used by the inline move under the verse AND by the SEE
+   drawer — extracted rather than copied, because two copies of a rendering is how the labeled line
+   and the diagram diverged in the first place. */
+function grammar(m){
+  /* plain word leads, the coded field follows in parens (Fidelity: the term is present, not replaced) */
+  var rl=[];
+  if(m.agent)     rl.push('<span><b class="rl">who <span class="rterm">(agent)</span></b>'+esc(m.agent)+'</span>');
+                  rl.push('<span><b class="rl">does <span class="rterm">(operation)</span></b>'+esc(m.operation||m.move_type||'')+'</span>');
+  if(m.substrate) rl.push('<span><b class="rl">on <span class="rterm">(substrate)</span></b>'+esc(m.substrate)+'</span>');
+  if(m.outcome)   rl.push('<span><b class="rl">result <span class="rterm">(outcome)</span></b>'+esc(m.outcome)+'</span>');
+  var dia='<div class="gram" style="margin:0"><div class="g-row">'
+      +'<div class="g-box"><span class="g-t">who</span><span class="g-v">'+esc(m.agent||'—')+'</span></div>'
+      +'<div class="g-op"><span class="arw">→</span><span class="opn">'+esc(m.operation||'')+'</span><span class="arw">→</span></div>'
+      +'<div class="g-box"><span class="g-t">what results</span><span class="g-v">'+esc(m.outcome||'—')+'</span></div>'
+    +'</div>'
+    +(m.substrate?'<div class="g-box" style="margin-top:.32rem"><span class="g-t">upon</span><span class="g-v">'+esc(m.substrate)+'</span></div>':'')
+    +'</div>';
+  return '<div class="gram">'
+    +'<div class="roleline">'+rl.join('')+'</div>'
+    +'<button class="asdiagram" data-dia="1" aria-expanded="false">show as diagram</button>'
+    +'<div class="dia-wrap" hidden>'+dia+'</div>'
+    +'<p class="g-meta">'+esc(m.voice||'')+' · '+esc(m.move_type||'')
+      +(m.nested_under?' · nested under '+esc(m.nested_under):'')+'<br>told by '+esc(m.narrator||'—')+'</p></div>';
+}
+
 function lensSee(v,m){
   if(!m) return state('none-here','No move is coded on this verse.',
     'the coded set is '+D.moves.items.length+' moves across '+D.text.ref+':'+D.text.verses[0].n+'\u2013'+D.text.verses[D.text.verses.length-1].n);
@@ -632,33 +833,7 @@ function lensSee(v,m){
       +'<b>'+esc(ax)+'</b>'+(isGlossed(ax,'')?' <span class="dim">'+esc(axLabel(ax))+'</span>':'')+'<br>'
       +esc(hum(m.frame_delta_from))+' <span class="sh">\u2192</span> <b>'+esc(hum(m.frame_delta_to))+'</b></p>';
   }
-  /* plain word leads, the coded field follows in parens (Fidelity: the term is present, not replaced) */
-  var rl=[];
-  if(m.agent)     rl.push('<span><b class="rl">who <span class="rterm">(agent)</span></b>'+esc(m.agent)+'</span>');
-                  rl.push('<span><b class="rl">does <span class="rterm">(operation)</span></b>'+esc(m.operation||m.move_type||'')+'</span>');
-  if(m.substrate) rl.push('<span><b class="rl">on <span class="rterm">(substrate)</span></b>'+esc(m.substrate)+'</span>');
-  if(m.outcome)   rl.push('<span><b class="rl">result <span class="rterm">(outcome)</span></b>'+esc(m.outcome)+'</span>');
-  var dia='<div class="gram" style="margin:0"><div class="g-row">'
-      +'<div class="g-box"><span class="g-t">who</span><span class="g-v">'+esc(m.agent||'—')+'</span></div>'
-      +'<div class="g-op"><span class="arw">→</span><span class="opn">'+esc(m.operation||'')+'</span><span class="arw">→</span></div>'
-      +'<div class="g-box"><span class="g-t">what results</span><span class="g-v">'+esc(m.outcome||'—')+'</span></div>'
-    +'</div>'
-    +(m.substrate?'<div class="g-box" style="margin-top:.32rem"><span class="g-t">upon</span><span class="g-v">'+esc(m.substrate)+'</span></div>':'')
-    +'</div>';
-  return '<div class="gram">'
-    +'<div class="roleline">'+rl.join('')+'</div>'
-    +'<button class="asdiagram" data-dia="1" aria-expanded="false">show as diagram</button>'
-    +'<div class="dia-wrap" hidden>'+dia+'</div>'
-    +'<p class="g-meta">'+esc(m.voice||'')+' · '+esc(m.move_type||'')
-      +(m.nested_under?' · nested under '+esc(m.nested_under):'')+'<br>told by '+esc(m.narrator||'—')+'</p></div>'
-    /* TWO sentences, two genres, and the difference is the whole point of showing either.
-       `paraphrase` is the move RESTATED -- the Move Score's own legend calls it "the move restated
-       plainly, so you can check us", and that is exactly its job: a reader holds it against the verse
-       and decides whether the coding is right.  `gloss` is a READING: it says what the move means.
-       Both ship inside the coded export, which is how one of them ended up labelled "in plain words"
-       here -- so the page invited a reader to take an interpretation as a neutral restatement, and
-       dropped the restatement that would have let them check it.  Restatement first, and neither
-       heading pretends to be the other. */
+  return grammar(m)
     +(m.paraphrase?'<p class="h">the move, restated</p><p class="gloss">'+esc(m.paraphrase)+'</p>'
         +'<p class="a-anchor" style="margin-top:-.15rem">Hold this against the verse above: it is what the coder took the move to be, worded so you can disagree.</p>':'')
     +(m.gloss?'<p class="h">what it is doing, read closely</p><p class="gloss">'+esc(m.gloss)+'</p>'
@@ -932,7 +1107,7 @@ fetch('/engine/data/design/design_state.json?v='+Date.now(),{cache:'no-cache'})
 fetch('/engine/data/design/reading_room_mark16.json?v='+Date.now(),{cache:'no-cache'})
  .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
  .then(function(j){
-   D=j; buildText(); paintLadder();
+   D=j; buildText(); paintArc(); paintMargins(); paintLadder(); scheduleAlign();
    document.getElementById('foot').innerHTML=
      'Mark 16, verbatim from the library checkout ('+esc(D.text.edition)+', '+esc(String(D.text.rights_status).replace(/_/g,' '))+'). '
     +D.moves.items.length+' coded moves · '+D.connect.edges.length+' typed links · '+D.lineage.cells.length+' lineage cells · '
