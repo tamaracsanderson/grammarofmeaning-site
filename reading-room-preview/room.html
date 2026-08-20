@@ -105,6 +105,24 @@ body.open .text{transition:opacity .4s}
   border-bottom:1px dotted var(--rule);cursor:help;padding:0 .1em}
 
 /* ── move chips: appear under the selected verse ────────────────────────────────── */
+/* ── THE LADDER stepper ─────────────────────────────────────────────────────────────── */
+.ladder{width:var(--measure);margin:0 auto 2.2rem;padding:0}
+.ladder-r{display:flex;gap:.3rem;flex-wrap:wrap}
+.st{flex:1 1 0;min-width:78px;text-align:left;background:none;border:0;border-top:2px solid var(--hair);
+  padding:.45rem .1rem 0;cursor:pointer;font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);transition:color .15s,border-color .15s}
+.st:hover{color:var(--ink);border-top-color:var(--gold)}
+.st.done{border-top-color:var(--moss);color:var(--ink-2)}
+.st.on{border-top-color:var(--accent-sm);color:var(--ink);font-weight:600}
+.st .stn{display:block;font-family:var(--disp);font-style:italic;font-size:.74rem;letter-spacing:0;
+  text-transform:none;color:var(--ink-3);margin-top:.15rem;line-height:1.3}
+.st.on .stn{color:var(--ink-2)}
+.ladder-note{font-family:var(--disp);font-style:italic;font-size:.82rem;line-height:1.5;
+  color:var(--ink-2);margin:.7rem 0 0;max-width:44ch}
+.ladder-next{font-family:var(--mono);font-size:.58rem;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--accent-sm);background:none;border:0;cursor:pointer;padding:.5rem 0 0}
+.ladder-next:hover{text-decoration:underline}
+@media(max-width:900px){.ladder{width:auto}}
 .chips{display:flex;flex-wrap:wrap;gap:.3rem;margin:.4rem 0 .55rem .95rem;
   animation:rise .42s cubic-bezier(.32,.06,.24,1)}
 @keyframes rise{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
@@ -282,6 +300,7 @@ body.open .aside{opacity:1;pointer-events:auto}
 </header>
 
 <main class="stage" id="stage">
+  <div class="ladder" id="ladder"></div>
   <p class="invite" id="invite">Begin by reading. Select any verse to see what it is doing.</p>
   <nav class="rail" id="rail" aria-label="lenses"></nav>
   <div class="text" id="text"><p class="err">loading Mark 16…</p></div>
@@ -297,7 +316,7 @@ body.open .aside{opacity:1;pointer-events:auto}
    Plane C — Design editorial — is exactly: the reader questions, the section names,
    the pacing, and the wording of the typed states.  Those are marked EDITORIAL below.
    ══════════════════════════════════════════════════════════════════════════════════ */
-var D=null, S={verse:null, move:null, lens:null};
+var D=null, S={verse:null, move:null, lens:null, step:'read'};
 
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function hum(v){return String(v==null?'':v).replace(/[-_]/g,' ');}
@@ -364,6 +383,79 @@ function keepingPlace(mutate, preferId){
   var delta=anchor.getBoundingClientRect().top-before;
   if(Math.abs(delta)>0.5) window.scrollBy(0,delta);
 }
+
+/* ══ THE LADDER — the reading method, as steps ═══════════════════════════════════════════════
+   PI, S181: "we are proposing a meaning-making method with this, that has steps, and each one is
+   asking something different of the reader... you can engage with a gloss AFTER you've read it,
+   digested what it's saying, understood the context, then you can start seeing gaps, and then
+   responses to them."
+
+   THE ORDER IS FORCED, not a preference, and that is the whole argument for making it a sequence
+   instead of a page of panels:
+     - a GAP is only visible against an expectation. Expectation is what READ, UNPACK and SITUATE
+       build. Show the absences first and they are just holes; show them fourth and they are
+       findings. (Which is this project's own claim about negative space, made operational on a
+       reader rather than asserted at them.)
+     - a RESPONSE -- a gloss, a later reader, a whole added ending -- is an answer TO a gap. Put it
+       before the gap and the reader inherits someone else's question instead of arriving at their
+       own.
+   So each step is a precondition for the next, and the room can honestly refuse to skip.
+
+   Cumulative by design: step N shows layers 1..N. "Add each layer and see how that changes your
+   understanding" needs the earlier layers still on screen to change.
+
+   This SUPERSEDES the persistent-margins layout I recommended, and restores §G's binding clause
+   ("surrounding lenses -- not all open at once"), which the ladder turns out to be the reason for. */
+var STEPS=[
+  {id:'read',    n:'READ',    ask:'What does it say?',
+   note:'The text alone, in the edition it was checked out from. Nothing else is on screen yet.'},
+  {id:'unpack',  n:'UNPACK',  ask:'What is it doing?',
+   note:'Each move restated so you can hold it against the verse and disagree.', lens:'see'},
+  {id:'situate', n:'SITUATE', ask:'What world is it in?',
+   note:'The conditions the text was made in. Watch what changes now that you have your own reading to change.', lens:'world'},
+  {id:'gaps',    n:'GAPS',    ask:'What is not here?',
+   note:'What the text does not say, and where it stops. You can only see this now \u2014 an absence needs an expectation to be an absence.', lens:'open'},
+  {id:'respond', n:'RESPOND', ask:'What did readers do with it?',
+   note:'Readings, later hands, whole added endings \u2014 answers to the gaps you just saw.', lens:'afterlives'}
+];
+function paintLadder(){
+  var i=stepIndex(), st=STEPS[i];
+  document.getElementById('ladder').innerHTML=
+    '<div class="ladder-r" role="tablist" aria-label="the reading steps">'
+    +STEPS.map(function(x,k){
+      return '<button class="st'+(k===i?' on':(k<i?' done':''))+'" role="tab" aria-selected="'+(k===i)+'"'
+        +' data-step="'+x.id+'"><span>'+(k+1)+' '+esc(x.n)+'</span><span class="stn">'+esc(x.ask)+'</span></button>';
+    }).join('')+'</div>'
+    +'<p class="ladder-note">'+esc(st.note)+'</p>'
+    +(i<STEPS.length-1
+       ? '<button class="ladder-next" data-next="'+STEPS[i+1].id+'">then \u2192 '+esc(STEPS[i+1].n)+' \u00b7 '+esc(STEPS[i+1].ask)+'</button>'
+       : '');
+  [].forEach.call(document.querySelectorAll('.st'),function(b){
+    b.onclick=function(){ setStep(b.getAttribute('data-step')); };
+  });
+  var nx=document.querySelector('.ladder-next'); if(nx) nx.onclick=function(){ setStep(nx.getAttribute('data-next')); };
+  document.body.setAttribute('data-step', st.id);
+}
+
+function setStep(id){
+  keepingPlace(function(){
+    S.step=id;
+    var st=STEPS[stepIndex()];
+    /* stepping BACK closes a layer that step no longer offers, so the room never shows a panel
+       the current step has not earned. Stepping forward opens that step's lens on the current
+       selection, which is what makes the change visible rather than merely available. */
+    if(!st.lens){ S.lens=null; S.move=null; closePanels(); }
+    else if(S.verse){ S.lens=st.lens; open(); }
+    paintLadder(); paintRail(); paintText();
+  }, S.verse);
+}
+
+function closePanels(){
+  document.body.classList.remove('open');
+  var a=document.getElementById('aside'); if(a) a.innerHTML='';
+}
+
+function stepIndex(){ var i=STEPS.map(function(x){return x.id;}).indexOf(S.step); return i<0?0:i; }
 
 function paintText(){
   var lit=S.verse?[S.verse]:[];
@@ -454,9 +546,22 @@ function lensState(id){
   if(id==='evidence') return {s:'ok'};
   return {s:'ok'};
 }
+/* A step offers only the lenses it has EARNED. This is the ladder's one real constraint, and it is
+   the reason the sequence is a method rather than a suggestion: showing RESPOND's readings while the
+   reader is still on READ would hand them someone else's question before they have their own.
+   EVIDENCE is exempt -- where a thing came from is never a spoiler, and a reader who distrusts the
+   page must be able to check it at any point. */
+function lensesForStep(){
+  var earned={}, i=stepIndex();
+  STEPS.slice(0, i+1).forEach(function(x){ if(x.lens) earned[x.lens]=1; });
+  earned['evidence']=1;
+  if(earned['see']){ ['connect','inherits','compare','reached'].forEach(function(k){ earned[k]=1; }); }
+  return LENSES.filter(function(L){ return earned[L.id]; });
+}
+
 function paintRail(){
   document.getElementById('rail').innerHTML='<div class="rail-in"><p class="rail-h">ask of it</p>'+
-   LENSES.map(function(L){
+   lensesForStep().map(function(L){
      var st=lensState(L.id);
      var tip=st.s==='ok'?'':STATES[st.s];   /* the rail says WHY a lens is quiet, not merely that it is */
      return '<button class="lens'+(S.lens===L.id?' on':'')+'" data-lens="'+L.id+'" data-state="'+(st.s==='ok'?'':st.s)+'"'
@@ -827,7 +932,7 @@ fetch('/engine/data/design/design_state.json?v='+Date.now(),{cache:'no-cache'})
 fetch('/engine/data/design/reading_room_mark16.json?v='+Date.now(),{cache:'no-cache'})
  .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
  .then(function(j){
-   D=j; buildText();
+   D=j; buildText(); paintLadder();
    document.getElementById('foot').innerHTML=
      'Mark 16, verbatim from the library checkout ('+esc(D.text.edition)+', '+esc(String(D.text.rights_status).replace(/_/g,' '))+'). '
     +D.moves.items.length+' coded moves · '+D.connect.edges.length+' typed links · '+D.lineage.cells.length+' lineage cells · '
