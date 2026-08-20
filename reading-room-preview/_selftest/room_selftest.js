@@ -215,16 +215,31 @@
     var px=parseFloat(cs.fontSize), large=(px>=24)||(px>=18.66&&+cs.fontWeight>=700);
     return {r:r, need:large?3:4.5, px:px};
   }
+  /* Only measure what a reader can actually SEE. A closed panel's children composite to exactly
+     1.00:1 — which is the maths being right about something invisible — and `.lens .n` is
+     display:none in the narrow layout. Measuring either is noise dressed as a failure. */
+  function _visible(el){
+    if(!el) return false;
+    var r=el.getBoundingClientRect();
+    if(r.width<1 || r.height<1) return false;
+    if(getComputedStyle(el).visibility==='hidden') return false;
+    return _effAlpha(el) > 0.05;
+  }
   V('016:001').click();
   var TEXT=['.v','.v .vn','.app','.lens .q','.lens .n','.h','.p','.ax .term','.ax .gl','.a-anchor',
             '.chip','.gloss','.foot','.row .rt','.row .rm','.lane .lt','.st','.st .why','.ed'];
   var bad=[];
+  var measured=0, skipped=[];
   TEXT.forEach(function(sel){
-    var el=document.querySelector(sel); if(!el) return;
+    var el=document.querySelector(sel);
+    if(!_visible(el)){ skipped.push(sel); return; }
+    measured++;
     var c=_contrast(el);
     if(c.r < c.need) bad.push(sel+' '+c.r.toFixed(2)+':1 (need '+c.need+')');
   });
-  esc('text meets WCAG AA contrast', bad.length===0, bad.length?bad.join(' · '):'all measured text passes');
+  esc('text meets WCAG AA contrast', bad.length===0,
+      bad.length ? bad.join(' · ')
+                 : measured+' visible text styles pass'+(skipped.length?' ('+skipped.length+' not rendered here: '+skipped.join(', ')+')':''));
 
   /* A scripted .focus() does not satisfy :focus-visible in Chrome — it requires keyboard intent — so
      asserting on the matched state would fail on a correct page. Verify the RULE exists and is
