@@ -204,6 +204,18 @@ fetch('/engine/data/viz/design_engine.json').then(function(r){if(!r.ok)throw new
      var ns=nodes.filter(function(n){return n.step===st.key;});
      return '<div class="steph" id="step-'+esc(st.key)+'">'+esc(st.label)+' <span class="sg">'+esc(st.gloss||'')+'</span></div>'+ns.map(nodeCard).join('');
    }).join('');
+   /* A node whose step is not in d.steps used to vanish here with no error — the feed carried 18,
+      the page drew 16, and nothing said so. Two nodes added minutes earlier disappeared exactly
+      this way. A renderer that filters by a declared list must not discard silently: anything
+      unmatched is rendered under its own heading and named as a registration gap. */
+   var known={}; steps.forEach(function(st){known[st.key]=1;});
+   var orphans=nodes.filter(function(n){return !known[n.step];});
+   if(orphans.length){
+     html+='<div class="steph" id="step-unplaced">Not placed in the engine flow '
+       +'<span class="sg">these nodes declare a step this page does not know — shown so they cannot '
+       +'vanish, but they need a step added to <code>steps</code> or corrected on the node</span></div>'
+       +orphans.map(nodeCard).join('');
+   }
    document.getElementById('steps').innerHTML=html;
    var ct=d.contract;
    if(ct){ document.getElementById('contract').innerHTML=
