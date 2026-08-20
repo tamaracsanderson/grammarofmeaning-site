@@ -169,19 +169,49 @@
    * compositing the element's own opacity. A first pass compared everything to the body ground and
    * scored the selected chip at 1.00:1 — meaningless. The real finding underneath was systematic:
    * opacity stacked on an already-muted colour. Each layer reasonable, the composition failing. */
-  function _lum(c){var m=c.match(/[\d.]+/g).map(Number);
-    var f=m.slice(0,3).map(function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);});
+  /* Parse rgb() / rgba() / color(srgb r g b / a). The srgb form gives 0-1 floats; reading them as
+     0-255 turns a near-white masthead into near-black and invents a failure. */
+  function _rgba(c){
+    if(/^color\(srgb/i.test(c)){
+      var n=c.match(/[\d.]+/g).map(Number);
+      return [n[0]*255,n[1]*255,n[2]*255, n.length>3?n[3]:1];
+    }
+    var m=c.match(/[\d.]+/g).map(Number);
+    return [m[0],m[1],m[2], m.length>3?m[3]:1];
+  }
+  function _over(fg,bg){ // composite fg (with alpha) onto an opaque bg
+    var a=fg[3];
+    return [fg[0]*a+bg[0]*(1-a), fg[1]*a+bg[1]*(1-a), fg[2]*a+bg[2]*(1-a), 1];
+  }
+  function _lum(c){var f=[c[0],c[1],c[2]].map(function(v){v/=255;
+    return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);});
     return .2126*f[0]+.7152*f[1]+.0722*f[2];}
-  function _bgOf(el){for(var n=el;n&&n!==document.documentElement;n=n.parentElement){
-    var c=getComputedStyle(n).backgroundColor;
-    if(c&&!/rgba\(0, 0, 0, 0\)|transparent/.test(c)) return c;}
-    return getComputedStyle(document.body).backgroundColor;}
+  /* The real ground is every translucent background between the element and the page, composited
+     down — not "the first background that isn't fully transparent". A 15%-alpha highlight read as
+     an opaque colour is what made a correct lens label look like a 1.63:1 failure. */
+  function _groundOf(el){
+    var stack=[];
+    for(var n=el; n && n!==document.documentElement; n=n.parentElement){
+      var c=_rgba(getComputedStyle(n).backgroundColor);
+      if(c[3]>0) stack.push(c);
+    }
+    stack.push(_rgba(getComputedStyle(document.documentElement).backgroundColor||'rgb(255,255,255)'));
+    var ground=stack.pop(); if(ground[3]<1) ground=[255,255,255,1];
+    while(stack.length) ground=_over(stack.pop(), ground);
+    return ground;
+  }
+  /* opacity is inherited multiplicatively — the element's own is not the whole story */
+  function _effAlpha(el){
+    var a=1;
+    for(var n=el; n && n!==document.documentElement; n=n.parentElement) a*=parseFloat(getComputedStyle(n).opacity);
+    return a;
+  }
   function _contrast(el){
-    var cs=getComputedStyle(el), o=parseFloat(cs.opacity), bgc=_bgOf(el);
-    var f=cs.color.match(/[\d.]+/g).map(Number), b=bgc.match(/[\d.]+/g).map(Number);
-    if(o<1) f=[0,1,2].map(function(i){return f[i]*o+b[i]*(1-o);});
-    var fg='rgb('+f.slice(0,3).map(Math.round).join(', ')+')';
-    var a=_lum(fg), c2=_lum(bgc), r=(Math.max(a,c2)+.05)/(Math.min(a,c2)+.05);
+    var cs=getComputedStyle(el), ground=_groundOf(el);
+    var fg=_rgba(cs.color); fg[3]=(fg[3]===undefined?1:fg[3])*_effAlpha(el);
+    var composited=_over(fg, ground);
+    var a=_lum(composited), b=_lum(ground);
+    var r=(Math.max(a,b)+.05)/(Math.min(a,b)+.05);
     var px=parseFloat(cs.fontSize), large=(px>=24)||(px>=18.66&&+cs.fontWeight>=700);
     return {r:r, need:large?3:4.5, px:px};
   }
@@ -196,11 +226,18 @@
   });
   esc('text meets WCAG AA contrast', bad.length===0, bad.length?bad.join(' · '):'all measured text passes');
 
-  var vv=V('016:003'); vv.focus();
-  var fv=getComputedStyle(vv,':focus-visible');
-  esc('a keyboard reader can see where they are',
-      document.activeElement===vv && /solid|auto|dotted|dashed/.test(fv.outlineStyle||getComputedStyle(vv).outlineStyle),
-      'outline ' + (fv.outlineStyle||getComputedStyle(vv).outlineStyle));
+  /* A scripted .focus() does not satisfy :focus-visible in Chrome — it requires keyboard intent — so
+     asserting on the matched state would fail on a correct page. Verify the RULE exists and is
+     well-formed, which is the thing that can actually regress. */
+  var fvRule = [].some.call(document.styleSheets, function(sh){
+    try { return [].some.call(sh.cssRules, function(r){
+      return /:focus-visible/.test(r.selectorText||'') && /outline/.test(r.style && r.style.cssText || ''); }); }
+    catch(e){ return false; }
+  });
+  var srcHasRule = /:focus-visible\s*\{[^}]*outline:\s*2px solid/.test(document.documentElement.outerHTML);
+  esc('a keyboard reader can see where they are (focus ring defined)', fvRule || srcHasRule,
+      fvRule ? 'a :focus-visible rule with an outline is in the stylesheet'
+             : (srcHasRule ? 'found in page source' : 'NO :focus-visible outline rule'));
 
   esc('every control is a real control (not a div)',
       document.querySelector('.lens').tagName==='BUTTON' && document.querySelector('.chip').tagName==='BUTTON',
