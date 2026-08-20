@@ -7,7 +7,7 @@
 <title>Mark 16 — the reading room · Grammar of Meaning</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,380;1,9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,380;1,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════════════════════════════════════════════════════════════
    THE MARK 16 READING ROOM — the shell (Design P1)
@@ -33,9 +33,10 @@
   /* terracotta is 4.01:1 on paper — fine for larger marks, short of AA for 10px marginal text.
      A darker sibling for small accent text; the display colour is unchanged. */
   --accent-sm:#B4551F;
-  --disp:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,-apple-system,sans-serif;
+  --disp:"Fraunces",Georgia,serif; --serif:"Newsreader",Georgia,serif;
+  --sans:"Inter",system-ui,-apple-system,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,monospace;
-  --measure:34rem; --aside-w:23rem; --rail-w:7.4rem; --gutter:2.4rem; --marg:15.5rem;
+  --measure:41rem; --aside-w:23rem; --rail-w:7.4rem; --gutter:2.4rem; --marg:15.5rem;
 }
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]){
   --paper:#1C1813; --paper-2:#26211A; --paper-3:#221D16;
@@ -154,7 +155,11 @@ body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]
 body.open .invite{opacity:0}
 
 /* ── the text — the persistent centre ───────────────────────────────────────────── */
-.text{font-family:var(--disp);font-size:1.115rem;line-height:1.82;color:var(--ink)}
+/* The scripture is set in the READING face, not the display face. Measured against the approved
+   page: same ink (#0E0E0C), and mine was actually the SMALLER of the two (17.84px vs 18.5px) --
+   what read as darker and bigger was Fraunces, a high-contrast display serif with heavy stems,
+   doing a job it was not cut for. Newsreader at 18.5/1.62, exactly as the Move Score sets it. */
+.text{font-family:var(--serif);font-size:18.5px;line-height:1.62;color:var(--ink);letter-spacing:.001em}
 /* THE TEXT IS CLEAN. No fill, no rounded card, no beige — the Move Score removed all of that
    deliberately, and the left line carries the information instead: fern for the earliest text,
    terracotta for the later hands. A tinted block behind scripture competes with the scripture, and
@@ -230,13 +235,11 @@ body.open .text{transition:opacity .4s}
 .chip .op{opacity:.72;margin-left:.35rem}
 
 /* ── the lens rail (left wing) ──────────────────────────────────────────────────── */
-.rail{position:absolute;top:0;bottom:0;right:calc(100% + var(--gutter));width:var(--rail-w);
-  transition:opacity .5s}
-.rail-in{position:sticky;top:5.4rem;display:flex;flex-direction:column;gap:.08rem}
+.rail{width:var(--measure);margin:.55rem auto 0}
+.rail-in{display:flex;flex-wrap:wrap;gap:.15rem}
 .rail-h{font-family:var(--mono);font-size:.58rem;letter-spacing:.11em;text-transform:uppercase;
   color:var(--ink-3);margin:0 0 .5rem}
-.lens{display:block;width:100%;text-align:left;padding:.42rem .5rem;border-radius:4px;
-  border-left:2px solid transparent;transition:all .2s}
+.lens{padding:.24rem .5rem;border-radius:3px;border:0;transition:color .2s,background .2s}
 .lens .q{display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase}
 .lens .n{display:block;font-family:var(--disp);font-style:italic;font-size:.72rem;color:var(--ink-3);
   line-height:1.25;margin-top:.08rem}
@@ -397,12 +400,12 @@ body.open .aside{opacity:1;pointer-events:auto}
 </header>
 
 <div class="ladder" id="ladder"></div>
+<nav class="rail" id="rail" aria-label="other ways to ask"></nav>
 <div class="arcwrap" id="arc"></div>
 <div class="daf">
   <aside class="marg marg-l" id="margL" aria-label="the world this text is in"></aside>
   <main class="stage" id="stage">
   <p class="invite" id="invite">Begin by reading. Select any verse to see what it is doing.</p>
-  <nav class="rail" id="rail" aria-label="lenses"></nav>
   <div class="text" id="text"><p class="err">loading Mark 16…</p></div>
   </main>
   <aside class="marg marg-r" id="margR" aria-label="what readers made of it"></aside>
@@ -807,12 +810,32 @@ function buildText(){
    had not earned, directly contradicting the step's own sentence ("nothing else is on screen yet").
    A gate that any click can walk through is not a gate. A reader opens a lens by choosing a lens. */
 function selectVerse(vid){
+  var same=(S.verse===vid);
   S.verse=vid; S.move=null;
   var ms=movesForVerse(vid); if(ms.length) S.move=ms[0].move_handle;
   keepingPlace(function(){
     paintText();
-    if(document.body.classList.contains('open')) paintAside();   /* an OPEN drawer follows the selection */
+    /* Clicking the VERSE unfolds its moves. The anatomy used to open only from the small "see how"
+       on the move itself, or by jumping from the bar at the top -- so the obvious gesture, clicking
+       the line you are reading, did nothing visible. Clicking again folds it back, which is the
+       same affordance in reverse rather than a second one to learn. */
+    var mvs=movesFor(vid), anyOpen=mvs.some(function(el){return el.classList.contains('open');});
+    mvs.forEach(function(el){
+      var want = same ? !anyOpen : true;
+      el.classList.toggle('open', want);
+      var x=el.querySelector('.exp'); if(x) x.innerHTML = want ? 'hide \u2039' : 'see how \u203a';
+    });
+    if(document.body.classList.contains('open')) paintAside();
   }, vid);
+  scheduleAlign();
+}
+function movesFor(vid){
+  var host=document.querySelector('.v[data-verse="'+vid+'"]'), out=[];
+  for(var n=host&&host.nextElementSibling; n && !n.classList.contains('v'); n=n.nextElementSibling){
+    if(n.classList.contains('mv')) out.push(n);
+    [].push.apply(out, [].slice.call(n.querySelectorAll('.mv')));
+  }
+  return out;
 }
 /* MARKING a move is not OPENING a panel about it. The move's own anatomy is on the page, under its
    paraphrase, so selecting one only needs to align the margins and the arc with what is being read.
@@ -869,20 +892,30 @@ function lensesForStep(){
     if(x.lens) earned[x.lens]=1;
     (x.unlocks||[]).forEach(function(k){ earned[k]=1; });
   });
-  earned['evidence']=1;
+  /* EVIDENCE from UNPACK on, not from READ. "Where is this from?" needs a claim to point at, and at
+     READ there is not one yet -- the only provenance in play is the text's own, and the header
+     already carries it (edition + rights, in view the whole time). Offering the lens at READ asked a
+     question the step has not raised, which is what made the rail feel like it belonged to a
+     different page. From UNPACK there is a reading on screen, and the question becomes real. */
+  if(i>0) earned['evidence']=1;
   return LENSES.filter(function(L){ return earned[L.id]; });
 }
 
+/* ONE MENU, and it is the ladder. The lens rail used to float in the left margin -- which is Sitz's
+   column, so the two overlapped -- and at READ it offered "ask of it: EVIDENCE, where is this from?",
+   which is not the question READ asks. Two navigations in two places, neither explaining the other.
+   The lenses that are not steps now sit as a quiet row beneath the ladder: same place, same moment,
+   subordinate to the step. */
 function paintRail(){
-  document.getElementById('rail').innerHTML='<div class="rail-in"><p class="rail-h">ask of it</p>'+
-   lensesForStep().map(function(L){
+  var ls=lensesForStep();
+  document.getElementById('rail').innerHTML=ls.length?('<div class="rail-in">'+
+   ls.map(function(L){
      var st=lensState(L.id);
      var tip=st.s==='ok'?'':STATES[st.s];   /* the rail says WHY a lens is quiet, not merely that it is */
      return '<button class="lens'+(S.lens===L.id?' on':'')+'" data-lens="'+L.id+'" data-state="'+(st.s==='ok'?'':st.s)+'"'
       +(tip?' title="'+esc(tip)+'"':'')+'>'
-      +'<span class="q">'+L.q+(st.mk?'<span class="mk">'+st.mk+'</span>':'')+'</span>'
-      +'<span class="n">'+esc(L.n)+'</span></button>';
-   }).join('')+'</div>';
+      +'<span class="q">'+L.q+(st.mk?'<span class="mk">'+st.mk+'</span>':'')+'</span></button>';
+   }).join('')+'</div>'):'';
   [].forEach.call(document.querySelectorAll('.lens'),function(b){
     b.onclick=function(){showLens(b.getAttribute('data-lens'));};
   });
