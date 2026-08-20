@@ -237,17 +237,30 @@
   var TEXT=['.v','.v .vn','.app','.lens .q','.lens .n','.h','.p','.ax .term','.ax .gl','.a-anchor',
             '.chip','.gloss','.foot','.row .rt','.row .rm','.lane .lt','.st','.st .why','.ed'];
   var bad=[];
-  var measured=0, skipped=[];
-  TEXT.forEach(function(sel){
-    var el=document.querySelector(sel);
-    if(!_visible(el)){ skipped.push(sel); return; }
-    measured++;
-    var c=_contrast(el);
-    if(c.r < c.need) bad.push(sel+' '+c.r.toFixed(2)+':1 (need '+c.need+')');
+  /* One lens does not render every style — rows live in INHERITS/CONNECT, lanes in COMPARE, the
+     typed states in OPEN. Measuring only the SEE panel left 7 of 19 unmeasured, so walk the lenses
+     on a verse rich enough to populate them and accumulate. Coverage is asserted below, so a lens
+     that stops rendering something turns this red rather than quietly shrinking the sample. */
+  var measured=0, seen={};
+  [['016:009','inherits'],['016:008','connect'],['016:008','compare'],['016:008','open'],
+   ['016:008','afterlives'],['016:001','see'],['016:008','evidence']].forEach(function(pair){
+    V(pair[0]).click();
+    var b=lensBtns().filter(function(e){return e.getAttribute('data-lens')===pair[1];})[0];
+    if(b) b.click();
+    void document.body.offsetWidth;
+    TEXT.forEach(function(sel){
+      if(seen[sel]) return;
+      var el=document.querySelector(sel);
+      if(!_visible(el)) return;
+      seen[sel]=true; measured++;
+      var c=_contrast(el);
+      if(c.r < c.need) bad.push(sel+' '+c.r.toFixed(2)+':1 (need '+c.need+')');
+    });
   });
+  var skipped=TEXT.filter(function(sel){return !seen[sel];});
   _noAnim.remove();
   /* A green must not be able to mean "measured almost nothing", so coverage is asserted too. */
-  esc('text meets WCAG AA contrast', bad.length===0 && measured >= TEXT.length - 3,
+  esc('text meets WCAG AA contrast', bad.length===0 && measured >= TEXT.length - 1,
       (bad.length ? 'FAILS: '+bad.join(' · ')+' — ' : '')
       + measured+'/'+TEXT.length+' text styles measured'
       + (skipped.length ? ' · not rendered here: '+skipped.join(', ') : ''));
