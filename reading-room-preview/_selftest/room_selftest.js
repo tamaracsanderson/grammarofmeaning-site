@@ -32,7 +32,12 @@
   if (window.innerWidth < 320 || window.innerHeight < 320) {
     console.error('viewport is ' + window.innerWidth + 'x' + window.innerHeight +
       ' — too small to measure. Resize to a real window and run again; width-based checks would be noise here.');
-    return { panels: 0, failed: 0, results: [], aborted: 'degenerate viewport' };
+    /* `failed: 0` here would be a lie of shape: a refusal that returns the same fields as a clean
+       run reads as green to anything that checks `.failed`, which is how a suite that ran NOTHING
+       reports success.  So a refusal returns `failed: null` and no `panels` key at all -- the caller
+       has to notice.  (Found by using it: a 0x0 headless viewport returned {panels:0, failed:0} and
+       looked exactly like a pass.) */
+    return { refused: 'degenerate viewport', failed: null, results: [] };
   }
 
   /* ── 1 · walk EVERY panel: 20 verses x every move x every lens ────────────────────────────── */
