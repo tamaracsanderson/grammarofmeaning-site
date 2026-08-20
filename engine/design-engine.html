@@ -195,7 +195,12 @@ fetch('/engine/data/viz/design_engine.json?v='+Date.now(),{cache:'no-cache'}).th
    if(d.seam)document.getElementById('seam').innerHTML='<b>The seam:</b> '+esc(d.seam);
    var cs=d.crit_session;
    if(cs){ document.getElementById('critbanner').innerHTML=
-     '<div class="critbox"><div class="crith"><b>'+esc(cs.title)+'</b> · <span class="csnum">'+cs.updated+' updated</span> / '+cs.reviewed+' reviewed'+
+     /* The walk's tallies are frozen facts about its date; today's node count is a different fact
+        and is shown as one, so neither can be mistaken for the other. */
+     '<div class="critbox"><div class="crith"><b>'+esc(cs.title)+'</b> · <span class="csnum">'
+       +cs.updated_on_the_day+' updated</span> / '+cs.reviewed_on_the_day+' reviewed <span class="csnum" '
+       +'style="opacity:.75">on '+esc(cs.date)+'</span> · <span class="csnum" style="opacity:.75">'
+       +nodes.length+' figures today</span>'+
      (cs.build_plan?' · <a href="'+esc(cs.build_plan)+'">the build plan (DWS) &rarr;</a>':'')+'</div>'+
      '<div class="csnote">'+esc(cs.note)+'</div>'+
      '<div class="cskey"><span class="k-ship">■ shipped / ok = updated &amp; live</span><span class="k-next">■ next / building = in the queue</span><span class="k-block">■ blocked = waiting on Atlas Reader feeds</span> · each figure below links to its feedback</div></div>'; }
