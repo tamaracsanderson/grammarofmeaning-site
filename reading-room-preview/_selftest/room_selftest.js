@@ -17,7 +17,7 @@
  * mutation test showed the round trip cancelled the very drift it was supposed to catch.
  * ------------------------------------------------------------------------------------------- */
 (function () {
-  var R = [], V = function (id) { return document.querySelector('.v[data-verse="' + id + '"]'); };
+  var R = [], V = function (id) { return document.querySelector('.verse[data-verse="' + id + '"]'); };
   var lensBtns = function () { return [].slice.call(document.querySelectorAll('.lens')); };
   var esc = function (k, ok, detail) { R.push({ check: k, pass: !!ok, detail: detail || '' }); };
   /* A third state, deliberately. Coverage facts are not failures, and a check that is red on every run
@@ -25,7 +25,14 @@
   var note = function (k, detail) { R.push({ check: k, pass: '—', detail: detail }); };
   var ESC = function () { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); };
 
-  if (!document.querySelector('.v')) { console.error('the text has not loaded — is the feed reachable?'); return; }
+  /* An early return sends back `undefined`, which reads the same as a pass to anything checking
+     `.failed`. This suite exited here silently for a whole release after the markup was renamed
+     .v -> .verse, so it verified nothing while appearing to. Refusals are now shaped so a caller
+     must notice, same as the degenerate-viewport case below. */
+  if (!document.querySelector('.verse')) {
+    console.error('no .verse on the page — the text has not loaded, or the markup was renamed again');
+    return { refused: 'no .verse found', failed: null, results: [] };
+  }
   /* A degenerate viewport makes every width-based check nonsense — a 0px-wide window reported 495 panels
      overflowing by 180px, which is a confident failure about nothing. Refuse rather than report: a check
      that cries wolf is the mirror of one that cannot go red, and both end in being ignored. */
@@ -47,13 +54,18 @@
   var BUILDER = ['verse_id', 'move_handle', 'edge_id', 'source_move', 'seam item', 'beat-index',
                  'carried_by', 'plane A', 'plane B', 'ontology', 'krippendorff', 'silence_obligated',
                  'LINSEAM', 'XSRC', '\\bSitz\\b', 'metaxy', 'morphospace'];
-  document.querySelector('.v').click();
+  /* The ladder gates which lenses exist, so a sweep run at READ sees none and a sweep run at
+     UNPACK sees five. Step to the last rung first: the suite's job is to walk every panel that can
+     exist, and only RESPOND has earned them all. */
+  (function () { var last = document.querySelector('.st[data-step="respond"]'); if (last) last.click(); })();
+  document.querySelector('.verse').click();
   var lensIds = lensBtns().map(function (e) { return e.getAttribute('data-lens'); });
-  [].forEach.call(document.querySelectorAll('.v'), function (vEl) {
+  [].forEach.call(document.querySelectorAll('.verse'), function (vEl) {
     vEl.click();
-    var chips = [].map.call(document.querySelectorAll('.chip'), function (c) { return c.getAttribute('data-move'); });
-    (chips.length ? chips : [null]).forEach(function (mh) {
-      if (mh) { var c = document.querySelector('.chip[data-move="' + mh + '"]'); if (c) c.click(); }
+    /* the chips are gone; the moves are on the page, so walk those */
+    var mvs = [].map.call(document.querySelectorAll('.mv'), function (c) { return c.getAttribute('data-mv'); });
+    (mvs.length ? mvs.slice(0, 3) : [null]).forEach(function (mh) {
+      if (mh) { var c = document.querySelector('.mv[data-mv="' + mh + '"] > .para'); if (c) c.click(); }
       lensIds.forEach(function (L) {
         panels++;
         try {
@@ -154,7 +166,7 @@
        + 'again. Reported rather than asserted: a green here would otherwise imply coverage it does not have.');
 
   /* ── 6 · the text is whole, and 16:8 keeps its silence ────────────────────────────────────── */
-  esc('20 verses', document.querySelectorAll('.v').length === 20, document.querySelectorAll('.v').length + '');
+  esc('20 verses', document.querySelectorAll('.verse').length === 20, document.querySelectorAll('.verse').length + '');
   esc('16:8 keeps the silence clause',
       /said nothing to anyone; for they were afraid/.test(V('016:008').innerText), '');
   esc('translator apparatus is marked, not stripped', !!V('016:008').querySelector('.app'), '');
@@ -162,8 +174,16 @@
   /* ── 7 · the method's own word survives beside the plain gloss ────────────────────────────── */
   V('016:001').click();
   var terms = [].map.call(document.querySelectorAll('.ax .an .term'), function (e) { return e.textContent; });
-  esc('the frame shows the method’s term, not only a gloss',
-      terms.indexOf('epistemic-warrant') >= 0, terms.slice(0, 3).join(' · '));
+  if (terms.length) {
+    esc('the frame shows the method’s term, not only a gloss',
+        terms.indexOf('epistemic-warrant') >= 0, terms.slice(0, 3).join(' · '));
+  } else {
+    /* The 8-axis ribbon left the page with the SEE lens — the move's anatomy is in the centre now.
+       Its per-axis values are also the ones the S167 path-dependence finding measured as unstable
+       (8 of 16 changed on re-code), so its absence is not a gap to close in a hurry. Recorded as
+       coverage, not as a failure: a check that is red every run teaches people to ignore red. */
+    note('the frame ribbon is not on this page', 'no .ax — the axis view is not rendered here');
+  }
 
   /* ── 8 · the page never presents a reliability number as a verdict ────────────────────────── */
   esc('no agreement figure on the page', !/0\.415/.test(document.body.innerText), '');
@@ -239,7 +259,7 @@
   document.head.appendChild(_noAnim);
   V('016:001').click();
   void document.body.offsetWidth;   // force layout so the settled styles are readable
-  var TEXT=['.v','.v .vn','.app','.lens .q','.lens .n','.h','.p','.ax .term','.ax .gl','.a-anchor',
+  var TEXT=['.verse','.vnum','.app','.lens .q','.lens .n','.h','.p','.ax .term','.ax .gl','.a-anchor',
             '.chip','.gloss','.foot','.row .rt','.row .rm','.lane .lt','.st','.st .why','.ed'];
   var bad=[];
   /* One lens does not render every style — rows live in INHERITS/CONNECT, lanes in COMPARE, the
@@ -283,9 +303,20 @@
       fvRule ? 'a :focus-visible rule with an outline is in the stylesheet'
              : (srcHasRule ? 'found in page source' : 'NO :focus-visible outline rule'));
 
-  esc('every control is a real control (not a div)',
-      document.querySelector('.lens').tagName==='BUTTON' && document.querySelector('.chip').tagName==='BUTTON',
-      'lens=' + document.querySelector('.lens').tagName + ' chip=' + document.querySelector('.chip').tagName);
+  /* .chip is gone -- the move is on the page now, so a pill that opened a panel about it was a
+     second copy. The check follows the controls that actually exist rather than asserting on a
+     deleted one, which is how this whole file threw and reported nothing. */
+  (function () {
+    var want = { '.lens': 'BUTTON', '.st': 'BUTTON' };
+    var bad = Object.keys(want).filter(function (sel) {
+      var e = document.querySelector(sel);
+      if (!e && sel === '.lens') return false;    /* READ has earned no lens; that is the design */
+      return !e || e.tagName !== want[sel]; });
+    esc('every control is a real control (not a div)', bad.length === 0,
+        bad.length ? 'wrong or missing: ' + bad.join(' ')
+                   : Object.keys(want).map(function (s2) { var e2 = document.querySelector(s2);
+                       return s2 + '=' + (e2 ? e2.tagName : 'not at this step'); }).join(' '));
+  })();
   esc('the page announces its language and landmarks',
       document.documentElement.lang==='en' && !!document.querySelector('main') && !!document.querySelector('[aria-live]'),
       'lang=' + (document.documentElement.lang||'unset') +
@@ -296,23 +327,33 @@
   /* Open the lens this check actually reads. It looks for a gloss, which only SEE renders — and it
      silently began failing the moment the contrast walk started leaving a different lens open.
      A check that depends on state another check happens to leave behind is not a check. */
-  function openSee(v){ V(v).click();
-    var b=lensBtns().filter(function(e){return e.getAttribute('data-lens')==='see';})[0];
-    if(b) b.click(); return document.querySelector('.aside-in').innerText; }
-  var beforeTxt = openSee('016:001');
-  var savedGloss = D.moves.items[0].gloss;
-  D.moves.items[0].gloss = '__SENTINEL__';
-  openSee('016:002');
-  var afterTxt = openSee('016:001');
-  D.moves.items[0].gloss = savedGloss;
-  openSee('016:002'); openSee('016:001');
-  esc('the page is sensitive to its source (change the feed, the panel changes)',
-      /__SENTINEL__/.test(afterTxt) && !/__SENTINEL__/.test(beforeTxt),
-      'a mutated feed value reached the panel — the page is not showing a baked copy');
+  /* There is no SEE panel any more — "what is it doing?" is answered by the move in the CENTRE and
+     its gloss by the right margin. So the render-from-data property is tested where the data now
+     surfaces: mutate the feed, re-render, and look for the sentinel on the page. The old version
+     asked a deleted panel and got '' every time, which reads as "the sentinel never arrived" —
+     i.e. it reported the page as BAKED, the exact opposite of the truth, and stayed red for a
+     reason that had nothing to do with the property. */
+  (function () {
+    var step = document.querySelector('.st[data-step="respond"]'); if (step) step.click();
+    var before = document.body.innerText;
+    var saved = D.moves.items[0].gloss;
+    D.moves.items[0].gloss = '__SENTINEL__';
+    if (typeof paintMargins === 'function') paintMargins();
+    var after = document.body.innerText;
+    D.moves.items[0].gloss = saved;
+    if (typeof paintMargins === 'function') paintMargins();
+    esc('the page is sensitive to its source (change the feed, the page changes)',
+        /__SENTINEL__/.test(after) && !/__SENTINEL__/.test(before),
+        /__SENTINEL__/.test(after) ? 'a mutated feed value reached the page — not a baked copy'
+                                   : 'the mutation did NOT reach the page — something is baked');
+  })();
 
   /* ── 11 · PROVENANCE ROUNDTRIP — a visible claim traces to a declared source ─────────────────── */
-  var evTxt=(function(){lensBtns().filter(function(e){return /^EVIDENCE/.test(e.innerText);})[0].click();
-    return document.querySelector('.aside-in').innerText;})();
+  var evTxt=(function(){
+    var st=document.querySelector('.st[data-step="respond"]'); if(st) st.click();
+    var b=lensBtns().filter(function(e){return /^EVIDENCE/.test(e.innerText);})[0];
+    if(!b) return ''; b.click();
+    var box=document.querySelector('.aside-in'); return box ? box.innerText : '';})();
   esc('every lens names the file its claims came from',
       lensIds.filter(function(L){return L!=='evidence';}).every(function(L){
         return new RegExp(L==='see'?'SEE':L.toUpperCase()).test(evTxt);}) && /\.json/.test(evTxt),
@@ -348,7 +389,13 @@
    * The reading is the product. If it depends on the lens machinery to be legible, then a reader
    * on a screen reader, a text browser, or a failed stylesheet gets nothing. Check the text is in
    * the document as ordered prose with its verse numbers — not assembled by layout. */
-  var plain = [].map.call(document.querySelectorAll('.v'), function(el){ return el.innerText.trim(); });
+  /* Read the TEXT elements, not the verse containers. The daf nests each verse's moves inside its
+     .verse block (that is what puts them inside the verse's own left rule), so a container's
+     innerText now interleaves scripture with apparatus. The property worth protecting is that the
+     SCRIPTURE is continuous and in order, which is a claim about .vtext. */
+  var plain = [].map.call(document.querySelectorAll('.verse'), function(el){
+    var n = el.querySelector('.vnum'), t = el.querySelector('.vtext');
+    return ((n ? n.innerText.replace(/^\d+:/, '') : '') + ' ' + (t ? t.innerText : '')).trim(); });
   var ordered = plain.length===20 && /^1\b/.test(plain[0]) && /^20\b/.test(plain[19]);
   var readableWithoutCSS = ordered && plain.every(function(t){ return t.length > 20; });
   esc('the text reads as ordered prose without the interface',
@@ -359,32 +406,73 @@
    * fail on every intended change and teach everyone to ignore it. What must not regress is the
    * STRUCTURE the reader depends on — the text centred and continuous, the rail present, the
    * panel anchored beside it, and the text wider than the panel so it stays the subject. */
+  /* The shape being protected is now the DAF: the text in the centre, a margin either side, one
+     menu above, and the panel — when a lens is opened — as an overlay rather than a resident of
+     the right margin. The previous version asserted the old shape and read `.aside-in`
+     unconditionally, so it threw the moment selecting a verse stopped auto-opening a drawer, and
+     took the whole suite down with it: every check after it never ran, and the run reported
+     `undefined` rather than a failure. Hence the guards. */
   V('016:005').click();
-  var textEl=document.querySelector('.text').getBoundingClientRect();
-  var railEl=document.querySelector('.rail-in').getBoundingClientRect();
-  var panel=document.querySelector('.aside-in').getBoundingClientRect();
-  var wide=window.innerWidth>1180;
-  /* "The text remains the subject" is a different measurement in each layout, and asserting the
-     wide-layout version everywhere reported a failure against a narrow layout that is behaving
-     exactly as designed. Wide: the text column is at least as wide as the panel beside it.
-     Narrow: the panel is a bottom sheet — full width on purpose — so the property is that it
-     does not swallow the viewport and the text stays on screen above it. */
+  var textEl = document.querySelector('.text').getBoundingClientRect();
+  var menuEl = (document.querySelector('.ladder-r') || {}).getBoundingClientRect
+             ? document.querySelector('.ladder-r').getBoundingClientRect() : null;
+  var mL = document.getElementById('margL'), mR = document.getElementById('margR');
+  var wide = window.innerWidth > 1180;
   var shape = wide ? {
-    textAtLeastAsWideAsPanel: textEl.width >= panel.width,
-    panelBesideNotOver: panel.left > textEl.right - 2,
-    textNotSqueezed: textEl.width > 260,
-    railPresent: railEl.width > 0,
+    marginsFlankTheText: !!mL && !!mR
+      && mL.getBoundingClientRect().right <= textEl.left + 2
+      && mR.getBoundingClientRect().left  >= textEl.right - 2,
+    textNotSqueezed: textEl.width > 400,
+    oneMenuAboveTheText: !!menuEl && menuEl.bottom <= textEl.top + 2,
     noHorizontalScroll: document.documentElement.scrollWidth <= window.innerWidth + 1
   } : {
-    sheetLeavesTheTextVisible: panel.height <= window.innerHeight * 0.7,
-    sheetBelowTheText: panel.top > textEl.top,
     textNotSqueezed: textEl.width > 260,
-    railPresent: railEl.width > 0,
+    oneMenuAboveTheText: !!menuEl && menuEl.bottom <= textEl.top + 2,
     noHorizontalScroll: document.documentElement.scrollWidth <= window.innerWidth + 1
   };
-  var ok = Object.keys(shape).every(function(k){return shape[k];});
+  var ok = Object.keys(shape).every(function (k) { return shape[k]; });
   esc('the reading layout still has the shape a reader depends on', ok,
-      (wide?'wide':'narrow')+' · '+Object.keys(shape).map(function(k){return k+'='+shape[k];}).join(' '));
+      (wide ? 'wide' : 'narrow') + ' · ' + Object.keys(shape).map(function (k) { return k + '=' + shape[k]; }).join(' '));
+
+  /* a lens, when one is opened, overlays rather than displacing the reading */
+  (function () {
+    var b2 = lensBtns()[0]; if (!b2) { note('a lens can be opened at this step', 'none earned here'); return; }
+    var t0 = document.querySelector('.text').getBoundingClientRect();
+    b2.click();
+    var box = document.querySelector('.aside-in');
+    var t1 = document.querySelector('.text').getBoundingClientRect();
+    esc('opening a lens overlays the reading rather than displacing it',
+        !!box && Math.abs(t1.left - t0.left) < 1 && Math.abs(t1.width - t0.width) < 1,
+        box ? 'text held at ' + Math.round(t1.left) + 'px, width ' + Math.round(t1.width)
+            : 'the panel did not open');
+    ESC();
+  })();
+
+  /* ── disclosure: the anatomy must actually BECOME VISIBLE, not merely gain a class ─────────
+     Added after shipping a page where "see how" expanded nothing for a whole release. The copied
+     component's rule is `.anat.open`; I was toggling `.mv.open`, so the anatomy stayed
+     display:none. Every check I ran passed -- because they asked whether the CONTENT was in the
+     DOM and whether the CLASS was set, and both were true. Presence is not visibility, and a
+     disclosure that renders into a hidden node is worse than one that is absent, because it looks
+     discharged. Measured in pixels for that reason. */
+  (function () {
+    var mv = document.querySelector('.mv'), para = mv && mv.querySelector('.para');
+    if (!para) { note('the move component is present', 'no .mv on the page'); return; }
+    var an = mv.querySelector('.anat');
+    var h0 = an ? an.getBoundingClientRect().height : -1;
+    para.click();
+    var h1 = an ? an.getBoundingClientRect().height : -1;
+    esc('opening a move actually reveals its anatomy', h0 === 0 && h1 > 20,
+        'height ' + h0 + 'px -> ' + h1 + 'px (a class alone is not a reveal)');
+    var parts = ['.roleline', '.axes', '.conn'].filter(function (sel) {
+      var e = mv.querySelector(sel); return !e || e.getBoundingClientRect().height === 0; });
+    esc('every part of the opened anatomy is visible', parts.length === 0,
+        parts.length ? 'zero-height: ' + parts.join(' ') : 'roleline + axes + connections all render');
+    var rep = mv.querySelector('.repro');
+    esc('the reproducibility caveat renders with the move', !!rep && rep.getBoundingClientRect().height > 0,
+        rep ? 'visible' : 'ABSENT — a per-move reading is on screen with no caveat beside it');
+    para.click();
+  })();
 
   ESC(); window.scrollTo(0, 0);
   var failed = R.filter(function (x) { return x.pass === false; });

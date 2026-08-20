@@ -204,6 +204,7 @@ body.open .text{transition:opacity .4s}
 /* ── the open lens (right wing) ─────────────────────────────────────────────────── */
 /* the aside is now a DRAWER over the right margin, not a resident of it: a lens is transient,
    the gloss is persistent, and the persistent thing keeps the space. */
+.aside-in .p, .aside-in .st, .aside-in p{overflow-wrap:anywhere}
 .aside{position:fixed;top:4.4rem;right:1.2rem;bottom:1.2rem;width:var(--aside-w);z-index:30;
   background:var(--paper);border:1px solid var(--rule);border-radius:9px;box-shadow:0 18px 40px -26px rgba(0,0,0,.45);
   opacity:0;pointer-events:none;transition:opacity .45s .1s}
@@ -397,6 +398,10 @@ body.plate .verse{margin-bottom:2px}
 .arc-key .k.f::before{background:color-mix(in srgb,var(--fern) 55%,var(--paper-2))}
 .arc-key .k.t::before{background:color-mix(in srgb,var(--terracotta) 55%,var(--paper-2))}
 
+.repro{font-family:var(--sans);font-size:11px;line-height:1.5;color:var(--terracotta);
+  margin:8px 0 2px;padding:5px 8px;border-left:2px solid var(--terracotta);
+  background:color-mix(in srgb,var(--terracotta) 6%,transparent)}
+.repro .dim{color:var(--ink-3);display:block;margin-top:2px}
 /* the only rules here that are NOT the Move Score's: the ladder gate. Everything above is copied. */
 body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .mv,
 body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .subgroup,
@@ -555,11 +560,14 @@ var ROLE={active:{w:'Acts',g:'the agent performs the action'},
 function roleOf(v){return ROLE[v]||{w:hum(v||'—'),g:''};}
 
 function moveHTML(m,isChild){
-  return '<div class="mv'+(isChild?' child':'')+'" data-mv="'+esc(m.move_handle)+'">'
+  /* a linear reader (screen reader, reader-mode, CSS off) walks straight from the verse into its
+     moves, so the apparatus says what it is rather than arriving as more scripture */
+  return '<div class="mv'+(isChild?' child':'')+'" data-mv="'+esc(m.move_handle)+'"'
+    +' role="note" aria-label="coded move '+esc(m.label)+', apparatus">'
     +'<div class="para"><span class="mk">'+esc(m.label)+'</span>'
       +'<span class="pp">'+esc(m.paraphrase||m.operation||'')+'</span>'
       +'<span class="exp">see how \u203a</span></div>'
-    +'<div class="anat">'+roleline(m)+axesHTML(m)+connLine(m)+'</div>'
+    +'<div class="anat">'+roleline(m)+axesHTML(m)+reproNote()+connLine(m)+'</div>'
   +'</div>';
 }
 function roleline(m){
@@ -816,6 +824,10 @@ function buildText(){
         [].forEach.call(document.querySelectorAll('.mv.sel'),function(x){x.classList.remove('sel');});
         mv.classList.toggle('open', !wasOpen);
         mv.classList.toggle('sel', !wasOpen);
+        /* their rule is `.anat.open`, so the ANAT carries the state, not the .mv. Toggling only the
+           .mv left the anatomy display:none -- "see how" expanded nothing at all, and I did not
+           catch it because I was checking textContent and class names instead of visibility. */
+        var an=mv.querySelector('.anat'); if(an) an.classList.toggle('open', !wasOpen);
         pa.querySelector('.exp').innerHTML = wasOpen ? 'see how \u203a' : 'hide \u2039';
       }, S.verse);
       selectMove(mv.getAttribute('data-mv'));
@@ -852,6 +864,7 @@ function selectVerse(vid){
       var want = same ? !anyOpen : true;
       el.classList.toggle('open', want);
       el.classList.toggle('sel', want);
+      var an2=el.querySelector('.anat'); if(an2) an2.classList.toggle('open', want);
       var x=el.querySelector('.exp'); if(x) x.innerHTML = want ? 'hide \u2039' : 'see how \u203a';
     });
     if(document.body.classList.contains('open')) paintAside();
@@ -986,6 +999,19 @@ function paintAside(){
 /* ONE definition of the move's grammar, used by the inline move under the verse AND by the SEE
    drawer — extracted rather than copied, because two copies of a rendering is how the labeled line
    and the diagram diverged in the first place. */
+/* The reproducibility caveat rides WITH the move, not only in EVIDENCE. A reader who opens one move
+   and reads its agent, operation and outcome is making exactly the per-point inference the finding
+   says the data cannot support -- and they will not go three clicks to EVIDENCE to learn that. It
+   renders from the adapter's cited facts, so it disappears on its own when the citation expires. */
+function reproNote(){
+  var c=((D._adapter||{}).cited||[]).filter(function(x){return /would not reproduce/.test(x.fact);})[0];
+  if(!c) return '';
+  return '<p class="repro">This reading would not reproduce. '
+    +'<span class="dim">The coder held one conversation across passages, so this move was read in the '
+    +'presence of the ones before it. The shape of the whole passage is expected to survive that; a '
+    +'single move\u2019s reading is not.</span></p>';
+}
+
 function grammar(m){
   /* plain word leads, the coded field follows in parens (Fidelity: the term is present, not replaced) */
   var rl=[];
