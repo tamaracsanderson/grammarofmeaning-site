@@ -25,9 +25,11 @@
    ══════════════════════════════════════════════════════════════════════════════════════════════ */
 :root{
   --paper:#FCFBF7; --paper-2:#F3EEE0; --paper-3:#FFFFFF;
-  --ink:#24302A; --ink-2:#52605A; --ink-3:#67705F; --rule:#D6CCB0;   /* muted ink: 5.00:1 on paper, and still clears AA on the TINTED typed-state grounds, which cost ~0.25:1. #8B9288 was 3.09:1; #6E7669 passed on paper but not on the tints. */
+  --ink:#0E0E0C; --ink-soft:#24302A; --ink-2:#52605A; --ink-3:#67705F; --rule:#D6CCB0;   /* muted ink: 5.00:1 on paper, and still clears AA on the TINTED typed-state grounds, which cost ~0.25:1. #8B9288 was 3.09:1; #6E7669 passed on paper but not on the tints. */
   --fern:#3F7D57; --moss:#2C4A38; --sage:#7E9E86; --gold:#B8924A; --terracotta:#C4602F;
-  --lit:rgba(184,146,74,.15); --lit-edge:#B8924A;
+  /* --lit (a beige wash) and --lit-edge were MINE, not the approved page's. They are the reason the
+     scripture kept sitting on a tinted card. Removed: the Move Score marks provenance and selection
+     with the left rule, and the reading surface stays paper. */
   /* terracotta is 4.01:1 on paper — fine for larger marks, short of AA for 10px marginal text.
      A darker sibling for small accent text; the display colour is unchanged. */
   --accent-sm:#B4551F;
@@ -40,14 +42,14 @@
   --ink:#ECE6D8; --ink-2:#C3BCAC; --ink-3:#8E877A; --rule:#3D362B;
   --fern:#7FB894; --moss:#A9C9B2; --sage:#7E9E86; --gold:#D8B36A; --terracotta:#E08A54;
   --accent-sm:#E08A54;
-  --lit:rgba(216,179,106,.13); --lit-edge:#D8B36A;
+
 }}
 :root[data-theme=dark]{
   --paper:#1C1813; --paper-2:#26211A; --paper-3:#221D16;
   --ink:#ECE6D8; --ink-2:#C3BCAC; --ink-3:#8E877A; --rule:#3D362B;
   --fern:#7FB894; --moss:#A9C9B2; --sage:#7E9E86; --gold:#D8B36A; --terracotta:#E08A54;
   --accent-sm:#E08A54;
-  --lit:rgba(216,179,106,.13); --lit-edge:#D8B36A;
+
 }
 *{box-sizing:border-box}
 html{scroll-behavior:auto}
@@ -87,7 +89,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .marg-r{grid-column:3}
 .marg-h{font-family:var(--mono);font-size:.55rem;letter-spacing:.11em;text-transform:uppercase;
   color:var(--ink-3);margin:0 0 .55rem;position:sticky;top:5.4rem;background:var(--paper);padding:.2rem 0}
-.mcard{border:1px solid var(--hair);border-radius:7px;padding:.55rem .65rem;margin:0 0 .5rem;
+.mcard{border:1px solid var(--rule);border-radius:7px;padding:.55rem .65rem;margin:0 0 .5rem;
   background:var(--paper-2);cursor:pointer;transition:border-color .18s,transform .18s}
 .mcard:hover{border-color:var(--gold)}
 .mcard.lit{border-color:var(--accent-sm);background:var(--paper)}
@@ -105,8 +107,8 @@ body:not([data-step="respond"]) .marg-r{visibility:hidden}
    page's own rules and its own markup (para / anat / axes / subgroup / conttag), retuned only where
    this page's design tokens differ in name. The nesting, the "see how" disclosure, the sub-move
    grouping and the "continues M#" tag all come with it, because they are the component. */
-.mv{border-left:2px solid var(--hair);padding:.15rem 0 .15rem .85rem;margin:.45rem 0 .45rem .9rem}
-.mv.child{border-left-style:dotted;border-left-color:color-mix(in srgb,var(--hair) 62%,transparent)}
+.mv{border-left:2px solid var(--rule);padding:.15rem 0 .15rem .85rem;margin:.45rem 0 .45rem .9rem}
+.mv.child{border-left-style:dotted;border-left-color:color-mix(in srgb,var(--rule) 62%,transparent)}
 .para{display:flex;align-items:baseline;gap:.5rem;cursor:pointer}
 .para .mk{font-family:var(--mono);font-size:.6rem;color:var(--accent-sm);flex:none}
 .para .pp{font-family:var(--sans);font-size:.86rem;line-height:1.5;color:var(--ink);flex:1}
@@ -122,17 +124,23 @@ body:not([data-step="respond"]) .marg-r{visibility:hidden}
 .axes dd .code{font-family:var(--mono);font-size:.62rem;color:var(--ink-3)}
 .axes dd .narr{font-family:var(--disp);font-style:italic;color:var(--ink-2)}
 .subgroup{display:flex;flex-direction:column;gap:.45rem;margin:.15rem 0 .15rem 1.1rem;padding-left:.5rem;
-  border-left:1px dotted var(--hair)}
+  border-left:1px dotted var(--rule)}
 .sublabel{font-family:var(--mono);font-size:.55rem;letter-spacing:.05em;color:var(--ink-3);padding:.1rem 0 0 .25rem}
 .conttag{font-family:var(--mono);font-size:.55rem;color:var(--gold);padding:.15rem 0 .1rem .85rem}
 .conn{display:flex;align-items:baseline;gap:.55rem;margin:.5rem 0 .15rem;padding-top:.45rem;
-  border-top:1px dotted var(--hair)}
+  border-top:1px dotted var(--rule)}
 .conn .rl{font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
 .conn a{color:var(--moss)}
 /* provenance, per verse — the Move Score's left-line rule: which text this is from */
-.v.orig{box-shadow:-3px 0 0 0 var(--moss)}
-.v.added{box-shadow:-3px 0 0 0 var(--accent-sm)}
+.v.orig{border-left-color:color-mix(in srgb,var(--moss) 50%,var(--rule))}
+.v.added{border-left-color:color-mix(in srgb,var(--accent-sm) 52%,var(--rule))}
+.v.orig.lit{border-left-color:var(--moss)}
+.v.added.lit{border-left-color:var(--accent-sm)}
+/* the sub-move label and the "continues" tag are PART of the move, so they leave with it — they were
+   still on screen at READ, under a step whose own sentence says nothing else is */
 body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .mv,
+body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .subgroup,
+body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .sublabel,
 body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .conttag{display:none}
 @media(max-width:1180px){
   .daf{grid-template-columns:1fr;gap:1.6rem}
@@ -147,12 +155,18 @@ body.open .invite{opacity:0}
 
 /* ── the text — the persistent centre ───────────────────────────────────────────── */
 .text{font-family:var(--disp);font-size:1.115rem;line-height:1.82;color:var(--ink)}
-.v{position:relative;margin:0 0 .28rem;padding:.42rem .8rem .42rem .95rem;border-radius:5px;
-  border-left:2px solid transparent;cursor:pointer;transition:background .34s ease,border-color .34s ease}
+/* THE TEXT IS CLEAN. No fill, no rounded card, no beige — the Move Score removed all of that
+   deliberately, and the left line carries the information instead: fern for the earliest text,
+   terracotta for the later hands. A tinted block behind scripture competes with the scripture, and
+   a *selected* verse marked by a tint says "this is highlighted" when the thing worth saying is
+   "this one is from a different hand". Selection is carried by the line's weight and the verse
+   number, so the reading surface stays a reading surface. */
+.v{position:relative;margin:0 0 .5rem;padding:.1rem 1rem;border-left:3px solid transparent;
+  cursor:pointer;transition:border-left-color .3s ease,opacity .3s ease}
 .v .vn{position:absolute;left:-2.5rem;top:.62rem;width:1.9rem;text-align:right;
   font-family:var(--mono);font-size:.66rem;color:var(--ink-3);transition:color .3s}
 /* the faint affordance: something here can be touched, without shouting */
-.v:hover{background:color-mix(in srgb,var(--paper-2) 62%,transparent)}
+.v:hover{border-left-color:var(--gold)}
 /* keyboard readers could select a verse but not see which one they were on. :focus-visible so it
    appears for the keyboard and not on a mouse click. */
 .v:focus{outline:none}
@@ -160,7 +174,8 @@ body.open .invite{opacity:0}
 .lens:focus-visible,.chip:focus-visible,.a-x:focus-visible,.tbtn:focus-visible,.row:focus-visible{
   outline:2px solid var(--terracotta);outline-offset:2px;border-radius:4px}
 .v:hover .vn{color:var(--accent-sm)}
-.v.lit{background:var(--lit);border-left-color:var(--lit-edge)}
+.v.lit{border-left-width:5px}
+.v.lit:not(.orig):not(.added){border-left-color:var(--rule)}
 .v.lit .vn{color:var(--accent-sm)}
 .v.dim{opacity:.42}
 body.open .text{transition:opacity .4s}
@@ -174,7 +189,7 @@ body.open .text{transition:opacity .4s}
 .arc-h{font-family:var(--mono);font-size:.55rem;letter-spacing:.11em;text-transform:uppercase;
   color:var(--ink-3);text-align:center;margin:0 0 .2rem}
 .arc-how{font-family:var(--disp);font-style:italic;font-size:.74rem;color:var(--ink-3);text-align:center;margin:0 0 .5rem}
-.arc-bars{display:flex;align-items:flex-end;gap:3px;height:52px;border-bottom:1px solid var(--hair)}
+.arc-bars{display:flex;align-items:flex-end;gap:3px;height:52px;border-bottom:1px solid var(--rule)}
 .ab{flex:1;background:color-mix(in srgb,var(--moss) 42%,var(--paper-2));border:0;border-radius:2px 2px 0 0;
   cursor:pointer;min-height:3px;padding:0;transition:background .15s}
 .ab.c2{background:color-mix(in srgb,var(--accent-sm) 42%,var(--paper-2))}
@@ -188,7 +203,7 @@ body.open .text{transition:opacity .4s}
 .arc-key .t::before{background:color-mix(in srgb,var(--accent-sm) 55%,var(--paper-2))}
 .ladder{width:var(--measure);margin:0 auto 2.2rem;padding:0}
 .ladder-r{display:flex;gap:.3rem;flex-wrap:wrap}
-.st{flex:1 1 0;min-width:78px;text-align:left;background:none;border:0;border-top:2px solid var(--hair);
+.st{flex:1 1 0;min-width:78px;text-align:left;background:none;border:0;border-top:2px solid var(--rule);
   padding:.45rem .1rem 0;cursor:pointer;font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;
   text-transform:uppercase;color:var(--ink-3);transition:color .15s,border-color .15s}
 .st:hover{color:var(--ink);border-top-color:var(--gold)}
@@ -216,8 +231,7 @@ body.open .text{transition:opacity .4s}
 
 /* ── the lens rail (left wing) ──────────────────────────────────────────────────── */
 .rail{position:absolute;top:0;bottom:0;right:calc(100% + var(--gutter));width:var(--rail-w);
-  opacity:0;transition:opacity .5s;pointer-events:none}
-body.open .rail{opacity:1;pointer-events:auto}
+  transition:opacity .5s}
 .rail-in{position:sticky;top:5.4rem;display:flex;flex-direction:column;gap:.08rem}
 .rail-h{font-family:var(--mono);font-size:.58rem;letter-spacing:.11em;text-transform:uppercase;
   color:var(--ink-3);margin:0 0 .5rem}
@@ -227,7 +241,7 @@ body.open .rail{opacity:1;pointer-events:auto}
 .lens .n{display:block;font-family:var(--disp);font-style:italic;font-size:.72rem;color:var(--ink-3);
   line-height:1.25;margin-top:.08rem}
 .lens:hover{background:color-mix(in srgb,var(--paper-2) 70%,transparent)}
-.lens.on{border-left-color:var(--gold);background:var(--lit)}
+.lens.on{border-left-color:var(--gold);color:var(--ink)}
 .lens.on .q{color:var(--moss)}
 .lens[data-state=none-here] .q,.lens[data-state=out-of-scope] .q{color:var(--ink-3)}
 .lens[data-state=no-join] .q,.lens[data-state=awaiting-method] .q{color:var(--ink-3);font-style:italic}
@@ -237,7 +251,7 @@ body.open .rail{opacity:1;pointer-events:auto}
 /* the aside is now a DRAWER over the right margin, not a resident of it: a lens is transient,
    the gloss is persistent, and the persistent thing keeps the space. */
 .aside{position:fixed;top:4.4rem;right:1.2rem;bottom:1.2rem;width:var(--aside-w);z-index:30;
-  background:var(--paper);border:1px solid var(--hair);border-radius:9px;box-shadow:0 18px 40px -26px rgba(0,0,0,.45);
+  background:var(--paper);border:1px solid var(--rule);border-radius:9px;box-shadow:0 18px 40px -26px rgba(0,0,0,.45);
   opacity:0;pointer-events:none;transition:opacity .45s .1s}
 body.open .aside{opacity:1;pointer-events:auto}
 .aside-in{position:sticky;top:5.4rem;max-height:calc(100vh - 7rem);overflow:auto;
@@ -419,7 +433,9 @@ function isGlossed(a,v){var m=D&&D.reader_words;return !!(m&&m[a+'|'+v]);}
 
 /* ── EDITORIAL (plane C): the public IA is reader QUESTIONS, never engine names ── */
 var LENSES=[
- {id:'see',       q:'SEE',       n:'what is it doing?'},
+/* There is no SEE lens. "What is it doing?" is answered by the move under the verse, in the centre
+   of the page — that is what UNPACK reveals. A drawer that repeats it was a third copy of the same
+   content, and it is what kept "popping to the right". */
  {id:'connect',   q:'CONNECT',   n:'what does it link to?'},
  {id:'world',     q:'WORLD',     n:'what world is this?'},
  {id:'inherits',  q:'INHERITS',  n:'what does it draw on?'},
@@ -499,7 +515,8 @@ var STEPS=[
   {id:'read',    n:'READ',    ask:'What does it say?',
    note:'The text alone, in the edition it was checked out from. Nothing else is on screen yet.'},
   {id:'unpack',  n:'UNPACK',  ask:'What is it doing?',
-   note:'Each move restated so you can hold it against the verse and disagree.', lens:'see'},
+   note:'Each move restated so you can hold it against the verse and disagree \u2014 in the text itself, not in a panel beside it.',
+   unlocks:['connect','inherits','compare','reached']},
   {id:'situate', n:'SITUATE', ask:'What world is it in?',
    note:'The conditions the text was made in. Watch what changes now that you have your own reading to change.', lens:'world'},
   {id:'gaps',    n:'GAPS',    ask:'What is not here?',
@@ -785,12 +802,17 @@ function buildText(){
 }
 
 /* ══ SELECT ONCE -> ALIGN EVERYWHERE ══ */
+/* Selecting a verse MARKS it — it lights the line, aligns the margins, and nothing else. It used to
+   force S.lens='see' and open the drawer, which meant a click on READ swung open a panel the step
+   had not earned, directly contradicting the step's own sentence ("nothing else is on screen yet").
+   A gate that any click can walk through is not a gate. A reader opens a lens by choosing a lens. */
 function selectVerse(vid){
-  if(S.verse===vid && !S.move && S.lens){ return; }
   S.verse=vid; S.move=null;
-  if(!S.lens) S.lens='see';                     /* the first gesture teaches the grammar */
   var ms=movesForVerse(vid); if(ms.length) S.move=ms[0].move_handle;
-  open();
+  keepingPlace(function(){
+    paintText();
+    if(document.body.classList.contains('open')) paintAside();   /* an OPEN drawer follows the selection */
+  }, vid);
 }
 /* MARKING a move is not OPENING a panel about it. The move's own anatomy is on the page, under its
    paraphrase, so selecting one only needs to align the margins and the arc with what is being read.
@@ -800,7 +822,7 @@ function selectVerse(vid){
 function selectMove(h){ var m=moveByHandle(h); if(!m)return;
   S.move=h; if(m.verse_ids.length) S.verse=m.verse_ids[0];
   keepingPlace(function(){ paintText(); if(document.body.classList.contains('open')) paintAside(); }, S.verse); }
-function openMove(h){ selectMove(h); if(!S.lens) S.lens='see'; open(); }
+function openMove(h){ selectMove(h); if(!S.lens) S.lens='evidence'; open(); }
 function showLens(id){ S.lens=id; open(); }
 /* Wide layout: the rail and the panel are absolutely placed, so opening one costs no layout.
    Narrow layout: the rail joins the flow and would push the text down by its own height. Both cases
@@ -843,9 +865,11 @@ function lensState(id){
    page must be able to check it at any point. */
 function lensesForStep(){
   var earned={}, i=stepIndex();
-  STEPS.slice(0, i+1).forEach(function(x){ if(x.lens) earned[x.lens]=1; });
+  STEPS.slice(0, i+1).forEach(function(x){
+    if(x.lens) earned[x.lens]=1;
+    (x.unlocks||[]).forEach(function(k){ earned[k]=1; });
+  });
   earned['evidence']=1;
-  if(earned['see']){ ['connect','inherits','compare','reached'].forEach(function(k){ earned[k]=1; }); }
   return LENSES.filter(function(L){ return earned[L.id]; });
 }
 
@@ -1221,7 +1245,7 @@ fetch('/engine/data/design/design_state.json?v='+Date.now(),{cache:'no-cache'})
 fetch('/engine/data/design/reading_room_mark16.json?v='+Date.now(),{cache:'no-cache'})
  .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
  .then(function(j){
-   D=j; buildText(); paintArc(); paintMargins(); paintLadder(); scheduleAlign();
+   D=j; buildText(); paintArc(); paintMargins(); paintLadder(); paintRail(); scheduleAlign();
    document.getElementById('foot').innerHTML=
      'Mark 16, verbatim from the library checkout ('+esc(D.text.edition)+', '+esc(String(D.text.rights_status).replace(/_/g,' '))+'). '
     +D.moves.items.length+' coded moves · '+D.connect.edges.length+' typed links · '+D.lineage.cells.length+' lineage cells · '
