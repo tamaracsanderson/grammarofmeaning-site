@@ -359,11 +359,22 @@
   var railEl=document.querySelector('.rail-in').getBoundingClientRect();
   var panel=document.querySelector('.aside-in').getBoundingClientRect();
   var wide=window.innerWidth>1180;
-  var shape = {
-    textIsWidest: textEl.width >= panel.width,
+  /* "The text remains the subject" is a different measurement in each layout, and asserting the
+     wide-layout version everywhere reported a failure against a narrow layout that is behaving
+     exactly as designed. Wide: the text column is at least as wide as the panel beside it.
+     Narrow: the panel is a bottom sheet — full width on purpose — so the property is that it
+     does not swallow the viewport and the text stays on screen above it. */
+  var shape = wide ? {
+    textAtLeastAsWideAsPanel: textEl.width >= panel.width,
+    panelBesideNotOver: panel.left > textEl.right - 2,
     textNotSqueezed: textEl.width > 260,
     railPresent: railEl.width > 0,
-    panelBeside: wide ? (panel.left > textEl.right - 2) : (panel.top > textEl.top),
+    noHorizontalScroll: document.documentElement.scrollWidth <= window.innerWidth + 1
+  } : {
+    sheetLeavesTheTextVisible: panel.height <= window.innerHeight * 0.7,
+    sheetBelowTheText: panel.top > textEl.top,
+    textNotSqueezed: textEl.width > 260,
+    railPresent: railEl.width > 0,
     noHorizontalScroll: document.documentElement.scrollWidth <= window.innerWidth + 1
   };
   var ok = Object.keys(shape).every(function(k){return shape[k];});
