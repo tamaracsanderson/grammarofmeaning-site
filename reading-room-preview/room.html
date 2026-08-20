@@ -513,7 +513,18 @@ function lensSee(v,m){
     +(m.substrate?'<div class="g-box" style="margin-top:.32rem"><span class="g-t">upon</span><span class="g-v">'+esc(m.substrate)+'</span></div>':'')
     +'<p class="g-meta">'+esc(m.voice||'')+' · '+esc(m.move_type||'')
       +(m.nested_under?' · nested under '+esc(m.nested_under):'')+'<br>told by '+esc(m.narrator||'—')+'</p></div>'
-    +(m.gloss?'<p class="h">in plain words</p><p class="gloss">'+esc(m.gloss)+'</p>':'')
+    /* TWO sentences, two genres, and the difference is the whole point of showing either.
+       `paraphrase` is the move RESTATED -- the Move Score's own legend calls it "the move restated
+       plainly, so you can check us", and that is exactly its job: a reader holds it against the verse
+       and decides whether the coding is right.  `gloss` is a READING: it says what the move means.
+       Both ship inside the coded export, which is how one of them ended up labelled "in plain words"
+       here -- so the page invited a reader to take an interpretation as a neutral restatement, and
+       dropped the restatement that would have let them check it.  Restatement first, and neither
+       heading pretends to be the other. */
+    +(m.paraphrase?'<p class="h">the move, restated</p><p class="gloss">'+esc(m.paraphrase)+'</p>'
+        +'<p class="a-anchor" style="margin-top:-.15rem">Hold this against the verse above: it is what the coder took the move to be, worded so you can disagree.</p>':'')
+    +(m.gloss?'<p class="h">what it is doing, read closely</p><p class="gloss">'+esc(m.gloss)+'</p>'
+        +'<p class="a-anchor" style="margin-top:-.15rem">A reading, not a restatement \u2014 this one interprets.</p>':'')
     +'<p class="h">the frame — '+(veer?veer+' of 8 axes veer from this account':'holds the account baseline')+'</p>'+ribbon+d
     /* today this is 8 of 8 on every move — value_gloss says so itself: 8 filled, 279 pending, and all 8
        filled entries are the axis NAMES. Worded so the all-raw case reads as a state of the work rather
@@ -521,7 +532,7 @@ function lensSee(v,m){
     +(rawN? '<p class="a-anchor">'+(rawN===8
         ? 'Each axis is named in the method\u2019s own word, with the plain meaning beneath it. The values have no plain wording written for them yet, so they appear as the method\u2019s word alone.'
         : rawN+' of these 8 values have no plain wording written for them yet, so they appear as the method\u2019s word alone.')+'</p>' : '')
-    +anchorNote('This reading is tied to this verse by the verse numbers the coder recorded. Everything above was supplied by the method; nothing on this panel was inferred here.');
+    +anchorNote('Tied to this verse by the verse numbers the coder recorded. Every field above comes from the coded export \u2014 nothing on this panel was inferred here \u2014 but the two sentences are different kinds: one restates the move, one interprets it, and they are labelled apart.');
 }
 
 /* CONNECT — the typed edges (no edge_id upstream, so an edge is shown, not selectable) */
