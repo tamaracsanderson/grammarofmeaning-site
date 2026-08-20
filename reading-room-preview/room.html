@@ -28,6 +28,9 @@
   --ink:#24302A; --ink-2:#52605A; --ink-3:#6E7669; --rule:#D6CCB0;   /* ink-3 = the house `muted`: 4.55:1 on paper, 4.71:1 on the panel. #8B9288 was 3.09:1. */
   --fern:#3F7D57; --moss:#2C4A38; --sage:#7E9E86; --gold:#B8924A; --terracotta:#C4602F;
   --lit:rgba(184,146,74,.15); --lit-edge:#B8924A;
+  /* terracotta is 4.01:1 on paper — fine for larger marks, short of AA for 10px marginal text.
+     A darker sibling for small accent text; the display colour is unchanged. */
+  --accent-sm:#B4551F;
   --disp:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,-apple-system,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,monospace;
   --measure:34rem; --aside-w:23rem; --rail-w:7.4rem; --gutter:2.4rem;
@@ -36,12 +39,14 @@
   --paper:#1C1813; --paper-2:#26211A; --paper-3:#221D16;
   --ink:#ECE6D8; --ink-2:#C3BCAC; --ink-3:#8E877A; --rule:#3D362B;
   --fern:#7FB894; --moss:#A9C9B2; --sage:#7E9E86; --gold:#D8B36A; --terracotta:#E08A54;
+  --accent-sm:#E08A54;
   --lit:rgba(216,179,106,.13); --lit-edge:#D8B36A;
 }}
 :root[data-theme=dark]{
   --paper:#1C1813; --paper-2:#26211A; --paper-3:#221D16;
   --ink:#ECE6D8; --ink-2:#C3BCAC; --ink-3:#8E877A; --rule:#3D362B;
   --fern:#7FB894; --moss:#A9C9B2; --sage:#7E9E86; --gold:#D8B36A; --terracotta:#E08A54;
+  --accent-sm:#E08A54;
   --lit:rgba(216,179,106,.13); --lit-edge:#D8B36A;
 }
 *{box-sizing:border-box}
@@ -90,9 +95,9 @@ body.open .invite{opacity:0}
 .v:focus-visible{outline:2px solid var(--terracotta);outline-offset:2px;border-radius:5px}
 .lens:focus-visible,.chip:focus-visible,.a-x:focus-visible,.tbtn:focus-visible,.row:focus-visible{
   outline:2px solid var(--terracotta);outline-offset:2px;border-radius:4px}
-.v:hover .vn{color:var(--terracotta)}
+.v:hover .vn{color:var(--accent-sm)}
 .v.lit{background:var(--lit);border-left-color:var(--lit-edge)}
-.v.lit .vn{color:var(--terracotta)}
+.v.lit .vn{color:var(--accent-sm)}
 .v.dim{opacity:.42}
 body.open .text{transition:opacity .4s}
 /* translator apparatus stays IN the text, marked — deleting it would alter a Library fact */
