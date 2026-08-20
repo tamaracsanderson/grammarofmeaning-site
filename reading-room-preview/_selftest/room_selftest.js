@@ -319,6 +319,57 @@
       !!D.absence.not_an_absence,
       'textual silence is rendered as a coded move, not as a gap');
 
+
+  /* ── 13 · REDUCED MOTION — the setting must actually reach the page ──────────────────────────
+   * The stylesheet has a prefers-reduced-motion block, which is the easy half. The half that
+   * matters is whether every animated property is inside it: a transition declared after the
+   * media block, or on a property the block does not name, keeps moving for a reader who asked
+   * everything to stop. So enumerate what is actually animated and check the rule covers it. */
+  var rmRule = false, rmText = '';
+  [].forEach.call(document.styleSheets, function(sh){
+    try { [].forEach.call(sh.cssRules, function(r){
+      if(r.media && /prefers-reduced-motion/.test(r.media.mediaText)){
+        rmRule = true;
+        rmText += [].map.call(r.cssRules, function(x){return x.cssText;}).join(' ');
+      }});} catch(e){}
+  });
+  var killsBoth = /transition-duration|transition\s*:/.test(rmText) && /animation-duration|animation\s*:/.test(rmText);
+  esc('a reader who asked for no motion gets none', rmRule && killsBoth,
+      rmRule ? (killsBoth ? 'the reduced-motion rule neutralises both transition and animation'
+                          : 'a reduced-motion rule exists but does not cover both transition AND animation')
+             : 'NO prefers-reduced-motion rule');
+
+  /* ── 14 · A READABLE ALTERNATIVE — the text survives without CSS or JS ───────────────────────
+   * The reading is the product. If it depends on the lens machinery to be legible, then a reader
+   * on a screen reader, a text browser, or a failed stylesheet gets nothing. Check the text is in
+   * the document as ordered prose with its verse numbers — not assembled by layout. */
+  var plain = [].map.call(document.querySelectorAll('.v'), function(el){ return el.innerText.trim(); });
+  var ordered = plain.length===20 && /^1\b/.test(plain[0]) && /^20\b/.test(plain[19]);
+  var readableWithoutCSS = ordered && plain.every(function(t){ return t.length > 20; });
+  esc('the text reads as ordered prose without the interface',
+      readableWithoutCSS, plain.length+' verses in document order, each carrying its number and text');
+
+  /* ── 15 · VISUAL REGRESSION — the reading interaction survives implementation change ──────────
+   * Not a screenshot diff: a pixel baseline on a page that is deliberately being redesigned would
+   * fail on every intended change and teach everyone to ignore it. What must not regress is the
+   * STRUCTURE the reader depends on — the text centred and continuous, the rail present, the
+   * panel anchored beside it, and the text wider than the panel so it stays the subject. */
+  V('016:005').click();
+  var textEl=document.querySelector('.text').getBoundingClientRect();
+  var railEl=document.querySelector('.rail-in').getBoundingClientRect();
+  var panel=document.querySelector('.aside-in').getBoundingClientRect();
+  var wide=window.innerWidth>1180;
+  var shape = {
+    textIsWidest: textEl.width >= panel.width,
+    textNotSqueezed: textEl.width > 260,
+    railPresent: railEl.width > 0,
+    panelBeside: wide ? (panel.left > textEl.right - 2) : (panel.top > textEl.top),
+    noHorizontalScroll: document.documentElement.scrollWidth <= window.innerWidth + 1
+  };
+  var ok = Object.keys(shape).every(function(k){return shape[k];});
+  esc('the reading layout still has the shape a reader depends on', ok,
+      (wide?'wide':'narrow')+' · '+Object.keys(shape).map(function(k){return k+'='+shape[k];}).join(' '));
+
   ESC(); window.scrollTo(0, 0);
   var failed = R.filter(function (x) { return x.pass === false; });
   console.table(R);
