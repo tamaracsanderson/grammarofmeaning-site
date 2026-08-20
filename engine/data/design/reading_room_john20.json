@@ -107,19 +107,22 @@
     "fact": "every coded move shown here is engine-proposed; none has been cold-confirmed by a human reader",
     "authority": "D-PRG-002 (PI, 2026-08-19), via academic/00_thesis/VERTICAL_SLICE_ASSESSMENT.md",
     "expires_when": "Method publishes coding_status into coded_move_state_*.json, at which point the builder above refuses to run until this is read rather than typed",
-    "upstream_field": "moves[].coding_status"
+    "upstream_field": "moves[].coding_status",
+    "pinned_to": "no recorded run"
    },
    {
     "fact": "a single move's reading would not reproduce: the coder held one conversation across passages, so each read was made in the presence of the ones before it",
     "authority": "pm/40_architecture/ATLAS_path_dependence_finding_s167_2026-08-20.md (Atlas Reader SB, 2026-08-20) -- Mark 16 is the worst instance in the corpus",
     "expires_when": "the SDK backend gives each passage its own session and this text is re-coded under it; the aggregate structure is expected to survive, single readings are not",
-    "upstream_field": null
+    "upstream_field": null,
+    "pinned_to": "no recorded run"
    },
    {
     "fact": "this text is comparative context, not part of the evidenced demonstration",
     "authority": "D-PRG-002 (PI, 2026-08-19)",
     "expires_when": "a Library checkout and a named coding run exist for this text, which is what separates it from Mark 16",
-    "upstream_field": null
+    "upstream_field": null,
+    "pinned_to": null
    }
   ],
   "sources_absent": {
@@ -4977,8 +4980,9 @@
   "n_measured": 2,
   "n_measured_without_threshold": 2,
   "disposition": "Reliability for this reading: not established. 2 of 12 engines has been measured, and no acceptance threshold has been declared — so the measurement cannot yield a verdict.",
-  "why_no_number": "A number with no acceptance criterion cannot produce a verdict, and drawing it beside a claim will read as one. Repetition is evidence that runs happened, not that they agreed; agreement between runs is evidence about the instrument's stability, not about whether the reading is right.",
-  "source": "Method S180 (METHOD_reply_to_design_P0_s180_2026-08-19.md) + pm/40_architecture/reliability/",
+  "why_no_number": "A number with no acceptance criterion cannot produce a verdict, and drawing it beside a claim will read as one. Repetition is evidence that runs happened, not that they agreed; agreement between runs is evidence about the instrument's stability, not about whether the reading is right. And the runs behind those figures were not independent of one another: the coder held a single conversation across passages, which is the one thing an agreement statistic assumes it does not. Declaring a threshold would not settle this — the figure is not awaiting a criterion, it is measuring something other than what it names.",
+  "not_independent": "And the runs behind those figures were not independent of one another: the coder held a single conversation across passages, which is the one thing an agreement statistic assumes it does not. Declaring a threshold would not settle this — the figure is not awaiting a criterion, it is measuring something other than what it names.",
+  "source": "Method S180 (METHOD_reply_to_design_P0_s180_2026-08-19.md) + pm/40_architecture/reliability/ + Atlas Reader SB R-17 (ATLAS_path_dependence_finding_s167_2026-08-20.md) for the independence point",
   "evidence": [
    {
     "engine_id": "decompose",
