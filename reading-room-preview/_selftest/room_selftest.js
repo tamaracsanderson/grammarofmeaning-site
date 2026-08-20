@@ -225,7 +225,15 @@
     if(getComputedStyle(el).visibility==='hidden') return false;
     return _effAlpha(el) > 0.05;
   }
+  /* The panel fades in over .45s with a .1s delay, so computed opacity is still 0 immediately after
+     the click and every panel element gets skipped as invisible — a green that measured 6 of 19
+     styles and let a deliberately-broken colour through. Kill transitions for the measurement so
+     computed style is the FINAL style, then restore. */
+  var _noAnim=document.createElement('style');
+  _noAnim.textContent='*,*::before,*::after{transition:none!important;animation:none!important}';
+  document.head.appendChild(_noAnim);
   V('016:001').click();
+  void document.body.offsetWidth;   // force layout so the settled styles are readable
   var TEXT=['.v','.v .vn','.app','.lens .q','.lens .n','.h','.p','.ax .term','.ax .gl','.a-anchor',
             '.chip','.gloss','.foot','.row .rt','.row .rm','.lane .lt','.st','.st .why','.ed'];
   var bad=[];
@@ -237,9 +245,12 @@
     var c=_contrast(el);
     if(c.r < c.need) bad.push(sel+' '+c.r.toFixed(2)+':1 (need '+c.need+')');
   });
-  esc('text meets WCAG AA contrast', bad.length===0,
-      bad.length ? bad.join(' · ')
-                 : measured+' visible text styles pass'+(skipped.length?' ('+skipped.length+' not rendered here: '+skipped.join(', ')+')':''));
+  _noAnim.remove();
+  /* A green must not be able to mean "measured almost nothing", so coverage is asserted too. */
+  esc('text meets WCAG AA contrast', bad.length===0 && measured >= TEXT.length - 3,
+      (bad.length ? 'FAILS: '+bad.join(' · ')+' — ' : '')
+      + measured+'/'+TEXT.length+' text styles measured'
+      + (skipped.length ? ' · not rendered here: '+skipped.join(', ') : ''));
 
   /* A scripted .focus() does not satisfy :focus-visible in Chrome — it requires keyboard intent — so
      asserting on the matched state would fail on a correct page. Verify the RULE exists and is
