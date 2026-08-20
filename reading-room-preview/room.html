@@ -153,6 +153,20 @@ body.open .aside{opacity:1;pointer-events:auto}
 .h:first-of-type{margin-top:.2rem}
 .p{font-size:.8rem;line-height:1.62;color:var(--ink-2);margin:0 0 .2rem}
 .p b{color:var(--ink);font-weight:500}
+/* THE LABELED LINE — ported from the Move Score, not reinvented. Its rule (commit f0779c6,
+   "A1 labeled line ... Fidelity-safe; remove chip-diagram"): the plain word LEADS so it reads as
+   language, and the real coded field follows in parens so the method's term is present rather than
+   replaced. The Reading Room had shipped the diagram as its default and only form, which quietly
+   reversed that decision; the diagram is now the toggle it was designed to be. */
+.roleline{display:flex;flex-direction:column;gap:.34rem;margin:.1rem 0 .55rem}
+.roleline>span{display:block;line-height:1.5}
+.roleline .rl{font-family:var(--mono);font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);margin-right:.55rem;font-weight:600}
+.roleline .rterm{color:var(--ink-3);opacity:.72;font-weight:400}
+.asdiagram{font-family:var(--mono);font-size:.56rem;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--accent-sm);background:none;border:0;cursor:pointer;padding:.25rem 0 0}
+.asdiagram:hover{text-decoration:underline}
+.dia-wrap[hidden]{display:none}
 .gloss{font-family:var(--disp);font-style:italic;font-size:.88rem;line-height:1.55;color:var(--ink);
   border-left:2px solid var(--gold);padding-left:.7rem;margin:.15rem 0 0}
 
@@ -477,6 +491,14 @@ function paintAside(){
   [].forEach.call(document.querySelectorAll('[data-goto-move]'),function(b){
     b.onclick=function(){selectMove(b.getAttribute('data-goto-move'));};
   });
+  /* the diagram is optional -- the labeled line reads as language by default (the Move Score's rule) */
+  [].forEach.call(document.querySelectorAll('.asdiagram'),function(b){
+    b.onclick=function(ev){ ev.stopPropagation();
+      var d=b.nextElementSibling, hid=d.hasAttribute('hidden');
+      if(hid){d.removeAttribute('hidden');b.textContent='hide diagram';b.setAttribute('aria-expanded','true');}
+      else{d.setAttribute('hidden','');b.textContent='show as diagram';b.setAttribute('aria-expanded','false');}
+    };
+  });
 }
 
 /* SEE — the move grammar (Method fact, plane A; rendered, never re-derived) */
@@ -505,12 +527,23 @@ function lensSee(v,m){
       +'<b>'+esc(ax)+'</b>'+(isGlossed(ax,'')?' <span class="dim">'+esc(axLabel(ax))+'</span>':'')+'<br>'
       +esc(hum(m.frame_delta_from))+' <span class="sh">\u2192</span> <b>'+esc(hum(m.frame_delta_to))+'</b></p>';
   }
-  return '<div class="gram"><div class="g-row">'
+  /* plain word leads, the coded field follows in parens (Fidelity: the term is present, not replaced) */
+  var rl=[];
+  if(m.agent)     rl.push('<span><b class="rl">who <span class="rterm">(agent)</span></b>'+esc(m.agent)+'</span>');
+                  rl.push('<span><b class="rl">does <span class="rterm">(operation)</span></b>'+esc(m.operation||m.move_type||'')+'</span>');
+  if(m.substrate) rl.push('<span><b class="rl">on <span class="rterm">(substrate)</span></b>'+esc(m.substrate)+'</span>');
+  if(m.outcome)   rl.push('<span><b class="rl">result <span class="rterm">(outcome)</span></b>'+esc(m.outcome)+'</span>');
+  var dia='<div class="gram" style="margin:0"><div class="g-row">'
       +'<div class="g-box"><span class="g-t">who</span><span class="g-v">'+esc(m.agent||'—')+'</span></div>'
       +'<div class="g-op"><span class="arw">→</span><span class="opn">'+esc(m.operation||'')+'</span><span class="arw">→</span></div>'
       +'<div class="g-box"><span class="g-t">what results</span><span class="g-v">'+esc(m.outcome||'—')+'</span></div>'
     +'</div>'
     +(m.substrate?'<div class="g-box" style="margin-top:.32rem"><span class="g-t">upon</span><span class="g-v">'+esc(m.substrate)+'</span></div>':'')
+    +'</div>';
+  return '<div class="gram">'
+    +'<div class="roleline">'+rl.join('')+'</div>'
+    +'<button class="asdiagram" data-dia="1" aria-expanded="false">show as diagram</button>'
+    +'<div class="dia-wrap" hidden>'+dia+'</div>'
     +'<p class="g-meta">'+esc(m.voice||'')+' · '+esc(m.move_type||'')
       +(m.nested_under?' · nested under '+esc(m.nested_under):'')+'<br>told by '+esc(m.narrator||'—')+'</p></div>'
     /* TWO sentences, two genres, and the difference is the whole point of showing either.
