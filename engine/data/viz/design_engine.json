@@ -66,6 +66,59 @@
  ],
  "nodes": [
   {
+   "id": "reading_room",
+   "name": "The Reading Room — Mark 16",
+   "also": "the shell",
+   "step": "Text + every lens",
+   "one_line": "the verbatim text at the centre, permanently, with the lenses around it and one interaction learned once",
+   "reads_from": {
+    "method_node": "Text · Decompose · Connect · Situate · Compare · Reception",
+    "feeds": [
+     "engine/data/design/reading_room_mark16.json"
+    ]
+   },
+   "encoding": "the verbatim text is the only continuous element and never moves; opening a lens shifts the stage by a CSS transform so no line re-breaks. Nine lenses named as reader QUESTIONS, one open at a time. Six typed empty states, each saying which kind of empty it is: none-here (a finding) · no-join · awaiting-method · out-of-scope · text-level · defect. The method's own term always shown, with the plain gloss beneath it, never instead of it.",
+   "audience": "both",
+   "composes_into": "this is the thing the other figures compose INTO — the crit's 'infrastructure for every remaining figure', not the culmination",
+   "variants": [
+    {
+     "name": "The Reading Room",
+     "note": "Mark 16 vertical slice; seed-agnostic feed builder"
+    }
+   ],
+   "built": {
+    "file": "/reading-room-preview/room.html",
+    "state": "v1",
+    "live": true,
+    "renders": "20 verses · 55 coded moves · 9 lenses · 495 panels"
+   },
+   "gate": {
+    "fidelity": "pass — every rendered proposition resolves to the feed; 20/20 verses byte-equal; no analytical string in the page source; status pill derives from the registry",
+    "cold_read": "pass — panels read in reader words; builder language checked against rendered innerText, not source",
+    "cold_start": "pass — the feed names its run (translations_s161), its generator, and the command that reproduces it",
+    "vs_wild": "pass — 495 panels swept, 0 throws, 0 silent blanks, 0 overflow; six typed states all reachable"
+   },
+   "review": {
+    "pi": true,
+    "gpt": true,
+    "status": "ok",
+    "note": "PI ratified the restrained opening 2026-08-19; steer recorded — clean over clutter, defer the small decisions",
+    "doc": "/reading-room-preview/_selftest/room_selftest.js"
+   },
+   "status": "v1 — live; the P1 shell. 26 committed checks (room_selftest.js + check_reading_room_shell.py); absence channel blocked on Method data",
+   "status_axes": {
+    "_derived_by": "scripts/analysis/build_design_engine_status_axes.py -- from built/review/gate; never hand-typed. The prose `status` is editorial and no longer sets the pill.",
+    "implementation": "built",
+    "maturity": "pilot",
+    "deployment": "live",
+    "data": "canonical",
+    "coverage": "partial",
+    "review": "approved",
+    "dependency": "none",
+    "evidence": "current"
+   }
+  },
+  {
    "id": "plate",
    "name": "The Plate",
    "also": "Witnessed Text",
@@ -913,17 +966,72 @@
      "built.live is true but built.state is unset"
     ]
    }
+  },
+  {
+   "id": "witness_chain",
+   "name": "REACHED US — how far the text stands from what it reports",
+   "also": "witness / transmission",
+   "step": "Situate · Witness",
+   "one_line": "the transmission reconstruction, drawn so its number cannot read as a measurement",
+   "reads_from": {
+    "method_node": "Situate · Witness",
+    "feeds": [
+     "engine/data/witness_transmission_v2.json"
+    ]
+   },
+   "encoding": "the degree NEVER leads. The panel opens 'a reconstruction, not a count', then gives the range, then names the load-bearing edge — because a reconstruction that cannot say what it depends on is just a number. Text-level, declared: the nodes are documents and carry no verse anchor. The reconstruction-vs-explicit-in-source asymmetry is stated and the two kinds are never merged (IRR231 design brief).",
+   "audience": "both",
+   "composes_into": "the reading room — the ninth lens",
+   "variants": [
+    {
+     "name": "REACHED US",
+     "note": "text-level lens inside the shell; not a standalone figure"
+    }
+   ],
+   "built": {
+    "file": "/reading-room-preview/room.html",
+    "state": "v1",
+    "live": true,
+    "renders": "6 witnesses · degree ranges across 2 topologies · load-bearing edge per node"
+   },
+   "gate": {
+    "fidelity": "pass — IRR231's caveats travel as first-class feed fields (is_a reconstruction / not_a measurement), not as prose a renderer may drop",
+    "cold_read": "pass",
+    "cold_start": "pass",
+    "vs_wild": "pass — the agreement figure is deliberately absent from the page; a number with no acceptance criterion cannot yield a verdict"
+   },
+   "review": {
+    "pi": false,
+    "gpt": false,
+    "status": "next",
+    "note": "the coverage map called this the one weak Method output — data ready, render pending. Now rendered; wants a PI look",
+    "doc": "/engine/design-engine.html"
+   },
+   "status": "v1 — live; closes P4's 'witness/transmission: build/integrate'",
+   "status_axes": {
+    "_derived_by": "scripts/analysis/build_design_engine_status_axes.py -- from built/review/gate; never hand-typed. The prose `status` is editorial and no longer sets the pill.",
+    "implementation": "built",
+    "maturity": "pilot",
+    "deployment": "live",
+    "data": "canonical",
+    "coverage": "partial",
+    "review": "open",
+    "dependency": "none",
+    "evidence": "current"
+   }
   }
  ],
  "_generated_note": "VOLATILE FIELDS (built.file / built.live / reads_from.feeds / built._title) are DERIVED by _scripts/build_design_engine.py from the actual figure files — re-run it to refresh; a dead link shows as built.live=false. Authored fields are preserved.",
  "crit_session": {
   "title": "Crit-walk 2026-08-14 — PI + GPT reviewed every figure",
-  "reviewed": 16,
+  "reviewed": 18,
   "updated": 4,
   "build_plan": "/_staging/_crit/DESIGN_WORK_STATEMENT.md",
   "note": "Every figure carries a review pill below: PI notes / GPT crit / status + a link to its feedback (crit log) or the build plan. Status shipped/ok = updated & live; next/building = in the queue; blocked = waiting on Atlas Reader feeds.",
   "crit_logs_dir": "/_staging/_crit/",
-  "_reviewed_derived": "len(nodes) -- was hand-typed beside the list it counts"
+  "_reviewed_derived": "len(nodes) -- was hand-typed beside the list it counts",
+  "updated_note": "'updated: 4' is the 2026-08-14 walk's own figure and is not a current count — it was hand-typed beside the list it describes and nothing recomputes it.",
+  "as_of": "2026-08-14"
  },
  "contract": {
   "title": "The SSOT render contract — how these pages stay honest",
