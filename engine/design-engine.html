@@ -41,6 +41,14 @@ h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,43px);font-weight:600;let
 .status{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.03em;color:var(--fg);background:var(--paper2);border:1px solid var(--line);border-radius:5px;padding:2px 8px}
 .status.next{color:#8a5a12;background:color-mix(in srgb,var(--honey) 24%,var(--bg));border-color:color-mix(in srgb,var(--honey) 55%,var(--line))}
 .status.built{color:#2f6d43;background:color-mix(in srgb,#3F7D57 18%,var(--bg));border-color:color-mix(in srgb,#3F7D57 45%,var(--line))}
+.critrows{margin:0 0 10px}
+.crow{display:grid;grid-template-columns:64px 74px 1fr;gap:10px;align-items:start;padding:7px 0;border-bottom:1px solid var(--line)}
+.crow:last-child{border-bottom:0}
+.crow-s{font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;text-align:center;border-radius:4px;padding:2px 0}
+.crow-id{font-family:var(--mono);font-size:10.5px;color:var(--muted);padding-top:1px}
+.crow-b{font-size:12px;line-height:1.5}
+.crow-b b{font-weight:600}
+@media(max-width:640px){.crow{grid-template-columns:56px 1fr}.crow-id{grid-column:2}}
 .stub{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding:7px 11px;margin:0 0 7px;border:1px dashed var(--line);border-radius:6px;background:color-mix(in srgb,var(--muted) 6%,var(--bg));opacity:.72}
 .stub b{font-size:13px;font-weight:600;color:var(--muted)}
 .stub-w{font-family:var(--mono);font-size:10px;letter-spacing:.03em;color:var(--muted)}
@@ -301,20 +309,26 @@ fetch('/engine/data/viz/design_engine.json?v='+Date.now(),{cache:'no-cache'}).th
     var tone={done:['#2f6d43','rgba(63,125,87,.10)'],partial:['#8a5a12','rgba(184,146,74,.14)'],
               open:['#8A2B0F','rgba(196,96,47,.08)'],blocked:['#8A2B0F','rgba(196,96,47,.08)']};
     var n={}; d.responses.forEach(function(r){n[r.state]=(n[r.state]||0)+1;});
+    /* First version rendered these as .node cards and pushed the page from 12,600px to 16,700 —
+       making the readability complaint worse while fixing the organisation one. A response record
+       is a ledger, not a gallery: one dense row each, the not-done ones first because they are the
+       part a reader cannot get anywhere else. */
+    var rank={blocked:0,open:1,partial:2,done:3};
+    var rows=d.responses.slice().sort(function(a,b){return (rank[a.state]||9)-(rank[b.state]||9);});
     host.innerHTML='<div class="steph" id="step-crit">What the '+esc(d.crit.date)+' crit changed '
-      +'<span class="sg">'+esc(d.crit.title)+' &middot; '+d.crit.pages+'pp &middot; '+esc(d.crit.status)
-      +' &mdash; '+(n.done||0)+' applied, '+((n.partial||0)+(n.open||0)+(n.blocked||0))+' not yet</span></div>'
-      +d.responses.map(function(r){
+      +'<span class="sg">'+esc(d.crit.title)+' &middot; '+d.crit.pages+'pp &middot; '
+      +(n.done||0)+' applied, '+((n.partial||0)+(n.open||0)+(n.blocked||0))+' not yet &mdash; '
+      +'the not-yet ones are listed first</span></div>'
+      +'<div class="critrows">'+rows.map(function(r){
         var t=tone[r.state]||tone.open;
-        return '<div class="node" style="border-left:3px solid '+t[0]+'">'
-          +'<div class="node-h"><h3>'+esc(r.id)+'</h3>'
-          +'<span class="status" style="color:'+t[0]+';background:'+t[1]+'">'+esc(r.state)+'</span></div>'
-          +'<dl><dt>asked</dt><dd>'+esc(r.asked)+'</dd>'
-          +'<dt>what happened</dt><dd>'+esc(r.did)+'</dd>'
-          +(r.where&&r.where!=='—'?'<dt>where</dt><dd>'+(/^\//.test(r.where)
-              ?'<a class="builtlink" href="'+esc(r.where)+'">'+esc(r.where)+'</a>':'<span class="mono">'+esc(r.where)+'</span>')+'</dd>':'')
-          +'</dl></div>';
-      }).join('');
+        return '<div class="crow">'
+          +'<span class="crow-s" style="color:'+t[0]+';background:'+t[1]+'">'+esc(r.state)+'</span>'
+          +'<span class="crow-id">'+esc(r.id)+'</span>'
+          +'<span class="crow-b"><b>'+esc(r.asked)+'</b><br>'+esc(r.did)
+          +(r.where&&r.where!=='\u2014'&&/^\//.test(r.where)
+             ?' <a class="builtlink" href="'+esc(r.where)+'">see it</a>':'')+'</span>'
+          +'</div>';
+      }).join('')+'</div>';
   }).catch(function(){});
 })();
 </script>
