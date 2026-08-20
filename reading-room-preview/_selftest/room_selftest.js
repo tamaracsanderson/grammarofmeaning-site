@@ -288,14 +288,19 @@
       ' aria-live=' + !!document.querySelector('[aria-live]'));
 
   /* ── 10 · SOURCE SENSITIVITY — change the input, the displayed proposition must change ──────── */
-  var beforeTxt = (function(){V('016:001').click();
-    return document.querySelector('.aside-in').innerText;})();
+  /* Open the lens this check actually reads. It looks for a gloss, which only SEE renders — and it
+     silently began failing the moment the contrast walk started leaving a different lens open.
+     A check that depends on state another check happens to leave behind is not a check. */
+  function openSee(v){ V(v).click();
+    var b=lensBtns().filter(function(e){return e.getAttribute('data-lens')==='see';})[0];
+    if(b) b.click(); return document.querySelector('.aside-in').innerText; }
+  var beforeTxt = openSee('016:001');
   var savedGloss = D.moves.items[0].gloss;
   D.moves.items[0].gloss = '__SENTINEL__';
-  V('016:002').click(); V('016:001').click();
-  var afterTxt = document.querySelector('.aside-in').innerText;
+  openSee('016:002');
+  var afterTxt = openSee('016:001');
   D.moves.items[0].gloss = savedGloss;
-  V('016:002').click(); V('016:001').click();
+  openSee('016:002'); openSee('016:001');
   esc('the page is sensitive to its source (change the feed, the panel changes)',
       /__SENTINEL__/.test(afterTxt) && !/__SENTINEL__/.test(beforeTxt),
       'a mutated feed value reached the panel — the page is not showing a baked copy');
