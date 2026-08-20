@@ -459,6 +459,12 @@
     var mv = document.querySelector('.mv'), para = mv && mv.querySelector('.para');
     if (!para) { note('the move component is present', 'no .mv on the page'); return; }
     var an = mv.querySelector('.anat');
+    /* Force CLOSED first. The first version measured whatever state the page happened to be in, so
+       running it after anyone had opened a move inverted every result -- h0 was already non-zero,
+       the click CLOSED the move, and three checks went red about a page that was working. A check
+       that depends on prior state produces false reds, and a false red teaches people to ignore
+       red exactly as fast as a false green does. */
+    if (mv.classList.contains('open')) { para.click(); }
     var h0 = an ? an.getBoundingClientRect().height : -1;
     para.click();
     var h1 = an ? an.getBoundingClientRect().height : -1;
