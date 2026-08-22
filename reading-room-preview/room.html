@@ -7,6 +7,7 @@
 <title>Mark 16 — the reading room · Grammar of Meaning</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/engine/css/move_score_component.css">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,380;1,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════════════════════════════════════════════════════════════
@@ -85,6 +86,14 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   justify-content:center;align-items:start;margin:0 auto;padding:1.2rem 0 8rem}
 .stage{position:relative;width:auto;margin:0;padding:0;grid-column:2}
 .marg{position:relative}
+/* ── GATING IS DATA ──────────────────────────────────────────────────────────────────────────
+   Visibility per ladder step is applied from engine/data/design/ladder_matrix.json, which is
+   generated from pm/design_control/LADDER_VISIBILITY_MATRIX.yaml.  It used to be hand-written
+   `body:not([data-step=...])` rules, and one of them was dropped in a stylesheet replacement --
+   the Voice Rail then appeared at READ for a release with nothing to report it, because a missing
+   CSS rule has no failure channel.  A missing matrix entry does.
+   The page therefore carries exactly one gating class and no per-step selectors. */
+[data-gate="hidden"]{display:none !important}
 .marg .mcard{width:auto}
 .marg-l{grid-column:1}
 .marg-r{grid-column:3}
@@ -100,7 +109,6 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .mcard .mc-t{font-family:var(--disp);font-style:italic;font-size:.79rem;line-height:1.45;color:var(--ink-2)}
 .marg-empty{font-family:var(--disp);font-style:italic;font-size:.76rem;color:var(--ink-3);line-height:1.5}
 /* the margins arrive with their step, and only then */
-body:not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .marg-l{visibility:hidden}
 
 /* ── THE MOVE COMPONENT — lifted from _staging/viz_move_score_v2.html, not re-approximated ────
    Twice now I have rebuilt this from a description and twice it came out wrong, so these are that
@@ -117,10 +125,6 @@ body:not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"
 /* provenance, per verse — the Move Score's left-line rule: which text this is from */
 /* the sub-move label and the "continues" tag are PART of the move, so they leave with it — they were
    still on screen at READ, under a step whose own sentence says nothing else is */
-body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .mv,
-body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .subgroup,
-body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .sublabel,
-body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .conttag{display:none}
 @media(max-width:1180px){
   .daf{grid-template-columns:1fr;gap:1.6rem}
   .stage,.marg-l,.marg-r{grid-column:1}
@@ -335,78 +339,42 @@ body.open .aside{opacity:1;pointer-events:auto}
   .aside-in{position:static;max-height:62vh;border:0;border-radius:0}
 }
 @media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
-/* ══ THE READING SURFACE — COPIED WHOLE FROM _staging/viz_move_score_v2.html ═════════════════
-   50 rules, copied line for line, not selected and not retuned. Every earlier attempt TRANSLATED
-   them one at a time into this page's class names and tokens, and each translation dropped
-   something: the beige, the display face, the gold label, the muted paraphrase, the bar colours,
-   the verse's own left rule. The markup was changed to match theirs instead, so there is nothing
-   left to translate. The tokens below are theirs too, for the same reason -- these rules resolve
-   through color-mix(), so a different --rule or --ink-3 produces a different colour from identical
-   CSS, which is how the bars stayed subtly wrong after the rules matched.
-   TO UPDATE: RE-COPY. Do not hand-edit anything between these markers. ═══════════════════════ */
-/* their tokens, verbatim, because the copied rules resolve through them */
-.text,.arcwrap{--rule:#C9BE9F;--ink-3:#7C8478;--paper-2:#EFE7D3;color:var(--ink-soft);font-family:var(--serif);
-  font-size:18px;line-height:1.6;letter-spacing:normal}
-body.plate .moves,body.plate .subgroup{display:none}
-body.plate .verse{margin-bottom:2px}
-.verse{margin:0 0 8px;transition:opacity .35s;border-left:3px solid transparent;padding-left:16px;padding-right:16px}
-.verse.orig{border-left-color:color-mix(in srgb,var(--fern) 50%,var(--rule))}
-.verse.added{border-left-color:color-mix(in srgb,var(--terracotta) 52%,var(--rule))}
-.vhead{display:flex;align-items:baseline;gap:12px;margin:26px 0 4px}
-.vnum{font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.06em}
-.vtext{font-family:var(--serif);font-weight:400;font-size:18.5px;line-height:1.62;color:var(--ink);margin:0 0 2px;letter-spacing:.001em}
-.vtext.flash{animation:flash 1.1s ease-out}
-@keyframes flash{0%{background:color-mix(in srgb,var(--gold) 26%,transparent)}100%{background:transparent}}
-.mv{border-left:2px solid var(--rule);padding:2px 0 2px 14px;transition:opacity .3s}
-.mv.child{border-left-style:dotted;border-left-color:color-mix(in srgb,var(--rule) 62%,transparent)}
-.mv.sel{border-left-color:var(--gold);border-left-width:3px}
-.mv .para{cursor:pointer;margin:0;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
-.mv .para .mk{font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:.04em;flex:none;padding-top:2px}
-.mv .para .pp{font-family:var(--sans);font-size:14px;color:var(--ink-2);line-height:1.5;flex:1 1 62%}
-.mv:hover .para .pp{color:var(--ink)}
-.mv .para .exp{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--fern);opacity:.5;flex:none;white-space:nowrap;align-self:center}
-.mv.open .para .exp{opacity:1}
-.subgroup{display:flex;flex-direction:column;gap:7px;margin:2px 0 2px 18px;padding-left:8px;border-left:1px dotted var(--rule)}
-.sublabel{font-family:var(--mono);font-size:9px;letter-spacing:.05em;color:var(--ink-3);opacity:.9;padding:1px 0 0 4px}
-.conttag{font-family:var(--mono);font-size:9px;letter-spacing:.03em;color:var(--gold);opacity:.8;padding:2px 0 1px 14px}
-.roleline{display:flex;flex-direction:column;gap:2px;font-family:var(--serif);font-size:14.5px;margin:2px 0 8px;color:var(--ink)}
-.roleline .rl{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-right:8px}
-.roleline .rterm{opacity:.62;font-weight:400}
-.anat{margin:8px 0 2px;display:none}
-.anat.open{display:block}
-.axes{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:13px;margin:2px 0 6px}
-.axes dt{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);padding-top:3px}
-.axes dd{margin:0;color:var(--ink)}
-.axes dd .code{font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
-.axes .narr{font-style:italic;color:var(--ink-2);font-size:12.5px}
-.conn{display:flex;align-items:baseline;gap:9px;margin:8px 0 2px;padding-top:7px;border-top:1px dotted var(--rule)}
-.conn .rl{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
-.conn .cn{font-family:var(--mono);font-size:12.5px;color:var(--ink)}
-.conn .follow{font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;color:var(--fern);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--fern) 42%,transparent);opacity:.82}
-.conn .follow:hover{opacity:1;border-bottom-color:var(--fern)}
-.arc{max-width:44rem;margin:3vh auto 0;padding:0 22px}
-.arc-h{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 4px;text-align:center}
-.arc-how{font-family:var(--sans);font-size:11px;color:var(--ink-3);text-align:center;margin:0 auto 9px;max-width:34rem;line-height:1.5}
-.arc-bars{display:flex;align-items:flex-end;gap:3px;height:52px;border-bottom:1px solid var(--rule);padding:0 2px}
-.arc-bars .ab{flex:1;background:color-mix(in srgb,var(--fern) 55%,var(--paper-2));border-radius:2px 2px 0 0;cursor:pointer;min-height:3px;transition:background .15s}
-.arc-bars .ab.c2{background:color-mix(in srgb,var(--terracotta) 55%,var(--paper-2))}
-.arc-bars .ab:hover{background:var(--gold)}
-.arc-beats{display:flex;justify-content:space-between;font-family:var(--sans);font-size:10px;color:var(--ink-3);margin:4px 0 0}
-.arc-key{display:flex;gap:18px;justify-content:center;font-family:var(--sans);font-size:10.5px;color:var(--ink-3);margin:9px 0 0}
-.arc-key .k{display:flex;align-items:center;gap:5px}
-.arc-key .k::before{content:"";width:9px;height:9px;border-radius:2px;display:inline-block}
-.arc-key .k.f::before{background:color-mix(in srgb,var(--fern) 55%,var(--paper-2))}
-.arc-key .k.t::before{background:color-mix(in srgb,var(--terracotta) 55%,var(--paper-2))}
+/* ══ THE READING SURFACE — LINKED, NOT COPIED ════════════════════════════════════════════════
+   The component's rules and the tokens they resolve through are no longer in this file. They are
+   generated from the canonical reference into engine/css/move_score_component.css and linked in the
+   <head>, so the shell CANNOT hold an independently reinterpreted version — there is nothing here to
+   reinterpret. Three review rounds went to differences reintroduced each time these rules were
+   re-typed; copying more carefully was never the fix. Edit the canonical reference, re-run
+   scripts/analysis/extract_move_component.py, and the shell follows.
+   The scoping element below applies the shared tokens to the reading area only. ══════════════ */
+.text,.arcwrap{color:var(--ink-soft);font-family:var(--serif);font-size:18px;line-height:1.6;
+  letter-spacing:normal}
 
-.repro{font-family:var(--sans);font-size:11px;line-height:1.5;color:var(--terracotta);
-  margin:8px 0 2px;padding:5px 8px;border-left:2px solid var(--terracotta);
-  background:color-mix(in srgb,var(--terracotta) 6%,transparent)}
-.repro .dim{color:var(--ink-3);display:block;margin-top:2px}
+/* ── INTENTIONAL_ACCESSIBILITY_DEVIATION ─────────────────────────────────────────────────────
+   WCAG AA is the floor and pixel-exactness to the approved predecessor does not override it
+   (DESIGN_LOCKS L6, PM §10). These four tokens are darkened relative to the canonical Move Score
+   reference — same hue, same role, minimum change that clears 4.5:1. They are DECLARED here and in
+   component_diff.js so the diff reports them as intentional rather than as drift; an undeclared
+   difference from the reference is still a defect.
+
+     token          reference   here       measured on
+     --ink-3        #7C8478     #6F766C    paper      3.74 -> 4.52
+     --ink-3 (card) #7C8478     #646A61    paper-2    3.14 -> 4.51   (tinted ground costs ~0.6)
+     --gold         #B8924A     #8D7037    paper      2.80 -> 4.50
+     --terracotta   #C4602F     #B7592C    paper      4.01 -> 4.53
+
+   Computed, not eyeballed: each is the smallest lightness reduction in HLS that reaches the floor,
+   so the visual relationship is preserved as closely as the floor allows. --accent-sm needed no
+   change (4.76:1 already).
+   The card value is separate because contrast is against the ground a thing actually sits on, and
+   a card is not paper — measuring everything against the body ground is how these passed before. */
+.move-component{--ink-3:#6F766C; --gold:#8D7037; --terracotta:#B7592C}
+.mcard{--ink-3:#646A61; --accent-sm:#A74F1D}
+/*  --accent-sm passes on paper (4.76:1) and fails on a card (4.00:1). Contrast is a property of a
+    pairing, not of a colour, and the card ground costs ~0.75 — which is why the token is corrected
+    where it sits rather than globally. #A74F1D reaches 4.51:1 on paper-2. */
+
 /* the only rules here that are NOT the Move Score's: the ladder gate. Everything above is copied. */
-body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .mv,
-body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .subgroup,
-body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .sublabel,
-body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]):not([data-step="respond"]) .conttag{display:none}
 .verse{cursor:pointer}
 .verse.lit .vnum{color:var(--terracotta)}</style>
 </head>
@@ -422,8 +390,8 @@ body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]
 
 <div class="ladder" id="ladder"></div>
 <nav class="rail" id="rail" aria-label="other ways to ask"></nav>
-<div class="arcwrap" id="arc"></div>
-<div class="daf">
+<div class="arcwrap move-component" id="arc"></div>
+<div class="daf move-component">
   <aside class="marg marg-l" id="margL" aria-label="the world this text is in"></aside>
   <main class="stage" id="stage">
   <p class="invite" id="invite">Begin by reading. Select any verse to see what it is doing.</p>
@@ -443,7 +411,7 @@ body:not([data-step="unpack"]):not([data-step="situate"]):not([data-step="gaps"]
    Plane C — Design editorial — is exactly: the reader questions, the section names,
    the pacing, and the wording of the typed states.  Those are marked EDITORIAL below.
    ══════════════════════════════════════════════════════════════════════════════════ */
-var D=null, S={verse:null, move:null, lens:null, step:'read'};
+var D=null, MATRIX=null, S={verse:null, move:null, lens:null, step:'read'};
 
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function hum(v){return String(v==null?'':v).replace(/[-_]/g,' ');}
@@ -621,6 +589,21 @@ function verseTree(m,vid,depth,kidsOf,byLabel){
 }
 function firstVerse(m){return (m.verse_ids||[])[0];}
 
+/* '' when the feed carries no segmentation — the verse then renders with no provenance marking at
+   all, which is the honest rendering of "nobody told us". */
+/* One accessor each, so a path typo fails in one place instead of silently returning {} at three
+   call sites. */
+function segments(){ return (D && D.segments) || {items:[], absent:null}; }
+function beats(){    return (D && D.beats)    || {items:[], absent:null}; }
+
+function segmentClassFor(vid){
+  var segs=segments().items||[];
+  for(var i=0;i<segs.length;i++){
+    if((segs[i].verse_ids||[]).indexOf(vid)>=0) return ' '+(segs[i].css_class||'seg-'+i);
+  }
+  return '';
+}
+
 function paintMargins(){
   var L=document.getElementById('margL'), R=document.getElementById('margR');
 
@@ -723,17 +706,86 @@ function paintArc(){
     '<p class="arc-h">the whole passage</p>'
    +'<p class="arc-how">each bar is a verse \u2014 taller means more moves happen in it; colour marks which text it\u2019s from. click a bar to jump.</p>'
    +'<div class="arc-bars">'+vs.map(function(v,k){
-      return '<button class="ab'+(v.n<=8?'':' c2')+'" data-verse="'+esc(v.verse_id)+'" title="'+esc(D.text.ref)+':'+v.n
+      return '<button class="ab'+segmentClassFor(v.verse_id)+'" data-verse="'+esc(v.verse_id)+'" title="'+esc(D.text.ref)+':'+v.n
         +' \u00b7 '+counts[k]+' move'+(counts[k]===1?'':'s')+'" style="height:'+Math.max(3,Math.round(counts[k]/mx*52))+'px"></button>';
     }).join('')+'</div>'
-   +'<div class="arc-beats"><span>anointing &amp; alarm</span><span>the empty tomb</span><span>fear \u00b7 silence</span><span>the added ending</span></div>'
-   +'<div class="arc-key"><span class="k f">the earliest text \u00b7 16:1\u20138</span>'
-     +'<span class="k t">added by later hands \u00b7 16:9\u201320</span></div>';
+   +(function(){
+       /* Beat labels were four hardcoded strings describing Mark 16 specifically. They render only
+          if a feed supplies them. Omitted rather than guessed — an invented segmentation shown
+          under another text would be a confident falsehood, and D1 item 9 says omit. */
+       var b=beats().items||[];
+       return b.length ? '<div class="arc-beats">'+b.map(function(x){return '<span>'+esc(x.label)+'</span>';}).join('')+'</div>' : '';
+     })()
+   +(function(){
+       /* The key explains a colour split. With no segmentation there is no split to explain, and a
+          key for absent colours would assert one. Say what is not known instead. */
+       var segs=segments().items||[];
+       if(segs.length) return '<div class="arc-key">'+segs.map(function(x){
+            return '<span class="k '+esc(x.css_class||'')+'">'+esc(x.label)+'</span>';}).join('')+'</div>';
+       /* No `||` fallback here on purpose: a default string would make a BROKEN LOOKUP render as a
+          working one, which is how the first version of this shipped reading its own placeholder
+          instead of the feed. If the feed has no explanation, say that it has none. */
+       var a=segments().absent;
+       return '<p class="arc-absent">'+esc(a || 'This feed declares no segmentation and gives no reason.')+'</p>';
+     })();
   [].forEach.call(document.querySelectorAll('.ab'),function(b){
     b.onclick=function(){ selectVerse(b.getAttribute('data-verse'));
       var el=document.querySelector('.verse[data-verse="'+b.getAttribute('data-verse')+'"]');
       if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); };
   });
+}
+
+/* ── APPLY THE MATRIX ────────────────────────────────────────────────────────────────────────
+   MATRIX is the fetched contract (ladder_matrix.json).  For the current step it hides every
+   primitive marked `no` and shows every primitive marked `yes`; `optional` is left alone, because
+   optional means the reader decides and the page must not decide for them.
+
+   Note what is NOT here: no per-step logic, no special case for any rail.  Adding a primitive is a
+   matrix edit.  That is the point -- the defect this replaces was a hand-written rule for one rail
+   going missing while its sibling survived, which no amount of care prevents and one data source
+   makes structurally impossible. */
+function applyGate(){
+  if(!MATRIX) return;
+  var row = MATRIX.matrix[S.step] || {};
+  Object.keys(MATRIX.primitives).forEach(function(prim){
+    var rule = row[prim], sel = MATRIX.primitives[prim];
+    [].forEach.call(document.querySelectorAll(sel), function(el){
+      if(rule === 'no')       el.setAttribute('data-gate','hidden');
+      else if(rule === 'yes') el.removeAttribute('data-gate');
+      /* optional: leave whatever state the reader put it in */
+    });
+  });
+}
+
+/* ── URL-ADDRESSABLE READER STATE ────────────────────────────────────────────────────────────
+   One navigation system, not a second one: the ladder buttons and the verse clicks already ARE the
+   navigation; this only writes what they did into the address bar and reads it back on load.
+   ?step=unpack&verse=016:003&move=MARK-16:M7
+   replaceState, not pushState, so the browser Back button still leaves the room rather than
+   walking the reader backwards through their own ladder one rung at a time. */
+function writeURL(){
+  var q=[];
+  if(S.step && S.step!=='read') q.push('step='+encodeURIComponent(S.step));
+  if(S.verse)                   q.push('verse='+encodeURIComponent(S.verse));
+  if(S.move)                    q.push('move='+encodeURIComponent(S.move));
+  var url = location.pathname + (q.length ? '?'+q.join('&') : '');
+  try { history.replaceState(null,'',url); } catch(e){}
+}
+function readURL(){
+  var p=new URLSearchParams(location.search);
+  var step=p.get('step'), verse=p.get('verse'), move=p.get('move');
+  var known=STEPS.map(function(x){return x.id;});
+  return {step: known.indexOf(step)>=0 ? step : null, verse: verse, move: move};
+}
+function restoreFromURL(){
+  var w=readURL();
+  if(w.step) S.step=w.step;
+  paintLadder(); paintRail();
+  /* a verse or move named in the URL must exist in THIS feed; a stale link is not an error, it just
+     does not resolve, and the room opens at the step without pretending the anchor was found */
+  if(w.verse && document.querySelector('.verse[data-verse="'+w.verse+'"]')) selectVerse(w.verse);
+  if(w.move && moveByHandle(w.move)) selectMove(w.move);
+  applyGate();
 }
 
 function paintLadder(){
@@ -753,6 +805,7 @@ function paintLadder(){
   });
   var nx=document.querySelector('.ladder-next'); if(nx) nx.onclick=function(){ setStep(nx.getAttribute('data-next')); };
   document.body.setAttribute('data-step', st.id);
+  applyGate();
 }
 
 function setStep(id){
@@ -764,7 +817,7 @@ function setStep(id){
        selection, which is what makes the change visible rather than merely available. */
     if(!st.lens){ S.lens=null; S.move=null; closePanels(); }
     else if(S.verse){ S.lens=st.lens; open(); }
-    paintLadder(); paintRail(); paintText(); scheduleAlign();
+    paintLadder(); paintRail(); paintText(); applyGate(); writeURL(); scheduleAlign();
   }, S.verse);
 }
 
@@ -804,7 +857,10 @@ function buildText(){
     /* top-level moves only at this level; the component nests its own children */
     var mine=movesForVerse(v.verse_id).filter(function(m){
       return !m.nested_under || !BY[m.nested_under] || firstVerse(BY[m.nested_under])!==v.verse_id; });
-    var prov=(v.n<=8?' orig':' added');
+    /* provenance comes from the feed's segments, never from a verse number. `v.n <= 8` was true of
+       Mark 16 and would have quietly mis-tinted every other text — a rule that does not fail, it
+       lies. No segments, no class, no claim. */
+    var prov=segmentClassFor(v.verse_id);
     var ch=String(D.text.ref).replace(/^\D+/,'').trim();
     return '<div class="verse'+prov+'" data-verse="'+esc(v.verse_id)+'" tabindex="0">'
       +'<div class="vhead"><span class="vnum">'+esc(ch)+':'+v.n+'</span></div>'
@@ -886,7 +942,8 @@ function movesFor(vid){
    the places that genuinely want the drawer (the arc's jump-to, a cross-reference from Connect). */
 function selectMove(h){ var m=moveByHandle(h); if(!m)return;
   S.move=h; if(m.verse_ids.length) S.verse=m.verse_ids[0];
-  keepingPlace(function(){ paintText(); if(document.body.classList.contains('open')) paintAside(); }, S.verse); }
+  keepingPlace(function(){ paintText(); if(document.body.classList.contains('open')) paintAside(); }, S.verse);
+  writeURL(); }
 function openMove(h){ selectMove(h); if(!S.lens) S.lens='evidence'; open(); }
 function showLens(id){ S.lens=id; open(); }
 /* Wide layout: the rail and the panel are absolutely placed, so opening one costs no layout.
@@ -1330,10 +1387,19 @@ fetch('/engine/data/design/design_state.json?v='+Date.now(),{cache:'no-cache'})
  };})();
 
 /* ── boot ── */
-fetch('/engine/data/design/reading_room_mark16.json?v='+Date.now(),{cache:'no-cache'})
- .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
- .then(function(j){
+/* Both feeds are required. The gating contract is not decoration the page can do without: a shell
+   that renders its text but silently fails to fetch the matrix would show every rail at every step
+   and look entirely normal doing it. So a missing matrix is a hard failure, not a degraded mode. */
+Promise.all([
+  fetch('/engine/data/design/reading_room_mark16.json?v='+Date.now(),{cache:'no-cache'})
+    .then(function(r){if(!r.ok)throw new Error('feed HTTP '+r.status);return r.json();}),
+  fetch('/engine/data/design/ladder_matrix.json?v='+Date.now(),{cache:'no-cache'})
+    .then(function(r){if(!r.ok)throw new Error('ladder matrix HTTP '+r.status);return r.json();})
+])
+ .then(function(both){
+   var j=both[0]; MATRIX=both[1];
    D=j; buildText(); paintArc(); paintMargins(); paintLadder(); paintRail(); scheduleAlign();
+   restoreFromURL();
    document.getElementById('foot').innerHTML=
      'Mark 16, verbatim from the library checkout ('+esc(D.text.edition)+', '+esc(String(D.text.rights_status).replace(/_/g,' '))+'). '
     +D.moves.items.length+' coded moves · '+D.connect.edges.length+' typed links · '+D.lineage.cells.length+' lineage cells · '
