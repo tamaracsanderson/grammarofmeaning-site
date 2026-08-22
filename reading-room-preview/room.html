@@ -94,6 +94,41 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
    CSS rule has no failure channel.  A missing matrix entry does.
    The page therefore carries exactly one gating class and no per-step selectors. */
 [data-gate="hidden"]{display:none !important}
+
+/* ── D2 ANALYTICAL LAYERS ────────────────────────────────────────────────────────────────────
+   One section per recovered layer, each stating its own basis and MoveSet. The seams between
+   generations are shown, not smoothed: a visible seam is preferable to a false join (D2 §9). */
+.d2{width:var(--measure);margin:0 auto 6rem;padding:0}
+.d2-sec{border-top:1px solid var(--rule);padding:1.1rem 0 0;margin:1.6rem 0 0}
+.d2-h{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;margin:0 0 .1rem}
+.d2-t{font-family:var(--mono);font-size:.62rem;letter-spacing:.11em;text-transform:uppercase;color:var(--ink)}
+.d2-st{font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;padding:.1rem .4rem;border-radius:3px;
+  border:1px solid var(--rule);color:var(--ink-2);white-space:nowrap}
+.d2-st.cur{border-color:var(--moss);color:var(--moss)}
+.d2-st.frozen{border-color:var(--gold);color:#8D7037}
+.d2-st.open,.d2-st.missing{border-color:var(--accent-sm);color:var(--accent-sm)}
+.d2-st.inferred{border-color:var(--accent-sm);color:var(--accent-sm)}
+.d2-basis{font-family:var(--mono);font-size:.55rem;color:var(--ink-3);word-break:break-all}
+.d2-note{font-family:var(--disp);font-style:italic;font-size:.8rem;line-height:1.5;color:var(--ink-2);margin:.35rem 0 .6rem;max-width:52ch}
+.d2-body{margin:.2rem 0 0}
+.d2-empty{font-family:var(--disp);font-style:italic;font-size:.82rem;color:var(--ink-2);
+  border-left:2px solid var(--accent-sm);padding:.4rem .7rem;background:color-mix(in srgb,var(--accent-sm) 5%,transparent)}
+.d2-tabs{display:flex;gap:.25rem;flex-wrap:wrap;margin:.3rem 0 .7rem}
+.d2-tab{font-family:var(--mono);font-size:.56rem;letter-spacing:.07em;text-transform:uppercase;
+  padding:.25rem .5rem;border:1px solid var(--rule);border-radius:3px;background:none;cursor:pointer;color:var(--ink-2)}
+.d2-tab.on{border-color:var(--moss);color:var(--ink);font-weight:600}
+.d2-tab.miss{color:var(--accent-sm);border-color:var(--accent-sm)}
+.d2-row{font-family:var(--sans);font-size:.78rem;line-height:1.5;padding:.35rem 0;border-bottom:1px dotted var(--rule)}
+.d2-row b{font-weight:600}
+.d2-k{font-family:var(--mono);font-size:.55rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);margin-right:.4rem}
+/* the position trajectory rail */
+.trj{display:grid;grid-template-columns:auto 1fr;gap:.15rem .6rem;align-items:center}
+.trj-ax{font-family:var(--mono);font-size:.55rem;color:var(--ink-3);white-space:nowrap;text-align:right}
+.trj-line{display:flex;align-items:center;gap:0;height:16px}
+.trj-seg{flex:1;height:2px;background:var(--rule)}
+.trj-node{width:7px;height:7px;border-radius:50%;background:var(--accent-sm);flex:none;cursor:pointer}
+.trj-node.flat{width:3px;height:3px;background:var(--rule)}
+.d2-val{font-family:var(--sans);font-size:.72rem;color:var(--ink-2);margin:.3rem 0 0;min-height:1.2em}
 .marg .mcard{width:auto}
 .marg-l{grid-column:1}
 .marg-r{grid-column:3}
@@ -399,6 +434,7 @@ body.open .aside{opacity:1;pointer-events:auto}
   </main>
   <aside class="marg marg-r" id="margR" aria-label="what readers made of it"></aside>
 </div>
+<section class="d2" id="d2"></section>
 <aside class="aside" id="aside" aria-live="polite"></aside>
 </main>
 
@@ -411,7 +447,7 @@ body.open .aside{opacity:1;pointer-events:auto}
    Plane C — Design editorial — is exactly: the reader questions, the section names,
    the pacing, and the wording of the typed states.  Those are marked EDITORIAL below.
    ══════════════════════════════════════════════════════════════════════════════════ */
-var D=null, MATRIX=null, S={verse:null, move:null, lens:null, step:'read'};
+var D=null, MATRIX=null, P2=null, S={verse:null, move:null, lens:null, step:'read', d2tab:'sitz', d2tab2:'logic'};
 
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function hum(v){return String(v==null?'':v).replace(/[-_]/g,' ');}
@@ -504,17 +540,23 @@ function keepingPlace(mutate, preferId){
    This SUPERSEDES the persistent-margins layout I recommended, and restores §G's binding clause
    ("surrounding lenses -- not all open at once"), which the ladder turns out to be the reason for. */
 var STEPS=[
-  {id:'read',    n:'READ',    ask:'What does it say?',
+  {id:'read',      n:'READ',      ask:'What does it say?',
    note:'The text alone, in the edition it was checked out from. Nothing else is on screen yet.'},
-  {id:'unpack',  n:'UNPACK',  ask:'What is it doing?',
+  {id:'decompose', n:'DECOMPOSE', ask:'What does it do?',
    note:'Each move restated so you can hold it against the verse and disagree \u2014 in the text itself, not in a panel beside it.',
-   unlocks:['connect','inherits','compare','reached']},
-  {id:'situate', n:'SITUATE', ask:'What world is it in?',
-   note:'The conditions the text was made in. Watch what changes now that you have your own reading to change.', lens:'world'},
-  {id:'gaps',    n:'GAPS',    ask:'What is not here?',
-   note:'What the text does not say, and where it stops. You can only see this now \u2014 an absence needs an expectation to be an absence.', lens:'open'},
-  {id:'respond', n:'RESPOND', ask:'What did readers do with it?',
-   note:'Readings, later hands, whole added endings \u2014 answers to the gaps you just saw.', lens:'afterlives'}
+   unlocks:['inherits']},
+  {id:'situate',   n:'SITUATE',   ask:'What worlds surround it?',
+   note:'Sitz, paradigm, lineage, transmission, reception \u2014 five separate lenses, each declaring its own basis. Watch what changes now that you have your own reading to change.',
+   lens:'world', layer:'situate'},
+  {id:'position',  n:'POSITION',  ask:'How does its stance shift?',
+   note:'Eight axes through the short ending. A specimen \u2014 and the per-move coder is anchored against the whole-account frame, so a flat line partly reflects the method.',
+   layer:'position'},
+  {id:'connect',   n:'CONNECT',   ask:'What structural relations appear?',
+   note:'Under an older declared structural cut. These edges belong to a DIFFERENT MoveSet than the moves above, so they are shown on their own terms and not drawn over them.',
+   unlocks:['connect','compare','reached'], layer:'connect'},
+  {id:'gloss',     n:'GLOSS',     ask:'What does one downstream reading make visible?',
+   note:'One frozen specimen, not a commissioned interpretation engine.',
+   lens:'afterlives', layer:'gloss'}
 ];
 /* ── THE MARGINS ───────────────────────────────────────────────────────────────────────────────
    Marginalia, not sidebars: many small things each anchored to the line they read, rather than one
@@ -788,6 +830,143 @@ function restoreFromURL(){
   applyGate();
 }
 
+/* ── D2 LAYERS ───────────────────────────────────────────────────────────────────────────────
+   Every section leads with its STATUS and its BASIS, because the reader must not have to open a
+   methodology document to discover that two visual layers use different segmentations (D2 §8). */
+function stClass(st){ var t=String(st||'').toUpperCase();
+  return /CURRENT AUTHORITY|CURRENT RUN/.test(t) ? 'cur'
+       : /FROZEN/.test(t) ? 'frozen' : /MISSING/.test(t) ? 'missing'
+       : /OPEN/.test(t) ? 'open' : /INFERRED/.test(t) ? 'inferred' : ''; }
+
+function d2Head(title, L){
+  var basis = [L.basis && ('basis: '+L.basis), L.move_basis && ('MoveSet: '+L.move_basis),
+               L.join && ('join: '+L.join)].filter(Boolean).join('  ·  ');
+  return '<div class="d2-h"><span class="d2-t">'+esc(title)+'</span>'
+    +'<span class="d2-st '+stClass(L.status)+'">'+esc(L.status||'—')+'</span></div>'
+    +(basis?'<p class="d2-basis">'+esc(basis)+'</p>':'')
+    +(L.note?'<p class="d2-note">'+esc(L.note)+'</p>':'');
+}
+function d2Empty(t){ return '<p class="d2-empty">'+esc(t)+'</p>'; }
+
+function paintD2(){
+  if(!P2) return;
+  var step=S.step, out='';
+
+  /* SITUATE — five visibly separate lenses, including an honest missing Reception */
+  if(step==='situate'){
+    var tabs=[['sitz','Sitz',P2.sitz],['paradigm','Paradigm',P2.paradigm],['lineage','Lineage',P2.lineage],
+              ['transmission','Transmission',P2.transmission],['reception','Reception',P2.reception]];
+    var cur=S.d2tab||'sitz', L=(tabs.filter(function(t){return t[0]===cur;})[0]||tabs[0])[2];
+    out='<div class="d2-sec" id="d2-situate">'
+      +'<div class="d2-tabs">'+tabs.map(function(t){
+          var miss=/MISSING|OPEN/.test(String(t[2].status||''));
+          return '<button class="d2-tab'+(t[0]===cur?' on':'')+(miss?' miss':'')+'" data-d2tab="'+t[0]+'">'+esc(t[1])+'</button>';
+        }).join('')+'</div>'
+      +d2Head(cur.toUpperCase(), L);
+    if(!L.items.length){ out+=d2Empty(L.note||'Nothing recovered for this lens.'); }
+    else if(cur==='sitz'){
+      out+='<div class="d2-body">'+L.items.slice(0,10).map(function(x){
+        return '<div class="d2-row"><span class="d2-k">'+esc(x.condition_kind||'')+'</span><b>'+esc(x.condition_ref||'')+'</b><br>'
+          +esc(x.application_note||'')+'<br><span class="d2-k">evidence</span>'+esc(x.evidence_basis||'—')
+          +' <span class="d2-k">certainty</span>'+esc(x.certainty||'—')
+          +' <span class="d2-k">scope</span>'+esc(x.scope_level||'—')+'</div>';}).join('')+'</div>';
+    } else if(cur==='transmission'){
+      out+='<div class="d2-body">'+L.items.map(function(w){
+        return '<div class="d2-row"><b>'+esc(w.witness_id||'')+'</b> <span class="d2-k">'+esc(w.date_range||'')+'</span>'
+          +esc(w.language||'')+' · '+esc(w.material||'')+'<br><span class="d2-k">covers</span>'+esc(w.surviving_coverage||'—')
+          +' <span class="d2-k">ending</span>'+esc(w.textual_form||'—')
+          +' <span class="d2-k">status</span>'+esc(w.passage_status||'—')
+          +(w.note?'<br>'+esc(w.note):'')+'</div>';}).join('')
+        +'<p class="d2-basis">degrees_from_origin is withheld — unresolved across runs.</p></div>';
+    } else if(cur==='lineage'){
+      out+='<div class="d2-body">'+L.items.slice(0,14).map(function(x){
+        return '<div class="d2-row"><b>'+esc(x.source_ref||'')+'</b>'+(x.source_ref_resolved?' — '+esc(x.source_ref_resolved):'')
+          +'<br><span class="d2-k">function</span>'+esc(x.borrowing_function||'—')
+          +' <span class="d2-k">vehicle</span>'+esc(x.borrowing_vehicle||'—')
+          +' <span class="d2-k">certainty</span>'+esc(x.certainty||'—')
+          +' <span class="d2-k">direction</span>'+esc(x.fidelity_direction||'—')+'</div>';}).join('')+'</div>';
+    } else {
+      out+='<div class="d2-body">'+L.items.slice(0,10).map(function(x){
+        return '<div class="d2-row">'+Object.keys(x).slice(0,6).map(function(k){
+          return '<span class="d2-k">'+esc(k)+'</span>'+esc(String(x[k]).slice(0,70));}).join(' ')+'</div>';}).join('')+'</div>';
+    }
+    out+='</div>';
+  }
+
+  /* POSITION — passage-level pending + the per-move trajectory rail */
+  if(step==='position'){
+    var PP=P2.position_passage, PM_=P2.position_move;
+    out='<div class="d2-sec" id="d2-position">'+d2Head('PASSAGE POSITION', PP)
+      +d2Empty('Passage Position — awaiting a current, correctly scoped read.')
+      +'<p class="d2-basis">'+esc(PP.atlas_affordance.label)+'</p>'
+      +'<div class="d2-sec">'+d2Head('MOVE POSITION — trajectory', PM_)
+      +'<div class="d2-body trj">'+PM_.axes.map(function(ax){
+          var disp=(PM_.axis_display&&PM_.axis_display[ax])||ax;
+          return '<span class="trj-ax">'+esc(disp)+'</span><span class="trj-line">'
+            +PM_.items.map(function(t,i){
+                var ch=(t.changed||[]).indexOf(ax)>=0;
+                var vals=(t.axes[ax]||[]).map(function(v){return v.value;}).join(' + ')||'(not engaged)';
+                return (i?'<span class="trj-seg"></span>':'')
+                  +'<span class="trj-node'+(ch?'':' flat')+'" data-ax="'+esc(ax)+'" data-mi="'+t.move_index
+                  +'" title="M'+t.move_index+' · '+esc(disp)+': '+esc(vals)+(ch?' — CHANGED':'')+'"></span>';
+              }).join('')+'</span>';
+        }).join('')+'</div>'
+      +'<p class="d2-val" id="trjval">Hover or click a node for its value.</p>'
+      +'<p class="d2-basis">'+PM_.derived_changes+' mechanically derived changes across '
+      +PM_.items.length+' moves · values are arrays; compound values are preserved · no radar chart, no numerical distances.</p>'
+      +'</div></div>';
+  }
+
+  /* CONNECT — its own basis, three selectors, honest Sonic */
+  if(step==='connect'){
+    var C=P2.connect, sel=S.d2tab2||'logic', L2=C[sel];
+    out='<div class="d2-sec" id="d2-connect">'
+      +'<div class="d2-tabs">'+['logic','shape','sonic'].map(function(k){
+          var miss=/MISSING/.test(String(C[k].status||''));
+          return '<button class="d2-tab'+(k===sel?' on':'')+(miss?' miss':'')+'" data-d2tab2="'+k+'">'+k.toUpperCase()+'</button>';
+        }).join('')+'</div>'
+      +d2Head('CONNECT — '+sel.toUpperCase(), L2)
+      +'<p class="d2-basis">'+esc(C.note)+'</p>';
+    out += L2.items.length
+      ? '<div class="d2-body">'+L2.items.slice(0,18).map(function(e){
+          return '<div class="d2-row"><b>'+esc(e.edge_type||e.edge_kind)+'</b> '
+            +'<span class="d2-k">from</span>'+esc(String(e.from_moves_json||'').replace(/[\[\]"]/g,''))
+            +' <span class="d2-k">to</span>'+esc(e.to_move||'—')
+            +' <span class="d2-k">conf</span>'+esc(e.confidence||'—')
+            +(e.warrant?'<br>'+esc(String(e.warrant).slice(0,150)):'')+'</div>';}).join('')
+        +(L2.superseded_available?'<p class="d2-basis">'+L2.superseded_available+' superseded rows withheld from the default view; available in provenance inspection.</p>':'')
+        +'</div>'
+      : d2Empty(L2.note||'Nothing coded.');
+    out+='</div>';
+  }
+
+  /* GLOSS — one frozen specimen, plus the gap specimen shown in place */
+  if(step==='gloss'){
+    var G=P2.gloss, GP=P2.gap;
+    out='<div class="d2-sec" id="d2-gloss">'+d2Head('GLOSS', G)
+      +(G.items.length ? '<div class="d2-body"><div class="d2-row" style="border:0">'
+          +'<span class="d2-k">M'+G.items[0].move_index+'</span>'+esc(G.items[0].gloss)
+          +'<br><span class="d2-k">model</span>'+esc(G.items[0].gloss_model||'—')
+          +' <span class="d2-k">run</span>'+esc(G.items[0].run_tag||'—')+'</div>'
+          +'<p class="d2-basis">'+esc(G.moveset_note||'')+' · '+G.available_in_run+' glosses in this run; one shown.</p></div>'
+        : d2Empty('No gloss specimen.'))
+      +'<div class="d2-sec">'+d2Head('GAP SPECIMEN', GP)
+      +'<div class="d2-body"><div class="d2-row" style="border:0">'
+      +'<span class="d2-k">'+esc(GP.items[0].locus)+' · '+esc(GP.items[0].subtype)+' · '+esc(GP.items[0].disposition)+'</span><br>'
+      +'<b>'+esc(GP.items[0].text)+'</b><br>'+esc(GP.items[0].witness_seam)
+      +'<br><span class="d2-k">placed at</span>'+esc(GP.items[0].placed_at_verse)
+      +'<br><span class="d2-k">alignment</span>'+esc(GP.items[0].alignment)+'</div></div></div></div>';
+  }
+
+  document.getElementById('d2').innerHTML=out;
+  [].forEach.call(document.querySelectorAll('[data-d2tab]'),function(b){
+    b.onclick=function(){ S.d2tab=b.getAttribute('data-d2tab'); paintD2(); applyGate(); }; });
+  [].forEach.call(document.querySelectorAll('[data-d2tab2]'),function(b){
+    b.onclick=function(){ S.d2tab2=b.getAttribute('data-d2tab2'); paintD2(); applyGate(); }; });
+  [].forEach.call(document.querySelectorAll('.trj-node'),function(n){
+    n.onclick=function(){ document.getElementById('trjval').textContent=n.getAttribute('title'); }; });
+}
+
 function paintLadder(){
   var i=stepIndex(), st=STEPS[i];
   document.getElementById('ladder').innerHTML=
@@ -805,7 +984,7 @@ function paintLadder(){
   });
   var nx=document.querySelector('.ladder-next'); if(nx) nx.onclick=function(){ setStep(nx.getAttribute('data-next')); };
   document.body.setAttribute('data-step', st.id);
-  applyGate();
+  paintD2(); applyGate();
 }
 
 function setStep(id){
@@ -817,7 +996,7 @@ function setStep(id){
        selection, which is what makes the change visible rather than merely available. */
     if(!st.lens){ S.lens=null; S.move=null; closePanels(); }
     else if(S.verse){ S.lens=st.lens; open(); }
-    paintLadder(); paintRail(); paintText(); applyGate(); writeURL(); scheduleAlign();
+    paintLadder(); paintRail(); paintText(); paintD2(); applyGate(); writeURL(); scheduleAlign();
   }, S.verse);
 }
 
@@ -1394,10 +1573,12 @@ Promise.all([
   fetch('/engine/data/design/reading_room_mark16.json?v='+Date.now(),{cache:'no-cache'})
     .then(function(r){if(!r.ok)throw new Error('feed HTTP '+r.status);return r.json();}),
   fetch('/engine/data/design/ladder_matrix.json?v='+Date.now(),{cache:'no-cache'})
-    .then(function(r){if(!r.ok)throw new Error('ladder matrix HTTP '+r.status);return r.json();})
+    .then(function(r){if(!r.ok)throw new Error('ladder matrix HTTP '+r.status);return r.json();}),
+  fetch('/engine/data/design/d2_prototype_mark16.json?v='+Date.now(),{cache:'no-cache'})
+    .then(function(r){if(!r.ok)throw new Error('D2 prototype feed HTTP '+r.status);return r.json();})
 ])
  .then(function(both){
-   var j=both[0]; MATRIX=both[1];
+   var j=both[0]; MATRIX=both[1]; P2=both[2];
    D=j; buildText(); paintArc(); paintMargins(); paintLadder(); paintRail(); scheduleAlign();
    restoreFromURL();
    document.getElementById('foot').innerHTML=
