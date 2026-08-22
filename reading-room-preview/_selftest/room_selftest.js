@@ -17,6 +17,17 @@
  * mutation test showed the round trip cancelled the very drift it was supposed to catch.
  * ------------------------------------------------------------------------------------------- */
 (function () {
+  /* THE LAST RUNG, BY POSITION NOT BY NAME.
+     This file hardcoded `.st[data-step="respond"]` in four places. RESPOND was renamed to GLOSS when
+     the ladder went to six steps, and each call site was guarded `if (last) last.click()` — so a
+     stale selector did NOTHING and SAID NOTHING. The sweep then ran at READ, where no lens exists,
+     and reported `panels: 0` alongside a pile of downstream failures that had nothing to do with the
+     page. A guarded lookup is a silent failure with a safety net on it.
+     Asking for the last rung is rename-proof: the ladder has changed twice already. */
+  var lastRung = function () {
+    var all = [].slice.call(document.querySelectorAll('.st[data-step]'));
+    return all.length ? all[all.length - 1] : null;
+  };
   var R = [], V = function (id) { return document.querySelector('.verse[data-verse="' + id + '"]'); };
   var lensBtns = function () { return [].slice.call(document.querySelectorAll('.lens')); };
   var esc = function (k, ok, detail) { R.push({ check: k, pass: !!ok, detail: detail || '' }); };
@@ -57,7 +68,9 @@
   /* The ladder gates which lenses exist, so a sweep run at READ sees none and a sweep run at
      UNPACK sees five. Step to the last rung first: the suite's job is to walk every panel that can
      exist, and only RESPOND has earned them all. */
-  (function () { var last = document.querySelector('.st[data-step="respond"]'); if (last) last.click(); })();
+  (function () { var last = lastRung();
+     if (!last) { esc('the ladder is reachable', false, 'no .st[data-step] controls — the sweep cannot run'); return; }
+     last.click(); })();
   document.querySelector('.verse').click();
   var lensIds = lensBtns().map(function (e) { return e.getAttribute('data-lens'); });
   [].forEach.call(document.querySelectorAll('.verse'), function (vEl) {
@@ -276,7 +289,7 @@
   /* The ladder gates which lenses exist, so this walk sees almost nothing unless it starts at the
      last rung. Before the gate landed it measured 6 of 19 styles and reported that honestly as a
      coverage failure — the check was right and the page was under-exercised. */
-  (function(){ var last=document.querySelector('.st[data-step="respond"]'); if(last) last.click(); })();
+  (function(){ var last=lastRung(); if(last) last.click(); })();
   var measured=0, seen={};
   [['016:009','inherits'],['016:008','connect'],['016:008','compare'],['016:008','open'],
    ['016:008','afterlives'],['016:001','see'],['016:008','evidence']].forEach(function(pair){
@@ -345,7 +358,7 @@
      i.e. it reported the page as BAKED, the exact opposite of the truth, and stayed red for a
      reason that had nothing to do with the property. */
   (function () {
-    var step = document.querySelector('.st[data-step="respond"]'); if (step) step.click();
+    var step = lastRung(); if (step) step.click();
     var before = document.body.innerText;
     var saved = D.moves.items[0].gloss;
     D.moves.items[0].gloss = '__SENTINEL__';
@@ -361,7 +374,7 @@
 
   /* ── 11 · PROVENANCE ROUNDTRIP — a visible claim traces to a declared source ─────────────────── */
   var evTxt=(function(){
-    var st=document.querySelector('.st[data-step="respond"]'); if(st) st.click();
+    var st=lastRung(); if(st) st.click();
     var b=lensBtns().filter(function(e){return /^EVIDENCE/.test(e.innerText);})[0];
     if(!b) return ''; b.click();
     var box=document.querySelector('.aside-in'); return box ? box.innerText : '';})();

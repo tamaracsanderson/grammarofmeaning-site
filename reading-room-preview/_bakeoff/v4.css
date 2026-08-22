@@ -1,0 +1,46 @@
+/* ── V4 · GILDED CAST SHADOW ON THE ACTIVE SHELF ─────────────────────────────────────────────
+   Source: sacred-spine  src/components/GildedFrame.tsx
+     Its own comment: "an object hung on a wall — the National Gallery, not a border-radius."
+       · an OFFSET drop shadow (translate-x-3 translate-y-4, blur 14) so the frame CASTS rather
+         than glows — light has a direction
+       · a 142° specular gradient across the face
+       · a radial warm bounce from BELOW
+
+   THE PROPERTY. Directional light. The shelf currently sits in a tinted box with a moss left edge,
+   which reads as CUT INTO the page. An offset cast shadow makes it read as LAID OVER the reading
+   body — which is what it actually is: furniture over the text, not a hole in it.
+
+   WHAT WAS STRIPPED (§2). All of the React: the component, its props, `glow`/`radius` parameters,
+   the dark #0A0705 interior (wrong for a paper ground), and the frame's own border-radius scheme.
+   What remains is three CSS layers.
+
+   WHAT THIS MUST NOT TOUCH (§5) — and none of it is referenced here: shelf position, reveal-on-step,
+   scroll behaviour, max-height, ladder state, provenance/status visibility, layer content,
+   MoveSet/basis display. This file sets shadow, gradient and border only. If behaviour moves, the
+   regression will say so, and that is the point of running it on the most-governed component.
+
+   THE TEST: can appearance become richer without leaking into behaviour? */
+:root[data-bakeoff="v4"] .shelf-in{
+  position:relative;
+  background:
+    linear-gradient(142deg,
+      color-mix(in oklab, white 42%, transparent),
+      transparent 34%,
+      color-mix(in oklab, var(--ink) 5%, transparent) 74%,
+      color-mix(in oklab, var(--ink) 8%, transparent)),
+    color-mix(in oklab, var(--paper-2) 40%, transparent);
+  border:1px solid color-mix(in oklab, var(--rule) 82%, transparent);
+  border-left:3px solid var(--moss);            /* status edge preserved verbatim */
+  box-shadow:
+    0 1px 0 color-mix(in oklab, white 55%, transparent) inset,
+    10px 14px 28px -18px color-mix(in oklab, var(--ink) 48%, transparent),
+    0 2px 6px -4px color-mix(in oklab, var(--ink) 30%, transparent);
+}
+/* the warm bounce from below, as a layer rather than a background change */
+:root[data-bakeoff="v4"] .shelf-in::after{
+  content:''; position:absolute; inset:0; pointer-events:none; z-index:-1;
+  background:radial-gradient(90% 60% at 50% 118%,
+    color-mix(in oklab, var(--gold) 26%, transparent), transparent 62%);
+}
+:root[data-bakeoff="v4"] .shelf-in.miss{border-left-color:var(--accent-sm)}
+:root[data-bakeoff="v4"] .shelf-in.frozen{border-left-color:var(--gold)}

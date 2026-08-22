@@ -1,0 +1,33 @@
+/* ── V2 · SHARED LOCALIZED TEXT SHADOW ───────────────────────────────────────────────────────
+   Source: gospel-depths-explorer  src/routes/index.tsx:44–47
+     SHARED_TITLE_SHADOW = "0 1px 2px rgba(0,0,0,.42), 0 0 18px rgba(0,0,0,.32), 0 0 40px rgba(0,0,0,.14)"
+     SHARED_BODY_SHADOW  = "0 1px 2px rgba(0,0,0,.38), 0 0 12px rgba(0,0,0,.26), 0 0 28px rgba(0,0,0,.1)"
+
+   THE PROPERTY, not the values. One shadow rule held constant across grounds, so the page reads as
+   one experience when the background changes. Three stacked layers: a 1–2px contact shadow, a mid
+   halo, a wide lift.
+
+   TRANSFERRED WITH ONE CHANGE, DECLARED. The source values are tuned for DARK grounds (its Night
+   Gallery field is #12100c). D2.1's ground is paper #FCFBF7. Ported at source opacity they would put
+   a grey haze on cream and cost contrast — which §3 forbids and §9 forbids twice over. The opacities
+   are therefore scaled to roughly a third, preserving the three-layer STRUCTURE and the ratio between
+   layers, which is the property. Same rule, same shape, ground-appropriate weight.
+
+   ONE VARIABLE: text-shadow only. No layout, spacing, type scale, colour, content or behaviour. */
+:root[data-bakeoff="v2"]{
+  --shadow-title: 0 1px 1px rgba(0,0,0,.14), 0 0 10px rgba(0,0,0,.10), 0 0 24px rgba(0,0,0,.05);
+  --shadow-body:  0 1px 1px rgba(0,0,0,.12), 0 0 8px  rgba(0,0,0,.08), 0 0 18px rgba(0,0,0,.04);
+}
+/* titles + display voices */
+:root[data-bakeoff="v2"] .top h1,
+:root[data-bakeoff="v2"] .vnum,
+:root[data-bakeoff="v2"] .st .stn,
+:root[data-bakeoff="v2"] .shelf-q,
+:root[data-bakeoff="v2"] .d2-t,
+:root[data-bakeoff="v2"] .arc-h{ text-shadow: var(--shadow-title); }
+/* reading body + apparatus */
+:root[data-bakeoff="v2"] .vtext,
+:root[data-bakeoff="v2"] .para .pp,
+:root[data-bakeoff="v2"] .ladder-note,
+:root[data-bakeoff="v2"] .mcard .mc-t,
+:root[data-bakeoff="v2"] .d2-note{ text-shadow: var(--shadow-body); }

@@ -8,6 +8,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="/engine/css/move_score_component.css">
+<!-- D3A BAKE-OFF HARNESS. Nothing loads by default: a candidate stylesheet is injected only when
+     ?bakeoff=v2|v3|v4 is present, so a reader never meets one and each test is one variable.
+     This is inheritance #7 (the /lab + keep-do-not-promote discipline) applied to its own bake-off.
+     D2.1's default render is byte-unchanged, which is what makes "baseline" mean anything. -->
+<script>(function(){var v=new URLSearchParams(location.search).get('bakeoff');
+  if(!/^v[234]$/.test(v||'')) return;
+  var l=document.createElement('link'); l.rel='stylesheet';
+  l.href='/reading-room-preview/_bakeoff/'+v+'.css'; document.head.appendChild(l);
+  document.documentElement.setAttribute('data-bakeoff', v);})();</script>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,380;1,9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════════════════════════════════════════════════════════════

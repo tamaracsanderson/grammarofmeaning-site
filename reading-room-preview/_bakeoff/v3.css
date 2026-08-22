@@ -1,0 +1,47 @@
+/* ── V3 · MANUSCRIPT PANEL / FRAME ───────────────────────────────────────────────────────────
+   Source: sacred-spine  src/styles.css
+     @utility manuscript-panel  — 180° paper gradient, 1px rule border, 18%-gold inset hairline,
+                                   0 18px 44px -34px soft drop
+     @utility manuscript-frame  — four stacked insets: 54% gold hairline, 10px paper/gold mount,
+                                   12px olive line, 42px drop
+
+   THE PROPERTY. A card that is LIT rather than OUTLINED: the gold inset hairline is what makes a
+   panel read as vellum instead of as a div, and the mat is built from stacked insets rather than a
+   border-image, so it scales and needs no asset.
+
+   WHAT WAS STRIPPED BEFORE TRANSFER (§2). Everything that was not CSS:
+     · React component wrappers (MuseumPlate, GildedFrame)
+     · useQuery / getPlates and the Cleveland openaccess runtime fetch
+     · PLATE_QUERIES.HARMONY default and every gospel-selection branch
+     · the silent fallback to a bundled miniature
+     · sacred-spine's own token names — remapped to D2.1's existing tokens, adding none
+   Nothing here fetches, chooses, or falls back. It is a ground and a mat.
+
+   TARGET — BOUNDED, NOT GLOBAL (§4). Two declared targets only:
+     .mcard   the margin cards (Sitz left, readings right)
+     .d2-row  inside the shelf, the evidence/plate-like rows
+   Deliberately NOT .shelf-in (that is V4's target and would confound the tests) and NOT .vtext
+   (scripture is paper, not a card).
+
+   THE RISK THIS TEST EXISTS TO CHECK: materiality can make an object look MORE AUTHORITATIVE than
+   its status. A FROZEN SPECIMEN on vellum with a gold hairline is a devotional object. Watch the
+   status badges against the new ground, not the ground alone. */
+:root[data-bakeoff="v3"] .mcard{
+  background:linear-gradient(180deg,
+      color-mix(in oklab, var(--paper) 84%, white 16%),
+      color-mix(in oklab, var(--paper-2) 72%, var(--paper) 28%));
+  border:1px solid color-mix(in oklab, var(--rule) 78%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--gold) 18%, transparent),
+    0 18px 44px -34px color-mix(in oklab, var(--ink) 36%, transparent);
+}
+/* the mat, only on rows that carry an object rather than a claim */
+:root[data-bakeoff="v3"] .d2-sec#d2-situate .d2-row,
+:root[data-bakeoff="v3"] #shelf .d2-row{
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--gold) 40%, transparent),
+    inset 0 0 0 6px color-mix(in oklab, var(--paper) 70%, var(--gold) 30%),
+    0 14px 34px -30px color-mix(in oklab, var(--ink) 40%, transparent);
+  padding:.5rem .7rem;
+  border-bottom:0;
+}
