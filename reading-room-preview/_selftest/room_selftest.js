@@ -574,6 +574,16 @@
   ESC(); window.scrollTo(0, 0);
   var failed = R.filter(function (x) { return x.pass === false; });
   console.table(R);
+  /* D3B §3 — `panels: 0` IS A FAILURE, stated as one.
+     The sweep reported 0 panels for a whole release while the suite still printed a tidy summary,
+     because a count is not an assertion. Zero panels means the walk never ran, which means every
+     panel-dependent result below it is vacuous — and a suite that measured nothing must not be able
+     to look like a suite that found nothing wrong. */
+  esc('the panel sweep actually walked something', panels > 0,
+      panels ? panels + ' panels walked' :
+      'ZERO PANELS — the sweep did not run, so every panel-dependent result in this run is vacuous. ' +
+      'Usual cause: a step or lens selector went stale after a rename.');
+
   var checks = R.filter(function (x) { return x.pass !== '—'; }).length;
   console.log(failed.length ? '✗ ' + failed.length + ' FAILED: ' + failed.map(function (f) { return f.check; }).join(' · ')
                             : '✓ all ' + checks + ' invariants hold across ' + panels + ' panels (' + layout + ')');

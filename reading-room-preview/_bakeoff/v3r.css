@@ -1,0 +1,58 @@
+/* ── V3r · REVISED — materiality reserved for artifacts, quiet editorial for claims ──────────
+   PM D3A ruling: "manuscript/gilded materiality is not approved as a generic treatment for
+   analytical claims; reserve stronger material framing for actual evidence/artifact objects, and
+   develop a quieter editorial treatment for analytical rows."
+
+   The ruling names the thing V3 got wrong, and it is not a matter of degree. V3 put vellum and a
+   gold hairline under FROZEN SPECIMEN cards — and a specimen on vellum reads as a relic. **Material
+   weight is a claim about what KIND of thing you are looking at.** An artifact has weight because it
+   is an object that exists; an analytical claim has no weight of its own, and lending it some is a
+   visual assertion the status label then has to argue against.
+
+   So the treatment splits by OBJECT KIND, not by prominence:
+
+   ── ARTIFACTS get the manuscript frame ─────────────────────────────────────────────────────
+   Things that exist independently of our reading: a manuscript witness, a plate, an edition.
+   `.d2-sec#d2-situate` Transmission rows and any image/plate object.
+   These earn material framing because materiality is TRUE of them.
+
+   ── ANALYTICAL CLAIMS get a quiet editorial treatment ───────────────────────────────────────
+   Sitz conditions, readings, gloss, position rows, connect edges — our statements about the text.
+   No vellum, no gold, no drop shadow. A left rule and generous leading: the register of a
+   well-set editorial note, which is what they are. Weight comes from the type, not the material.
+
+   ── WHAT THIS COSTS, HONESTLY ──────────────────────────────────────────────────────────────
+   The room is less beautiful than V3 was. The gilding was the best-looking thing in the bake-off.
+   It was also making a FROZEN SPECIMEN look like a treasure.
+
+   STRIPPED, as in V3: React wrappers · useQuery/getPlates · the Cleveland runtime fetch ·
+   PLATE_QUERIES.HARMONY · silent fallback · sacred-spine's own tokens (remapped, none added).
+   Nothing here fetches, chooses, or falls back. */
+
+/* ── artifacts: the stacked-inset mat, unchanged from the approved source recipe ─────────── */
+:root[data-bakeoff="v3r"] .d2-sec#d2-situate .d2-row[data-kind="artifact"],
+:root[data-bakeoff="v3r"] #shelf .d2-row[data-kind="artifact"]{
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--gold) 40%, transparent),
+    inset 0 0 0 6px color-mix(in oklab, var(--paper) 70%, var(--gold) 30%),
+    0 14px 34px -30px color-mix(in oklab, var(--ink) 40%, transparent);
+  padding:.5rem .7rem;
+  border-bottom:0;
+}
+
+/* ── analytical claims: quiet editorial. A rule and leading, no material. ─────────────────── */
+:root[data-bakeoff="v3r"] .mcard{
+  background:none;
+  border:0;
+  border-left:2px solid color-mix(in oklab, var(--rule) 70%, transparent);
+  border-radius:0;
+  box-shadow:none;
+  padding:.15rem 0 .3rem .7rem;
+}
+:root[data-bakeoff="v3r"] .mcard .mc-t{ line-height:1.6; }
+:root[data-bakeoff="v3r"] .mcard.lit{
+  border-left-color:var(--accent-sm);
+  background:none;
+}
+/* the status badge keeps its weight; it is the one thing that should not recede */
+:root[data-bakeoff="v3r"] .d2-st{ font-weight:600; }
