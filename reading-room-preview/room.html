@@ -98,6 +98,27 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 /* ── D2 ANALYTICAL LAYERS ────────────────────────────────────────────────────────────────────
    One section per recovered layer, each stating its own basis and MoveSet. The seams between
    generations are shown, not smoothed: a visible seam is preferable to a false join (D2 §9). */
+/* ── THE ANALYSIS SHELF ──────────────────────────────────────────────────────────────────────
+   The active layer, between the ladder and the reading body. D2 put this content BELOW the whole
+   passage, so choosing POSITION or CONNECT changed a thing the reader could not see without
+   scrolling past everything — the analytical question changed and the screen did not.
+
+   It is a SHELF, not a dashboard: bounded height, the text still the spine directly beneath it, and
+   nothing here when the step has no layer (READ and DECOMPOSE show none). The full detail stays in
+   the section below; this is the part that must be seen at the moment of choosing. */
+.shelf{width:var(--measure);margin:0 auto;padding:0}
+.shelf:empty{display:none}
+.shelf-in{border:1px solid var(--rule);border-left:3px solid var(--moss);border-radius:4px;
+  padding:.6rem .8rem;margin:0 0 1.4rem;background:color-mix(in srgb,var(--paper-2) 40%,transparent);
+  max-height:19rem;overflow:auto}
+.shelf-in.miss{border-left-color:var(--accent-sm)}
+.shelf-in.frozen{border-left-color:var(--gold)}
+.shelf-q{font-family:var(--disp);font-style:italic;font-size:.86rem;color:var(--ink-2);margin:0 0 .35rem}
+.shelf .d2-sec{border:0;margin:0;padding:0}
+.shelf .d2-row{font-size:.74rem}
+.shelf-more{font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--moss);background:none;border:0;padding:.3rem 0 0;cursor:pointer}
+.shelf-more:hover{text-decoration:underline}
 .d2{width:var(--measure);margin:0 auto 6rem;padding:0}
 .d2-sec{border-top:1px solid var(--rule);padding:1.1rem 0 0;margin:1.6rem 0 0}
 .d2-h{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;margin:0 0 .1rem}
@@ -142,6 +163,8 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .mcard .mc-k{font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;
   color:var(--ink-3);display:block;margin:.1rem 0 .18rem}
 .mcard .mc-t{font-family:var(--disp);font-style:italic;font-size:.79rem;line-height:1.45;color:var(--ink-2)}
+.marg-frozen{font-family:var(--mono);font-size:.5rem;letter-spacing:.05em;line-height:1.5;
+  color:#8D7037;border:1px solid var(--gold);border-radius:3px;padding:.25rem .35rem;margin:0 0 .5rem}
 .marg-empty{font-family:var(--disp);font-style:italic;font-size:.76rem;color:var(--ink-3);line-height:1.5}
 /* the margins arrive with their step, and only then */
 
@@ -425,6 +448,7 @@ body.open .aside{opacity:1;pointer-events:auto}
 
 <div class="ladder" id="ladder"></div>
 <nav class="rail" id="rail" aria-label="other ways to ask"></nav>
+<section class="shelf" id="shelf" aria-live="polite"></section>
 <div class="arcwrap move-component" id="arc"></div>
 <div class="daf move-component">
   <aside class="marg marg-l" id="margL" aria-label="the world this text is in"></aside>
@@ -554,6 +578,9 @@ var STEPS=[
   {id:'connect',   n:'CONNECT',   ask:'What structural relations appear?',
    note:'Under an older declared structural cut. These edges belong to a DIFFERENT MoveSet than the moves above, so they are shown on their own terms and not drawn over them.',
    unlocks:['connect','compare','reached'], layer:'connect'},
+  {id:'gaps',      n:'GAPS',      ask:'What is not here?',
+   note:'One recovered specimen, deliberately sparse. A sparse step that asks a question is not the same as no step \u2014 and the answer to it comes next, not now.',
+   layer:'gap'},
   {id:'gloss',     n:'GLOSS',     ask:'What does one downstream reading make visible?',
    note:'One frozen specimen, not a commissioned interpretation engine.',
    lens:'afterlives', layer:'gloss'}
@@ -697,7 +724,12 @@ function paintMargins(){
     return '<div class="mcard" data-for="'+esc(v)+'"><span class="mc-v">'+esc(vref(v))+'</span>'
       +parts.join('')+'</div>';
   }).filter(Boolean);
+  /* D2.1 §6 — this rail is the older READ CLOSELY card set. Left in place, but it must not read as a
+     current commissioned Gloss engine, so its heading says what it is. The approved specimen is the
+     shelf's, above; this is the historical set beneath it. */
   R.innerHTML='<p class="marg-h">what readers made of it</p>'
+    +'<p class="marg-frozen">FROZEN SPECIMEN SET \u00b7 gloss_s161 \u00b7 MoveSet translations_s161'
+    +'<br>Historical close readings, not a current commissioned interpretation.</p>'
     +(rcards.length?rcards.join(''):'<p class="marg-empty">No reading of this text is recorded yet.</p>');
 
   [].forEach.call(document.querySelectorAll('.mcard'),function(c){
@@ -848,6 +880,107 @@ function d2Head(title, L){
 }
 function d2Empty(t){ return '<p class="d2-empty">'+esc(t)+'</p>'; }
 
+/* The shelf renders the SAME layer object as the section below — one renderer, two placements, so
+   they cannot drift apart and say different things about the same layer. The shelf shows the head
+   (status + basis, always) plus a bounded slice; the section below carries the rest. */
+function shelfFor(step){
+  if(!P2) return '';
+  if(step==='situate'){
+    var tabs={sitz:P2.sitz,paradigm:P2.paradigm,lineage:P2.lineage,transmission:P2.transmission,reception:P2.reception};
+    var cur=S.d2tab||'sitz', L=tabs[cur]||P2.sitz;
+    return {cls:stClass(L.status), q:'What worlds surround it?',
+      body:'<div class="d2-tabs">'+Object.keys(tabs).map(function(k){
+             var miss=/MISSING|OPEN/.test(String(tabs[k].status||''));
+             return '<button class="d2-tab'+(k===cur?' on':'')+(miss?' miss':'')+'" data-d2tab="'+k+'">'+k+'</button>';}).join('')+'</div>'
+          +d2Head(cur.toUpperCase(), L)
+          +(L.items.length? '<div class="d2-body">'+d2Rows(cur,L,3)+'</div>' : d2Empty(L.note||'Nothing recovered.'))};
+  }
+  if(step==='position'){
+    var PM_=P2.position_move, PP=P2.position_passage;
+    return {cls:'miss', q:'How does its stance shift?',
+      body:d2Head('PASSAGE POSITION', PP)+d2Empty('Passage Position — awaiting a current, correctly scoped read.')
+        +'<p class="d2-basis">'+esc(PP.atlas_affordance.label)+'</p>'
+        +d2Head('MOVE POSITION — trajectory', PM_)+trajHTML(PM_)};
+  }
+  if(step==='connect'){
+    var C=P2.connect, sel=S.d2tab2||'logic', L2=C[sel];
+    return {cls:stClass(L2.status), q:'What structural relations appear?',
+      body:'<div class="d2-tabs">'+['logic','shape','sonic'].map(function(k){
+             var miss=/MISSING/.test(String(C[k].status||''));
+             return '<button class="d2-tab'+(k===sel?' on':'')+(miss?' miss':'')+'" data-d2tab2="'+k+'">'+k+'</button>';}).join('')+'</div>'
+          +d2Head('CONNECT — '+sel.toUpperCase(), L2)
+          +(L2.items.length? '<div class="d2-body">'+d2Rows('connect',L2,3)+'</div>' : d2Empty(L2.note||'Nothing coded.'))};
+  }
+  if(step==='gaps'){
+    var GP=P2.gap, g=GP.items[0];
+    return {cls:'frozen', q:'What is not here?',
+      body:d2Head('GAP', GP)+'<div class="d2-body"><div class="d2-row" style="border:0">'
+        +'<span class="d2-k">'+esc(g.locus)+' · '+esc(g.subtype)+' · '+esc(g.disposition)+'</span><br>'
+        +'<b>'+esc(g.text)+'</b><br>'+esc(g.witness_seam)
+        +'<br><span class="d2-k">placed at</span>'+esc(g.placed_at_verse)
+        +'<br><span class="d2-k">alignment</span>'+esc(g.alignment)+'</div></div>'};
+  }
+  if(step==='gloss'){
+    var G=P2.gloss;
+    return {cls:'frozen', q:'What does one downstream reading make visible?',
+      body:d2Head('GLOSS', G)+(G.items.length?'<div class="d2-body"><div class="d2-row" style="border:0">'
+        +'<span class="d2-k">M'+G.items[0].move_index+'</span>'+esc(G.items[0].gloss)
+        +'<br><span class="d2-k">model</span>'+esc(G.items[0].gloss_model||'—')
+        +' <span class="d2-k">run</span>'+esc(G.items[0].run_tag||'—')
+        +' <span class="d2-k">MoveSet</span>'+esc(G.move_basis||'—')+'</div></div>':d2Empty('No gloss specimen.'))};
+  }
+  return '';
+}
+function trajHTML(PM_){
+  return '<div class="d2-body trj">'+PM_.axes.map(function(ax){
+      var disp=(PM_.axis_display&&PM_.axis_display[ax])||ax;
+      return '<span class="trj-ax">'+esc(disp)+'</span><span class="trj-line">'
+        +PM_.items.map(function(t,i){
+            var ch=(t.changed||[]).indexOf(ax)>=0;
+            var vals=(t.axes[ax]||[]).map(function(v){return v.value;}).join(' + ')||'(not engaged)';
+            return (i?'<span class="trj-seg"></span>':'')
+              +'<span class="trj-node'+(ch?'':' flat')+'" title="M'+t.move_index+' · '+esc(disp)+': '+esc(vals)+(ch?' — CHANGED':'')+'"></span>';
+          }).join('')+'</span>';}).join('')+'</div>'
+    +'<p class="d2-val" id="trjval">Hover a node for its value.</p>'
+    +'<p class="d2-basis">'+PM_.derived_changes+' derived changes across '+PM_.items.length+' moves · arrays preserved · no radar, no numerical distances.</p>';
+}
+function d2Rows(kind,L,lim){
+  return L.items.slice(0,lim).map(function(x){
+    if(kind==='sitz') return '<div class="d2-row"><span class="d2-k">'+esc(x.condition_kind||'')+'</span><b>'+esc(x.condition_ref||'')+'</b><br>'+esc(x.application_note||'')+'</div>';
+    if(kind==='transmission') return '<div class="d2-row"><b>'+esc(x.witness_id||'')+'</b> <span class="d2-k">'+esc(x.date_range||'')+'</span>'+esc(x.textual_form||'')+'</div>';
+    if(kind==='lineage') return '<div class="d2-row"><b>'+esc(x.source_ref||'')+'</b> <span class="d2-k">'+esc(x.borrowing_function||'')+'</span></div>';
+    if(kind==='connect') return '<div class="d2-row"><b>'+esc(x.edge_type||x.edge_kind)+'</b> <span class="d2-k">to</span>'+esc(x.to_move||'—')+'</div>';
+    return '<div class="d2-row">'+Object.keys(x).slice(0,4).map(function(k){return '<span class="d2-k">'+esc(k)+'</span>'+esc(String(x[k]).slice(0,44));}).join(' ')+'</div>';
+  }).join('');
+}
+function paintShelf(){
+  var sh=shelfFor(S.step);
+  document.getElementById('shelf').innerHTML = sh
+    ? '<div class="shelf-in '+(sh.cls||'')+'"><p class="shelf-q">'+esc(sh.q)+'</p>'+sh.body
+      +'<button class="shelf-more" data-more="1">full detail below \u2193</button></div>' : '';
+  [].forEach.call(document.querySelectorAll('#shelf [data-d2tab]'),function(b){
+    b.onclick=function(){ S.d2tab=b.getAttribute('data-d2tab'); paintShelf(); paintD2(); applyGate(); }; });
+  [].forEach.call(document.querySelectorAll('#shelf [data-d2tab2]'),function(b){
+    b.onclick=function(){ S.d2tab2=b.getAttribute('data-d2tab2'); paintShelf(); paintD2(); applyGate(); }; });
+  var m=document.querySelector('[data-more]');
+  if(m) m.onclick=function(){ var t=document.getElementById('d2'); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); };
+}
+
+/* Being ABOVE the text is not the same as being SEEN. A reader deep in the passage who switches
+   POSITION -> CONNECT would otherwise change a surface scrolled off the top and perceive nothing —
+   which is the D2 defect in a different position rather than a fix for it. So a step change brings
+   the shelf into view.
+   Only on a STEP change, never on a tab change within a step: yanking the page while someone clicks
+   between Sitz and Lineage would fight the reader instead of orienting them.
+   'auto' when the reader has asked for reduced motion; that preference is not ours to override. */
+function revealShelf(){
+  var sh=document.querySelector('.shelf-in'); if(!sh) return;
+  var r=sh.getBoundingClientRect();
+  if(r.top>=0 && r.bottom<=window.innerHeight) return;          /* already fully in view: leave it */
+  var reduce=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  sh.scrollIntoView({behavior: reduce?'auto':'smooth', block:'start'});
+}
+
 function paintD2(){
   if(!P2) return;
   var step=S.step, out='';
@@ -940,9 +1073,22 @@ function paintD2(){
     out+='</div>';
   }
 
-  /* GLOSS — one frozen specimen, plus the gap specimen shown in place */
+  /* GAPS — its own step now (D2.1 §2); the specimen is met here, before its answer */
+  if(step==='gaps'){
+    var GG=P2.gap, g0=GG.items[0];
+    out='<div class="d2-sec" id="d2-gap">'+d2Head('GAP SPECIMEN', GG)
+      +'<div class="d2-body"><div class="d2-row" style="border:0">'
+      +'<span class="d2-k">'+esc(g0.locus)+' · '+esc(g0.subtype)+' · '+esc(g0.disposition)+'</span><br>'
+      +'<b>'+esc(g0.text)+'</b><br>'+esc(g0.witness_seam)
+      +'<br><span class="d2-k">placed at</span>'+esc(g0.placed_at_verse)
+      +'<br><span class="d2-k">alignment</span>'+esc(g0.alignment)+'</div></div>'
+      +'<p class="d2-basis">One recovered specimen. No additional gaps are invented to fill the step, and '
+      +'Mark 16:8\u2019s ending is not presented as a coded gap \u2014 it is not one of the recovered coded gaps.</p></div>';
+  }
+
+  /* GLOSS — one frozen specimen */
   if(step==='gloss'){
-    var G=P2.gloss, GP=P2.gap;
+    var G=P2.gloss;
     out='<div class="d2-sec" id="d2-gloss">'+d2Head('GLOSS', G)
       +(G.items.length ? '<div class="d2-body"><div class="d2-row" style="border:0">'
           +'<span class="d2-k">M'+G.items[0].move_index+'</span>'+esc(G.items[0].gloss)
@@ -950,12 +1096,7 @@ function paintD2(){
           +' <span class="d2-k">run</span>'+esc(G.items[0].run_tag||'—')+'</div>'
           +'<p class="d2-basis">'+esc(G.moveset_note||'')+' · '+G.available_in_run+' glosses in this run; one shown.</p></div>'
         : d2Empty('No gloss specimen.'))
-      +'<div class="d2-sec">'+d2Head('GAP SPECIMEN', GP)
-      +'<div class="d2-body"><div class="d2-row" style="border:0">'
-      +'<span class="d2-k">'+esc(GP.items[0].locus)+' · '+esc(GP.items[0].subtype)+' · '+esc(GP.items[0].disposition)+'</span><br>'
-      +'<b>'+esc(GP.items[0].text)+'</b><br>'+esc(GP.items[0].witness_seam)
-      +'<br><span class="d2-k">placed at</span>'+esc(GP.items[0].placed_at_verse)
-      +'<br><span class="d2-k">alignment</span>'+esc(GP.items[0].alignment)+'</div></div></div></div>';
+      +'</div>';
   }
 
   document.getElementById('d2').innerHTML=out;
@@ -984,7 +1125,7 @@ function paintLadder(){
   });
   var nx=document.querySelector('.ladder-next'); if(nx) nx.onclick=function(){ setStep(nx.getAttribute('data-next')); };
   document.body.setAttribute('data-step', st.id);
-  paintD2(); applyGate();
+  paintShelf(); paintD2(); applyGate();
 }
 
 function setStep(id){
@@ -996,8 +1137,11 @@ function setStep(id){
        selection, which is what makes the change visible rather than merely available. */
     if(!st.lens){ S.lens=null; S.move=null; closePanels(); }
     else if(S.verse){ S.lens=st.lens; open(); }
-    paintLadder(); paintRail(); paintText(); paintD2(); applyGate(); writeURL(); scheduleAlign();
+    paintLadder(); paintRail(); paintText(); paintShelf(); paintD2(); applyGate(); writeURL(); scheduleAlign();
   }, S.verse);
+  /* after the mutation, not inside it: keepingPlace() compensates scroll to hold the reader's line,
+     and revealing the shelf is a deliberate scroll. Doing both in one pass would have them cancel. */
+  revealShelf();
 }
 
 function closePanels(){
