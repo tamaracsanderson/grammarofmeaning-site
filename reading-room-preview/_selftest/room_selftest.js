@@ -259,13 +259,24 @@
   document.head.appendChild(_noAnim);
   V('016:001').click();
   void document.body.offsetWidth;   // force layout so the settled styles are readable
-  var TEXT=['.verse','.vnum','.app','.lens .q','.lens .n','.h','.p','.ax .term','.ax .gl','.a-anchor',
-            '.chip','.gloss','.foot','.row .rt','.row .rm','.lane .lt','.st','.st .why','.ed'];
+  /* Selectors for elements the shell no longer produces are not coverage, they are noise, and a
+     permanently-unmeasurable entry makes the coverage assertion unsatisfiable. Removed after
+     checking the source rather than assuming: `class="n"` occurs 0 times (the lens sub-label went
+     when the two menus became one), and `.ax` occurs only inside lensSee(), which is unreachable
+     because 'see' is no longer in LENSES. `.chip` went the same way earlier.
+     lensSee() is therefore dead code. NOT removed here — D1 is behavioural conformance and dead-code
+     removal is D2's; recorded in the D1 report instead. */
+  var TEXT=['.verse','.vnum','.app','.lens .q','.h','.p','.a-anchor',
+            '.gloss','.foot','.row .rt','.row .rm','.lane .lt','.st','.st .why','.ed'];
   var bad=[];
   /* One lens does not render every style — rows live in INHERITS/CONNECT, lanes in COMPARE, the
      typed states in OPEN. Measuring only the SEE panel left 7 of 19 unmeasured, so walk the lenses
      on a verse rich enough to populate them and accumulate. Coverage is asserted below, so a lens
      that stops rendering something turns this red rather than quietly shrinking the sample. */
+  /* The ladder gates which lenses exist, so this walk sees almost nothing unless it starts at the
+     last rung. Before the gate landed it measured 6 of 19 styles and reported that honestly as a
+     coverage failure — the check was right and the page was under-exercised. */
+  (function(){ var last=document.querySelector('.st[data-step="respond"]'); if(last) last.click(); })();
   var measured=0, seen={};
   [['016:009','inherits'],['016:008','connect'],['016:008','compare'],['016:008','open'],
    ['016:008','afterlives'],['016:001','see'],['016:008','evidence']].forEach(function(pair){
@@ -478,6 +489,73 @@
     esc('the reproducibility caveat renders with the move', !!rep && rep.getBoundingClientRect().height > 0,
         rep ? 'visible' : 'ABSENT — a per-move reading is on screen with no caveat beside it');
     para.click();
+  })();
+
+  /* ── LADDER VISIBILITY CONFORMANCE (D1 items 1-3) ──────────────────────────────────────────
+     For every step, every primitive the frozen matrix marks `no` must be INVISIBLE and every `yes`
+     must be VISIBLE.  Measured in pixels; `optional` is asserted in neither direction, because
+     optional means the reader decides.
+
+     WHAT THIS CATCHES AND WHAT IT CANNOT.  Expected comes from the matrix feed; actual comes from
+     the DOM.  So it catches the page failing to APPLY the contract — the whole class the dropped
+     `.marg-r` rule belonged to.  It cannot catch a WRONG contract: invert a cell in the matrix and
+     the page follows it and the check passes, because both read the same source.  That is why the
+     matrix is frozen and reviewed rather than tested, and why the mutation below breaks the
+     APPLICATION, not the data. */
+  (function () {
+    if (typeof MATRIX === 'undefined' || !MATRIX) {
+      esc('the ladder visibility matrix is loaded', false,
+          'MATRIX is absent — the shell cannot be gating from the contract');
+      return;
+    }
+    var startStep = S.step, viol = [], checked = 0;
+    Object.keys(MATRIX.matrix).forEach(function (step) {
+      var btn = document.querySelector('.st[data-step="' + step + '"]');
+      if (!btn) { viol.push(step + ': no control'); return; }
+      btn.click();
+      var row = MATRIX.matrix[step];
+      Object.keys(row).forEach(function (prim) {
+        var rule = row[prim];
+        if (rule === 'optional') return;
+        checked++;
+        var seen = [].slice.call(document.querySelectorAll(MATRIX.primitives[prim]))
+                     .filter(function (el) { return el.getBoundingClientRect().height > 0; }).length;
+        if (rule === 'no'  && seen > 0) viol.push(step + '/' + prim + ' VISIBLE but matrix says no');
+        if (rule === 'yes' && seen === 0) viol.push(step + '/' + prim + ' absent but matrix says yes');
+      });
+    });
+    var back = document.querySelector('.st[data-step="' + startStep + '"]'); if (back) back.click();
+    esc('every ladder step matches the frozen visibility matrix', viol.length === 0,
+        viol.length ? viol.join(' · ') : checked + ' asserted cells across ' +
+                      Object.keys(MATRIX.matrix).length + ' steps hold');
+
+    /* The one cell the product exists to protect, called out by name so a failure reads as what it
+       is rather than as one violation among many. */
+    document.querySelector('.st[data-step="read"]').click();
+    var voice = [].slice.call(document.querySelectorAll(MATRIX.primitives.VOICE))
+                  .filter(function (el) { return el.getBoundingClientRect().height > 0; }).length;
+    esc('READ deposits no interpretation beside the text', voice === 0,
+        voice ? voice + ' voice cards visible at READ — the ladder is inverted' :
+                'the reader meets the text before anything is said about it');
+    if (back) back.click();
+  })();
+
+  /* ── URL-ADDRESSABLE STATE (D1 item 4) ─────────────────────────────────────────────────────── */
+  (function () {
+    var startStep = S.step;
+    document.querySelector('.st[data-step="situate"]').click();
+    var v = document.querySelector('.verse[data-verse]');
+    if (v) v.click();
+    var q = new URLSearchParams(location.search);
+    esc('reader state is written to the URL', q.get('step') === 'situate' && !!q.get('verse'),
+        'step=' + q.get('step') + ' verse=' + q.get('verse'));
+    /* recoverable: what readURL() parses back must be what the page is showing */
+    var parsed = (typeof readURL === 'function') ? readURL() : null;
+    esc('the URL parses back to the state it describes',
+        !!parsed && parsed.step === S.step && parsed.verse === S.verse,
+        parsed ? 'parsed step=' + parsed.step + ' verse=' + parsed.verse +
+                 ' · state step=' + S.step + ' verse=' + S.verse : 'readURL() missing');
+    var back = document.querySelector('.st[data-step="' + startStep + '"]'); if (back) back.click();
   })();
 
   ESC(); window.scrollTo(0, 0);
