@@ -471,7 +471,7 @@ body.open .aside{opacity:1;pointer-events:auto}
    Plane C — Design editorial — is exactly: the reader questions, the section names,
    the pacing, and the wording of the typed states.  Those are marked EDITORIAL below.
    ══════════════════════════════════════════════════════════════════════════════════ */
-var D=null, MATRIX=null, P2=null, S={verse:null, move:null, lens:null, step:'read', d2tab:'sitz', d2tab2:'logic'};
+var D=null, MATRIX=null, P2=null, S={verse:null, move:null, lens:null, step:'read', d2tab:'sitz', d2tab2:'logic', posview:'short'};
 
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function hum(v){return String(v==null?'':v).replace(/[-_]/g,' ');}
@@ -896,11 +896,36 @@ function shelfFor(step){
           +(L.items.length? '<div class="d2-body">'+d2Rows(cur,L,3)+'</div>' : d2Empty(L.note||'Nothing recovered.'))};
   }
   if(step==='position'){
-    var PM_=P2.position_move, PP=P2.position_passage;
-    return {cls:'miss', q:'How does its stance shift?',
-      body:d2Head('PASSAGE POSITION', PP)+d2Empty('Passage Position — awaiting a current, correctly scoped read.')
-        +'<p class="d2-basis">'+esc(PP.atlas_affordance.label)+'</p>'
-        +d2Head('MOVE POSITION — trajectory', PM_)+trajHTML(PM_)};
+    var PM_=P2.position_move, PP=P2.position_passage, PE=P2.position_endings, sel=S.posview||'short';
+    var body=d2Head('PASSAGE POSITION', PP)
+      +d2Empty('Passage Position — awaiting a current, correctly scoped read.')
+      +'<p class="d2-basis">'+esc(PP.atlas_affordance.label)+'</p>';
+    if(PE && PE.items && PE.items.length){
+      body+='<div class="d2-tabs">'+[['short','SHORT ENDING'],['longer','LONGER ENDING'],['compare','COMPARE']]
+        .map(function(t){return '<button class="d2-tab'+(t[0]===sel?' on':'')+'" data-posview="'+t[0]+'">'+t[1]+'</button>';}).join('')+'</div>'
+        +d2Head('ENDINGS — '+sel.toUpperCase(), PE);
+      if(sel==='compare'){
+        body+='<p class="d2-note">'+PE.headline.map(esc).join('<br>')+'</p>'
+          +'<div class="d2-body">'+PE.items.map(function(a){
+              return '<div class="d2-row"><b>'+esc(a.label||a.axis)+'</b> <span class="d2-k">'+esc(a.classification)+'</span>'
+                +'<br><span class="d2-k">same most-prevalent</span>'+(a.same_most_prevalent_value?'yes':'no')
+                +' <span class="d2-k">Δ change-point density</span>'+esc(String(a.change_point_density_delta))+'</div>';
+            }).join('')+'</div>';
+      } else {
+        var side=(sel==='short'?PE.short:PE.longer);
+        body+='<p class="d2-basis">'+esc(side.scope)+' · '+esc(side.move_range)+' · '+side.count+' moves</p>'
+          +'<div class="d2-body">'+(side.axis_profiles||[]).map(function(x){
+              return '<div class="d2-row"><b>'+esc(x.label||x.axis)+'</b> <span class="d2-k">'+esc(x.variation_descriptor||'')+'</span>'
+                +'<br><span class="d2-k">most prevalent</span>'+esc(x.most_prevalent_value||'—')
+                +' <span class="d2-k">change points</span>'+esc(String(x.n_change_points))+'</div>';
+            }).join('')+'</div>';
+      }
+      body+='<p class="d2-basis">range provenance: '+esc(PE.range_provenance)+' · alignment authority: '
+        +esc(PE.alignment_authority)+'<br>'+esc(PE.atlas_projection.label)
+        +'<br>Directional variation is method-sensitive; this is a derived move-level specimen, not a passage judgment.</p>';
+    }
+    body+=d2Head('MOVE POSITION — trajectory', PM_)+trajHTML(PM_);
+    return {cls:'miss', q:'How does its stance shift?', body:body};
   }
   if(step==='connect'){
     var C=P2.connect, sel=S.d2tab2||'logic', L2=C[sel];
@@ -962,6 +987,8 @@ function paintShelf(){
     b.onclick=function(){ S.d2tab=b.getAttribute('data-d2tab'); paintShelf(); paintD2(); applyGate(); }; });
   [].forEach.call(document.querySelectorAll('#shelf [data-d2tab2]'),function(b){
     b.onclick=function(){ S.d2tab2=b.getAttribute('data-d2tab2'); paintShelf(); paintD2(); applyGate(); }; });
+  [].forEach.call(document.querySelectorAll('#shelf [data-posview]'),function(b){
+    b.onclick=function(){ S.posview=b.getAttribute('data-posview'); paintShelf(); applyGate(); }; });
   var m=document.querySelector('[data-more]');
   if(m) m.onclick=function(){ var t=document.getElementById('d2'); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); };
 }
