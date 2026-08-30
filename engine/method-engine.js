@@ -1266,21 +1266,33 @@ function renderStepDrawer(aside, node) {
       host.appendChild(ws);
     }
 
-    // The contract — what the checkout guarantees now (locked) + what's future scope
-    if (D.the_contract) {
-      var tc = D.the_contract;
+    // The method — what this step guarantees now (locked), then future scope as its own section.
+    //
+    // RENAMED S174 (F37). This block read `the_contract` while the other eight drawers stated the same thing
+    // under `the_method_clean`; the generators now emit the one name, so this reads it. `future` moved OUT to its
+    // own `future_scope` key at the same time, because everything under the method block is transcribed into the
+    // engine contract as an INVARIANT — and scope that does not exist yet must never be transcribed as a
+    // guarantee. Renderer and drawers ship together: this is the half that keeps the section on the page.
+    if (D.the_method_clean) {
+      var tc = D.the_method_clean;
       var cs = el("div", "me-drawer-section me-contract");
-      cs.appendChild(el("h3", null, "The contract"));
+      cs.appendChild(el("h3", null, "The method"));
       if (tc.note) cs.appendChild(el("p", "me-drawer-p", tc.note));
       if (tc.locked && tc.locked.length) {
         cs.appendChild(el("p", "me-contract-label is-locked", "✓ locked"));
         var lu = el("ul", "me-drawer-list"); tc.locked.forEach(function (x) { lu.appendChild(el("li", null, x)); }); cs.appendChild(lu);
       }
-      if (tc.future && tc.future.length) {
-        cs.appendChild(el("p", "me-contract-label is-future", "○ future scope"));
-        var fu = el("ul", "me-drawer-list"); tc.future.forEach(function (x) { fu.appendChild(el("li", null, x)); }); cs.appendChild(fu);
-      }
+      if (tc.grammar) cs.appendChild(renderGrammar(tc.grammar));   // Decompose states its move-grammar here now
       host.appendChild(cs);
+    }
+    if (D.future_scope && D.future_scope.items && D.future_scope.items.length) {
+      var fs = el("div", "me-drawer-section me-contract");
+      fs.appendChild(el("h3", null, "Future scope"));
+      if (D.future_scope.note) fs.appendChild(el("p", "me-drawer-caption", D.future_scope.note));
+      fs.appendChild(el("p", "me-contract-label is-future", "○ future scope"));
+      var fu = el("ul", "me-drawer-list");
+      D.future_scope.items.forEach(function (x) { fu.appendChild(el("li", null, x)); });
+      fs.appendChild(fu); host.appendChild(fs);
     }
 
     // Honest limits (strings v2 / {plain} v1)

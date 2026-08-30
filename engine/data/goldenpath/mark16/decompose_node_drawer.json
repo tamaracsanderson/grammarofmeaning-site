@@ -24,329 +24,7 @@
     "what_counts_as_one_move": "One move is one agent doing one operation to one thing, with one result. Start a new move when the agent changes, the operation changes, or the result changes. When in doubt, keep the move whole rather than splitting it: an under-split reading loses less than an over-split one.",
     "the_anatomy_of_a_move": {
       "note": "A move is coded in two steps. FIRST classify its KIND (process_type: a doing, a sensing, a being, a saying, an existing) - the funnel decides how the parts read (a being or an existing has no agent). THEN fill the five core parts and the modifiers that hang under them. The five CORE parts are free-text slots (a handle + its definition - you write the content, e.g. agent = the actual doer); only the MODIFIERS carry a controlled vocabulary. Each modifier below carries its handle, its definition, its vocabulary, whether you pick one value or more than one, and whether you may propose a candidate when nothing fits. This is the grammar itself, text-agnostic; the worked example applies it to Mark 16. READING THE VOCABULARY: for a closed field the vocab lists 'set' (the full allowed values) and 'used_here' (which of them this text used) - so a legal value stays visible even when this text never uses it (e.g. operation_polarity allows apophatic though Mark 16 does not); an open field has no fixed set (its used values ARE its vocab). 'candidate' is the field's extension policy: 'rare' = the set is near-closed, propose beyond it only when nothing fits; 'open' = freely extensible, propose new values readily. 'candidates_seen' (shown only when present) = values actually proposed beyond the set in this text.",
-      "grammar": {
-        "funnel": {
-          "handle": "process_type",
-          "definition": "what KIND of move it is - a doing (material), a sensing (mental), a being (relational), a saying (verbal), or an existing (existential). Asked FIRST; it decides how the parts read (a being or an existing has no agent).",
-          "vocab": {
-            "set": [
-              "material",
-              "mental",
-              "relational",
-              "verbal",
-              "existential"
-            ],
-            "used_here": [
-              "material",
-              "mental",
-              "relational",
-              "verbal",
-              "existential"
-            ],
-            "open": false
-          },
-          "single_or_multi": "single",
-          "candidate": "rare",
-          "leans_on": "Systemic Functional Linguistics"
-        },
-        "core": [
-          {
-            "handle": "narrator",
-            "definition": "who is telling the move: the teller whose voice presents it."
-          },
-          {
-            "handle": "agent",
-            "definition": "who or what performs the operation. Empty for a being or an existing; can be a person, a group, or the cosmos."
-          },
-          {
-            "handle": "operation",
-            "definition": "the act the move makes: the verb, what is done."
-          },
-          {
-            "handle": "substrate",
-            "definition": "what the operation acts on (its case-roles are below)."
-          },
-          {
-            "handle": "outcome",
-            "definition": "what the move produces (may be empty)."
-          }
-        ],
-        "modifiers": [
-          {
-            "part": "narrator",
-            "handle": "narrator_evidentiality",
-            "definition": "how the claim is warranted - its source: experience (first-hand), reason (argument), testimony (a witness's report), revelation (disclosure), or tradition (received teaching). A move can lean on more than one; the vocab shows the sources THIS text uses.",
-            "vocab": {
-              "set": [
-                "experience",
-                "reason",
-                "testimony",
-                "revelation",
-                "tradition"
-              ],
-              "used_here": [
-                "experience",
-                "testimony",
-                "revelation",
-                "tradition"
-              ],
-              "open": false
-            },
-            "single_or_multi": "multi",
-            "candidate": "open",
-            "leans_on": "evidentiality typology"
-          },
-          {
-            "part": "narrator",
-            "handle": "narrator_stance",
-            "definition": "is the narrator describing what IS or prescribing what OUGHT - it catches a prescription phrased as a plain statement.",
-            "vocab": {
-              "set": [
-                "descriptive",
-                "normative"
-              ],
-              "used_here": [
-                "descriptive",
-                "normative"
-              ],
-              "open": false
-            },
-            "single_or_multi": "single",
-            "candidate": "rare",
-            "leans_on": "the is/ought distinction"
-          },
-          {
-            "part": "narrator",
-            "handle": "narrator_tone",
-            "definition": "the teller's attitude or reliability: sincere, ironic (says one thing, means another), aporetic (voicing genuine unresolved doubt), or unreliable (not to be trusted at face value).",
-            "vocab": {
-              "set": [
-                "sincere",
-                "ironic",
-                "aporetic",
-                "unreliable"
-              ],
-              "used_here": [
-                "sincere",
-                "aporetic"
-              ],
-              "open": false
-            },
-            "single_or_multi": "single",
-            "candidate": "open",
-            "leans_on": "the unreliable narrator (narratology)"
-          },
-          {
-            "part": "agent",
-            "handle": "agent_animacy",
-            "definition": "the doer's kind: a person, a group, an impersonal or cosmic force, or none.",
-            "vocab": {
-              "set": [
-                "personal",
-                "collective",
-                "impersonal-cosmic",
-                "null"
-              ],
-              "used_here": [
-                "personal",
-                "collective",
-                "null"
-              ],
-              "open": false
-            },
-            "single_or_multi": "single",
-            "candidate": "rare",
-            "leans_on": "the animacy hierarchy"
-          },
-          {
-            "part": "operation",
-            "handle": "operation_voice",
-            "definition": "the verb's diathesis: does the agent perform the act (active), undergo it (passive), or both at once (middle).",
-            "vocab": {
-              "set": [
-                "active",
-                "middle",
-                "passive"
-              ],
-              "used_here": [
-                "active",
-                "middle",
-                "passive"
-              ],
-              "open": false
-            },
-            "single_or_multi": "single",
-            "candidate": "rare",
-            "leans_on": "voice / diathesis typology"
-          },
-          {
-            "part": "operation",
-            "handle": "operation_type",
-            "definition": "the KIND of operation - an open label the coder writes (motion, transfer, perception...).",
-            "vocab": {
-              "set": null,
-              "used_here": [
-                "motion",
-                "speech",
-                "perception",
-                "attribution",
-                "affect",
-                "cognition",
-                "transformation",
-                "manifestation"
-              ],
-              "open": true
-            },
-            "single_or_multi": "single",
-            "candidate": "open",
-            "leans_on": "FrameNet"
-          },
-          {
-            "part": "operation",
-            "handle": "operation_modality",
-            "definition": "the proposition's relation to reality: it happened (realis), is obligated (deontic), is possible (epistemic), or is a capacity (dynamic).",
-            "vocab": {
-              "set": [
-                "realis",
-                "deontic",
-                "epistemic",
-                "dynamic"
-              ],
-              "used_here": [
-                "realis",
-                "deontic",
-                "epistemic"
-              ],
-              "open": false
-            },
-            "single_or_multi": "single",
-            "candidate": "open",
-            "leans_on": "modal logic"
-          },
-          {
-            "part": "operation",
-            "handle": "operation_polarity",
-            "definition": "affirmed, denied, or unsaid-on-purpose (apophatic = negation-as-method, 'not this, not this').",
-            "vocab": {
-              "set": [
-                "affirmative",
-                "negative",
-                "apophatic"
-              ],
-              "used_here": [
-                "affirmative",
-                "negative"
-              ],
-              "open": false
-            },
-            "single_or_multi": "single",
-            "candidate": "rare",
-            "leans_on": "apophatic theology"
-          },
-          {
-            "part": "operation",
-            "handle": "operation_force",
-            "definition": "how the move is put forward: asserted (the default for a narrated event), questioned, commanded, promised, performed, or expressed. Coded on EVERY move: for a saying, the force of the agent's utterance; for a narrated event, how the narrator frames it (defaults to assert, the quiet baseline - command/question/promise carry the signal).",
-            "vocab": {
-              "set": [
-                "assert",
-                "command",
-                "question",
-                "promise",
-                "perform",
-                "express"
-              ],
-              "used_here": [
-                "assert",
-                "command",
-                "question",
-                "promise",
-                "perform",
-                "express"
-              ],
-              "open": false
-            },
-            "single_or_multi": "single",
-            "candidate": "open",
-            "leans_on": "Speech Act Theory"
-          },
-          {
-            "part": "substrate",
-            "handle": "substrate (on / to / of / with / in)",
-            "definition": "the case-roles the operation takes: ON (the direct object, what is acted on), TO (the recipient), OF (the possessive/partitive relation, 'the X of Y' - e.g. the mother OF James), WITH (the instrument used), IN (the place/locus). More than one can apply at once.",
-            "vocab": {
-              "set": [
-                "on",
-                "to",
-                "of",
-                "with",
-                "in"
-              ],
-              "used_here": [
-                "on",
-                "to",
-                "of",
-                "with",
-                "in"
-              ],
-              "open": false
-            },
-            "single_or_multi": "multi",
-            "candidate": "open",
-            "leans_on": "Paninian karaka / case grammar"
-          },
-          {
-            "part": "substrate",
-            "handle": "substrate_kind",
-            "definition": "what kind of thing the substrate is: an entity (a thing/person), a state (a condition), a move_reference (points to another move), a proposition (a claim), an event (a happening), a set (a group), or unspecified.",
-            "vocab": {
-              "set": [
-                "entity",
-                "state",
-                "move_reference",
-                "proposition",
-                "event",
-                "set",
-                "unspecified"
-              ],
-              "used_here": [
-                "entity",
-                "state",
-                "move_reference",
-                "proposition",
-                "event",
-                "set",
-                "unspecified"
-              ],
-              "open": false
-            },
-            "single_or_multi": "single",
-            "candidate": "open",
-            "leans_on": "an ontology of referents"
-          },
-          {
-            "part": "outcome",
-            "handle": "outcome_realis",
-            "definition": "the outcome's status: achieved (actual), aimed-at (sought), or stated as future-certain (promised).",
-            "vocab": {
-              "set": [
-                "actual",
-                "sought",
-                "promised"
-              ],
-              "used_here": [
-                "actual",
-                "sought",
-                "promised"
-              ],
-              "open": false
-            },
-            "single_or_multi": "single",
-            "candidate": "rare",
-            "leans_on": "realis / irrealis modality"
-          }
-        ]
-      },
+      "_grammar_moved_to": "the_method_clean.grammar",
       "_render": {
         "note": "Render the funnel (process_type) first; then the five core part-handles in the part colour (orange); then the modifiers grouped under their part in the modifier colour (green). For each closed field show its vocab + single-or-multi + candidate (the controlled-value contract); the substrate case-roles (on/to/of/with/in) are one multi-value slot. `leans_on` is the framework each field stands on (for the Foundation section).",
         "parts_colour": "orange",
@@ -766,7 +444,336 @@
     },
     "the_silence_thread": "Watch the pair M22 (the women flee the tomb) and M23 (they say nothing to anyone). The women are told to carry the resurrection news, and instead they say nothing. That silence is the ending the whole reading turns on. Follow this pair through every later step."
   },
+  "the_method_clean": {
+    "note": "The move-grammar, text-agnostic: the process_type funnel, the five core parts, and the twelve modifiers that hang under them. This is what Decompose applies to ANY text; the worked example below is this same grammar run on Mark 16.",
+    "grammar": {
+      "funnel": {
+        "handle": "process_type",
+        "definition": "what KIND of move it is - a doing (material), a sensing (mental), a being (relational), a saying (verbal), or an existing (existential). Asked FIRST; it decides how the parts read (a being or an existing has no agent).",
+        "vocab": {
+          "set": [
+            "material",
+            "mental",
+            "relational",
+            "verbal",
+            "existential"
+          ],
+          "used_here": [
+            "material",
+            "mental",
+            "relational",
+            "verbal",
+            "existential"
+          ],
+          "open": false
+        },
+        "single_or_multi": "single",
+        "candidate": "rare",
+        "leans_on": "Systemic Functional Linguistics"
+      },
+      "core": [
+        {
+          "handle": "narrator",
+          "definition": "who is telling the move: the teller whose voice presents it."
+        },
+        {
+          "handle": "agent",
+          "definition": "who or what performs the operation. Empty for a being or an existing; can be a person, a group, or the cosmos."
+        },
+        {
+          "handle": "operation",
+          "definition": "the act the move makes: the verb, what is done."
+        },
+        {
+          "handle": "substrate",
+          "definition": "what the operation acts on (its case-roles are below)."
+        },
+        {
+          "handle": "outcome",
+          "definition": "what the move produces (may be empty)."
+        }
+      ],
+      "modifiers": [
+        {
+          "part": "narrator",
+          "handle": "narrator_evidentiality",
+          "definition": "how the claim is warranted - its source: experience (first-hand), reason (argument), testimony (a witness's report), revelation (disclosure), or tradition (received teaching). A move can lean on more than one; the vocab shows the sources THIS text uses.",
+          "vocab": {
+            "set": [
+              "experience",
+              "reason",
+              "testimony",
+              "revelation",
+              "tradition"
+            ],
+            "used_here": [
+              "experience",
+              "testimony",
+              "revelation",
+              "tradition"
+            ],
+            "open": false
+          },
+          "single_or_multi": "multi",
+          "candidate": "open",
+          "leans_on": "evidentiality typology"
+        },
+        {
+          "part": "narrator",
+          "handle": "narrator_stance",
+          "definition": "is the narrator describing what IS or prescribing what OUGHT - it catches a prescription phrased as a plain statement.",
+          "vocab": {
+            "set": [
+              "descriptive",
+              "normative"
+            ],
+            "used_here": [
+              "descriptive",
+              "normative"
+            ],
+            "open": false
+          },
+          "single_or_multi": "single",
+          "candidate": "rare",
+          "leans_on": "the is/ought distinction"
+        },
+        {
+          "part": "narrator",
+          "handle": "narrator_tone",
+          "definition": "the teller's attitude or reliability: sincere, ironic (says one thing, means another), aporetic (voicing genuine unresolved doubt), or unreliable (not to be trusted at face value).",
+          "vocab": {
+            "set": [
+              "sincere",
+              "ironic",
+              "aporetic",
+              "unreliable"
+            ],
+            "used_here": [
+              "sincere",
+              "aporetic"
+            ],
+            "open": false
+          },
+          "single_or_multi": "single",
+          "candidate": "open",
+          "leans_on": "the unreliable narrator (narratology)"
+        },
+        {
+          "part": "agent",
+          "handle": "agent_animacy",
+          "definition": "the doer's kind: a person, a group, an impersonal or cosmic force, or none.",
+          "vocab": {
+            "set": [
+              "personal",
+              "collective",
+              "impersonal-cosmic",
+              "null"
+            ],
+            "used_here": [
+              "personal",
+              "collective",
+              "null"
+            ],
+            "open": false
+          },
+          "single_or_multi": "single",
+          "candidate": "rare",
+          "leans_on": "the animacy hierarchy"
+        },
+        {
+          "part": "operation",
+          "handle": "operation_voice",
+          "definition": "the verb's diathesis: does the agent perform the act (active), undergo it (passive), or both at once (middle).",
+          "vocab": {
+            "set": [
+              "active",
+              "middle",
+              "passive"
+            ],
+            "used_here": [
+              "active",
+              "middle",
+              "passive"
+            ],
+            "open": false
+          },
+          "single_or_multi": "single",
+          "candidate": "rare",
+          "leans_on": "voice / diathesis typology"
+        },
+        {
+          "part": "operation",
+          "handle": "operation_type",
+          "definition": "the KIND of operation - an open label the coder writes (motion, transfer, perception...).",
+          "vocab": {
+            "set": null,
+            "used_here": [
+              "motion",
+              "speech",
+              "perception",
+              "attribution",
+              "affect",
+              "cognition",
+              "transformation",
+              "manifestation"
+            ],
+            "open": true
+          },
+          "single_or_multi": "single",
+          "candidate": "open",
+          "leans_on": "FrameNet"
+        },
+        {
+          "part": "operation",
+          "handle": "operation_modality",
+          "definition": "the proposition's relation to reality: it happened (realis), is obligated (deontic), is possible (epistemic), or is a capacity (dynamic).",
+          "vocab": {
+            "set": [
+              "realis",
+              "deontic",
+              "epistemic",
+              "dynamic"
+            ],
+            "used_here": [
+              "realis",
+              "deontic",
+              "epistemic"
+            ],
+            "open": false
+          },
+          "single_or_multi": "single",
+          "candidate": "open",
+          "leans_on": "modal logic"
+        },
+        {
+          "part": "operation",
+          "handle": "operation_polarity",
+          "definition": "affirmed, denied, or unsaid-on-purpose (apophatic = negation-as-method, 'not this, not this').",
+          "vocab": {
+            "set": [
+              "affirmative",
+              "negative",
+              "apophatic"
+            ],
+            "used_here": [
+              "affirmative",
+              "negative"
+            ],
+            "open": false
+          },
+          "single_or_multi": "single",
+          "candidate": "rare",
+          "leans_on": "apophatic theology"
+        },
+        {
+          "part": "operation",
+          "handle": "operation_force",
+          "definition": "how the move is put forward: asserted (the default for a narrated event), questioned, commanded, promised, performed, or expressed. Coded on EVERY move: for a saying, the force of the agent's utterance; for a narrated event, how the narrator frames it (defaults to assert, the quiet baseline - command/question/promise carry the signal).",
+          "vocab": {
+            "set": [
+              "assert",
+              "command",
+              "question",
+              "promise",
+              "perform",
+              "express"
+            ],
+            "used_here": [
+              "assert",
+              "command",
+              "question",
+              "promise",
+              "perform",
+              "express"
+            ],
+            "open": false
+          },
+          "single_or_multi": "single",
+          "candidate": "open",
+          "leans_on": "Speech Act Theory"
+        },
+        {
+          "part": "substrate",
+          "handle": "substrate (on / to / of / with / in)",
+          "definition": "the case-roles the operation takes: ON (the direct object, what is acted on), TO (the recipient), OF (the possessive/partitive relation, 'the X of Y' - e.g. the mother OF James), WITH (the instrument used), IN (the place/locus). More than one can apply at once.",
+          "vocab": {
+            "set": [
+              "on",
+              "to",
+              "of",
+              "with",
+              "in"
+            ],
+            "used_here": [
+              "on",
+              "to",
+              "of",
+              "with",
+              "in"
+            ],
+            "open": false
+          },
+          "single_or_multi": "multi",
+          "candidate": "open",
+          "leans_on": "Paninian karaka / case grammar"
+        },
+        {
+          "part": "substrate",
+          "handle": "substrate_kind",
+          "definition": "what kind of thing the substrate is: an entity (a thing/person), a state (a condition), a move_reference (points to another move), a proposition (a claim), an event (a happening), a set (a group), or unspecified.",
+          "vocab": {
+            "set": [
+              "entity",
+              "state",
+              "move_reference",
+              "proposition",
+              "event",
+              "set",
+              "unspecified"
+            ],
+            "used_here": [
+              "entity",
+              "state",
+              "move_reference",
+              "proposition",
+              "event",
+              "set",
+              "unspecified"
+            ],
+            "open": false
+          },
+          "single_or_multi": "single",
+          "candidate": "open",
+          "leans_on": "an ontology of referents"
+        },
+        {
+          "part": "outcome",
+          "handle": "outcome_realis",
+          "definition": "the outcome's status: achieved (actual), aimed-at (sought), or stated as future-certain (promised).",
+          "vocab": {
+            "set": [
+              "actual",
+              "sought",
+              "promised"
+            ],
+            "used_here": [
+              "actual",
+              "sought",
+              "promised"
+            ],
+            "open": false
+          },
+          "single_or_multi": "single",
+          "candidate": "rare",
+          "leans_on": "realis / irrealis modality"
+        }
+      ]
+    }
+  },
   "where_saved": {
+    "store": "source_move (one row per move) + source_move_edge (the connections between them)",
+    "home_row": "text_checkout (gut-8268_016_v1)",
+    "key": "method_source_key",
     "plain": "The moves save to the corpus, in the source_move table (one row per move), with their connections in source_move_edge. They join back to this passage through the same home the checkout opened: this passage's row in the text_checkout table (its id is gut-8268_016_v1), which you find by the method key MARK-16-WEB. So the moves, and every step built on them, sit in one findable place with the text they came from.",
     "home": {
       "registered": true,
@@ -800,8 +807,7 @@
   "vs_wild": {
     "status": "PASS",
     "date": "2026-08-09",
-    "run_doc": "pm/50_audits/VS_WILD_decompose_v2_run_2026-08-09.md",
-    "meta_line": "Instrument-vs-wild (2026-08-09, LAYER-SCOPED). A naive reader scoped to Decompose's own job (list the moves - NOT the connections, NOT the unsaid) produced 22 moves on Mark 16; all 22 sit inside the instrument's 60, which add typed process_type/voice/polarity/force and finer segmentation. The instrument matches a naive move-lister's coverage AND adds systematic, queryable rigor - PASS for the Decompose layer. (An earlier UNSCOPED run looked like a loss, but the 'losses' were the between-move irony and the negative space - Connect + LACUNA, other layers, not Decompose's job.) Open: the 60-vs-22 granularity warrants a segmentation sanity-check; the full-stack test (all 3 layers vs a full wild read) awaits Connect + LACUNA."
+    "meta_line": "Layer-scoped: a naive move-lister scoped to Decompose's own job produced 22 moves on Mark 16; all 22 sit inside the instrument's 60, which add typed process_type/voice/polarity/force — matches coverage AND adds queryable rigor. PASS for the Decompose layer. (run doc: pm/50_audits/VS_WILD_decompose_v2_run_2026-08-09.md)"
   },
   "validated_on": {
     "note": "The same grammar, re-coded on texts that stress it out-of-domain (§2.14): a different LANGUAGE and a different CONTENT genre. Each caught a category the Mark 16 example barely uses - evidence the grammar is an instrument, not an English-narrative tool.",
@@ -935,5 +941,10 @@
       "then": "Situate runs in parallel; then the gaps."
     },
     "data_source": "source_move (MARK-16-WEB) · source_move_edge (MARK-16-WEB) · text_checkout · generated by build_decompose_node_drawer_data_s162.py"
+  },
+  "cold_read": {
+    "status": "PASS",
+    "date": "2026-08-09",
+    "meta_line": "A fresh blind reader acted correctly from the Decompose card alone (v2 run). (run doc: pm/30_methodology/engine/COLDREAD_decompose_v2_run_2026-08-09.md)"
   }
 }
